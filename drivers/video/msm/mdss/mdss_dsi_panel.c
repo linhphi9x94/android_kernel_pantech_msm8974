@@ -343,7 +343,11 @@ void mdss_dsi_panel_bklt_dcs(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 	mdss_dsi_cmds_send(ctrl,&cmdreq,&backlight_cmd);
 	mdss_dsi_cmds_send(ctrl,&cmdreq,&aor_cmd);
 	mdss_dsi_cmds_send(ctrl,&cmdreq,&elvss_cmd);
-	mdss_dsi_cmds_send(ctrl,&cmdreq,&locking_cmd);
+
+	// display & brightness fix by sktjdgns1189 & arter97
+	//mdss_dsi_cmds_send(ctrl,&cmdreq,&locking_cmd); // VEGA DEFAULT
+	mdss_dsi_cmds_send(ctrl,&cmdreq,&locking_fix_cmd); // 0x02
+
 #if (1) // no-feature because urgency-issue
 /*
 * 20140422, kkcho, Bug-Fix : Sometimes.. backlight_set fail
