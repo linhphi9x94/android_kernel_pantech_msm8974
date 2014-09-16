@@ -24,6 +24,10 @@
 #include <linux/workqueue.h>
 #include <linux/msm_tsens.h>
 
+#ifdef CONFIG_POWERSUSPEND
+#include <linux/powersuspend.h>
+#endif
+
 #include "mdss_fb.h"
 #include "mdss_dsi.h"
 #include "mdss_mdp.h"
@@ -1442,6 +1446,11 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 		}
 #endif
 	pr_err("%s:-\n", __func__);
+
+#ifdef CONFIG_POWERSUSPEND
+	set_power_suspend_state_panel_hook(POWER_SUSPEND_INACTIVE);
+#endif
+
 	return 0;
 }
 
@@ -1476,6 +1485,11 @@ static int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
 	//pdata->hbm_flag = 0;
 #endif
 	pr_err("%s:-\n", __func__);
+
+#ifdef CONFIG_POWERSUSPEND
+	set_power_suspend_state_panel_hook(POWER_SUSPEND_ACTIVE);
+#endif
+
 	return 0;
 }
 
