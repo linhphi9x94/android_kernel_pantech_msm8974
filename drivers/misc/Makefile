@@ -70,6 +70,7 @@ obj-$(CONFIG_QSEECOM) += qseecom.o
 obj-$(CONFIG_QFP_FUSE) += qfp_fuse.o
 obj-$(CONFIG_TI_DRV2667) += ti_drv2667.o
 obj-$(CONFIG_QPNP_MISC) += qpnp-misc.o
+<<<<<<< HEAD
 obj-$(CONFIG_DRV2603) += drv2603.o
 # 20130725 lcj@LS3
 obj-$(CONFIG_PANTECH_WLAN_DEBUG) += wlan_debug.o
@@ -79,3 +80,20 @@ obj-$(CONFIG_PN544) 		+= pn544.o
 obj-$(CONFIG_PN547) 		+= pn547.o
 #CONFIG_PANTECH_PS_WIFI_COM_PREF_LOGGING
 obj-$(CONFIG_PANTECH_PS_WIFI_COM_PREF_LOGGING) += wifi_log.o
+=======
+obj-$(CONFIG_BCM2079X_NFC_I2C)	+= bcm2079x-i2c.o
+obj-$(CONFIG_NFC_PN547)	+= pn547.o
+obj-$(CONFIG_SAMSUNG_JACK)	+= sec_jack.o
+ifneq ($(CONFIG_EXTCON),y)
+obj-$(CONFIG_USB_SWITCH_TSU6721)    += tsu6721.o
+obj-$(CONFIG_MFD_MAX77693)	+= max77693-muic.o
+obj-$(CONFIG_USB_SWITCH_FSA9485)    += fsa9485.o
+obj-$(CONFIG_MAX77803_MUIC)	+= max77803-muic.o
+obj-$(CONFIG_MAX77804K_MUIC)	+= max77804k-muic.o
+obj-$(CONFIG_MAX77888_MUIC)	+= max77888-muic.o
+endif
+obj-$(CONFIG_SEC_FPGA_ICE40XX)	+= ice40xx.o
+obj-$(CONFIG_TIMA_LOG)		+= tima_debug_log.o
+obj-$(CONFIG_SEC_MODEM) += modem_if/
+obj-$(CONFIG_UID_CPUTIME) += uid_cputime.o
+>>>>>>> 567c557... proc: uid: Adds accounting for the cputimes per uid.
