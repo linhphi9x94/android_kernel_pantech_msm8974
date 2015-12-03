@@ -222,11 +222,7 @@ static void hfi_process_session_error(
 	case HFI_ERR_SESSION_INVALID_SCALE_FACTOR:
 	case HFI_ERR_SESSION_UNSUPPORT_BUFFERTYPE:
 	case HFI_ERR_SESSION_UNSUPPORTED_SETTING:
-<<<<<<< HEAD
-=======
-	case HFI_ERR_SESSION_UPSCALE_NOT_SUPPORTED:
 		cmd_done.status = VIDC_ERR_NONE;
->>>>>>> 53b6586... msm: vidc: Handle max clients error from video hardware
 		dprintk(VIDC_INFO, "Non Fatal : HFI_EVENT_SESSION_ERROR\n");
 		break;
 	default:
