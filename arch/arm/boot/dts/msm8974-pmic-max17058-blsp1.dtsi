@@ -1,0 +1,21 @@
+/* 2013.05.23 sayuss file created CONFIG_PANTECH_PMIC_FUELGAUGE_MAX17058 */
+
+&soc {
+        i2c@f9923000 {
+                cell-index = <1>;
+                compatible = "qcom,i2c-qup";
+                reg = <0xf9923000 0x1000>;
+                #address-cells = <1>;
+                #size-cells = <0>;
+                reg-names = "qup_phys_addr";
+                interrupts = <0 95 0>;
+                interrupt-names = "qup_err_intr";
+                qcom,i2c-bus-freq = <400000>;
+                qcom,i2c-src-freq = <50000000>;
+                        max17058_i2c@36 { // Slave driver and slave Address
+                                compatible ="maxim,max17058-i2c";// Manufacture , model
+                                reg = <0x36>; // Slave Address
+                        };
+
+        };
+};

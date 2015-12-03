@@ -1,0 +1,383 @@
+if CUST_PANTECH_H
+
+#
+# PANTECH Cust feature section
+#
+
+if MACH_MSM8974_EF56S
+config DEFINE_LIST_EF56S
+        bool
+        default y
+        select PANTECH
+        select PANTECH_DOMESTIC
+        select PANTECH_ERR_CRASH_LOGGING
+        select PANTECH_FS_AUTO_REPAIR
+        select NLS_UTF8
+        select PANTECH_SND
+        select PANTECH_SND_QCOM_PATCH
+        select PANTECH_SND_BOOTUP_HEADSET_INFO
+        select PANTECH_SND_NXP
+        select PANTECH_SND_FLAC
+endif
+
+if MACH_MSM8974_EF59S
+config DEFINE_LIST_EF59S
+        bool
+        default y
+        select PANTECH
+        select PANTECH_DOMESTIC
+        select PANTECH_ERR_CRASH_LOGGING
+        select PANTECH_FS_AUTO_REPAIR
+        select NLS_UTF8
+        select PANTECH_SND
+        select PANTECH_SND_QCOM_PATCH
+        select PANTECH_SND_BOOTUP_HEADSET_INFO
+        select PANTECH_SND_NXP
+        select PANTECH_SND_FLAC
+endif
+
+if MACH_MSM8974_EF59K
+config DEFINE_LIST_EF59K
+        bool
+        default y
+        select PANTECH
+        select PANTECH_DOMESTIC
+        select PANTECH_ERR_CRASH_LOGGING
+        select PANTECH_FS_AUTO_REPAIR
+        select NLS_UTF8
+        select PANTECH_SND
+        select PANTECH_SND_QCOM_PATCH
+        select PANTECH_SND_NXP
+        select PANTECH_SND_FLAC
+endif
+
+if MACH_MSM8974_EF59L
+config DEFINE_LIST_EF59L
+        bool
+        default y
+        select PANTECH
+        select PANTECH_DOMESTIC
+        select PANTECH_ERR_CRASH_LOGGING
+        select PANTECH_FS_AUTO_REPAIR
+        select NLS_UTF8
+        select PANTECH_SND
+        select PANTECH_SND_QCOM_PATCH
+        select PANTECH_SND_NXP
+        select PANTECH_SND_FLAC
+endif
+
+if MACH_MSM8974_EF60S
+config DEFINE_LIST_EF60S
+        bool
+        default y
+        select PANTECH
+        select PANTECH_DOMESTIC
+        select PANTECH_ERR_CRASH_LOGGING
+        select PANTECH_FS_AUTO_REPAIR
+        select NLS_UTF8
+        select PANTECH_SND
+        select PANTECH_SND_QCOM_PATCH
+        select PANTECH_SND_BOOTUP_HEADSET_INFO
+        select PANTECH_SND_NXP
+        select PANTECH_SND_FLAC
+endif
+
+if MACH_MSM8974_EF61K
+config DEFINE_LIST_EF61K
+        bool
+        default y
+        select PANTECH
+        select PANTECH_DOMESTIC
+        select PANTECH_ERR_CRASH_LOGGING
+        select PANTECH_FS_AUTO_REPAIR
+        select NLS_UTF8
+        select PANTECH_SND
+        select PANTECH_SND_QCOM_PATCH
+        select PANTECH_SND_NXP
+        select PANTECH_SND_FLAC
+endif
+
+if MACH_MSM8974_EF62L
+config DEFINE_LIST_EF62L
+        bool
+        default y
+        select PANTECH
+        select PANTECH_DOMESTIC
+        select PANTECH_ERR_CRASH_LOGGING
+        select PANTECH_FS_AUTO_REPAIR
+        select NLS_UTF8
+        select PANTECH_SND
+        select PANTECH_SND_QCOM_PATCH
+        select PANTECH_SND_QSOUND
+        select PANTECH_SND_FLAC
+endif
+
+if MACH_MSM8974_EF63S
+config DEFINE_LIST_EF63S
+        bool
+        default y
+        select PANTECH
+        select PANTECH_DOMESTIC
+        select PANTECH_ERR_CRASH_LOGGING
+        select PANTECH_FS_AUTO_REPAIR
+        select NLS_UTF8
+        select PANTECH_SND
+        select PANTECH_SND_QCOM_PATCH
+        select PANTECH_SND_BOOTUP_HEADSET_INFO
+        select PANTECH_SND_NXP
+        select PANTECH_SND_FLAC
+endif
+
+if MACH_MSM8974_EF63K
+config DEFINE_LIST_EF63K
+        bool
+        default y
+        select PANTECH
+        select PANTECH_DOMESTIC
+        select PANTECH_ERR_CRASH_LOGGING
+        select PANTECH_FS_AUTO_REPAIR
+        select NLS_UTF8
+        select PANTECH_SND
+        select PANTECH_SND_QCOM_PATCH
+        select PANTECH_SND_NXP
+        select PANTECH_SND_FLAC
+endif
+
+if MACH_MSM8974_EF63L
+config DEFINE_LIST_EF63L
+        bool
+        default y
+        select PANTECH
+        select PANTECH_DOMESTIC
+        select PANTECH_ERR_CRASH_LOGGING
+        select PANTECH_FS_AUTO_REPAIR
+        select NLS_UTF8
+        select PANTECH_SND
+        select PANTECH_SND_QCOM_PATCH
+        select PANTECH_SND_NXP
+        select PANTECH_SND_FLAC
+endif
+
+if MACH_MSM8974_EF65S
+config DEFINE_LIST_EF65S
+        bool
+        default y
+        select PANTECH
+        select PANTECH_DOMESTIC
+        select PANTECH_ERR_CRASH_LOGGING
+        select PANTECH_FS_AUTO_REPAIR
+        select NLS_UTF8
+        select PANTECH_SND
+        select PANTECH_SND_QCOM_PATCH
+        select PANTECH_SND_BOOTUP_HEADSET_INFO
+        select PANTECH_SND_NXP
+        select PANTECH_SND_FLAC
+endif
+
+config EV10
+	int "Pantech Board Version EV10 Value"
+	default 0
+
+config PT10
+	int "Pantech Board Version PT10 Value"
+	default 10
+
+config PT20
+	int "Pantech Board Version PT20 Value"
+	default 12
+
+config WS10
+	int "Pantech Board Version WS10 Value"
+	default 20
+
+config WS15
+	int "Pantech Board Version WS15 Value"
+	default 21
+
+config WS20
+	int "Pantech Board Version WS20 Value"
+	default 22
+
+config ES10
+	int "Pantech Board Version ES10 Value"
+	default 30
+
+config ES20
+	int "Pantech Board Version ES20 Value"
+	default 32
+
+config TP10
+	int "Pantech Board Version TP10 Value"
+	default 40
+
+config TP20
+	int "Pantech Board Version TP20 Value"
+	default 42
+
+config TP25
+	int "Pantech Board Version TP25 Value"
+	default 43
+
+config TP30
+	int "Pantech Board Version TP30 Value"
+	default 44
+
+config BOARD_VER
+	int "Pantech Board Version Build Target"
+	default 0
+        help
+          The BOARD_VER is your build target's board version.
+
+config PANTECH_USER_BUILD
+	bool "Pantech User Build Target"
+	default n
+       help
+         The PANTECH_USER_BUILD is true if you configure build to user.
+
+config PANTECH_USER_BUILD_DEBUG
+	bool "MSM8974 USER DEBUG BUILD"
+	default n
+        help
+          Almost debug feature enable for detail debugging during develpment		 
+		 
+config PANTECH
+  bool
+  
+config PANTECH_FS_AUTO_REPAIR
+	bool
+	
+config PANTECH_VERIZON
+  bool
+  
+config PANTECH_ATNT
+  bool
+  
+config PANTECH_JAPAN
+  bool
+  
+config PANTECH_JAPAN_PMC
+  bool
+  
+config PANTECH_DOMESTIC
+  bool
+
+config PANTECH_ERR_CRASH_LOGGING
+  bool
+
+config PANTECH_DEBUG_ON
+  bool 
+  default y
+  select PANTECH_DEBUG
+
+config PANTECH_DEBUG
+  bool 
+  default n  
+  select PANTECH_DEBUG_SCHED_LOG
+  select PANTECH_DEBUG_IRQ_LOG
+  select PANTECH_DEBUG_DCVS_LOG
+  select PANTECH_DEBUG_RPM_LOG
+  
+config PANTECH_DEBUG_SCHED_LOG
+  bool 
+  default n  
+
+config PANTECH_DEBUG_IRQ_LOG
+  bool 
+  default n  
+
+config PANTECH_DEBUG_DCVS_LOG
+  bool 
+  default n  
+
+config PANTECH_DEBUG_RPM_LOG
+  bool 
+  default n  
+
+config PANTECH_CHARGER
+	bool
+	select PANTECH_CHARGER_OFFLINE
+config PANTECH_CHARGER_OFFLINE
+	bool
+
+# SOUND
+config PANTECH_SND
+  bool
+
+config PANTECH_SND_QCOM_PATCH
+  bool
+       
+config PANTECH_SND_BOOTUP_HEADSET_INFO
+  bool
+
+config PANTECH_SND_NXP
+  bool
+
+config PANTECH_SND_QSOUND
+  bool
+
+config PANTECH_SND_FLAC
+  bool
+
+config PANTECH_GPIO_SLEEP_CONFIG
+       bool "PANTECH GPIO SLEEP CONFIG"
+       default y
+
+source "arch/arm/mach-msm/cust/LCD/Kconfig"
+
+source "arch/arm/mach-msm/cust/pmic/Kconfig"
+
+source "arch/arm/mach-msm/cust/Camera/Kconfig"
+
+source "arch/arm/mach-msm/cust/SIO/Kconfig"
+
+source "arch/arm/mach-msm/cust/sensor/Kconfig"
+
+source "arch/arm/mach-msm/cust/debug/Kconfig"
+
+# LS1-JHM modified : secure boot (F_PANTECH_SECBOOT)
+source "arch/arm/mach-msm/cust/SecureBoot/Kconfig"
+
+#
+# 20130725 lcj@LS3
+#
+config PANTECH_WLAN_DEBUG
+	   depends on WCNSS_CORE
+       bool "PANTECH WLAN DEBUG"
+       default y
+
+config PANTECH_WLAN_PATCH
+       bool "PANTECH WLAN PATCH"
+       default y
+       
+config PANTECH_PDL_DLOAD
+       bool "pantech pdl dload"
+       default y
+       help 
+       We use the "FEATURE_PANTECH_PDL_DLOAD" feature in System area. There is in "vendor/pantech/build/cust_pantech.h" .       
+
+# P14994 @ 140108
+if MACH_MSM8974_EF63S || MACH_MSM8974_EF63K || MACH_MSM8974_EF63L 
+config PANTECH_MEM_LEAK_TRACE
+     bool
+     default n 
+endif
+
+#P11536-SHPARK-SELinux 
+if MACH_MSM8974_EF63S || MACH_MSM8974_EF63K || MACH_MSM8974_EF63L || MACH_MSM8974_EF65S || MACH_MSM8974_EF65K || MACH_MSM8974_EF65L 
+config PANTECH_SELINUX_DENIAL_LOG
+	bool     
+	default y
+endif
+
+
+config PANTECH_PS_WIFI_COM_PREF_LOGGING
+	depends on WCNSS_CORE
+       bool "PANTECH PS WIFI COM PREF LOGGING"
+       default y
+
+config PANTECH_PS_WQE_COM_PREF_LOGGING
+	depends on WCNSS_CORE
+       bool "PANTECH PS WQE COM PREF LOGGING"
+       default n
+
+endif

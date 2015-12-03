@@ -1,0 +1,8 @@
+#
+# AVC Device Logging Configration
+#
+
+config AVCLOG
+	bool "avclog driver"
+	default y
+

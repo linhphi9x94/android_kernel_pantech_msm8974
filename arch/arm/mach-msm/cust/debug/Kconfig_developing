@@ -1,0 +1,59 @@
+if CUST_PANTECH_H
+
+###################################################
+# PANTECH Debug Feature Section                   #
+#                                                 #
+###################################################
+
+config MACH_MSM8974_COMMON_DEBUG_FEATURE
+        bool
+		default y
+		select MSM_RTB
+		select MSM_RTB_SEPARATE_CPUS
+        select CORESIGHT
+        select CORESIGHT_FUSE
+        select CORESIGHT_TMC
+        select CORESIGHT_TPIU
+        select CORESIGHT_FUNNEL
+        select CORESIGHT_REPLICATOR
+        select CORESIGHT_STM
+        select CORESIGHT_HWEVENT
+        select CORESIGHT_ETM
+        select CORESIGHT_ETM_PCSAVE_DEFAULT_ENABLE
+        select CORESIGHT_EVENT
+		
+if PANTECH_USER_BUILD_DEBUG		
+config DEFINE_LIST_USER_BUILD_DEBUG
+        bool
+		default y
+		select ARCH_MSMSAMARIUM
+		select MSM_L2_ERP_PRINT_ACCESS_ERRORS
+		select MSM_L2_ERP_PORT_PANIC
+		select MSM_CACHE_DUMP
+		select MSM_CACHE_DUMP_ON_PANIC
+		select MSM_XPU_ERR_FATAL
+		select UID_STAT
+		select MSM_IOMMU_PMON
+		select CORESIGHT_AUDIO_ETM
+		select CORESIGHT_MODEM_ETM
+		select CORESIGHT_WCN_ETM
+		select CORESIGHT_RPM_ETM
+		select LOCKUP_DETECTOR
+		select DEBUG_KMEMLEAK
+		select DEBUG_KMEMLEAK_DEFAULT_OFF
+		select DEBUG_SPINLOCK
+		select DEBUG_MUTEXES
+		select DEBUG_ATOMIC_SLEEP
+		select DEBUG_STACK_USAGE
+		select DEBUG_LIST
+		select FAULT_INJECTION
+		select FAIL_PAGE_ALLOC
+		select FAULT_INJECTION_DEBUG_FS
+		select FAULT_INJECTION_STACKTRACE_FILTER
+		select DEBUG_PAGEALLOC
+		select CPU_FREQ_SWITCH_PROFILER
+		select PANIC_ON_DATA_CORRUPTION
+endif
+	
+endif
+

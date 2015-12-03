@@ -1,0 +1,24 @@
+/* 2013.07.23 sayuss file created FEATURE_PANTECH_PMIC_CHARGER_SMB349 */
+
+&soc {
+ i2c@f9967000 {// I2C BUS Slave connected
+                cell-index = <11>;
+                compatible = "qcom,i2c-qup";
+                reg = <0Xf9967000 0x1000>;
+                #address-cells = <1>;
+                #size-cells = <0>;
+                reg-names = "qup_phys_addr";
+                interrupts = <0 105 0>;
+                interrupt-names = "qup_err_intr";
+                qcom,i2c-bus-freq = <100000>;
+                qcom,i2c-src-freq = <50000000>;
+                smb349-i2c@6 { // Slave driver and slave Address
+                        compatible = "smb349,smb349-i2c";// Manufacture , model
+                        reg = <0x6>; // Slave Address
+                        smb349,sda-gpio = <&msmgpio 83 0>; /* smb349_I2C_SDA */
+                        smb349,scl-gpio = <&msmgpio 84 0>; /* smb349_I2C_SCL */
+                };
+        };
+};
+
+

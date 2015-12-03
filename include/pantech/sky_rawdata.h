@@ -1,0 +1,260 @@
+#if !defined( __SKY_RAWDATA_H__ )
+#define __SKY_RAWDATA_H__
+
+/*===========================================================================
+
+               SKY_RAWDATA.H
+
+DESCRIPTION
+
+Copyright (c) 2011 by Pantech All Rights Reserved.
+
+===========================================================================*/
+
+/*===========================================================================
+                        EDIT HISTORY FOR MODULE
+
+when        who              what,where,why
+----------  ------------     ------------------------------------------------
+2011-01-11  choiseulkee      Create.
+============================================================================*/
+
+#define SECTOR_SIZE               512
+#define SKY_RAWDATA_MAX           (8192*SECTOR_SIZE) // 4MB
+#define SECTOR_SIZE_DEFAULT       1
+
+//----------------------------------------------------------------------------------
+// 20110929, albatros, partition size가 커져서 양을 늘린다.
+// 사이즈가 커지므로 넉넉하게 80개 잡는다.
+// MEMMAP_PAGE_SIZE*32= 16K + backup size 16K = 32K (512*64)
+#define GPT_PARTITION_SIZE        (SECTOR_SIZE*80) 
+
+#define DLOAD_SECTOR_START        0
+#define DLOAD_INFO_OFFSET         (DLOAD_SECTOR_START)
+#define PARTITION_INFO_OFFSET     (DLOAD_SECTOR_START+SECTOR_SIZE)
+#define BACKUP_DLOAD_INFO_OFFSET  (DLOAD_SECTOR_START + GPT_PARTITION_SIZE)
+#define DLOAD_STATUS_OFFSET       (DLOAD_SECTOR_START + GPT_PARTITION_SIZE*2)
+#define DLOAD_HISTORY_OFFSET      (DLOAD_SECTOR_START + GPT_PARTITION_SIZE*2 + SECTOR_SIZE)
+
+#ifdef FEATURE_GOTA_UPDATE_INFO
+/* gieil, 201202009, the next two items are used to store update status for AT&T directed devices */ 
+#define GOTA_UPDATE_STATUS_OFFSET           (DLOAD_HISTORY_OFFSET + SECTOR_SIZE)	// indicates which update process is performed (ex, FOTA, PDL, SKY station, etc)
+#define GOTA_UPDATE_STATUS_LENGTH           (SECTOR_SIZE)
+#define GOTA_RESET_STATUS_OFFSET            (GOTA_UPDATE_STATUS_OFFSET + GOTA_UPDATE_STATUS_LENGTH)	// indicates whether the device was reset by update process
+#define GOTA_RESET_STATUS_LENGTH            (SECTOR_SIZE)
+#define GOTA_BACKUP_OFFSET                  (GOTA_RESET_STATUS_OFFSET + GOTA_RESET_STATUS_LENGTH)	// gieil, 20120210, added fot FOTA DM info backups
+#define GOTA_BACKUP_LENGTH                  (SECTOR_SIZE)
+#define DLOAD_SECTOR_MAX                    (GOTA_BACKUP_OFFSET + (GOTA_BACKUP_LENGTH*17))	// gieil, 20120209
+#else
+#define DLOAD_SECTOR_MAX                    (DLOAD_HISTORY_OFFSET + SECTOR_SIZE*20)
+#endif /* FEATURE_GOTA_UPDATE_INFO */
+
+/* --------------------------------------------------------- !!WARNING!! ---------------------------------------------------------------- */  
+/* If you add an item at Backup Sector, you must modify 'BACKUP_SECTOR_LENGTH'                    */
+/* and you must maintain to same with two files (another one is 'sky_rawdata.h' of modem side)  */
+/* ex) msm8974_v30/modem_proc/core/pantech/sky_rawdata/inc/sky_rawdata.h                         */
+/* ---------------------------------------------------------------------------------------------------------------------------------------------- */
+
+//----------------------------------------------------------------------------------
+//#define xxxxx_xxxxx_BACKUP_INDEX i : added to implement FACTORY_MAGIC_BLOCK_ERASE_I(i = 1, 255 ...backup area number)
+
+#define BACKUP_SECTOR_START           (DLOAD_SECTOR_START + DLOAD_SECTOR_MAX + SECTOR_SIZE)
+
+#define SECUREESN_START                     BACKUP_SECTOR_START
+#define SECUREESN_LENGTH                    ((SECTOR_SIZE*25) * 2) // use sectors as pages // "*2" means 2 blocks
+
+#define RFCAL_BACKUP_START                  (SECUREESN_START+SECUREESN_LENGTH)
+#if defined(MSM8974_V30)
+	#define RFCAL_BACKUP_LENGTH                 (SECTOR_SIZE*400)
+#elif defined(MSM8974_V22)
+  #define RFCAL_BACKUP_LENGTH                 (SECTOR_SIZE*200)
+#else
+  #error no MSM_Ver_Defined
+#endif
+#define RFCAL_BACKUP_INDEX                   1
+
+#define FACTORY_EFS_INIT_START               (RFCAL_BACKUP_START+RFCAL_BACKUP_LENGTH)
+#define FACTORY_EFS_INIT_LENGTH              (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+#define MSEC_BACKUP_START                    (FACTORY_EFS_INIT_START+FACTORY_EFS_INIT_LENGTH)
+#define MSEC_BACKUP_LENGTH                   (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+#define FUNCTEST_RESULT_INIT_START           (MSEC_BACKUP_START+MSEC_BACKUP_LENGTH)
+#define FUNCTEST_RESULT_INIT_LENGTH          (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+#define WIFI_DEVICE_INFO_START               (FUNCTEST_RESULT_INIT_START+FUNCTEST_RESULT_INIT_LENGTH)
+#define WIFI_DEVICE_INFO_LENGTH              (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+#define BT_DEVICE_INFO_START                 (WIFI_DEVICE_INFO_START+WIFI_DEVICE_INFO_LENGTH)
+#define BT_DEVICE_INFO_LENGTH                (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+#define PWR_ON_CNT_START                     (BT_DEVICE_INFO_START+BT_DEVICE_INFO_LENGTH)
+#define PWR_ON_CNT_LENGTH                    (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+#define SDCARD_UPDATE_START                   (PWR_ON_CNT_START+PWR_ON_CNT_LENGTH)
+#define SDCARD_UPDATE_LENGTH                  (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+#define USB_CHARGING_START                    (SDCARD_UPDATE_START+SDCARD_UPDATE_LENGTH)
+#define USB_CHARGING_LENGTH                   (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+#define PERMANENTMEMORY_START                 (USB_CHARGING_START+USB_CHARGING_LENGTH)
+#define PERMANENTMEMORY_LENGTH                (SECTOR_SIZE*2)
+
+//F_PANTECH_MEID_IMEI_ADDR_BACKUP
+#define NON_SECURE_IMEI_START                 (PERMANENTMEMORY_START+PERMANENTMEMORY_LENGTH)
+#define NON_SECURE_IMEI_LENGTH                (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+//Reset_data for CIQ
+#define CIQ_RESET_DATA_START                  (NON_SECURE_IMEI_START+NON_SECURE_IMEI_LENGTH)
+#define CIQ_RESET_DATA_LENGTH                 (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+// P12554 MMP DivX DRM
+#define PANTECH_DIVX_DRM_FRAG1_START          (CIQ_RESET_DATA_START+CIQ_RESET_DATA_LENGTH)
+#define PANTECH_DIVX_DRM_FRAG1_LENGTH         (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+#define PANTECH_DIVX_DRM_FRAG2_START          (PANTECH_DIVX_DRM_FRAG1_START+PANTECH_DIVX_DRM_FRAG1_LENGTH)
+#define PANTECH_DIVX_DRM_FRAG2_LENGTH         (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+#define PANTECH_DIVX_DRM_FRAG3_START          (PANTECH_DIVX_DRM_FRAG2_START+PANTECH_DIVX_DRM_FRAG2_LENGTH)
+#define PANTECH_DIVX_DRM_FRAG3_LENGTH         (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+// P12554 MMP DivX DRM
+
+//F_PANTECH_MEID_IMEI_ADDR_BACKUP
+#define NON_SECURE_MEID_START                 (PANTECH_DIVX_DRM_FRAG3_START+PANTECH_DIVX_DRM_FRAG3_LENGTH)
+#define NON_SECURE_MEID_LENGTH                (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+//FEATURE_PANTECH_ERR_CRASH_LOGGING
+#define PANTECH_ERR_CRASH_DUMP_START                 (NON_SECURE_MEID_START+NON_SECURE_MEID_LENGTH)
+#define PANTECH_ERR_CRASH_DUMP_LENGTH         (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+//FEATURE_GOTA_UPGRADE
+#define PANTECH_GOTA_SBL_UPDATE_FLAG_START                 (PANTECH_ERR_CRASH_DUMP_START+PANTECH_ERR_CRASH_DUMP_LENGTH)
+#define PANTECH_GOTA_SBL_UPDATE_FLAG_LENGTH         (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+//PANTECH_CPRM
+#define PANTECH_CPRM_START                 (PANTECH_GOTA_SBL_UPDATE_FLAG_START+PANTECH_GOTA_SBL_UPDATE_FLAG_LENGTH)
+#define PANTECH_CPRM_LENGTH         (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+//F_PANTECH_OEM_ROOTING
+#define PANTECH_ROOTING_CHECK_START           (PANTECH_CPRM_START+PANTECH_CPRM_LENGTH)
+#define PANTECH_ROOTING_CHECK_LENGTH          (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+// <!-- F_PANTECH_SECBOOT 
+#define PANTECH_SECBOOT_FLAG_START            (PANTECH_ROOTING_CHECK_START+PANTECH_ROOTING_CHECK_LENGTH)
+#define PANTECH_SECBOOT_FLAG_LENGTH           (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+#define PANTECH_SECBOOT_RESULT_START          (PANTECH_SECBOOT_FLAG_START+PANTECH_SECBOOT_FLAG_LENGTH)
+#define PANTECH_SECBOOT_RESULT_LENGTH         (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+// F_PANTECH_SECBOOT --!>
+
+// <!-- FEATURE_PANTECH_WIDEVINE_DRM
+#define PANTECH_WV_DRM_DEVICEID_START         (PANTECH_SECBOOT_RESULT_START+PANTECH_SECBOOT_RESULT_LENGTH)
+#define PANTECH_WV_DRM_DEVICEID_LENGTH        (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+#define PANTECH_WV_DRM_KEYBOX_START           (PANTECH_WV_DRM_DEVICEID_START+PANTECH_WV_DRM_DEVICEID_LENGTH)
+#define PANTECH_WV_DRM_KEYBOX_LENGTH          (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+// FEATURE_PANTECH_WIDEVINE_DRM --!>
+
+// <!-- P14527 Verizon Hard Reset
+#define HARD_RESET_START                      (PANTECH_WV_DRM_KEYBOX_START+PANTECH_WV_DRM_KEYBOX_LENGTH)
+#define HARD_RESET_LENGTH                     (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+// Verizon Hard Reset --!>
+
+//20120426 LS1_hskim add for F_PANTECH_FACTORY_INIT_MODEM
+#define PANTECH_FACTORY_INIT_MODEM_START            (HARD_RESET_START+HARD_RESET_LENGTH)
+#define PANTECH_FACTORY_INIT_MODEM_LENGTH          (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+/* FEATURE_PANTECH_KEY_MANAGER, DTCP-IP KEYBOX */
+#define PANTECH_DTCP_IP_KEYBOX_START          (PANTECH_FACTORY_INIT_MODEM_START+PANTECH_FACTORY_INIT_MODEM_LENGTH)
+#define PANTECH_DTCP_IP_KEYBOX_LENGTH         (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+//>> [FEATURE_SKY_CP_NEW_OPENING_DAY]
+#define OPENINGDAY_START                (PANTECH_DTCP_IP_KEYBOX_START+PANTECH_DTCP_IP_KEYBOX_LENGTH)
+#define OPENINGDAY_LENGTH				(SECTOR_SIZE*SECTOR_SIZE_DEFAULT)	
+//<< [FEATURE_SKY_CP_NEW_OPENING_DAY]	
+
+// p13783 : add for Factory Init All command
+#define FACTORY_INIT_ALL_PROCESS_START        (OPENINGDAY_START+OPENINGDAY_LENGTH)
+#define FACTORY_INIT_ALL_PROCESS_LENGTH       (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+// <!-- FEATURE_PANTECH_AUTO_REPAIR
+#define PANTECH_REPAIR_USERDATA_START         (FACTORY_INIT_ALL_PROCESS_START+FACTORY_INIT_ALL_PROCESS_LENGTH)
+#define PANTECH_REPAIR_USERDATA_LENGTH        (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+// FEATURE_PANTECH_AUTO_REPAIR --!>
+
+#define MDM_PREVENT_UPGRADE_START		(PANTECH_REPAIR_USERDATA_START+PANTECH_REPAIR_USERDATA_LENGTH)
+#define MDM_PREVENT_UPGRADE_LENGTH		(SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+//for preload data
+#define PANTECH_PRELOAD_CHECK_START         (MDM_PREVENT_UPGRADE_START+MDM_PREVENT_UPGRADE_LENGTH)
+#define PANTECH_PRELOAD_CHECK_LENGTH        (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+//for preload data 
+
+//FEATURE_PANTECH_CERTUS
+#define PANTECH_CERTUS_DATA_START							(PANTECH_PRELOAD_CHECK_START+PANTECH_PRELOAD_CHECK_LENGTH)
+#define PANTECH_CERTUS_DATA_LENGTH						(SECTOR_SIZE*9)
+//FEATURE_PANTECH_CERTUS
+
+#define SDCARD_UPDATE_RESULT_START						(PANTECH_CERTUS_DATA_START+PANTECH_CERTUS_DATA_LENGTH)
+#define SDCARD_UPDATE_RESULT_LENGTH						(SECTOR_SIZE*9)
+
+//20130610 P14787 djjeon PMIC  10% offline charging  Auto power on  FEATURE_PANTECH_PMIC_AUTO_PWR_ON
+#define PANTECH_PMIC_AUTO_PWR_ON_START         (SDCARD_UPDATE_RESULT_START+SDCARD_UPDATE_RESULT_LENGTH)
+#define PANTECH_PMIC_AUTO_PWR_ON_LENGTH        (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+//p11194
+#define VEGA_STATION_AUTO_TEST_CONF_START				(PANTECH_PMIC_AUTO_PWR_ON_START+PANTECH_PMIC_AUTO_PWR_ON_LENGTH)
+#define VEGA_STATION_AUTO_TEST_CONF_LENGTH				(SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+//p11194
+#define VEGA_STATION_WIFI_SETTING_BACKUP_START			(VEGA_STATION_AUTO_TEST_CONF_START+VEGA_STATION_AUTO_TEST_CONF_LENGTH)
+#define VEGA_STATION_WIFI_SETTING_BACKUP_LENGTH		(SECTOR_SIZE*100)
+
+//FEATURE_CHECK_FORMATTING_FLAG
+#define CHECK_FORMATTING_FLAG_START    (VEGA_STATION_WIFI_SETTING_BACKUP_START+VEGA_STATION_WIFI_SETTING_BACKUP_LENGTH)
+#define CHECK_FORMATTING_FLAG_LENGTH   (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+//FEATURE_CHECK_FORMATTING_FLAG
+
+// CONFIG_PANTECH_ACCELEROMETER_CALIBRATION
+#define PANTECH_ACCEL_OFFSET_BACKUP_START (CHECK_FORMATTING_FLAG_START+CHECK_FORMATTING_FLAG_LENGTH)
+#define PANTECH_ACCEL_OFFSET_BACKUP_LENGTH (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+// CONFIG_PANTECH_ACCELEROMETER_CALIBRATION
+
+// p15060
+#define SSR_SETTING_BACKUP_START (PANTECH_ACCEL_OFFSET_BACKUP_START+PANTECH_ACCEL_OFFSET_BACKUP_LENGTH)
+#define SSR_SETTING_BACKUP_LENGTH (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+// (+) p16652 after ef63 series
+#ifdef MSM8974_RELEASED_KK
+
+#define HIDDEN_CODE_SET_VISIBILITY_BACKUP_START     (SSR_SETTING_BACKUP_START+SSR_SETTING_BACKUP_LENGTH)
+#define HIDDEN_CODE_SET_VISIBILITY_BACKUP_LENGTH        (SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+//+++20140502. LS2. PMIC. input current limit for EF63
+#define PANTECH_PMIC_SET_IINLIM_START	(HIDDEN_CODE_SET_VISIBILITY_BACKUP_START+HIDDEN_CODE_SET_VISIBILITY_BACKUP_LENGTH)
+#define PANTECH_PMIC_SET_IINLIM_LENGTH	(SECTOR_SIZE*SECTOR_SIZE_DEFAULT)
+
+#define BACKUP_SECTOR_LENGTH                  (PANTECH_PMIC_SET_IINLIM_START+PANTECH_PMIC_SET_IINLIM_LENGTH-BACKUP_SECTOR_START)
+#define BACKUP_SECTOR_BACKUP_INDEX        255
+
+#else
+
+#define BACKUP_SECTOR_LENGTH                  (SSR_SETTING_BACKUP_START+SSR_SETTING_BACKUP_LENGTH-BACKUP_SECTOR_START)
+#define BACKUP_SECTOR_BACKUP_INDEX        255
+
+#endif
+
+/* --------------------------------------------------------- !!WARNING!! ---------------------------------------------------------------- */  
+/* If you add an item at Backup Sector, you must modify 'BACKUP_SECTOR_LENGTH'                    */
+/* and you must maintain to same with two files (another one is 'sky_rawdata.h' of modem side)  */
+/* ex) msm8974_v30/modem_proc/core/pantech/sky_rawdata/inc/sky_rawdata.h                         */
+/* ---------------------------------------------------------------------------------------------------------------------------------------------- */
+
+//----------------------------------------------------------------------------------
+
+extern int sky_rawdata_write( unsigned int address, unsigned int size, char *buf );
+extern int sky_rawdata_read( unsigned int address, unsigned int size, char *buf );
+
+#define GOTA_SBL_UPDATE_START_MAGIC_NUM           0xCF3D
+
+#endif /* __SKY_RAWDATA_H__ */

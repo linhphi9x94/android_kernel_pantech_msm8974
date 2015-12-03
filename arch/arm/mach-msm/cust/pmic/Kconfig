@@ -1,0 +1,311 @@
+if CUST_PANTECH_H
+
+config MACH_MSM8974_PMIC_COMMON
+    bool
+    default y
+    select PANTECH_PMIC_CHARGER_OFFLINE
+    select PANTECH_PMIC_BOOT_POWER_ON_PROCESS
+    select PANTECH_PMIC_PMIC_HW_REVISION
+    select PANTECH_PMIC_SHARED_DATA
+    select PANTECH_PMIC_BMS_TEST   
+    select PANTECH_PMIC_HW_REVISION
+    select PANTECH_PMIC
+    select PANTECH_PMIC_MONITOR_TEST 
+    select PANTECH_PMIC_MAX17058
+    select PANTECH_PMIC_BOOT_CHARGER_NO_WAIT
+    select PANTECH_PMIC_UVLO
+    select PANTECH_PMIC_I2C_LOCK 
+    select PANTECH_PMIC_AUTO_PWR_ON
+
+if MACH_MSM8974_EF56S
+config DEFINE_LIST_EF56S
+    bool
+    default y
+    select PANTECH_PMIC_CHARGING_DISABLE
+    select PANTECH_PMIC_BMS_TEST   
+    select PANTECH_PMIC_ABNORMAL
+    select PANTECH_PMIC_OTG
+    select PANTECH_PMIC_CHARGE_LIMIT_WITH_FINGERPRINT
+    select PANTECH_PMIC_CHARGE_LIMIT_WITH_LCD
+    select PANTECH_PMIC_LIMIT_WITH_EF56S
+    select PANTECH_PMIC_RTC_ALM_OFF
+endif
+
+if MACH_MSM8974_EF59S
+config DEFINE_LIST_EF59S
+    bool
+    default y
+    select PANTECH_PMIC_CHARGE_LIMIT_WITH_FINGERPRINT
+    select PANTECH_PMIC_EOC
+    select PANTECH_PMIC_ABNORMAL
+    select PANTECH_PMIC_OTG
+    select PANTECH_PMIC_CHARGING_DISABLE
+    select PANTECH_PMIC_OTG_UVLO
+    select PANTECH_PMIC_USBIN_DROP_WORKAROUND
+    select PANTECH_PMIC_PHYSICAL_DROP
+    select PANTECH_PMIC_SPMI_SW_WORKAROUND
+    select PANTECH_PMIC_LED
+    select PANTECH_PMIC_RTC_ALM_OFF
+    select PANTECH_PMIC_BOARD_TYPE
+    select PANTECH_PMIC_CHARGE_LIMIT_WITH_TSENSOR
+endif
+
+if MACH_MSM8974_EF59K
+config DEFINE_LIST_EF59K
+    bool
+    default y
+    select PANTECH_PMIC_CHARGE_LIMIT_WITH_FINGERPRINT
+    select PANTECH_PMIC_EOC
+    select PANTECH_PMIC_ABNORMAL
+    select PANTECH_PMIC_OTG
+    select PANTECH_PMIC_CHARGING_DISABLE
+    select PANTECH_PMIC_OTG_UVLO
+    select PANTECH_PMIC_USBIN_DROP_WORKAROUND
+    select PANTECH_PMIC_PHYSICAL_DROP
+    select PANTECH_PMIC_SPMI_SW_WORKAROUND
+    select PANTECH_PMIC_LED
+    select PANTECH_PMIC_RTC_ALM_OFF
+    select PANTECH_PMIC_BOARD_TYPE
+    select PANTECH_PMIC_CHARGE_LIMIT_WITH_TSENSOR
+endif
+
+if MACH_MSM8974_EF59L
+config DEFINE_LIST_EF59L
+    bool
+    default y
+    select PANTECH_PMIC_CHARGE_LIMIT_WITH_FINGERPRINT
+    select PANTECH_PMIC_EOC
+    select PANTECH_PMIC_ABNORMAL
+    select PANTECH_PMIC_OTG
+    select PANTECH_PMIC_CHARGING_DISABLE
+    select PANTECH_PMIC_OTG_UVLO
+    select PANTECH_PMIC_USBIN_DROP_WORKAROUND
+    select PANTECH_PMIC_PHYSICAL_DROP
+    select PANTECH_PMIC_SPMI_SW_WORKAROUND
+    select PANTECH_PMIC_LED
+    select PANTECH_PMIC_RTC_ALM_OFF
+    select PANTECH_PMIC_BOARD_TYPE
+    select PANTECH_PMIC_CHARGE_LIMIT_WITH_TSENSOR
+endif
+
+if MACH_MSM8974_EF60S
+config DEFINE_LIST_EF60S
+    bool
+    default y
+    select PANTECH_PMIC_CHARGE_LIMIT_WITH_FINGERPRINT
+    select PANTECH_PMIC_EOC
+    select PANTECH_PMIC_ABNORMAL
+    select PANTECH_PMIC_OTG
+    select PANTECH_PMIC_CHARGING_DISABLE
+    select PANTECH_PMIC_OTG_UVLO
+    select PANTECH_PMIC_USBIN_DROP_WORKAROUND
+    select PANTECH_PMIC_CHARGE_LIMIT_WITH_TSENSOR
+    select PANTECH_PMIC_SPMI_SW_WORKAROUND
+    select PANTECH_PMIC_LED
+    select PANTECH_PMIC_RTC_ALM_OFF
+    select PANTECH_PMIC_DISABLE_REPETITION_OF_SYSOK
+    select PANTECH_PMIC_PHYSICAL_DROP
+endif
+
+if MACH_MSM8974_EF61K
+config DEFINE_LIST_EF61K
+    bool
+    default y
+    select PANTECH_PMIC_CHARGE_LIMIT_WITH_FINGERPRINT
+    select PANTECH_PMIC_EOC
+    select PANTECH_PMIC_ABNORMAL
+    select PANTECH_PMIC_OTG
+    select PANTECH_PMIC_CHARGING_DISABLE
+    select PANTECH_PMIC_OTG_UVLO
+    select PANTECH_PMIC_USBIN_DROP_WORKAROUND
+    select PANTECH_PMIC_CHARGE_LIMIT_WITH_TSENSOR
+    select PANTECH_PMIC_SPMI_SW_WORKAROUND
+    select PANTECH_PMIC_LED
+    select PANTECH_PMIC_RTC_ALM_OFF
+    select PANTECH_PMIC_DISABLE_REPETITION_OF_SYSOK
+    select PANTECH_PMIC_PHYSICAL_DROP
+endif
+
+if MACH_MSM8974_EF62L
+config DEFINE_LIST_EF62L
+    bool
+    default y
+    select PANTECH_PMIC_CHARGE_LIMIT_WITH_FINGERPRINT
+    select PANTECH_PMIC_EOC
+    select PANTECH_PMIC_ABNORMAL
+    select PANTECH_PMIC_OTG
+    select PANTECH_PMIC_CHARGING_DISABLE
+    select PANTECH_PMIC_OTG_UVLO
+    select PANTECH_PMIC_USBIN_DROP_WORKAROUND
+    select PANTECH_PMIC_CHARGE_LIMIT_WITH_TSENSOR
+    select PANTECH_PMIC_SPMI_SW_WORKAROUND
+    select PANTECH_PMIC_LED
+    select PANTECH_PMIC_RTC_ALM_OFF
+    select PANTECH_PMIC_DISABLE_REPETITION_OF_SYSOK
+    select PANTECH_PMIC_PHYSICAL_DROP
+endif
+
+if MACH_MSM8974_EF65S
+config DEFINE_LIST_EF65S
+    bool
+    default y
+    select PANTECH_PMIC_CHARGE_LIMIT_WITH_FINGERPRINT
+    select PANTECH_PMIC_EOC
+    select PANTECH_PMIC_ABNORMAL
+    select PANTECH_PMIC_OTG
+    select PANTECH_PMIC_CHARGING_DISABLE
+    select PANTECH_PMIC_OTG_UVLO
+    select PANTECH_PMIC_USBIN_DROP_WORKAROUND
+    select PANTECH_PMIC_CHARGE_LIMIT_WITH_TSENSOR
+    select PANTECH_PMIC_SPMI_SW_WORKAROUND
+    select PANTECH_PMIC_LED
+    select PANTECH_PMIC_RTC_ALM_OFF
+    select PANTECH_PMIC_DISABLE_REPETITION_OF_SYSOK
+    select PANTECH_PMIC_PHYSICAL_DROP
+endif
+
+if MACH_MSM8974_EF63S
+config DEFINE_LIST_EF63S
+    bool
+    default y
+    select PANTECH_PMIC_RTC_ALM_OFF
+    select PANTECH_PMIC_BOARD_TYPE
+endif    
+
+if MACH_MSM8974_EF63K
+config DEFINE_LIST_EF63K
+    bool
+    default y
+    select PANTECH_PMIC_RTC_ALM_OFF
+    select PANTECH_PMIC_BOARD_TYPE
+endif    
+
+if MACH_MSM8974_EF63L
+config DEFINE_LIST_EF63L
+    bool
+    default y
+    select PANTECH_PMIC_RTC_ALM_OFF
+    select PANTECH_PMIC_BOARD_TYPE
+endif    
+
+# 
+config PANTECH_PMIC_CHARGER_OFFLINE
+    bool
+
+#
+config PANTECH_PMIC_BOOT_POWER_ON_PROCESS
+    bool
+
+# PMIC HW rev
+config PANTECH_PMIC_PMIC_HW_REVISION
+    bool
+
+#
+config PANTECH_PMIC_SHARED_DATA
+    bool
+
+#
+config PANTECH_PMIC_HW_REVISION
+    bool
+
+#
+config PANTECH_PMIC
+    bool
+
+#
+config PANTECH_PMIC_MONITOR_TEST 
+    bool
+
+#
+config PANTECH_PMIC_MAX17058
+    bool
+
+# 10% offline charging Auto power on
+config PANTECH_PMIC_AUTO_PWR_ON
+    bool
+
+# charging limitation with FingerPrint Device
+config PANTECH_PMIC_CHARGE_LIMIT_WITH_FINGERPRINT
+    bool
+
+# charging limitation with LCD ON
+config PANTECH_PMIC_CHARGE_LIMIT_WITH_LCD
+    bool
+
+# end of recharging
+config PANTECH_PMIC_EOC
+    bool
+
+# Abnormal charger
+config PANTECH_PMIC_ABNORMAL
+    bool
+
+# Abnormal charger
+config PANTECH_PMIC_OTG
+    bool
+
+#
+config PANTECH_PMIC_BMS_TEST   
+    bool
+
+# otg current smb349 250mA setting
+config PNATECH_PMIC_OTG
+    bool
+
+# charging disable for Factory Test
+config PANTECH_PMIC_CHARGING_DISABLE
+    bool
+
+# auto trickle disable
+config PANTECH_PMIC_BOOT_CHARGER_NO_WAIT
+    bool
+
+# charging limitation with LCD ON
+config PANTECH_PMIC_UVLO
+    bool
+
+# HW Request limit for EF56S
+config PANTECH_PMIC_LIMIT_WITH_EF56S
+    bool
+
+# SMB347 OTG UVLO Status
+config PANTECH_PMIC_OTG_UVLO
+    bool
+
+# Physical Dropping WatchDog RESET Prevent
+config PANTECH_PMIC_PHYSICAL_DROP
+    bool
+
+# USBIN voltage drop workaround for SMB347
+config PANTECH_PMIC_USBIN_DROP_WORKAROUND
+    bool
+
+# Tsensor current limit
+config PANTECH_PMIC_CHARGE_LIMIT_WITH_TSENSOR
+    bool
+
+# SW modification for MSM8974 SPMI False detection OF SSC
+config PANTECH_PMIC_SPMI_SW_WORKAROUND
+    bool
+
+# LED team max17058/battery status function offer
+config PANTECH_PMIC_LED
+    bool
+
+# It will protected i2c transport
+config PANTECH_PMIC_I2C_LOCK 
+    bool
+
+# this is used in rtc.h, rtc-dev.c, qpnp-rtc.c
+config PANTECH_PMIC_RTC_ALM_OFF
+    bool
+
+# if sysok irq occured infinitely, disable sysok irq. (EF59K_KK plm# 00431)
+config PANTECH_PMIC_DISABLE_REPETITION_OF_SYSOK
+    bool
+
+# recognizing HW rev(S/K/L) by PMIC gpios.
+config PANTECH_PMIC_BOARD_TYPE
+    bool
+
+endif
