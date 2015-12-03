@@ -1824,13 +1824,8 @@ static int msm_vidc_load_resources(int flipped_state,
 			num_mbs_per_sec, inst->core->resources.max_load);
 		msm_vidc_print_running_insts(inst->core);
 		inst->state = MSM_VIDC_CORE_INVALID;
-<<<<<<< HEAD
-		msm_comm_recover_from_session_error(inst);
-		return -ENOMEM;
-=======
 		msm_comm_kill_session(inst);
 		return -EBUSY;
->>>>>>> 1db31fd... msm: vidc: Handle hfi session creation failures properly
 	}
 
 	hdev = inst->core->device;
