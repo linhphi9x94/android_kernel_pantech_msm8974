@@ -668,7 +668,6 @@ config TI_DRV2667
 	  To compile this driver as a module, choose M here: the
 	  module will be called ti_drv2667.
 
-<<<<<<< HEAD
 config PN544
 	bool "NXP PN544 NFC Controller Driver"
 	depends on I2C && ( MACH_MSM8974_EF56S || MACH_MSM8974_EF57K || MACH_MSM8974_EF58L)
@@ -683,8 +682,6 @@ config PN547
 	help
 	  NXP PN547 Near Field Communication controller support.
 	  
-	  
-=======
 
 config UID_CPUTIME
 	tristate "Per-UID cpu time statistics"
@@ -692,7 +689,6 @@ config UID_CPUTIME
 	help
 	  Per UID based cpu time statistics exported to /proc/uid_cputime
 
->>>>>>> 567c557... proc: uid: Adds accounting for the cputimes per uid.
 source "drivers/misc/c2port/Kconfig"
 source "drivers/misc/eeprom/Kconfig"
 source "drivers/misc/cb710/Kconfig"
