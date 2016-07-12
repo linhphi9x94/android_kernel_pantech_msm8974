@@ -5,3 +5,5 @@ bootpImage
 uImage
 *.dtb
 zImage-dtb
+dt.img
+
