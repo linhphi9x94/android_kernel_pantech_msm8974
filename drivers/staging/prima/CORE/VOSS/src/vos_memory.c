@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /*===========================================================================
@@ -45,9 +57,12 @@
   @brief Virtual Operating System Services Memory API
 
   
+<<<<<<< HEAD
   Copyright (c) 2008 QUALCOMM Incorporated.
   All Rights Reserved.
   Qualcomm Confidential and Proprietary
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ===========================================================================*/
 
 /*=========================================================================== 
@@ -72,11 +87,20 @@
  * ------------------------------------------------------------------------*/
 #include "vos_memory.h"
 #include "vos_trace.h"
+<<<<<<< HEAD
+=======
+#include "vos_api.h"
+#include <vmalloc.h>
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef CONFIG_WCNSS_MEM_PRE_ALLOC
 #include <linux/wcnss_wlan.h>
 #define WCNSS_PRE_ALLOC_GET_THRESHOLD (4*1024)
 #endif
+<<<<<<< HEAD
+=======
+#define VOS_GET_MEMORY_TIME_THRESHOLD 300
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef MEMORY_DEBUG
 #include "wlan_hdd_dp_utils.h"
@@ -85,6 +109,10 @@ hdd_list_t vosMemList;
 
 static v_U8_t WLAN_MEM_HEADER[] =  {0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68 };
 static v_U8_t WLAN_MEM_TAIL[]   =  {0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87};
+<<<<<<< HEAD
+=======
+static int    memory_dbug_flag;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 struct s_vos_mem_struct
 {
@@ -116,6 +144,10 @@ void vos_mem_init()
 {
    /* Initalizing the list with maximum size of 60000 */
    hdd_list_init(&vosMemList, 60000);  
+<<<<<<< HEAD
+=======
+   memory_dbug_flag = 1;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    return; 
 }
 
@@ -189,8 +221,16 @@ void vos_mem_clean()
 
 void vos_mem_exit()
 {
+<<<<<<< HEAD
     vos_mem_clean();    
     hdd_list_destroy(&vosMemList);
+=======
+    if (memory_dbug_flag)
+    {
+       vos_mem_clean();
+       hdd_list_destroy(&vosMemList);
+    }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 v_VOID_t * vos_mem_malloc_debug( v_SIZE_t size, char* fileName, v_U32_t lineNum)
@@ -198,6 +238,7 @@ v_VOID_t * vos_mem_malloc_debug( v_SIZE_t size, char* fileName, v_U32_t lineNum)
    struct s_vos_mem_struct* memStruct;
    v_VOID_t* memPtr = NULL;
    v_SIZE_t new_size;
+<<<<<<< HEAD
 
    if (size > (1024*1024))
    {
@@ -211,11 +252,64 @@ v_VOID_t * vos_mem_malloc_debug( v_SIZE_t size, char* fileName, v_U32_t lineNum)
        VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR, "%s cannot be "
                  "called from interrupt context!!!", __func__);
        return NULL;
+=======
+   int flags = GFP_KERNEL;
+   unsigned long IrqFlags;
+   unsigned long  time_before_kmalloc;
+
+
+   if (size > (1024*1024) || size == 0)
+   {
+       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+               "%s: called with invalid arg %u !!!", __func__, size);
+       return NULL;
+   }
+
+   if (in_interrupt() || irqs_disabled() || in_atomic())
+   {
+      flags = GFP_ATOMIC;
+   }
+
+   if (!memory_dbug_flag)
+   {
+#ifdef CONFIG_WCNSS_MEM_PRE_ALLOC
+      v_VOID_t* pmem;
+      if (size > WCNSS_PRE_ALLOC_GET_THRESHOLD)
+      {
+           pmem = wcnss_prealloc_get(size);
+           if (NULL != pmem)
+               return pmem;
+      }
+#endif
+      time_before_kmalloc = vos_timer_get_system_time();
+      memPtr = kmalloc(size, flags);
+
+      /* If time taken by kmalloc is greater than VOS_GET_MEMORY_TIME_THRESHOLD
+       * msec */
+      if (vos_timer_get_system_time() - time_before_kmalloc >=
+                                    VOS_GET_MEMORY_TIME_THRESHOLD)
+         VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+               "%s: kmalloc took %lu msec", __func__,
+               vos_timer_get_system_time() - time_before_kmalloc);
+      return memPtr;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    new_size = size + sizeof(struct s_vos_mem_struct) + 8; 
 
+<<<<<<< HEAD
    memStruct = (struct s_vos_mem_struct*)kmalloc(new_size,GFP_KERNEL);
+=======
+   time_before_kmalloc = vos_timer_get_system_time();
+   memStruct = (struct s_vos_mem_struct*)kmalloc(new_size, flags);
+   /* If time taken by kmalloc is greater than VOS_GET_MEMORY_TIME_THRESHOLD
+    * msec */
+   if (vos_timer_get_system_time() - time_before_kmalloc >=
+                              VOS_GET_MEMORY_TIME_THRESHOLD)
+      VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+          "%s: kmalloc took %lu msec", __func__,
+          vos_timer_get_system_time() - time_before_kmalloc);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    if(memStruct != NULL)
    {
@@ -228,6 +322,7 @@ v_VOID_t * vos_mem_malloc_debug( v_SIZE_t size, char* fileName, v_U32_t lineNum)
       vos_mem_copy(&memStruct->header[0], &WLAN_MEM_HEADER[0], sizeof(WLAN_MEM_HEADER));
       vos_mem_copy( (v_U8_t*)(memStruct + 1) + size, &WLAN_MEM_TAIL[0], sizeof(WLAN_MEM_TAIL));
 
+<<<<<<< HEAD
       spin_lock(&vosMemList.lock);
       vosStatus = hdd_list_insert_front(&vosMemList, &memStruct->pNode);
       spin_unlock(&vosMemList.lock);
@@ -235,6 +330,15 @@ v_VOID_t * vos_mem_malloc_debug( v_SIZE_t size, char* fileName, v_U32_t lineNum)
       {
          VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR, 
              "%s: Unable to insert node into List vosStatus %d\n", __func__, vosStatus);
+=======
+      spin_lock_irqsave(&vosMemList.lock, IrqFlags);
+      vosStatus = hdd_list_insert_front(&vosMemList, &memStruct->pNode);
+      spin_unlock_irqrestore(&vosMemList.lock, IrqFlags);
+      if(VOS_STATUS_SUCCESS != vosStatus)
+      {
+         VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR, 
+             "%s: Unable to insert node into List vosStatus %d", __func__, vosStatus);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
 
       memPtr = (v_VOID_t*)(memStruct + 1); 
@@ -245,6 +349,7 @@ v_VOID_t * vos_mem_malloc_debug( v_SIZE_t size, char* fileName, v_U32_t lineNum)
 v_VOID_t vos_mem_free( v_VOID_t *ptr )
 {
 
+<<<<<<< HEAD
     if (in_interrupt())
     {
         VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR, "%s cannot be "
@@ -253,13 +358,34 @@ v_VOID_t vos_mem_free( v_VOID_t *ptr )
     }
 
     if (ptr != NULL)
+=======
+    unsigned long IrqFlags;
+    if (ptr == NULL)
+        return;
+
+    if (!memory_dbug_flag)
+    {
+#ifdef CONFIG_WCNSS_MEM_PRE_ALLOC
+        if (wcnss_prealloc_put(ptr))
+           return;
+#endif
+        kfree(ptr);
+    }
+    else
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
         VOS_STATUS vosStatus;
         struct s_vos_mem_struct* memStruct = ((struct s_vos_mem_struct*)ptr) - 1;
 
+<<<<<<< HEAD
         spin_lock(&vosMemList.lock);
         vosStatus = hdd_list_remove_node(&vosMemList, &memStruct->pNode);
         spin_unlock(&vosMemList.lock);
+=======
+        spin_lock_irqsave(&vosMemList.lock, IrqFlags);
+        vosStatus = hdd_list_remove_node(&vosMemList, &memStruct->pNode);
+        spin_unlock_irqrestore(&vosMemList.lock, IrqFlags);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         if(VOS_STATUS_SUCCESS == vosStatus)
         {
@@ -281,13 +407,18 @@ v_VOID_t vos_mem_free( v_VOID_t *ptr )
         {
             VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_FATAL,
                       "%s: Unallocated memory (double free?)", __func__);
+<<<<<<< HEAD
             VOS_ASSERT(0);
+=======
+            VOS_BUG(0);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
     }
 }
 #else
 v_VOID_t * vos_mem_malloc( v_SIZE_t size )
 {
+<<<<<<< HEAD
 #ifdef CONFIG_WCNSS_MEM_PRE_ALLOC
     v_VOID_t* pmem;
 #endif    
@@ -300,6 +431,24 @@ v_VOID_t * vos_mem_malloc( v_SIZE_t size )
    {
       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR, "%s cannot be called from interrupt context!!!", __func__);
       return NULL;
+=======
+   int flags = GFP_KERNEL;
+   v_VOID_t* memPtr = NULL;
+#ifdef CONFIG_WCNSS_MEM_PRE_ALLOC
+    v_VOID_t* pmem;
+#endif    
+   unsigned long  time_before_kmalloc;
+
+   if (size > (1024*1024) || size == 0)
+   {
+       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+               "%s: called with invalid arg %u !!!", __func__, size);
+       return NULL;
+   }
+   if (in_interrupt() || irqs_disabled() || in_atomic())
+   {
+      flags = GFP_ATOMIC;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 #ifdef CONFIG_WCNSS_MEM_PRE_ALLOC
    if(size > WCNSS_PRE_ALLOC_GET_THRESHOLD)
@@ -309,19 +458,38 @@ v_VOID_t * vos_mem_malloc( v_SIZE_t size )
            return pmem;
    }
 #endif
+<<<<<<< HEAD
    return kmalloc(size, GFP_KERNEL);
 }   
+=======
+   time_before_kmalloc = vos_timer_get_system_time();
+   memPtr = kmalloc(size, flags);
+   /* If time taken by kmalloc is greater than VOS_GET_MEMORY_TIME_THRESHOLD
+    * msec */
+   if (vos_timer_get_system_time() - time_before_kmalloc >=
+                              VOS_GET_MEMORY_TIME_THRESHOLD)
+      VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+          "%s: kmalloc took %lu msec", __func__,
+          vos_timer_get_system_time() - time_before_kmalloc);
+
+   return memPtr;
+
+}
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 v_VOID_t vos_mem_free( v_VOID_t *ptr )
 {
     if (ptr == NULL)
       return;
 
+<<<<<<< HEAD
     if (in_interrupt())
     {
       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR, "%s cannot be called from interrupt context!!!", __func__);
       return;
     }
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef CONFIG_WCNSS_MEM_PRE_ALLOC
     if(wcnss_prealloc_put(ptr))
         return;
@@ -331,6 +499,48 @@ v_VOID_t vos_mem_free( v_VOID_t *ptr )
 }
 #endif
 
+<<<<<<< HEAD
+=======
+v_VOID_t * vos_mem_vmalloc(v_SIZE_t size)
+{
+    v_VOID_t* memPtr = NULL;
+    unsigned long  time_before_vmalloc;
+
+    if (size == 0 || size >= (1024*1024))
+    {
+        VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+                  "%s invalid size: %u", __func__, size);
+        return NULL;
+    }
+    time_before_vmalloc = vos_timer_get_system_time();
+    memPtr = vmalloc(size);
+    /* If time taken by vmalloc is greater than VOS_GET_MEMORY_TIME_THRESHOLD
+     * msec
+     */
+    if (vos_timer_get_system_time() - time_before_vmalloc >=
+                              VOS_GET_MEMORY_TIME_THRESHOLD)
+        VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+           "%s: vmalloc took %lu msec for size %d from %pS",
+           __func__,
+           vos_timer_get_system_time() - time_before_vmalloc,
+           size, (void *)_RET_IP_);
+    return memPtr;
+}
+
+v_VOID_t vos_mem_vfree(void *addr)
+{
+    if (addr == NULL)
+    {
+        VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+                  "%s NULL address passed to free", __func__);
+        return;
+    }
+
+    vfree(addr);
+    return;
+}
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 v_VOID_t vos_mem_set( v_VOID_t *ptr, v_SIZE_t numBytes, v_BYTE_t value )
 {
    if (ptr == NULL)
@@ -358,11 +568,14 @@ v_VOID_t vos_mem_zero( v_VOID_t *ptr, v_SIZE_t numBytes )
    
 }
 
+<<<<<<< HEAD
 
 //This function is to validate one list in SME. We suspect someone corrupt te list. This code need to be removed
 //once the issue is fixed.
 extern int csrCheckValidateLists(void * dest, const void *src, v_SIZE_t num, int idx);
 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 v_VOID_t vos_mem_copy( v_VOID_t *pDst, const v_VOID_t *pSrc, v_SIZE_t numBytes )
 {
    if (0 == numBytes)
@@ -379,10 +592,14 @@ v_VOID_t vos_mem_copy( v_VOID_t *pDst, const v_VOID_t *pSrc, v_SIZE_t numBytes )
       VOS_ASSERT(0);
       return;
    }
+<<<<<<< HEAD
    //These two check function calls are to see if someone corrupt the list while doing mem copy.
    csrCheckValidateLists(pDst, pSrc, numBytes, 1);
    memcpy(pDst, pSrc, numBytes);
    csrCheckValidateLists(pDst, pSrc, numBytes, 2);
+=======
+   memcpy(pDst, pSrc, numBytes);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 v_VOID_t vos_mem_move( v_VOID_t *pDst, const v_VOID_t *pSrc, v_SIZE_t numBytes )
@@ -404,7 +621,22 @@ v_VOID_t vos_mem_move( v_VOID_t *pDst, const v_VOID_t *pSrc, v_SIZE_t numBytes )
    memmove(pDst, pSrc, numBytes);
 }
 
+<<<<<<< HEAD
 v_BOOL_t vos_mem_compare( v_VOID_t *pMemory1, v_VOID_t *pMemory2, v_U32_t numBytes )
+=======
+v_BOOL_t vos_mem_compare(
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,18,0))
+                          const v_VOID_t *pMemory1,
+#else
+                          v_VOID_t *pMemory1,
+#endif
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,18,0))
+                          const v_VOID_t *pMemory2,
+#else
+                          v_VOID_t *pMemory2,
+#endif
+                          v_U32_t numBytes )
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 { 
    if (0 == numBytes)
    {
@@ -467,6 +699,12 @@ v_VOID_t * vos_mem_dma_malloc_debug( v_SIZE_t size, char* fileName, v_U32_t line
       return NULL;
    }
 
+<<<<<<< HEAD
+=======
+   if (!memory_dbug_flag)
+      return kmalloc(size, GFP_KERNEL);
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    new_size = size + sizeof(struct s_vos_mem_struct) + 8; 
 
    memStruct = (struct s_vos_mem_struct*)kmalloc(new_size,GFP_KERNEL);
@@ -488,7 +726,11 @@ v_VOID_t * vos_mem_dma_malloc_debug( v_SIZE_t size, char* fileName, v_U32_t line
       if(VOS_STATUS_SUCCESS != vosStatus)
       {
          VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR, 
+<<<<<<< HEAD
              "%s: Unable to insert node into List vosStatus %d\n", __func__, vosStatus);
+=======
+             "%s: Unable to insert node into List vosStatus %d", __func__, vosStatus);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
 
       memPtr = (v_VOID_t*)(memStruct + 1); 
@@ -499,7 +741,14 @@ v_VOID_t * vos_mem_dma_malloc_debug( v_SIZE_t size, char* fileName, v_U32_t line
 
 v_VOID_t vos_mem_dma_free( v_VOID_t *ptr )
 {
+<<<<<<< HEAD
     if (ptr != NULL)
+=======
+    if (ptr == NULL)
+        return;
+
+    if (memory_dbug_flag)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
         VOS_STATUS vosStatus;
         struct s_vos_mem_struct* memStruct = ((struct s_vos_mem_struct*)ptr) - 1;
@@ -525,6 +774,11 @@ v_VOID_t vos_mem_dma_free( v_VOID_t *ptr )
             kfree((v_VOID_t*)memStruct);
         }
     }
+<<<<<<< HEAD
+=======
+    else
+       kfree(ptr);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 #else
 v_VOID_t* vos_mem_dma_malloc( v_SIZE_t size )

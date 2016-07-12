@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -40,6 +45,16 @@
  */
 /*
  * Airgo Networks, Inc proprietary. All rights reserved.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+ */
+
+/*
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file schMessage.cc contains the message handler
  *
  * Author:      Sandesh Goel
@@ -52,7 +67,11 @@
 #include "palTypes.h"
 #include "sirCommon.h"
 
+<<<<<<< HEAD
 #include "wniCfgSta.h"
+=======
+#include "wniCfg.h"
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include "aniGlobal.h"
 #include "cfgApi.h"
 #include "limApi.h"

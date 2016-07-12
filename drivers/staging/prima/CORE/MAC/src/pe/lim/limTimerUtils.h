@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,11 +42,21 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /*
  *
+<<<<<<< HEAD
  * Airgo Networks, Inc proprietary. All rights reserved.
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file limTimerUtils.h contains the utility definitions
  * LIM uses for timer handling.
  * Author:        Chandra Modumudi
@@ -83,6 +98,7 @@ enum
 #ifdef WLAN_FEATURE_VOWIFI_11R
     eLIM_FT_PREAUTH_RSP_TIMER,
 #endif
+<<<<<<< HEAD
     eLIM_REMAIN_CHN_TIMER,
     eLIM_PERIODIC_PROBE_REQ_TIMER,
 #ifdef FEATURE_WLAN_CCX
@@ -93,11 +109,22 @@ enum
     eLIM_TDLS_LINK_SETUP_RSP_TIMEOUT,
     eLIM_TDLS_LINK_SETUP_CNF_TIMEOUT,
 #endif
+=======
+    eLIM_PERIODIC_PROBE_REQ_TIMER,
+#ifdef FEATURE_WLAN_ESE
+    eLIM_TSM_TIMER,
+#endif
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     eLIM_DISASSOC_ACK_TIMER,
     eLIM_DEAUTH_ACK_TIMER,
     eLIM_PERIODIC_JOIN_PROBE_REQ_TIMER,
     eLIM_INSERT_SINGLESHOT_NOA_TIMER,
+<<<<<<< HEAD
     eLIM_CONVERT_ACTIVE_CHANNEL_TO_PASSIVE
+=======
+    eLIM_CONVERT_ACTIVE_CHANNEL_TO_PASSIVE,
+    eLIM_AUTH_RETRY_TIMER
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 };
 
 #define LIM_DISASSOC_DEAUTH_ACK_TIMEOUT         500
@@ -115,7 +142,10 @@ void limDeactivateAndChangeTimer(tpAniSirGlobal, tANI_U32);
 void limHeartBeatDeactivateAndChangeTimer(tpAniSirGlobal, tpPESession);
 void limReactivateHeartBeatTimer(tpAniSirGlobal, tpPESession);
 void limDummyPktExpTimerHandler(void *, tANI_U32);
+<<<<<<< HEAD
 void limSendDisassocFrameThresholdHandler(void *, tANI_U32);
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 void limCnfWaitTmerHandler(void *, tANI_U32);
 void limKeepaliveTmerHandler(void *, tANI_U32);
 void limDeactivateAndChangePerStaIdTimer(tpAniSirGlobal, tANI_U32, tANI_U16);

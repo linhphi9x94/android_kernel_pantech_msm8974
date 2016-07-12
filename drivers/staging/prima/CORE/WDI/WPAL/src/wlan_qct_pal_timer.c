@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -41,6 +46,15 @@
 
 
 
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+ */
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**=========================================================================
   
   \file  wlan_qct_pal_timer.c
@@ -49,9 +63,12 @@
                
    Definitions for platform Windows.
   
+<<<<<<< HEAD
    Copyright 2010-2011 (c) Qualcomm, Incorporated.  All Rights Reserved.
    
    Qualcomm Confidential and Proprietary.
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
   
   ========================================================================*/
 
@@ -61,6 +78,12 @@
 #include "vos_threads.h"
 
 #include <linux/delay.h>
+<<<<<<< HEAD
+=======
+#if defined(ANI_OS_TYPE_ANDROID)
+#include <asm/arch_timer.h>
+#endif
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*---------------------------------------------------------------------------
  \brief wpalTimerCback - VOS timer callback function
@@ -77,8 +100,14 @@ static void wpalTimerCback( void * userData )
    }
    else
    {
+<<<<<<< HEAD
       WPAL_TRACE( eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_WARN, " %s pTimer(%d) callback after deleted \n",
          __func__, (wpt_uint32)pTimer );
+=======
+      WPAL_TRACE( eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_WARN,
+                  " %s pTimer(%p) callback after deleted",
+                  __func__, pTimer );
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 }/*wpalTimerCback*/
 
@@ -96,8 +125,14 @@ wpt_status wpalTimerInit(wpt_timer * pTimer, wpal_timer_callback callback, void 
    /* Sanity Checks */
    if( pTimer == NULL || callback == NULL )
    {
+<<<<<<< HEAD
       WPAL_TRACE( eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_ERROR, " %s Wrong param pTimer(%d) callback(%d)\n",
          __func__, (wpt_uint32)pTimer, (wpt_uint32)callback );
+=======
+      WPAL_TRACE( eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_ERROR,
+                  " %s Wrong param pTimer(%p) callback(%p)",
+                  __func__, pTimer, callback );
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return eWLAN_PAL_STATUS_E_INVAL;
    }
 
@@ -127,8 +162,14 @@ wpt_status wpalTimerDelete(wpt_timer *pTimer)
    /* Sanity Checks */
    if( pTimer == NULL )
    {
+<<<<<<< HEAD
       WPAL_TRACE( eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_ERROR, " %s Wrong param pTimer(%d)\n",
          __func__, (wpt_uint32)pTimer );
+=======
+      WPAL_TRACE( eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_ERROR,
+                  " %s Wrong param pTimer(%p)",
+                  __func__, pTimer );
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return eWLAN_PAL_STATUS_E_INVAL;
    }
 
@@ -158,8 +199,14 @@ wpt_status wpalTimerStart(wpt_timer * pTimer, wpt_uint32 timeout)
    /* Sanity Checks */
    if( pTimer == NULL )
    {
+<<<<<<< HEAD
       WPAL_TRACE( eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_ERROR, " %s Wrong param pTimer(%d)\n",
          __func__, (wpt_uint32)pTimer );
+=======
+      WPAL_TRACE( eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_ERROR,
+                  " %s Wrong param pTimer(%p)",
+                  __func__, pTimer );
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return eWLAN_PAL_STATUS_E_INVAL;
    }
    return ( WPAL_VOS_TO_WPAL_STATUS( vos_timer_start( &pTimer->timer.timerObj,
@@ -181,8 +228,14 @@ wpt_status wpalTimerStop(wpt_timer * pTimer)
    /* Sanity Checks */
    if( pTimer == NULL )
    {
+<<<<<<< HEAD
       WPAL_TRACE( eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_ERROR, " %s Wrong param pTimer(%d)\n",
          __func__, (wpt_uint32)pTimer );
+=======
+      WPAL_TRACE( eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_ERROR,
+                  " %s Wrong param pTimer(%p)",
+                  __func__, pTimer );
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return eWLAN_PAL_STATUS_E_INVAL;
    }
    return (WPAL_VOS_TO_WPAL_STATUS( vos_timer_stop( &pTimer->timer.timerObj )));
@@ -201,8 +254,14 @@ WPAL_TIMER_STATE wpalTimerGetCurStatus(wpt_timer * pTimer)
    /* Sanity Checks */
    if( pTimer == NULL )
    {
+<<<<<<< HEAD
       WPAL_TRACE( eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_ERROR, " %s Wrong param pTimer(%d)\n",
          __func__, (wpt_uint32)pTimer );
+=======
+      WPAL_TRACE( eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_ERROR,
+                  " %s Wrong param pTimer(%p)",
+                  __func__, pTimer );
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return eWLAN_PAL_STATUS_E_INVAL;
    }
    return vos_timer_getCurrentState( &pTimer->timer.timerObj );
@@ -220,6 +279,27 @@ wpt_uint32 wpalGetSystemTime(void)
 }/*wpalGetSystemTime*/
 
 /*---------------------------------------------------------------------------
+<<<<<<< HEAD
+=======
+    \brief wpalGetArchCounterTime - Get time from physical counter
+
+    \return
+        MPM counter value
+---------------------------------------------------------------------------*/
+#if defined(ANI_OS_TYPE_ANDROID)
+wpt_uint64 wpalGetArchCounterTime(void)
+{
+   return arch_counter_get_cntpct();
+}/*wpalGetArchCounterTime*/
+#else
+wpt_uint64 wpalGetArchCounterTime(void)
+{
+   return 0;
+}/*wpalGetArchCounterTime*/
+#endif
+
+/*---------------------------------------------------------------------------
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     wpalSleep - sleep for a specified interval
     Param:
         timeout - amount of time to sleep. In unit of milli-seconds.

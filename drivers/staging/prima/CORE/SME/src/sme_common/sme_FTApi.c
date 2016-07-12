@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2014, 2016 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #ifdef WLAN_FEATURE_VOWIFI_11R
@@ -44,9 +56,12 @@
 
   \brief Definitions for SME FT APIs
 
+<<<<<<< HEAD
    Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
 
    Qualcomm Confidential and Proprietary.
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   ========================================================================*/
 
@@ -56,6 +71,10 @@
 #include <smsDebug.h>
 #include <csrInsideApi.h>
 #include <csrNeighborRoam.h>
+<<<<<<< HEAD
+=======
+#include "vos_utils.h"
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*--------------------------------------------------------------------------
   Initialize the FT context. 
@@ -65,6 +84,7 @@ void sme_FTOpen(tHalHandle hHal)
     tpAniSirGlobal pMac = PMAC_STRUCT( hHal );
     eHalStatus     status = eHAL_STATUS_SUCCESS;
 
+<<<<<<< HEAD
     pMac->ft.ftSmeContext.auth_ft_ies = NULL;                        
     pMac->ft.ftSmeContext.auth_ft_ies_length = 0;                        
 
@@ -72,6 +92,10 @@ void sme_FTOpen(tHalHandle hHal)
     pMac->ft.ftSmeContext.reassoc_ft_ies_length = 0;       
     pMac->ft.ftSmeContext.setFTPreAuthState = FALSE;
     pMac->ft.ftSmeContext.setFTPTKState = FALSE;
+=======
+    //Clear the FT Context.
+    sme_FTReset(hHal);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     status = vos_timer_init(&pMac->ft.ftSmeContext.preAuthReassocIntvlTimer,VOS_TIMER_TYPE_SW,
                             sme_PreauthReassocIntvlTimerCallback, (void *)pMac);
 
@@ -80,11 +104,15 @@ void sme_FTOpen(tHalHandle hHal)
         smsLog(pMac, LOGE, FL("Preauth Reassoc interval Timer allocation failed"));
         return;
     }                 
+<<<<<<< HEAD
 
     pMac->ft.ftSmeContext.psavedFTPreAuthRsp = NULL;                        
     pMac->ft.ftSmeContext.pCsrFTKeyInfo = NULL;
 
     pMac->ft.ftSmeContext.FTState = eFT_START_READY;
+=======
+    vos_reset_roam_timer_log();
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 /*--------------------------------------------------------------------------
@@ -93,6 +121,7 @@ void sme_FTOpen(tHalHandle hHal)
 void sme_FTClose(tHalHandle hHal)
 {
     tpAniSirGlobal pMac = PMAC_STRUCT( hHal );
+<<<<<<< HEAD
 
     if (pMac->ft.ftSmeContext.auth_ft_ies != NULL)
     {
@@ -129,6 +158,10 @@ void sme_FTClose(tHalHandle hHal)
         pMac->ft.ftSmeContext.psavedFTPreAuthRsp = NULL;                        
     }
 
+=======
+    //Clear the FT Context.
+    sme_FTReset(hHal);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     vos_timer_destroy(&pMac->ft.ftSmeContext.preAuthReassocIntvlTimer);
 }
 
@@ -185,7 +218,11 @@ void sme_SetFTIEs( tHalHandle hHal, tANI_U8 sessionId, const tANI_U8 *ft_ies,
 
             // Save the FT IEs
             pMac->ft.ftSmeContext.auth_ft_ies = vos_mem_malloc(ft_ies_length);
+<<<<<<< HEAD
             if(pMac->ft.ftSmeContext.auth_ft_ies == NULL)
+=======
+            if ( NULL == pMac->ft.ftSmeContext.auth_ft_ies )
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             {
                smsLog( pMac, LOGE, FL("Memory allocation failed for "
                                       "auth_ft_ies"));
@@ -193,9 +230,14 @@ void sme_SetFTIEs( tHalHandle hHal, tANI_U8 sessionId, const tANI_U8 *ft_ies,
                return;
             }
             pMac->ft.ftSmeContext.auth_ft_ies_length = ft_ies_length;
+<<<<<<< HEAD
             vos_mem_copy((tANI_U8 *)pMac->ft.ftSmeContext.auth_ft_ies, ft_ies,
                 ft_ies_length);
                 
+=======
+            vos_mem_copy((tANI_U8 *)pMac->ft.ftSmeContext.auth_ft_ies,
+                          ft_ies,ft_ies_length);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pMac->ft.ftSmeContext.FTState = eFT_AUTH_REQ_READY;
 
 #if defined WLAN_FEATURE_VOWIFI_11R_DEBUG
@@ -239,7 +281,11 @@ void sme_SetFTIEs( tHalHandle hHal, tANI_U8 sessionId, const tANI_U8 *ft_ies,
 
             // Save the FT IEs
             pMac->ft.ftSmeContext.reassoc_ft_ies = vos_mem_malloc(ft_ies_length);
+<<<<<<< HEAD
             if(pMac->ft.ftSmeContext.reassoc_ft_ies == NULL)
+=======
+            if ( NULL == pMac->ft.ftSmeContext.reassoc_ft_ies )
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             {
                smsLog( pMac, LOGE, FL("Memory allocation failed for "
                                       "reassoc_ft_ies"));
@@ -248,7 +294,11 @@ void sme_SetFTIEs( tHalHandle hHal, tANI_U8 sessionId, const tANI_U8 *ft_ies,
             }
             pMac->ft.ftSmeContext.reassoc_ft_ies_length = ft_ies_length;
             vos_mem_copy((tANI_U8 *)pMac->ft.ftSmeContext.reassoc_ft_ies, ft_ies,
+<<<<<<< HEAD
                 ft_ies_length);
+=======
+                          ft_ies_length);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 
             pMac->ft.ftSmeContext.FTState = eFT_SET_KEY_WAIT;
 #if defined WLAN_FEATURE_VOWIFI_11R_DEBUG
@@ -284,17 +334,28 @@ eHalStatus sme_FTSendUpdateKeyInd(tHalHandle hHal, tCsrRoamSetKey * pFTKeyInfo)
       smsLog(pMac, LOG1, FL("%02x"), pFTKeyInfo->Key[i]);
 #endif
 
+<<<<<<< HEAD
     msgLen  = sizeof( tANI_U16) + sizeof( tANI_U16 ) + 
        sizeof( pMsg->keyMaterial.length ) + sizeof( pMsg->keyMaterial.edType ) + 
        sizeof( pMsg->keyMaterial.numKeys ) + sizeof( pMsg->keyMaterial.key );
                      
     status = palAllocateMemory(pMac->hHdd, (void **)&pMsg, msgLen);
     if ( !HAL_STATUS_SUCCESS(status) )
+=======
+    msgLen = sizeof(tSirFTUpdateKeyInfo);
+
+    pMsg = vos_mem_malloc(msgLen);
+    if ( NULL == pMsg )
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
        return eHAL_STATUS_FAILURE;
     }
 
+<<<<<<< HEAD
     palZeroMemory(pMac->hHdd, pMsg, msgLen);
+=======
+    vos_mem_set(pMsg, msgLen, 0);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     pMsg->messageType = pal_cpu_to_be16((tANI_U16)eWNI_SME_FT_UPDATE_KEY);
     pMsg->length = pal_cpu_to_be16(msgLen);
 
@@ -318,17 +379,25 @@ eHalStatus sme_FTSendUpdateKeyInd(tHalHandle hHal, tCsrRoamSetKey * pFTKeyInfo)
     keymaterial->key[ 0 ].unicast = (tANI_U8)eANI_BOOLEAN_TRUE;
     keymaterial->key[ 0 ].keyDirection = pFTKeyInfo->keyDirection;
 
+<<<<<<< HEAD
     palCopyMemory( pMac->hHdd, &keymaterial->key[ 0 ].keyRsc,
                    pFTKeyInfo->keyRsc, CSR_MAX_RSC_LEN );
 
+=======
+    vos_mem_copy(&keymaterial->key[ 0 ].keyRsc, pFTKeyInfo->keyRsc, CSR_MAX_RSC_LEN);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     keymaterial->key[ 0 ].paeRole = pFTKeyInfo->paeRole;
 
     keymaterial->key[ 0 ].keyLength = pFTKeyInfo->keyLength;
 
     if ( pFTKeyInfo->keyLength && pFTKeyInfo->Key )
     {
+<<<<<<< HEAD
         palCopyMemory( pMac->hHdd, &keymaterial->key[ 0 ].key,
                        pFTKeyInfo->Key, pFTKeyInfo->keyLength );
+=======
+        vos_mem_copy(&keymaterial->key[ 0 ].key, pFTKeyInfo->Key, pFTKeyInfo->keyLength);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         if(pFTKeyInfo->keyLength == 16)
         {
           smsLog(pMac, LOG1, "SME Set Update Ind keyIdx (%d) encType(%d) key = "
@@ -396,7 +465,16 @@ eHalStatus sme_FTUpdateKey( tHalHandle hHal, tCsrRoamSetKey * pFTKeyInfo )
     switch(pMac->ft.ftSmeContext.FTState)
     {
     case eFT_SET_KEY_WAIT:
+<<<<<<< HEAD
     if (sme_GetFTPreAuthState (hHal) == TRUE)
+=======
+      if (pMac->roam.configParam.roamDelayStatsEnabled)
+      {
+          //store the PTK send event
+          vos_record_roam_event(e_HDD_SET_PTK_REQ, NULL, 0);
+      }
+      if (sme_GetFTPreAuthState (hHal) == TRUE)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {
           status = sme_FTSendUpdateKeyInd(pMac, pFTKeyInfo);
           if (status != 0 )
@@ -420,10 +498,17 @@ eHalStatus sme_FTUpdateKey( tHalHandle hHal, tCsrRoamSetKey * pFTKeyInfo )
               pMac->ft.ftSmeContext.FTState, status);
 #endif
        break;
+<<<<<<< HEAD
           
     default:
        smsLog( pMac, LOGE, "%s: Unhandled state=%d", __func__,
                pMac->ft.ftSmeContext.FTState);
+=======
+
+    default:
+       smsLog(pMac, LOG1, FL("Unhandled state=%d"),
+                              pMac->ft.ftSmeContext.FTState);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
        status = eHAL_STATUS_FAILURE;
        break;
     }
@@ -533,7 +618,72 @@ void sme_PreauthReassocIntvlTimerCallback(void *context)
     tpAniSirGlobal pMac = (tpAniSirGlobal )context;
     csrNeighborRoamRequestHandoff(pMac);
 #endif
+<<<<<<< HEAD
     return;
 }
+=======
+    if (pMac->roam.configParam.roamDelayStatsEnabled)
+    {
+        vos_record_roam_event(e_SME_PREAUTH_CALLBACK_HIT, NULL, 0);
+    }
+    return;
+}
+
+/*--------------------------------------------------------------------------
+  Reset the FT context.
+  ------------------------------------------------------------------------*/
+void sme_FTReset(tHalHandle hHal)
+{
+    tpAniSirGlobal pMac = PMAC_STRUCT( hHal );
+    if (pMac == NULL)
+    {
+        VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_ERROR, FL("pMac is NULL"));
+        return;
+    }
+    if (pMac->ft.ftSmeContext.auth_ft_ies != NULL)
+    {
+#if defined WLAN_FEATURE_VOWIFI_11R_DEBUG
+        smsLog( pMac, LOGE, FL(" Freeing FT Auth IE %p and setting to NULL"),
+            pMac->ft.ftSmeContext.auth_ft_ies);
+#endif
+        vos_mem_free(pMac->ft.ftSmeContext.auth_ft_ies);
+    }
+    pMac->ft.ftSmeContext.auth_ft_ies = NULL;
+    pMac->ft.ftSmeContext.auth_ft_ies_length = 0;
+
+    if (pMac->ft.ftSmeContext.reassoc_ft_ies != NULL)
+    {
+#if defined WLAN_FEATURE_VOWIFI_11R_DEBUG
+        smsLog( pMac, LOGE, FL(" Freeing FT Reassoc  IE %p and setting to NULL"),
+            pMac->ft.ftSmeContext.auth_ft_ies);
+#endif
+        vos_mem_free(pMac->ft.ftSmeContext.reassoc_ft_ies);
+    }
+    pMac->ft.ftSmeContext.reassoc_ft_ies = NULL;
+    pMac->ft.ftSmeContext.reassoc_ft_ies_length = 0;
+
+    if (pMac->ft.ftSmeContext.psavedFTPreAuthRsp != NULL)
+    {
+#if defined WLAN_FEATURE_VOWIFI_11R_DEBUG
+        smsLog( pMac, LOGE, FL("Freeing FtPreAuthRsp %p and setting to NULL"),
+            pMac->ft.ftSmeContext.psavedFTPreAuthRsp);
+#endif
+        vos_mem_free(pMac->ft.ftSmeContext.psavedFTPreAuthRsp);
+    }
+    pMac->ft.ftSmeContext.psavedFTPreAuthRsp = NULL;
+    pMac->ft.ftSmeContext.setFTPreAuthState = FALSE;
+    pMac->ft.ftSmeContext.setFTPTKState = FALSE;
+
+    if (pMac->ft.ftSmeContext.pCsrFTKeyInfo != NULL)
+    {
+        vos_mem_zero(pMac->ft.ftSmeContext.pCsrFTKeyInfo,
+                       sizeof(tCsrRoamSetKey));
+        vos_mem_free(pMac->ft.ftSmeContext.pCsrFTKeyInfo);
+    }
+    pMac->ft.ftSmeContext.pCsrFTKeyInfo = NULL;
+    vos_mem_zero(pMac->ft.ftSmeContext.preAuthbssId, ANI_MAC_ADDR_SIZE);
+    pMac->ft.ftSmeContext.FTState = eFT_START_READY;
+}
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* End of File */
 #endif /* WLAN_FEATURE_VOWIFI_11R */

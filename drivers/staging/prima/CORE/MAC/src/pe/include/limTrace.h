@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -43,15 +48,29 @@
 * Copyright (c) 2013 Qualcomm Atheros, Inc.
 * All Rights Reserved.
 * Qualcomm Atheros Confidential and Proprietary.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+ */
+
+/*
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 *  \file  limTrace.h
 
 *  \brief definition for trace related APIs
 
 *  \author Sunit Bhatia
 
+<<<<<<< HEAD
    Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
 
    Qualcomm Confidential and Proprietary.
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   ========================================================================*/
 
@@ -62,6 +81,10 @@
 
 #include "limGlobal.h"
 #include "macTrace.h"
+<<<<<<< HEAD
+=======
+#include "vos_trace.h"
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef LIM_TRACE_RECORD
 
 
@@ -116,12 +139,17 @@ void limTraceUpdateMgmtStat(tpAniSirGlobal pMac, tANI_U8 subtype);
 void limTraceDumpMgmtStat(tpAniSirGlobal pMac, tANI_U8 subtype);
 tANI_U8* limTraceGetMlmStateString( tANI_U32 mlmState );
 tANI_U8* limTraceGetSmeStateString( tANI_U32 smeState );
+<<<<<<< HEAD
 void limTraceDump(tpAniSirGlobal pMac, tpTraceRecord pRecord, tANI_U16 recIndex);
+=======
+void limTraceDump(tpAniSirGlobal pMac, tpvosTraceRecord pRecord, tANI_U16 recIndex);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 void macTraceMsgTx(tpAniSirGlobal pMac, tANI_U8 session, tANI_U32 data);
 void macTraceMsgRx(tpAniSirGlobal pMac, tANI_U8 session, tANI_U32 data);
 
 void macTraceMsgRxNew(tpAniSirGlobal pMac, tANI_U8 module, tANI_U8 session, tANI_U32 data);
 void macTraceMsgTxNew(tpAniSirGlobal pMac, tANI_U8 module, tANI_U8 session, tANI_U32 data);
+<<<<<<< HEAD
 
 
 
@@ -134,6 +162,9 @@ void macTraceMsgTxNew(tpAniSirGlobal pMac, tANI_U8 module, tANI_U8 session, tANI
 #define MTRACE(p) {  }
 
 #endif
+=======
+#endif //endof LIM_TRACE_RECORD MACRO
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #endif
 

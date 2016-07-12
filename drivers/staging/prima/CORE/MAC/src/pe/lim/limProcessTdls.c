@@ -1,4 +1,5 @@
 /*
+<<<<<<< HEAD
   * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
   *
   * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
@@ -18,6 +19,34 @@
   * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
   * PERFORMANCE OF THIS SOFTWARE.
 */
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+ *
+ * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
+ *
+ *
+ * Permission to use, copy, modify, and/or distribute this software for
+ * any purpose with or without fee is hereby granted, provided that the
+ * above copyright notice and this permission notice appear in all
+ * copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
+ * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+ * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+ * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ */
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+ */
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*===========================================================================
 
                       limProcessTdls.c 
@@ -27,11 +56,14 @@
   DEPENDENCIES:
 
   Are listed for each API below.
+<<<<<<< HEAD
 
   Copyright (c) 2010 Qualcomm Technologies, Inc.
   All Rights Reserved.
   Qualcomm Technologies Confidential and Proprietary
 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ===========================================================================*/
 
 /*===========================================================================
@@ -90,6 +122,7 @@ If there is other IOT issue because of this bandage, define NO_PAD...
 #define MIN_IEEE_8023_SIZE              46
 #define MIN_VENDOR_SPECIFIC_IE_SIZE     5
 #endif
+<<<<<<< HEAD
 #ifdef WLAN_FEATURE_TDLS_DEBUG
 #define TDLS_DEBUG_LOG_LEVEL VOS_TRACE_LEVEL_ERROR
 #else
@@ -115,6 +148,9 @@ static tpDphHashNode limTdlsDelSta(tpAniSirGlobal pMac, tSirMacAddr peerMac,
                                                  tpPESession psessionEntry) ;
 
 #endif
+=======
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 static tSirRetStatus limTdlsSetupAddSta(tpAniSirGlobal pMac,
                                         tSirTdlsAddStaReq *pAddStaReq,
                                         tpPESession psessionEntry) ;
@@ -124,6 +160,14 @@ void PopulateDot11fLinkIden(tpAniSirGlobal pMac, tpPESession psessionEntry,
 void PopulateDot11fTdlsExtCapability(tpAniSirGlobal pMac, 
                                     tDot11fIEExtCap *extCapability) ;
 
+<<<<<<< HEAD
+=======
+void PopulateDot11fTdlsOffchannelParams(tpAniSirGlobal pMac,
+          tpPESession psessionEntry,
+          tDot11fIESuppChannels *suppChannels,
+          tDot11fIESuppOperatingClasses *suppOperClasses);
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 void limLogVHTCap(tpAniSirGlobal pMac,
                               tDot11fIEVHTCaps *pDot11f);
 tSirRetStatus limPopulateVhtMcsSet(tpAniSirGlobal pMac,
@@ -131,6 +175,94 @@ tSirRetStatus limPopulateVhtMcsSet(tpAniSirGlobal pMac,
                                   tDot11fIEVHTCaps *pPeerVHTCaps,
                                   tpPESession psessionEntry);
 ePhyChanBondState  limGetHTCBState(ePhyChanBondState aniCBMode);
+<<<<<<< HEAD
+=======
+/*only 31 op classes are available, 1 entry for current op class*/
+static tDot11fIESuppOperatingClasses op_classes = {0};
+
+op_class_map_t global_op_class[] = {
+    {81, 25,  BW20,      {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}},
+    {82, 25,  BW20,      {14}},
+    {83, 40,  BW40PLUS,  {1, 2, 3, 4, 5, 6, 7, 8, 9}},
+    {84, 40,  BW40MINUS, {5, 6, 7, 8, 9, 10, 11, 12, 13}},
+    {115, 20, BW20,      {36, 40, 44, 48}},
+    {116, 40, BW40PLUS,  {36, 44}},
+    {117, 40, BW40MINUS, {40, 48}},
+    {118, 20, BW20,      {52, 56, 60, 64}},
+    {119, 40, BW40PLUS,  {52, 60}},
+    {120, 40, BW40MINUS, {56, 64}},
+    {121, 20, BW20,   {100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140}},
+    {122, 40, BW40PLUS,  {100, 108, 116, 124, 132}},
+    {123, 40, BW40MINUS, {104, 112, 120, 128, 136}},
+    {125, 20, BW20,      {149, 153, 157, 161, 165, 169}},
+    {126, 40, BW40PLUS,  {149, 157}},
+    {127, 40, BW40MINUS, {153, 161}},
+    {128, 80, BW80,      {36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112,
+                          116, 120, 124, 128, 132, 136, 140, 144,
+                          149, 153, 157, 161}},
+    {0, 0, 0, {0}},
+
+};/*end global_op_class*/
+
+op_class_map_t us_op_class[] = {
+    {1, 20,  BW20,       {36, 40, 44, 48}},
+    {2, 20,  BW20,       {52, 56, 60, 64}},
+    {4, 20,  BW20,   {100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144}},
+    {5, 20,  BW20,       {149, 153, 157, 161, 165}},
+    {12, 25, BW20,      {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}},
+    {22, 40, BW40PLUS,  {36, 44}},
+    {23, 40, BW40PLUS,  {52, 60}},
+    {24, 40, BW40PLUS,  {100, 108, 116, 124, 132, 140}},
+    {26, 40, BW40PLUS,  {149, 157}},
+    {27, 40, BW40MINUS, {40, 48}},
+    {28, 40, BW40MINUS, {56, 64}},
+    {29, 40, BW40MINUS, {104, 112, 120, 128, 136, 144}},
+    {31, 40, BW40MINUS, {153, 161}},
+    {32, 40, BW40PLUS,  {1, 2, 3, 4, 5, 6, 7}},
+    {33, 40, BW40MINUS, {5, 6, 7, 8, 9, 10, 11}},
+    {128, 80, BW80,     {36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112,
+                         116, 120, 124, 128, 132, 136, 140, 144,
+                         149, 153, 157, 161}},
+    {0, 0, 0, {0}},
+};/*end us_op_class*/
+
+op_class_map_t euro_op_class[] = {
+    {1, 20,  BW20,      {36, 40, 44, 48}},
+    {2, 20,  BW20,      {52, 56, 60, 64}},
+    {3, 20,  BW20,   {100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140}},
+    {4, 25,  BW20,      {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}},
+    {5, 40,  BW40PLUS,  {36, 44}},
+    {6, 40,  BW40PLUS,  {52, 60}},
+    {7, 40,  BW40PLUS,  {100, 108, 116, 124, 132}},
+    {8, 40,  BW40MINUS, {40, 48}},
+    {9, 40,  BW40MINUS, {56, 64}},
+    {10, 40, BW40MINUS, {104, 112, 120, 128, 136}},
+    {11, 40, BW40PLUS,  {1, 2, 3, 4, 5, 6, 7, 8, 9}},
+    {12, 40, BW40MINUS, {5, 6, 7, 8, 9, 10, 11, 12, 13}},
+    {17, 20, BW20,      {149, 153, 157, 161, 165, 169}},
+    {128, 80, BW80,     {36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112,
+                         116, 120, 124, 128}},
+    {0, 0, 0, {0}},
+};/*end euro_op_class*/
+
+op_class_map_t japan_op_class[] = {
+    {1, 20,  BW20,      {36, 40, 44, 48}},
+    {30, 25, BW20,      {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}},
+    {31, 25, BW20,      {14}},
+    {32, 20, BW20,      {52, 56, 60, 64}},
+    {34, 20, BW20,   {100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140}},
+    {36, 40, BW40PLUS,  {36, 44}},
+    {37, 40, BW40PLUS,  {52, 60}},
+    {39, 40, BW40PLUS,  {100, 108, 116, 124, 132}},
+    {41, 40, BW40MINUS, {40, 48}},
+    {42, 40, BW40MINUS, {56, 64}},
+    {44, 40, BW40MINUS, {104, 112, 120, 128, 136}},
+    {128, 80, BW80,     {36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112,
+                         116, 120, 124, 128}},
+    {0, 0, 0, {0}},
+};/*end japan_op_class*/
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*
  * TDLS data frames will go out/come in as non-qos data.
  * so, eth_890d_header will be aligned access..
@@ -141,6 +273,15 @@ static const tANI_U8 eth_890d_header[] =
     0x00, 0x00, 0x89, 0x0d,
 } ;
 
+<<<<<<< HEAD
+=======
+/* store tdls self supported channels
+ * which are non passive */
+#define LIM_TDLS_MAX_NON_DFS_CHANNELS 50
+static tANI_U8 tdlsSelfNumChans = 0;
+static tANI_U8 tdlsSelfSupportedChannels[LIM_TDLS_MAX_NON_DFS_CHANNELS] = {0};
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*
  * type of links used in TDLS 
  */
@@ -172,6 +313,18 @@ typedef enum tdlsLinkSetupStatus
     TDLS_SETUP_STATUS_FAILURE = 37
 }etdlsLinkSetupStatus ;
 
+<<<<<<< HEAD
+=======
+/* These maps to Kernel TDLS peer capability
+ * flags and should get changed as and when necessary
+ */
+enum tdls_peer_capability {
+        TDLS_PEER_HT_CAP  = 0,
+        TDLS_PEER_VHT_CAP = 1,
+        TDLS_PEER_WMM_CAP = 2
+} eTdlsPeerCapability;
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* some local defines */
 #define LINK_IDEN_BSSID_OFFSET      (0)
 #define PEER_MAC_OFFSET   (12) 
@@ -210,7 +363,10 @@ typedef enum tdlsLinkSetupStatus
 
 
 #ifdef LIM_DEBUG_TDLS
+<<<<<<< HEAD
 #define TDLS_CASE_RETURN_STRING(x) case (x): return( ((const tANI_U8*)#x) + 8);  /* 8 = remove redundant SIR_MAC_ */
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef FEATURE_WLAN_TDLS
 #define WNI_CFG_TDLS_DISCOVERY_RSP_WAIT             (100)
@@ -230,6 +386,7 @@ const tANI_U8* limTraceTdlsActionString( tANI_U8 tdlsActionCode )
 {
    switch( tdlsActionCode )
    {
+<<<<<<< HEAD
        TDLS_CASE_RETURN_STRING(SIR_MAC_TDLS_SETUP_REQ);
        TDLS_CASE_RETURN_STRING(SIR_MAC_TDLS_SETUP_RSP);
        TDLS_CASE_RETURN_STRING(SIR_MAC_TDLS_SETUP_CNF);
@@ -240,6 +397,18 @@ const tANI_U8* limTraceTdlsActionString( tANI_U8 tdlsActionCode )
        TDLS_CASE_RETURN_STRING(SIR_MAC_TDLS_PEER_TRAFFIC_RSP);
        TDLS_CASE_RETURN_STRING(SIR_MAC_TDLS_DIS_REQ);
        TDLS_CASE_RETURN_STRING(SIR_MAC_TDLS_DIS_RSP);
+=======
+       CASE_RETURN_STRING(SIR_MAC_TDLS_SETUP_REQ);
+       CASE_RETURN_STRING(SIR_MAC_TDLS_SETUP_RSP);
+       CASE_RETURN_STRING(SIR_MAC_TDLS_SETUP_CNF);
+       CASE_RETURN_STRING(SIR_MAC_TDLS_TEARDOWN);
+       CASE_RETURN_STRING(SIR_MAC_TDLS_PEER_TRAFFIC_IND);
+       CASE_RETURN_STRING(SIR_MAC_TDLS_CH_SWITCH_REQ);
+       CASE_RETURN_STRING(SIR_MAC_TDLS_CH_SWITCH_RSP);
+       CASE_RETURN_STRING(SIR_MAC_TDLS_PEER_TRAFFIC_RSP);
+       CASE_RETURN_STRING(SIR_MAC_TDLS_DIS_REQ);
+       CASE_RETURN_STRING(SIR_MAC_TDLS_DIS_RSP);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
    return (const tANI_U8*)"UNKNOWN";
 }
@@ -264,6 +433,7 @@ static void printMacAddr(tSirMacAddr macAddr)
  */
 void limInitTdlsData(tpAniSirGlobal pMac, tpPESession pSessionEntry)
 {
+<<<<<<< HEAD
 #ifdef FEATURE_WLAN_TDLS_INTERNAL
     pMac->lim.gLimTdlsDisResultList = NULL ;
     pMac->lim.gLimTdlsDisStaCount = 0 ;
@@ -277,6 +447,8 @@ void limInitTdlsData(tpAniSirGlobal pMac, tpPESession pSessionEntry)
     pMac->lim.gLimTdlsNegativeBehavior = 0;
 #endif
 #endif
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     limInitPeerIdxpool(pMac, pSessionEntry) ;
 
     return ;
@@ -296,7 +468,11 @@ void limTdlsSetNegativeBehavior(tpAniSirGlobal pMac, tANI_U8 value, tANI_BOOLEAN
         else
             pMac->lim.gLimTdlsNegativeBehavior &= ~(1 << (value-1));
     }
+<<<<<<< HEAD
     LIM_LOG_TDLS(VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_ERROR,("%d %d -> gLimTdlsNegativeBehavior= 0x%lx"), \
+=======
+    LIM_LOG_TDLS(VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_ERROR,("%d %d -> gLimTdlsNegativeBehavior= 0x%lx"),
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         value, on, pMac->lim.gLimTdlsNegativeBehavior));
 }
 #endif
@@ -342,10 +518,17 @@ static void limPreparesActionFrameHdr(tpAniSirGlobal pMac, tANI_U8 *pFrame,
     vos_mem_copy( (tANI_U8 *) pMacHdr->bssId,
                                 bssid, sizeof( tSirMacAddr ));
    
+<<<<<<< HEAD
    LIM_LOG_TDLS(VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_WARN, ("Preparing TDLS action frame\n%02x:%02x:%02x:%02x:%02x:%02x/%02x:%02x:%02x:%02x:%02x:%02x/%02x:%02x:%02x:%02x:%02x:%02x"), \
        pMacHdr->da[0], pMacHdr->da[1], pMacHdr->da[2], pMacHdr->da[3], pMacHdr->da[4], pMacHdr->da[5], \
        pMacHdr->sa[0], pMacHdr->sa[1], pMacHdr->sa[2], pMacHdr->sa[3], pMacHdr->sa[4], pMacHdr->sa[5], \
        pMacHdr->bssId[0], pMacHdr->bssId[1], pMacHdr->bssId[2], \
+=======
+   LIM_LOG_TDLS(VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_WARN, ("Preparing TDLS action frame\n%02x:%02x:%02x:%02x:%02x:%02x/%02x:%02x:%02x:%02x:%02x:%02x/%02x:%02x:%02x:%02x:%02x:%02x"),
+       pMacHdr->da[0], pMacHdr->da[1], pMacHdr->da[2], pMacHdr->da[3], pMacHdr->da[4], pMacHdr->da[5],
+       pMacHdr->sa[0], pMacHdr->sa[1], pMacHdr->sa[2], pMacHdr->sa[3], pMacHdr->sa[4], pMacHdr->sa[5],
+       pMacHdr->bssId[0], pMacHdr->bssId[1], pMacHdr->bssId[2],
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
        pMacHdr->bssId[3], pMacHdr->bssId[4], pMacHdr->bssId[5]));
 
     return ; 
@@ -365,13 +548,23 @@ static tANI_U32 limPrepareTdlsFrameHeader(tpAniSirGlobal pMac, tANI_U8* pFrame,
     tANI_U32 header_offset = 0 ;
     tANI_U8 *addr1 = NULL ;
     tANI_U8 *addr3 = NULL ;
+<<<<<<< HEAD
+=======
+    tpDphHashNode pStaDs = NULL;
+    tANI_U16      aid = 0;
+    tANI_U8       qosMode = 0;
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tANI_U8 toDs = (tdlsLinkType == TDLS_LINK_AP) 
                                        ? ANI_TXDIR_TODS :ANI_TXDIR_IBSS  ;
     tANI_U8 *peerMac = (reqType == TDLS_INITIATOR) 
                                        ? link_iden->RespStaAddr : link_iden->InitStaAddr; 
     tANI_U8 *staMac = (reqType == TDLS_INITIATOR) 
                                        ? link_iden->InitStaAddr : link_iden->RespStaAddr; 
+<<<<<<< HEAD
    
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     pMacHdr = (tpSirMacDataHdr3a) (pFrame);
 
     /* 
@@ -388,7 +581,22 @@ static tANI_U32 limPrepareTdlsFrameHeader(tpAniSirGlobal pMac, tANI_U8* pFrame,
      */ 
     pMacHdr->fc.protVer = SIR_MAC_PROTOCOL_VERSION;
     pMacHdr->fc.type    = SIR_MAC_DATA_FRAME ;
+<<<<<<< HEAD
     pMacHdr->fc.subType = IS_QOS_ENABLED(psessionEntry) ? SIR_MAC_DATA_QOS_DATA : SIR_MAC_DATA_DATA;
+=======
+
+    pStaDs = dphLookupHashEntry(pMac, peerMac, &aid,
+                                     &psessionEntry->dph.dphHashTable);
+    if (pStaDs)
+    {
+        qosMode = pStaDs->qosMode;
+    }
+
+    pMacHdr->fc.subType = ((IS_QOS_ENABLED(psessionEntry) &&
+                           (tdlsLinkType == TDLS_LINK_AP)) ||
+                           ((tdlsLinkType == TDLS_LINK_DIRECT) && qosMode))
+                           ? SIR_MAC_DATA_QOS_DATA : SIR_MAC_DATA_DATA;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     /*
      * TL is not setting up below fields, so we are doing it here
@@ -409,17 +617,31 @@ static tANI_U32 limPrepareTdlsFrameHeader(tpAniSirGlobal pMac, tANI_U8* pFrame,
                   (tANI_U8 *) (addr3),
                   sizeof( tSirMacAddr ));
 
+<<<<<<< HEAD
     LIM_LOG_TDLS(VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_WARN, ("Preparing TDLS frame header to %s\n%02x:%02x:%02x:%02x:%02x:%02x/%02x:%02x:%02x:%02x:%02x:%02x/%02x:%02x:%02x:%02x:%02x:%02x"), \
        (tdlsLinkType == TDLS_LINK_AP) ? "AP" : "TD", \
         pMacHdr->addr1[0], pMacHdr->addr1[1], pMacHdr->addr1[2], pMacHdr->addr1[3], pMacHdr->addr1[4], pMacHdr->addr1[5], \
         pMacHdr->addr2[0], pMacHdr->addr2[1], pMacHdr->addr2[2], pMacHdr->addr2[3], pMacHdr->addr2[4], pMacHdr->addr2[5], \
         pMacHdr->addr3[0], pMacHdr->addr3[1], pMacHdr->addr3[2], pMacHdr->addr3[3], pMacHdr->addr3[4], pMacHdr->addr3[5]));
+=======
+    limLog(pMac, LOG1,
+           FL("Preparing TDLS frame header to %s A1:"MAC_ADDRESS_STR", A2:"MAC_ADDRESS_STR", A3:"MAC_ADDRESS_STR),
+           (tdlsLinkType == TDLS_LINK_AP) ? "AP" : "DIRECT",
+           MAC_ADDR_ARRAY(pMacHdr->addr1),
+           MAC_ADDR_ARRAY(pMacHdr->addr2),
+           MAC_ADDR_ARRAY(pMacHdr->addr3));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     //printMacAddr(pMacHdr->bssId) ;
     //printMacAddr(pMacHdr->sa) ;
     //printMacAddr(pMacHdr->da) ;
 
+<<<<<<< HEAD
     if (IS_QOS_ENABLED(psessionEntry))
+=======
+    if (((tdlsLinkType == TDLS_LINK_AP) && (IS_QOS_ENABLED(psessionEntry))) ||
+        ((tdlsLinkType == TDLS_LINK_DIRECT) && qosMode))
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
         pMacHdr->qosControl.tid = tid;
         header_offset += sizeof(tSirMacDataHdr3a);
@@ -445,6 +667,7 @@ static tANI_U32 limPrepareTdlsFrameHeader(tpAniSirGlobal pMac, tANI_U8* pFrame,
  * TX Complete for Management frames
  */
  eHalStatus limMgmtTXComplete(tpAniSirGlobal pMac,
+<<<<<<< HEAD
                                    tANI_U32 txCompleteSuccess)
 {
     tpPESession psessionEntry = NULL ;
@@ -459,6 +682,36 @@ static tANI_U32 limPrepareTdlsFrameHeader(tpAniSirGlobal pMac, tANI_U8* pFrame,
             return eHAL_STATUS_FAILURE;
         }
         limSendSmeMgmtTXCompletion(pMac, psessionEntry, txCompleteSuccess);
+=======
+                                   void *pData)
+{
+    tANI_U32 txCompleteSuccess = 0;
+    tpSirTxBdStatus pTxBdStatus = NULL;
+
+    if (!pData)
+    {
+        limLog(pMac, LOGE, FL("pData is NULL"));
+        return eHAL_STATUS_SUCCESS;
+    }
+
+    if (IS_FEATURE_SUPPORTED_BY_FW(ENHANCED_TXBD_COMPLETION))
+    {
+        pTxBdStatus = (tpSirTxBdStatus) pData;
+        txCompleteSuccess = pTxBdStatus->txCompleteStatus;
+        limLog(pMac, LOG1, FL("txCompleteSuccess %u, token %u"),
+                txCompleteSuccess, pTxBdStatus->txBdToken);
+    }
+    else
+    {
+        txCompleteSuccess = *((tANI_U32*) pData);
+        limLog(pMac, LOG1, FL("txCompleteSuccess %u"), txCompleteSuccess);
+    }
+
+    if (0xff != pMac->lim.mgmtFrameSessionId)
+    {
+        limSendSmeMgmtTXCompletion(pMac, pMac->lim.mgmtFrameSessionId,
+                                   txCompleteSuccess);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         pMac->lim.mgmtFrameSessionId = 0xff;
     }
     return eHAL_STATUS_SUCCESS;
@@ -511,16 +764,28 @@ tSirRetStatus limSendTdlsDisReqFrame(tpAniSirGlobal pMac, tSirMacAddr peer_mac,
     status = dot11fGetPackedTDLSDisReqSize( pMac, &tdlsDisReq, &nPayload);
     if ( DOT11F_FAILED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGP, FL("Failed to calculate the packed size f"
                                "or a discovery Request (0x%08x)."), status );
+=======
+        limLog(pMac, LOGE,
+               FL("Failed to calculate the packed size for a discovery Request (0x%08x)."),
+               status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         /* We'll fall back on the worst case scenario: */
         nPayload = sizeof( tDot11fTDLSDisReq );
     }
     else if ( DOT11F_WARNED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGW, FL("There were warnings while calculating"
                                "the packed size for a discovery Request ("
                                "0x%08x)."), status );
+=======
+        limLog(pMac, LOGW,
+               FL("There were warnings while calculating the packed size for a discovery Request (0x%08x)."),
+               status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     /*
@@ -559,8 +824,14 @@ tSirRetStatus limSendTdlsDisReqFrame(tpAniSirGlobal pMac, tSirMacAddr peer_mac,
                              ( void** ) &pPacket );
     if ( ! HAL_STATUS_SUCCESS ( halstatus ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGP, FL("Failed to allocate %d bytes for a TDLS"
                                "Discovery Request."), nBytes );
+=======
+        limLog(pMac, LOGE,
+               FL("Failed to allocate %d bytes for a TDLS Discovery Request."),
+               nBytes);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eSIR_MEM_ALLOC_FAILED;
     }
 
@@ -592,16 +863,26 @@ tSirRetStatus limSendTdlsDisReqFrame(tpAniSirGlobal pMac, tSirMacAddr peer_mac,
 
     if ( DOT11F_FAILED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGE, FL("Failed to pack a TDLS discovery req \
                                                (0x%08x)."), status );
+=======
+        limLog(pMac, LOGE, FL("Failed to pack a TDLS discovery req (0x%08x)."),
+               status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         palPktFree( pMac->hHdd, HAL_TXRX_FRM_802_11_MGMT, 
                                    ( void* ) pFrame, ( void* ) pPacket );
         return eSIR_FAILURE;
     }
     else if ( DOT11F_WARNED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGW, FL("There were warnings while packing TDLS"
                                "Discovery Request (0x%08x).") );
+=======
+        limLog(pMac, LOGW, FL("There were warnings while packing TDLS Discovery Request (0x%08x)."),
+               status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
 #ifndef NO_PAD_TDLS_MIN_8023_SIZE
@@ -616,8 +897,12 @@ tSirRetStatus limSendTdlsDisReqFrame(tpAniSirGlobal pMac, tSirMacAddr peer_mac,
         padVendorSpecific[3] = 0xA0;
         padVendorSpecific[4] = 0xC6;
 
+<<<<<<< HEAD
         LIM_LOG_TDLS(VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO, ("Padding Vendor Specific Ie Len = %d"),
                 padLen ));
+=======
+        limLog(pMac, LOG1, FL("Padding Vendor Specific Ie Len = %d"), padLen);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         /* padding zero if more than 5 bytes are required */
         if (padLen > MIN_VENDOR_SPECIFIC_IE_SIZE)
@@ -626,8 +911,16 @@ tSirRetStatus limSendTdlsDisReqFrame(tpAniSirGlobal pMac, tSirMacAddr peer_mac,
     }
 #endif
 
+<<<<<<< HEAD
     LIM_LOG_TDLS(VOS_TRACE(VOS_MODULE_ID_PE, TDLS_DEBUG_LOG_LEVEL, ("[TDLS] action %d (%s) -AP-> OTA "),
             SIR_MAC_TDLS_DIS_REQ, limTraceTdlsActionString(SIR_MAC_TDLS_DIS_REQ) ));
+=======
+    limLog(pMac, LOG1,
+           FL("[TDLS] action %d (%s) -AP-> OTA peer="MAC_ADDRESS_STR),
+           SIR_MAC_TDLS_DIS_REQ,
+           limTraceTdlsActionString(SIR_MAC_TDLS_DIS_REQ),
+           MAC_ADDR_ARRAY(peer_mac));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     halstatus = halTxFrameWithTxComplete( pMac, pPacket, ( tANI_U16 ) nBytes,
                             HAL_TXRX_FRM_802_11_DATA,
@@ -635,6 +928,7 @@ tSirRetStatus limSendTdlsDisReqFrame(tpAniSirGlobal pMac, tSirMacAddr peer_mac,
                             TID_AC_VI,
                             limTxComplete, pFrame,
                             limMgmtTXComplete,
+<<<<<<< HEAD
                             HAL_USE_BD_RATE2_FOR_MANAGEMENT_FRAME);
     if ( ! HAL_STATUS_SUCCESS ( halstatus ) )
     {
@@ -643,11 +937,23 @@ tSirRetStatus limSendTdlsDisReqFrame(tpAniSirGlobal pMac, tSirMacAddr peer_mac,
         return eSIR_FAILURE;
     }
     pMac->lim.mgmtFrameSessionId = psessionEntry->peSessionId;
+=======
+                            HAL_USE_BD_RATE2_FOR_MANAGEMENT_FRAME,
+                            pMac->lim.txBdToken++);
+    if ( ! HAL_STATUS_SUCCESS ( halstatus ) )
+    {
+        pMac->lim.mgmtFrameSessionId = 0xff;
+        limLog(pMac, LOGE, FL("could not send TDLS Discovery Request frame"));
+        return eSIR_FAILURE;
+    }
+    pMac->lim.mgmtFrameSessionId = psessionEntry->smeSessionId;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     return eSIR_SUCCESS;
 
 }
 
+<<<<<<< HEAD
 #ifdef FEATURE_WLAN_TDLS_INTERNAL
 /*
  * Once Discovery response is sent successfully (or failure) on air, now send
@@ -896,6 +1202,8 @@ eHalStatus limTdlsTeardownTxComplete(tpAniSirGlobal pMac,
 }
 #endif
 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*
  * This static function is consistent with any kind of TDLS management
  * frames we are sending. Currently it is being used by limSendTdlsDisRspFrame,
@@ -909,6 +1217,7 @@ static void PopulateDot11fTdlsHtVhtCap(tpAniSirGlobal pMac, uint32 selfDot11Mode
     {
         /* Include HT Capability IE */
         PopulateDot11fHTCaps( pMac, NULL, htCap );
+<<<<<<< HEAD
         htCap->present = 1;
         if (psessionEntry->currentOperChannel <= SIR_11B_CHANNEL_END)
         {
@@ -922,11 +1231,29 @@ static void PopulateDot11fTdlsHtVhtCap(tpAniSirGlobal pMac, uint32 selfDot11Mode
             //htCap->supportedChannelWidthSet = tdlsChannelBondingMode ? 1 : 0;
             htCap->supportedChannelWidthSet = 1; // hardcode it to max
         }
+=======
+        /* Advertize ht capability and max supported channel
+         * bandwidth when populating HT IE in TDLS Setup Request/
+         * Setup Response/Setup Confirmation frames.
+         * 11.21.6.2 Setting up a 40 MHz direct link: A 40 MHz off-channel
+         * direct link may be started if both TDLS peer STAs indicated
+         * 40 MHz support in the Supported Channel Width Set field of the
+         * HT Capabilities element (which is included in the TDLS Setup Request
+         * frame and the TDLS Setup Response frame). Switching to a 40 MHz
+         * off-channel direct link is achieved by including the following
+         * information in the TDLS Channel Switch Request
+         * 11.21.1 General: The channel width of the TDLS direct link on the
+         * base channel shall not exceed the channel width of the BSS to which
+         * the TDLS peer STAs are associated.*/
+        htCap->present = 1;
+        htCap->supportedChannelWidthSet = 1; // hardcode it to max
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
     else
     {
         htCap->present = 0;
     }
+<<<<<<< HEAD
 #ifdef WLAN_FEATURE_11AC
     if (((psessionEntry->currentOperChannel <= SIR_11B_CHANNEL_END) &&
           pMac->roam.configParam.enableVhtFor24GHz) ||
@@ -948,6 +1275,24 @@ static void PopulateDot11fTdlsHtVhtCap(tpAniSirGlobal pMac, uint32 selfDot11Mode
         /* Vht Disable from ini in 2.4 GHz */
         vhtCap->present = 0;
     }
+=======
+    limLog(pMac, LOG1, FL("HT present = %hu, Chan Width = %hu"),
+            htCap->present, htCap->supportedChannelWidthSet);
+#ifdef WLAN_FEATURE_11AC
+    if (IS_DOT11_MODE_VHT(selfDot11Mode) &&
+        IS_FEATURE_SUPPORTED_BY_FW(DOT11AC))
+    {
+        /* Include VHT Capability IE */
+        PopulateDot11fVHTCaps( pMac, vhtCap,
+                 psessionEntry->currentOperChannel, eSIR_FALSE );
+    }
+    else
+    {
+        vhtCap->present = 0;
+    }
+    limLog(pMac, LOG1, FL("VHT present = %hu"),
+            vhtCap->present);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 }
 
@@ -955,11 +1300,21 @@ static void PopulateDot11fTdlsHtVhtCap(tpAniSirGlobal pMac, uint32 selfDot11Mode
  * Send TDLS discovery response frame on direct link.
  */
 
+<<<<<<< HEAD
 static tSirRetStatus limSendTdlsDisRspFrame(tpAniSirGlobal pMac, 
                      tSirMacAddr peerMac, tANI_U8 dialog, tpPESession psessionEntry)
 {
     tDot11fTDLSDisRsp   tdlsDisRsp ;
     tANI_U16            caps = 0 ;            
+=======
+static tSirRetStatus limSendTdlsDisRspFrame(tpAniSirGlobal pMac,
+                     tSirMacAddr peerMac, tANI_U8 dialog,
+                     tpPESession psessionEntry, tANI_U8 *addIe,
+                     tANI_U16 addIeLen)
+{
+    tDot11fTDLSDisRsp   tdlsDisRsp ;
+    tANI_U16            caps = 0 ;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tANI_U32            status = 0 ;
     tANI_U32            nPayload = 0 ;
     tANI_U32            nBytes = 0 ;
@@ -973,7 +1328,11 @@ static tSirRetStatus limSendTdlsDisRspFrame(tpAniSirGlobal pMac,
 //  As of now, we hardcoded to max channel bonding of dot11Mode (i.e HT80 for 11ac/HT40 for 11n)
 //  uint32 tdlsChannelBondingMode;
 
+<<<<<<< HEAD
     /* 
+=======
+    /*
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
      * The scheme here is to fill out a 'tDot11fProbeRequest' structure
      * and then hand it off to 'dot11fPackProbeRequest' (for
      * serialization).  We start by zero-initializing the structure:
@@ -988,7 +1347,11 @@ static tSirRetStatus limSendTdlsDisRspFrame(tpAniSirGlobal pMac,
     tdlsDisRsp.Action.action     = SIR_MAC_TDLS_DIS_RSP ;
     tdlsDisRsp.DialogToken.token = dialog ;
 
+<<<<<<< HEAD
     PopulateDot11fLinkIden( pMac, psessionEntry, &tdlsDisRsp.LinkIdentifier, 
+=======
+    PopulateDot11fLinkIden( pMac, psessionEntry, &tdlsDisRsp.LinkIdentifier,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                            peerMac, TDLS_RESPONDER) ;
 
     if (cfgGetCapabilityInfo(pMac, &caps, psessionEntry) != eSIR_SUCCESS)
@@ -997,6 +1360,7 @@ static tSirRetStatus limSendTdlsDisRspFrame(tpAniSirGlobal pMac,
          * Could not get Capabilities value
          * from CFG. Log error.
          */
+<<<<<<< HEAD
          limLog(pMac, LOGP,
                    FL("could not retrieve Capabilities value"));
     }
@@ -1011,6 +1375,18 @@ static tSirRetStatus limSendTdlsDisRspFrame(tpAniSirGlobal pMac,
                                 &tdlsDisRsp.ExtSuppRates, psessionEntry );
 
     /* Populate extended supported rates */
+=======
+         limLog(pMac, LOGP, FL("could not retrieve Capabilities value"));
+    }
+    swapBitField16(caps, ( tANI_U16* )&tdlsDisRsp.Capabilities );
+
+    /* populate supported rate and ext supported rate IE */
+    if (eSIR_FAILURE == PopulateDot11fRatesTdls(pMac, &tdlsDisRsp.SuppRates,
+                               &tdlsDisRsp.ExtSuppRates))
+        limLog(pMac, LOGE, FL("could not populate supported data rates"));
+
+    /* Populate extended capability IE */
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     PopulateDot11fTdlsExtCapability( pMac, &tdlsDisRsp.ExtCap );
 
     wlan_cfgGetInt(pMac,WNI_CFG_DOT11_MODE,&selfDot11Mode);
@@ -1019,22 +1395,51 @@ static tSirRetStatus limSendTdlsDisRspFrame(tpAniSirGlobal pMac,
     PopulateDot11fTdlsHtVhtCap( pMac, selfDot11Mode, &tdlsDisRsp.HTCaps,
                                &tdlsDisRsp.VHTCaps, psessionEntry );
 
+<<<<<<< HEAD
+=======
+    if ( 1 == pMac->lim.gLimTDLSOffChannelEnabled )
+        PopulateDot11fTdlsOffchannelParams( pMac, psessionEntry,
+                                            &tdlsDisRsp.SuppChannels,
+                                            &tdlsDisRsp.SuppOperatingClasses);
+
+    if (TRUE == pMac->lim.EnableTdls2040BSSCoexIE)
+    {
+        if ( 1 == pMac->lim.gLimTDLSOffChannelEnabled &&
+            ( pMac->roam.configParam.bandCapability != eCSR_BAND_24) )
+        {
+            tdlsDisRsp.HT2040BSSCoexistence.present = 1;
+            tdlsDisRsp.HT2040BSSCoexistence.infoRequest = 1;
+        }
+    }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /* 
      * now we pack it.  First, how much space are we going to need?
      */
     status = dot11fGetPackedTDLSDisRspSize( pMac, &tdlsDisRsp, &nPayload);
     if ( DOT11F_FAILED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGP, FL("Failed to calculate the packed size f"
                                "or a discovery Request (0x%08x)."), status );
+=======
+        limLog(pMac, LOGE,
+               FL("Failed to calculate the packed size for a Discovery Response (0x%08x)."),
+               status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         /* We'll fall back on the worst case scenario: */
         nPayload = sizeof( tDot11fProbeRequest );
     }
     else if ( DOT11F_WARNED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGW, FL("There were warnings while calculating"
                                "the packed size for a discovery Request ("
                                "0x%08x)."), status );
+=======
+        limLog(pMac, LOGW,
+               FL("There were warnings while calculating the packed size for a Discovery Response (0x%08x)."),
+               status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     /*
@@ -1044,7 +1449,11 @@ static tSirRetStatus limSendTdlsDisRspFrame(tpAniSirGlobal pMac,
      */ 
 
 
+<<<<<<< HEAD
     nBytes = nPayload + sizeof( tSirMacMgmtHdr ) ;
+=======
+    nBytes = nPayload + sizeof( tSirMacMgmtHdr ) + addIeLen;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     /* Ok-- try to allocate memory from MGMT PKT pool */
 
@@ -1053,8 +1462,14 @@ static tSirRetStatus limSendTdlsDisRspFrame(tpAniSirGlobal pMac,
                              ( void** ) &pPacket );
     if ( ! HAL_STATUS_SUCCESS ( halstatus ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGP, FL("Failed to allocate %d bytes for a TDLS"
                                "Discovery Request."), nBytes );
+=======
+        limLog(pMac, LOGE,
+               FL("Failed to allocate %d bytes for a TDLS Discovery Response."),
+               nBytes);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eSIR_MEM_ALLOC_FAILED;
     }
 
@@ -1100,16 +1515,28 @@ static tSirRetStatus limSendTdlsDisRspFrame(tpAniSirGlobal pMac,
 
     if ( DOT11F_FAILED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGE, FL("Failed to pack a TDLS discovery req \
                                                (0x%08x)."), status );
+=======
+        limLog( pMac, LOGE,
+                FL("Failed to pack a TDLS Discovery Response (0x%08x)."),
+                status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         palPktFree( pMac->hHdd, HAL_TXRX_FRM_802_11_MGMT, 
                                    ( void* ) pFrame, ( void* ) pPacket );
         return eSIR_FAILURE;
     }
     else if ( DOT11F_WARNED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGW, FL("There were warnings while packing TDLS"
                                "Discovery Request (0x%08x).") );
+=======
+        limLog( pMac, LOGW,
+                FL("There were warnings while packing TDLS Discovery Request (0x%08x)."),
+                status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
 #if 0
@@ -1125,12 +1552,26 @@ static tSirRetStatus limSendTdlsDisRspFrame(tpAniSirGlobal pMac,
         }
     }
 #endif
+<<<<<<< HEAD
     VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO, 
                  ("transmitting Discovery response on direct link")) ;
 
     LIM_LOG_TDLS(VOS_TRACE(VOS_MODULE_ID_PE, TDLS_DEBUG_LOG_LEVEL, ("[TDLS] action %d (%s) -DIRECT-> OTA"),
             SIR_MAC_TDLS_DIS_RSP, limTraceTdlsActionString(SIR_MAC_TDLS_DIS_RSP) ));
 
+=======
+    if (0 != addIeLen)
+    {
+        limLog(pMac, LOG1, FL("Copy Additional Ie Len = %d"), addIeLen);
+        vos_mem_copy(pFrame + sizeof(tSirMacMgmtHdr) + nPayload, addIe,
+                                                              addIeLen);
+    }
+    limLog(pMac, LOG1,
+           FL("[TDLS] action %d (%s) -DIRECT-> OTA peer="MAC_ADDRESS_STR),
+           SIR_MAC_TDLS_DIS_RSP,
+           limTraceTdlsActionString(SIR_MAC_TDLS_DIS_RSP),
+           MAC_ADDR_ARRAY(peerMac));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     /*
      * Transmit Discovery response and watch if this is delivered to
@@ -1142,6 +1583,7 @@ static tSirRetStatus limSendTdlsDisRspFrame(tpAniSirGlobal pMac,
                             0,
                             limTxComplete, pFrame, 
                             limMgmtTXComplete,
+<<<<<<< HEAD
                             HAL_USE_SELF_STA_REQUESTED_MASK );
     if ( ! HAL_STATUS_SUCCESS ( halstatus ) )
     {
@@ -1150,6 +1592,17 @@ static tSirRetStatus limSendTdlsDisRspFrame(tpAniSirGlobal pMac,
         return eSIR_FAILURE;
     }
     pMac->lim.mgmtFrameSessionId = psessionEntry->peSessionId;
+=======
+                            HAL_USE_SELF_STA_REQUESTED_MASK,
+                            pMac->lim.txBdToken++);
+    if ( ! HAL_STATUS_SUCCESS ( halstatus ) )
+    {
+        pMac->lim.mgmtFrameSessionId = 0xff;
+        limLog(pMac, LOGE, FL("could not send TDLS Discovery Response frame!"));
+        return eSIR_FAILURE;
+    }
+    pMac->lim.mgmtFrameSessionId = psessionEntry->smeSessionId;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     return eSIR_SUCCESS;
 
@@ -1183,15 +1636,24 @@ static void PopulateDotfTdlsVhtAID(tpAniSirGlobal pMac, uint32 selfDot11Mode,
             else
             {
                 Aid->present = 0;
+<<<<<<< HEAD
                 limLog( pMac, LOGE, FL("pStaDs is NULL for " MAC_ADDRESS_STR ),
                         MAC_ADDR_ARRAY(peerMac));
+=======
+                limLog(pMac, LOGE, FL("pStaDs is NULL for " MAC_ADDRESS_STR),
+                                   MAC_ADDR_ARRAY(peerMac));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             }
         }
     }
     else
     {
         Aid->present = 0;
+<<<<<<< HEAD
         limLog( pMac, LOGW, FL("Vht not enable from ini for 2.4GHz."));
+=======
+        limLog(pMac, LOGW, FL("Vht not enable from ini for 2.4GHz."));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 }
 
@@ -1213,6 +1675,10 @@ tSirRetStatus limSendTdlsLinkSetupReqFrame(tpAniSirGlobal pMac,
     void               *pPacket;
     eHalStatus          halstatus;
     uint32              selfDot11Mode;
+<<<<<<< HEAD
+=======
+    tpSirMacCapabilityInfo pCapInfo;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 //  Placeholder to support different channel bonding mode of TDLS than AP.
 //  Today, WNI_CFG_CHANNEL_BONDING_MODE will be overwritten when connecting to AP
 //  To support this feature, we need to introduce WNI_CFG_TDLS_CHANNEL_BONDING_MODE
@@ -1239,6 +1705,7 @@ tSirRetStatus limSendTdlsLinkSetupReqFrame(tpAniSirGlobal pMac,
          * Could not get Capabilities value
          * from CFG. Log error.
          */
+<<<<<<< HEAD
          limLog(pMac, LOGP,
                    FL("could not retrieve Capabilities value"));
     }
@@ -1272,6 +1739,65 @@ tSirRetStatus limSendTdlsLinkSetupReqFrame(tpAniSirGlobal pMac,
     tdlsSetupReq.QOSCapsStation.acvi_uapsd = ((pMac->lim.gLimTDLSUapsdMask & 0x02)>> 1);
     tdlsSetupReq.QOSCapsStation.acvo_uapsd = (pMac->lim.gLimTDLSUapsdMask & 0x01);
 
+=======
+         limLog(pMac, LOGE, FL("could not retrieve Capabilities value"));
+    }
+
+    pCapInfo = (tpSirMacCapabilityInfo) &caps;
+    /* Export QOS capability  */
+    pCapInfo->qos = 1;
+
+    swapBitField16(caps, ( tANI_U16* )&tdlsSetupReq.Capabilities );
+
+    /* populate supported rate and ext supported rate IE */
+    PopulateDot11fRatesTdls(pMac, &tdlsSetupReq.SuppRates,
+                               &tdlsSetupReq.ExtSuppRates);
+
+    /* Populate extended capability IE */
+    PopulateDot11fTdlsExtCapability( pMac, &tdlsSetupReq.ExtCap );
+
+    if ( 1 == pMac->lim.gLimTDLSWmmMode )
+    {
+        tANI_U32  val = 0;
+
+        /* include WMM IE */
+        tdlsSetupReq.WMMInfoStation.version = SIR_MAC_OUI_VERSION_1;
+        tdlsSetupReq.WMMInfoStation.acvo_uapsd =
+                     (pMac->lim.gLimTDLSUapsdMask & 0x01);
+        tdlsSetupReq.WMMInfoStation.acvi_uapsd =
+                     ((pMac->lim.gLimTDLSUapsdMask & 0x02) >> 1);
+        tdlsSetupReq.WMMInfoStation.acbk_uapsd =
+                     ((pMac->lim.gLimTDLSUapsdMask & 0x04) >> 2);
+        tdlsSetupReq.WMMInfoStation.acbe_uapsd =
+                     ((pMac->lim.gLimTDLSUapsdMask & 0x08) >> 3);
+
+        if(wlan_cfgGetInt(pMac, WNI_CFG_MAX_SP_LENGTH, &val) != eSIR_SUCCESS)
+           limLog(pMac, LOGE, FL("could not retrieve Max SP Length"));
+
+        tdlsSetupReq.WMMInfoStation.max_sp_length = (tANI_U8)val;
+        tdlsSetupReq.WMMInfoStation.present = 1;
+    }
+    else
+    {
+        /*
+         * TODO: we need to see if we have to support conditions where we have
+         * EDCA parameter info element is needed a) if we need different QOS
+         * parameters for off channel operations or QOS is not supported on
+         * AP link and we wanted to QOS on direct link.
+         */
+        /* Populate QOS info, needed for Peer U-APSD session */
+        /* TODO: Now hardcoded, because PopulateDot11fQOSCapsStation() depends on AP's capability, and
+         TDLS doesn't want to depend on AP's capability */
+        limLog(pMac, LOG1, FL("populate QOS IE in Setup Request Frame"));
+        tdlsSetupReq.QOSCapsStation.present = 1;
+        tdlsSetupReq.QOSCapsStation.max_sp_length = 0;
+        tdlsSetupReq.QOSCapsStation.qack = 0;
+        tdlsSetupReq.QOSCapsStation.acbe_uapsd = ((pMac->lim.gLimTDLSUapsdMask & 0x08) >> 3);
+        tdlsSetupReq.QOSCapsStation.acbk_uapsd = ((pMac->lim.gLimTDLSUapsdMask & 0x04) >> 2);
+        tdlsSetupReq.QOSCapsStation.acvi_uapsd = ((pMac->lim.gLimTDLSUapsdMask & 0x02) >> 1);
+        tdlsSetupReq.QOSCapsStation.acvo_uapsd = (pMac->lim.gLimTDLSUapsdMask & 0x01);
+    }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     /*
      * we will always try to init TDLS link with 11n capabilities
@@ -1289,6 +1815,24 @@ tSirRetStatus limSendTdlsLinkSetupReqFrame(tpAniSirGlobal pMac,
     PopulateDotfTdlsVhtAID( pMac, selfDot11Mode, peerMac,
                             &tdlsSetupReq.AID, psessionEntry );
 
+<<<<<<< HEAD
+=======
+    if ( 1 == pMac->lim.gLimTDLSOffChannelEnabled )
+        PopulateDot11fTdlsOffchannelParams( pMac, psessionEntry,
+                                            &tdlsSetupReq.SuppChannels,
+                                            &tdlsSetupReq.SuppOperatingClasses);
+
+    if (TRUE == pMac->lim.EnableTdls2040BSSCoexIE)
+    {
+        if ( 1 == pMac->lim.gLimTDLSOffChannelEnabled &&
+            ( pMac->roam.configParam.bandCapability != eCSR_BAND_24))
+        {
+            tdlsSetupReq.HT2040BSSCoexistence.present = 1;
+            tdlsSetupReq.HT2040BSSCoexistence.infoRequest = 1;
+        }
+    }
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /*
      * now we pack it.  First, how much space are we going to need?
      */
@@ -1296,16 +1840,28 @@ tSirRetStatus limSendTdlsLinkSetupReqFrame(tpAniSirGlobal pMac,
                                                               &nPayload);
     if ( DOT11F_FAILED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGP, FL("Failed to calculate the packed size f"
                                "or a discovery Request (0x%08x)."), status );
+=======
+        limLog(pMac, LOGE,
+               FL("Failed to calculate the packed size for a Setup Request (0x%08x)."),
+               status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         /* We'll fall back on the worst case scenario: */
         nPayload = sizeof( tDot11fProbeRequest );
     }
     else if ( DOT11F_WARNED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGW, FL("There were warnings while calculating"
                                "the packed size for a discovery Request ("
                                "0x%08x)."), status );
+=======
+        limLog(pMac, LOGW,
+               FL("There were warnings while calculating the packed size for a Setup Request (0x%08x)."),
+               status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
 
@@ -1329,8 +1885,14 @@ tSirRetStatus limSendTdlsLinkSetupReqFrame(tpAniSirGlobal pMac,
                              ( void** ) &pPacket );
     if ( ! HAL_STATUS_SUCCESS ( halstatus ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGP, FL("Failed to allocate %d bytes for a TDLS"
                                "Discovery Request."), nBytes );
+=======
+        limLog(pMac, LOGE,
+               FL("Failed to allocate %d bytes for a TDLS Setup Request."),
+               nBytes);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eSIR_MEM_ALLOC_FAILED;
     }
 
@@ -1345,7 +1907,13 @@ tSirRetStatus limSendTdlsLinkSetupReqFrame(tpAniSirGlobal pMac,
     /* fill out the buffer descriptor */
 
     header_offset = limPrepareTdlsFrameHeader(pMac, pFrame,
+<<<<<<< HEAD
                      LINK_IDEN_ADDR_OFFSET(tdlsSetupReq), TDLS_LINK_AP, TDLS_INITIATOR, TID_AC_BK, psessionEntry) ;
+=======
+                          LINK_IDEN_ADDR_OFFSET(tdlsSetupReq),
+                          TDLS_LINK_AP, TDLS_INITIATOR,
+                          TID_AC_VI, psessionEntry) ;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef FEATURE_WLAN_TDLS_NEGATIVE
     if(pMac->lim.gLimTdlsNegativeBehavior & LIM_TDLS_NEGATIVE_WRONG_BSSID_IN_SETUP_REQ)
@@ -1357,25 +1925,45 @@ tSirRetStatus limSendTdlsLinkSetupReqFrame(tpAniSirGlobal pMac,
          MAC_ADDR_ARRAY(tdlsSetupReq.LinkIdentifier.bssid));
     }
 #endif
+<<<<<<< HEAD
     limLog( pMac, LOGW, FL("%s: SupportedChnlWidth %x rxMCSMap %x rxMCSMap %x txSupDataRate %x"),
             __func__, tdlsSetupReq.VHTCaps.supportedChannelWidthSet, tdlsSetupReq.VHTCaps.rxMCSMap,
             tdlsSetupReq.VHTCaps.txMCSMap, tdlsSetupReq.VHTCaps.txSupDataRate );
+=======
+    limLog( pMac, LOGW, FL("SupportedChnlWidth %x rxMCSMap %x rxMCSMap %x txSupDataRate %x"),
+            tdlsSetupReq.VHTCaps.supportedChannelWidthSet,
+            tdlsSetupReq.VHTCaps.rxMCSMap,
+            tdlsSetupReq.VHTCaps.txMCSMap,
+            tdlsSetupReq.VHTCaps.txSupDataRate);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     status = dot11fPackTDLSSetupReq( pMac, &tdlsSetupReq, pFrame
                                + header_offset, nPayload, &nPayload );
 
     if ( DOT11F_FAILED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGE, FL("Failed to pack a TDLS discovery req \
                                                (0x%08x)."), status );
+=======
+        limLog(pMac, LOGE,
+               FL("Failed to pack a TDLS Setup Request (0x%08x)."),
+                   status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         palPktFree( pMac->hHdd, HAL_TXRX_FRM_802_11_MGMT, 
                                    ( void* ) pFrame, ( void* ) pPacket );
         return eSIR_FAILURE;
     }
     else if ( DOT11F_WARNED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGW, FL("There were warnings while packing TDLS"
                                "Discovery Request (0x%08x).") );
+=======
+        limLog(pMac, LOGW,
+               FL("There were warnings while packing TDLS Setup Request (0x%08x)."),
+               status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     //Copy the additional IE.
@@ -1384,6 +1972,7 @@ tSirRetStatus limSendTdlsLinkSetupReqFrame(tpAniSirGlobal pMac,
     //if there is any IOT issue.
     if( addIeLen != 0 )
     {
+<<<<<<< HEAD
     LIM_LOG_TDLS(VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_ERROR, ("Copy Additional Ie Len = %d"),
             addIeLen ));
        vos_mem_copy( pFrame + header_offset + nPayload, addIe, addIeLen );
@@ -1391,22 +1980,48 @@ tSirRetStatus limSendTdlsLinkSetupReqFrame(tpAniSirGlobal pMac,
 
     LIM_LOG_TDLS(VOS_TRACE(VOS_MODULE_ID_PE, TDLS_DEBUG_LOG_LEVEL, ("[TDLS] action %d (%s) -AP-> OTA"),
             SIR_MAC_TDLS_SETUP_REQ, limTraceTdlsActionString(SIR_MAC_TDLS_SETUP_REQ) ));
+=======
+        limLog(pMac, LOG1, FL("Copy Additional Ie Len = %d"),
+                           addIeLen);
+        vos_mem_copy( pFrame + header_offset + nPayload, addIe, addIeLen );
+    }
+
+    limLog(pMac, LOG1, FL("[TDLS] action %d (%s) -AP-> OTA peer="MAC_ADDRESS_STR),
+                       SIR_MAC_TDLS_SETUP_REQ,
+                       limTraceTdlsActionString(SIR_MAC_TDLS_SETUP_REQ),
+                       MAC_ADDR_ARRAY(peerMac));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     halstatus = halTxFrameWithTxComplete( pMac, pPacket, ( tANI_U16 ) nBytes,
                             HAL_TXRX_FRM_802_11_DATA,
                             ANI_TXDIR_TODS,
+<<<<<<< HEAD
                             TID_AC_BK,
                             limTxComplete, pFrame,
                             limMgmtTXComplete,
                             HAL_USE_BD_RATE2_FOR_MANAGEMENT_FRAME );
+=======
+                            TID_AC_VI,
+                            limTxComplete, pFrame,
+                            limMgmtTXComplete,
+                            HAL_USE_BD_RATE2_FOR_MANAGEMENT_FRAME,
+                            pMac->lim.txBdToken++);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if ( ! HAL_STATUS_SUCCESS ( halstatus ) )
     {
         pMac->lim.mgmtFrameSessionId = 0xff;
+<<<<<<< HEAD
         limLog( pMac, LOGE, FL("could not send TDLS Dis Request frame!" ));
         return eSIR_FAILURE;
     }
     pMac->lim.mgmtFrameSessionId = psessionEntry->peSessionId;
+=======
+        limLog(pMac, LOGE, FL("could not send TDLS Setup Request frame!"));
+        return eSIR_FAILURE;
+    }
+    pMac->lim.mgmtFrameSessionId = psessionEntry->smeSessionId;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     return eSIR_SUCCESS;
 
@@ -1430,6 +2045,14 @@ tSirRetStatus limSendTdlsTeardownFrame(tpAniSirGlobal pMac,
 #ifndef NO_PAD_TDLS_MIN_8023_SIZE
     tANI_U32            padLen = 0;
 #endif
+<<<<<<< HEAD
+=======
+    tpDphHashNode       pStaDs = NULL;
+    tANI_U16            aid = 0;
+    tANI_U8             qosMode = 0;
+    tANI_U8             tdlsLinkType = 0;
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /*
      * The scheme here is to fill out a 'tDot11fProbeRequest' structure
      * and then hand it off to 'dot11fPackProbeRequest' (for
@@ -1442,35 +2065,65 @@ tSirRetStatus limSendTdlsTeardownFrame(tpAniSirGlobal pMac,
 
     PopulateDot11fLinkIden( pMac, psessionEntry, &teardown.LinkIdentifier,
                                                 peerMac, (responder == TRUE) ? TDLS_RESPONDER : TDLS_INITIATOR) ;
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /*
      * now we pack it.  First, how much space are we going to need?
      */
     status = dot11fGetPackedTDLSTeardownSize( pMac, &teardown, &nPayload);
     if ( DOT11F_FAILED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGP, FL("Failed to calculate the packed size f"
                                "or a discovery Request (0x%08x)."), status );
+=======
+        limLog(pMac, LOGE,
+               FL("Failed to calculate the packed size for Teardown frame (0x%08x)."),
+               status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         /* We'll fall back on the worst case scenario: */
         nPayload = sizeof( tDot11fProbeRequest );
     }
     else if ( DOT11F_WARNED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGW, FL("There were warnings while calculating"
                                "the packed size for a discovery Request ("
                                "0x%08x)."), status );
     }
 
 
+=======
+        limLog(pMac, LOGW,
+               FL("There were warnings while calculating the packed size for Teardown frame (0x%08x)."),
+               status);
+    }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /*
      * This frame is going out from PE as data frames with special ethertype
      * 89-0d.
      * 8 bytes of RFC 1042 header
      */
+<<<<<<< HEAD
 
 
     nBytes = nPayload + ((IS_QOS_ENABLED(psessionEntry))
+=======
+    pStaDs = dphLookupHashEntry(pMac, peerMac, &aid,
+                                     &psessionEntry->dph.dphHashTable);
+    if (pStaDs)
+    {
+        qosMode = pStaDs->qosMode;
+    }
+    tdlsLinkType = (reason == eSIR_MAC_TDLS_TEARDOWN_PEER_UNREACHABLE)
+                              ? TDLS_LINK_AP : TDLS_LINK_DIRECT;
+    nBytes = nPayload + (((IS_QOS_ENABLED(psessionEntry) &&
+                          (tdlsLinkType == TDLS_LINK_AP)) ||
+                          ((tdlsLinkType == TDLS_LINK_DIRECT) && qosMode))
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                               ? sizeof(tSirMacDataHdr3a) : sizeof(tSirMacMgmtHdr))
                       + sizeof( eth_890d_header )
                       + PAYLOAD_TYPE_TDLS_SIZE
@@ -1500,8 +2153,14 @@ tSirRetStatus limSendTdlsTeardownFrame(tpAniSirGlobal pMac,
                              ( void** ) &pPacket );
     if ( ! HAL_STATUS_SUCCESS ( halstatus ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGP, FL("Failed to allocate %d bytes for a TDLS"
                                "Discovery Request."), nBytes );
+=======
+        limLog(pMac, LOGE,
+               FL("Failed to allocate %d bytes for a TDLS Teardown Frame."),
+               nBytes);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eSIR_MEM_ALLOC_FAILED;
     }
 
@@ -1512,7 +2171,11 @@ tSirRetStatus limSendTdlsTeardownFrame(tpAniSirGlobal pMac,
      * IE formation, memory allocation is completed, Now form TDLS discovery
      * request frame
      */
+<<<<<<< HEAD
 
+=======
+    limLog(pMac, LOGE, FL("Reason of TDLS Teardown: %d"), reason);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /* fill out the buffer descriptor */
 
     header_offset = limPrepareTdlsFrameHeader(pMac, pFrame,
@@ -1527,16 +2190,26 @@ tSirRetStatus limSendTdlsTeardownFrame(tpAniSirGlobal pMac,
 
     if ( DOT11F_FAILED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGE, FL("Failed to pack a TDLS Teardown req \
                                                (0x%08x)."), status );
+=======
+        limLog( pMac, LOGE, FL("Failed to pack a TDLS Teardown req (0x%08x)."),
+                status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         palPktFree( pMac->hHdd, HAL_TXRX_FRM_802_11_MGMT,
                                    ( void* ) pFrame, ( void* ) pPacket );
         return eSIR_FAILURE;
     }
     else if ( DOT11F_WARNED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGW, FL("There were warnings while packing TDLS"
                                "Teardown Request (0x%08x).") );
+=======
+        limLog(pMac, LOGW, FL("There were warnings while packing TDLS Teardown frame (0x%08x)."),
+               status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 #if 0
     if(pMac->hal.pCBackFnTxComp == NULL)
@@ -1558,9 +2231,14 @@ tSirRetStatus limSendTdlsTeardownFrame(tpAniSirGlobal pMac,
 
     if( addIeLen != 0 )
     {
+<<<<<<< HEAD
     LIM_LOG_TDLS(VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_ERROR, ("Copy Additional Ie Len = %d"),
             addIeLen ));
        vos_mem_copy( pFrame + header_offset + nPayload, addIe, addIeLen );
+=======
+        limLog(pMac, LOG1, FL("Copy Additional Ie Len = %d"), addIeLen);
+        vos_mem_copy( pFrame + header_offset + nPayload, addIe, addIeLen );
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
 #ifndef NO_PAD_TDLS_MIN_8023_SIZE
@@ -1575,8 +2253,12 @@ tSirRetStatus limSendTdlsTeardownFrame(tpAniSirGlobal pMac,
         padVendorSpecific[3] = 0xA0;
         padVendorSpecific[4] = 0xC6;
 
+<<<<<<< HEAD
         LIM_LOG_TDLS(VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO, ("Padding Vendor Specific Ie Len = %d"),
                 padLen ));
+=======
+        limLog(pMac, LOG1, FL("Padding Vendor Specific Ie Len = %d"), padLen);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         /* padding zero if more than 5 bytes are required */
         if (padLen > MIN_VENDOR_SPECIFIC_IE_SIZE)
@@ -1584,9 +2266,18 @@ tSirRetStatus limSendTdlsTeardownFrame(tpAniSirGlobal pMac,
                          padLen - MIN_VENDOR_SPECIFIC_IE_SIZE, 0);
     }
 #endif
+<<<<<<< HEAD
     LIM_LOG_TDLS(VOS_TRACE(VOS_MODULE_ID_PE, TDLS_DEBUG_LOG_LEVEL, ("[TDLS] action %d (%s) -%s-> OTA"),
          SIR_MAC_TDLS_TEARDOWN, limTraceTdlsActionString(SIR_MAC_TDLS_TEARDOWN),
          (reason == eSIR_MAC_TDLS_TEARDOWN_PEER_UNREACHABLE) ? "AP": "DIRECT" ));
+=======
+    limLog(pMac, LOG1, FL("[TDLS] action %d (%s) -%s-> OTA peer="MAC_ADDRESS_STR),
+                       SIR_MAC_TDLS_TEARDOWN,
+                       limTraceTdlsActionString(SIR_MAC_TDLS_TEARDOWN),
+                       ((reason == eSIR_MAC_TDLS_TEARDOWN_PEER_UNREACHABLE) ?
+                       "AP": "DIRECT"),
+                       MAC_ADDR_ARRAY(peerMac));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     halstatus = halTxFrameWithTxComplete( pMac, pPacket, ( tANI_U16 ) nBytes,
                             HAL_TXRX_FRM_802_11_DATA,
@@ -1594,6 +2285,7 @@ tSirRetStatus limSendTdlsTeardownFrame(tpAniSirGlobal pMac,
                             TID_AC_VI,
                             limTxComplete, pFrame,
                             limMgmtTXComplete,
+<<<<<<< HEAD
                             HAL_USE_BD_RATE2_FOR_MANAGEMENT_FRAME );
     if ( ! HAL_STATUS_SUCCESS ( halstatus ) )
     {
@@ -1603,6 +2295,18 @@ tSirRetStatus limSendTdlsTeardownFrame(tpAniSirGlobal pMac,
 
     }
     pMac->lim.mgmtFrameSessionId = psessionEntry->peSessionId;
+=======
+                            HAL_USE_BD_RATE2_FOR_MANAGEMENT_FRAME,
+                            pMac->lim.txBdToken++);
+    if ( ! HAL_STATUS_SUCCESS ( halstatus ) )
+    {
+        pMac->lim.mgmtFrameSessionId = 0xff;
+        limLog(pMac, LOGE, FL("could not send TDLS Teardown frame"));
+        return eSIR_FAILURE;
+
+    }
+    pMac->lim.mgmtFrameSessionId = psessionEntry->smeSessionId;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return eSIR_SUCCESS;
 
 }
@@ -1610,13 +2314,22 @@ tSirRetStatus limSendTdlsTeardownFrame(tpAniSirGlobal pMac,
 /*
  * Send Setup RSP frame on AP link.
  */
+<<<<<<< HEAD
 static tSirRetStatus limSendTdlsSetupRspFrame(tpAniSirGlobal pMac, 
                     tSirMacAddr peerMac, tANI_U8 dialog, tpPESession psessionEntry, 
+=======
+static tSirRetStatus limSendTdlsSetupRspFrame(tpAniSirGlobal pMac,
+                    tSirMacAddr peerMac, tANI_U8 dialog, tpPESession psessionEntry,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     etdlsLinkSetupStatus setupStatus, tANI_U8 *addIe, tANI_U16 addIeLen )
 {
     tDot11fTDLSSetupRsp  tdlsSetupRsp ;
     tANI_U32            status = 0 ;
+<<<<<<< HEAD
     tANI_U16            caps = 0 ;            
+=======
+    tANI_U16            caps = 0 ;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tANI_U32            nPayload = 0 ;
     tANI_U32            header_offset = 0 ;
     tANI_U32            nBytes = 0 ;
@@ -1624,13 +2337,21 @@ static tSirRetStatus limSendTdlsSetupRspFrame(tpAniSirGlobal pMac,
     void               *pPacket;
     eHalStatus          halstatus;
     uint32             selfDot11Mode;
+<<<<<<< HEAD
+=======
+    tpSirMacCapabilityInfo pCapInfo;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 //  Placeholder to support different channel bonding mode of TDLS than AP.
 //  Today, WNI_CFG_CHANNEL_BONDING_MODE will be overwritten when connecting to AP
 //  To support this feature, we need to introduce WNI_CFG_TDLS_CHANNEL_BONDING_MODE
 //  As of now, we hardcoded to max channel bonding of dot11Mode (i.e HT80 for 11ac/HT40 for 11n)
 //  uint32 tdlsChannelBondingMode;
 
+<<<<<<< HEAD
     /* 
+=======
+    /*
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
      * The scheme here is to fill out a 'tDot11fProbeRequest' structure
      * and then hand it off to 'dot11fPackProbeRequest' (for
      * serialization).  We start by zero-initializing the structure:
@@ -1653,6 +2374,7 @@ static tSirRetStatus limSendTdlsSetupRspFrame(tpAniSirGlobal pMac,
          * Could not get Capabilities value
          * from CFG. Log error.
          */
+<<<<<<< HEAD
          limLog(pMac, LOGP,
                    FL("could not retrieve Capabilities value"));
     }
@@ -1685,6 +2407,65 @@ static tSirRetStatus limSendTdlsSetupRspFrame(tpAniSirGlobal pMac,
     tdlsSetupRsp.QOSCapsStation.acbk_uapsd = ((pMac->lim.gLimTDLSUapsdMask & 0x04) >> 2);
     tdlsSetupRsp.QOSCapsStation.acvi_uapsd = ((pMac->lim.gLimTDLSUapsdMask & 0x02) >> 1);
     tdlsSetupRsp.QOSCapsStation.acvo_uapsd = (pMac->lim.gLimTDLSUapsdMask & 0x01);
+=======
+         limLog(pMac, LOGE, FL("could not retrieve Capabilities value"));
+    }
+
+    pCapInfo = (tpSirMacCapabilityInfo) &caps;
+    /* Export QoS capability */
+    pCapInfo->qos = 1;
+
+    swapBitField16(caps, ( tANI_U16* )&tdlsSetupRsp.Capabilities );
+
+    /* populate supported rate and ext supported rate IE */
+    PopulateDot11fRatesTdls(pMac, &tdlsSetupRsp.SuppRates,
+                                &tdlsSetupRsp.ExtSuppRates);
+
+    /* Populate extended capability IE */
+    PopulateDot11fTdlsExtCapability( pMac, &tdlsSetupRsp.ExtCap );
+
+    if ( 1 == pMac->lim.gLimTDLSWmmMode )
+    {
+        tANI_U32  val = 0;
+
+        /* include WMM IE */
+        tdlsSetupRsp.WMMInfoStation.version = SIR_MAC_OUI_VERSION_1;
+        tdlsSetupRsp.WMMInfoStation.acvo_uapsd =
+                     (pMac->lim.gLimTDLSUapsdMask & 0x01);
+        tdlsSetupRsp.WMMInfoStation.acvi_uapsd =
+                     ((pMac->lim.gLimTDLSUapsdMask & 0x02) >> 1);
+        tdlsSetupRsp.WMMInfoStation.acbk_uapsd =
+                     ((pMac->lim.gLimTDLSUapsdMask & 0x04) >> 2);
+        tdlsSetupRsp.WMMInfoStation.acbe_uapsd =
+                     ((pMac->lim.gLimTDLSUapsdMask & 0x08) >> 3);
+
+        if(wlan_cfgGetInt(pMac, WNI_CFG_MAX_SP_LENGTH, &val) != eSIR_SUCCESS)
+           limLog(pMac, LOGE, FL("could not retrieve Max SP Length"));
+
+        tdlsSetupRsp.WMMInfoStation.max_sp_length = (tANI_U8)val;
+        tdlsSetupRsp.WMMInfoStation.present = 1;
+    }
+    else
+    {
+        /*
+         * TODO: we need to see if we have to support conditions where we have
+         * EDCA parameter info element is needed a) if we need different QOS
+         * parameters for off channel operations or QOS is not supported on
+         * AP link and we wanted to QOS on direct link.
+         */
+        /* Populate QOS info, needed for Peer U-APSD session */
+        /* TODO: Now hardcoded, because PopulateDot11fQOSCapsStation() depends on AP's capability, and
+         TDLS doesn't want to depend on AP's capability */
+        limLog(pMac, LOG1, FL("populate QOS IE in Setup Response frame"));
+        tdlsSetupRsp.QOSCapsStation.present = 1;
+        tdlsSetupRsp.QOSCapsStation.max_sp_length = 0;
+        tdlsSetupRsp.QOSCapsStation.qack = 0;
+        tdlsSetupRsp.QOSCapsStation.acbe_uapsd = ((pMac->lim.gLimTDLSUapsdMask & 0x08) >> 3);
+        tdlsSetupRsp.QOSCapsStation.acbk_uapsd = ((pMac->lim.gLimTDLSUapsdMask & 0x04) >> 2);
+        tdlsSetupRsp.QOSCapsStation.acvi_uapsd = ((pMac->lim.gLimTDLSUapsdMask & 0x02) >> 1);
+        tdlsSetupRsp.QOSCapsStation.acvo_uapsd = (pMac->lim.gLimTDLSUapsdMask & 0x01);
+    }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     wlan_cfgGetInt(pMac,WNI_CFG_DOT11_MODE,&selfDot11Mode);
 
@@ -1696,8 +2477,27 @@ static tSirRetStatus limSendTdlsSetupRspFrame(tpAniSirGlobal pMac,
     PopulateDotfTdlsVhtAID( pMac, selfDot11Mode, peerMac,
                             &tdlsSetupRsp.AID, psessionEntry );
 
+<<<<<<< HEAD
     tdlsSetupRsp.Status.status = setupStatus ;
 
+=======
+    if ( 1 == pMac->lim.gLimTDLSOffChannelEnabled )
+        PopulateDot11fTdlsOffchannelParams( pMac, psessionEntry,
+                                            &tdlsSetupRsp.SuppChannels,
+                                            &tdlsSetupRsp.SuppOperatingClasses);
+
+    tdlsSetupRsp.Status.status = setupStatus ;
+
+    if (TRUE == pMac->lim.EnableTdls2040BSSCoexIE)
+    {
+        if ( 1 == pMac->lim.gLimTDLSOffChannelEnabled &&
+            ( pMac->roam.configParam.bandCapability != eCSR_BAND_24))
+        {
+            tdlsSetupRsp.HT2040BSSCoexistence.present = 1;
+            tdlsSetupRsp.HT2040BSSCoexistence.infoRequest = 1;
+        }
+    }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /* 
      * now we pack it.  First, how much space are we going to need?
      */
@@ -1705,16 +2505,28 @@ static tSirRetStatus limSendTdlsSetupRspFrame(tpAniSirGlobal pMac,
                                                      &nPayload);
     if ( DOT11F_FAILED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGP, FL("Failed to calculate the packed size f"
                                "or a discovery Request (0x%08x)."), status );
+=======
+        limLog(pMac, LOGE,
+               FL("Failed to calculate the packed size for a Setup Response (0x%08x)."),
+               status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         /* We'll fall back on the worst case scenario: */
         nPayload = sizeof( tDot11fProbeRequest );
     }
     else if ( DOT11F_WARNED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGW, FL("There were warnings while calculating"
                                "the packed size for a discovery Request ("
                                "0x%08x)."), status );
+=======
+        limLog(pMac, LOGW,
+               FL("There were warnings while calculating the packed size for Setup Response (0x%08x)."),
+               status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     /*
@@ -1737,8 +2549,14 @@ static tSirRetStatus limSendTdlsSetupRspFrame(tpAniSirGlobal pMac,
                              ( void** ) &pPacket );
     if ( ! HAL_STATUS_SUCCESS ( halstatus ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGP, FL("Failed to allocate %d bytes for a TDLS"
                                "Discovery Request."), nBytes );
+=======
+        limLog(pMac, LOGE,
+               FL("Failed to allocate %d bytes for a TDLS Setup Response."),
+               nBytes);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eSIR_MEM_ALLOC_FAILED;
     }
 
@@ -1755,7 +2573,11 @@ static tSirRetStatus limSendTdlsSetupRspFrame(tpAniSirGlobal pMac,
     header_offset = limPrepareTdlsFrameHeader(pMac, pFrame, 
                                  LINK_IDEN_ADDR_OFFSET(tdlsSetupRsp), 
                                        TDLS_LINK_AP, TDLS_RESPONDER,
+<<<<<<< HEAD
                                        TID_AC_BK, psessionEntry) ;
+=======
+                                       TID_AC_VI, psessionEntry) ;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef FEATURE_WLAN_TDLS_NEGATIVE
     if(pMac->lim.gLimTdlsNegativeBehavior & LIM_TDLS_NEGATIVE_WRONG_BSSID_IN_SETUP_RSP)
@@ -1767,24 +2589,44 @@ static tSirRetStatus limSendTdlsSetupRspFrame(tpAniSirGlobal pMac,
          MAC_ADDR_ARRAY(tdlsSetupRsp.LinkIdentifier.bssid));
     }
 #endif
+<<<<<<< HEAD
     limLog( pMac, LOGW, FL("%s: SupportedChnlWidth %x rxMCSMap %x rxMCSMap %x txSupDataRate %x"),
             __func__, tdlsSetupRsp.VHTCaps.supportedChannelWidthSet, tdlsSetupRsp.VHTCaps.rxMCSMap,
             tdlsSetupRsp.VHTCaps.txMCSMap, tdlsSetupRsp.VHTCaps.txSupDataRate );
+=======
+    limLog(pMac, LOG1,
+           FL("SupportedChnlWidth %x rxMCSMap %x rxMCSMap %x txSupDataRate %x"),
+           tdlsSetupRsp.VHTCaps.supportedChannelWidthSet,
+           tdlsSetupRsp.VHTCaps.rxMCSMap,
+           tdlsSetupRsp.VHTCaps.txMCSMap,
+           tdlsSetupRsp.VHTCaps.txSupDataRate);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     status = dot11fPackTDLSSetupRsp( pMac, &tdlsSetupRsp, pFrame 
                                + header_offset, nPayload, &nPayload );
 
     if ( DOT11F_FAILED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGE, FL("Failed to pack a TDLS discovery req \
                                                (0x%08x)."), status );
+=======
+        limLog(pMac, LOGE, FL("Failed to pack a TDLS Setup Response (0x%08x)."),
+               status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         palPktFree( pMac->hHdd, HAL_TXRX_FRM_802_11_MGMT, 
                                    ( void* ) pFrame, ( void* ) pPacket );
         return eSIR_FAILURE;
     }
     else if ( DOT11F_WARNED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGW, FL("There were warnings while packing TDLS"
                                "Discovery Request (0x%08x).") );
+=======
+        limLog(pMac, LOGW,
+               FL("There were warnings while packing TDLS Setup Response (0x%08x)."),
+               status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     //Copy the additional IE. 
@@ -1796,13 +2638,22 @@ static tSirRetStatus limSendTdlsSetupRspFrame(tpAniSirGlobal pMac,
        vos_mem_copy( pFrame + header_offset + nPayload, addIe, addIeLen );
     }
 
+<<<<<<< HEAD
     LIM_LOG_TDLS(VOS_TRACE(VOS_MODULE_ID_PE, TDLS_DEBUG_LOG_LEVEL, ("[TDLS] action %d (%s) -AP-> OTA"),
          SIR_MAC_TDLS_SETUP_RSP, limTraceTdlsActionString(SIR_MAC_TDLS_SETUP_RSP) ));
+=======
+    limLog(pMac, LOG1,
+           FL("[TDLS] action %d (%s) -AP-> OTA peer="MAC_ADDRESS_STR),
+           SIR_MAC_TDLS_SETUP_RSP,
+           limTraceTdlsActionString(SIR_MAC_TDLS_SETUP_RSP),
+           MAC_ADDR_ARRAY(peerMac));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     halstatus = halTxFrameWithTxComplete( pMac, pPacket, ( tANI_U16 ) nBytes,
                             HAL_TXRX_FRM_802_11_DATA,
                             ANI_TXDIR_TODS,
                             //ANI_TXDIR_IBSS,
+<<<<<<< HEAD
                             TID_AC_BK,
                             limTxComplete, pFrame,
                             limMgmtTXComplete,
@@ -1814,6 +2665,20 @@ static tSirRetStatus limSendTdlsSetupRspFrame(tpAniSirGlobal pMac,
         return eSIR_FAILURE;
     }
     pMac->lim.mgmtFrameSessionId = psessionEntry->peSessionId;
+=======
+                            TID_AC_VI,
+                            limTxComplete, pFrame,
+                            limMgmtTXComplete,
+                            HAL_USE_BD_RATE2_FOR_MANAGEMENT_FRAME,
+                            pMac->lim.txBdToken++);
+    if ( ! HAL_STATUS_SUCCESS ( halstatus ) )
+    {
+        pMac->lim.mgmtFrameSessionId = 0xff;
+        limLog(pMac, LOGE, FL("could not send TDLS Setup Response"));
+        return eSIR_FAILURE;
+    }
+    pMac->lim.mgmtFrameSessionId = psessionEntry->smeSessionId;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     return eSIR_SUCCESS;
 
@@ -1824,7 +2689,11 @@ static tSirRetStatus limSendTdlsSetupRspFrame(tpAniSirGlobal pMac,
  */
 
 tSirRetStatus limSendTdlsLinkSetupCnfFrame(tpAniSirGlobal pMac, tSirMacAddr peerMac,
+<<<<<<< HEAD
                     tANI_U8 dialog, tpPESession psessionEntry, tANI_U8* addIe, tANI_U16 addIeLen)  
+=======
+                    tANI_U8 dialog, tANI_U32 peerCapability, tpPESession psessionEntry, tANI_U8* addIe, tANI_U16 addIeLen)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
     tDot11fTDLSSetupCnf  tdlsSetupCnf ;
     tANI_U32            status = 0 ;
@@ -1852,6 +2721,7 @@ tSirRetStatus limSendTdlsLinkSetupCnfFrame(tpAniSirGlobal pMac, tSirMacAddr peer
     tdlsSetupCnf.Action.action     = SIR_MAC_TDLS_SETUP_CNF ;
     tdlsSetupCnf.DialogToken.token = dialog ;
 
+<<<<<<< HEAD
 #if 1
     PopulateDot11fLinkIden( pMac, psessionEntry, &tdlsSetupCnf.LinkIdentifier,
                       peerMac, TDLS_INITIATOR) ;
@@ -1859,6 +2729,10 @@ tSirRetStatus limSendTdlsLinkSetupCnfFrame(tpAniSirGlobal pMac, tSirMacAddr peer
     vos_mem_copy( (tANI_U8 *)&tdlsSetupCnf.LinkIdentifier,
                   (tANI_U8 *)&setupRsp->LinkIdentifier, sizeof(tDot11fIELinkIdentifier)) ;
 #endif
+=======
+    PopulateDot11fLinkIden( pMac, psessionEntry, &tdlsSetupCnf.LinkIdentifier,
+                      peerMac, TDLS_INITIATOR) ;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     /* 
      * TODO: we need to see if we have to support conditions where we have
@@ -1867,6 +2741,7 @@ tSirRetStatus limSendTdlsLinkSetupCnfFrame(tpAniSirGlobal pMac, tSirMacAddr peer
      * AP link and we wanted to QOS on direct link.
      */
 
+<<<<<<< HEAD
     /* Include HT Info IE */
     /* Need to also check the Self Capability ??? TODO Sunil */
     if ( true == psessionEntry->htCapability)
@@ -1876,6 +2751,35 @@ tSirRetStatus limSendTdlsLinkSetupCnfFrame(tpAniSirGlobal pMac, tSirMacAddr peer
     if ( true == psessionEntry->vhtCapability)
     {
         PopulateDot11fVHTOperation( pMac, &tdlsSetupCnf.VHTOperation);
+=======
+    /* Check self and peer WMM capable */
+    if ((1 == pMac->lim.gLimTDLSWmmMode) && (CHECK_BIT(peerCapability, TDLS_PEER_WMM_CAP)))
+    {
+       limLog(pMac, LOG1, FL("populate WMM praram in Setup Confirm"));
+       PopulateDot11fWMMParams(pMac, &tdlsSetupCnf.WMMParams, psessionEntry);
+    }
+
+     /* Check peer is VHT capable*/
+    if (CHECK_BIT(peerCapability, TDLS_PEER_VHT_CAP))
+    {
+       PopulateDot11fVHTOperation( pMac, &tdlsSetupCnf.VHTOperation,
+                                      psessionEntry->currentOperChannel);
+       PopulateDot11fHTInfo( pMac, &tdlsSetupCnf.HTInfo, psessionEntry );
+    }
+    else if (CHECK_BIT(peerCapability, TDLS_PEER_HT_CAP)) /* Check peer is HT capable */
+    {
+       PopulateDot11fHTInfo( pMac, &tdlsSetupCnf.HTInfo, psessionEntry );
+    }
+
+    if (TRUE == pMac->lim.EnableTdls2040BSSCoexIE)
+    {
+        if ( 1 == pMac->lim.gLimTDLSOffChannelEnabled &&
+            ( pMac->roam.configParam.bandCapability != eCSR_BAND_24))
+        {
+            tdlsSetupCnf.HT2040BSSCoexistence.present = 1;
+            tdlsSetupCnf.HT2040BSSCoexistence.infoRequest = 1;
+        }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     /* 
@@ -1885,16 +2789,28 @@ tSirRetStatus limSendTdlsLinkSetupCnfFrame(tpAniSirGlobal pMac, tSirMacAddr peer
                                                      &nPayload);
     if ( DOT11F_FAILED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGP, FL("Failed to calculate the packed size f"
                                "or a discovery Request (0x%08x)."), status );
+=======
+        limLog(pMac, LOGE,
+               FL("Failed to calculate the packed size for Setup Confirm (0x%08x)."),
+               status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         /* We'll fall back on the worst case scenario: */
         nPayload = sizeof( tDot11fProbeRequest );
     }
     else if ( DOT11F_WARNED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGW, FL("There were warnings while calculating"
                                "the packed size for a discovery Request ("
                                "0x%08x)."), status );
+=======
+        limLog(pMac, LOGW,
+               FL("There were warnings while calculating the packed size for Setup Confirm (0x%08x)."),
+               status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     /*
@@ -1935,8 +2851,14 @@ tSirRetStatus limSendTdlsLinkSetupCnfFrame(tpAniSirGlobal pMac, tSirMacAddr peer
                              ( void** ) &pPacket );
     if ( ! HAL_STATUS_SUCCESS ( halstatus ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGP, FL("Failed to allocate %d bytes for a TDLS"
                                "Discovery Request."), nBytes );
+=======
+        limLog(pMac, LOGE,
+               FL("Failed to allocate %d bytes for a TDLS Setup Confirm."),
+               nBytes);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eSIR_MEM_ALLOC_FAILED;
     }
 
@@ -1966,16 +2888,28 @@ tSirRetStatus limSendTdlsLinkSetupCnfFrame(tpAniSirGlobal pMac, tSirMacAddr peer
 
     if ( DOT11F_FAILED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGE, FL("Failed to pack a TDLS discovery req \
                                                (0x%08x)."), status );
+=======
+        limLog(pMac, LOGE,
+               FL("Failed to pack a TDLS Setup Confirm (0x%08x)."),
+               status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         palPktFree( pMac->hHdd, HAL_TXRX_FRM_802_11_MGMT, 
                                    ( void* ) pFrame, ( void* ) pPacket );
         return eSIR_FAILURE;
     }
     else if ( DOT11F_WARNED( status ) )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGW, FL("There were warnings while packing TDLS"
                                "Discovery Request (0x%08x).") );
+=======
+        limLog(pMac, LOGW,
+               FL("There were warnings while packing TDLS Setup Confirm (0x%08x)."),
+               status);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 #if 0
     if(pMac->hal.pCBackFnTxComp == NULL) 
@@ -2015,8 +2949,12 @@ tSirRetStatus limSendTdlsLinkSetupCnfFrame(tpAniSirGlobal pMac, tSirMacAddr peer
         padVendorSpecific[3] = 0xA0;
         padVendorSpecific[4] = 0xC6;
 
+<<<<<<< HEAD
         LIM_LOG_TDLS(VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO, ("Padding Vendor Specific Ie Len = %d"),
                 padLen ));
+=======
+        limLog(pMac, LOG1, FL("Padding Vendor Specific Ie Len = %d"), padLen);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         /* padding zero if more than 5 bytes are required */
         if (padLen > MIN_VENDOR_SPECIFIC_IE_SIZE)
@@ -2026,8 +2964,16 @@ tSirRetStatus limSendTdlsLinkSetupCnfFrame(tpAniSirGlobal pMac, tSirMacAddr peer
 #endif
 
 
+<<<<<<< HEAD
     LIM_LOG_TDLS(VOS_TRACE(VOS_MODULE_ID_PE, TDLS_DEBUG_LOG_LEVEL, ("[TDLS] action %d (%s) -AP-> OTA"),
          SIR_MAC_TDLS_SETUP_CNF, limTraceTdlsActionString(SIR_MAC_TDLS_SETUP_CNF) ));
+=======
+    limLog(pMac, LOG1,
+           FL("[TDLS] action %d (%s) -AP-> OTA peer="MAC_ADDRESS_STR),
+           SIR_MAC_TDLS_SETUP_CNF,
+           limTraceTdlsActionString(SIR_MAC_TDLS_SETUP_CNF),
+           MAC_ADDR_ARRAY(peerMac));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     halstatus = halTxFrameWithTxComplete( pMac, pPacket, ( tANI_U16 ) nBytes,
                             HAL_TXRX_FRM_802_11_DATA,
@@ -2035,21 +2981,35 @@ tSirRetStatus limSendTdlsLinkSetupCnfFrame(tpAniSirGlobal pMac, tSirMacAddr peer
                             TID_AC_VI,
                             limTxComplete, pFrame, 
                             limMgmtTXComplete,
+<<<<<<< HEAD
                             HAL_USE_BD_RATE2_FOR_MANAGEMENT_FRAME );
+=======
+                            HAL_USE_BD_RATE2_FOR_MANAGEMENT_FRAME,
+                            pMac->lim.txBdToken++);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 
     if ( ! HAL_STATUS_SUCCESS ( halstatus ) )
     {
         pMac->lim.mgmtFrameSessionId = 0xff;
+<<<<<<< HEAD
         limLog( pMac, LOGE, FL("could not send TDLS Dis Request frame!" ));
         return eSIR_FAILURE;
 
     }
     pMac->lim.mgmtFrameSessionId = psessionEntry->peSessionId;
+=======
+        limLog(pMac, LOGE, FL("could not send TDLS Setup Confirm frame"));
+        return eSIR_FAILURE;
+
+    }
+    pMac->lim.mgmtFrameSessionId = psessionEntry->smeSessionId;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     return eSIR_SUCCESS;
 }
 
+<<<<<<< HEAD
 #ifdef FEATURE_WLAN_TDLS_INTERNAL
 /*
  * Convert HT caps to lim based HT caps 
@@ -2223,6 +3183,8 @@ void limTdlsUpdateLinkRspPeerInfo(tpAniSirGlobal pMac,
 }
 #endif
 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* This Function is similar to PopulateDot11fHTCaps, except that the HT Capabilities
  * are considered from the AddStaReq rather from the cfg.dat as in PopulateDot11fHTCaps
  */
@@ -2276,9 +3238,20 @@ static tSirRetStatus limTdlsPopulateDot11fHTCaps(tpAniSirGlobal pMac, tpPESessio
        pDot11f->shortGI40MHz = 0;
     }
 
+<<<<<<< HEAD
     dot11fLog(pMac, LOG2, FL("SupportedChnlWidth: %d, mimoPS: %d, GF: %d, shortGI20:%d, shortGI40: %d, dsssCck: %d"),
                                             pDot11f->supportedChannelWidthSet, pDot11f->mimoPowerSave,  pDot11f->greenField,
                                             pDot11f->shortGI20MHz, pDot11f->shortGI40MHz, pDot11f->dsssCckMode40MHz);
+=======
+    limLog(pMac, LOG1,
+           FL("SupportedChnlWidth: %d, mimoPS: %d, GF: %d, shortGI20:%d, shortGI40: %d, dsssCck: %d"),
+           pDot11f->supportedChannelWidthSet,
+           pDot11f->mimoPowerSave,
+           pDot11f->greenField,
+           pDot11f->shortGI20MHz,
+           pDot11f->shortGI40MHz,
+           pDot11f->dsssCckMode40MHz);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     nCfgValue = pTdlsAddStaReq->htCap.ampduParamsInfo;
 
@@ -2289,7 +3262,11 @@ static tSirRetStatus limTdlsPopulateDot11fHTCaps(tpAniSirGlobal pMac, tpPESessio
     pDot11f->mpduDensity      = pHTParametersInfo->mpduDensity;
     pDot11f->reserved1        = pHTParametersInfo->reserved;
 
+<<<<<<< HEAD
     dot11fLog( pMac, LOG2, FL( "AMPDU Param: %x" ), nCfgValue);
+=======
+    limLog(pMac, LOG1, FL("AMPDU Param: %x"), nCfgValue);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     vos_mem_copy( pDot11f->supportedMCSSet, pTdlsAddStaReq->htCap.suppMcsSet,
                   SIZE_OF_SUPPORTED_MCS_SET);
@@ -2419,6 +3396,10 @@ limTdlsPopulateMatchingRateSet(tpAniSirGlobal pMac,
     tANI_U32 phyMode;
     tANI_U8 mcsSet[SIZE_OF_SUPPORTED_MCS_SET];
     isArate=0;
+<<<<<<< HEAD
+=======
+    tempRateSet2.numRates = 0;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     // limGetPhyMode(pMac, &phyMode);
     limGetPhyMode(pMac, &phyMode, NULL);
@@ -2430,7 +3411,11 @@ limTdlsPopulateMatchingRateSet(tpAniSirGlobal pMac,
                                           &val) != eSIR_SUCCESS)
     {
         /// Could not get rateset from CFG. Log error.
+<<<<<<< HEAD
         limLog(pMac, LOGP, FL("could not retrieve rateset"));
+=======
+        limLog(pMac, LOGE, FL("could not retrieve rateset"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         val = 0;
     }
     tempRateSet.numRates = val;
@@ -2445,12 +3430,19 @@ limTdlsPopulateMatchingRateSet(tpAniSirGlobal pMac,
                                                   &val) != eSIR_SUCCESS)
         tempRateSet2.numRates = val;
     }
+<<<<<<< HEAD
     else
         tempRateSet2.numRates = 0;
 
     if ((tempRateSet.numRates + tempRateSet2.numRates) > 12)
     {
         PELOGE(limLog(pMac, LOGE, FL("more than 12 rates in CFG"));)
+=======
+
+    if ((tempRateSet.numRates + tempRateSet2.numRates) > 12)
+    {
+        limLog(pMac, LOGE, FL("more than 12 rates in CFG"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         goto error;
     }
 
@@ -2493,11 +3485,24 @@ limTdlsPopulateMatchingRateSet(tpAniSirGlobal pMac,
      * unicity of the rates so there cannot be more than 12 . Need to Check this
      * TODO Sunil.
      */
+<<<<<<< HEAD
+=======
+    if (supporteRatesLength > SIR_MAC_RATESET_EID_MAX)
+    {
+       limLog(pMac, LOGW,
+              FL("Supported rates length %d more than the Max limit, reset to Max"),
+              supporteRatesLength);
+       supporteRatesLength = SIR_MAC_RATESET_EID_MAX;
+    }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     for (i = 0; i < supporteRatesLength; i++)
     {
         tempRateSet.rate[i] = pSupportedRateSet[i];
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tempRateSet.numRates = supporteRatesLength;
 
     {
@@ -2511,6 +3516,7 @@ limTdlsPopulateMatchingRateSet(tpAniSirGlobal pMac,
             for (j = 0;j < tempRateSet.numRates; j++)
             {
                 if ((tempRateSet2.rate[i] & 0x7F) ==
+<<<<<<< HEAD
                     (tempRateSet.rate[j] & 0x7F))
                 {
 #ifdef FEATURE_WLAN_NON_INTEGRATED_SOC
@@ -2528,6 +3534,23 @@ limTdlsPopulateMatchingRateSet(tpAniSirGlobal pMac,
                     }
                     else
                         rates->llbRates[bRateIndex++] = tempRateSet2.rate[i];
+=======
+                        (tempRateSet.rate[j] & 0x7F))
+                {
+                    if (sirIsArate(tempRateSet2.rate[i] & 0x7f))
+                    {
+                        isArate=1;
+                        if (aRateIndex < SIR_NUM_11A_RATES)
+                            rates->llaRates[aRateIndex++] =
+                                tempRateSet2.rate[i];
+                    }
+                    else
+                    {
+                        if (bRateIndex < SIR_NUM_11B_RATES)
+                            rates->llbRates[bRateIndex++] =
+                                tempRateSet2.rate[i];
+                    }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     break;
                 }
             }
@@ -2556,10 +3579,19 @@ limTdlsPopulateMatchingRateSet(tpAniSirGlobal pMac,
         for (i=0; i<val; i++)
             pStaDs->supportedRates.supportedMCSSet[i] = mcsSet[i] & pSupportedMCSSet[i];
 
+<<<<<<< HEAD
         PELOG2(limLog(pMac, LOG2, FL("limPopulateMatchingRateSet: MCS Rate Set Bitmap from CFG and DPH :"));)
         for (i=0; i<SIR_MAC_MAX_SUPPORTED_MCS_SET; i++)
         {
             PELOG2(limLog(pMac, LOG2,FL("%x %x "), mcsSet[i], pStaDs->supportedRates.supportedMCSSet[i]);)
+=======
+        limLog(pMac, LOG1, FL("MCS Rate Set Bitmap from CFG and DPH:"));
+        for (i=0; i<SIR_MAC_MAX_SUPPORTED_MCS_SET; i++)
+        {
+            limLog(pMac, LOG1, FL("%x %x"),
+                               mcsSet[i],
+                               pStaDs->supportedRates.supportedMCSSet[i]);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
     }
 
@@ -2666,7 +3698,16 @@ static void limTdlsUpdateHashNodeInfo(tpAniSirGlobal pMac, tDphHashNode *pStaDs,
     {
         pStaDs->mlmStaContext.htCapability = 1 ;
         pStaDs->htGreenfield = htCaps->greenField ;
+<<<<<<< HEAD
         pStaDs->htSupportedChannelWidthSet =  htCaps->supportedChannelWidthSet ;
+=======
+        /* pStaDs->htSupportedChannelWidthSet should have the base channel
+         * capability. The htSupportedChannelWidthSet of the TDLS link on
+         * base channel should be less than or equal to channel width of
+         * STA-AP link. So take this setting from the psessionEntry.
+         */
+        pStaDs->htSupportedChannelWidthSet = psessionEntry->htSupportedChannelWidthSet ;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         pStaDs->htMIMOPSState =             htCaps->mimoPowerSave ;
         pStaDs->htMaxAmsduLength =  htCaps->maximalAMSDUsize;
         pStaDs->htAMpduDensity =    htCaps->mpduDensity;
@@ -2692,11 +3733,29 @@ static void limTdlsUpdateHashNodeInfo(tpAniSirGlobal pMac, tDphHashNode *pStaDs,
     {
         pStaDs->mlmStaContext.vhtCapability = 1 ;
 
+<<<<<<< HEAD
         if ((psessionEntry->currentOperChannel <= SIR_11B_CHANNEL_END) &&
             pMac->roam.configParam.enableVhtFor24GHz)
         {
             pStaDs->vhtSupportedChannelWidthSet = WNI_CFG_VHT_CHANNEL_WIDTH_20_40MHZ;
             pStaDs->htSupportedChannelWidthSet = eHT_CHANNEL_WIDTH_20MHZ;
+=======
+        if (psessionEntry->currentOperChannel <= SIR_11B_CHANNEL_END)
+        {
+            /* if the channel is 2G then update the min channel widthset in
+             * pStaDs. These values are used when sending a AddSta request to
+             * firmware
+             * 11.21.1 General: The channel width of the TDLS direct link on the
+             * base channel shall not exceed the channel width of the BSS to which
+             * the TDLS peer STAs are associated.*/
+            pStaDs->vhtSupportedChannelWidthSet = WNI_CFG_VHT_CHANNEL_WIDTH_20_40MHZ;
+            pStaDs->htSupportedChannelWidthSet = eHT_CHANNEL_WIDTH_20MHZ;
+            limLog(pMac, LOG1,
+                    FL("vhtSupportedChannelWidthSet = %hu,"
+                        " htSupportedChannelWidthSet %hu"),
+                    pStaDs->vhtSupportedChannelWidthSet,
+                    pStaDs->htSupportedChannelWidthSet) ;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
         else
         {
@@ -2726,12 +3785,21 @@ static void limTdlsUpdateHashNodeInfo(tpAniSirGlobal pMac, tDphHashNode *pStaDs,
         pStaDs->htSecondaryChannelOffset = limGetHTCBState(cbMode);
     }
 #endif
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     pSessStaDs = dphLookupHashEntry(pMac, psessionEntry->bssId, &aid, 
                                           &psessionEntry->dph.dphHashTable) ;
 
     /* Lets enable QOS parameter */
+<<<<<<< HEAD
     pStaDs->qosMode    = 1;
+=======
+    pStaDs->qosMode = (pTdlsAddStaReq->capability & CAPABILITIES_QOS_OFFSET) ||
+                       pTdlsAddStaReq->htcap_present;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     pStaDs->wmeEnabled = 1;
     pStaDs->lleEnabled = 0;
     /*  TDLS Dummy AddSTA does not have qosInfo , is it OK ??
@@ -2755,6 +3823,7 @@ static void limTdlsUpdateHashNodeInfo(tpAniSirGlobal pMac, tDphHashNode *pStaDs,
     return ; 
 }
 
+<<<<<<< HEAD
 #ifdef FEATURE_WLAN_TDLS_INTERNAL
 /*
  * find Peer in setup link list.
@@ -4791,12 +5860,170 @@ eHalStatus limProcessTdlsAddStaRsp(tpAniSirGlobal pMac, void *msg,
     VOS_TRACE(VOS_MODULE_ID_PE, TDLS_DEBUG_LOG_LEVEL,
             ("limTdlsAddStaRsp: staIdx=%d, staMac="MAC_ADDRESS_STR), pAddStaParams->staIdx,
                             MAC_ADDR_ARRAY(pAddStaParams->staMac));
+=======
+/*
+ * Add STA for TDLS setup procedure
+ */
+static tSirRetStatus limTdlsSetupAddSta(tpAniSirGlobal pMac,
+                                        tSirTdlsAddStaReq *pAddStaReq,
+                                        tpPESession psessionEntry)
+{
+    tpDphHashNode pStaDs = NULL ;
+    tSirRetStatus status = eSIR_SUCCESS ;
+    tANI_U16 aid = 0 ;
+
+    pStaDs = dphLookupHashEntry(pMac, pAddStaReq->peerMac, &aid,
+                                      &psessionEntry->dph.dphHashTable);
+    if(NULL == pStaDs)
+    {
+        aid = limAssignPeerIdx(pMac, psessionEntry) ;
+
+        if( !aid )
+        {
+            limLog(pMac, LOGE, FL("No more free AID for peer " MAC_ADDRESS_STR),
+                               MAC_ADDR_ARRAY(pAddStaReq->peerMac));
+            return eSIR_FAILURE;
+        }
+
+        /* Set the aid in peerAIDBitmap as it has been assigned to TDLS peer */
+        SET_PEER_AID_BITMAP(psessionEntry->peerAIDBitmap, aid);
+
+        limLog(pMac, LOG1, FL("Aid = %d, for peer =" MAC_ADDRESS_STR),
+                           aid, MAC_ADDR_ARRAY(pAddStaReq->peerMac));
+        pStaDs = dphGetHashEntry(pMac, aid, &psessionEntry->dph.dphHashTable);
+
+        if (pStaDs)
+        {
+            (void) limDelSta(pMac, pStaDs, false /*asynchronous*/, psessionEntry);
+            limDeleteDphHashEntry(pMac, pStaDs->staAddr, aid, psessionEntry);
+        }
+
+        pStaDs = dphAddHashEntry(pMac, pAddStaReq->peerMac, aid,
+                                             &psessionEntry->dph.dphHashTable) ;
+
+        if(NULL == pStaDs)
+        {
+            limLog(pMac, LOGE, FL("add hash entry failed"));
+            VOS_ASSERT(0) ;
+            return eSIR_FAILURE;
+        }
+    }
+
+    limTdlsUpdateHashNodeInfo(pMac, pStaDs, pAddStaReq, psessionEntry) ;
+
+    pStaDs->staType = STA_ENTRY_TDLS_PEER ;
+
+    status = limAddSta(pMac, pStaDs, (pAddStaReq->tdlsAddOper == TDLS_OPER_UPDATE) ? true: false, psessionEntry);
+
+    if(eSIR_SUCCESS != status)
+    {
+        /* should not fail */
+        VOS_ASSERT(0) ;
+    }
+    return status ;
+}
+
+/*
+ * Del STA, after Link is teardown or discovery response sent on direct link
+ */
+static tpDphHashNode limTdlsDelSta(tpAniSirGlobal pMac, tSirMacAddr peerMac, 
+                                                    tpPESession psessionEntry)
+{
+    tSirRetStatus status = eSIR_SUCCESS ;
+    tANI_U16 peerIdx = 0 ;
+    tpDphHashNode pStaDs = NULL ;
+ 
+    pStaDs = dphLookupHashEntry(pMac, peerMac, &peerIdx, 
+                                         &psessionEntry->dph.dphHashTable) ;
+
+    if(pStaDs)
+    {
+    
+        limLog(pMac, LOG1, FL("DEL STA peer MAC: "MAC_ADDRESS_STR),
+                           MAC_ADDR_ARRAY(pStaDs->staAddr));
+        limLog(pMac, LOG1, FL("STA type = %x, sta idx = %x"),
+                           pStaDs->staType,
+                           pStaDs->staIndex);
+        limDeleteBASessions(pMac, psessionEntry, BA_BOTH_DIRECTIONS,
+                            eSIR_MAC_PEER_TIMEDOUT_REASON);
+        status = limDelSta(pMac, pStaDs, false, psessionEntry) ;
+    }
+           
+    return pStaDs ;
+}
+     
+/* 
+ * Once Link is setup with PEER, send Add STA ind to SME
+ */
+static eHalStatus limSendSmeTdlsAddStaRsp(tpAniSirGlobal pMac, 
+                   tANI_U8 sessionId, tSirMacAddr peerMac, tANI_U8 updateSta,
+                   tDphHashNode  *pStaDs, tANI_U8 status)
+{
+    tSirMsgQ  mmhMsg = {0} ;
+    tSirTdlsAddStaRsp *addStaRsp = NULL ;
+    mmhMsg.type = eWNI_SME_TDLS_ADD_STA_RSP ;
+
+    addStaRsp = vos_mem_malloc(sizeof(tSirTdlsAddStaRsp));
+    if ( NULL == addStaRsp )
+    {
+        limLog(pMac, LOGE, FL("Failed to allocate memory"));
+        return eSIR_FAILURE;
+    }
+
+    addStaRsp->sessionId = sessionId;
+    addStaRsp->statusCode = status;
+    if( pStaDs )
+    {
+        addStaRsp->staId = pStaDs->staIndex ;
+        addStaRsp->ucastSig = pStaDs->ucUcastSig ;
+        addStaRsp->bcastSig = pStaDs->ucBcastSig ;
+    }
+    if( peerMac )
+    {
+        vos_mem_copy( addStaRsp->peerMac,
+                (tANI_U8 *) peerMac, sizeof(tSirMacAddr));
+    }
+    if (updateSta)
+        addStaRsp->tdlsAddOper = TDLS_OPER_UPDATE;
+    else
+        addStaRsp->tdlsAddOper = TDLS_OPER_ADD;
+
+    addStaRsp->length = sizeof(tSirTdlsAddStaRsp) ;
+    addStaRsp->messageType = eWNI_SME_TDLS_ADD_STA_RSP ;
+
+    mmhMsg.bodyptr = addStaRsp;
+    mmhMsg.bodyval = 0;
+    limSysProcessMmhMsgApi(pMac, &mmhMsg, ePROT);
+
+    return eSIR_SUCCESS ;
+
+}
+/* 
+ * STA RSP received from HAL
+ */
+eHalStatus limProcessTdlsAddStaRsp(tpAniSirGlobal pMac, void *msg, 
+                                                   tpPESession psessionEntry)
+{
+    tAddStaParams  *pAddStaParams = (tAddStaParams *) msg ;
+    tANI_U8        status = eSIR_SUCCESS ;
+    tDphHashNode   *pStaDs = NULL ;
+    tANI_U16        aid = 0 ;
+
+    SET_LIM_PROCESS_DEFD_MESGS(pMac, true);
+    limLog(pMac, LOG1, FL("staIdx=%d, staMac="MAC_ADDRESS_STR),
+                       pAddStaParams->staIdx,
+                       MAC_ADDR_ARRAY(pAddStaParams->staMac));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (pAddStaParams->status != eHAL_STATUS_SUCCESS)
     {
         VOS_ASSERT(0) ;
+<<<<<<< HEAD
         VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_ERROR,
                                                    ("Add sta failed ")) ;
+=======
+        limLog(pMac, LOGE, FL("Add sta failed "));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         status = eSIR_FAILURE;
         goto add_sta_error;
     }
@@ -4805,8 +6032,12 @@ eHalStatus limProcessTdlsAddStaRsp(tpAniSirGlobal pMac, void *msg,
                                          &psessionEntry->dph.dphHashTable);
     if(NULL == pStaDs)
     {
+<<<<<<< HEAD
         VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_ERROR,
                                                    ("pStaDs is NULL ")) ;
+=======
+        limLog(pMac, LOGE, FL("pStaDs is NULL "));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         status = eSIR_FAILURE;
         goto add_sta_error;
     }
@@ -4817,6 +6048,7 @@ eHalStatus limProcessTdlsAddStaRsp(tpAniSirGlobal pMac, void *msg,
     pStaDs->ucBcastSig             = pAddStaParams->ucBcastSig;
     pStaDs->mlmStaContext.mlmState = eLIM_MLM_LINK_ESTABLISHED_STATE;
     pStaDs->valid                  = 1 ;
+<<<<<<< HEAD
 #ifdef FEATURE_WLAN_TDLS_INTERNAL    
     status = limSendSmeTdlsAddPeerInd(pMac, psessionEntry->smeSessionId, 
                                                     pStaDs, eSIR_SUCCESS ) ;
@@ -4852,6 +6084,8 @@ eHalStatus limProcessTdlsAddStaRsp(tpAniSirGlobal pMac, void *msg,
         }
     } while(0) ;
 #endif
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 add_sta_error:
     status = limSendSmeTdlsAddStaRsp(pMac, psessionEntry->smeSessionId, 
                                         pAddStaParams->staMac, pAddStaParams->updateSta, pStaDs, status) ;
@@ -4859,12 +6093,94 @@ add_sta_error:
     return status ;
 }
 
+<<<<<<< HEAD
+=======
+void PopulateDot11fTdlsOffchannelParams(tpAniSirGlobal pMac,
+                             tpPESession psessionEntry,
+                             tDot11fIESuppChannels *suppChannels,
+                             tDot11fIESuppOperatingClasses *suppOperClasses)
+{
+    tANI_U32   numChans = WNI_CFG_VALID_CHANNEL_LIST_LEN;
+    tANI_U8    validChan[WNI_CFG_VALID_CHANNEL_LIST_LEN];
+    tANI_U8    i, j;
+    tANI_U8    op_class;
+    if (wlan_cfgGetStr(pMac, WNI_CFG_VALID_CHANNEL_LIST,
+                          validChan, &numChans) != eSIR_SUCCESS)
+    {
+        /**
+         * Could not get Valid channel list from CFG.
+         * Log error.
+         */
+         limLog(pMac, LOGE, FL("could not retrieve valid channel list"));
+         return;
+    }
+    suppChannels->num_bands = (tANI_U8) numChans;
+
+    for ( i = 0U, j = 0U; i < suppChannels->num_bands &&
+                          j < LIM_MAX_BANDS; i++)
+    {
+        /* don't populate dfs channels in supported channels ie */
+        if (!(NV_CHANNEL_DFS == vos_nv_getChannelEnabledState(validChan[i]))) {
+            suppChannels->bands[j][0] = validChan[i];
+            suppChannels->bands[j][1] = 1;
+            /* store tdls self supported channels */
+            tdlsSelfSupportedChannels[j] = validChan[i];
+            j++;
+        }
+    }
+    /* update the channel list with new length */
+    suppChannels->num_bands = j;
+    suppChannels->present = 1 ;
+    /* store tdls self supported channels new length */
+    tdlsSelfNumChans = j;
+
+    /*Get present operating class based on current operating channel*/
+    op_class = limGetOPClassFromChannel(
+                                     pMac->scan.countryCodeCurrent,
+                                     psessionEntry->currentOperChannel,
+                                     psessionEntry->htSecondaryChannelOffset);
+    if (op_class == 0)
+    {
+        limLog(pMac, LOGE,
+               FL("Present Operating class is wrong, countryCodeCurrent: %s, currentOperChannel: %d, htSecondaryChannelOffset: %d"),
+               pMac->scan.countryCodeCurrent,
+               psessionEntry->currentOperChannel,
+               psessionEntry->htSecondaryChannelOffset);
+    }
+    else
+    {
+        limLog(pMac, LOG1,
+               FL("Present Operating channel=%d offset=%d class=%d"),
+               psessionEntry->currentOperChannel,
+               psessionEntry->htSecondaryChannelOffset,
+               op_class);
+    }
+    suppOperClasses->present = 1;
+    suppOperClasses->classes[0] = op_class;
+    /*Fill operating classes from static array*/
+    suppOperClasses->num_classes = op_classes.num_classes;
+    for ( i = 0U; i < suppOperClasses->num_classes; i++)
+    {
+        suppOperClasses->classes[i+1] = op_classes.classes[i];
+
+    }
+    /*increment for present operating class*/
+    suppOperClasses->num_classes++;
+    return ;
+}
+
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*
  * FUNCTION: Populate Link Identifier element IE
  *
  */
 
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 void PopulateDot11fLinkIden(tpAniSirGlobal pMac, tpPESession psessionEntry, 
                                  tDot11fIELinkIdentifier *linkIden,
                                        tSirMacAddr peerMac, tANI_U8 reqType)
@@ -4894,6 +6210,7 @@ void PopulateDot11fLinkIden(tpAniSirGlobal pMac, tpPESession psessionEntry,
 void PopulateDot11fTdlsExtCapability(tpAniSirGlobal pMac, 
                                         tDot11fIEExtCap *extCapability)
 {
+<<<<<<< HEAD
     extCapability->TDLSPeerPSMSupp = PEER_PSM_SUPPORT ;
     extCapability->TDLSPeerUAPSDBufferSTA = pMac->lim.gLimTDLSBufStaEnabled;
     extCapability->TDLSChannelSwitching = CH_SWITCH_SUPPORT ;
@@ -4976,6 +6293,17 @@ eHalStatus limTdlsPrepareSetupReqFrame(tpAniSirGlobal pMac,
     return eSIR_SUCCESS ; 
 }
 #endif
+=======
+    extCapability->TDLSPeerPSMSupp = PEER_PSM_SUPPORT ;
+    extCapability->TDLSPeerUAPSDBufferSTA = pMac->lim.gLimTDLSBufStaEnabled;
+    extCapability->TDLSChannelSwitching = pMac->lim.gLimTDLSOffChannelEnabled ;
+    extCapability->TDLSSupport = TDLS_SUPPORT ;
+    extCapability->TDLSProhibited = TDLS_PROHIBITED ;
+    extCapability->TDLSChanSwitProhibited = TDLS_CH_SWITCH_PROHIBITED ;
+    extCapability->present = 1 ;
+    return ;
+}
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*
  * Process Send Mgmt Request from SME and transmit to AP.
@@ -4989,15 +6317,25 @@ tSirRetStatus limProcessSmeTdlsMgmtSendReq(tpAniSirGlobal pMac,
     tANI_U8      sessionId;
     tSirResultCodes resultCode = eSIR_SME_INVALID_PARAMETERS;
 
+<<<<<<< HEAD
     VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO,
             ("Send Mgmt Recieved")) ;
+=======
+    limLog(pMac, LOG1, FL("Send Mgmt Recieved"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if((psessionEntry = peFindSessionByBssid(pMac, pSendMgmtReq->bssid, &sessionId)) 
             == NULL)
     {
+<<<<<<< HEAD
         VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_ERROR, 
                 "PE Session does not exist for given sme sessionId %d",
                 pSendMgmtReq->sessionId);
+=======
+        limLog(pMac, LOGE,
+               FL("PE Session does not exist for given sme sessionId %d"),
+               pSendMgmtReq->sessionId);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         goto lim_tdls_send_mgmt_error;
     }
 
@@ -5018,16 +6356,25 @@ tSirRetStatus limProcessSmeTdlsMgmtSendReq(tpAniSirGlobal pMac,
             (psessionEntry->limSmeState != eLIM_SME_LINK_EST_STATE))
     {
 
+<<<<<<< HEAD
         limLog(pMac, LOGE, "send mgmt received in invalid LIMsme \
                 state (%d)", psessionEntry->limSmeState);
+=======
+        limLog(pMac, LOGE, FL("send mgmt received in invalid LIMsme state (%d)"),
+                           psessionEntry->limSmeState);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         goto lim_tdls_send_mgmt_error;
     }
 
     switch( pSendMgmtReq->reqType )
     {
         case SIR_MAC_TDLS_DIS_REQ:
+<<<<<<< HEAD
             VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO,
                     "Transmit Discovery Request Frame") ;
+=======
+            limLog(pMac, LOG1, FL("Transmit Discovery Request Frame"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             /* format TDLS discovery request frame and transmit it */
             limSendTdlsDisReqFrame(pMac, pSendMgmtReq->peerMac, pSendMgmtReq->dialog, 
                     psessionEntry) ;
@@ -5035,14 +6382,27 @@ tSirRetStatus limProcessSmeTdlsMgmtSendReq(tpAniSirGlobal pMac,
             break;
         case SIR_MAC_TDLS_DIS_RSP:
             {
+<<<<<<< HEAD
                 //Send a response mgmt action frame
                 limSendTdlsDisRspFrame(pMac, pSendMgmtReq->peerMac,
                         pSendMgmtReq->dialog, psessionEntry) ;
+=======
+                limLog(pMac, LOG1, FL("Transmit Discovery Response Frame"));
+                //Send a response mgmt action frame
+                limSendTdlsDisRspFrame(pMac, pSendMgmtReq->peerMac,
+                        pSendMgmtReq->dialog, psessionEntry,
+                        &pSendMgmtReq->addIe[0],
+                        (pSendMgmtReq->length - sizeof(tSirTdlsSendMgmtReq)));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 resultCode = eSIR_SME_SUCCESS;
             }
             break;
         case SIR_MAC_TDLS_SETUP_REQ:
             {
+<<<<<<< HEAD
+=======
+                limLog(pMac, LOG1, FL("Transmit Setup Request Frame"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 limSendTdlsLinkSetupReqFrame(pMac,
                         pSendMgmtReq->peerMac, pSendMgmtReq->dialog, psessionEntry,
                         &pSendMgmtReq->addIe[0], (pSendMgmtReq->length - sizeof(tSirTdlsSendMgmtReq))); 
@@ -5051,6 +6411,10 @@ tSirRetStatus limProcessSmeTdlsMgmtSendReq(tpAniSirGlobal pMac,
             break;
         case SIR_MAC_TDLS_SETUP_RSP:
             {
+<<<<<<< HEAD
+=======
+                limLog(pMac, LOG1, FL("Transmit Setup Response Frame"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 limSendTdlsSetupRspFrame(pMac, 
                         pSendMgmtReq->peerMac, pSendMgmtReq->dialog, psessionEntry, pSendMgmtReq->statusCode,
                         &pSendMgmtReq->addIe[0], (pSendMgmtReq->length - sizeof(tSirTdlsSendMgmtReq)));
@@ -5059,13 +6423,22 @@ tSirRetStatus limProcessSmeTdlsMgmtSendReq(tpAniSirGlobal pMac,
             break;
         case SIR_MAC_TDLS_SETUP_CNF:
             {
+<<<<<<< HEAD
                 limSendTdlsLinkSetupCnfFrame(pMac, pSendMgmtReq->peerMac, pSendMgmtReq->dialog, 
+=======
+                limLog(pMac, LOG1, FL("Transmit Setup Confirm Frame"));
+                limSendTdlsLinkSetupCnfFrame(pMac, pSendMgmtReq->peerMac, pSendMgmtReq->dialog, pSendMgmtReq->peerCapability,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                         psessionEntry, &pSendMgmtReq->addIe[0], (pSendMgmtReq->length - sizeof(tSirTdlsSendMgmtReq)));  
                 resultCode = eSIR_SME_SUCCESS;
             }
             break;
         case SIR_MAC_TDLS_TEARDOWN:
             {
+<<<<<<< HEAD
+=======
+                limLog(pMac, LOG1, FL("Transmit Teardown Frame"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 limSendTdlsTeardownFrame(pMac,
                         pSendMgmtReq->peerMac, pSendMgmtReq->statusCode, pSendMgmtReq->responder, psessionEntry,
                         &pSendMgmtReq->addIe[0], (pSendMgmtReq->length - sizeof(tSirTdlsSendMgmtReq))); 
@@ -5114,7 +6487,11 @@ void limSendSmeTdlsLinkEstablishReqRsp(tpAniSirGlobal pMac,
     pTdlsLinkEstablishReqRsp = vos_mem_malloc(sizeof(tSirTdlsLinkEstablishReqRsp));
     if ( NULL == pTdlsLinkEstablishReqRsp )
     {
+<<<<<<< HEAD
         PELOGE(limLog(pMac, LOGE, FL("Failed to allocate memory"));)
+=======
+        limLog(pMac, LOGE, FL("Failed to allocate memory"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return ;
     }
     pTdlsLinkEstablishReqRsp->statusCode = status ;
@@ -5133,6 +6510,40 @@ void limSendSmeTdlsLinkEstablishReqRsp(tpAniSirGlobal pMac,
 }
 
 /*
+<<<<<<< HEAD
+=======
+ * Send Response to Chan Switch Request to SME
+ */
+void limSendSmeTdlsChanSwitchReqRsp(tpAniSirGlobal pMac,
+                    tANI_U8 sessionId, tSirMacAddr peerMac, tDphHashNode   *pStaDs,
+                    tANI_U8 status)
+{
+    tSirMsgQ  mmhMsg = {0} ;
+
+    tSirTdlsChanSwitchReqRsp *pTdlsChanSwitchReqRsp = NULL ;
+
+    pTdlsChanSwitchReqRsp = vos_mem_malloc(sizeof(tSirTdlsChanSwitchReqRsp));
+    if ( NULL == pTdlsChanSwitchReqRsp )
+    {
+        PELOGE(limLog(pMac, LOGE, FL("Failed to allocate memory"));)
+        return ;
+    }
+    pTdlsChanSwitchReqRsp->statusCode = status ;
+    if ( peerMac )
+    {
+        vos_mem_copy(pTdlsChanSwitchReqRsp->peerMac, peerMac, sizeof(tSirMacAddr));
+    }
+    pTdlsChanSwitchReqRsp->sessionId = sessionId;
+    mmhMsg.type = eWNI_SME_TDLS_CHANNEL_SWITCH_RSP ;
+    mmhMsg.bodyptr = pTdlsChanSwitchReqRsp;
+    mmhMsg.bodyval = 0;
+    limSysProcessMmhMsgApi(pMac, &mmhMsg, ePROT);
+    return ;
+
+
+}
+/*
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * Once link is teardown, send Del Peer Ind to SME
  */
 static eHalStatus limSendSmeTdlsDelStaRsp(tpAniSirGlobal pMac, 
@@ -5146,7 +6557,11 @@ static eHalStatus limSendSmeTdlsDelStaRsp(tpAniSirGlobal pMac,
     pDelSta = vos_mem_malloc(sizeof(tSirTdlsDelStaRsp));
     if ( NULL == pDelSta )
     {
+<<<<<<< HEAD
         PELOGE(limLog(pMac, LOGE, FL("Failed to allocate memory"));)
+=======
+        limLog(pMac, LOGE, FL("Failed to allocate memory"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             return eSIR_FAILURE;
     }
 
@@ -5186,15 +6601,25 @@ tSirRetStatus limProcessSmeTdlsAddStaReq(tpAniSirGlobal pMac,
     tpPESession psessionEntry;
     tANI_U8      sessionId;
 
+<<<<<<< HEAD
     VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO,
                                   ("Send Mgmt Recieved")) ;
+=======
+    limLog(pMac, LOG1, FL("TDLS Add STA Request Recieved"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if((psessionEntry = peFindSessionByBssid(pMac, pAddStaReq->bssid, &sessionId)) 
                                                                         == NULL)
     {
+<<<<<<< HEAD
          VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_ERROR, 
                     "PE Session does not exist for given sme sessionId %d",
                                                             pAddStaReq->sessionId);
+=======
+         limLog(pMac, LOGE,
+                FL("PE Session does not exist for given sme sessionId %d"),
+                pAddStaReq->sessionId);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
          goto lim_tdls_add_sta_error;
     }
     
@@ -5215,8 +6640,14 @@ tSirRetStatus limProcessSmeTdlsAddStaReq(tpAniSirGlobal pMac,
                 (psessionEntry->limSmeState != eLIM_SME_LINK_EST_STATE))
      {
      
+<<<<<<< HEAD
          limLog(pMac, LOGE, "send mgmt received in invalid LIMsme \
                                state (%d)", psessionEntry->limSmeState);
+=======
+         limLog(pMac, LOGE,
+                FL("Add STA received in invalid LIMsme state (%d)"),
+                psessionEntry->limSmeState);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
          goto lim_tdls_add_sta_error;
      }
 
@@ -5225,7 +6656,11 @@ tSirRetStatus limProcessSmeTdlsAddStaReq(tpAniSirGlobal pMac,
      /* To start with, send add STA request to HAL */
      if (eSIR_FAILURE == limTdlsSetupAddSta(pMac, pAddStaReq, psessionEntry))
      {
+<<<<<<< HEAD
          limLog(pMac, LOGE, "%s: Add TDLS Station request failed ", __func__);
+=======
+         limLog(pMac, LOGE, FL("Add TDLS Station request failed"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
          goto lim_tdls_add_sta_error;
      }
      return eSIR_SUCCESS;
@@ -5248,15 +6683,25 @@ tSirRetStatus limProcessSmeTdlsDelStaReq(tpAniSirGlobal pMac,
     tANI_U8      sessionId;
     tpDphHashNode pStaDs = NULL ;
 
+<<<<<<< HEAD
     VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO,
             ("Send Mgmt Recieved")) ;
+=======
+    limLog(pMac, LOG1, FL("TDLS Delete STA Request Recieved"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if((psessionEntry = peFindSessionByBssid(pMac, pDelStaReq->bssid, &sessionId)) 
             == NULL)
     {
+<<<<<<< HEAD
         VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_ERROR, 
                 "PE Session does not exist for given sme sessionId %d",
                 pDelStaReq->sessionId);
+=======
+        limLog(pMac, LOGE,
+               FL("PE Session does not exist for given sme sessionId %d"),
+               pDelStaReq->sessionId);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         limSendSmeTdlsDelStaRsp(pMac, pDelStaReq->sessionId, pDelStaReq->peerMac,
              NULL, eSIR_FAILURE) ;
         return eSIR_FAILURE;
@@ -5279,8 +6724,13 @@ tSirRetStatus limProcessSmeTdlsDelStaReq(tpAniSirGlobal pMac,
             (psessionEntry->limSmeState != eLIM_SME_LINK_EST_STATE))
     {
 
+<<<<<<< HEAD
         limLog(pMac, LOGE, "Del Sta received in invalid LIMsme \
                 state (%d)", psessionEntry->limSmeState);
+=======
+        limLog(pMac, LOGE, FL("Del Sta received in invalid LIMsme state (%d)"),
+                           psessionEntry->limSmeState);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         goto lim_tdls_del_sta_error;
     }
 
@@ -5309,7 +6759,42 @@ lim_tdls_del_sta_error:
     return eSIR_SUCCESS;
 }
 
+<<<<<<< HEAD
 
+=======
+/* Intersects the two input arrays and outputs an array */
+/* For now the array length of tANI_U8 suffices */
+static void limTdlsGetIntersection(tANI_U8 *input_array1,tANI_U8 input1_length,
+                            tANI_U8 *input_array2,tANI_U8 input2_length,
+                            tANI_U8 *output_array,tANI_U8 *output_length)
+{
+    tANI_U8 i,j,k=0,flag=0;
+
+    if (input1_length > WNI_CFG_VALID_CHANNEL_LIST_LEN)
+    {
+       input1_length = WNI_CFG_VALID_CHANNEL_LIST_LEN;
+    }
+
+    for(i=0;i<input1_length;i++)
+    {
+        flag=0;
+        for(j=0;j<input2_length;j++)
+        {
+            if(input_array1[i]==input_array2[j])
+            {
+                flag=1;
+                break;
+            }
+        }
+        if(flag==1)
+        {
+            output_array[k]=input_array1[i];
+            k++;
+        }
+    }
+    *output_length = k;
+}
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*
  * Process Link Establishment Request from SME .
  */
@@ -5325,15 +6810,25 @@ tSirRetStatus limProcesSmeTdlsLinkEstablishReq(tpAniSirGlobal pMac,
     tANI_U16 peerIdx = 0 ;
     tpDphHashNode pStaDs = NULL ;
 
+<<<<<<< HEAD
     VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO,
             ("Send Mgmt Recieved\n")) ;
+=======
+    limLog(pMac, LOG1, FL("Link Establish Request Recieved")) ;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if((psessionEntry = peFindSessionByBssid(pMac, pTdlsLinkEstablishReq->bssid, &sessionId))
             == NULL)
     {
+<<<<<<< HEAD
         VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_ERROR,
                 "PE Session does not exist for given sme sessionId %d\n",
                 pTdlsLinkEstablishReq->sessionId);
+=======
+        limLog(pMac, LOGE,
+               FL("PE Session does not exist for given sme sessionId %d"),
+               pTdlsLinkEstablishReq->sessionId);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         limSendSmeTdlsLinkEstablishReqRsp(pMac, pTdlsLinkEstablishReq->sessionId, pTdlsLinkEstablishReq->peerMac,
              NULL, eSIR_FAILURE) ;
         return eSIR_FAILURE;
@@ -5343,7 +6838,11 @@ tSirRetStatus limProcesSmeTdlsLinkEstablishReq(tpAniSirGlobal pMac,
     if (psessionEntry->limSystemRole != eLIM_STA_ROLE)
     {
         VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                 "TDLS Link Establish Request received in wrong system Role %d\n",
+=======
+                "TDLS Link Establish Request received in wrong system Role %d",
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 psessionEntry->limSystemRole);
         goto lim_tdls_link_establish_error;
     }
@@ -5356,8 +6855,14 @@ tSirRetStatus limProcesSmeTdlsLinkEstablishReq(tpAniSirGlobal pMac,
             (psessionEntry->limSmeState != eLIM_SME_LINK_EST_STATE))
     {
 
+<<<<<<< HEAD
         limLog(pMac, LOGE, "TDLS Link Establish Request received in invalid LIMsme \
                 state (%d)\n", psessionEntry->limSmeState);
+=======
+        limLog(pMac, LOGE,
+               FL("TDLS Link Establish Request received in invalid LIMsme state (%d)"),
+               psessionEntry->limSmeState);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         goto lim_tdls_link_establish_error;
     }
     /*TODO Sunil , TDLSPeer Entry has the STA ID , Use it */
@@ -5365,32 +6870,89 @@ tSirRetStatus limProcesSmeTdlsLinkEstablishReq(tpAniSirGlobal pMac,
                                 &psessionEntry->dph.dphHashTable) ;
     if ( NULL == pStaDs )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGE, FL( "pStaDs is NULL \n" ));
+=======
+        limLog(pMac, LOGE, FL( "pStaDs is NULL"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         goto lim_tdls_link_establish_error;
 
     }
     pMsgTdlsLinkEstablishReq = vos_mem_malloc(sizeof( tTdlsLinkEstablishParams ));
     if ( NULL == pMsgTdlsLinkEstablishReq )
     {
+<<<<<<< HEAD
         limLog( pMac, LOGE,
                      FL( "Unable to allocate memory TDLS Link Establish Request \n" ));
         return eSIR_MEM_ALLOC_FAILED;
     }
 
     vos_mem_set( (tANI_U8 *)pMsgTdlsLinkEstablishReq, sizeof(tpTdlsLinkEstablishParams), 0);
+=======
+        limLog(pMac, LOGE,
+               FL("Unable to allocate memory TDLS Link Establish Request"));
+        return eSIR_MEM_ALLOC_FAILED;
+    }
+
+    vos_mem_set( (tANI_U8 *)pMsgTdlsLinkEstablishReq, sizeof(tTdlsLinkEstablishParams), 0);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     pMsgTdlsLinkEstablishReq->staIdx = pStaDs->staIndex;
     pMsgTdlsLinkEstablishReq->isResponder = pTdlsLinkEstablishReq->isResponder;
     pMsgTdlsLinkEstablishReq->uapsdQueues = pTdlsLinkEstablishReq->uapsdQueues;
     pMsgTdlsLinkEstablishReq->maxSp = pTdlsLinkEstablishReq->maxSp;
     pMsgTdlsLinkEstablishReq->isBufsta = pTdlsLinkEstablishReq->isBufSta;
+<<<<<<< HEAD
+=======
+
+    if (psessionEntry->tdlsChanSwitProhibited)
+    {
+        /* If channel switch is prohibited by AP then dut can either
+         * send a switch channel request with failure status or it can
+         * ignore the request without sending the response.
+         * isOffChannelSupported = 0 disables the TDLS off-channel and
+         * if off-channel support is disabled then FW ignores switch
+         * channel request sent by TDLS peer */
+        pMsgTdlsLinkEstablishReq->isOffChannelSupported = 0;
+        limLog(pMac, LOG1, FL("Channel Switch Prohibited by AP"));
+    }
+    else
+    {
+        pMsgTdlsLinkEstablishReq->isOffChannelSupported =
+            pTdlsLinkEstablishReq->isOffChannelSupported;
+    }
+
+    if ((pTdlsLinkEstablishReq->supportedChannelsLen > 0) &&
+        (pTdlsLinkEstablishReq->supportedChannelsLen <= SIR_MAC_MAX_SUPP_CHANNELS))
+    {
+        /* check self supported channels and pass them to FW */
+        if ((tdlsSelfNumChans > 0) &&
+            (tdlsSelfNumChans < LIM_TDLS_MAX_NON_DFS_CHANNELS))
+        {
+            limTdlsGetIntersection(tdlsSelfSupportedChannels, tdlsSelfNumChans,
+                               pTdlsLinkEstablishReq->supportedChannels,
+                               pTdlsLinkEstablishReq->supportedChannelsLen,
+                               pMsgTdlsLinkEstablishReq->validChannels,
+                               &pMsgTdlsLinkEstablishReq->validChannelsLen);
+        }
+    }
+    vos_mem_copy(pMsgTdlsLinkEstablishReq->validOperClasses,
+                        pTdlsLinkEstablishReq->supportedOperClasses, pTdlsLinkEstablishReq->supportedOperClassesLen);
+    pMsgTdlsLinkEstablishReq->validOperClassesLen =
+                                pTdlsLinkEstablishReq->supportedOperClassesLen;
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     msg.type = WDA_SET_TDLS_LINK_ESTABLISH_REQ;
     msg.reserved = 0;
     msg.bodyptr = pMsgTdlsLinkEstablishReq;
     msg.bodyval = 0;
     if(eSIR_SUCCESS != wdaPostCtrlMsg(pMac, &msg))
     {
+<<<<<<< HEAD
         limLog(pMac, LOGE, FL("halPostMsgApi failed\n"));
+=======
+        limLog(pMac, LOGE, FL("halPostMsgApi failed"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         goto lim_tdls_link_establish_error;
     }
     return eSIR_SUCCESS;
@@ -5410,7 +6972,11 @@ tSirRetStatus limDeleteTDLSPeers(tpAniSirGlobal pMac, tpPESession psessionEntry)
 
     if (NULL == psessionEntry)
     {
+<<<<<<< HEAD
         PELOGE(limLog(pMac, LOGE, FL("NULL psessionEntry"));)
+=======
+        limLog(pMac, LOGE, FL("NULL psessionEntry"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eSIR_FAILURE;
     }
 
@@ -5426,8 +6992,13 @@ tSirRetStatus limDeleteTDLSPeers(tpAniSirGlobal pMac, tpPESession psessionEntry)
 
                 if (NULL != pStaDs)
                 {
+<<<<<<< HEAD
                     PELOGE(limLog(pMac, LOGE, FL("Deleting "MAC_ADDRESS_STR),
                            MAC_ADDR_ARRAY(pStaDs->staAddr)););
+=======
+                    limLog(pMac, LOGE, FL("Deleting "MAC_ADDRESS_STR),
+                                       MAC_ADDR_ARRAY(pStaDs->staAddr));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                     limSendDeauthMgmtFrame(pMac, eSIR_MAC_DEAUTH_LEAVING_BSS_REASON,
                                            pStaDs->staAddr, psessionEntry, FALSE);
@@ -5442,6 +7013,7 @@ tSirRetStatus limDeleteTDLSPeers(tpAniSirGlobal pMac, tpPESession psessionEntry)
 
     return eSIR_SUCCESS;
 }
+<<<<<<< HEAD
 #ifdef FEATURE_WLAN_TDLS_OXYGEN_DISAPPEAR_AP
 /* Get the number of TDLS peer connected in the BSS */
 int limGetTDLSPeerCount(tpAniSirGlobal pMac, tpPESession psessionEntry)
@@ -5492,3 +7064,449 @@ void limTDLSDisappearAPTrickInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPES
 }
 #endif
 #endif
+=======
+
+
+tANI_U8 limGetOffChMaxBwOffsetFromChannel(tANI_U8 *country,
+                                          tANI_U8 channel,
+                                          tANI_U8 peerVHTCapability)
+{
+    op_class_map_t *class = NULL;
+    tANI_U16 i = 0;
+    offset_t offset = BW20, max_allowed = BW80;
+
+    if ((TRUE == peerVHTCapability) &&
+        IS_FEATURE_SUPPORTED_BY_FW(DOT11AC) &&
+        IS_FEATURE_SUPPORTED_BY_DRIVER(DOT11AC))
+        max_allowed = BW80;
+    else
+        max_allowed = BW40MINUS;
+
+    if (VOS_TRUE == vos_mem_compare(country,"US", 2))  {
+
+        class = us_op_class;
+
+    } else if (VOS_TRUE == vos_mem_compare(country,"EU", 2)) {
+
+        class = euro_op_class;
+
+    } else if (VOS_TRUE == vos_mem_compare(country,"JP", 2)) {
+
+        class = japan_op_class;
+
+    } else {
+
+        class = global_op_class;
+
+    }
+
+    while (class->op_class)
+    {
+        for (i=0; (i < 25 && class->channels[i]); i++)
+        {
+            if (channel == class->channels[i] && class->offset <= max_allowed)
+                offset = class->offset;
+        }
+        class++;
+    }
+
+    return offset;
+}
+
+
+tANI_U8 limGetOPClassFromChannel(tANI_U8 *country,
+                                         tANI_U8 channel,
+                                         tANI_U8 offset)
+{
+    op_class_map_t *class = NULL;
+    tANI_U16 i = 0;
+
+    if (VOS_TRUE == vos_mem_compare(country,"US", 2))  {
+
+        class = us_op_class;
+
+    } else if (VOS_TRUE == vos_mem_compare(country,"EU", 2)) {
+
+        class = euro_op_class;
+
+    } else if (VOS_TRUE == vos_mem_compare(country,"JP", 2)) {
+
+        class = japan_op_class;
+
+    } else {
+
+        class = global_op_class;
+
+    }
+
+    while (class->op_class)
+    {
+        if ((offset == class->offset) || (offset == BWALL))
+        {
+            for (i=0; (i < 25 && class->channels[i]); i++)
+            {
+                if (channel == class->channels[i])
+                    return class->op_class;
+            }
+        }
+        class++;
+    }
+    return 0;
+}
+
+tANI_BOOLEAN  CheckAndAddOP(tANI_U8 class)
+{
+    tANI_U8 i;
+
+    for (i=0; i < (SIR_MAC_MAX_SUPP_OPER_CLASSES - 1); i++)
+    {
+        /*0 is an invalid class. If class is already present ignore*/
+        if (class == op_classes.classes[i])
+            return FALSE;
+        if(op_classes.classes[i] == 0)
+        {
+            return TRUE;
+        }
+    }
+    //limLog(pMac, LOGE, FL("No space left for class = %d"), class);
+    return FALSE;
+}
+
+void limInitOperatingClasses( tHalHandle hHal )
+{
+
+    tANI_U8 Index = 0;
+    tANI_U8 class = 0;
+    tANI_U8 i = 0;
+    tANI_U8 j = 0;
+    tANI_U8 swap = 0;
+    tANI_U8 numChannels = 0;
+    tpAniSirGlobal pMac = PMAC_STRUCT( hHal );
+    limLog(pMac, LOG1, FL("Current Country = %c%c"),
+                          pMac->scan.countryCodeCurrent[0],
+                          pMac->scan.countryCodeCurrent[1]);
+
+    vos_mem_set(op_classes.classes, sizeof(op_classes.classes), 0);
+    numChannels = pMac->scan.baseChannels.numChannels;
+    limLog(pMac, LOG1, "Num of base ch =%d", numChannels);
+    for ( Index = 0;
+          Index < numChannels && i < (SIR_MAC_MAX_SUPP_OPER_CLASSES - 1);
+          Index++)
+    {
+        class = limGetOPClassFromChannel(
+                            pMac->scan.countryCodeCurrent,
+                            pMac->scan.baseChannels.channelList[ Index ],
+                            BWALL);
+        limLog(pMac, LOG4, "ch=%d <=> %d=class",
+               pMac->scan.baseChannels.channelList[ Index ],
+               class);
+        if (CheckAndAddOP(class))
+        {
+            op_classes.classes[i]= class;
+            i++;
+        }
+    }
+
+    numChannels = pMac->scan.base20MHzChannels.numChannels;
+    limLog(pMac, LOG1, "Num of 20MHz ch =%d", numChannels);
+    for ( Index = 0;
+          Index < numChannels && i < (SIR_MAC_MAX_SUPP_OPER_CLASSES - 1);
+          Index++)
+    {
+        class = limGetOPClassFromChannel(
+                            pMac->scan.countryCodeCurrent,
+                            pMac->scan.base20MHzChannels.channelList[ Index ],
+                            BWALL);
+        limLog(pMac, LOG4, "ch=%d <=> %d=class",
+               pMac->scan.base20MHzChannels.channelList[ Index ],
+               class);
+        if (CheckAndAddOP(class))
+        {
+            op_classes.classes[i]= class;
+            i++;
+        }
+    }
+
+    numChannels = pMac->scan.base40MHzChannels.numChannels;
+    limLog(pMac, LOG1, "Num of 40MHz ch =%d", numChannels);
+    for ( Index = 0;
+          Index < numChannels && i < (SIR_MAC_MAX_SUPP_OPER_CLASSES - 1);
+          Index++)
+    {
+        class = limGetOPClassFromChannel(
+                            pMac->scan.countryCodeCurrent,
+                            pMac->scan.base40MHzChannels.channelList[ Index ],
+                            BWALL);
+        limLog(pMac, LOG4, "ch=%d <=> %d=class",
+               pMac->scan.base40MHzChannels.channelList[ Index ],
+               class);
+        if (CheckAndAddOP(class))
+        {
+            op_classes.classes[i]= class;
+            i++;
+        }
+    }
+
+    op_classes.num_classes = i;
+    limLog(pMac, LOG1, "Total number of Unique supported classes =%d",
+           op_classes.num_classes);
+    /*as per spec the operating classes should be in ascending order*/
+    /*Bubble sort is fine as we don't have many classes*/
+    for (i = 0 ; i < ( op_classes.num_classes - 1 ); i++)
+    {
+        for (j = 0 ; j < op_classes.num_classes - i - 1; j++)
+        {
+            /* For decreasing order use < */
+            if (op_classes.classes[j] > op_classes.classes[j+1])
+            {
+                swap = op_classes.classes[j];
+                op_classes.classes[j] = op_classes.classes[j+1];
+                op_classes.classes[j+1] = swap;
+            }
+        }
+    }
+    for (i=0; i < op_classes.num_classes; i++)
+    {
+
+        limLog(pMac, LOG1, "supported op_class[%d]=%d", i,
+               op_classes.classes[i]);
+
+    }
+}
+
+#endif
+// tdlsoffchan
+/*
+ * Process Channel Switch from SME.
+ */
+tSirRetStatus limProcesSmeTdlsChanSwitchReq(tpAniSirGlobal pMac,
+                                            tANI_U32 *pMsgBuf)
+{
+    /* get all discovery request parameters */
+    tSirTdlsChanSwitch *pTdlsChanSwitch = (tSirTdlsChanSwitch*) pMsgBuf ;
+    tpPESession            psessionEntry;
+    tANI_U8                sessionId;
+    tpTdlsChanSwitchParams pMsgTdlsChanSwitch;
+    tSirMsgQ               msg;
+    tANI_U16               peerIdx = 0;
+    tpDphHashNode          pStaDs = NULL;
+
+    VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO,
+             ("TDLS Channel Switch Recieved on peer:" MAC_ADDRESS_STR),
+              MAC_ADDR_ARRAY(pTdlsChanSwitch->peerMac));
+
+    psessionEntry = peFindSessionByBssid(pMac,
+                                         pTdlsChanSwitch->bssid,
+                                         &sessionId);
+    if (psessionEntry == NULL)
+    {
+        VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_ERROR,
+                  "PE Session does not exist for given sme sessionId %d",
+                  pTdlsChanSwitch->sessionId);
+        limSendSmeTdlsChanSwitchReqRsp(pMac, pTdlsChanSwitch->sessionId,
+                                       pTdlsChanSwitch->peerMac,
+                                       NULL, eSIR_FAILURE) ;
+        return eSIR_FAILURE;
+    }
+
+    /* check if we are in proper state to work as TDLS client */
+    if (psessionEntry->limSystemRole != eLIM_STA_ROLE)
+    {
+        VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_ERROR,
+                  "TDLS Channel Switch received in wrong system Role %d",
+                  psessionEntry->limSystemRole);
+        goto lim_tdls_chan_switch_error;
+    }
+
+    /*
+     * if we are still good, go ahead and check if we are in proper state to
+     * do TDLS discovery req/rsp/....frames.
+     */
+    if ((psessionEntry->limSmeState != eLIM_SME_ASSOCIATED_STATE) &&
+            (psessionEntry->limSmeState != eLIM_SME_LINK_EST_STATE))
+    {
+
+        limLog(pMac, LOGE, "TDLS Channel Switch received in invalid LIMsme state (%d)",
+               psessionEntry->limSmeState);
+        goto lim_tdls_chan_switch_error;
+    }
+
+    pStaDs = dphLookupHashEntry(pMac, pTdlsChanSwitch->peerMac, &peerIdx,
+                                &psessionEntry->dph.dphHashTable) ;
+    if ( NULL == pStaDs )
+    {
+        limLog( pMac, LOGE, FL( "pStaDs is NULL" ));
+        goto lim_tdls_chan_switch_error;
+
+    }
+    pMsgTdlsChanSwitch = vos_mem_malloc(sizeof( tTdlsChanSwitchParams ));
+    if ( NULL == pMsgTdlsChanSwitch )
+    {
+        limLog( pMac, LOGE,
+                     FL( "Unable to allocate memory TDLS Channel Switch" ));
+        return eSIR_MEM_ALLOC_FAILED;
+    }
+
+    vos_mem_set( (tANI_U8 *)pMsgTdlsChanSwitch, sizeof(tpTdlsChanSwitchParams), 0);
+
+    /* if channel bw offset is not set,
+       send maximum supported offset in the band */
+    if (pTdlsChanSwitch->tdlsOffChBwOffset == 0)
+    {
+        VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO,
+                  ("Set TDLS channel Bw Offset"));
+
+        if ((pTdlsChanSwitch->tdlsOffCh >= 1) &&
+            (pTdlsChanSwitch->tdlsOffCh <= 14))
+        {
+            pTdlsChanSwitch->tdlsOffChBwOffset = BW20;
+        }
+        else if ((pTdlsChanSwitch->tdlsOffCh >= 36) &&
+                 (pTdlsChanSwitch->tdlsOffCh <= 169))
+        {
+            pTdlsChanSwitch->tdlsOffChBwOffset =
+                                limGetOffChMaxBwOffsetFromChannel(
+                                              pMac->scan.countryCodeCurrent,
+                                              pTdlsChanSwitch->tdlsOffCh,
+                                              pStaDs->mlmStaContext.vhtCapability);
+        }
+    }
+    else
+    {
+        /* Channel Bandwidth Offset is set through iwpriv ioctl */
+        (pTdlsChanSwitch->tdlsOffChBwOffset)--;
+    }
+
+    pMsgTdlsChanSwitch->staIdx = pStaDs->staIndex;
+    pMsgTdlsChanSwitch->tdlsOffCh = pTdlsChanSwitch->tdlsOffCh;
+    pMsgTdlsChanSwitch->tdlsOffChBwOffset = pTdlsChanSwitch->tdlsOffChBwOffset;
+    pMsgTdlsChanSwitch->tdlsSwMode = pTdlsChanSwitch->tdlsSwMode;
+    pMsgTdlsChanSwitch->operClass = limGetOPClassFromChannel(
+                                           pMac->scan.countryCodeCurrent,
+                                           pTdlsChanSwitch->tdlsOffCh,
+                                           pTdlsChanSwitch->tdlsOffChBwOffset);
+
+    if(pMsgTdlsChanSwitch->operClass == 0)
+    {
+
+        VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_ERROR,
+                                   "Invalid Operating class 0 !!!");
+        vos_mem_free(pMsgTdlsChanSwitch);
+        goto lim_tdls_chan_switch_error;
+    }
+    else
+    {
+
+        VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO,
+              "%s: TDLS Channel Switch params: staIdx %d class %d ch %d bw %d"
+              " mode %d country code %c%c",
+               __func__,
+               pMsgTdlsChanSwitch->staIdx,
+               pMsgTdlsChanSwitch->operClass,
+               pMsgTdlsChanSwitch->tdlsOffCh,
+               pMsgTdlsChanSwitch->tdlsOffChBwOffset,
+               pMsgTdlsChanSwitch->tdlsSwMode,
+               pMac->scan.countryCodeCurrent[0],
+               pMac->scan.countryCodeCurrent[1]);
+    }
+
+    msg.type = WDA_SET_TDLS_CHAN_SWITCH_REQ;
+    msg.reserved = 0;
+    msg.bodyptr = pMsgTdlsChanSwitch;
+    msg.bodyval = 0;
+    if(eSIR_SUCCESS != wdaPostCtrlMsg(pMac, &msg))
+    {
+        limLog(pMac, LOGE, FL("halPostMsgApi failed\n"));
+        vos_mem_free(pMsgTdlsChanSwitch);
+        goto lim_tdls_chan_switch_error;
+    }
+
+    return eSIR_SUCCESS;
+
+lim_tdls_chan_switch_error:
+    limSendSmeTdlsChanSwitchReqRsp(pMac, pTdlsChanSwitch->sessionId,
+                                   pTdlsChanSwitch->peerMac,
+                                   NULL, eSIR_FAILURE);
+    return eSIR_FAILURE;
+}
+
+/*
+ * Set 20_40 BSS Coex IE in TDLS frames.
+ */
+tSirRetStatus limProcessSmeSetTdls2040BSSCoexReq(tpAniSirGlobal pMac,
+                                                 tANI_U32 *pMsgBuf)
+{
+    tAniSetTdls2040BSSCoex *pmsg = NULL;
+    pmsg = (tAniSetTdls2040BSSCoex*) pMsgBuf ;
+
+    if (NULL != pmsg) {
+        pMac->lim.EnableTdls2040BSSCoexIE = pmsg->SetTdls2040BSSCoex;
+    }
+    VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO,
+              "%s: 20_40 BSS Coex IE in TDLS frames "
+              "pMac->lim.EnableTdls2040BSSCoexIE %d ", __func__,
+              pMac->lim.EnableTdls2040BSSCoexIE);
+
+    return eSIR_SUCCESS;
+}
+
+tSirRetStatus limProcessSmeDelAllTdlsPeers(tpAniSirGlobal pMac,
+                                                 tANI_U32 *pMsgBuf)
+{
+    tSirDelAllTdlsPeers *pMsg = NULL;
+    tpDphHashNode pStaDs = NULL ;
+    tpPESession psessionEntry = NULL;
+    uint8_t sessionId;
+    int i, aid;
+    pMsg = (tSirDelAllTdlsPeers*) pMsgBuf ;
+
+    if (pMsg == NULL) {
+        limLog(pMac, LOGE, FL("NULL pMsg"));
+        return eSIR_FAILURE;
+    }
+
+    psessionEntry = peFindSessionByBssid(pMac, pMsg->bssid, &sessionId);
+    if (NULL == psessionEntry)
+    {
+        limLog(pMac, LOGE, FL("NULL psessionEntry"));
+        return eSIR_FAILURE;
+    }
+
+    /* Check all the set bit in peerAIDBitmap and delete the
+     * peer (with that aid) entry from the hash table and add
+     * the aid in free pool
+     */
+    for (i = 0; i < sizeof(psessionEntry->peerAIDBitmap)/sizeof(tANI_U32); i++)
+    {
+        for (aid = 0; aid < (sizeof(tANI_U32) << 3); aid++)
+        {
+            if (CHECK_BIT(psessionEntry->peerAIDBitmap[i], aid))
+            {
+                pStaDs = dphGetHashEntry(pMac,
+                                         (aid + i*(sizeof(tANI_U32) << 3)),
+                                         &psessionEntry->dph.dphHashTable);
+                if (NULL != pStaDs)
+                {
+                    limLog(pMac, LOGE, FL("Deleting "MAC_ADDRESS_STR),
+                           MAC_ADDR_ARRAY(pStaDs->staAddr));
+
+                    limSendDeauthMgmtFrame(pMac,
+                                           eSIR_MAC_DEAUTH_LEAVING_BSS_REASON,
+                                           pStaDs->staAddr, psessionEntry,
+                                           FALSE);
+
+                    limTdlsDelSta(pMac, pStaDs->staAddr, psessionEntry);
+
+                    dphDeleteHashEntry(pMac, pStaDs->staAddr, pStaDs->assocId,
+                                       &psessionEntry->dph.dphHashTable);
+                }
+                limReleasePeerIdx(pMac, (aid + i*(sizeof(tANI_U32) << 3)),
+                                  psessionEntry) ;
+                CLEAR_BIT(psessionEntry->peerAIDBitmap[i], aid);
+            }
+        }
+    }
+
+    return eSIR_SUCCESS;
+}
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver

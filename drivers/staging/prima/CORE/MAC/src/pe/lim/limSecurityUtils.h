@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2011-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,11 +42,21 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /*
  *
+<<<<<<< HEAD
  * Airgo Networks, Inc proprietary. All rights reserved.
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file limSecurityUtils.h contains the utility definitions
  * related to WEP encryption/decryption etc.
  * Author:        Chandra Modumudi
@@ -70,6 +85,10 @@ void               limDeletePreAuthNode(tpAniSirGlobal, tSirMacAddr);
 void               limReleasePreAuthNode(tpAniSirGlobal pMac, tpLimPreAuthNode pAuthNode);
 void               limRestoreFromAuthState(tpAniSirGlobal,
                                            tSirResultCodes, tANI_U16,tpPESession);
+<<<<<<< HEAD
+=======
+tANI_U8 limDeleteOpenAuthPreAuthNode(tpAniSirGlobal pMac);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 // Encryption/Decryption related functions
 tCfgWepKeyEntry    *limLookUpKeyMappings(tSirMacAddr);

@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2014 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #ifndef __WEXT_IW_H__
@@ -80,8 +92,39 @@
 #define WLAN_HDD_UI_BAND_AUTO                          0
 #define WLAN_HDD_UI_BAND_5_GHZ                         1
 #define WLAN_HDD_UI_BAND_2_4_GHZ                       2
+<<<<<<< HEAD
 #define WLAN_HDD_UI_SET_BAND_VALUE_OFFSET              8
 
+=======
+/* SETBAND x */
+/* 012345678 */
+#define WLAN_HDD_UI_SET_BAND_VALUE_OFFSET              8
+
+#ifdef WLAN_SOFTAP_VSTA_FEATURE
+/* 41 - STA support with Virtual STA feature
+ * 1  - Broadcast STA
+ * 4  - reserved Self STA: ap_self_sta, wlan_self_sta,
+ *      wlan_peer_sta, p2p_self_sta
+ * 4  - General Purpose Stations to support Virtual STAs
+ */
+#define VSTA_NUM_STA           41
+#define VSTA_NUM_RESV_SELFSTA  4
+#define VSTA_NUM_BC_STA        1
+#define VSTA_NUM_GPSTA         4
+#define VSTA_NUM_ASSOC_STA     (VSTA_NUM_STA - VSTA_NUM_RESV_SELFSTA -\
+                                VSTA_NUM_BC_STA - VSTA_NUM_GPSTA )
+#endif
+
+/* 12 - STA support without Virtual STA feature
+ * 1  - Broadcast STA
+ * 1  - reserved Self STA: ap_self_sta or wlan_self_sta,
+ */
+#define NUM_STA           12
+#define NUM_RESV_SELFSTA  1
+#define NUM_BC_STA        1
+#define NUM_ASSOC_STA     (NUM_STA - NUM_RESV_SELFSTA - NUM_BC_STA)
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 typedef enum
 {
    HDD_WLAN_WMM_DIRECTION_UPSTREAM      = 0,
@@ -234,6 +277,12 @@ typedef enum
 #define HS20_OUI_TYPE   "\x50\x6f\x9a\x10"
 #define HS20_OUI_TYPE_SIZE  4
 
+<<<<<<< HEAD
+=======
+#define OSEN_OUI_TYPE   "\x50\x6f\x9a\x12"
+#define OSEN_OUI_TYPE_SIZE  4
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef WLAN_FEATURE_WFD
 #define WFD_OUI_TYPE   "\x50\x6f\x9a\x0a"
 #define WFD_OUI_TYPE_SIZE  4
@@ -259,6 +308,16 @@ typedef enum
     WEXT_SCAN_PENDING_MAX
 } hdd_scan_pending_option_e;
 
+<<<<<<< HEAD
+=======
+enum
+{
+   WLAN_HDD_GET_FRAME_LOG_CMD_CLEAR          = 1<<0,
+   WLAN_HDD_GET_FRAME_LOG_CMD_SEND_AND_CLEAR = 1<<1,
+   WLAN_HDD_GET_FRAME_LOG_CMD_BMU_TRACING    = 1<<2,
+};
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* 
  * This structure contains the interface level (granularity) 
  * configuration information in support of wireless extensions. 
@@ -308,9 +367,15 @@ typedef struct hdd_wext_state_s
    v_U32_t oemDataReqID;
 #endif
 
+<<<<<<< HEAD
 #ifdef FEATURE_WLAN_CCX
    /* CCX state variables */
    v_BOOL_t isCCXConnection;
+=======
+#ifdef FEATURE_WLAN_ESE
+   /* ESE state variables */
+   v_BOOL_t isESEConnection;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    eCsrAuthType collectedAuthType; /* Collected from ALL SIOCSIWAUTH Ioctls. Will be negotiatedAuthType - in tCsrProfile */
 #endif
 }hdd_wext_state_t;
@@ -393,6 +458,14 @@ extern int iw_set_var_ints_getnone(struct net_device *dev, struct iw_request_inf
 extern int iw_set_three_ints_getnone(struct net_device *dev, struct iw_request_info *info,
                        union iwreq_data *wrqu, char *extra);
 
+<<<<<<< HEAD
+=======
+extern int hdd_priv_get_data(struct iw_point *p_priv_data,
+                             union iwreq_data *wrqu);
+
+extern void *mem_alloc_copy_from_user_helper(const void *wrqu_data, size_t len);
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 void hdd_clearRoamProfileIe( hdd_adapter_t *pAdapter);
 void hdd_GetClassA_statisticsCB(void *pStats, void *pContext);
 
@@ -420,8 +493,16 @@ void hdd_wmm_tx_snapshot(hdd_adapter_t *pAdapter);
 
 #ifdef FEATURE_WLAN_TDLS
 VOS_STATUS iw_set_tdls_params(struct net_device *dev, struct iw_request_info *info, union iwreq_data *wrqu, char *extra, int nOffset);
+<<<<<<< HEAD
 #endif
 #if defined WLAN_FEATURE_VOWIFI_11R || defined FEATURE_WLAN_CCX || defined(FEATURE_WLAN_LFR)
+=======
+int iw_set_tdlsoffchannelmode(hdd_adapter_t *pAdapter, int offchanmode);
+int iw_set_tdlssecoffchanneloffset(hdd_context_t *pHddCtx, int offchanoffset);
+int iw_set_tdlsoffchannel(hdd_context_t *pHddCtx, int offchannel);
+#endif
+#if defined WLAN_FEATURE_VOWIFI_11R || defined FEATURE_WLAN_ESE || defined(FEATURE_WLAN_LFR)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 VOS_STATUS wlan_hdd_get_roam_rssi(hdd_adapter_t *pAdapter, v_S7_t *rssi_value);
 #endif
 
@@ -430,5 +511,11 @@ void wlan_hdd_set_mc_addr_list(hdd_adapter_t *pAdapter, v_U8_t set);
 #endif
 void* wlan_hdd_change_country_code_callback(void *pAdapter);
 
+<<<<<<< HEAD
+=======
+int hdd_setBand(struct net_device *dev, u8 ui_band);
+int hdd_setBand_helper(struct net_device *dev, const char *command);
+VOS_STATUS wlan_hdd_get_frame_logs(hdd_adapter_t *pAdapter, v_U8_t flag);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif // __WEXT_IW_H__
 

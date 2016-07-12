@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,11 +42,21 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /*
  *
+<<<<<<< HEAD
  * Airgo Networks, Inc proprietary. All rights reserved.
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file dphHashTable.cc implements the member functions of
  * DPH hash table class.
  *
@@ -149,6 +164,15 @@ tpDphHashNode dphLookupHashEntry(tpAniSirGlobal pMac, tANI_U8 staAddr[], tANI_U1
     tpDphHashNode ptr = NULL;
     tANI_U16 index = hashFunction(pMac, staAddr, pDphHashTable->size);
 
+<<<<<<< HEAD
+=======
+    if (!pDphHashTable->pHashTable)
+    {
+        limLog(pMac, LOGE, FL(" pHashTable is NULL "));
+        return ptr;
+    }
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     for (ptr = pDphHashTable->pHashTable[index]; ptr; ptr = ptr->next)
         {
             if (dphCompareMacAddr(staAddr, ptr->staAddr))
@@ -300,6 +324,13 @@ tpDphHashNode dphInitStaState(tpAniSirGlobal pMac, tSirMacAddr staAddr,
     pStaDs->apsdMaxSpLen = 0;
     pStaDs->acMode[0] = pStaDs->acMode[1] = pStaDs->acMode[2] = pStaDs->acMode[3] =  0;
 #endif /* WMM_APSD */
+<<<<<<< HEAD
+=======
+    pStaDs->isDisassocDeauthInProgress = 0;
+#ifdef WLAN_FEATURE_11W
+    pStaDs->last_assoc_received_time = 0;
+#endif
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     pStaDs->valid = 1;
     return pStaDs;
 }
@@ -327,9 +358,15 @@ tpDphHashNode dphAddHashEntry(tpAniSirGlobal pMac, tSirMacAddr staAddr, tANI_U16
     tpDphHashNode ptr, node;
     tANI_U16 index = hashFunction(pMac, staAddr, pDphHashTable->size);
 
+<<<<<<< HEAD
     PELOG1(limLog(pMac, LOG1, FL("assocId %d index %d STA addr"),
            assocId, index);
     dphPrintMacAddr(pMac, staAddr, LOG1);)
+=======
+    limLog(pMac, LOG1, FL("assocId %d index %d STA addr"),
+           assocId, index);
+    dphPrintMacAddr(pMac, staAddr, LOG1);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (assocId >= pDphHashTable->size)
     {
@@ -404,9 +441,15 @@ tSirRetStatus dphDeleteHashEntry(tpAniSirGlobal pMac, tSirMacAddr staAddr, tANI_
   tANI_U16 index = hashFunction(pMac, staAddr, pDphHashTable->size);
 
 
+<<<<<<< HEAD
   PELOG1(limLog(pMac, LOG1, FL("assocId %d index %d STA addr"),
                   assocId, index);
   dphPrintMacAddr(pMac, staAddr, LOG1);)
+=======
+  limLog(pMac, LOG1, FL("assocId %d index %d STA addr"),
+                  assocId, index);
+  dphPrintMacAddr(pMac, staAddr, LOG1);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   if (assocId >= pDphHashTable->size)
   {
@@ -444,6 +487,13 @@ tSirRetStatus dphDeleteHashEntry(tpAniSirGlobal pMac, tSirMacAddr staAddr, tANI_
       else
          prev->next = ptr->next;
       ptr->added = 0;
+<<<<<<< HEAD
+=======
+      ptr->isDisassocDeauthInProgress = 0;
+#ifdef WLAN_FEATURE_11W
+      ptr->last_assoc_received_time = 0;
+#endif
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       ptr->next = 0;
     }
   else
@@ -477,7 +527,11 @@ tSirRetStatus dphDeleteHashEntry(tpAniSirGlobal pMac, tSirMacAddr staAddr, tANI_
 void
 dphPrintMacAddr(tpAniSirGlobal pMac, tANI_U8 addr[], tANI_U32 level)
 {
+<<<<<<< HEAD
     limLog(pMac, (tANI_U16) level, FL("MAC ADDR = %d:%d:%d:%d:%d:%d"),
+=======
+    limLog(pMac, (tANI_U16) level, FL("MAC ADDR = %02x:%02x:%02x:%02x:%02x:%02x"),
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            addr[0], addr[1], addr[2], addr[3], addr[4], addr[5]);
 }
 

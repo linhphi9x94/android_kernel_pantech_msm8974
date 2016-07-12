@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #if !defined( __WLAN_QCT_WDI_DS_I_H )
@@ -53,8 +65,11 @@
  *   This file contains the external API exposed by the
  *   wlan device abstarction layer module.
  *
+<<<<<<< HEAD
  *   Copyright (c) 2008 QUALCOMM Incorporated. All Rights Reserved.
  *   Qualcomm Confidential and Proprietary
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #include "wlan_qct_pal_type.h"
@@ -63,7 +78,11 @@
 #include "wlan_qct_pal_trace.h"
 #include "wlan_qct_wdi_ds.h"
 #include "wlan_qct_dxe.h"
+<<<<<<< HEAD
 
+=======
+#include "wlan_hal_msg.h"
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #define WDI_DS_MAX_CHUNK_SIZE 128
 #define WDI_802_11_MAX_HEADER_LEN 40
@@ -161,11 +180,27 @@ typedef struct
    wpt_uint8   staIdx;
 } WDI_DS_staIdxPerBssIdxType;
 
+<<<<<<< HEAD
+=======
+typedef struct
+{
+   void *   pLoggingMbVirtAddress;
+   void *   pLoggingMbPhysAddress;
+   WDI_DS_LoggingSessionType loggingSession;
+} WDI_DS_LoggingMbType;
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 WDI_Status WDI_DS_MemPoolCreate(WDI_DS_BdMemPoolType *memPool, wpt_uint8 chunkSize, wpt_uint8 numChunks);
 void *WDI_DS_MemPoolAlloc(WDI_DS_BdMemPoolType *memPool, void **pPhysAddress, WDI_ResPoolType wdiResPool);
 void  WDI_DS_MemPoolFree(WDI_DS_BdMemPoolType *memPool, void *pVirtAddress, void *pPhysAddress);
 void WDI_DS_MemPoolDestroy(WDI_DS_BdMemPoolType *memPool);
 
+<<<<<<< HEAD
+=======
+WDI_Status WDI_DS_LoggingMbCreate(WDI_DS_LoggingMbType *pLoggingMailbox, wpt_uint8 size);
+void WDI_DS_LoggingMbDestroy(WDI_DS_LoggingMbType *pLoggingMailbox);
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 typedef struct
 {
   void                            *pcontext;
@@ -176,7 +211,13 @@ typedef struct
   WDI_DS_RxPacketCallback          receiveFrameCB;
   WDI_DS_TxCompleteCallback        txCompleteCB;
   WDI_DS_TxFlowControlCallback     txResourceCB;
+<<<<<<< HEAD
   WDI_DS_staIdxPerBssIdxType       staIdxPerBssIdxTable[WDI_DS_MAX_SUPPORTED_BSS];
+=======
+  WDI_DS_RxLogCallback             rxLogCB;
+  WDI_DS_staIdxPerBssIdxType       staIdxPerBssIdxTable[WDI_DS_MAX_SUPPORTED_BSS];
+  WDI_DS_LoggingMbType             loggingMbContext;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 } WDI_DS_ClientDataType;
 
 WPT_STATIC WPT_INLINE void WDI_GetBDPointers(wpt_packet *pFrame, void **pVirt, void **pPhys)

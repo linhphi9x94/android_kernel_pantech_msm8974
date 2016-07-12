@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2014-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #if !defined( __I_VOS_LOCK_H )
@@ -48,9 +60,12 @@
   
   \brief Linux-specific definitions for vOSS Locks
   
+<<<<<<< HEAD
    Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
    
    Qualcomm Confidential and Proprietary.
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
   
   ========================================================================*/
 
@@ -63,6 +78,13 @@
 #include <linux/mutex.h>
 #include <linux/spinlock.h>
 #include <linux/sched.h>
+<<<<<<< HEAD
+=======
+#if defined(WLAN_OPEN_SOURCE)
+#include <linux/wakelock.h>
+#endif
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*-------------------------------------------------------------------------- 
   Preprocessor definitions and constants
@@ -85,6 +107,16 @@ typedef struct vos_lock_s
 
 typedef spinlock_t vos_spin_lock_t;
 
+<<<<<<< HEAD
+=======
+#if defined(WLAN_OPEN_SOURCE)
+typedef struct wake_lock vos_wake_lock_t;
+#else
+typedef int vos_wake_lock_t;
+#endif
+
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*------------------------------------------------------------------------- 
   Function declarations and documenation
   ------------------------------------------------------------------------*/

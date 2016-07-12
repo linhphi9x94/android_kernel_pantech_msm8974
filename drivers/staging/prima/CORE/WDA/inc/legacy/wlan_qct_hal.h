@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2014 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -39,6 +44,18 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+ */
+
+
+
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifndef WLAN_QCT_HAL_H
 #define WLAN_QCT_HAL_H
 #include "vos_status.h"
@@ -304,7 +321,11 @@ typedef struct sUapsdInfo {
   for UMAC in prima so declared it here */
 #define DPU_FEEDBACK_WPI_UNPROTECTED 0x20   
 #define WLANHAL_RX_IS_UNPROTECTED_WPI_FRAME(_pvBDHeader)  \
+<<<<<<< HEAD
         (DPU_FEEDBACK_WPI_UNPROTECTED == ((WDI_RxBdType *)_pvBDHeader)->dpuFeedback)
+=======
+        (DPU_FEEDBACK_WPI_UNPROTECTED == ((WDI_DS_RxMetaInfoType *)_pvBDHeader)->dpuFeedback)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*==========================================================================
 
@@ -349,6 +370,16 @@ tANI_U8 WLANHAL_RxBD_GetFrameTypeSubType(v_PVOID_t _pvBDHeader, tANI_U16 usFrmCt
 #ifdef FEATURE_WLAN_TDLS
 #define HAL_TDLS_PEER_STA_MASK              0x80 //bit 7 set for TDLS peer station 
 #endif
+<<<<<<< HEAD
+=======
+
+#define HAL_RELIABLE_MCAST_REQUESTED_MASK   0x100
+
+#define HAL_USE_BD_RATE_1_MASK              0x1000 // bit 12 for BD RATE 1
+#define HAL_USE_BD_RATE_2_MASK              0x2000 // bit 13 for BD RATE 1
+#define HAL_USE_BD_RATE_3_MASK              0x4000 // bit 14 for BD RATE 1
+#define HAL_USE_FW_IN_TX_PATH               0x200 //bit 9 to send via WQ5
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*==========================================================================
 
   FUNCTION    WLANHAL_FillTxBd
@@ -391,7 +422,11 @@ tANI_U8 WLANHAL_RxBD_GetFrameTypeSubType(v_PVOID_t _pvBDHeader, tANI_U16 usFrmCt
   
 ============================================================================*/
 VOS_STATUS WLANHAL_FillTxBd(void *pAdapter, tANI_U8 typeSubtype, void *pDestMacAddr, void *pAddr2,
+<<<<<<< HEAD
         tANI_U8* ptid, tANI_U8 disableFrmXtl, void *pTxBd, tANI_U8 txFlag, tANI_U32 timeStamp);
+=======
+        tANI_U8* ptid, tANI_U8 disableFrmXtl, void *pTxBd, tANI_U32 txFlag, tANI_U32 timeStamp);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 VOS_STATUS WLANHAL_FillFcTxBd(void *pVosGCtx, void *pFcParams, void *pFcTxBd);
 /** To swap the report part of FC RxBD */

@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #if !defined( __VOS_SCHED_H )
@@ -56,9 +68,12 @@
    by vOSS.
     
   
+<<<<<<< HEAD
    Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
    
    Qualcomm Confidential and Proprietary.
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
   
   ========================================================================*/
 
@@ -85,10 +100,16 @@
   Include Files
   ------------------------------------------------------------------------*/
 #include <vos_event.h>
+<<<<<<< HEAD
+=======
+#include <vos_nvitem.h>
+#include <vos_mq.h>
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include "i_vos_types.h"
 #include "i_vos_packet.h"
 #include <linux/wait.h>
 #include <linux/wakelock.h>
+<<<<<<< HEAD
 #include <vos_power.h>
 
 #define TX_POST_EVENT_MASK               0x001
@@ -105,6 +126,28 @@
 #define WD_CHIP_RESET_EVENT_MASK         0x004
 #define WD_WLAN_SHUTDOWN_EVENT_MASK      0x008
 #define WD_WLAN_REINIT_EVENT_MASK        0x010
+=======
+#include <vos_timer.h>
+
+
+#define TX_POST_EVENT               0x000
+#define TX_SUSPEND_EVENT            0x001
+#define MC_POST_EVENT               0x000
+#define MC_SUSPEND_EVENT            0x001
+#define RX_POST_EVENT               0x000
+#define RX_SUSPEND_EVENT            0x001
+#define TX_SHUTDOWN_EVENT           0x002
+#define MC_SHUTDOWN_EVENT           0x002
+#define RX_SHUTDOWN_EVENT           0x002
+
+#define WD_POST_EVENT               0x000
+#define WD_SHUTDOWN_EVENT           0x001
+#define WD_CHIP_RESET_EVENT         0x002
+#define WD_WLAN_SHUTDOWN_EVENT      0x003
+#define WD_WLAN_REINIT_EVENT        0x004
+#define WD_WLAN_DETECT_THREAD_STUCK 0x005
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
  
  
@@ -174,6 +217,12 @@ typedef struct _VosSchedContext
    /* TL Message queue on the Tx thread */
    VosMqType           tlTxMq;
 
+<<<<<<< HEAD
+=======
+   /* TL Message queue on the Rx thread */
+   VosMqType           tlRxMq;
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* SYS Message queue on the Tx thread */
    VosMqType           sysTxMq;
 
@@ -269,10 +318,25 @@ typedef struct _VosWatchdogContext
 
    v_BOOL_t resetInProgress;
 
+<<<<<<< HEAD
    vos_chip_reset_reason_type reason;
 
    /* Lock for preventing multiple reset being triggered simultaneously */
    spinlock_t wdLock;
+=======
+   v_BOOL_t isFatalError;
+
+   /* Lock for preventing multiple reset being triggered simultaneously */
+   spinlock_t wdLock;
+   /* Timer to detect thread stuck issue */
+   vos_timer_t threadStuckTimer;
+   /* Count for each thread to determine thread stuck */
+   unsigned int mcThreadStuckCount;
+   unsigned int txThreadStuckCount;
+   unsigned int rxThreadStuckCount;
+   /* lock to synchronize access to the thread stuck counts */
+   spinlock_t thread_stuck_lock;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 } VosWatchdogContext, *pVosWatchdogContext;
 
@@ -347,6 +411,14 @@ typedef struct _VosContextType
    /* NV BIN Version */
    eNvVersionType     nvVersion;
 
+<<<<<<< HEAD
+=======
+   /* Roam delay statistic enabled in ini*/
+   v_U8_t             roamDelayStatsEnabled;
+
+   /*Fw log complete Event*/
+   vos_event_t fwLogsComplete;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 } VosContextType, *pVosContextType;
 
 
@@ -357,6 +429,10 @@ typedef struct _VosContextType
  
 int vos_sched_is_tx_thread(int threadID);
 int vos_sched_is_rx_thread(int threadID);
+<<<<<<< HEAD
+=======
+int vos_sched_is_mc_thread(int threadID);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*---------------------------------------------------------------------------
   
   \brief vos_sched_open() - initialize the vOSS Scheduler  
@@ -495,6 +571,10 @@ VOS_STATUS vos_watchdog_close ( v_PVOID_t pVosContext );
 VOS_STATUS vos_mq_init(pVosMqType pMq);
 void vos_mq_deinit(pVosMqType pMq);
 void vos_mq_put(pVosMqType pMq, pVosMsgWrapper pMsgWrapper);
+<<<<<<< HEAD
+=======
+void vos_mq_put_front(pVosMqType pMq, pVosMsgWrapper pMsgWrapper);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 pVosMsgWrapper vos_mq_get(pVosMqType pMq);
 v_BOOL_t vos_is_mq_empty(pVosMqType pMq);
 pVosSchedContext get_vos_sched_ctxt(void);
@@ -504,11 +584,24 @@ void vos_sched_deinit_mqs (pVosSchedContext pSchedContext);
 void vos_sched_flush_mc_mqs  (pVosSchedContext pSchedContext);
 void vos_sched_flush_tx_mqs  (pVosSchedContext pSchedContext);
 void vos_sched_flush_rx_mqs  (pVosSchedContext pSchedContext);
+<<<<<<< HEAD
 VOS_STATUS vos_watchdog_chip_reset ( vos_chip_reset_reason_type reason );
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 void clearWlanResetReason(void);
 
 void vos_timer_module_init( void );
 VOS_STATUS vos_watchdog_wlan_shutdown(void);
 VOS_STATUS vos_watchdog_wlan_re_init(void);
+<<<<<<< HEAD
+=======
+v_BOOL_t isSsrPanicOnFailure(void);
+void vos_ssr_protect(const char *caller_func);
+void vos_ssr_unprotect(const char *caller_func);
+void vos_wd_reset_thread_stuck_count(int threadId);
+bool vos_is_wd_thread(int threadId);
+void vos_dump_stack(uint8_t value);
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #endif // #if !defined __VOSS_SCHED_H

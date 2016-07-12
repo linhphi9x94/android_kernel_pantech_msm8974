@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #ifndef WLAN_PHY_H
@@ -45,10 +57,13 @@
 @file wlan_phy.h 
 
 Contains definitions of all PHY related structures that aree needed by FTM/PTT
+<<<<<<< HEAD
 
 Copyright (c) 2007 Qualcomm Technologies, Inc. All Rights Reserved. 
 Qualcomm Technologies Proprietary and Confidential
 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ============================================================================*/
 #include <wlan_nv.h>
  
@@ -762,6 +777,12 @@ typedef enum
 
     MAX_PHY_CHAIN_SEL,
     INVALID_PHY_CHAIN_SEL,
+<<<<<<< HEAD
+=======
+    PHY_CHAIN_SEL_ANT_0, //append for antenna 0 selection
+    PHY_CHAIN_SEL_ANT_1, //append for antenna 1 selection
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     PHY_MAX_CHAIN_SELECT = 0x7FFFFFFF  /* define as 4 bytes data */
 }ePhyChainSelect;
 

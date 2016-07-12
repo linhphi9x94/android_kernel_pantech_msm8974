@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /** ------------------------------------------------------------------------- * 
@@ -45,10 +57,14 @@
   
     \brief Exports and types for the Common Config Module (CCM)
   
+<<<<<<< HEAD
     $Id$ 
   
   
     Copyright (C) 2006 Airgo Networks, Incorporated
+=======
+    $Id$
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     This file contains all the interfaces for thge Platform Abstration Layer
     functions.  It is intended to be included in all modules that are using 
@@ -59,7 +75,11 @@
 #define CCMAPI_H__
 
 //#include "wniCfgAp.h" /* CFG_PARAM_MAX_NUM */
+<<<<<<< HEAD
 #include "wniCfgSta.h"
+=======
+#include "wniCfg.h"
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include "halTypes.h"
 
 #define CCM_11B_CHANNEL_END             14

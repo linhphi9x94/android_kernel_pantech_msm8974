@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -41,6 +46,16 @@
 
 /*
  * Airgo Networks, Inc proprietary. All rights reserved.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+ */
+
+/*
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file limProcessProbeReqFrame.cc contains the code
  * for processing Probe Request Frame.
  * Author:        Chandra Modumudi
@@ -51,7 +66,11 @@
  *
  */
 
+<<<<<<< HEAD
 #include "wniCfgSta.h"
+=======
+#include "wniCfg.h"
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include "aniGlobal.h"
 #include "cfgApi.h"
 
@@ -443,7 +462,12 @@ limProcessProbeReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession 
                                   || (pMac->lim.gLimHalScanState != eLIM_HAL_IDLE_SCAN_STATE)))
         {
            limLog(pMac, LOG3,
+<<<<<<< HEAD
               FL("While GO is scanning, don't send probe response on diff channel"));
+=======
+              FL("While GO is scanning, don't send probe response"
+                 " on diff channel"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            break;
         }
 
@@ -466,8 +490,14 @@ limProcessProbeReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession 
             // Parse Probe Request frame
             if (sirConvertProbeReqFrame2Struct(pMac, pBody, frameLen, &probeReq)==eSIR_FAILURE)
             {
+<<<<<<< HEAD
                 PELOGW(limLog(pMac, LOGW, FL("Parse error ProbeRequest, length=%d, SA is:"), frameLen);)
                 limPrintMacAddr(pMac, pHdr->sa, LOGW);
+=======
+                PELOGW(limLog(pMac, LOGE, FL("Parse error ProbeRequest,"
+                " length=%d, SA is:" MAC_ADDRESS_STR),
+                 frameLen,MAC_ADDR_ARRAY(pHdr->sa));)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 pMac->sys.probeError++;
                 break;
             }
@@ -563,7 +593,12 @@ limProcessProbeReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession 
                         pSirSmeProbeReq->sessionId = psessionEntry->smeSessionId;
                         vos_mem_copy(pSirSmeProbeReq->peerMacAddr, pHdr->sa, sizeof(tSirMacAddr));
                         pSirSmeProbeReq->devicePasswdId = probeReq.probeReqWscIeInfo.DevicePasswordID.id;
+<<<<<<< HEAD
                         MTRACE(macTraceMsgTx(pMac, psessionEntry->peSessionId, msgQ.type));
+=======
+                        MTRACE(macTrace(pMac, TRACE_CODE_TX_SME_MSG,
+                            psessionEntry->peSessionId, msgQ.type));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        if (limSysProcessMmhMsgApi(pMac, &msgQ,  ePROT) != eSIR_SUCCESS){
                             PELOG3(limLog(pMac, LOG3, FL("couldnt send the probe req to wsm "));)
                         }
@@ -616,6 +651,13 @@ limProcessProbeReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession 
             else
             {
                 {
+<<<<<<< HEAD
+=======
+                    if ((VOS_P2P_GO_MODE == psessionEntry->pePersona) &&
+                                                        pMac->miracastVendorConfig)
+                        return;
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     // Broadcast SSID in the Probe Request.
                     // Reply with SSID we're configured with.
                     //Turn off the SSID length to 0 if hidden SSID feature is present
@@ -673,6 +715,7 @@ static void
 limIndicateProbeReqToHDD(tpAniSirGlobal pMac, tANI_U8 *pBd,
                          tpPESession psessionEntry)
 {
+<<<<<<< HEAD
     tpSirMacMgmtHdr     pHdr;
     tANI_U32            frameLen;
 
@@ -686,6 +729,13 @@ limIndicateProbeReqToHDD(tpAniSirGlobal pMac, tANI_U8 *pBd,
                (tANI_U8*)pHdr, (frameLen + sizeof(tSirMacMgmtHdr)), 
                psessionEntry->smeSessionId, WDA_GET_RX_CH(pBd),
                psessionEntry, 0);
+=======
+    limLog( pMac, LOG1, FL("Received a probe request frame"));
+
+    //send the probe req to SME.
+    limSendSmeMgmtFrameInd( pMac, psessionEntry->smeSessionId, pBd,
+                            psessionEntry, 0);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef WLAN_FEATURE_P2P_INTERNAL
     limSendP2PProbeResponse(pMac, pBd, psessionEntry);
 #endif
@@ -812,7 +862,12 @@ limSendSmeProbeReqInd(tpAniSirGlobal pMac,
     vos_mem_copy(pSirSmeProbeReqInd->bssId, psessionEntry->bssId, sizeof(tSirMacAddr));
     vos_mem_copy(pSirSmeProbeReqInd->WPSPBCProbeReq.peerMacAddr, peerMacAddr, sizeof(tSirMacAddr));
 
+<<<<<<< HEAD
     MTRACE(macTraceMsgTx(pMac, psessionEntry->peSessionId, msgQ.type));
+=======
+    MTRACE(macTrace(pMac, TRACE_CODE_TX_SME_MSG, psessionEntry->peSessionId,
+                                                               msgQ.type));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     pSirSmeProbeReqInd->WPSPBCProbeReq.probeReqIELen = (tANI_U16)ProbeReqIELen;
     vos_mem_copy(pSirSmeProbeReqInd->WPSPBCProbeReq.probeReqIE, pProbeReqIE, ProbeReqIELen);
     

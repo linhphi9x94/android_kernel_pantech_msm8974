@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2014-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #if !defined( __I_VOS_DIAG_CORE_EVENT_H )
@@ -48,9 +60,12 @@
   
   \brief Android specific definitions for vOSS DIAG events
   
+<<<<<<< HEAD
    Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
    
    Qualcomm Confidential and Proprietary.
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
   
   ========================================================================*/
 
@@ -104,6 +119,20 @@ void vos_event_report_payload(v_U16_t event_Id, v_U16_t length, v_VOID_t *pPaylo
 /*------------------------------------------------------------------------- 
   Function declarations and documenation
   ------------------------------------------------------------------------*/
+<<<<<<< HEAD
+=======
+#ifdef FEATURE_WLAN_DIAG_SUPPORT
+void vos_log_wlock_diag(uint32_t reason, const char *wake_lock_name,
+                              uint32_t timeout, uint32_t status);
+#else
+static inline void vos_log_wlock_diag(uint32_t reason,
+                                 const char *wake_lock_name,
+                           uint32_t timeout, uint32_t status)
+{
+
+}
+#endif /* FEATURE_WLAN_DIAG_SUPPORT */
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef __cplusplus
 }

@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 //==================================================================
@@ -47,7 +59,11 @@
 //
 //  Author:       Larry Cawley
 // 
+<<<<<<< HEAD
 //  Copyright 2002, Woodside Networks, Inc.  All rights reserved.
+=======
+//
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 //
 //  Change History:
 //  04/09/2002 - LAC - Initial version.
@@ -138,8 +154,13 @@ typedef struct sPolFileHeader {
 
   tPolFileVersion FileVersion;
   tPolFileVersion HWCapabilities;
+<<<<<<< HEAD
   unsigned long   FileLength;
   unsigned long   NumDirectoryEntries;
+=======
+  unsigned int   FileLength;
+  unsigned int   NumDirectoryEntries;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 } tPolFileHeader;
 
@@ -158,9 +179,15 @@ typedef enum ePolFileDirTypes {
 
 typedef struct sPolFileDirEntry {
 
+<<<<<<< HEAD
   unsigned long DirEntryType;
   unsigned long DirEntryFileOffset;
   unsigned long DirEntryLength;
+=======
+  unsigned int DirEntryType;
+  unsigned int DirEntryFileOffset;
+  unsigned int DirEntryLength;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 } tPolFileDirEntry;
 

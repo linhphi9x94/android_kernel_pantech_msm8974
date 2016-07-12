@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,11 +42,21 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /*
  *
+<<<<<<< HEAD
  * Airgo Networks, Inc proprietary. All rights reserved.
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file limApi.h contains the definitions exported by
  * LIM module.
  * Author:        Chandra Modumudi
@@ -101,6 +116,12 @@
 #define LIM_SET_RADAR_DETECTED(pMac, val)   (pMac->lim.gLimSpecMgmt.fRadarDetCurOperChan = val)
 #define LIM_MIN_BCN_PR_LENGTH  12
 #define LIM_BCN_PR_CAPABILITY_OFFSET 10
+<<<<<<< HEAD
+=======
+#define DEFAULT_MIN_CHAN_TIME_DURING_MIRACAST 20
+#define DEFAULT_MAX_CHAN_TIME_DURING_MIRACAST 20
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 typedef enum eMgmtFrmDropReason
 {
     eMGMT_DROP_NO_DROP,
@@ -109,6 +130,10 @@ typedef enum eMgmtFrmDropReason
     eMGMT_DROP_SCAN_MODE_FRAME,
     eMGMT_DROP_NON_SCAN_MODE_FRAME,
     eMGMT_DROP_INVALID_SIZE,
+<<<<<<< HEAD
+=======
+    eMGMT_DROP_SPURIOUS_FRAME,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }tMgmtFrmDropReason;
 
 
@@ -138,6 +163,11 @@ void limDumpInit(tpAniSirGlobal pMac);
 extern void limCleanup(tpAniSirGlobal);
 /// Function to post messages to LIM thread
 extern tANI_U32  limPostMsgApi(tpAniSirGlobal, tSirMsgQ *);
+<<<<<<< HEAD
+=======
+tANI_U32  limPostMsgApiHighPri(tpAniSirGlobal, tSirMsgQ *);
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**
  * Function to process messages posted to LIM thread
  * and dispatch to various sub modules within LIM module.
@@ -202,7 +232,22 @@ void limHandleLowRssiInd(tpAniSirGlobal pMac);
 void limHandleBmpsStatusInd(tpAniSirGlobal pMac);
 void limHandleMissedBeaconInd(tpAniSirGlobal pMac, tpSirMsgQ pMsg);
 tMgmtFrmDropReason limIsPktCandidateForDrop(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tANI_U32 subType);
+<<<<<<< HEAD
 void limMicFailureInd(tpAniSirGlobal pMac, tpSirMsgQ pMsg);
+=======
+boolean limIsDeauthDiassocForDrop(tpAniSirGlobal pMac,
+                                          tANI_U8 *pRxPacketInfo);
+#ifdef WLAN_FEATURE_11W
+bool lim_is_assoc_req_for_drop(tpAniSirGlobal mac, uint8_t *rx_pkt_info);
+#endif
+void limMicFailureInd(tpAniSirGlobal pMac, tpSirMsgQ pMsg);
+
+void limProcessLostLinkParamsInd(tpAniSirGlobal pMac, tpSirMsgQ pMsg);
+void limUpdateLostLinkParams(tpAniSirGlobal pMac,
+                   tpPESession psessionEntry, tANI_U8 *pRxPacketInfo);
+
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* ----------------------------------------------------------------------- */
 // These used to be in DPH
 extern void limSetBssid(tpAniSirGlobal pMac, tANI_U8 *bssId);

@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2011-2013, 2016 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -17,7 +21,17 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+<<<<<<< HEAD
 */
+=======
+ */
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+ */
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /** ------------------------------------------------------------------------- *
     ------------------------------------------------------------------------- *
@@ -28,8 +42,11 @@
     \brief Exports and types for the Platform Abstraction Layer interfaces.
 
     $Id$
+<<<<<<< HEAD
 
     Copyright (C) 2006 Airgo Networks, Incorporated
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     This file contains all the interfaces for thge Platform Abstration Layer
     functions.  It is intended to be included in all modules that are using
     the PAL interfaces.
@@ -447,7 +464,11 @@ extern void palGetUnicastStats(tHddHandle hHdd, tANI_U32 *tx, tANI_U32 *rx);
 
     \return tick count.
 ----------------------------------------------------------------------------------*/
+<<<<<<< HEAD
 tANI_U32 palGetTickCount(tHddHandle hHdd);
+=======
+tANI_TIMESTAMP palGetTickCount(tHddHandle hHdd);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /** ---------------------------------------------------------------------------
 

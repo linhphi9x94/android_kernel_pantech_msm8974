@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /*
@@ -180,6 +192,10 @@ typedef enum eSirRetStatus
     eSIR_PMM_STA_NOT_ASSOCIATED,
     eSIR_PMM_HEART_BEAT_TMOUT,
     eSIR_PMM_NTH_BEACON_DELIVERY,
+<<<<<<< HEAD
+=======
+    eSIR_PMM_INVALID_REQ,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     // ARQ Return Codes
     eSIR_ARQ_ERROR_BASE=0x2500,
@@ -198,4 +214,29 @@ typedef enum eSirRetStatus
 
 } tSirRetStatus;
 
+<<<<<<< HEAD
+=======
+typedef enum
+{
+   FW_UBSP_STATS = 1,
+   FW_STATS_MAX,
+}tSirFwStatsType;
+
+
+typedef struct
+{
+   v_U32_t ubsp_enter_cnt;
+   v_U32_t ubsp_jump_ddr_cnt;
+}tSirUbspFwStats;
+
+typedef struct
+{
+   tSirFwStatsType type;
+   /*data*/
+   union{
+     tSirUbspFwStats ubspStats;
+   }fwStatsData;
+}tSirFwStatsResult;
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 # endif // __SIR_TYPES_H

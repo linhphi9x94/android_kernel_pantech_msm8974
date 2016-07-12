@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #ifndef EVENT_DEFS_H
@@ -1915,6 +1927,11 @@ typedef enum
   EVENT_FDPCH_CONFIG_ACTION = 0x766,
   EVENT_SNS_DRV_MOTION_DETECT_SIG = 0x767,
   EVENT_SNS_DRV_OPMODE_CHANGE = 0x768,
+<<<<<<< HEAD
+=======
+  EVENT_WLAN_EAPOL = 0xA8D,/* 18 bytes payload */
+  EVENT_WLAN_WAKE_LOCK = 0xAA2, /* 96 bytes payload */
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   EVENT_NEXT_UNUSED_EVENT,
   EVENT_RSVD_START = 0x0800,

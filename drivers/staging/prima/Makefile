@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 KERNEL_BUILD := 1
 MODNAME := wlan
 WLAN_ROOT := drivers/staging/prima
@@ -599,3 +600,22 @@ KBUILD_CPPFLAGS += $(CDEFINES)
 # Module information used by KBuild framework
 obj-$(CONFIG_PRIMA_WLAN) += $(MODNAME).o
 $(MODNAME)-y := $(OBJS)
+=======
+default: all
+
+KBUILD_OPTIONS := WLAN_ROOT=$(PWD)
+KBUILD_OPTIONS += MODNAME=wlan
+
+all::
+	$(MAKE) -C $(KERNEL_SOURCE) $(KBUILD_OPTIONS) $(EXTRA_CFLAGS) ARCH=$(ARCH) \
+		SUBDIRS=$(CURDIR) CC=${CC} modules
+
+modules_install:
+	$(MAKE) INSTALL_MOD_STRIP=1 -C $(KERNEL_SRC) M=$(shell pwd) modules_install
+
+clean::
+	rm -f *.o *.ko *.mod.c *.mod.o *~ .*.cmd Module.symvers
+	rm -rf .tmp_versions
+
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver

@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #ifndef WLAN_HDD_FTM_H
@@ -60,7 +72,11 @@
 #define WLAN_FTM_PHY_CMD         100
 #define SIR_HAL_FTM_CMD          10
 #define QUALCOMM_MODULE_TYPE     2
+<<<<<<< HEAD
 #define WLAN_FTM_COMMAND_TIME_OUT 1000
+=======
+#define WLAN_FTM_COMMAND_TIME_OUT 10000
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define PHYDBG_PREAMBLE_NOT_SUPPORTED 0xFF
 /* Private ioctls and their sub-ioctls */
 #define WLAN_FTM_PRIV_SET_INT_GET_NONE    (SIOCIWFIRSTPRIV + 0)
@@ -77,6 +93,10 @@
 #define WE_SET_PWR_CNTL_MODE 11
 #define WE_ENABLE_DPD        12
 #define WE_SET_CB            13
+<<<<<<< HEAD
+=======
+#define WE_TX_CW_RF_GEN      14
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /* Private ioctls and their sub-ioctls */
 #define WLAN_FTM_PRIV_SET_NONE_GET_INT    (SIOCIWFIRSTPRIV + 1)
@@ -108,7 +128,15 @@
 #define WLAN_FTM_PRIV_SET_NONE_GET_NONE   (SIOCIWFIRSTPRIV + 6)
 #define WE_SET_NV_DEFAULTS    1
 
+<<<<<<< HEAD
 #define WE_FTM_MAX_STR_LEN 1024
+=======
+#define WLAN_FTM_PRIV_SET_VAR_INT_GET_NONE   (SIOCIWFIRSTPRIV + 7)
+#define WE_SET_TX_WF_GAIN  1
+
+#define WE_FTM_MAX_STR_LEN 1024
+#define MAX_FTM_VAR_ARGS  7
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #define MAX_NV_TABLE_SIZE  40000
 
@@ -154,6 +182,10 @@ typedef enum {
     WLAN_FTM_INITIALIZED,
     WLAN_FTM_STOPPED,
     WLAN_FTM_STARTED,
+<<<<<<< HEAD
+=======
+    WLAN_FTM_STARTING,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 } wlan_hdd_ftm_state;
 typedef struct wlan_hdd_ftm_status_s
 {
@@ -175,6 +207,10 @@ typedef struct wlan_hdd_ftm_status_s
     v_U8_t   *targetNVTablePointer;
     v_U32_t   processedNVTableSize;
     v_U8_t   *tempNVTableBuffer;
+<<<<<<< HEAD
+=======
+    struct completion startCmpVar;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 } wlan_hdd_ftm_status_t;
 typedef struct ftm_msg_s

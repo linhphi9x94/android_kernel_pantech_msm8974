@@ -1,4 +1,5 @@
 /*
+<<<<<<< HEAD
   * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
   *
   * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
@@ -26,6 +27,35 @@
 
 /*
  * Airgo Networks, Inc proprietary. All rights reserved.
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+ *
+ * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
+ *
+ *
+ * Permission to use, copy, modify, and/or distribute this software for
+ * any purpose with or without fee is hereby granted, provided that the
+ * above copyright notice and this permission notice appear in all
+ * copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
+ * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+ * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+ * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ */
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+ */
+
+/*
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file schBeaconProcess.cc contains beacon processing related
  * functions
  *
@@ -38,7 +68,11 @@
  */
 
 #include "palTypes.h"
+<<<<<<< HEAD
 #include "wniCfgSta.h"
+=======
+#include "wniCfg.h"
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #include "cfgApi.h"
 #include "pmmApi.h"
@@ -131,6 +165,7 @@ ap_beacon_process(
                 if (((!(pBcnStruct->erpPresent)) && 
                       !(pBcnStruct->HTInfo.present))|| 
                     //if erp not present then  11B AP overlapping
+<<<<<<< HEAD
                     (pBcnStruct->erpPresent &&
                     (pBcnStruct->erpIEInfo.useProtection ||
                     pBcnStruct->erpIEInfo.nonErpPresent)))
@@ -140,6 +175,18 @@ ap_beacon_process(
                     {
                         VOS_TRACE (VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO, 
                             "%s: [INFOLOG]CCX 11g erpPresent=%d useProtection=%d nonErpPresent=%d", __func__,
+=======
+                    (!pMac->roam.configParam.ignorePeerErpInfo &&
+                      pBcnStruct->erpPresent &&
+                    (pBcnStruct->erpIEInfo.useProtection ||
+                    pBcnStruct->erpIEInfo.nonErpPresent)))
+                {
+#ifdef FEATURE_WLAN_ESE
+                    if( psessionEntry->isESEconnection )
+                    {
+                        VOS_TRACE (VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO, 
+                            "%s: [INFOLOG]ESE 11g erpPresent=%d useProtection=%d nonErpPresent=%d", __func__,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                             pBcnStruct->erpPresent,
                             pBcnStruct->erpIEInfo.useProtection,
                             pBcnStruct->erpIEInfo.nonErpPresent);
@@ -158,6 +205,7 @@ ap_beacon_process(
               if (((!(pBcnStruct->erpPresent)) && 
                     !(pBcnStruct->HTInfo.present))|| 
                   //if erp not present then  11B AP overlapping
+<<<<<<< HEAD
                   (pBcnStruct->erpPresent &&
                   (pBcnStruct->erpIEInfo.useProtection ||
                   pBcnStruct->erpIEInfo.nonErpPresent)))
@@ -167,6 +215,18 @@ ap_beacon_process(
                   {
                       VOS_TRACE (VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO, 
                           "%s: [INFOLOG]CCX 11g erpPresent=%d useProtection=%d nonErpPresent=%d", __func__,
+=======
+                  (!pMac->roam.configParam.ignorePeerErpInfo &&
+                    pBcnStruct->erpPresent &&
+                  (pBcnStruct->erpIEInfo.useProtection ||
+                  pBcnStruct->erpIEInfo.nonErpPresent)))
+              {
+#ifdef FEATURE_WLAN_ESE
+                  if( psessionEntry->isESEconnection )
+                  {
+                      VOS_TRACE (VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO, 
+                          "%s: [INFOLOG]ESE 11g erpPresent=%d useProtection=%d nonErpPresent=%d", __func__,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                           pBcnStruct->erpPresent,
                           pBcnStruct->erpIEInfo.useProtection,
                           pBcnStruct->erpIEInfo.nonErpPresent);
@@ -200,7 +260,12 @@ ap_beacon_process(
                   //then we need to enable protection from 11g station. 
                   //we don't need protection from 11b because if that's needed then our operating
                   //mode would have already been set to legacy in the previous blocks.
+<<<<<<< HEAD
                   if(eSIR_HT_OP_MODE_OVERLAP_LEGACY == pBcnStruct->HTInfo.opMode)
+=======
+                  if(eSIR_HT_OP_MODE_OVERLAP_LEGACY == pBcnStruct->HTInfo.opMode
+                     && !pMac->roam.configParam.ignorePeerHTopMode)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                   {
                       if((eSIR_HT_OP_MODE_MIXED != pMac->lim.gHTOperMode) &&
                           (eSIR_HT_OP_MODE_OVERLAP_LEGACY != pMac->lim.gHTOperMode))
@@ -334,21 +399,39 @@ static void __schBeaconProcessForSession( tpAniSirGlobal      pMac,
     tUpdateBeaconParams beaconParams;
     tANI_U8 sendProbeReq = FALSE;
     tpDphHashNode pStaDs = NULL;
+<<<<<<< HEAD
+=======
+    tANI_U32   channelBondingMode;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef WLAN_FEATURE_11AC
     tpSirMacMgmtHdr    pMh = WDA_GET_RX_MAC_HEADER(pRxPacketInfo);
     tANI_U16  aid;
     tANI_U8  operMode;
     tANI_U8  chWidth = 0;
 #endif
+<<<<<<< HEAD
 #if defined FEATURE_WLAN_CCX || defined FEATURE_WLAN_VOWIFI
      tPowerdBm regMax = 0,maxTxPower = 0;
 #endif
 
+=======
+#if defined FEATURE_WLAN_ESE || defined WLAN_FEATURE_VOWIFI
+     tPowerdBm regMax = 0,maxTxPower = 0;
+#endif
+
+    vos_mem_zero(&beaconParams, sizeof(tUpdateBeaconParams));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     beaconParams.paramChangeBitmap = 0;
 
     if(eLIM_STA_IN_IBSS_ROLE == psessionEntry->limSystemRole )
     {
+<<<<<<< HEAD
         limHandleIBSScoalescing(pMac, pBeacon,  pRxPacketInfo, psessionEntry);
+=======
+        if( limHandleIBSScoalescing(pMac, pBeacon, pRxPacketInfo, psessionEntry)
+                                                               != eSIR_SUCCESS )
+            return;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
     else if(  (eLIM_STA_ROLE == psessionEntry->limSystemRole) || 
                   (eLIM_BT_AMP_STA_ROLE == psessionEntry->limSystemRole))
@@ -372,6 +455,19 @@ static void __schBeaconProcessForSession( tpAniSirGlobal      pMac,
                           psessionEntry->currentOperChannel, pBeacon->channelNumber);)
            goto fail;
         }
+<<<<<<< HEAD
+=======
+
+        if( RF_CHAN_14 >= psessionEntry->currentOperChannel )
+        {
+           channelBondingMode = pMac->roam.configParam.channelBondingMode24GHz;
+        }
+        else
+        {
+           channelBondingMode = pMac->roam.configParam.channelBondingMode5GHz;
+        }
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         limDetectChangeInApCapabilities(pMac, pBeacon, psessionEntry);
         if(limGetStaHashBssidx(pMac, DPH_STA_HASH_INDEX_PEER, &bssIdx, psessionEntry) != eSIR_SUCCESS)
             goto fail;
@@ -391,8 +487,13 @@ static void __schBeaconProcessForSession( tpAniSirGlobal      pMac,
         bi = psessionEntry->beaconParams.beaconInterval;
         if (bi != pBeacon->beaconInterval)
         {
+<<<<<<< HEAD
            PELOG1(schLog(pMac, LOG1, FL("Beacon interval changed from %d to %d"),
                    pBeacon->beaconInterval, bi);)
+=======
+           schLog(pMac, LOG1, FL("Beacon interval changed from %d to %d"),
+                   pBeacon->beaconInterval, bi);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
             bi = pBeacon->beaconInterval;
             psessionEntry->beaconParams.beaconInterval = (tANI_U16) bi;
@@ -461,7 +562,11 @@ static void __schBeaconProcessForSession( tpAniSirGlobal      pMac,
           (psessionEntry->limSystemRole == eLIM_STA_IN_IBSS_ROLE) )
     {
         /* Channel Switch information element updated */
+<<<<<<< HEAD
         if(pBeacon->channelSwitchPresent || 
+=======
+        if(pBeacon->channelSwitchPresent ||
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pBeacon->propIEinfo.propChannelSwitchPresent)
         {
             limUpdateChannelSwitch(pMac, pBeacon, psessionEntry);
@@ -470,8 +575,52 @@ static void __schBeaconProcessForSession( tpAniSirGlobal      pMac,
         {
             limCancelDot11hChannelSwitch(pMac, psessionEntry);
         }
+<<<<<<< HEAD
     }
 
+=======
+        // check for HT capability
+        pStaDs = dphLookupHashEntry(pMac, pMh->sa, &aid,
+                                    &psessionEntry->dph.dphHashTable);
+        /* Update the channel bonding mode only if channel bonding
+         * mode is enabled in INI.
+         */
+        if ( (pStaDs != NULL) && (HAL_STA_INVALID_IDX != pStaDs->staIndex ) &&
+              (WNI_CFG_CHANNEL_BONDING_MODE_DISABLE != channelBondingMode) )
+        {
+           /* Following check is related to HT40 on 2.4GHz mode*/
+           if ((pStaDs->htSecondaryChannelOffset !=
+                pBeacon->HTInfo.secondaryChannelOffset) &&
+                (IS_HT40_OBSS_SCAN_FEATURE_ENABLE) &&
+                (psessionEntry->currentOperChannel <= RF_CHAN_14))
+           {
+               VOS_TRACE( VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO,
+                        FL(" Current Secondarychanoffset %d received "
+                        " secondaryChannelOffset %d, staIdx = %d"),
+                        pStaDs->htSecondaryChannelOffset,
+                        pBeacon->HTInfo.secondaryChannelOffset,
+                        pStaDs->staIndex);
+              if (eANI_BOOLEAN_TRUE ==(limCheckHTChanBondModeChange(pMac,
+                                              psessionEntry,
+                                              pBeacon->HTInfo.secondaryChannelOffset,
+                                              pStaDs->htSecondaryChannelOffset,
+                                              pStaDs->staIndex)))
+              {
+                  pStaDs->htSupportedChannelWidthSet =
+                             pBeacon->HTInfo.recommendedTxWidthSet;
+                  pStaDs->htSecondaryChannelOffset =
+                             pBeacon->HTInfo.secondaryChannelOffset;
+                  limUpdateMaxRateFlag(pMac, psessionEntry->smeSessionId,
+                                       limGetMaxRateFlags(pStaDs, psessionEntry));
+              }
+           }
+        }
+        else
+           schLog(pMac, LOG1,
+                  FL("Self Entry missing in Hash Table or channel bonding mode is disabled"));
+    }
+    /* TODO : Below condition checks can be merged with the if */
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef WLAN_FEATURE_11AC
     if ((psessionEntry->limSystemRole == eLIM_STA_ROLE) ||
         (psessionEntry->limSystemRole == eLIM_BT_AMP_STA_ROLE) ||
@@ -480,7 +629,16 @@ static void __schBeaconProcessForSession( tpAniSirGlobal      pMac,
        // check for VHT capability
        pStaDs = dphLookupHashEntry(pMac, pMh->sa, &aid,
              &psessionEntry->dph.dphHashTable);
+<<<<<<< HEAD
        if (NULL != pStaDs)
+=======
+
+       /* Update the channel bonding mode only if channel bonding
+        * mode is enabled in INI.
+        */
+       if ( (NULL != pStaDs) && (HAL_STA_INVALID_IDX != pStaDs->staIndex ) &&
+            (WNI_CFG_CHANNEL_BONDING_MODE_DISABLE != channelBondingMode) )
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
        {
           if (psessionEntry->vhtCapability && pBeacon->OperatingMode.present )
           {
@@ -490,6 +648,7 @@ static void __schBeaconProcessForSession( tpAniSirGlobal      pMac,
                 eHT_CHANNEL_WIDTH_40MHZ: eHT_CHANNEL_WIDTH_20MHZ;
              if (operMode != pBeacon->OperatingMode.chanWidth)
              {
+<<<<<<< HEAD
                 PELOG1(limLog(pMac, LOG1,
                          FL(" received OpMode Chanwidth %d, staIdx = %d"),
                          pBeacon->OperatingMode.chanWidth,
@@ -506,14 +665,32 @@ static void __schBeaconProcessForSession( tpAniSirGlobal      pMac,
                    {
                       PELOG1(limLog(pMac, LOG1,
                                FL("Updating the CH Width to 80MHz"));)
+=======
+                   schLog(pMac, LOG1,
+                         FL(" received OpMode Chanwidth %d, staIdx = %d"),
+                         pBeacon->OperatingMode.chanWidth,
+                         pStaDs->staIndex);
+                   schLog(pMac, LOG1, FL(" MAC -" MAC_ADDRESS_STR),
+                                              MAC_ADDR_ARRAY(pMh->sa));
+
+                   if (pBeacon->OperatingMode.chanWidth == eHT_CHANNEL_WIDTH_80MHZ)
+                   {
+                      schLog(pMac, LOG1,
+                               FL("Updating the CH Width to 80MHz"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                          pStaDs->vhtSupportedChannelWidthSet =
                          WNI_CFG_VHT_CHANNEL_WIDTH_80MHZ;
                       pStaDs->htSupportedChannelWidthSet = eHT_CHANNEL_WIDTH_40MHZ;
                    }
                    else if (pBeacon->OperatingMode.chanWidth == eHT_CHANNEL_WIDTH_40MHZ)
                    {
+<<<<<<< HEAD
                       PELOG1(limLog(pMac, LOG1,
                                FL("Updating the CH Width to 40MHz"));)
+=======
+                      schLog(pMac, LOG1,
+                               FL("Updating the CH Width to 40MHz"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                          pStaDs->vhtSupportedChannelWidthSet =
                          WNI_CFG_VHT_CHANNEL_WIDTH_20_40MHZ;
                       pStaDs->htSupportedChannelWidthSet = eHT_CHANNEL_WIDTH_40MHZ;
@@ -521,8 +698,13 @@ static void __schBeaconProcessForSession( tpAniSirGlobal      pMac,
                    else if (pBeacon->OperatingMode.chanWidth ==
                          eHT_CHANNEL_WIDTH_20MHZ)
                    {
+<<<<<<< HEAD
                       PELOG1(limLog(pMac, LOG1,
                                FL("Updating the CH Width to 20MHz"));)
+=======
+                      schLog(pMac, LOG1,
+                               FL("Updating the CH Width to 20MHz"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                          pStaDs->vhtSupportedChannelWidthSet =
                          WNI_CFG_VHT_CHANNEL_WIDTH_20_40MHZ;
                       pStaDs->htSupportedChannelWidthSet = eHT_CHANNEL_WIDTH_20MHZ;
@@ -537,6 +719,7 @@ static void __schBeaconProcessForSession( tpAniSirGlobal      pMac,
              operMode = pStaDs->vhtSupportedChannelWidthSet;
              if (operMode != pBeacon->VHTOperation.chanWidth)
              {
+<<<<<<< HEAD
                 PELOG1(limLog(pMac, LOG1,
                          FL(" received VHTOP CHWidth %d staIdx = %d"),
                          pBeacon->VHTOperation.chanWidth,
@@ -548,12 +731,25 @@ static void __schBeaconProcessForSession( tpAniSirGlobal      pMac,
                             pMh->sa[3],
                             pMh->sa[4],
                             pMh->sa[5]);)
+=======
+                   schLog(pMac, LOG1,
+                         FL(" received VHTOP CHWidth %d staIdx = %d"),
+                         pBeacon->VHTOperation.chanWidth,
+                         pStaDs->staIndex);
+                   schLog(pMac, LOG1, FL(" MAC -" MAC_ADDRESS_STR),
+                                            MAC_ADDR_ARRAY(pMh->sa));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                    if (pBeacon->VHTOperation.chanWidth ==
                          WNI_CFG_VHT_CHANNEL_WIDTH_80MHZ)
                    {
+<<<<<<< HEAD
                       PELOG1(limLog(pMac, LOG1,
                                FL("Updating the CH Width to 80MHz"));)
+=======
+                      schLog(pMac, LOG1,
+                               FL("Updating the CH Width to 80MHz"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                          pStaDs->vhtSupportedChannelWidthSet =
                          WNI_CFG_VHT_CHANNEL_WIDTH_80MHZ;
                       pStaDs->htSupportedChannelWidthSet = eHT_CHANNEL_WIDTH_40MHZ;
@@ -566,16 +762,26 @@ static void __schBeaconProcessForSession( tpAniSirGlobal      pMac,
                          WNI_CFG_VHT_CHANNEL_WIDTH_20_40MHZ;
                       if (pBeacon->HTCaps.supportedChannelWidthSet)
                       {
+<<<<<<< HEAD
                          PELOG1(limLog(pMac, LOG1,
                                   FL("Updating the CH Width to 40MHz"));)
+=======
+                         schLog(pMac, LOG1,
+                                  FL("Updating the CH Width to 40MHz"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                             pStaDs->htSupportedChannelWidthSet =
                             eHT_CHANNEL_WIDTH_40MHZ;
                          chWidth = eHT_CHANNEL_WIDTH_40MHZ;
                       }
                       else
                       {
+<<<<<<< HEAD
                          PELOG1(limLog(pMac, LOG1,
                                   FL("Updating the CH Width to 20MHz"));)
+=======
+                         schLog(pMac, LOG1,
+                                  FL("Updating the CH Width to 20MHz"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                             pStaDs->htSupportedChannelWidthSet =
                             eHT_CHANNEL_WIDTH_20MHZ;
                          chWidth = eHT_CHANNEL_WIDTH_20MHZ;
@@ -589,12 +795,20 @@ static void __schBeaconProcessForSession( tpAniSirGlobal      pMac,
     }
 #endif
 
+<<<<<<< HEAD
 #if defined (FEATURE_WLAN_CCX) || defined (FEATURE_WLAN_VOWIFI)
     /* Obtain the Max Tx power for the current regulatory  */
     regMax = cfgGetRegulatoryMaxTransmitPower( pMac, psessionEntry->currentOperChannel );
 #endif
 
 #if defined FEATURE_WLAN_VOWIFI
+=======
+#if defined (FEATURE_WLAN_ESE) || defined (WLAN_FEATURE_VOWIFI)
+    /* Obtain the Max Tx power for the current regulatory  */
+    regMax = cfgGetRegulatoryMaxTransmitPower( pMac, psessionEntry->currentOperChannel );
+#endif
+#if defined WLAN_FEATURE_VOWIFI
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
         tPowerdBm  localRRMConstraint = 0;
         if ( pMac->rrm.rrmPEContext.rrmEnable && pBeacon->powerConstraintPresent )
@@ -607,6 +821,7 @@ static void __schBeaconProcessForSession( tpAniSirGlobal      pMac,
         }
         maxTxPower = VOS_MIN(regMax,(regMax - localRRMConstraint));
     }
+<<<<<<< HEAD
 #elif defined FEATURE_WLAN_CCX
     maxTxPower = regMax;
 #endif
@@ -625,6 +840,26 @@ static void __schBeaconProcessForSession( tpAniSirGlobal      pMac,
 #endif
 
 #if defined (FEATURE_WLAN_CCX) || defined (FEATURE_WLAN_VOWIFI)
+=======
+#elif defined FEATURE_WLAN_ESE
+    maxTxPower = regMax;
+#endif
+
+#if defined FEATURE_WLAN_ESE
+    if( psessionEntry->isESEconnection )
+    {
+        tPowerdBm  localESEConstraint = 0;
+        if (pBeacon->eseTxPwr.present)
+        {
+            localESEConstraint = pBeacon->eseTxPwr.power_limit;
+            maxTxPower = limGetMaxTxPower(maxTxPower, localESEConstraint, pMac->roam.configParam.nTxPowerCap);
+        }
+        schLog( pMac, LOG1, "RegMax = %d, localESECons = %d, MaxTx = %d", regMax, localESEConstraint, maxTxPower );
+    }
+#endif
+
+#if defined (FEATURE_WLAN_ESE) || defined (WLAN_FEATURE_VOWIFI)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
         //If maxTxPower is increased or decreased
         if( maxTxPower != psessionEntry->maxTxPower )
@@ -651,8 +886,13 @@ static void __schBeaconProcessForSession( tpAniSirGlobal      pMac,
 
     if(beaconParams.paramChangeBitmap)
     {
+<<<<<<< HEAD
         PELOGW(schLog(pMac, LOGW, FL("Beacon for session[%d] got changed. "), psessionEntry->peSessionId);)
         PELOGW(schLog(pMac, LOGW, FL("sending beacon param change bitmap: 0x%x "), beaconParams.paramChangeBitmap);)
+=======
+        schLog(pMac, LOGW, FL("Beacon for session[%d] got changed. "), psessionEntry->peSessionId);
+        schLog(pMac, LOGW, FL("sending beacon param change bitmap: 0x%x "), beaconParams.paramChangeBitmap);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         limSendBeaconParams(pMac, &beaconParams, psessionEntry);
     }
 
@@ -661,8 +901,11 @@ fail:
 
 }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**
  * schBeaconProcess
  *
@@ -684,6 +927,10 @@ void schBeaconProcess(tpAniSirGlobal pMac, tANI_U8* pRxPacketInfo, tpPESession p
     static tSchBeaconStruct beaconStruct;
     tUpdateBeaconParams beaconParams;
     tpPESession pAPSession = NULL;
+<<<<<<< HEAD
+=======
+    vos_mem_zero(&beaconParams, sizeof(tUpdateBeaconParams));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     beaconParams.paramChangeBitmap = 0;
 
     pMac->sch.gSchBcnRcvCnt++;
@@ -691,11 +938,22 @@ void schBeaconProcess(tpAniSirGlobal pMac, tANI_U8* pRxPacketInfo, tpPESession p
     // Convert the beacon frame into a structure
     if (sirConvertBeaconFrame2Struct(pMac, (tANI_U8 *) pRxPacketInfo, &beaconStruct)!= eSIR_SUCCESS)
     {
+<<<<<<< HEAD
         PELOGE(schLog(pMac, LOGE, FL("beacon parsing failed"));)
         pMac->sch.gSchBcnParseErrorCnt++;
         return;
     }
 
+=======
+        schLog(pMac, LOGE, FL("beacon parsing failed"));
+        pMac->sch.gSchBcnParseErrorCnt++;
+
+        if ((NULL != psessionEntry) && (!psessionEntry->currentBssBeaconCnt))
+            limParseBeaconForTim(pMac, (tANI_U8 *) pRxPacketInfo, psessionEntry);
+
+        return;
+    }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (beaconStruct.ssidPresent)
     {
         beaconStruct.ssId.ssId[beaconStruct.ssId.length] = 0;
@@ -727,8 +985,15 @@ void schBeaconProcess(tpAniSirGlobal pMac, tANI_U8* pRxPacketInfo, tpPESession p
         {
             //Update the beacons and apply the new settings to HAL
             schSetFixedBeaconFields(pMac, pAPSession);
+<<<<<<< HEAD
             PELOG1(schLog(pMac, LOG1, FL("Beacon for PE session[%d] got changed.  "), pAPSession->peSessionId);)
             PELOG1(schLog(pMac, LOG1, FL("sending beacon param change bitmap: 0x%x "), beaconParams.paramChangeBitmap);)
+=======
+            schLog(pMac, LOG1, FL("Beacon for PE session[%d] got changed."),
+                                                      pAPSession->peSessionId);
+            schLog(pMac, LOG1, FL("sending beacon param change bitmap: 0x%x "),
+                                               beaconParams.paramChangeBitmap);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             limSendBeaconParams(pMac, &beaconParams, pAPSession);
         }
     }

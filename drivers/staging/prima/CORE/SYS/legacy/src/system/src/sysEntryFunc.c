@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2014 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -40,6 +45,16 @@
  */
 /*
  * Airgo Networks, Inc proprietary. All rights reserved
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+ */
+
+/*
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * sysEntryFunc.cc - This file has all the system level entry functions
  *                   for all the defined threads at system level.
  * Author:    V. K. Kandarpa
@@ -148,6 +163,13 @@ sysBbtProcessMessageCore(tpAniSirGlobal pMac, tpSirMsgQ pMsg, tANI_U32 type,
 
     if(type == SIR_MAC_MGMT_FRAME)
     {
+<<<<<<< HEAD
+=======
+            if ((subType == SIR_MAC_MGMT_DEAUTH ||
+                 subType == SIR_MAC_MGMT_DISASSOC)&&
+                limIsDeauthDiassocForDrop(pMac, pBd))
+                goto fail;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
             if( (dropReason = limIsPktCandidateForDrop(pMac, pBd, subType)) != eMGMT_DROP_NO_DROP)
             {
@@ -166,6 +188,7 @@ sysBbtProcessMessageCore(tpAniSirGlobal pMac, tpSirMsgQ pMsg, tANI_U32 type,
     }
     else if (type == SIR_MAC_DATA_FRAME)
     {
+<<<<<<< HEAD
 #ifdef FEATURE_WLAN_TDLS_INTERNAL
        /*
         * if we reached here, probably this frame can be TDLS frame.
@@ -214,6 +237,9 @@ sysBbtProcessMessageCore(tpAniSirGlobal pMac, tpSirMsgQ pMsg, tANI_U32 type,
        /* fall through if ethType != TDLS, which is error case */
 #endif
 #ifdef FEATURE_WLAN_CCX
+=======
+#ifdef FEATURE_WLAN_ESE
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         PELOGW(sysLog(pMac, LOGW, FL("IAPP Frame...\n")););
         //Post the message to PE Queue
         ret = (tSirRetStatus) limPostMsgApi(pMac, pMsg);

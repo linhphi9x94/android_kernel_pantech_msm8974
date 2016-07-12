@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2014 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /*
@@ -91,6 +103,10 @@ tSirRetStatus limPopulatePeerRateSet(tpAniSirGlobal pMac,
                                                                 tANI_U8 basicOnly,
                                                                 tpPESession psessionEntry);
 #endif
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef WLAN_FEATURE_11AC
 tSirRetStatus limPopulateOwnRateSet(tpAniSirGlobal pMac,
                                          tpSirSupportedRates pRates,
@@ -188,7 +204,11 @@ void limHandleAddBssInReAssocContext(tpAniSirGlobal pMac, tpDphHashNode pStaDs, 
 
 /* API to fill in RX Highest Supported data Rate */
 void limFillRxHighestSupportedRate(tpAniSirGlobal pMac, tANI_U16 *rxHighestRate, tANI_U8* pSupportedMCSSet);
+<<<<<<< HEAD
 #if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR)
+=======
+#if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 void limSendRetryReassocReqFrame(tpAniSirGlobal pMac, tLimMlmReassocReq *pMlmReassocReq, tpPESession psessionEntry);
 #endif
 #ifdef WLAN_FEATURE_11W
@@ -196,10 +216,17 @@ void limSendSmeUnprotectedMgmtFrameInd(tpAniSirGlobal pMac, tANI_U8 frameType,
                                        tANI_U8  *frame, tANI_U32 frameLen, tANI_U16 sessionId, tpPESession psessionEntry);
 #endif
 
+<<<<<<< HEAD
 #if defined(FEATURE_WLAN_CCX) && defined(FEATURE_WLAN_CCX_UPLOAD)
 void limSendSmeTsmIEInd( tpAniSirGlobal pMac, tpPESession psessionEntry,
                             tANI_U8 tid, tANI_U8 state, tANI_U16 measInterval);
 #endif /* FEATURE_WLAN_CCX && FEATURE_WLAN_CCX_UPLOAD */
+=======
+#if defined(FEATURE_WLAN_ESE) && defined(FEATURE_WLAN_ESE_UPLOAD)
+void limSendSmeTsmIEInd( tpAniSirGlobal pMac, tpPESession psessionEntry,
+                            tANI_U8 tid, tANI_U8 state, tANI_U16 measInterval);
+#endif /* FEATURE_WLAN_ESE && FEATURE_WLAN_ESE_UPLOAD */
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 
 #endif /* __LIM_ASSOC_UTILS_H */

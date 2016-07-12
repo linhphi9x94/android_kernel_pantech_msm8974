@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /******************************************************************************
@@ -56,6 +68,10 @@
 #include <net/sock.h>
 #include <wlan_nlink_srv.h>
 #include <vos_trace.h>
+<<<<<<< HEAD
+=======
+#include "vos_memory.h"
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 //Global variables
 static DEFINE_MUTEX(nl_srv_sem);
@@ -124,6 +140,10 @@ void nl_srv_exit(void)
    }
 #endif /* WLAN_KD_READY_NOTIFIER */
    netlink_kernel_release(nl_srv_sock);
+<<<<<<< HEAD
+=======
+   nl_srv_sock = NULL;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 /*
@@ -174,7 +194,11 @@ int nl_srv_unregister(tWlanNlModTypes msg_type, nl_srv_msg_callback msg_handler)
  * Unicast the message to the process in user space identfied
  * by the dst-pid
  */
+<<<<<<< HEAD
 int nl_srv_ucast(struct sk_buff *skb, int dst_pid)
+=======
+int nl_srv_ucast(struct sk_buff *skb, int dst_pid, int flag)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
    int err;
 
@@ -185,11 +209,19 @@ int nl_srv_ucast(struct sk_buff *skb, int dst_pid)
 #endif
    NETLINK_CB(skb).dst_group = 0; //not multicast
 
+<<<<<<< HEAD
    err = netlink_unicast(nl_srv_sock, skb, dst_pid, MSG_DONTWAIT);
 
    if (err < 0)
       VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,
       "NLINK: netlink_unicast to pid[%d] failed, ret[0x%X]", dst_pid, err);
+=======
+   err = netlink_unicast(nl_srv_sock, skb, dst_pid, flag);
+
+   if (err < 0)
+      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,
+      "NLINK: netlink_unicast to pid[%d] failed, ret[%d]", dst_pid, err);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    return err;
 }
@@ -201,6 +233,13 @@ int nl_srv_ucast(struct sk_buff *skb, int dst_pid)
 int nl_srv_bcast(struct sk_buff *skb)
 {
    int err;
+<<<<<<< HEAD
+=======
+   int flags = GFP_KERNEL;
+
+   if (in_interrupt() || irqs_disabled() || in_atomic())
+       flags = GFP_ATOMIC;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(3,7,0))
    NETLINK_CB(skb).pid = 0; //sender's pid
@@ -209,7 +248,11 @@ int nl_srv_bcast(struct sk_buff *skb)
 #endif
    NETLINK_CB(skb).dst_group = WLAN_NLINK_MCAST_GRP_ID; //destination group
 
+<<<<<<< HEAD
    err = netlink_broadcast(nl_srv_sock, skb, 0, WLAN_NLINK_MCAST_GRP_ID, GFP_KERNEL);
+=======
+   err = netlink_broadcast(nl_srv_sock, skb, 0, WLAN_NLINK_MCAST_GRP_ID, flags);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    if (err < 0)
    {
@@ -247,8 +290,13 @@ static void nl_srv_rcv_skb (struct sk_buff *skb)
 
       if (nlh->nlmsg_len < sizeof(*nlh) || skb->len < nlh->nlmsg_len) {
          VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN, "NLINK: Invalid "
+<<<<<<< HEAD
             "Netlink message: skb[0x%X], len[%d], nlhdr[0x%X], nlmsg_len[%d]",
             (u32)skb, skb->len, (u32)nlh, nlh->nlmsg_len);
+=======
+            "Netlink message: skb[%p], len[%d], nlhdr[%p], nlmsg_len[%d]",
+            skb, skb->len, nlh, nlh->nlmsg_len);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
          return;
       }
 
@@ -294,9 +342,12 @@ static void nl_srv_rcv_msg (struct sk_buff *skb, struct nlmsghdr *nlh)
       return;
    }
 
+<<<<<<< HEAD
    VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
       "NLINK: Received NL msg type [%d]", type);
 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    // turn type into dispatch table offset
    type -= WLAN_NL_MSG_BASE;
 
@@ -336,7 +387,11 @@ void nl_srv_nl_ready_indication
    nlh->nlmsg_flags = 0;
    nlh->nlmsg_seq = 0;
    nlh->nlmsg_len = sizeof(driverLoaded);
+<<<<<<< HEAD
    memcpy(((char *)nlh) + sizeof(struct nlmsghdr),
+=======
+   vos_mem_copy(((char *)nlh) + sizeof(struct nlmsghdr),
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
           driverLoaded,
           sizeof(driverLoaded));
    skb_put(skb, NLMSG_SPACE(sizeof(driverLoaded)));
@@ -381,7 +436,11 @@ void nl_srv_nl_close_indication
    nlh->nlmsg_flags = 0;
    nlh->nlmsg_seq = 0;
    nlh->nlmsg_len = sizeof(driverUnLoaded);
+<<<<<<< HEAD
    memcpy(((char *)nlh) + sizeof(struct nlmsghdr),
+=======
+   vos_mem_copy(((char *)nlh) + sizeof(struct nlmsghdr),
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
           driverUnLoaded,
           sizeof(driverUnLoaded));
    skb_put(skb, NLMSG_SPACE(sizeof(driverUnLoaded)));
@@ -399,3 +458,22 @@ void nl_srv_nl_close_indication
 }
 #endif /* WLAN_KD_READY_NOTIFIER */
 
+<<<<<<< HEAD
+=======
+/*
+ * nl_srv_is_initialized() - This function is used check if the netlink
+ * service is initialized
+ *
+ * This function is used check if the netlink service is initialized
+ *
+ * Return: Return -EPERM if the service is not initialized
+ *
+ */
+int nl_srv_is_initialized()
+{
+   if (nl_srv_sock)
+       return 0;
+   else
+       return -EPERM;
+}
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver

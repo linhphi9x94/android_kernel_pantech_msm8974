@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,12 +42,22 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /*
  *
+<<<<<<< HEAD
 
  * Airgo Networks, Inc proprietary. All rights reserved.
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * Author:      Sandesh Goel
 
  * Date:        02/25/02
@@ -193,6 +208,20 @@
 #define DPH_STA_HASH_INDEX_PEER   1
 
 
+<<<<<<< HEAD
+=======
+#ifdef WLAN_FEATURE_11W
+//DPH PMF SA Query state for station
+
+#define DPH_SA_QUERY_NOT_IN_PROGRESS      1
+
+#define DPH_SA_QUERY_IN_PROGRESS          2
+
+#define DPH_SA_QUERY_TIMED_OUT            3
+#endif
+
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 typedef struct sDphRateBasedCtr
 
 {
@@ -618,9 +647,27 @@ typedef struct sDphHashNode
     tANI_U8  vhtBeamFormerCapable;
 #endif
 
+<<<<<<< HEAD
     tANI_U8 htLdpcCapable;
     tANI_U8 vhtLdpcCapable;
 
+=======
+#ifdef WLAN_FEATURE_11W
+    tANI_U8  pmfSaQueryState;
+    tANI_U8  pmfSaQueryRetryCount;
+    tANI_U16 pmfSaQueryCurrentTransId;
+    tANI_U16 pmfSaQueryStartTransId;
+    TX_TIMER pmfSaQueryTimer;
+    v_TIME_t last_unprot_deauth_disassoc;
+    tANI_U8 proct_deauh_disassoc_cnt;
+    v_TIME_t last_assoc_received_time;
+#endif
+
+    tANI_U8 htLdpcCapable;
+    tANI_U8 vhtLdpcCapable;
+    /* key installed for this STA or not in the firmware */
+    tANI_U8 isKeyInstalled;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /* When a station with already an existing dph entry tries to 
 
      * associate again, the old dph entry will be zeroed out except 
@@ -630,7 +677,11 @@ typedef struct sDphHashNode
      * end of the structure.
 
      */
+<<<<<<< HEAD
 
+=======
+    tANI_U8 isDisassocDeauthInProgress;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     struct sDphHashNode  *next;
 
 

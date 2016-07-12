@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -40,6 +45,15 @@
  */
 
 
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+ */
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifndef WLAN_QCT_DXE_I_H
 #define WLAN_QCT_DXE_I_H
 
@@ -50,9 +64,12 @@
   @brief 
                
    This file contains the external API exposed by the wlan data transfer abstraction layer module.
+<<<<<<< HEAD
    Copyright (c) 2011 Qualcomm Technologies, Inc.
    All Rights Reserved.
    Qualcomm Technologies Confidential and Proprietary
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ========================================================================*/
 
 /*===========================================================================
@@ -91,6 +108,17 @@ when           who        what, where, why
  * -------------------------------------------------------------------------*/
 #define WLANDXE_CTXT_COOKIE              0xC00CC111
 
+<<<<<<< HEAD
+=======
+#define foreach_valid_channel(idx)                \
+    for (idx = 0; idx < WDTS_CHANNEL_MAX; idx++)  \
+        if (!(dxeGetEnabledChannels() & 1<<idx))  \
+            continue;                             \
+        else
+
+#define WLANDXE_IS_VALID_CHANNEL(idx) \
+    (dxeGetEnabledChannels() & 1<<idx)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /* From here WCNSS DXE register information
  * This is temporary definition location to make compile and unit test
@@ -98,6 +126,7 @@ when           who        what, where, why
 /* Start with base address */
 
 #ifdef WCN_PRONTO
+<<<<<<< HEAD
 #define WLANDXE_CCU_DXE_INT_SELECT       0xfb2050dc
 #define WLANDXE_CCU_DXE_INT_SELECT_STAT  0xfb2050e0
 #define WLANDXE_CCU_ASIC_INT_ENABLE      0xfb2050e4
@@ -121,6 +150,26 @@ when           who        what, where, why
 #define WLANDXE_BMU_AVAILABLE_BD_PDU     (WLANDXE_WCNSS_BASE_ADDRESS + 0x80084)
 
 #define WLANDXE_REGISTER_BASE_ADDRESS    (WLANDXE_WCNSS_BASE_ADDRESS + 0x202000)
+=======
+#define WLANDXE_CCU_DXE_INT_SELECT        0x2050dc
+#define WLANDXE_CCU_DXE_INT_SELECT_STAT   0x2050e0
+#define WLANDXE_CCU_ASIC_INT_ENABLE       0x2050e4
+#define WLANDXE_CCU_SOFT_RESET            0x204010
+#define WLANDXE_BMU_AVAILABLE_BD_PDU_LOCAL 0x80260
+#else
+#define WLANDXE_CCU_DXE_INT_SELECT        0x200b10
+#define WLANDXE_CCU_DXE_INT_SELECT_STAT   0x200b14
+#define WLANDXE_CCU_ASIC_INT_ENABLE       0x200b18
+#endif
+
+#define WLANDXE_BMU_AVAILABLE_BD_PDU      0x80084
+#define WLANDXE_BMU_ERROR_INTR_STATUS     0x80004
+
+#define WLANDXE_REGISTER_BASE_ADDRESS     0x202000
+
+#define WLAN_PMU_SPARE_OUT_ADDRESS        0x21c088
+#define WLAN_PMU_POWER_DOWN_MASK          0x04000000
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /* Common over the channels register addresses */
 #define WALNDEX_DMA_CSR_ADDRESS          (WLANDXE_REGISTER_BASE_ADDRESS + 0x00)
@@ -165,6 +214,10 @@ when           who        what, where, why
 #define WLANDXE_DMA_CHAN4_BASE_ADDRESS   (WLANDXE_REGISTER_BASE_ADDRESS + 0x500)
 #define WLANDXE_DMA_CHAN5_BASE_ADDRESS   (WLANDXE_REGISTER_BASE_ADDRESS + 0x540)
 #define WLANDXE_DMA_CHAN6_BASE_ADDRESS   (WLANDXE_REGISTER_BASE_ADDRESS + 0x580)
+<<<<<<< HEAD
+=======
+#define WLANDXE_DMA_CHAN7_BASE_ADDRESS   (WLANDXE_REGISTER_BASE_ADDRESS + 0x5c0)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /* Channel specific register offset */
 #define WLANDXE_DMA_CH_CTRL_REG          0x0000
@@ -190,6 +243,13 @@ when           who        what, where, why
 #define WLANDXE_DMA_CSR_RESERVED_OFFSET       0x10
 #define WLANDXE_DMA_CSR_RESERVED_DEFAULT      0x0
 
+<<<<<<< HEAD
+=======
+#define WLANDXE_DMA_CSR_FW_BMU_RECOVERY       0x400000
+#define WLANDXE_DMA_CSR_RECOVERY_DONE         0x200000
+#define WLANDXE_DMA_CSR_HOST_RECOVERY_DONE    0x800000
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define WLANDXE_DMA_CSR_H2H_SYNC_EN_MASK      0x8000
 #define WLANDXE_DMA_CSR_H2H_SYNC_EN_OFFSET    0x0F
 #define WLANDXE_DMA_CSR_H2H_SYNC_EN_DEFAULT   0x0
@@ -414,6 +474,11 @@ when           who        what, where, why
 #define WLANDXE_CH_STAT_INT_DONE_MASK   0x00008000
 #define WLANDXE_CH_STAT_INT_ERR_MASK    0x00004000
 #define WLANDXE_CH_STAT_INT_ED_MASK     0x00002000
+<<<<<<< HEAD
+=======
+#define WLANDXE_CH_STAT_ERR_CODE_MASK   0x000007c0
+#define WLANDXE_CH_STAT_ERR_CODE_OFFSET (6)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #define WLANDXE_CH_STAT_MASKED_MASK     0x00000008
 #define WLANDXE_CH_STAT_ENABLED_MASK    0x00000001
@@ -429,9 +494,47 @@ when           who        what, where, why
 #define WLANDXE_INT_MASK_CHAN_4          0x00000010
 #define WLANDXE_INT_MASK_CHAN_5          0x00000020
 #define WLANDXE_INT_MASK_CHAN_6          0x00000040
+<<<<<<< HEAD
 
 #define WLANDXE_TX_LOW_RES_THRESHOLD     (5)
 
+=======
+#define WLANDXE_INT_MASK_CHAN_7          0x00000080
+
+#define WLANDXE_TX_LOW_RES_THRESHOLD     (5)
+
+typedef enum {
+   WLANDXE_ERROR_NONE                = 0,
+   WLANDXE_ERROR_SAHB_ERR            = 1,
+   WLANDXE_ERROR_H2H_RD_BUS_ERR      = 2,
+   WLANDXE_ERROR_H2H_WR_BUS_ERR      = 3,
+   WLANDXE_ERROR_PRG_INV_XTYPE       = 4,
+   WLANDXE_ERROR_BERR_POPWQ          = 5,
+   WLANDXE_ERROR_BERR_PUSHWQ         = 6,
+   WLANDXE_ERROR_BERR_RLSS           = 7,
+   WLANDXE_ERROR_BERR_GETPDU         = 8,
+   WLANDXE_ERROR_PRG_INV_WQ          = 9,
+   WLANDXE_ERROR_PRG_INV_H2H_SRC_QID = 10,
+   WLANDXE_ERROR_PRG_INV_H2H_DST_QID = 11,
+   WLANDXE_ERROR_PRG_INV_B2H_SRC_QID = 12,
+   WLANDXE_ERROR_PRG_INV_B2H_DST_QID = 13,
+   WLANDXE_ERROR_PRG_INV_B2H_SRC_IDX = 14,
+   WLANDXE_ERROR_PRG_INV_H2B_SRC_QID = 15,
+   WLANDXE_ERROR_PRG_INV_H2B_DST_QID = 16,
+   WLANDXE_ERROR_PRG_INV_H2B_DST_IDX = 17,
+   WLANDXE_ERROR_PRG_INV_H2B_SZ      = 18,
+   WLANDXE_ERROR_PRG_INV_SADR        = 19,
+   WLANDXE_ERROR_PRG_INV_DADR        = 20,
+   WLANDXE_ERROR_PRG_INV_EDADR       = 21,
+   WLANDXE_ERROR_PRG_INV_SRC_WQID    = 22,
+   WLANDXE_ERROR_PRG_INV_DST_WQID    = 23,
+   WLANDXE_ERROR_PRG_XTYPE_MSMTCH    = 24,
+   WLANDXE_ERROR_PKT_ERR             = 25,
+   WLANDXE_ERROR_ABORT               = 26,
+   WLANDXE_ERROR_PDU_CNT_OVFL        = 27,
+}WLANDXE_ErrorCode;
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* DXE Descriptor Endian swap macro */
 #ifdef WLANDXE_ENDIAN_SWAP_ENABLE
 #define WLANDXE_U32_SWAP_ENDIAN(a) (((a & 0x000000FF) << 24) |    \
@@ -447,6 +550,10 @@ when           who        what, where, why
 #define HDXE_MSG                     WPAL_TRACE
 #define HDXE_ASSERT(a)               VOS_ASSERT(a)
 
+<<<<<<< HEAD
+=======
+#define WLANDXE_PRONTO_TX_WQ       0x6
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*----------------------------------------------------------------------------
  *  Type Declarations
  * -------------------------------------------------------------------------*/
@@ -480,6 +587,10 @@ typedef enum
    WLANDXE_DMA_CHANNEL_4,
    WLANDXE_DMA_CHANNEL_5,
    WLANDXE_DMA_CHANNEL_6,
+<<<<<<< HEAD
+=======
+   WLANDXE_DMA_CHANNEL_7,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    WLANDXE_DMA_CHANNEL_MAX
 } WLANDXE_DMAChannelType;
 
@@ -538,11 +649,16 @@ typedef struct
    void                            *nextCtrlBlk;
    wpt_packet                      *xfrFrame;  
    WLANDXE_DescType                *linkedDesc;
+<<<<<<< HEAD
    unsigned int                    linkedDescPhyAddr;
    wpt_uint32                       ctrlBlkOrder;
 #ifdef FEATURE_R33D
    wpt_uint32                       shadowBufferVa;
 #endif /* FEATURE_R33D */
+=======
+   wpt_uint32                       linkedDescPhyAddr;
+   wpt_uint32                       ctrlBlkOrder;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 } WLANDXE_DescCtrlBlkType;
 
 typedef struct
@@ -621,6 +737,7 @@ typedef struct
    WDTS_ChannelType                channelType;
    WLANDXE_DescCtrlBlkType        *headCtrlBlk;
    WLANDXE_DescCtrlBlkType        *tailCtrlBlk;
+<<<<<<< HEAD
 #if !(defined(FEATURE_R33D) || defined(WLANDXE_TEST_CHANNEL_ENABLE))
    WLANDXE_DescType               *descriptorAllocation;
 #endif
@@ -629,10 +746,23 @@ typedef struct
    wpt_uint32                      numDesc;
    wpt_uint32                      numFreeDesc;
    wpt_uint32                      numRsvdDesc;
+=======
+   WLANDXE_DescType               *descriptorAllocation;
+   WLANDXE_DescType               *DescBottomLoc;
+   wpt_uint32                      descBottomLocPhyAddr;
+   wpt_uint32                      numDesc;
+   wpt_uint32                      numFreeDesc;
+   wpt_uint32                      numRsvdDesc;
+   wpt_uint32                      desc_write_fail_count;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    wpt_uint32                      maxFrameSize;
    wpt_uint32                      numFragmentCurrentChain;
    wpt_uint32                      numFrameBeforeInt;
    wpt_uint32                      numTotalFrame;
+<<<<<<< HEAD
+=======
+   wpt_uint32                      doneIntDisabled;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    wpt_mutex                       dxeChannelLock;
    wpt_boolean                     hitLowResource;
    WLANDXE_ChannelConfigType       channelConfig;
@@ -640,8 +770,11 @@ typedef struct
    WLANDXE_ChannelExConfigType     extraConfig;
    WLANDXE_DMAChannelType          assignedDMAChannel;
    wpt_uint64                      rxDoneHistogram;
+<<<<<<< HEAD
    wpt_timer                       healthMonitorTimer;
    wpt_msg                        *healthMonitorMsg;
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 } WLANDXE_ChannelCBType;
 
 typedef struct
@@ -660,30 +793,66 @@ typedef struct
    WLANDXE_RxFrameReadyCbType      rxReadyCB;
    WLANDXE_TxCompleteCbType        txCompCB;
    WLANDXE_LowResourceCbType       lowResourceCB;
+<<<<<<< HEAD
+=======
+   WLANDXE_MbReceiveMsgCbType      receiveMbMsgCB;
+   WLANDXE_RxLogDoneType           receiveLogCompleteCB;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    WLANDXE_TxCompIntConfigType     txCompInt;
    void                           *clientCtxt;
    wpt_uint32                      interruptPath;
    wpt_msg                        *rxIsrMsg;
    wpt_msg                        *txIsrMsg;
+<<<<<<< HEAD
    wpt_msg                        *rxPktAvailMsg;   
+=======
+   wpt_msg                        *rxPktAvailMsg;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    volatile WLANDXE_PowerStateType hostPowerState;
    wpt_boolean                     rxIntDisabledByIMPS;
    wpt_boolean                     txIntDisabledByIMPS;
    WLANDXE_SetPowerStateCbType     setPowerStateCb;
    volatile WLANDXE_RivaPowerStateType rivaPowerState;
+<<<<<<< HEAD
    wpt_boolean                     ringNotEmpty; 
    wpt_boolean                     txIntEnable;
    wpt_uint32                      txCompletedFrames; 
    wpt_uint8                       ucTxMsgCnt; 
    wpt_uint16                      lastKickOffDxe; 
+=======
+   wpt_boolean                     ringNotEmpty;
+   wpt_boolean                     txIntEnable;
+   wpt_uint32                      txCompletedFrames;
+   wpt_uint8                       ucTxMsgCnt;
+   wpt_uint16                      lastKickOffDxe;
+   wpt_uint32                      smsmRingsEmptyHistogram;
+   wpt_uint32                      smsmDxeHistogram;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    wpt_uint32                      dxeCookie;
    wpt_packet                     *freeRXPacket;
    wpt_boolean                     rxPalPacketUnavailable;
    wpt_boolean                     driverReloadInProcessing;
    wpt_boolean                     smsmToggled;
+<<<<<<< HEAD
    wpt_timer                       rxResourceAvailableTimer;
 } WLANDXE_CtrlBlkType;
 
+=======
+   wpt_boolean                     txRingsEmpty;
+   wpt_boolean                     hostInitiatedH2H;
+#ifdef WLAN_DXE_LOW_RESOURCE_TIMER
+   wpt_timer                       rxResourceAvailableTimer;
+#endif
+   wpt_timer                       dxeSSRTimer;
+} WLANDXE_CtrlBlkType;
+
+typedef struct
+{
+   u64                             *rxIntDisableReturn;
+   wpt_uint8                       rxIntChanlSrc;
+   wpt_uint8                       txCmpIntChanlSrc;
+} WLANDXE_EnvInformation;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*==========================================================================
   @  Function Name 
       dxeCommonDefaultConfig
@@ -695,10 +864,17 @@ typedef struct
                                DXE host driver main control block
 
   @  Return
+<<<<<<< HEAD
       wpt_status
 
 ===========================================================================*/
 extern wpt_status dxeCommonDefaultConfig
+=======
+      void
+
+===========================================================================*/
+extern void dxeCommonDefaultConfig
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 (
    WLANDXE_CtrlBlkType     *dxeCtrlBlk
 );
@@ -727,4 +903,16 @@ extern wpt_status dxeChannelDefaultConfig
    WLANDXE_ChannelCBType   *channelEntry
 );
 
+<<<<<<< HEAD
+=======
+void dxeSetEnabledChannels
+(
+   wpt_uint8 enabledChannels
+);
+
+wpt_uint8 dxeGetEnabledChannels
+(
+   void
+);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif /* WLAN_QCT_DXE_I_H */

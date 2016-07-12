@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /*===========================================================================
@@ -56,9 +68,12 @@
   Are listed for each API below. 
   
   
+<<<<<<< HEAD
   Copyright (c) 2008 QUALCOMM Incorporated.
   All Rights Reserved.
   Qualcomm Confidential and Proprietary
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ===========================================================================*/
 
 /*===========================================================================
@@ -329,7 +344,11 @@ WLANBAP_XlateTxDataPkt
     v_PVOID_t                pHddHdl; /* Handle to return BSL context in */
     v_U16_t                  headerLength;  /* The 802.3 frame length*/
     v_U16_t                  protoType = WLANBAP_BT_AMP_TYPE_DATA;  /* The protocol type bytes*/
+<<<<<<< HEAD
     v_U32_t                  value = 0;
+=======
+    uintptr_t                value = 0;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 
  
@@ -417,6 +436,10 @@ WLANBAP_XlateTxDataPkt
     // Now copy the AC values from the Logical Link context
     *pucAC = pLogLinkContext->btampAC;
     // Now copy the values from the Logical Link context to the MetaInfo 
+<<<<<<< HEAD
+=======
+    tlMetaInfo->ac = *pucAC;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tlMetaInfo->ucTID = pLogLinkContext->ucTID;
     tlMetaInfo->ucUP = pLogLinkContext->ucUP;
     tlMetaInfo->ucIsEapol = VOS_FALSE;
@@ -462,7 +485,11 @@ WLANBAP_XlateTxDataPkt
 
     /*Set the logical link handle as user data so that we can retrieve it on 
       Tx Complete */
+<<<<<<< HEAD
     value = (v_U32_t)hciACLHeader.logLinkHandle;
+=======
+    value = (uintptr_t)hciACLHeader.logLinkHandle;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     vos_pkt_set_user_data_ptr( vosDataBuff, VOS_PKT_USER_DATA_ID_BAP,
                                (v_VOID_t *)value);
 
@@ -965,12 +992,21 @@ WLANBAP_TxCompCB
   VOS_STATUS     wTxSTAtus 
 )
 {
+<<<<<<< HEAD
     VOS_STATUS    vosStatus; 
     ptBtampHandle bapHdl;  /* holds ptBtampHandle value returned  */ 
     ptBtampContext bapContext; /* Holds the btampContext value returned */ 
     v_PVOID_t     pHddHdl; /* Handle to return BSL context in */
     v_PVOID_t      pvlogLinkHandle = NULL;
     v_U32_t       value;
+=======
+    VOS_STATUS    vosStatus;
+    ptBtampHandle bapHdl;  /* holds ptBtampHandle value returned  */
+    ptBtampContext bapContext; /* Holds the btampContext value returned */
+    v_PVOID_t     pHddHdl; /* Handle to return BSL context in */
+    v_PVOID_t      pvlogLinkHandle = NULL;
+    uintptr_t       value;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     WLANBAP_HCIACLHeaderType hciACLHeader;
 
@@ -1023,7 +1059,11 @@ WLANBAP_TxCompCB
     vos_pkt_get_user_data_ptr( vosDataBuff, VOS_PKT_USER_DATA_ID_BAP,
                                &pvlogLinkHandle);
 
+<<<<<<< HEAD
     value = (v_U32_t)pvlogLinkHandle;
+=======
+    value = (uintptr_t)pvlogLinkHandle;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     hciACLHeader.logLinkHandle = value;
 
 #ifdef BAP_DEBUG

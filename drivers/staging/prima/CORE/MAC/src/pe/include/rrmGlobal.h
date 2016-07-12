@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2011-2012,2014 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -41,6 +46,16 @@
 
 /*
  * */
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+ */
+
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #if !defined( __RRMGLOBAL_H )
 #define __RRMGLOBAL_H
@@ -51,9 +66,12 @@
 
   \brief Definitions for SME APIs
 
+<<<<<<< HEAD
    Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
 
    Qualcomm Confidential and Proprietary.
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   ========================================================================*/
 
@@ -65,6 +83,16 @@ typedef enum eRrmRetStatus
     eRRM_FAILURE
 } tRrmRetStatus;
 
+<<<<<<< HEAD
+=======
+typedef enum eRrmMsgReqSource
+{
+    eRRM_MSG_SOURCE_LEGACY_ESE  = 1, /* legacy ese */
+    eRRM_MSG_SOURCE_11K         = 2, /* 11k */
+    eRRM_MSG_SOURCE_ESE_UPLOAD  = 3  /* ese upload approach */
+} tRrmMsgReqSource;
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 typedef struct sSirChannelInfo
 {
    tANI_U8 regulatoryClass;
@@ -76,6 +104,7 @@ typedef struct sSirBeaconReportReqInd
    tANI_U16     messageType; // eWNI_SME_BEACON_REPORT_REQ_IND
    tANI_U16     length;
    tSirMacAddr  bssId;
+<<<<<<< HEAD
    tANI_U16     measurementDuration[SIR_CCX_MAX_MEAS_IE_REQS];   //ms
    tANI_U16     randomizationInterval; //ms
    tSirChannelInfo channelInfo;
@@ -84,6 +113,17 @@ typedef struct sSirBeaconReportReqInd
    tAniSSID     ssId;              //May be wilcard.
    tANI_U16      uDialogToken;
    tSirChannelList channelList; //From AP channel report.
+=======
+   tANI_U16     measurementDuration[SIR_ESE_MAX_MEAS_IE_REQS];   //ms
+   tANI_U16     randomizationInterval; //ms
+   tSirChannelInfo channelInfo;
+   tSirMacAddr      macaddrBssid;   //0: wildcard
+   tANI_U8      fMeasurementtype[SIR_ESE_MAX_MEAS_IE_REQS];  //0:Passive, 1: Active, 2: table mode
+   tAniSSID     ssId;              //May be wilcard.
+   tANI_U16      uDialogToken;
+   tSirChannelList channelList; //From AP channel report.
+   tRrmMsgReqSource msgSource;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 } tSirBeaconReportReqInd, * tpSirBeaconReportReqInd;
 
 
@@ -132,7 +172,11 @@ typedef struct sSirNeighborBssDescription
                 tANI_U32      fMobilityDomain:1;
                 tANI_U32      reserved:21; 
          } rrmInfo;
+<<<<<<< HEAD
          struct _ccxInfo {
+=======
+         struct _eseInfo {
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 tANI_U32      channelBand:8;
                 tANI_U32      minRecvSigPower:8;
                 tANI_U32      apTxPower:8;
@@ -144,7 +188,11 @@ typedef struct sSirNeighborBssDescription
 
                 tANI_U32      beaconInterval:16;
                 tANI_U32      reserved: 16;
+<<<<<<< HEAD
          } ccxInfo;
+=======
+         } eseInfo;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    } bssidInfo;
  
    //Optional sub IEs....ignoring for now.
@@ -184,6 +232,10 @@ typedef struct sRRMReq
          tRRMBeaconReportRequestedIes reqIes;
       }Beacon;
    }request;
+<<<<<<< HEAD
+=======
+   tANI_U8 sendEmptyBcnRpt;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }tRRMReq, *tpRRMReq;
 
 typedef struct sRRMCaps

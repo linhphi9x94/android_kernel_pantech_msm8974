@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2014-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #if !defined( __VOS_LOCK_H )
@@ -50,9 +62,12 @@
                
    Definitions for vOSS Locks
   
+<<<<<<< HEAD
    Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
    
    Qualcomm Confidential and Proprietary.
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
   
   ========================================================================*/
 
@@ -265,5 +280,66 @@ VOS_STATUS vos_spin_lock_release(vos_spin_lock_t *pLock);
   ------------------------------------------------------------------------*/
 VOS_STATUS vos_spin_lock_destroy(vos_spin_lock_t *pLock);
 
+<<<<<<< HEAD
+=======
+/*--------------------------------------------------------------------------
+
+  \brief vos_wake_lock_init() - initializes a vOSS wake lock
+
+  \param pLock - the wake lock to initialize
+              name - wakelock name
+
+  \return VOS_STATUS_SUCCESS - wake lock was successfully initialized and
+          is ready to be used.
+  --------------------------------------------------------------------------*/
+VOS_STATUS vos_wake_lock_init(vos_wake_lock_t *pLock, const char *name);
+
+/*--------------------------------------------------------------------------
+
+  \brief vos_wake_lock_acquire() - acquires a wake lock
+
+  \param pLock - the wake lock to acquire
+         reason - reason for taking wakelock
+
+  \return VOS_STATUS_SUCCESS - the wake lock was successfully acquired
+
+  ------------------------------------------------------------------------*/
+VOS_STATUS vos_wake_lock_acquire(vos_wake_lock_t *pLock, uint32_t reason);
+/*--------------------------------------------------------------------------
+
+  \brief vos_wake_lock_timeout_release() - release a wake lock with a timeout
+
+  \param pLock - the wake lock to release
+         reason - reason for taking wakelock
+
+  \return VOS_STATUS_SUCCESS - the wake lock was successfully released
+
+  ------------------------------------------------------------------------*/
+VOS_STATUS vos_wake_lock_timeout_release(vos_wake_lock_t *pLock,
+                                            v_U32_t msec, uint32_t reason);
+
+/*--------------------------------------------------------------------------
+
+  \brief vos_wake_lock_release() - releases a wake lock
+
+  \param pLock - the wake lock to release
+         reason - reason for taking wakelock
+
+  \return VOS_STATUS_SUCCESS - the lock was successfully released
+
+  ------------------------------------------------------------------------*/
+VOS_STATUS vos_wake_lock_release(vos_wake_lock_t *pLock, uint32_t reason);
+
+/*--------------------------------------------------------------------------
+
+  \brief vos_wake_lock_destroy() - destroys a wake lock
+
+  \param pLock - the wake lock to destroy
+
+  \return VOS_STATUS_SUCCESS - the lock was successfully destroyed
+
+  ------------------------------------------------------------------------*/
+VOS_STATUS vos_wake_lock_destroy(vos_wake_lock_t *pLock);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #endif // __VOSS_LOCK_H

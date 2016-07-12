@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /*===========================================================================
@@ -56,9 +68,12 @@
   Are listed for each API below.
 
 
+<<<<<<< HEAD
   Copyright (c) 2008 QUALCOMM Incorporated.
   All Rights Reserved.
   Qualcomm Confidential and Proprietary
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ===========================================================================*/
 
 /* Standard include files */
@@ -170,7 +185,11 @@ tSirRetStatus uMacPostCtrlMsg(void* pSirGlobal, tSirMbMsg* pMb)
    msg.type = pMb->type;
    msg.bodyval = 0;
 
+<<<<<<< HEAD
    WDALOG3(wdaLog(pMac, LOG3, FL("msgType %d, msgLen %d\n" ),
+=======
+   WDALOG3(wdaLog(pMac, LOG3, FL("msgType %d, msgLen %d" ),
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         pMb->type, pMb->msgLen));
 
    // copy the message from host buffer to firmware buffer
@@ -182,7 +201,11 @@ tSirRetStatus uMacPostCtrlMsg(void* pSirGlobal, tSirMbMsg* pMb)
    pMbLocal = vos_mem_malloc(pMb->msgLen);
    if ( NULL == pMbLocal )
    {
+<<<<<<< HEAD
       WDALOGE( wdaLog(pMac, LOGE, FL("Buffer Allocation failed!\n")));
+=======
+      WDALOGE( wdaLog(pMac, LOGE, FL("Buffer Allocation failed!")));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return eSIR_FAILURE;
    }
 
@@ -192,6 +215,10 @@ tSirRetStatus uMacPostCtrlMsg(void* pSirGlobal, tSirMbMsg* pMb)
    switch (msg.type & HAL_MMH_MB_MSG_TYPE_MASK)
    {
    case WDA_MSG_TYPES_BEGIN:    // Posts a message to the HAL MsgQ
+<<<<<<< HEAD
+=======
+   case WDA_EXT_MSG_TYPES_BEGIN:
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       wdaPostCtrlMsg(pMac, &msg);
       break;
 
@@ -216,7 +243,11 @@ tSirRetStatus uMacPostCtrlMsg(void* pSirGlobal, tSirMbMsg* pMb)
 
    default:
       WDALOGW( wdaLog(pMac, LOGW, FL("Unknown message type = "
+<<<<<<< HEAD
              "0x%X\n"),
+=======
+             "0x%X"),
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
              msg.type));
 
       // Release the memory.
@@ -247,8 +278,11 @@ tBssSystemRole wdaGetGlobalSystemRole(tpAniSirGlobal pMac)
       VOS_ASSERT(0);
       return eSYSTEM_UNKNOWN_ROLE;
    }
+<<<<<<< HEAD
    WDALOG1( wdaLog(pMac, LOG1, FL(" returning  %d role\n"),
              wdaContext->wdaGlobalSystemRole));
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    return  wdaContext->wdaGlobalSystemRole;
 }
 

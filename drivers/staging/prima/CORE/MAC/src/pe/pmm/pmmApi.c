@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -40,6 +45,16 @@
  */
 /*
  * Airgo Networks, Inc proprietary. All rights reserved.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+ */
+
+/*
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file pmmApi.cc contains functions related to the API exposed
  * by power management module
  *
@@ -52,7 +67,11 @@
  */
 
 #include "palTypes.h"
+<<<<<<< HEAD
 #include "wniCfgSta.h"
+=======
+#include "wniCfg.h"
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #include "sirCommon.h"
 #include "aniGlobal.h"
@@ -82,6 +101,14 @@
 
 #include "wlan_qct_wda.h"
 
+<<<<<<< HEAD
+=======
+#define LIM_ADMIT_MASK_FLAG_ACBE 1
+#define LIM_ADMIT_MASK_FLAG_ACBK 2
+#define LIM_ADMIT_MASK_FLAG_ACVI 4
+#define LIM_ADMIT_MASK_FLAG_ACVO 8
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 // --------------------------------------------------------------------
 /**
  * pmmInitialize
@@ -231,6 +258,11 @@ void pmmInitBmpsResponseHandler(tpAniSirGlobal pMac, tpSirMsgQ limMsg )
     if (NULL == limMsg->bodyptr)
     {
         PELOGE(pmmLog(pMac, LOGE, FL("pmmBmps: Received SIR_HAL_ENTER_BMPS_RSP with NULL "));)
+<<<<<<< HEAD
+=======
+        nextState = ePMM_STATE_READY;
+        retStatus = eSIR_SME_BMPS_REQ_FAILED;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         goto failure;
     }
     pEnterBmpsParams = (tpEnterBmpsParams)(limMsg->bodyptr);
@@ -239,8 +271,13 @@ void pmmInitBmpsResponseHandler(tpAniSirGlobal pMac, tpSirMsgQ limMsg )
     //If response is failure, then send the response back to PMC and reset its state.
     if(pEnterBmpsParams->status == eHAL_STATUS_SUCCESS)
     {
+<<<<<<< HEAD
         PELOG2(pmmLog(pMac, LOG2,
             FL("pmmBmps: Received successful response from HAL to enter BMPS_POWER_SAVE "));)
+=======
+        pmmLog(pMac, LOG1,
+            FL("pmmBmps: Received successful response from HAL to enter BMPS_POWER_SAVE "));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         pMac->pmm.gPmmState = ePMM_STATE_BMPS_SLEEP;
 
@@ -268,7 +305,11 @@ void pmmInitBmpsResponseHandler(tpAniSirGlobal pMac, tpSirMsgQ limMsg )
             FL("pmmBmps: BMPS_INIT_PWR_SAVE_REQ failed, informing SME"));)
 
         pmmBmpsUpdateInitFailureCnt(pMac);
+<<<<<<< HEAD
         nextState = ePMM_STATE_BMPS_WAKEUP;
+=======
+        nextState = ePMM_STATE_READY;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         retStatus = eSIR_SME_BMPS_REQ_FAILED;
         goto failure;
     }
@@ -349,7 +390,13 @@ void pmmExitBmpsRequestHandler(tpAniSirGlobal pMac, tpExitBmpsInfo pExitBmpsInfo
 
     /* send wakeup request, only when in sleep state */
     PELOGW(pmmLog(pMac, LOGW, FL("pmmBmps: Sending eWNI_PMC_EXIT_BMPS_REQ to HAL"));)
+<<<<<<< HEAD
     if (pMac->pmm.gPmmState == ePMM_STATE_BMPS_SLEEP)
+=======
+
+    if ((pMac->pmm.gPmmState == ePMM_STATE_BMPS_SLEEP) ||
+         (pMac->pmm.gPmmState == ePMM_STATE_UAPSD_SLEEP))
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
         /* Store the reason code for exiting BMPS. This value will be
          * checked when PMM receives SIR_HAL_EXIT_BMPS_RSP from HAL
@@ -372,8 +419,13 @@ void pmmExitBmpsRequestHandler(tpAniSirGlobal pMac, tpExitBmpsInfo pExitBmpsInfo
         }
         else
         {
+<<<<<<< HEAD
             PELOG1(pmmLog(pMac, LOG1,
                           FL("pmmBmps: eWNI_PMC_EXIT_BMPS_REQ was successfully sent to HAL"));)
+=======
+            pmmLog(pMac, LOG1,
+                          FL("pmmBmps: eWNI_PMC_EXIT_BMPS_REQ was successfully sent to HAL"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
     }
     else
@@ -525,6 +577,12 @@ failure:
     // Change the state back to original state
     pMac->pmm.gPmmState =origState;
     limSendSmeRsp(pMac, eWNI_PMC_ENTER_BMPS_RSP, respStatus, 0, 0);
+<<<<<<< HEAD
+=======
+
+    // update the BMPS pwr save Error Stats
+    pmmBmpsUpdateSleepReqFailureCnt(pMac);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return;
 }
 
@@ -602,7 +660,11 @@ tSirRetStatus pmmSendChangePowerSaveMsg(tpAniSirGlobal pMac)
         return retStatus;
     }
 
+<<<<<<< HEAD
     PELOG1(pmmLog(pMac, LOG1, FL("WDA_EXIT_BMPS_REQ has been successfully sent to HAL"));)
+=======
+    pmmLog(pMac, LOG1, FL("WDA_EXIT_BMPS_REQ has been successfully sent to HAL"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return retStatus;
 }
 
@@ -683,7 +745,11 @@ tSirRetStatus  pmmSendInitPowerSaveMsg(tpAniSirGlobal pMac,tpPESession psessionE
             (tANI_U8)GET_MIN_VALUE((tANI_U8) numBeaconPerRssiAverage, WNI_CFG_NUM_BEACON_PER_RSSI_AVERAGE_STAMAX);
 
     pmmLog (pMac, LOG1,
+<<<<<<< HEAD
         "%s: [INFOLOG]RssiFilterInfo..%d %x %x", __func__, (int)pBmpsParams->bRssiFilterEnable,
+=======
+        "%s: RssiFilterInfo..%d %x %x", __func__, (int)pBmpsParams->bRssiFilterEnable,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         (unsigned int)pBmpsParams->rssiFilterPeriod, (unsigned int)pBmpsParams->numBeaconPerRssiAverage);
 
     msgQ.type = WDA_ENTER_BMPS_REQ;
@@ -691,8 +757,13 @@ tSirRetStatus  pmmSendInitPowerSaveMsg(tpAniSirGlobal pMac,tpPESession psessionE
     msgQ.bodyptr = pBmpsParams;
     msgQ.bodyval = 0;
 
+<<<<<<< HEAD
     PELOG2(pmmLog( pMac, LOG2,
         FL( "pmmBmps: Sending WDA_ENTER_BMPS_REQ" ));)
+=======
+    pmmLog( pMac, LOG1,
+        FL( "pmmBmps: Sending WDA_ENTER_BMPS_REQ" ));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     /* we need to defer any incoming messages until we get a
      * WDA_ENTER_BMPS_RSP from HAL.
@@ -798,7 +869,11 @@ tSirRetStatus pmmSendPowerSaveCfg(tpAniSirGlobal pMac, tpSirPowerSaveCfg pUpdate
     msgQ.bodyptr = pUpdatedPwrSaveCfg;
     msgQ.bodyval = 0;
 
+<<<<<<< HEAD
     PELOG1(pmmLog( pMac, LOG1, FL( "pmmBmps: Sending WDA_PWR_SAVE_CFG to HAL"));)
+=======
+    pmmLog( pMac, LOG1, FL( "pmmBmps: Sending WDA_PWR_SAVE_CFG to HAL"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     MTRACE(macTraceMsgTx(pMac, NO_SESSION, msgQ.type));
     if( eSIR_SUCCESS != (retCode = wdaPostCtrlMsg( pMac, &msgQ )))
     {
@@ -845,7 +920,11 @@ void pmmExitBmpsResponseHandler(tpAniSirGlobal pMac,  tpSirMsgQ limMsg)
     tANI_U8 PowersavesessionId;
     tpPESession psessionEntry;
     tSirResultCodes retStatus = eSIR_SME_SUCCESS;
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /* Copy the power save sessionId to the local variable */
     PowersavesessionId = pMac->pmm.sessionId;
 
@@ -861,10 +940,13 @@ void pmmExitBmpsResponseHandler(tpAniSirGlobal pMac,  tpSirMsgQ limMsg)
         return;
     }
 
+<<<<<<< HEAD
     
 
     /* Update wakeup statistics */
     pmmUpdateWakeupStats(pMac);
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (NULL == limMsg->bodyptr)
     {
@@ -895,6 +977,12 @@ void pmmExitBmpsResponseHandler(tpAniSirGlobal pMac,  tpSirMsgQ limMsg)
     {
         case eHAL_STATUS_SUCCESS:
             retStatus = eSIR_SME_SUCCESS;
+<<<<<<< HEAD
+=======
+            pMac->pmm.gPmmState = ePMM_STATE_BMPS_WAKEUP;
+            /* Update wakeup statistics */
+            pmmUpdateWakeupStats(pMac);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
 
         default:
@@ -904,21 +992,33 @@ void pmmExitBmpsResponseHandler(tpAniSirGlobal pMac,  tpSirMsgQ limMsg)
                  * But, PMC will be informed about the error.
                  */
                 retStatus = eSIR_SME_BMPS_REQ_FAILED;
+<<<<<<< HEAD
+=======
+                pMac->pmm.gPmmState = ePMM_STATE_BMPS_SLEEP;
+                pmmBmpsUpdateWakeupReqFailureCnt(pMac);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             }
             break;
 
     }
 
+<<<<<<< HEAD
     pMac->pmm.gPmmState = ePMM_STATE_BMPS_WAKEUP;
     pmmUpdateWakeupStats(pMac);
 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     // turn on background scan
     pMac->sys.gSysEnableScanMode = true;
 
     // send response to PMC
    if(IS_FEATURE_SUPPORTED_BY_FW(SLM_SESSIONIZATION) )
    {
+<<<<<<< HEAD
        limSendSmeRsp(pMac, eWNI_PMC_EXIT_BMPS_RSP, retStatus, 
+=======
+       limSendSmeRsp(pMac, eWNI_PMC_EXIT_BMPS_RSP, retStatus,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                   psessionEntry->smeSessionId, psessionEntry->transactionId);
    }
    else
@@ -980,7 +1080,11 @@ void pmmMissedBeaconHandler(tpAniSirGlobal pMac)
        (pMac->lim.gLimTimersCreated))
     {
         if (wlan_cfgGetInt(pMac, WNI_CFG_BEACON_INTERVAL, &beaconInterval) != eSIR_SUCCESS)
+<<<<<<< HEAD
             PELOG1(pmmLog(pMac, LOG1, FL("Fail to get BEACON_INTERVAL value"));)
+=======
+            pmmLog(pMac, LOG1, FL("Fail to get BEACON_INTERVAL value"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         /* Change timer to reactivate it in future */
         heartBeatInterval= SYS_MS_TO_TICKS(beaconInterval * heartBeatInterval);
@@ -988,7 +1092,11 @@ void pmmMissedBeaconHandler(tpAniSirGlobal pMac)
         if( tx_timer_change(&pMac->lim.limTimers.gLimHeartBeatTimer,
                             (tANI_U32)heartBeatInterval, 0) != TX_SUCCESS)
         {
+<<<<<<< HEAD
             PELOG1(pmmLog(pMac, LOG1, FL("Fail to change HeartBeat timer"));)
+=======
+            pmmLog(pMac, LOG1, FL("Fail to change HeartBeat timer"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
 
         /* update some statistics */
@@ -1099,8 +1207,13 @@ void pmmExitBmpsIndicationHandler(tpAniSirGlobal pMac, tANI_U8 mode, eHalStatus 
          */
         case eHAL_STATUS_HEARTBEAT_TMOUT:
             {
+<<<<<<< HEAD
                 PELOG1(pmmLog(pMac, LOG1,
                               FL("pmmBmps: The device woke up due to HeartBeat Timeout"));)
+=======
+                pmmLog(pMac, LOG1,
+                              FL("pmmBmps: The device woke up due to HeartBeat Timeout"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                 /* Proceed only if HeartBeat timer is created */
                 if((pMac->lim.limTimers.gLimHeartBeatTimer.pMac) &&
@@ -1116,8 +1229,13 @@ void pmmExitBmpsIndicationHandler(tpAniSirGlobal pMac, tANI_U8 mode, eHalStatus 
                     if(tx_timer_change(&pMac->lim.limTimers.gLimHeartBeatTimer,
                                        (tANI_U32)heartBeatInterval, 0) != TX_SUCCESS)
                     {
+<<<<<<< HEAD
                         PELOG1(pmmLog(pMac, LOG1,
                                FL("pmmBmps: Unable to change HeartBeat timer"));)
+=======
+                        pmmLog(pMac, LOG1,
+                               FL("pmmBmps: Unable to change HeartBeat timer"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     }
 
                     /* update some statistics */
@@ -1384,9 +1502,15 @@ void pmmUpdatePwrSaveStats(tpAniSirGlobal pMac)
 
     pMac->pmm.BmpsavgTimeAwake = ( ( (pMac->pmm.BmpsavgTimeAwake * pMac->pmm.BmpscntSleep) + TimeAwake ) / (pMac->pmm.BmpscntSleep + 1) );
 
+<<<<<<< HEAD
     pMac->pmm.BmpscntSleep++;
     return;
 */
+=======
+*/
+    pMac->pmm.BmpscntSleep++;
+    return;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 
@@ -1428,9 +1552,15 @@ void pmmUpdateWakeupStats(tpAniSirGlobal pMac)
 
         pMac->pmm.BmpsavgSleepTime = ( ( (pMac->pmm.BmpsavgSleepTime * pMac->pmm.BmpscntAwake) + SleepTime ) / (pMac->pmm.BmpscntAwake + 1) );
 
+<<<<<<< HEAD
         pMac->pmm.BmpscntAwake++;
         return;
 */
+=======
+*/
+        pMac->pmm.BmpscntAwake++;
+        return;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 // --------------------------------------------------------------------
@@ -1465,7 +1595,21 @@ void pmmEnterImpsRequestHandler (tpAniSirGlobal pMac)
     /*Returns True even single active session present */
     if(peIsAnySessionActive(pMac))
     {
+<<<<<<< HEAD
         resultCode = eSIR_SME_INVALID_STATE;
+=======
+        /* Print active pesession and tracedump once in every 16
+         * continous error.
+         */
+        if (!(pMac->pmc.ImpsReqFailCnt & 0xF))
+        {
+            pePrintActiveSession(pMac);
+            vosTraceDumpAll(pMac,0,0,100,0);
+        }
+        resultCode = eSIR_SME_INVALID_STATE;
+        pmmLog(pMac, LOGE, FL("Session is active go to failure resultCode = "
+               "eSIR_SME_INVALID_STATE (%d)"),resultCode);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         goto failure;
     }
 
@@ -1498,8 +1642,13 @@ void pmmEnterImpsRequestHandler (tpAniSirGlobal pMac)
     }
     else
     {
+<<<<<<< HEAD
         PELOG1(pmmLog(pMac, LOG1,
                FL("pmmImps: Waiting for SoftMac response for IMPS request"));)
+=======
+        pmmLog(pMac, LOG1,
+               FL("pmmImps: Waiting for SoftMac response for IMPS request"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
     return;
 
@@ -1537,6 +1686,10 @@ void pmmEnterImpsResponseHandler (tpAniSirGlobal pMac, eHalStatus rspStatus)
 {
     tPmmState nextState = pMac->pmm.gPmmState;
     tSirResultCodes resultCode = eSIR_SME_SUCCESS;
+<<<<<<< HEAD
+=======
+    static int failCnt = 0;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     /* we need to process all the deferred messages enqueued since
      * the initiating the WDA_ENTER_IMPS_REQ.
@@ -1560,8 +1713,13 @@ void pmmEnterImpsResponseHandler (tpAniSirGlobal pMac, eHalStatus rspStatus)
         //if success, change the state to IMPS sleep mode
         pMac->pmm.gPmmState = ePMM_STATE_IMPS_SLEEP;
 
+<<<<<<< HEAD
         PELOG2(pmmLog(pMac, LOG2,
             FL("pmmImps: Received successful WDA_ENTER_IMPS_RSP from HAL"));)
+=======
+        pmmLog(pMac, LOG1,
+            FL("pmmImps: Received successful WDA_ENTER_IMPS_RSP from HAL"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         //update power save statistics
         pmmImpsUpdatePwrSaveStats(pMac);
@@ -1573,18 +1731,33 @@ void pmmEnterImpsResponseHandler (tpAniSirGlobal pMac, eHalStatus rspStatus)
     else
     {
         // go back to previous state if request failed
+<<<<<<< HEAD
         nextState = ePMM_STATE_IMPS_WAKEUP;
+=======
+        nextState = ePMM_STATE_READY;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         resultCode = eSIR_SME_CANNOT_ENTER_IMPS;
         goto failure;
     }
     return;
 
 failure:
+<<<<<<< HEAD
     PELOGE(pmmLog(pMac, LOGE, 
+=======
+    if (!(failCnt & 0xF))
+         PELOGE(pmmLog(pMac, LOGE,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            FL("pmmImpsSleepRsp failed, Ret Code: %d, next state will be: %d"),
            rspStatus,
            pMac->pmm.gPmmState);)
 
+<<<<<<< HEAD
+=======
+    failCnt++;
+    pmmImpsUpdateSleepErrStats(pMac, rspStatus);
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     pMac->pmm.gPmmState = nextState;
 
     limSendSmeRsp(pMac,
@@ -1638,7 +1811,11 @@ void pmmExitImpsRequestHandler (tpAniSirGlobal pMac)
     {
         // PE in invalid state 
         PELOGE(pmmLog(pMac, LOGE, 
+<<<<<<< HEAD
                       FL("pmmImps: Wakeup Req received in invalid state: %x"),
+=======
+                      FL("pmmImps: Wakeup Req received in invalid state: %d"),
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pMac->pmm.gPmmState);)
 
         resultCode = eSIR_SME_INVALID_PMM_STATE;
@@ -1706,25 +1883,48 @@ void pmmExitImpsResponseHandler(tpAniSirGlobal pMac, eHalStatus rspStatus)
     case eHAL_STATUS_SUCCESS:
         {
             resultCode = eSIR_SME_SUCCESS;
+<<<<<<< HEAD
             PELOG2(pmmLog(pMac, LOG2, 
                           FL("pmmImps: Received WDA_EXIT_IMPS_RSP with Successful response from HAL"));)
+=======
+            pMac->pmm.gPmmState = ePMM_STATE_IMPS_WAKEUP;
+            pmmLog(pMac, LOG1,
+                          FL("pmmImps: Received WDA_EXIT_IMPS_RSP with Successful response from HAL"));
+            //update power save statistics
+            pmmImpsUpdateWakeupStats(pMac);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
         break;
 
         default:
             {
                 resultCode = eSIR_SME_IMPS_REQ_FAILED;
+<<<<<<< HEAD
                 PELOGW(pmmLog(pMac, LOGW, 
                               FL("pmmImps: Received WDA_EXIT_IMPS_RSP with Failure Status from HAL"));)
+=======
+                /* Set the status back to IMPS SLEEP as we failed
+                 * to come out of sleep
+                 */
+                pMac->pmm.gPmmState = ePMM_STATE_IMPS_SLEEP;
+                PELOGW(pmmLog(pMac, LOGW, 
+                              FL("pmmImps: Received WDA_EXIT_IMPS_RSP with Failure Status from HAL"));)
+                // update th power save error stats
+                pmmImpsUpdateWakeupErrStats(pMac, rspStatus);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             }
             break;
 
     }
 
+<<<<<<< HEAD
     pMac->pmm.gPmmState = ePMM_STATE_IMPS_WAKEUP;
 
     //update power save statistics
     pmmImpsUpdateWakeupStats(pMac);
+=======
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     limSendSmeRsp(pMac,
                   eWNI_PMC_EXIT_IMPS_RSP,
@@ -1777,11 +1977,22 @@ void pmmEnterUapsdRequestHandler (tpAniSirGlobal pMac)
     {
         PELOGE(pmmLog(pMac, LOGE,
             FL("pmmUapsd: HAL_ENTER_UAPSD_REQ failed with response: %x"), retStatus);)
+<<<<<<< HEAD
         resultCode = eSIR_SME_UAPSD_REQ_FAILED;
         goto failure;
     }
 
     PELOG1(pmmLog(pMac, LOG1, FL("pmmUapsd: Waiting for WDA_ENTER_UAPSD_RSP "));)
+=======
+        if (retStatus == eSIR_PMM_INVALID_REQ)
+            resultCode = eSIR_SME_UAPSD_REQ_INVALID;
+        else
+            resultCode = eSIR_SME_UAPSD_REQ_FAILED;
+        goto failure;
+    }
+
+    pmmLog(pMac, LOG1, FL("pmmUapsd: Waiting for WDA_ENTER_UAPSD_RSP "));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return;
 
 failure:
@@ -1914,7 +2125,11 @@ void pmmExitUapsdRequestHandler(tpAniSirGlobal pMac)
     else
     {
         PELOGE(pmmLog(pMac, LOGE,
+<<<<<<< HEAD
             FL("pmmUapsd: Rcv EXIT_UAPSD from PMC in invalid state: %x"),
+=======
+            FL("pmmUapsd: Rcv EXIT_UAPSD from PMC in invalid state: %d"),
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pMac->pmm.gPmmState);)
 
         resultCode = eSIR_SME_INVALID_PMM_STATE;
@@ -2500,12 +2715,20 @@ tSirRetStatus pmmImpsSendChangePwrSaveMsg(tpAniSirGlobal pMac, tANI_U8 mode)
     if (SIR_PM_SLEEP_MODE == mode)
     {
         msgQ.type = WDA_ENTER_IMPS_REQ;
+<<<<<<< HEAD
         PELOG2(pmmLog (pMac, LOG2, FL("Sending WDA_ENTER_IMPS_REQ to HAL"));)
+=======
+        pmmLog (pMac, LOG1, FL("Sending WDA_ENTER_IMPS_REQ to HAL"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
     else
     {
         msgQ.type = WDA_EXIT_IMPS_REQ;
+<<<<<<< HEAD
         PELOG2(pmmLog (pMac, LOG2, FL("Sending WDA_EXIT_IMPS_REQ to HAL"));)
+=======
+        pmmLog (pMac, LOG1, FL("Sending WDA_EXIT_IMPS_REQ to HAL"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     msgQ.reserved = 0;
@@ -2545,8 +2768,11 @@ tSirRetStatus pmmUapsdSendChangePwrSaveMsg (tpAniSirGlobal pMac, tANI_U8 mode)
 {
     tSirRetStatus retStatus = eSIR_SUCCESS;
     tpUapsdParams pUapsdParams = NULL;
+<<<<<<< HEAD
     tANI_U8  uapsdDeliveryMask = 0;
     tANI_U8  uapsdTriggerMask = 0;
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tSirMsgQ msgQ;
     tpPESession pSessionEntry;
     tpExitUapsdParams pExitUapsdParams = NULL;
@@ -2572,6 +2798,7 @@ tSirRetStatus pmmUapsdSendChangePwrSaveMsg (tpAniSirGlobal pMac, tANI_U8 mode)
         msgQ.type = WDA_ENTER_UAPSD_REQ;
         msgQ.bodyptr = pUapsdParams;
 
+<<<<<<< HEAD
         uapsdDeliveryMask = (pMac->lim.gUapsdPerAcBitmask | pMac->lim.gUapsdPerAcDeliveryEnableMask);
         uapsdTriggerMask = (pMac->lim.gUapsdPerAcBitmask | pMac->lim.gUapsdPerAcTriggerEnableMask);
 
@@ -2583,6 +2810,86 @@ tSirRetStatus pmmUapsdSendChangePwrSaveMsg (tpAniSirGlobal pMac, tANI_U8 mode)
         pUapsdParams->beTriggerEnabled = LIM_UAPSD_GET(ACBE, uapsdTriggerMask);
         pUapsdParams->viTriggerEnabled = LIM_UAPSD_GET(ACVI, uapsdTriggerMask);
         pUapsdParams->voTriggerEnabled = LIM_UAPSD_GET(ACVO, uapsdTriggerMask);
+=======
+        /*
+        * An AC is delivery enabled AC if the bit for that AC is set into the
+        * gAcAdmitMask[SIR_MAC_DIRECTION_DLINK],it is not set then we will take Static values.
+        */
+
+        if ( pMac->lim.gAcAdmitMask[SIR_MAC_DIRECTION_DNLINK] & LIM_ADMIT_MASK_FLAG_ACBE)
+        {
+            pUapsdParams->beDeliveryEnabled = LIM_UAPSD_GET(ACBE, pMac->lim.gUapsdPerAcDeliveryEnableMask);
+        }
+        else
+        {
+            pUapsdParams->beDeliveryEnabled = LIM_UAPSD_GET(ACBE, pMac->lim.gUapsdPerAcBitmask);
+        }
+        if ( pMac->lim.gAcAdmitMask[SIR_MAC_DIRECTION_DNLINK] & LIM_ADMIT_MASK_FLAG_ACBK)
+        {
+            pUapsdParams->bkDeliveryEnabled = LIM_UAPSD_GET(ACBK, pMac->lim.gUapsdPerAcDeliveryEnableMask);
+        }
+        else
+        {
+            pUapsdParams->bkDeliveryEnabled = LIM_UAPSD_GET(ACBK, pMac->lim.gUapsdPerAcBitmask);
+        }
+        if  ( pMac->lim.gAcAdmitMask[SIR_MAC_DIRECTION_DNLINK] & LIM_ADMIT_MASK_FLAG_ACVI)
+        {
+            pUapsdParams->viDeliveryEnabled = LIM_UAPSD_GET(ACVI, pMac->lim.gUapsdPerAcDeliveryEnableMask);
+        }
+        else
+        {
+            pUapsdParams->viDeliveryEnabled = LIM_UAPSD_GET(ACVI, pMac->lim.gUapsdPerAcBitmask);
+        }
+
+        if ( pMac->lim.gAcAdmitMask[SIR_MAC_DIRECTION_DNLINK] & LIM_ADMIT_MASK_FLAG_ACVO)
+        {
+            pUapsdParams->voDeliveryEnabled = LIM_UAPSD_GET(ACVO, pMac->lim.gUapsdPerAcDeliveryEnableMask);
+        }
+        else
+        {
+            pUapsdParams->voDeliveryEnabled = LIM_UAPSD_GET(ACVO, pMac->lim.gUapsdPerAcBitmask);
+        }
+
+        /*
+        * An AC is trigger enabled AC if the bit for that AC is set into the
+        * gAcAdmitMask[SIR_MAC_DIRECTION_UPLINK],it is not set then we will take Static values.
+        */
+
+        if ( pMac->lim.gAcAdmitMask[SIR_MAC_DIRECTION_UPLINK] & LIM_ADMIT_MASK_FLAG_ACBE)
+        {
+             pUapsdParams->beTriggerEnabled = LIM_UAPSD_GET(ACBE, pMac->lim.gUapsdPerAcTriggerEnableMask);
+        }
+        else
+        {
+             pUapsdParams->beTriggerEnabled = LIM_UAPSD_GET(ACBE, pMac->lim.gUapsdPerAcBitmask);
+        }
+        if ( pMac->lim.gAcAdmitMask[SIR_MAC_DIRECTION_UPLINK] & LIM_ADMIT_MASK_FLAG_ACBK)
+        {
+             pUapsdParams->bkTriggerEnabled = LIM_UAPSD_GET(ACBK, pMac->lim.gUapsdPerAcTriggerEnableMask);
+        }
+        else
+        {
+             pUapsdParams->bkTriggerEnabled = LIM_UAPSD_GET(ACBK, pMac->lim.gUapsdPerAcBitmask);
+        }
+        if ( pMac->lim.gAcAdmitMask[SIR_MAC_DIRECTION_UPLINK] & LIM_ADMIT_MASK_FLAG_ACVI)
+        {
+             pUapsdParams->viTriggerEnabled = LIM_UAPSD_GET(ACVI, pMac->lim.gUapsdPerAcTriggerEnableMask);
+        }
+        else
+        {
+             pUapsdParams->viTriggerEnabled = LIM_UAPSD_GET(ACVI, pMac->lim.gUapsdPerAcBitmask);
+        }
+
+        if ( pMac->lim.gAcAdmitMask[SIR_MAC_DIRECTION_UPLINK] & LIM_ADMIT_MASK_FLAG_ACVO)
+        {
+             pUapsdParams->voTriggerEnabled = LIM_UAPSD_GET(ACVO, pMac->lim.gUapsdPerAcTriggerEnableMask);
+        }
+        else
+        {
+             pUapsdParams->voTriggerEnabled = LIM_UAPSD_GET(ACVO, pMac->lim.gUapsdPerAcBitmask);
+        }
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         pUapsdParams->bssIdx = pSessionEntry->bssIdx;
 
         PELOGW(pmmLog(pMac, LOGW,
@@ -2603,6 +2910,25 @@ tSirRetStatus pmmUapsdSendChangePwrSaveMsg (tpAniSirGlobal pMac, tANI_U8 mode)
             pUapsdParams->viTriggerEnabled, 
             pUapsdParams->voTriggerEnabled);)
 
+<<<<<<< HEAD
+=======
+        if (pUapsdParams->bkDeliveryEnabled == 0 &&
+            pUapsdParams->beDeliveryEnabled == 0 &&
+            pUapsdParams->viDeliveryEnabled == 0 &&
+            pUapsdParams->voDeliveryEnabled == 0 &&
+            pUapsdParams->bkTriggerEnabled == 0 &&
+            pUapsdParams->beTriggerEnabled == 0 &&
+            pUapsdParams->viTriggerEnabled == 0 &&
+            pUapsdParams->voTriggerEnabled == 0)
+        {
+            limLog(pMac, LOGW, FL("No Need to enter UAPSD since Trigger "
+                 "Enabled and Delivery Enabled Mask is zero for all ACs"));
+            vos_mem_free(pUapsdParams);
+            retStatus = eSIR_PMM_INVALID_REQ;
+            return retStatus;
+        }
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         PELOGW(pmmLog (pMac, LOGW, FL("pmmUapsd: Sending WDA_ENTER_UAPSD_REQ to HAL"));)
     }
     else
@@ -2693,10 +3019,17 @@ void pmmImpsUpdatePwrSaveStats(tpAniSirGlobal pMac)
 
     pMac->pmm.ImpsAvgTimeAwake = ((pMac->pmm.ImpsAvgTimeAwake * pMac->pmm.ImpsCntSleep) + TimeAwake) / (pMac->pmm.ImpsCntSleep + 1);
 
+<<<<<<< HEAD
     (pMac->pmm.ImpsCntSleep)++;
 
     return;
 */
+=======
+*/
+    (pMac->pmm.ImpsCntSleep)++;
+
+    return;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 
@@ -2740,10 +3073,17 @@ void pmmImpsUpdateWakeupStats (tpAniSirGlobal pMac)
 
     pMac->pmm.ImpsAvgSleepTime = ( ( (pMac->pmm.ImpsAvgSleepTime * pMac->pmm.ImpsCntAwake) + SleepTime) / (pMac->pmm.ImpsCntAwake + 1));
 
+<<<<<<< HEAD
     (pMac->pmm.ImpsCntAwake)++;
 
     return;
 */
+=======
+*/
+    (pMac->pmm.ImpsCntAwake)++;
+
+    return;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 // Collects number of times error occurred while going to sleep mode

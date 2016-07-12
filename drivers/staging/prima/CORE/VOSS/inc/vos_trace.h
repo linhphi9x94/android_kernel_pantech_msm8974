@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2011-2014 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -40,6 +45,15 @@
  */
 
 
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+ */
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #if !defined( __VOS_TRACE_H )
 #define __VOS_TRACE_H
 
@@ -60,6 +74,11 @@
   ------------------------------------------------------------------------*/
 #include  <vos_types.h>  // For VOS_MODULE_ID...
 #include  <stdarg.h>       // For va_list...
+<<<<<<< HEAD
+=======
+#include  <vos_status.h>
+#include  <i_vos_types.h>
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*-------------------------------------------------------------------------- 
   Type declarations 
@@ -94,6 +113,25 @@ typedef enum
     
 } VOS_TRACE_LEVEL;
 
+<<<<<<< HEAD
+=======
+enum {
+	LOG_PKT_TYPE_DATA_MGMT = 0x1,
+	LOG_PKT_TYPE_FW_LOG    = 0x2
+};
+
+
+
+/* Log types. These types are defined in mailbox*/
+typedef enum
+{
+    WLAN_MGMT_FRAME_LOGS    = 0,
+    WLAN_QXDM_LOGGING       = 1,
+    WLAN_FW_MEMORY_DUMP     = 2
+}FrameLoggingType;
+
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*-------------------------------------------------------------------------- 
   Preprocessor definitions and constants
   ------------------------------------------------------------------------*/
@@ -102,10 +140,61 @@ typedef enum
 // below definition is obsolete and is no longer being used in BMP and WM
 // TODO: remove this once this is not used on Android
 #define VOS_ENABLE_TRACING 
+<<<<<<< HEAD
 #define WCONN_TRACE_KMSG_LOG_BUFF
 
 #include  <i_vos_trace.h>   
 
+=======
+#define MAX_VOS_TRACE_RECORDS 4000
+#define INVALID_VOS_TRACE_ADDR 0xffffffff
+#define DEFAULT_VOS_TRACE_DUMP_COUNT 0
+
+#include  <i_vos_trace.h>   
+
+#ifdef TRACE_RECORD
+
+#define CASE_RETURN_STRING( str )           \
+    case ( ( str ) ): return( (tANI_U8*)(#str) );
+
+#define MTRACE(p) p
+#define NO_SESSION 0xFF
+
+#else
+#define MTRACE(p) {  }
+
+#endif
+
+/*--------------------------------------------------------------------------
+  Structure definition
+  ------------------------------------------------------------------------*/
+typedef struct  svosTraceRecord
+{
+    v_U32_t time;
+    v_U8_t module;
+    v_U8_t code;
+    v_U8_t session;
+    v_U32_t data;
+}tvosTraceRecord, *tpvosTraceRecord;
+
+typedef struct svosTraceData
+{
+    // MTRACE logs are stored in ring buffer where head represents the position
+    // of first record, tail represents the position of last record added till
+    // now and num is the count of total record added.
+    v_U32_t head;
+    v_U32_t tail;
+    v_U32_t num;
+    v_U16_t numSinceLastDump;
+
+    //Config for controlling the trace
+    v_U8_t enable;
+    v_U16_t dumpCount; //will dump after number of records reach this number.
+
+}tvosTraceData;
+
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*------------------------------------------------------------------------- 
   Function declarations and documenation
   ------------------------------------------------------------------------*/
@@ -151,6 +240,7 @@ void vos_trace_setLevel( VOS_MODULE_ID module, VOS_TRACE_LEVEL level );
   --------------------------------------------------------------------------*/
 v_BOOL_t vos_trace_getLevel( VOS_MODULE_ID module, VOS_TRACE_LEVEL level );
 
+<<<<<<< HEAD
 #ifdef WCONN_TRACE_KMSG_LOG_BUFF
 /*--------------------------------------------------------------------------
  \brief vos_wconn_trace_init(); - Initializing the spinlock,
@@ -169,4 +259,13 @@ void vos_wconn_trace_init(void);
 void vos_wconn_trace_exit(void);
 #endif
 
+=======
+typedef void (*tpvosTraceCb) (void *pMac, tpvosTraceRecord, v_U16_t);
+void vos_trace(v_U8_t module, v_U8_t code, v_U8_t session, v_U32_t data);
+void vosTraceRegister(VOS_MODULE_ID, tpvosTraceCb);
+VOS_STATUS vos_trace_spin_lock_init(void);
+void vosTraceInit(void);
+void vosTraceEnable(v_U32_t, v_U8_t enable);
+void vosTraceDumpAll(void*, v_U8_t, v_U8_t, v_U32_t, v_U32_t);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif

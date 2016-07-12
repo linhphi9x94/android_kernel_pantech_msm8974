@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2014 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /*===========================================================================
@@ -58,9 +70,12 @@
   Are listed for each API below.
 
 
+<<<<<<< HEAD
   Copyright (c) 2008 QUALCOMM Incorporated.
   All Rights Reserved.
   Qualcomm Confidential and Proprietary
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ===========================================================================*/
 
 /*===========================================================================
@@ -1186,7 +1201,11 @@ regStaWithTl
     if ( !VOS_IS_STATUS_SUCCESS( vosStatus ) )
     {
        VOS_TRACE( VOS_MODULE_ID_BAP, VOS_TRACE_LEVEL_ERROR, 
+<<<<<<< HEAD
                   "%s: WLANTL_RegisterSTAClient() failed to register.  Status= %d [0x%08lX]",
+=======
+                  "%s: WLANTL_RegisterSTAClient() failed to register.  Status= %d [0x%08X]",
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                   __func__, vosStatus, vosStatus );
     }                                            
      
@@ -1541,7 +1560,10 @@ tANI_U8 pRSNOui03[ WLANBAP_RSN_OUI_SIZE ] = { 0x00, 0x0F, 0xAC, 0x03 }; // Reser
 tANI_U8 pRSNOui04[ WLANBAP_RSN_OUI_SIZE ] = { 0x00, 0x0F, 0xAC, 0x04 }; // AES-CCMP
 tANI_U8 pRSNOui05[ WLANBAP_RSN_OUI_SIZE ] = { 0x00, 0x0F, 0xAC, 0x05 }; // WEP-104
 
+<<<<<<< HEAD
 #define GET_IE_LEN_IN_BSS(lenInBss) ( lenInBss + sizeof(lenInBss) - ((int) OFFSET_OF( tSirBssDescription, ieFields))) 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* Incoming Association indication validation predicate */
 v_U32_t 
 validAssocInd

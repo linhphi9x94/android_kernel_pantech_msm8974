@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /**=========================================================================
@@ -47,9 +59,12 @@
 
   \author Sunit Bhatia
 
+<<<<<<< HEAD
    Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
 
    Qualcomm Confidential and Proprietary.
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   ========================================================================*/
 
@@ -63,13 +78,17 @@
 
 #ifdef TRACE_RECORD
 
+<<<<<<< HEAD
 #define CASE_RETURN_STRING( str )           \
     case ( ( str ) ): return( (tANI_U8*)(#str) ); break \
 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define MAC_TRACE_GET_MODULE_ID(data) ((data >> 8) & 0xff)
 #define MAC_TRACE_GET_MSG_ID(data)       (data & 0xffff)
 
 
+<<<<<<< HEAD
 typedef struct  sTraceRecord
 {
     tANI_U32 time;
@@ -115,6 +134,14 @@ void macTraceNew(tpAniSirGlobal pMac,  tANI_U8 module, tANI_U8 code, tANI_U8 ses
 void macTraceDumpAll(tpAniSirGlobal pMac, tANI_U8 code, tANI_U8 session, tANI_U32 count);
 void macTraceCfg(tpAniSirGlobal pMac, tANI_U32 enable, tANI_U32 dumpWhenFull, tANI_U32 code, tANI_U32 session);
 void macTraceRegister( tpAniSirGlobal pMac, VOS_MODULE_ID moduleId,    tpTraceCb traceCb);
+=======
+#define eLOG_NODROP_MISSED_BEACON_SCENARIO 0
+#define eLOG_PROC_DEAUTH_FRAME_SCENARIO 1
+
+void macTraceReset(tpAniSirGlobal pMac);
+void macTrace(tpAniSirGlobal pMac,  tANI_U8 code, tANI_U8 session, tANI_U32 data);
+void macTraceNew(tpAniSirGlobal pMac,  tANI_U8 module, tANI_U8 code, tANI_U8 session, tANI_U32 data);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 tANI_U8* macTraceGetCfgMsgString( tANI_U16 cfgMsg );
 tANI_U8* macTraceGetLimMsgString( tANI_U16 limMsg );
 tANI_U8* macTraceGetWdaMsgString( tANI_U16 wdaMsg );

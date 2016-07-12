@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /******************************************************************************
@@ -49,11 +61,16 @@
 
 * Description: Power Management Control (PMC) API definitions.
 
+<<<<<<< HEAD
 * Copyright 2008 (c) Qualcomm, Incorporated.  
 
 * All Rights Reserved.
 
 * Qualcomm Confidential and Proprietary.
+=======
+* All Rights Reserved.
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 *
 
@@ -73,11 +90,22 @@
 //should be large enough to allow the auth, DHCP handshake to complete
 #define BMPS_TRAFFIC_TIMER_ALLOW_SECURITY_DHCP 8000  //unit = ms
 
+<<<<<<< HEAD
 #define PMC_IS_CHIP_ACCESSIBLE(pmcState) ( (IMPS != (pmcState)) && (REQUEST_IMPS != (pmcState)) && \
        (STANDBY != (pmcState)) && (REQUEST_STANDBY != (pmcState)) )
 
 
 
+=======
+//This timer value is used to start the timer right after key completion
+//during roaming. This should be small enough to allow STA to enter PS
+//immediately after key completion as no DHCP phase during roaming.
+#define TRAFFIC_TIMER_ROAMING 100  //unit = ms
+
+#define PMC_IS_CHIP_ACCESSIBLE(pmcState) ( (IMPS != (pmcState)) && (REQUEST_IMPS != (pmcState)) && \
+       (STANDBY != (pmcState)) && (REQUEST_STANDBY != (pmcState)) )
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* Power events that are signaled to PMC. */
 
 typedef enum ePmcPowerEvent
@@ -197,7 +225,10 @@ typedef enum ePmcState
 
 } tPmcState;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* Which beacons should be forwarded to the host. */
 
 typedef enum ePmcBeaconsToForward
@@ -231,8 +262,16 @@ typedef enum ePmcSmpsMode
 
 } tPmcSmpsMode;
 
+<<<<<<< HEAD
 
 
+=======
+typedef enum
+{
+    eWOWL_EXIT_USER,
+    eWOWL_EXIT_WAKEIND
+}tWowlExitSource;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /* Configuration parameters for Idle Mode Power Save (IMPS). */
 
@@ -313,7 +352,10 @@ typedef struct sPmcSmpsConfigParams
 
 
 /* Routine definitions. */
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 extern eHalStatus pmcOpen (tHalHandle hHal);
 
 extern eHalStatus pmcStart (tHalHandle hHal);
@@ -436,7 +478,11 @@ extern eHalStatus pmcEnterWowl (
 #endif // WLAN_WAKEUP_EVENTS
     tpSirSmeWowlEnterParams wowlEnterParams, tANI_U8 sessionId);
 
+<<<<<<< HEAD
 extern eHalStatus pmcExitWowl (tHalHandle hHal);
+=======
+extern eHalStatus pmcExitWowl (tHalHandle hHal, tWowlExitSource wowlExitSrc);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 
 extern eHalStatus pmcSetHostOffload (tHalHandle hHal, tpSirHostOffloadReq pRequest,

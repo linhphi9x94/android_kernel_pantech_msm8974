@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #ifndef _WLAN_HDD_WOWL_H
@@ -110,9 +122,12 @@
   the device in BMPS mode (if not already in BMPS). If attempt to BMPS fails, 
   request for WoWL will be rejected.
 
+<<<<<<< HEAD
   Copyright (c) 2009 QUALCOMM Incorporated.
   All Rights Reserved.
   Qualcomm Confidential and Proprietary
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 ============================================================================*/
 /* $Header$ */
@@ -153,21 +168,38 @@ v_BOOL_t hdd_del_wowl_ptrn (hdd_adapter_t *pAdapter, const char * ptrn);
 
 /**============================================================================
   @brief hdd_add_wowl_ptrn_debugfs() - Function which will add a WoW pattern
+<<<<<<< HEAD
   to be used when PBM filtering is enabled and MP filtering is disabled
+=======
+  sent from debugfs interface
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   @param pAdapter       : [in] pointer to the adapter
          pattern_idx    : [in] index of the pattern to be added
          pattern_offset : [in] offset of the pattern in the frame payload
          pattern_buf    : [in] pointer to the pattern hex string to be added
+<<<<<<< HEAD
+=======
+         pattern_mask   : [in] pointer to the pattern mask hex string
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   @return               : FALSE if any errors encountered
                         : TRUE otherwise
   ===========================================================================*/
 v_BOOL_t hdd_add_wowl_ptrn_debugfs(hdd_adapter_t *pAdapter, v_U8_t pattern_idx,
+<<<<<<< HEAD
                                    v_U8_t pattern_offset, char *pattern_buf);
 
 /**============================================================================
   @brief hdd_del_wowl_ptrn_debugfs() - Function which will remove a WoW pattern
+=======
+                                   v_U8_t pattern_offset, char *pattern_buf,
+                                   char *pattern_mask);
+
+/**============================================================================
+  @brief hdd_del_wowl_ptrn_debugfs() - Function which will remove a WoW pattern
+  sent from debugfs interface
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   @param pAdapter    : [in] pointer to the adapter
          pattern_idx : [in] index of the pattern to be removed
@@ -192,10 +224,20 @@ v_BOOL_t hdd_enter_wowl (hdd_adapter_t *pAdapter, v_BOOL_t enable_mp, v_BOOL_t e
 /**============================================================================
   @brief hdd_exit_wowl() - Function which will disable WoWL
 
+<<<<<<< HEAD
   @return           : FALSE if any errors encountered
                     : TRUE otherwise
   ===========================================================================*/
 v_BOOL_t hdd_exit_wowl (hdd_adapter_t*pAdapter);
+=======
+  @param wowlExitSrc: is wowl exiting because of wakeup pkt or user explicitly
+                      disabling WoWL
+
+  @return           : FALSE if any errors encountered
+                    : TRUE otherwise
+  ===========================================================================*/
+v_BOOL_t hdd_exit_wowl (hdd_adapter_t*pAdapter, tWowlExitSource wowlExitSrc);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /**============================================================================
   @brief hdd_init_wowl() - Init function which will initialize the WoWL module

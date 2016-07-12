@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2011-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -41,6 +46,17 @@
 /*
  *
  * Airgo Networks, Inc proprietary. All rights reserved.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+ */
+
+/*
+ *
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file limGlobal.h contains the definitions exported by
  * LIM module.
  * Author:        Chandra Modumudi
@@ -59,7 +75,11 @@
 #include "sirMacPropExts.h"
 #include "sirCommon.h"
 #include "sirDebug.h"
+<<<<<<< HEAD
 #include "wniCfgSta.h"
+=======
+#include "wniCfg.h"
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include "csrApi.h"
 #include "sapApi.h"
 #include "dot11f.h"
@@ -81,10 +101,13 @@
 
 #define LIM_TX_WQ_EMPTY_SLEEP_NS                100000
 
+<<<<<<< HEAD
 // Sending Disassociate frames threshold
 #define LIM_SEND_DISASSOC_FRAME_THRESHOLD       2
 #define LIM_HASH_MISS_TIMER_MS                  10000
 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 // Deferred Message Queue Length
 #define MAX_DEFERRED_QUEUE_LEN                  20
 
@@ -375,6 +398,11 @@ typedef struct tLimPreAuthNode
     tANI_U8             fFree:1;
     tANI_U8             rsvd:5;
     TX_TIMER            timer;
+<<<<<<< HEAD
+=======
+    tANI_U16            seqNo;
+    v_TIME_t            timestamp;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }tLimPreAuthNode, *tpLimPreAuthNode;
 
 // Pre-authentication table definition
@@ -687,6 +715,7 @@ typedef struct sLimSpecMgmtInfo
     tANI_BOOLEAN       fRadarIntrConfigured; /* Whether radar interrupt has been configured */
 }tLimSpecMgmtInfo, *tpLimSpecMgmtInfo;
 
+<<<<<<< HEAD
 #ifdef FEATURE_WLAN_TDLS_INTERNAL
 typedef struct sLimDisResultList
 {
@@ -695,6 +724,8 @@ typedef struct sLimDisResultList
 }tLimDisResultList ;
 #endif
 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef FEATURE_WLAN_TDLS
 /*
  * Peer info needed for TDLS setup..

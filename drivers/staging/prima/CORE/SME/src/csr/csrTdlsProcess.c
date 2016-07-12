@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /** ------------------------------------------------------------------------- * 
@@ -47,12 +59,17 @@
   
     Implementation for the TDLS interface to PE.
   
+<<<<<<< HEAD
    Copyright (c) 2013 Qualcomm Atheros, Inc.All Rights Reserved.
    Qualcomm Atheros Confidential and Proprietary.
     
    Copyright (c) 2010 Qualcomm Technologies, Inc.All Rights Reserved.
    Qualcomm Technologies Confidential and Proprietary
 
+=======
+    Copyright (C) 2010 Qualcomm, Incorporated
+  
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  
    ========================================================================== */
 
@@ -72,6 +89,7 @@
 #include "csrInternal.h"
 
 
+<<<<<<< HEAD
 
 #ifdef FEATURE_WLAN_TDLS_INTERNAL
 /*
@@ -86,6 +104,8 @@ eHalStatus csrTdlsInitPeerList(tpAniSirGlobal pMac )
 }
 #endif
 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*
  * common routine to remove TDLS cmd from SME command list..
  * commands are removed after getting reponse from PE.
@@ -124,7 +144,11 @@ eHalStatus csrTdlsSendMgmtReq(tHalHandle hHal, tANI_U8 sessionId, tCsrTdlsSendMg
     tpAniSirGlobal pMac = PMAC_STRUCT( hHal );
     tSmeCmd *tdlsSendMgmtCmd ;
     eHalStatus status = eHAL_STATUS_FAILURE ;
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     //If connected and in Infra. Only then allow this
     if( CSR_IS_SESSION_VALID( pMac, sessionId ) && 
         csrIsConnStateConnectedInfra( pMac, sessionId ) &&
@@ -137,26 +161,48 @@ eHalStatus csrTdlsSendMgmtReq(tHalHandle hHal, tANI_U8 sessionId, tCsrTdlsSendMg
             tTdlsSendMgmtCmdInfo *tdlsSendMgmtCmdInfo = 
                             &tdlsSendMgmtCmd->u.tdlsCmd.u.tdlsSendMgmtCmdInfo ;
 
+<<<<<<< HEAD
+=======
+            vos_mem_zero(&tdlsSendMgmtCmd->u.tdlsCmd, sizeof(tTdlsCmd));
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             tdlsSendMgmtCmd->sessionId = sessionId;
 
             tdlsSendMgmtCmdInfo->frameType = tdlsSendMgmt->frameType ;   
             tdlsSendMgmtCmdInfo->dialog = tdlsSendMgmt->dialog ;   
             tdlsSendMgmtCmdInfo->statusCode = tdlsSendMgmt->statusCode ;
             tdlsSendMgmtCmdInfo->responder = tdlsSendMgmt->responder;
+<<<<<<< HEAD
             palCopyMemory(pMac->hHdd, tdlsSendMgmtCmdInfo->peerMac, 
+=======
+            tdlsSendMgmtCmdInfo->peerCapability = tdlsSendMgmt->peerCapability;
+            vos_mem_copy(tdlsSendMgmtCmdInfo->peerMac,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                    tdlsSendMgmt->peerMac, sizeof(tSirMacAddr)) ; 
 
             if( (0 != tdlsSendMgmt->len) && (NULL != tdlsSendMgmt->buf) )
             {
+<<<<<<< HEAD
                 status = palAllocateMemory( pMac->hHdd, (void **)&tdlsSendMgmtCmdInfo->buf, 
                         tdlsSendMgmt->len );
+=======
+                tdlsSendMgmtCmdInfo->buf = vos_mem_malloc(tdlsSendMgmt->len);
+                if ( NULL == tdlsSendMgmtCmdInfo->buf )
+                    status = eHAL_STATUS_FAILURE;
+                else
+                    status = eHAL_STATUS_SUCCESS;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 if(!HAL_STATUS_SUCCESS( status ) )
                 {
                     smsLog( pMac, LOGE, FL("Alloc Failed") );
                     VOS_ASSERT(0) ;
                     return status ;
                 }
+<<<<<<< HEAD
                 palCopyMemory(pMac->hHdd, tdlsSendMgmtCmdInfo->buf,
+=======
+                vos_mem_copy(tdlsSendMgmtCmdInfo->buf,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                         tdlsSendMgmt->buf, tdlsSendMgmt->len );
                 tdlsSendMgmtCmdInfo->len = tdlsSendMgmt->len;
             }
@@ -170,6 +216,11 @@ eHalStatus csrTdlsSendMgmtReq(tHalHandle hHal, tANI_U8 sessionId, tCsrTdlsSendMg
             tdlsSendMgmtCmd->u.tdlsCmd.size = sizeof(tTdlsSendMgmtCmdInfo) ;
             smePushCommand(pMac, tdlsSendMgmtCmd, FALSE) ;
             status = eHAL_STATUS_SUCCESS ;
+<<<<<<< HEAD
+=======
+            smsLog( pMac, LOG1,
+                        FL("Successfully posted tdlsSendMgmtCmd to SME"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
     }
 
@@ -177,15 +228,32 @@ eHalStatus csrTdlsSendMgmtReq(tHalHandle hHal, tANI_U8 sessionId, tCsrTdlsSendMg
 }
 
 /*
+<<<<<<< HEAD
  * TDLS request API, called from HDD to add a TDLS peer 
  */
 eHalStatus csrTdlsChangePeerSta(tHalHandle hHal, tANI_U8 sessionId, tSirMacAddr peerMac,
+=======
+ * TDLS request API, called from HDD to modify an existing TDLS peer
+ */
+eHalStatus csrTdlsChangePeerSta(tHalHandle hHal, tANI_U8 sessionId,
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,18,0))
+                                const tSirMacAddr peerMac,
+#else
+                                tSirMacAddr peerMac,
+#endif
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                 tCsrStaParams *pstaParams)
 {
     tpAniSirGlobal pMac = PMAC_STRUCT( hHal );
     tSmeCmd *tdlsAddStaCmd ;
     eHalStatus status = eHAL_STATUS_FAILURE ;
 
+<<<<<<< HEAD
+=======
+    if (NULL == pstaParams)
+        return status;
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     //If connected and in Infra. Only then allow this
     if (CSR_IS_SESSION_VALID( pMac, sessionId ) &&
         csrIsConnStateConnectedInfra( pMac, sessionId ) &&
@@ -198,21 +266,35 @@ eHalStatus csrTdlsChangePeerSta(tHalHandle hHal, tANI_U8 sessionId, tSirMacAddr 
             tTdlsAddStaCmdInfo *tdlsAddStaCmdInfo =
                          &tdlsAddStaCmd->u.tdlsCmd.u.tdlsAddStaCmdInfo ;
 
+<<<<<<< HEAD
+=======
+            vos_mem_zero(&tdlsAddStaCmd->u.tdlsCmd, sizeof(tTdlsCmd));
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             tdlsAddStaCmdInfo->tdlsAddOper = TDLS_OPER_UPDATE;
 
             tdlsAddStaCmd->sessionId = sessionId;
 
+<<<<<<< HEAD
             palCopyMemory(pMac->hHdd, tdlsAddStaCmdInfo->peerMac,
+=======
+            vos_mem_copy(tdlsAddStaCmdInfo->peerMac,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                           peerMac, sizeof(tSirMacAddr)) ;
             tdlsAddStaCmdInfo->capability = pstaParams->capability;
             tdlsAddStaCmdInfo->uapsdQueues = pstaParams->uapsd_queues;
             tdlsAddStaCmdInfo->maxSp = pstaParams->max_sp;
+<<<<<<< HEAD
             palCopyMemory(pMac->hHdd, tdlsAddStaCmdInfo->extnCapability,
+=======
+            vos_mem_copy(tdlsAddStaCmdInfo->extnCapability,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                           pstaParams->extn_capability,
                           sizeof(pstaParams->extn_capability));
 
             tdlsAddStaCmdInfo->htcap_present = pstaParams->htcap_present;
             if(pstaParams->htcap_present)
+<<<<<<< HEAD
                 palCopyMemory(pMac->hHdd, &tdlsAddStaCmdInfo->HTCap,
                               &pstaParams->HTCap, sizeof(pstaParams->HTCap));
             else
@@ -229,12 +311,35 @@ eHalStatus csrTdlsChangePeerSta(tHalHandle hHal, tANI_U8 sessionId, tSirMacAddr 
 
             if (0 != pstaParams->supported_rates_len)
                 palCopyMemory(pMac->hHdd, &tdlsAddStaCmdInfo->supportedRates,
+=======
+                vos_mem_copy( &tdlsAddStaCmdInfo->HTCap,
+                              &pstaParams->HTCap, sizeof(pstaParams->HTCap));
+            else
+                vos_mem_set(&tdlsAddStaCmdInfo->HTCap, sizeof(pstaParams->HTCap), 0);
+
+            tdlsAddStaCmdInfo->vhtcap_present = pstaParams->vhtcap_present;
+            if(pstaParams->vhtcap_present)
+                vos_mem_copy( &tdlsAddStaCmdInfo->VHTCap,
+                              &pstaParams->VHTCap, sizeof(pstaParams->VHTCap));
+            else
+                vos_mem_set(&tdlsAddStaCmdInfo->VHTCap, sizeof(pstaParams->VHTCap), 0);
+
+            tdlsAddStaCmdInfo->supportedRatesLen = pstaParams->supported_rates_len;
+
+            if (0 != pstaParams->supported_rates_len)
+                vos_mem_copy( &tdlsAddStaCmdInfo->supportedRates,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                               pstaParams->supported_rates,
                               pstaParams->supported_rates_len);
 
             tdlsAddStaCmd->command = eSmeCommandTdlsAddPeer;
             tdlsAddStaCmd->u.tdlsCmd.size = sizeof(tTdlsAddStaCmdInfo) ;
             smePushCommand(pMac, tdlsAddStaCmd, FALSE) ;
+<<<<<<< HEAD
+=======
+            smsLog( pMac, LOG1,
+                        FL("Successfully posted tdlsAddStaCmd to SME to modify peer "));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             status = eHAL_STATUS_SUCCESS ;
         }
     }
@@ -245,9 +350,19 @@ eHalStatus csrTdlsChangePeerSta(tHalHandle hHal, tANI_U8 sessionId, tSirMacAddr 
  * TDLS request API, called from HDD to Send Link Establishment Parameters
  */
 VOS_STATUS csrTdlsSendLinkEstablishParams(tHalHandle hHal,
+<<<<<<< HEAD
                                                  tANI_U8 sessionId,
                                                  tSirMacAddr peerMac,
                                                  tCsrTdlsLinkEstablishParams *tdlsLinkEstablishParams)
+=======
+                                          tANI_U8 sessionId,
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,18,0))
+                                          const tSirMacAddr peerMac,
+#else
+                                          tSirMacAddr peerMac,
+#endif
+                                          tCsrTdlsLinkEstablishParams *tdlsLinkEstablishParams)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
     tpAniSirGlobal pMac = PMAC_STRUCT( hHal );
     tSmeCmd *tdlsLinkEstablishCmd;
@@ -264,11 +379,38 @@ VOS_STATUS csrTdlsSendLinkEstablishParams(tHalHandle hHal,
             tTdlsLinkEstablishCmdInfo *tdlsLinkEstablishCmdInfo =
             &tdlsLinkEstablishCmd->u.tdlsCmd.u.tdlsLinkEstablishCmdInfo ;
 
+<<<<<<< HEAD
             tdlsLinkEstablishCmd->sessionId = sessionId;
 
             palCopyMemory(pMac->hHdd, tdlsLinkEstablishCmdInfo->peerMac,
                           peerMac, sizeof(tSirMacAddr));
             tdlsLinkEstablishCmdInfo->isBufSta = tdlsLinkEstablishParams->isBufSta;
+=======
+            vos_mem_zero(&tdlsLinkEstablishCmd->u.tdlsCmd, sizeof(tTdlsCmd));
+
+            tdlsLinkEstablishCmd->sessionId = sessionId;
+
+            vos_mem_copy( tdlsLinkEstablishCmdInfo->peerMac,
+                          peerMac, sizeof(tSirMacAddr));
+            tdlsLinkEstablishCmdInfo->isBufSta = tdlsLinkEstablishParams->isBufSta;
+            tdlsLinkEstablishCmdInfo->isResponder = tdlsLinkEstablishParams->isResponder;
+            tdlsLinkEstablishCmdInfo->maxSp = tdlsLinkEstablishParams->maxSp;
+            tdlsLinkEstablishCmdInfo->uapsdQueues = tdlsLinkEstablishParams->uapsdQueues;
+            tdlsLinkEstablishCmdInfo->isOffChannelSupported =
+                                               tdlsLinkEstablishParams->isOffChannelSupported;
+
+            vos_mem_copy(tdlsLinkEstablishCmdInfo->supportedChannels,
+                          tdlsLinkEstablishParams->supportedChannels,
+                          tdlsLinkEstablishParams->supportedChannelsLen);
+            tdlsLinkEstablishCmdInfo->supportedChannelsLen =
+                                    tdlsLinkEstablishParams->supportedChannelsLen;
+
+            vos_mem_copy(tdlsLinkEstablishCmdInfo->supportedOperClasses,
+                          tdlsLinkEstablishParams->supportedOperClasses,
+                          tdlsLinkEstablishParams->supportedOperClassesLen);
+            tdlsLinkEstablishCmdInfo->supportedOperClassesLen =
+                                    tdlsLinkEstablishParams->supportedOperClassesLen;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             tdlsLinkEstablishCmdInfo->isResponder= tdlsLinkEstablishParams->isResponder;
             tdlsLinkEstablishCmdInfo->maxSp= tdlsLinkEstablishParams->maxSp;
             tdlsLinkEstablishCmdInfo->uapsdQueues= tdlsLinkEstablishParams->uapsdQueues;
@@ -276,6 +418,11 @@ VOS_STATUS csrTdlsSendLinkEstablishParams(tHalHandle hHal,
             tdlsLinkEstablishCmd->u.tdlsCmd.size = sizeof(tTdlsLinkEstablishCmdInfo) ;
             smePushCommand(pMac, tdlsLinkEstablishCmd, FALSE) ;
             status = eHAL_STATUS_SUCCESS ;
+<<<<<<< HEAD
+=======
+            smsLog( pMac, LOG1,
+                        FL("Successfully posted tdlsLinkEstablishCmd to SME"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
     }
 
@@ -285,7 +432,17 @@ VOS_STATUS csrTdlsSendLinkEstablishParams(tHalHandle hHal,
 /*
  * TDLS request API, called from HDD to add a TDLS peer
  */
+<<<<<<< HEAD
 eHalStatus csrTdlsAddPeerSta(tHalHandle hHal, tANI_U8 sessionId, tSirMacAddr peerMac)
+=======
+eHalStatus csrTdlsAddPeerSta(tHalHandle hHal, tANI_U8 sessionId,
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,18,0))
+                             const tSirMacAddr peerMac
+#else
+                             tSirMacAddr peerMac
+#endif
+                             )
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
     tpAniSirGlobal pMac = PMAC_STRUCT( hHal );
     tSmeCmd *tdlsAddStaCmd ;
@@ -303,16 +460,30 @@ eHalStatus csrTdlsAddPeerSta(tHalHandle hHal, tANI_U8 sessionId, tSirMacAddr pee
             tTdlsAddStaCmdInfo *tdlsAddStaCmdInfo = 
                 &tdlsAddStaCmd->u.tdlsCmd.u.tdlsAddStaCmdInfo ;
 
+<<<<<<< HEAD
             tdlsAddStaCmd->sessionId = sessionId;
             tdlsAddStaCmdInfo->tdlsAddOper = TDLS_OPER_ADD;
 
             palCopyMemory(pMac->hHdd, tdlsAddStaCmdInfo->peerMac, 
+=======
+            vos_mem_zero(&tdlsAddStaCmd->u.tdlsCmd, sizeof(tTdlsCmd));
+
+            tdlsAddStaCmd->sessionId = sessionId;
+            tdlsAddStaCmdInfo->tdlsAddOper = TDLS_OPER_ADD;
+
+            vos_mem_copy( tdlsAddStaCmdInfo->peerMac,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     peerMac, sizeof(tSirMacAddr)) ; 
 
             tdlsAddStaCmd->command = eSmeCommandTdlsAddPeer ;
             tdlsAddStaCmd->u.tdlsCmd.size = sizeof(tTdlsAddStaCmdInfo) ;
             smePushCommand(pMac, tdlsAddStaCmd, FALSE) ;
             status = eHAL_STATUS_SUCCESS ;
+<<<<<<< HEAD
+=======
+            smsLog( pMac, LOG1,
+                        FL("Successfully posted tdlsAddStaCmd to SME"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
     }
 
@@ -322,7 +493,17 @@ eHalStatus csrTdlsAddPeerSta(tHalHandle hHal, tANI_U8 sessionId, tSirMacAddr pee
 /*
  * TDLS request API, called from HDD to delete a TDLS peer
  */
+<<<<<<< HEAD
 eHalStatus csrTdlsDelPeerSta(tHalHandle hHal, tANI_U8 sessionId, tSirMacAddr peerMac)
+=======
+eHalStatus csrTdlsDelPeerSta(tHalHandle hHal, tANI_U8 sessionId,
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,18,0))
+                             const tSirMacAddr peerMac
+#else
+                             tSirMacAddr peerMac
+#endif
+)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
     tpAniSirGlobal pMac = PMAC_STRUCT( hHal );
     tSmeCmd *tdlsDelStaCmd ;
@@ -340,15 +521,24 @@ eHalStatus csrTdlsDelPeerSta(tHalHandle hHal, tANI_U8 sessionId, tSirMacAddr pee
             tTdlsDelStaCmdInfo *tdlsDelStaCmdInfo = 
                             &tdlsDelStaCmd->u.tdlsCmd.u.tdlsDelStaCmdInfo ;
 
+<<<<<<< HEAD
             tdlsDelStaCmd->sessionId = sessionId;
 
             palCopyMemory(pMac->hHdd, tdlsDelStaCmdInfo->peerMac, 
+=======
+            vos_mem_zero(&tdlsDelStaCmd->u.tdlsCmd, sizeof(tTdlsCmd));
+
+            tdlsDelStaCmd->sessionId = sessionId;
+
+            vos_mem_copy(tdlsDelStaCmdInfo->peerMac,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                    peerMac, sizeof(tSirMacAddr)) ; 
 
             tdlsDelStaCmd->command = eSmeCommandTdlsDelPeer ;
             tdlsDelStaCmd->u.tdlsCmd.size = sizeof(tTdlsDelStaCmdInfo) ;
             smePushCommand(pMac, tdlsDelStaCmd, FALSE) ;
             status = eHAL_STATUS_SUCCESS ;
+<<<<<<< HEAD
         }
     }
 
@@ -383,12 +573,17 @@ eHalStatus csrTdlsDiscoveryReq(tHalHandle hHal, tANI_U8 sessionId, tCsrTdlsDisRe
             tdlsDisReqCmd->u.tdlsCmd.size = sizeof(tTdlsDisReqCmdinfo) ;
             smePushCommand(pMac, tdlsDisReqCmd, FALSE) ;
             status = eHAL_STATUS_SUCCESS ;
+=======
+            smsLog( pMac, LOG1,
+                        FL("Successfully posted tdlsDelStaCmd to SME"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
     }
 
     return status ;
 }
 
+<<<<<<< HEAD
 /*
  * TDLS request API, called from HDD to enable TDLS link setup request
  * in SME/CSR and send message to PE to trigger TDLS link setup procedure.
@@ -450,13 +645,61 @@ eHalStatus csrTdlsTeardownReq(tHalHandle hHal, tANI_U8 sessionId,
                                         sizeof(tTdlsLinkTeardownCmdinfo) ;
             smePushCommand(pMac, tdlsTeardownReqCmd, FALSE) ;
             status = eHAL_STATUS_SUCCESS ;
+=======
+//tdlsoffchan
+/*
+ * TDLS request API, called from HDD to Send Channel Switch Parameters
+ */
+VOS_STATUS csrTdlsSendChanSwitchReq(tHalHandle hHal,
+                                    tANI_U8 sessionId,
+                                    tSirMacAddr peerMac,
+                                    tANI_S32 tdlsOffCh,
+                                    tANI_S32 tdlsOffChBwOffset,
+                                    tANI_U8 tdlsSwMode)
+{
+    tpAniSirGlobal pMac = PMAC_STRUCT( hHal );
+    tSmeCmd *tdlsChanSwitchCmd;
+    eHalStatus status = eHAL_STATUS_FAILURE ;
+
+    //If connected and in Infra. Only then allow this
+    if( CSR_IS_SESSION_VALID( pMac, sessionId ) &&
+        csrIsConnStateConnectedInfra( pMac, sessionId ) &&
+        (NULL != peerMac) )
+    {
+        tdlsChanSwitchCmd = csrGetCommandBuffer(pMac) ;
+
+        if(tdlsChanSwitchCmd)
+        {
+            tTdlsChanSwitchCmdInfo *tdlsChanSwitchCmdInfo =
+            &tdlsChanSwitchCmd->u.tdlsCmd.u.tdlsChanSwitchCmdInfo;
+
+            vos_mem_zero(&tdlsChanSwitchCmd->u.tdlsCmd, sizeof(tTdlsCmd));
+
+            tdlsChanSwitchCmd->sessionId = sessionId;
+
+            vos_mem_copy(tdlsChanSwitchCmdInfo->peerMac,
+                         peerMac, sizeof(tSirMacAddr));
+            tdlsChanSwitchCmdInfo->tdlsOffCh = tdlsOffCh;
+            tdlsChanSwitchCmdInfo->tdlsOffChBwOffset = tdlsOffChBwOffset;
+            tdlsChanSwitchCmdInfo->tdlsSwMode = tdlsSwMode;
+
+            tdlsChanSwitchCmd->command = eSmeCommandTdlsChannelSwitch;
+            tdlsChanSwitchCmd->u.tdlsCmd.size = sizeof(tTdlsChanSwitchCmdInfo) ;
+            smePushCommand(pMac, tdlsChanSwitchCmd, FALSE) ;
+            status = eHAL_STATUS_SUCCESS ;
+            smsLog( pMac, LOG1,
+                        FL("Successfully posted tdlsChanSwitchCmd to SME"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
     }
 
     return status ;
 }
 
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*
  * TDLS messages sent to PE .
@@ -470,7 +713,11 @@ eHalStatus tdlsSendMessage(tpAniSirGlobal pMac, tANI_U16 msg_type,
     pMsg->msgLen = (tANI_U16) (msg_size) ;
 
     VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_INFO,
+<<<<<<< HEAD
                               ("sending msg = %d"), pMsg->type) ;
+=======
+                              FL("sending msg = %d"), pMsg->type) ;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       /* Send message. */
     if (palSendMBMessage(pMac->hHdd, pMsg) != eHAL_STATUS_SUCCESS)
     {
@@ -488,14 +735,31 @@ eHalStatus csrTdlsProcessSendMgmt( tpAniSirGlobal pMac, tSmeCmd *cmd )
     tCsrRoamSession *pSession = CSR_GET_SESSION( pMac, cmd->sessionId );
     eHalStatus status = eHAL_STATUS_FAILURE;
 
+<<<<<<< HEAD
+=======
+    if (NULL == pSession)
+    {
+        smsLog( pMac, LOGE, FL("pSession is NULL"));
+        return eHAL_STATUS_FAILURE;
+    }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (NULL == pSession->pConnectBssDesc)
     {
         smsLog( pMac, LOGE, FL("BSS Description is not present") );
         return eHAL_STATUS_FAILURE;
     }
 
+<<<<<<< HEAD
     status = palAllocateMemory( pMac->hHdd, (void **)&tdlsSendMgmtReq, 
             (sizeof(tSirTdlsSendMgmtReq) + tdlsSendMgmtCmdInfo->len ) );
+=======
+    tdlsSendMgmtReq = vos_mem_malloc(
+                      sizeof(tSirTdlsSendMgmtReq) + tdlsSendMgmtCmdInfo->len);
+    if ( NULL == tdlsSendMgmtReq )
+       status = eHAL_STATUS_FAILURE;
+    else
+       status = eHAL_STATUS_SUCCESS;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (!HAL_STATUS_SUCCESS( status ) )
     {
@@ -510,21 +774,38 @@ eHalStatus csrTdlsProcessSendMgmt( tpAniSirGlobal pMac, tSmeCmd *cmd )
     tdlsSendMgmtReq->dialog =  tdlsSendMgmtCmdInfo->dialog ;
     tdlsSendMgmtReq->statusCode =  tdlsSendMgmtCmdInfo->statusCode ;
     tdlsSendMgmtReq->responder =  tdlsSendMgmtCmdInfo->responder;
+<<<<<<< HEAD
 
     palCopyMemory(pMac->hHdd, tdlsSendMgmtReq->bssid,
                   pSession->pConnectBssDesc->bssId, sizeof (tSirMacAddr));
 
     palCopyMemory(pMac->hHdd, tdlsSendMgmtReq->peerMac, 
+=======
+    tdlsSendMgmtReq->peerCapability = tdlsSendMgmtCmdInfo->peerCapability;
+
+    vos_mem_copy(tdlsSendMgmtReq->bssid,
+                  pSession->pConnectBssDesc->bssId, sizeof (tSirMacAddr));
+
+    vos_mem_copy(tdlsSendMgmtReq->peerMac,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             tdlsSendMgmtCmdInfo->peerMac, sizeof(tSirMacAddr)) ;
 
     if(tdlsSendMgmtCmdInfo->len && tdlsSendMgmtCmdInfo->buf)
     {
+<<<<<<< HEAD
         palCopyMemory(pMac->hHdd, tdlsSendMgmtReq->addIe, tdlsSendMgmtCmdInfo->buf,
+=======
+        vos_mem_copy(tdlsSendMgmtReq->addIe, tdlsSendMgmtCmdInfo->buf,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 tdlsSendMgmtCmdInfo->len);
 
     }
     // Send the request to PE.
+<<<<<<< HEAD
     smsLog( pMac, LOG1, "sending TDLS Mgmt Frame req to PE " );
+=======
+    smsLog( pMac, LOG1, FL("sending TDLS Mgmt Frame req to PE " ));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     status = tdlsSendMessage(pMac, eWNI_SME_TDLS_SEND_MGMT_REQ, 
             (void *)tdlsSendMgmtReq , sizeof(tSirTdlsSendMgmtReq)+tdlsSendMgmtCmdInfo->len) ;
     if(!HAL_STATUS_SUCCESS( status ) )
@@ -549,14 +830,31 @@ eHalStatus csrTdlsProcessAddSta( tpAniSirGlobal pMac, tSmeCmd *cmd )
     tCsrRoamSession *pSession = CSR_GET_SESSION( pMac, cmd->sessionId );
     eHalStatus status = eHAL_STATUS_FAILURE;
 
+<<<<<<< HEAD
+=======
+    if (NULL == pSession)
+    {
+        smsLog( pMac, LOGE, FL("pSession is NULL"));
+        return eHAL_STATUS_FAILURE;
+    }
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (NULL == pSession->pConnectBssDesc)
     {
         smsLog( pMac, LOGE, FL("BSS description is not present") );
         return eHAL_STATUS_FAILURE;
     }
 
+<<<<<<< HEAD
     status = palAllocateMemory( pMac->hHdd, (void **)&tdlsAddStaReq, 
             (sizeof(tSirTdlsAddStaReq) ) );
+=======
+    tdlsAddStaReq = vos_mem_malloc(sizeof(tSirTdlsAddStaReq));
+    if ( NULL == tdlsAddStaReq )
+        status = eHAL_STATUS_FAILURE;
+    else
+        status = eHAL_STATUS_SUCCESS;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (!HAL_STATUS_SUCCESS( status ) )
     {
@@ -564,21 +862,34 @@ eHalStatus csrTdlsProcessAddSta( tpAniSirGlobal pMac, tSmeCmd *cmd )
         VOS_ASSERT(0) ;
         return status ;
     }
+<<<<<<< HEAD
+=======
+    vos_mem_set(tdlsAddStaReq, sizeof(tSirTdlsAddStaReq), 0);
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tdlsAddStaReq->sessionId = cmd->sessionId;
     tdlsAddStaReq->tdlsAddOper = tdlsAddStaCmdInfo->tdlsAddOper;
     //Using dialog as transactionId. This can be used to match response with request
     tdlsAddStaReq->transactionId = 0;
 
+<<<<<<< HEAD
     palCopyMemory(pMac->hHdd, tdlsAddStaReq->bssid,
                   pSession->pConnectBssDesc->bssId, sizeof (tSirMacAddr));
 
     palCopyMemory(pMac->hHdd, tdlsAddStaReq->peerMac, 
+=======
+    vos_mem_copy( tdlsAddStaReq->bssid,
+                  pSession->pConnectBssDesc->bssId, sizeof (tSirMacAddr));
+
+    vos_mem_copy( tdlsAddStaReq->peerMac,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             tdlsAddStaCmdInfo->peerMac, sizeof(tSirMacAddr)) ;
 
     tdlsAddStaReq->capability = tdlsAddStaCmdInfo->capability;
     tdlsAddStaReq->uapsd_queues = tdlsAddStaCmdInfo->uapsdQueues;
     tdlsAddStaReq->max_sp = tdlsAddStaCmdInfo->maxSp;
 
+<<<<<<< HEAD
     palCopyMemory(pMac->hHdd, tdlsAddStaReq->extn_capability,
                               tdlsAddStaCmdInfo->extnCapability,
                               SIR_MAC_MAX_EXTN_CAP);
@@ -590,6 +901,19 @@ eHalStatus csrTdlsProcessAddSta( tpAniSirGlobal pMac, tSmeCmd *cmd )
                   &tdlsAddStaCmdInfo->VHTCap, sizeof(tdlsAddStaCmdInfo->VHTCap));
     tdlsAddStaReq->supported_rates_length = tdlsAddStaCmdInfo->supportedRatesLen;
     palCopyMemory(pMac->hHdd, &tdlsAddStaReq->supported_rates,
+=======
+    vos_mem_copy( tdlsAddStaReq->extn_capability,
+                              tdlsAddStaCmdInfo->extnCapability,
+                              SIR_MAC_MAX_EXTN_CAP);
+    tdlsAddStaReq->htcap_present = tdlsAddStaCmdInfo->htcap_present;
+    vos_mem_copy( &tdlsAddStaReq->htCap,
+                  &tdlsAddStaCmdInfo->HTCap, sizeof(tdlsAddStaCmdInfo->HTCap));
+    tdlsAddStaReq->vhtcap_present = tdlsAddStaCmdInfo->vhtcap_present;
+    vos_mem_copy( &tdlsAddStaReq->vhtCap,
+                  &tdlsAddStaCmdInfo->VHTCap, sizeof(tdlsAddStaCmdInfo->VHTCap));
+    tdlsAddStaReq->supported_rates_length = tdlsAddStaCmdInfo->supportedRatesLen;
+    vos_mem_copy( &tdlsAddStaReq->supported_rates,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                   tdlsAddStaCmdInfo->supportedRates, tdlsAddStaCmdInfo->supportedRatesLen);
 
     // Send the request to PE.
@@ -610,14 +934,32 @@ eHalStatus csrTdlsProcessDelSta( tpAniSirGlobal pMac, tSmeCmd *cmd )
     tCsrRoamSession *pSession = CSR_GET_SESSION( pMac, cmd->sessionId );
     eHalStatus status = eHAL_STATUS_FAILURE;
 
+<<<<<<< HEAD
+=======
+    if (NULL == pSession)
+    {
+        smsLog( pMac, LOGE, FL("pSession is NULL"));
+        return eHAL_STATUS_FAILURE;
+    }
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (NULL == pSession->pConnectBssDesc)
     {
         smsLog( pMac, LOGE, FL("BSS description is not present") );
         return eHAL_STATUS_FAILURE;
     }
 
+<<<<<<< HEAD
     status = palAllocateMemory( pMac->hHdd, (void **)&tdlsDelStaReq, 
             (sizeof(tSirTdlsDelStaReq) ) );
+=======
+    tdlsDelStaReq = vos_mem_malloc(sizeof(tSirTdlsDelStaReq));
+    if ( NULL == tdlsDelStaReq )
+        status = eHAL_STATUS_FAILURE;
+    else
+        status = eHAL_STATUS_SUCCESS;
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (!HAL_STATUS_SUCCESS( status ) )
     {
@@ -629,6 +971,7 @@ eHalStatus csrTdlsProcessDelSta( tpAniSirGlobal pMac, tSmeCmd *cmd )
     //Using dialog as transactionId. This can be used to match response with request
     tdlsDelStaReq->transactionId = 0;
 
+<<<<<<< HEAD
     palCopyMemory(pMac->hHdd, tdlsDelStaReq->bssid,
                   pSession->pConnectBssDesc->bssId, sizeof (tSirMacAddr));
 
@@ -641,6 +984,16 @@ eHalStatus csrTdlsProcessDelSta( tpAniSirGlobal pMac, tSmeCmd *cmd )
 #else
     smsLog( pMac, LOG1,
 #endif
+=======
+    vos_mem_copy( tdlsDelStaReq->bssid,
+                  pSession->pConnectBssDesc->bssId, sizeof (tSirMacAddr));
+
+    vos_mem_copy( tdlsDelStaReq->peerMac,
+            tdlsDelStaCmdInfo->peerMac, sizeof(tSirMacAddr)) ;
+
+    // Send the request to PE.
+    smsLog( pMac, LOG1,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         "sending TDLS Del Sta "MAC_ADDRESS_STR" req to PE",
          MAC_ADDR_ARRAY(tdlsDelStaCmdInfo->peerMac));
     status = tdlsSendMessage(pMac, eWNI_SME_TDLS_DEL_STA_REQ, 
@@ -657,9 +1010,12 @@ eHalStatus csrTdlsProcessDelSta( tpAniSirGlobal pMac, tSmeCmd *cmd )
 eHalStatus csrTdlsProcessCmd(tpAniSirGlobal pMac, tSmeCmd *cmd)
 {
     eSmeCommandType  cmdType = cmd->command ;
+<<<<<<< HEAD
 #ifdef FEATURE_WLAN_TDLS_INTERNAL
     tTdlsCmd tdlsCmd = cmd->u.tdlsCmd ;
 #endif
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tANI_BOOLEAN status = eANI_BOOLEAN_TRUE;
     switch(cmdType)
     {
@@ -697,6 +1053,7 @@ eHalStatus csrTdlsProcessCmd(tpAniSirGlobal pMac, tSmeCmd *cmd)
             {
                status = eANI_BOOLEAN_FALSE ;
             }
+<<<<<<< HEAD
 	}
 	break;
 #ifdef FEATURE_WLAN_TDLS_INTERNAL
@@ -804,6 +1161,20 @@ eHalStatus csrTdlsProcessCmd(tpAniSirGlobal pMac, tSmeCmd *cmd)
             break ;
         }
 #endif
+=======
+        }
+        break;
+// tdlsoffchan
+        case eSmeCommandTdlsChannelSwitch:
+        {
+             status = csrTdlsProcessChanSwitchReq( pMac, cmd );
+             if(HAL_STATUS_SUCCESS( status ) )
+             {
+               status = eANI_BOOLEAN_FALSE ;
+             }
+        }
+        break;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
        default:
        {
             /* TODO: Add defualt handling */  
@@ -821,10 +1192,22 @@ eHalStatus csrTdlsProcessLinkEstablish( tpAniSirGlobal pMac, tSmeCmd *cmd )
     eHalStatus status = eHAL_STATUS_FAILURE;
     tCsrRoamSession *pSession = CSR_GET_SESSION( pMac, cmd->sessionId );
 
+<<<<<<< HEAD
     status = palAllocateMemory( pMac->hHdd, (void **)&tdlsLinkEstablishReq,
             (sizeof(tSirTdlsLinkEstablishReq) ) );
 
     if (!HAL_STATUS_SUCCESS( status ) )
+=======
+    if (NULL == pSession)
+    {
+        smsLog( pMac, LOGE, FL("pSession is NULL"));
+        return eHAL_STATUS_FAILURE;
+    }
+
+    tdlsLinkEstablishReq = vos_mem_malloc(sizeof(tSirTdlsLinkEstablishReq));
+
+    if (tdlsLinkEstablishReq == NULL)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
         smsLog( pMac, LOGE, FL("alloc failed \n") );
         VOS_ASSERT(0) ;
@@ -833,15 +1216,37 @@ eHalStatus csrTdlsProcessLinkEstablish( tpAniSirGlobal pMac, tSmeCmd *cmd )
     tdlsLinkEstablishReq->sessionId = cmd->sessionId;
     //Using dialog as transactionId. This can be used to match response with request
     tdlsLinkEstablishReq->transactionId = 0;
+<<<<<<< HEAD
     palCopyMemory(pMac->hHdd, tdlsLinkEstablishReq->peerMac,
                   tdlsLinkEstablishCmdInfo->peerMac, sizeof(tSirMacAddr));
     palCopyMemory(pMac->hHdd, tdlsLinkEstablishReq->bssid, pSession->pConnectBssDesc->bssId,
                   sizeof (tSirMacAddr));
+=======
+    vos_mem_copy(tdlsLinkEstablishReq->peerMac,
+                  tdlsLinkEstablishCmdInfo->peerMac, sizeof(tSirMacAddr));
+    vos_mem_copy(tdlsLinkEstablishReq->bssid, pSession->pConnectBssDesc->bssId,
+                  sizeof (tSirMacAddr));
+    vos_mem_copy(tdlsLinkEstablishReq->supportedChannels,
+                  tdlsLinkEstablishCmdInfo->supportedChannels,
+                  tdlsLinkEstablishCmdInfo->supportedChannelsLen);
+    tdlsLinkEstablishReq->supportedChannelsLen =
+                      tdlsLinkEstablishCmdInfo->supportedChannelsLen;
+    vos_mem_copy(tdlsLinkEstablishReq->supportedOperClasses,
+                  tdlsLinkEstablishCmdInfo->supportedOperClasses,
+                  tdlsLinkEstablishCmdInfo->supportedOperClassesLen);
+    tdlsLinkEstablishReq->supportedOperClassesLen =
+                      tdlsLinkEstablishCmdInfo->supportedOperClassesLen;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tdlsLinkEstablishReq->isBufSta = tdlsLinkEstablishCmdInfo->isBufSta;
     tdlsLinkEstablishReq->isResponder= tdlsLinkEstablishCmdInfo->isResponder;
     tdlsLinkEstablishReq->uapsdQueues= tdlsLinkEstablishCmdInfo->uapsdQueues;
     tdlsLinkEstablishReq->maxSp= tdlsLinkEstablishCmdInfo->maxSp;
+<<<<<<< HEAD
 
+=======
+    tdlsLinkEstablishReq->isOffChannelSupported =
+        tdlsLinkEstablishCmdInfo->isOffChannelSupported;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     // Send the request to PE.
     smsLog( pMac, LOGE, "sending TDLS Link Establish Request to PE \n" );
@@ -855,6 +1260,7 @@ eHalStatus csrTdlsProcessLinkEstablish( tpAniSirGlobal pMac, tSmeCmd *cmd )
     return status;
 }
 
+<<<<<<< HEAD
 #ifdef FEATURE_WLAN_TDLS_INTERNAL
 /*
  * Find specific TDLS peer (based on peer MAC address).
@@ -982,6 +1388,53 @@ static eHalStatus tdlsSaveTdlsPeerInfo(tpAniSirGlobal pMac,
 }
 
 #endif
+=======
+// tdlsoffchan
+eHalStatus csrTdlsProcessChanSwitchReq( tpAniSirGlobal pMac, tSmeCmd *cmd )
+{
+    tTdlsChanSwitchCmdInfo *tdlsChanSwitchCmdInfo = &cmd->u.tdlsCmd.u.tdlsChanSwitchCmdInfo ;
+    tSirTdlsChanSwitch *tdlsChanSwitch = NULL ;
+    eHalStatus status = eHAL_STATUS_FAILURE;
+    tCsrRoamSession *pSession = CSR_GET_SESSION( pMac, cmd->sessionId );
+
+    if (NULL == pSession)
+    {
+        smsLog( pMac, LOGE, FL("pSession is NULL"));
+        return eHAL_STATUS_FAILURE;
+    }
+
+    tdlsChanSwitch = vos_mem_malloc(sizeof(tSirTdlsChanSwitch));
+    if (tdlsChanSwitch == NULL)
+    {
+        smsLog( pMac, LOGE, FL("alloc failed \n") );
+        VOS_ASSERT(0) ;
+        return status ;
+    }
+    tdlsChanSwitch->sessionId = cmd->sessionId;
+    //Using dialog as transactionId. This can be used to match response with request
+    tdlsChanSwitch->transactionId = 0;
+    vos_mem_copy( tdlsChanSwitch->peerMac,
+                  tdlsChanSwitchCmdInfo->peerMac, sizeof(tSirMacAddr));
+    vos_mem_copy(tdlsChanSwitch->bssid, pSession->pConnectBssDesc->bssId,
+                 sizeof (tSirMacAddr));
+
+    tdlsChanSwitch->tdlsOffCh = tdlsChanSwitchCmdInfo->tdlsOffCh;
+    tdlsChanSwitch->tdlsOffChBwOffset = tdlsChanSwitchCmdInfo->tdlsOffChBwOffset;
+    tdlsChanSwitch->tdlsSwMode = tdlsChanSwitchCmdInfo->tdlsSwMode;
+
+    // Send the request to PE.
+    smsLog( pMac, LOGE, "sending TDLS Channel Switch to PE \n" );
+    status = tdlsSendMessage(pMac, eWNI_SME_TDLS_CHANNEL_SWITCH_REQ,
+                             (void *)tdlsChanSwitch,
+                             sizeof(tSirTdlsChanSwitch));
+    if (!HAL_STATUS_SUCCESS( status ) )
+    {
+        smsLog( pMac, LOGE, FL("Failed to send request to MAC\n"));
+    }
+    return status;
+}
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*
  * TDLS Message processor, will be called after TDLS message recieved from
  * PE
@@ -993,8 +1446,25 @@ eHalStatus tdlsMsgProcessor(tpAniSirGlobal pMac,  v_U16_t msgType,
     {
         case eWNI_SME_TDLS_SEND_MGMT_RSP:
         {
+<<<<<<< HEAD
             /* remove pending eSmeCommandTdlsDiscovery command */
             csrTdlsRemoveSmeCmd(pMac, eSmeCommandTdlsSendMgmt) ;
+=======
+            tSirSmeRsp *pMsg = (tSirSmeRsp*) pMsgBuf;
+            tCsrRoamInfo roamInfo = {0} ;
+
+            /* remove pending eSmeCommandTdlsDiscovery command */
+            csrTdlsRemoveSmeCmd(pMac, eSmeCommandTdlsSendMgmt) ;
+
+            if (eSIR_SME_SUCCESS != pMsg->statusCode)
+            {
+                /* Tx failed, so there wont be any ack confirmation*/
+                /* Indicate ack failure to upper layer */
+                roamInfo.reasonCode = 0;
+                csrRoamCallCallback(pMac, pMsg->sessionId, &roamInfo,
+                        0, eCSR_ROAM_RESULT_MGMT_TX_COMPLETE_IND, 0);
+            }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
         break;
         case eWNI_SME_TDLS_ADD_STA_RSP:
@@ -1002,7 +1472,11 @@ eHalStatus tdlsMsgProcessor(tpAniSirGlobal pMac,  v_U16_t msgType,
             tSirTdlsAddStaRsp *addStaRsp = (tSirTdlsAddStaRsp *) pMsgBuf ;
             eCsrRoamResult roamResult ;
             tCsrRoamInfo roamInfo = {0} ;
+<<<<<<< HEAD
             palCopyMemory(pMac->hHdd, &roamInfo.peerMac, addStaRsp->peerMac, 
+=======
+            vos_mem_copy( &roamInfo.peerMac, addStaRsp->peerMac,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                          sizeof(tSirMacAddr)) ;
             roamInfo.staId = addStaRsp->staId ;
             roamInfo.ucastSig = addStaRsp->ucastSig ;
@@ -1029,7 +1503,11 @@ eHalStatus tdlsMsgProcessor(tpAniSirGlobal pMac,  v_U16_t msgType,
             tSirTdlsDelStaRsp *delStaRsp = (tSirTdlsDelStaRsp *) pMsgBuf ;
             tCsrRoamInfo roamInfo = {0} ;
 
+<<<<<<< HEAD
             palCopyMemory(pMac->hHdd, &roamInfo.peerMac, delStaRsp->peerMac, 
+=======
+            vos_mem_copy( &roamInfo.peerMac, delStaRsp->peerMac,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                          sizeof(tSirMacAddr)) ;
             roamInfo.staId = delStaRsp->staId ;
             roamInfo.statusCode = delStaRsp->statusCode ;
@@ -1048,7 +1526,11 @@ eHalStatus tdlsMsgProcessor(tpAniSirGlobal pMac,  v_U16_t msgType,
         {
             tpSirTdlsDelStaInd pSirTdlsDelStaInd = (tpSirTdlsDelStaInd) pMsgBuf ;
             tCsrRoamInfo roamInfo = {0} ;
+<<<<<<< HEAD
             palCopyMemory(pMac->hHdd, &roamInfo.peerMac, pSirTdlsDelStaInd->peerMac,
+=======
+            vos_mem_copy( &roamInfo.peerMac, pSirTdlsDelStaInd->peerMac,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                          sizeof(tSirMacAddr)) ;
             roamInfo.staId = pSirTdlsDelStaInd->staId ;
             roamInfo.reasonCode = pSirTdlsDelStaInd->reasonCode ;
@@ -1059,6 +1541,7 @@ eHalStatus tdlsMsgProcessor(tpAniSirGlobal pMac,  v_U16_t msgType,
                                eCSR_ROAM_RESULT_TEARDOWN_TDLS_PEER_IND);
             break ;
         }
+<<<<<<< HEAD
 #ifdef FEATURE_WLAN_TDLS_OXYGEN_DISAPPEAR_AP
         case eWNI_SME_TDLS_AP_DISAPPEAR_IND:
         {
@@ -1072,6 +1555,8 @@ eHalStatus tdlsMsgProcessor(tpAniSirGlobal pMac,  v_U16_t msgType,
             break ;
         }
 #endif
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         case eWNI_SME_TDLS_DEL_ALL_PEER_IND:
         {
             tpSirTdlsDelAllPeerInd pSirTdlsDelAllPeerInd = (tpSirTdlsDelAllPeerInd) pMsgBuf ;
@@ -1094,11 +1579,19 @@ eHalStatus tdlsMsgProcessor(tpAniSirGlobal pMac,  v_U16_t msgType,
             break;
         }
         case eWNI_SME_TDLS_LINK_ESTABLISH_RSP:
+<<<<<<< HEAD
 	{
             tSirTdlsLinkEstablishReqRsp *linkEstablishReqRsp = (tSirTdlsLinkEstablishReqRsp *) pMsgBuf ;
             tCsrRoamInfo roamInfo = {0} ;
 #if 0
             palCopyMemory(pMac->hHdd, &roamInfo.peerMac, delStaRsp->peerMac,
+=======
+        {
+            tSirTdlsLinkEstablishReqRsp *linkEstablishReqRsp = (tSirTdlsLinkEstablishReqRsp *) pMsgBuf ;
+            tCsrRoamInfo roamInfo = {0} ;
+#if 0
+            vos_mem_copy(&roamInfo.peerMac, delStaRsp->peerMac,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                          sizeof(tSirMacAddr)) ;
             roamInfo.staId = delStaRsp->staId ;
             roamInfo.statusCode = delStaRsp->statusCode ;
@@ -1110,6 +1603,7 @@ eHalStatus tdlsMsgProcessor(tpAniSirGlobal pMac,  v_U16_t msgType,
             csrTdlsRemoveSmeCmd(pMac, eSmeCommandTdlsLinkEstablish);
             break;
         }
+<<<<<<< HEAD
 #ifdef FEATURE_WLAN_TDLS_INTERNAL
         case eWNI_SME_TDLS_DISCOVERY_START_RSP:
         {
@@ -1258,6 +1752,26 @@ eHalStatus tdlsMsgProcessor(tpAniSirGlobal pMac,  v_U16_t msgType,
 
         }
 #endif
+=======
+
+        case eWNI_SME_TDLS_CHANNEL_SWITCH_RSP:
+        {
+#if 0
+            tSirTdlsChanSwitchReqRsp *ChanSwitchReqRsp = (tSirTdlsChanSwitchReqRsp *) pMsgBuf ;
+            tCsrRoamInfo roamInfo = {0} ;
+            vos_mem_copy(&roamInfo.peerMac, delStaRsp->peerMac,
+                                         sizeof(tSirMacAddr)) ;
+            roamInfo.staId = delStaRsp->staId ;
+            roamInfo.statusCode = delStaRsp->statusCode ;
+            csrRoamCallCallback(pMac, ChanSwitchReqRsp->sessionId, &roamInfo, 0,
+                                eCSR_ROAM_TDLS_STATUS_UPDATE,
+                                eCSR_ROAM_RESULT_LINK_ESTABLISH_REQ_RSP);
+#endif
+            /* remove pending eSmeCommandTdlsChanSwitch command */
+            csrTdlsRemoveSmeCmd(pMac, eSmeCommandTdlsChannelSwitch);
+            break;
+        }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         default:
         {
             break ;

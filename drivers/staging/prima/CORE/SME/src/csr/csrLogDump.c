@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -43,6 +48,16 @@
 Copyright (c) 2007 QUALCOMM Incorporated.
 All Rights Reserved.
 Qualcomm Confidential and Proprietary
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+ */
+
+/*============================================================================
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 csrLogDump.c
 Implements the dump commands specific to the csr module. 
 ============================================================================*/
@@ -60,11 +75,19 @@ dump_csr( tpAniSirGlobal pMac, tANI_U32 arg1, tANI_U32 arg2, tANI_U32 arg3, tANI
     static tCsrRoamProfile x;
     static tSirMacSSid ssid;   //To be allocated for array of SSIDs
     static tANI_U8 sessionId; // Defined for fixed session ID
+<<<<<<< HEAD
     palZeroMemory(pMac->hHdd, (void*)&x, sizeof(x)); 
     x.SSIDs.numOfSSIDs=1 ;
     x.SSIDs.SSIDList[0].SSID = ssid ;
     ssid.length=6 ;
     palCopyMemory(pMac->hHdd, ssid.ssId, "AniNet", 6);
+=======
+    vos_mem_set((void*)&x, sizeof(x), 0);
+    x.SSIDs.numOfSSIDs=1 ;
+    x.SSIDs.SSIDList[0].SSID = ssid ;
+    ssid.length=6 ;
+    vos_mem_copy(ssid.ssId, "AniNet", 6);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if(HAL_STATUS_SUCCESS(sme_AcquireGlobalLock( &pMac->sme )))
     {
         (void)csrRoamConnect(pMac, sessionId, &x, NULL, NULL);

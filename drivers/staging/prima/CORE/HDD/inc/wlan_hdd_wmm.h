@@ -1,4 +1,5 @@
 /*
+<<<<<<< HEAD
   * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
   *
   * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
@@ -18,6 +19,34 @@
   * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
   * PERFORMANCE OF THIS SOFTWARE.
 */
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+ *
+ * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
+ *
+ *
+ * Permission to use, copy, modify, and/or distribute this software for
+ * any purpose with or without fee is hereby granted, provided that the
+ * above copyright notice and this permission notice appear in all
+ * copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
+ * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+ * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+ * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ */
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+ */
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifndef _WLAN_HDD_WMM_H
 #define _WLAN_HDD_WMM_H
 /*============================================================================
@@ -40,11 +69,14 @@
   TL.
 
   The remaining functions are utility functions for information hiding.
+<<<<<<< HEAD
 
 
                Copyright (c) 2008-9 Qualcomm Technologies, Inc.
                All Rights Reserved.
                Qualcomm Technologies Confidential and Proprietary
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ============================================================================*/
 /* $Header$ */
 
@@ -177,7 +209,11 @@ typedef struct
    v_U32_t                      wmmAcUapsdSuspensionInterval;
    sme_QosWmmDirType            wmmAcUapsdDirection;
 
+<<<<<<< HEAD
 #ifdef FEATURE_WLAN_CCX
+=======
+#ifdef FEATURE_WLAN_ESE
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    // Inactivity time parameters for TSPEC
    v_U32_t                      wmmInactivityTime;
    v_U32_t                      wmmPrevTrafficCnt;
@@ -191,7 +227,10 @@ typedef struct
 typedef struct
 {
    struct list_head             wmmContextList;
+<<<<<<< HEAD
    struct mutex                 wmmLock;
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    hdd_wmm_ac_status_t          wmmAcStatus[WLANTL_MAX_AC];
    v_BOOL_t                     wmmQap;
    v_BOOL_t                     wmmQosConnection;
@@ -201,18 +240,31 @@ extern const v_U8_t hdd_QdiscAcToTlAC[];
 extern const v_U8_t hddWmmUpToAcMap[]; 
 extern const v_U8_t hddLinuxUpToAcMap[];
 
+<<<<<<< HEAD
+=======
+#define WLAN_HDD_MAX_DSCP 0x3f
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**============================================================================
   @brief hdd_wmm_init() - Function which will initialize the WMM configuation
   and status to an initial state.  The configuration can later be overwritten
   via application APIs
 
+<<<<<<< HEAD
   @param pHddCtx : [in]  pointer to HDD context
+=======
+  @param pAdapter : [in]  pointer to Adapter context
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   @return         : VOS_STATUS_SUCCESS if succssful
                   : other values if failure
 
   ===========================================================================*/
+<<<<<<< HEAD
 VOS_STATUS hdd_wmm_init ( hdd_context_t* pHddCtx );
+=======
+VOS_STATUS hdd_wmm_init ( hdd_adapter_t *pAdapter );
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /**============================================================================
   @brief hdd_wmm_adapter_init() - Function which will initialize the WMM configuation
@@ -261,8 +313,19 @@ v_U16_t hdd_wmm_select_queue(struct net_device * dev, struct sk_buff *skb);
   @return         : Qdisc queue index
   ===========================================================================*/
 
+<<<<<<< HEAD
 v_U16_t hdd_hostapd_select_queue(struct net_device * dev, struct sk_buff *skb);
 
+=======
+v_U16_t hdd_hostapd_select_queue(struct net_device * dev, struct sk_buff *skb
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,13,0))
+                                 , void *accel_priv
+#endif
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+                                 , select_queue_fallback_t fallbac
+#endif
+);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 
 /**============================================================================

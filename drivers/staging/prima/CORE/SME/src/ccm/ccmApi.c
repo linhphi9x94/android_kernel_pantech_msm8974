@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #include "palTypes.h"
@@ -90,7 +102,11 @@ static tANI_U32 * encodeCfgReq(tHddHandle hHdd, tANI_U32 *pl, tANI_U32 cfgId, tA
     }
     else
     {
+<<<<<<< HEAD
         palCopyMemory(hHdd, (void *)pl, (void *)pBuf, length);
+=======
+        vos_mem_copy((void *)pl, (void *)pBuf, length);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         pl += (CFGOBJ_ALIGN(length) / CFGOBJ_ALIGNTO);
     }
     return pl ;
@@ -124,8 +140,13 @@ static eHalStatus sendCfg(tpAniSirGlobal pMac, tHddHandle hHdd, tCfgReq *req, tA
                                  CFGOBJ_LEN_SIZE +
                                  CFGOBJ_ALIGN(req->length)) ;
 
+<<<<<<< HEAD
     status = palAllocateMemory(hHdd, (void **)&msg, msgLen);
     if (status == eHAL_STATUS_SUCCESS)
+=======
+    msg = vos_mem_malloc(msgLen);
+    if ( NULL != msg )
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
         if( fRsp )
         {
@@ -141,14 +162,23 @@ static eHalStatus sendCfg(tpAniSirGlobal pMac, tHddHandle hHdd, tCfgReq *req, tA
         status = palSendMBMessage(hHdd, msg) ;
         if (status != eHAL_STATUS_SUCCESS)
         {
+<<<<<<< HEAD
             smsLog( pMac, LOGW, FL("palSendMBMessage() failed"));
+=======
+            smsLog( pMac, LOGE, FL("palSendMBMessage() failed"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             //No need to free msg. palSendMBMessage frees it.
             status = eHAL_STATUS_FAILURE ;
         }
     }
     else
     {
+<<<<<<< HEAD
         smsLog( pMac, LOGW, FL("palAllocateMemory(len=%d)"), msgLen );
+=======
+        smsLog( pMac, LOGW, FL("failed to allocate memory(len=%d)"), msgLen );
+        status = eHAL_STATUS_FAILURE;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     return status ;
@@ -164,7 +194,12 @@ static tCfgReq * allocateCfgReq(tHddHandle hHdd, tANI_U32 type, tANI_S32 length)
         alloc_len += length ;
     }
 
+<<<<<<< HEAD
     if (palAllocateMemory(hHdd, (void **)&req, alloc_len) != eHAL_STATUS_SUCCESS)
+=======
+    req = vos_mem_malloc(alloc_len);
+    if ( NULL == req )
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
         return NULL ;
     }
@@ -176,7 +211,11 @@ static tCfgReq * allocateCfgReq(tHddHandle hHdd, tANI_U32 type, tANI_S32 length)
 
 static void freeCfgReq(tHddHandle hHdd, tCfgReq *req)
 {
+<<<<<<< HEAD
     palFreeMemory(hHdd, (void*)req) ;
+=======
+    vos_mem_free(req);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 static void add_req_tail(tCfgReq *req, struct ccmlink *q)
@@ -241,7 +280,11 @@ static void sendQueuedReqToMacSw(tpAniSirGlobal pMac, tHddHandle hHdd)
             req->state = eCCM_REQ_SENT;
             if (sendCfg(pMac, hHdd, req, eANI_BOOLEAN_TRUE) != eHAL_STATUS_SUCCESS)
             {
+<<<<<<< HEAD
                 smsLog( pMac, LOGW, FL("sendCfg() failed"));
+=======
+                smsLog( pMac, LOGE, FL("sendCfg() failed"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 palSpinLockTake(hHdd, pMac->ccm.lock);
                 del_req(req, &pMac->ccm.reqQ) ;
                 palSpinLockGive(hHdd, pMac->ccm.lock);
@@ -305,7 +348,11 @@ static eHalStatus cfgSetSub(tpAniSirGlobal pMac, tHddHandle hHdd, tANI_U32 cfgId
         }
         else
         {
+<<<<<<< HEAD
             palCopyMemory(hHdd, (void*)req->ccmPtr, (void*)ccmPtr, length); 
+=======
+            vos_mem_copy((void *)req->ccmPtr, (void *)ccmPtr, length);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
 
         palSpinLockTake(hHdd, pMac->ccm.lock);
@@ -320,7 +367,11 @@ static eHalStatus cfgSetSub(tpAniSirGlobal pMac, tHddHandle hHdd, tANI_U32 cfgId
             status = sendCfg(pMac, hHdd, req, eANI_BOOLEAN_TRUE) ;
             if (status != eHAL_STATUS_SUCCESS)
             {
+<<<<<<< HEAD
                 smsLog( pMac, LOGW, FL("sendCfg() failed"));
+=======
+                smsLog( pMac, LOGE, FL("sendCfg() failed"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 palSpinLockTake(hHdd, pMac->ccm.lock);
                 del_req(req, &pMac->ccm.reqQ);
                 palSpinLockGive(hHdd, pMac->ccm.lock);
@@ -413,7 +464,11 @@ eHalStatus ccmOpen(tHalHandle hHal)
     tHddHandle hHdd = halHandle2HddHandle(hHal);
     tpAniSirGlobal pMac = PMAC_STRUCT( hHal );
 
+<<<<<<< HEAD
     (void)palZeroMemory(hHdd, &pMac->ccm, sizeof(tCcm)) ;
+=======
+    vos_mem_set(&pMac->ccm, sizeof(tCcm), 0);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return palSpinLockAlloc(hHdd, &pMac->ccm.lock);
 }
 
@@ -681,8 +736,13 @@ eHalStatus ccmCfgGetStr(tHalHandle hHal, tANI_U32 cfgId, tANI_U8 *pBuf, tANI_U32
 
     if (req && req->state == eCCM_REQ_DONE && (tANI_U32)req->length <= *pLength)
     {
+<<<<<<< HEAD
         *pLength = req->length ; 
         palCopyMemory(hHdd, (void*)pBuf, (void*)req->ccmPtr, req->length); 
+=======
+        *pLength = req->length ;
+        vos_mem_copy((void *)pBuf, (void *)req->ccmPtr, req->length);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
     else
     {
@@ -751,11 +811,20 @@ static eHalStatus cfgUpdate(tpAniSirGlobal pMac, tHddHandle hHdd, tCcmCfgSetCall
     pMac->ccm.replay.callback    = callback ;
     pMac->ccm.replay.done        = NULL ;
 
+<<<<<<< HEAD
     status = palAllocateMemory(hHdd, (void **)&msg, msgLen) ;
     if (status != eHAL_STATUS_SUCCESS)
     {
         pMac->ccm.replay.started = 0 ;
         goto end ; 
+=======
+    msg = vos_mem_malloc(msgLen);
+    if ( NULL == msg )
+    {
+        pMac->ccm.replay.started = 0 ;
+        status = eHAL_STATUS_FAILURE;
+        goto end;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     msg->type   = pal_cpu_to_be16(WNI_CFG_SET_REQ);

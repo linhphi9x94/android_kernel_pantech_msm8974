@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /******************************************************************************
@@ -95,7 +107,11 @@ static void ptt_sock_dump_buf(const unsigned char * pbuf, int cnt)
 }
 #endif
 //Utility function to send a netlink message to an application in user space
+<<<<<<< HEAD
 int ptt_sock_send_msg_to_app(tAniHdr *wmsg, int radio, int src_mod, int pid)
+=======
+int ptt_sock_send_msg_to_app(tAniHdr *wmsg, int radio, int src_mod, int pid, int flag)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
    int err = -1;
    int payload_len;
@@ -126,6 +142,7 @@ int ptt_sock_send_msg_to_app(tAniHdr *wmsg, int radio, int src_mod, int pid)
    }
    wnl = (tAniNlHdr *) nlh;
    wnl->radio = radio;
+<<<<<<< HEAD
    memcpy(&wnl->wmsg, wmsg, wmsg_length);
    PTT_TRACE(VOS_TRACE_LEVEL_INFO, "%s: Sending Msg Type [0x%X] to pid[%d]\n",
       __func__, be16_to_cpu(wmsg->type), pid);
@@ -133,6 +150,25 @@ int ptt_sock_send_msg_to_app(tAniHdr *wmsg, int radio, int src_mod, int pid)
    ptt_sock_dump_buf((const unsigned char *)skb->data, skb->len);
 #endif
    err = nl_srv_ucast(skb, pid);
+=======
+   vos_mem_copy(&wnl->wmsg, wmsg, wmsg_length);
+#ifdef PTT_SOCK_DEBUG_VERBOSE
+   ptt_sock_dump_buf((const unsigned char *)skb->data, skb->len);
+#endif
+   if (pid != INVALID_PID)
+   {
+       err = nl_srv_ucast(skb, pid, flag);
+   }
+   else
+   {
+       err = nl_srv_bcast(skb);
+   }
+   if (err) {
+      PTT_TRACE(VOS_TRACE_LEVEL_INFO,
+         "%s:Failed sending Msg Type [0x%X] to pid[%d]\n",
+         __func__, be16_to_cpu(wmsg->type), pid);
+   }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    return err;
 }
 /*
@@ -153,15 +189,26 @@ static void ptt_sock_proc_reg_req(tAniHdr *wmsg, int radio)
     * to make sure connection, broadcast READY notification */
    nl_srv_nl_ready_indication();
 #endif /* WLAN_KD_READY_NOTIFIER */
+<<<<<<< HEAD
    /*Save the pid*/    
    pAdapterHandle->ptt_pid = reg_req->pid;   
+=======
+   /*Save the pid*/
+   pAdapterHandle->ptt_pid = reg_req->pid;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    rspmsg.regReq.pid= reg_req->pid;
    rspmsg.wniHdr.type = cpu_to_be16(ANI_MSG_APP_REG_RSP);
    rspmsg.wniHdr.length = cpu_to_be16(sizeof(rspmsg));
    if (ptt_sock_send_msg_to_app((tAniHdr *)&rspmsg.wniHdr, radio,
+<<<<<<< HEAD
       ANI_NL_MSG_PUMAC, reg_req->pid) < 0)
    {
       PTT_TRACE(VOS_TRACE_LEVEL_ERROR, "%s: Error sending ANI_MSG_APP_REG_RSP to pid[%d]\n",
+=======
+      ANI_NL_MSG_PUMAC, reg_req->pid, MSG_DONTWAIT) < 0)
+   {
+      PTT_TRACE(VOS_TRACE_LEVEL_INFO, "%s: Error sending ANI_MSG_APP_REG_RSP to pid[%d]\n",
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
          __func__, reg_req->pid);
    }
 }
@@ -211,59 +258,105 @@ static void ptt_proc_quarky_msg(tAniNlHdr *wnl, tAniHdr *wmsg, int radio)
       {
          case PTT_MSG_READ_REGISTER:
             reg_addr = *(v_U32_t*) ((char*)wmsg + 8);
+<<<<<<< HEAD
             PTT_TRACE(VOS_TRACE_LEVEL_INFO, "%s: PTT_MSG_READ_REGISTER [0x%08lX]\n",
+=======
+            PTT_TRACE(VOS_TRACE_LEVEL_INFO, "%s: PTT_MSG_READ_REGISTER [0x%08X]\n",
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                __func__, reg_addr);
             vosStatus = sme_DbgReadRegister(pAdapterHandle->hHal, reg_addr, &reg_val);
             *(v_U32_t*) ((char*)wmsg + 12) = reg_val;
             if(vosStatus != VOS_STATUS_SUCCESS)
+<<<<<<< HEAD
                PTT_TRACE(VOS_TRACE_LEVEL_ERROR, "%s: Read Register [0x%08lX] failed!!\n",
                __func__, reg_addr);
             ptt_sock_send_msg_to_app(wmsg, 0, ANI_NL_MSG_PUMAC, wnl->nlh.nlmsg_pid);
+=======
+               PTT_TRACE(VOS_TRACE_LEVEL_ERROR, "%s: Read Register [0x%08X] failed!!\n",
+               __func__, reg_addr);
+            ptt_sock_send_msg_to_app(wmsg, 0, ANI_NL_MSG_PUMAC, wnl->nlh.nlmsg_pid, MSG_DONTWAIT);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
          case PTT_MSG_WRITE_REGISTER:
             reg_addr = *(v_U32_t*) ((const unsigned char*)wmsg + 8);
             reg_val = *(v_U32_t*)((const unsigned char*)wmsg + 12);
+<<<<<<< HEAD
             PTT_TRACE(VOS_TRACE_LEVEL_INFO, "%s: PTT_MSG_WRITE_REGISTER Addr [0x%08lX] value [0x%08lX]\n",
+=======
+            PTT_TRACE(VOS_TRACE_LEVEL_INFO, "%s: PTT_MSG_WRITE_REGISTER Addr [0x%08X] value [0x%08X]\n",
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                __func__, reg_addr, reg_val);
             vosStatus = sme_DbgWriteRegister(pAdapterHandle->hHal, reg_addr, reg_val);
             if(vosStatus != VOS_STATUS_SUCCESS)
             {
+<<<<<<< HEAD
                PTT_TRACE(VOS_TRACE_LEVEL_ERROR, "%s: Write Register [0x%08lX] value [0x%08lX] failed!!\n",
                   __func__, reg_addr, reg_val);
             }
             //send message to the app
             ptt_sock_send_msg_to_app(wmsg, 0, ANI_NL_MSG_PUMAC, wnl->nlh.nlmsg_pid);
+=======
+               PTT_TRACE(VOS_TRACE_LEVEL_ERROR, "%s: Write Register [0x%08X] value [0x%08X] failed!!\n",
+                  __func__, reg_addr, reg_val);
+            }
+            //send message to the app
+            ptt_sock_send_msg_to_app(wmsg, 0, ANI_NL_MSG_PUMAC, wnl->nlh.nlmsg_pid, MSG_DONTWAIT);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
          case PTT_MSG_READ_MEMORY:
             reg_addr = *(v_U32_t*) ((char*)wmsg + 8);
             len_payload = *(v_U32_t*) ((char*)wmsg + 12);
+<<<<<<< HEAD
             PTT_TRACE(VOS_TRACE_LEVEL_INFO, "%s: PTT_MSG_READ_MEMORY addr [0x%08lX] bytes [0x%08lX]\n",
+=======
+            PTT_TRACE(VOS_TRACE_LEVEL_INFO, "%s: PTT_MSG_READ_MEMORY addr [0x%08X] bytes [0x%08X]\n",
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                __func__, reg_addr, len_payload);
             buf = (v_U8_t*)wmsg + 16;
             vosStatus = sme_DbgReadMemory(pAdapterHandle->hHal, reg_addr, buf, len_payload);
             if(vosStatus != VOS_STATUS_SUCCESS) {
+<<<<<<< HEAD
                PTT_TRACE(VOS_TRACE_LEVEL_ERROR, "%s: Memory read failed for [0x%08lX]!!\n",
+=======
+               PTT_TRACE(VOS_TRACE_LEVEL_ERROR, "%s: Memory read failed for [0x%08X]!!\n",
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                   __func__, reg_addr);
             }
             ptt_sock_swap_32(buf, len_payload);
             //send message to the app
+<<<<<<< HEAD
             ptt_sock_send_msg_to_app(wmsg, 0, ANI_NL_MSG_PUMAC, wnl->nlh.nlmsg_pid);
+=======
+            ptt_sock_send_msg_to_app(wmsg, 0, ANI_NL_MSG_PUMAC, wnl->nlh.nlmsg_pid, MSG_DONTWAIT);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
          case PTT_MSG_WRITE_MEMORY:
             reg_addr = *(v_U32_t*) ((char*)wmsg + 8);
             len_payload = *(v_U32_t*) ((char*)wmsg + 12);
+<<<<<<< HEAD
             PTT_TRACE(VOS_TRACE_LEVEL_INFO, "%s: PTT_MSG_DBG_WRITE_MEMORY addr [0x%08lX] bytes [0x%08lX]\n",
+=======
+            PTT_TRACE(VOS_TRACE_LEVEL_INFO, "%s: PTT_MSG_DBG_WRITE_MEMORY addr [0x%08X] bytes [0x%08X]\n",
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                __func__, reg_addr, len_payload);
             buf = (v_U8_t*)wmsg + 16;
             ptt_sock_swap_32(buf, len_payload);
             vosStatus = sme_DbgWriteMemory(pAdapterHandle->hHal, reg_addr, buf, len_payload);
             if(vosStatus != VOS_STATUS_SUCCESS)
             {
+<<<<<<< HEAD
                PTT_TRACE(VOS_TRACE_LEVEL_ERROR, "%s: Memory write failed for addr [0x%08lX]!!\n",
                   __func__, reg_addr);
             }
             //send message to the app
             ptt_sock_send_msg_to_app(wmsg, 0, ANI_NL_MSG_PUMAC, wnl->nlh.nlmsg_pid);
+=======
+               PTT_TRACE(VOS_TRACE_LEVEL_ERROR, "%s: Memory write failed for addr [0x%08X]!!\n",
+                  __func__, reg_addr);
+            }
+            //send message to the app
+            ptt_sock_send_msg_to_app(wmsg, 0, ANI_NL_MSG_PUMAC, wnl->nlh.nlmsg_pid, MSG_DONTWAIT);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
          case PTT_MSG_LOG_DUMP_DBG:
             cmd = *(unsigned int *) ((char *)wmsg + 8);
@@ -274,7 +367,11 @@ static void ptt_proc_quarky_msg(tAniNlHdr *wnl, tAniHdr *wmsg, int radio)
             PTT_TRACE(VOS_TRACE_LEVEL_INFO, "%s: PTT_MSG_LOG_DUMP_DBG %d arg1 %d arg2 %d arg3 %d arg4 %d\n",
                __func__, cmd, arg1, arg2, arg3, arg4);
             //send message to the app
+<<<<<<< HEAD
             ptt_sock_send_msg_to_app(wmsg, 0, ANI_NL_MSG_PUMAC, wnl->nlh.nlmsg_pid);
+=======
+            ptt_sock_send_msg_to_app(wmsg, 0, ANI_NL_MSG_PUMAC, wnl->nlh.nlmsg_pid, MSG_DONTWAIT);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
          case PTT_MSG_FTM_CMDS_TYPE:
             wlan_hdd_process_ftm_cmd(pAdapterHandle,wnl);

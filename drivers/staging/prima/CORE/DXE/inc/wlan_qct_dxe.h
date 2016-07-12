@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #ifndef WLAN_QCT_DXE_H
@@ -49,8 +61,11 @@
   @brief 
                
    This file contains the external API exposed by the wlan data transfer abstraction layer module.
+<<<<<<< HEAD
    Copyright (c) 2008 QUALCOMM Incorporated. All Rights Reserved.
    Qualcomm Confidential and Proprietary
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ========================================================================*/
 
 /*===========================================================================
@@ -99,6 +114,16 @@ when           who        what, where, why
  * Size must be same with Vos Packet Size */
 #define WLANDXE_DEFAULT_RX_OS_BUFFER_SIZE  (VPKT_SIZE_BUFFER)
 
+<<<<<<< HEAD
+=======
+/*reserve 30B of skb buff, to add NL header*/
+#define WLANDXE_NL_HEADER_SZ (30)
+
+/*MAX data transferred in one skb*/
+#define WLANDXE_FW_LOGGING_XFSIZE  (WLANDXE_DEFAULT_RX_OS_BUFFER_SIZE - \
+                                    WLANDXE_NL_HEADER_SZ)
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*The maximum number of packets that can be chained in dxe for the Low 
   priority channel
   Note: Increased it to 240 from 128 for Windows(EA) becase Windows is
@@ -188,6 +213,26 @@ typedef WDTS_LowResourceCbType WLANDXE_LowResourceCbType;
 
 /*==========================================================================
   @  Type Name
+<<<<<<< HEAD
+=======
+  WLANDXE_MbReceiveMsgCbType
+
+  @  Description
+  DXE Mailbox mes receive indiacation
+
+  @  Parameters
+  void
+
+  @  Return
+  void
+===========================================================================*/
+typedef WDTS_MbReceiveMsgType WLANDXE_MbReceiveMsgCbType;
+
+typedef WDTS_RxLogDoneType WLANDXE_RxLogDoneType;
+
+/*==========================================================================
+  @  Type Name
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       WLANDXE_SetPowerStateCbType 
 
   @  Description 
@@ -235,9 +280,13 @@ void *WLANDXE_Open
 
   @  Parameters
       pVoid                       pDXEContext : DXE module control block
+<<<<<<< HEAD
       WDTS_RxFrameReadyCbType     rxFrameReadyCB : RX Frame ready CB function pointer
       WDTS_TxCompleteCbType       txCompleteCB : TX complete CB function pointer
       WDTS_LowResourceCbType      lowResourceCB : Low DXE resource notification CB function pointer
+=======
+      WDTS_ClientCallbacks        WDTSCb : Callbacks to WDTS to indicate various events
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       void                       *userContext : DXE Cliennt control block
 
   @  Return
@@ -246,9 +295,13 @@ void *WLANDXE_Open
 wpt_status WLANDXE_ClientRegistration
 (
    void                       *pDXEContext,
+<<<<<<< HEAD
    WDTS_RxFrameReadyCbType     rxFrameReadyCB,
    WDTS_TxCompleteCbType       txCompleteCB,
    WDTS_LowResourceCbType      lowResourceCB,
+=======
+   WDTS_ClientCallbacks       WDTSCb,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    void                       *userContext
 );
 
@@ -423,9 +476,16 @@ wpt_uint32 WLANDXE_GetFreeTxDataResNumber
 
   @  Parameters
     displaySnapshot : Display DXE snapshot option
+<<<<<<< HEAD
     enableStallDetect : Enable stall detect feature
                         This feature will take effect to data performance
                         Not integrate till fully verification
+=======
+    debugFlags      : Enable stall detect features
+                      defined by WPAL_DeviceDebugFlags
+                      These features may effect
+                      data performance.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   @  Return
     NONE
@@ -434,6 +494,7 @@ wpt_uint32 WLANDXE_GetFreeTxDataResNumber
 void WLANDXE_ChannelDebug
 (
    wpt_boolean    displaySnapshot,
+<<<<<<< HEAD
    wpt_boolean    enableStallDetect   
 );
 
@@ -453,10 +514,31 @@ void WLANDXE_ChannelDebug
 
 ===========================================================================*/
 void WLANDXE_UnitTestStartDXE
+=======
+   wpt_uint8      debugFlags
+);
+
+/*==========================================================================
+  @  Function Name
+    WLANDXE_KickDxe
+
+  @  Description
+    Kick Dxe when HDD TX timeout happen
+
+  @  Parameters
+    NONE
+
+  @  Return
+    NONE
+
+===========================================================================*/
+void WLANDXE_KickDxe
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 (
    void
 );
 
+<<<<<<< HEAD
 /*==========================================================================
   @  Function Name 
 
@@ -487,4 +569,16 @@ void WLANDXE_UnitTestEventHandle
    void     *dxeCB
 );
 #endif /* WLANDXE_TEST_CHANNEL_ENABLE */
+=======
+wpt_uint32 WLANDXE_SetupLogTransfer
+(
+   wpt_uint64 bufferAddr,
+   wpt_uint32 bufferLen
+);
+
+wpt_status WLANDXE_StartLogTransfer
+(
+void
+);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif /* WLAN_QCT_DXE_H */

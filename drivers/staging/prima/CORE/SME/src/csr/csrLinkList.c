@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /** ------------------------------------------------------------------------- * 
@@ -44,9 +56,12 @@
     \file csrLinkList.c
   
     Implementation for the Common link list interfaces.
+<<<<<<< HEAD
   
   
     Copyright (C) 2006 Airgo Networks, Incorporated 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    ========================================================================== */
 
 #include "palApi.h"
@@ -55,6 +70,11 @@
 #include "vos_memory.h"
 #include "vos_trace.h"
 
+<<<<<<< HEAD
+=======
+#include "vos_timer.h"
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ANI_INLINE_FUNCTION void csrListInit(tListElem *pList)
 {
     pList->last = pList->next = pList;
@@ -274,7 +294,11 @@ eHalStatus csrLLOpen( tHddHandle hHdd, tDblLinkList *pList )
     if ( LIST_FLAG_OPEN != pList->Flag ) 
     {
         pList->Count = 0;
+<<<<<<< HEAD
 
+=======
+        pList->cmdTimeoutTimer = NULL;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         vosStatus = vos_lock_init(&pList->Lock);
 
         if(VOS_IS_STATUS_SUCCESS(vosStatus))
@@ -354,6 +378,15 @@ void csrLLInsertHead( tDblLinkList *pList, tListElem *pEntry, tANI_BOOLEAN fInte
         {
             csrLLUnlock(pList);
         }
+<<<<<<< HEAD
+=======
+        if ( pList->cmdTimeoutTimer && pList->cmdTimeoutDuration )
+        {
+            /* timer to detect pending command in activelist*/
+            vos_timer_start( pList->cmdTimeoutTimer,
+                pList->cmdTimeoutDuration);
+        }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 }
 
@@ -583,6 +616,13 @@ tANI_BOOLEAN csrLLRemoveEntry( tDblLinkList *pList, tListElem *pEntryToRemove, t
         {
             csrLLUnlock( pList );
         }
+<<<<<<< HEAD
+=======
+        if ( pList->cmdTimeoutTimer )
+        {
+           vos_timer_stop(pList->cmdTimeoutTimer);
+        }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     return( fFound );

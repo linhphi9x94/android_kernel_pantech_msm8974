@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2011-2016 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #if !defined( __VOS_PKT_H )
@@ -50,9 +62,12 @@
                
    Network Protocol packet/buffer support interfaces 
   
+<<<<<<< HEAD
    Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
    
    Qualcomm Confidential and Proprietary.
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
   
   ========================================================================*/
 
@@ -67,7 +82,13 @@
 /*-------------------------------------------------------------------------- 
   Preprocessor definitions and constants
   ------------------------------------------------------------------------*/
+<<<<<<< HEAD
 
+=======
+#define VOS_PKT_PROTO_TYPE_EAPOL   0x02
+#define VOS_PKT_PROTO_TYPE_DHCP    0x04
+#define VOS_PKT_PROTO_TYPE_ARP     0x08
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*-------------------------------------------------------------------------- 
   Type declarations
   ------------------------------------------------------------------------*/
@@ -1131,4 +1152,61 @@ VOS_STATUS vos_pkt_get_available_buffer_pool
 */
 v_SIZE_t vos_pkt_get_num_of_rx_raw_pkts(void);
 
+<<<<<<< HEAD
+=======
+/**
+  @brief vos_pkt_get_num_of_rx_pkt_alloc_failures() - Get the number of times
+         skb allocation failed while replenishing packets
+
+
+  @param
+       NONE
+  @return
+       v_SIZE_t the number of times packet allocation failed
+
+*/
+v_SIZE_t vos_pkt_get_num_of_rx_pkt_alloc_failures(void);
+
+v_U8_t vos_pkt_get_proto_type
+(
+   void  *pskb,
+   v_U8_t tracking_map
+);
+
+/**
+  @brief vos_get_pkt_head() - Get skb head pointer
+
+  @param
+       pPacket - the voss Packet to operate on
+  @return
+       v_PVOID_t - skb head pointer
+
+*/
+v_PVOID_t vos_get_pkt_head(vos_pkt_t *pPacket);
+
+/**
+
+  @brief vos_get_pkt_end() - Get skb end pointer
+
+  @param
+       pPacket - the voss Packet to operate on
+  @return
+       v_PVOID_t - skb end pointer
+
+*/
+v_PVOID_t vos_get_pkt_end(vos_pkt_t *pPacket);
+
+/**
+
+  @brief vos_recover_tail() - Recover corrupted tail of skb
+
+  @param
+       pPacket - the voss Packet to operate on
+  @return
+       v_VOID_t - None
+
+*/
+v_VOID_t vos_recover_tail(vos_pkt_t *pPacket);
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif  // !defined( __VOS_PKT_H )

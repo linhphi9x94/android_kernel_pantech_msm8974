@@ -1,4 +1,5 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2013, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,6 +27,34 @@
  *OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
  *IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+=======
+ * Copyright (c) 2014 The Linux Foundation. All rights reserved.
+ *
+ * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
+ *
+ *
+ * Permission to use, copy, modify, and/or distribute this software for
+ * any purpose with or without fee is hereby granted, provided that the
+ * above copyright notice and this permission notice appear in all
+ * copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
+ * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
+ * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+ * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+ * PERFORMANCE OF THIS SOFTWARE.
+ */
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+ */
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*===========================================================================
                        EDIT HISTORY FOR FILE
 
@@ -51,6 +80,11 @@
 #include "wlan_nv_template_api.h"
 #include "wlan_nv_template_builtin.h"
 
+<<<<<<< HEAD
+=======
+extern void vos_mem_copy( void *pDst, const void *pSrc, unsigned int numBytes );
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define _RECURSIVE_DATA_TABLE_PARSING
 // Recursive/iterative switch !! Default iterative
 #define _RECURSIVE_VERSION
@@ -1119,7 +1153,11 @@ static void copyDataToBuiltInFromBin(int tableIdx,int fieldId,
                           FIELD_ID_TABLE_OR_ENUM_IDX_MASK];
 
    if (storageType == SINGULAR ) {
+<<<<<<< HEAD
       ptr = (unsigned char*)((int)gpnvData_t + tableBaseOffset + addOffset);
+=======
+      ptr = ((unsigned char*)gpnvData_t) + tableBaseOffset + addOffset;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       dptr = (unsigned char *)&pStream[*pos];
 
       if (IsFieldTypeBasicData(pTable[tableIdx][fieldId].fieldId)) {
@@ -1144,7 +1182,11 @@ static void copyDataToBuiltInFromBin(int tableIdx,int fieldId,
 
       offset = 0;
       for (i = 0; i < size1; i++) {
+<<<<<<< HEAD
          memcpy(&ptr[offset], &dptr[offset], sizeOneElem);
+=======
+         vos_mem_copy(&ptr[offset], &dptr[offset], sizeOneElem);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
          offset = offset + sizeOneElem;
       }
 
@@ -1152,7 +1194,11 @@ static void copyDataToBuiltInFromBin(int tableIdx,int fieldId,
    }
    else {
       if (ARRAY_1 == storageType) {
+<<<<<<< HEAD
          ptr = (unsigned char*)((int)gpnvData_t + tableBaseOffset + addOffset);
+=======
+         ptr = ((unsigned char*)gpnvData_t) + tableBaseOffset + addOffset;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
          dptr = (unsigned char *)&pStream[*pos];
 
          idx = _STORAGE_SIZE1(pTable[tableIdx][fieldId].fieldStorageSize1,
@@ -1191,11 +1237,19 @@ static void copyDataToBuiltInFromBin(int tableIdx,int fieldId,
                   index = index * sizeOneElem;
                   dindex = dindex * sizeOneElem;
 
+<<<<<<< HEAD
                   memcpy(&ptr[index], &dptr[dindex], sizeOneElem);
                }
             }
             else {
                memcpy(&ptr[offset], &dptr[offset], sizeOneElem);
+=======
+                  vos_mem_copy(&ptr[index], &dptr[dindex], sizeOneElem);
+               }
+            }
+            else {
+               vos_mem_copy(&ptr[offset], &dptr[offset], sizeOneElem);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                offset = offset + sizeOneElem;
             }
          }
@@ -1203,7 +1257,11 @@ static void copyDataToBuiltInFromBin(int tableIdx,int fieldId,
          *pos = *pos + (size1Bin * sizeOneElem);
       }
       else if (ARRAY_2 == storageType) {
+<<<<<<< HEAD
          ptr = (unsigned char*)((int)gpnvData_t + tableBaseOffset + addOffset);
+=======
+         ptr = ((unsigned char*)gpnvData_t) + tableBaseOffset + addOffset;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
          dptr = (unsigned char *)&pStream[*pos];
 
          idx = _STORAGE_SIZE1(pTable[tableIdx][fieldId].fieldStorageSize1,
@@ -1286,7 +1344,11 @@ static void copyDataToBuiltInFromBin(int tableIdx,int fieldId,
                  index1 = dindex1 = j;
               }
 
+<<<<<<< HEAD
               memcpy(&ptr[(index1 + index * size2BuiltIn)*sizeOneElem],
+=======
+              vos_mem_copy(&ptr[(index1 + index * size2BuiltIn)*sizeOneElem],
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                    &dptr[(dindex1+dindex*size2Bin)*sizeOneElem], sizeOneElem);
               offset = offset + sizeOneElem;
             }
@@ -1295,7 +1357,11 @@ static void copyDataToBuiltInFromBin(int tableIdx,int fieldId,
          *pos = *pos + size2Bin * size1Bin * sizeOneElem;
       }
       else if (ARRAY_3 == storageType) {
+<<<<<<< HEAD
          ptr = (unsigned char*)((int)gpnvData_t + tableBaseOffset + addOffset);
+=======
+         ptr = ((unsigned char*)gpnvData_t) + tableBaseOffset + addOffset;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
          dptr = (unsigned char *)&pStream[*pos];
 
          idx = _STORAGE_SIZE1(pTable[tableIdx][fieldId].fieldStorageSize1,
@@ -1417,7 +1483,11 @@ static void copyDataToBuiltInFromBin(int tableIdx,int fieldId,
                     index2 = dindex2 = k;
                  }
 
+<<<<<<< HEAD
                  memcpy(&ptr[(index2 + (index1 * size2BuiltIn) +
+=======
+                 vos_mem_copy(&ptr[(index2 + (index1 * size2BuiltIn) +
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                           (index * size3BuiltIn * size2BuiltIn)) * sizeOneElem],
                         &dptr[(dindex2 + (dindex1 * size2Bin) +
                           (dindex * size3Bin * size2Bin))*sizeOneElem],

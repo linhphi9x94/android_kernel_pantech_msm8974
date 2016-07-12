@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -39,13 +44,28 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+ */
+
+
+
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*============================================================================
   FILE:         vos_nvitem.c
   OVERVIEW:     This source file contains definitions for vOS NV Item APIs
   DEPENDENCIES: NV, remote API client, WinCE REX
+<<<<<<< HEAD
                 Copyright (c) 2008 QUALCOMM Incorporated.
                 All Rights Reserved.
                 Qualcomm Confidential and Proprietary
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ============================================================================*/
 /*============================================================================
   EDIT HISTORY FOR MODULE
@@ -67,6 +87,11 @@
 #include "wlan_nv_parser.h"
 #include "wlan_hdd_main.h"
 #include <net/cfg80211.h>
+<<<<<<< HEAD
+=======
+#include <linux/firmware.h>
+#include <linux/vmalloc.h>
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(3,9,0))
 #define IEEE80211_CHAN_NO_80MHZ		1<<7
@@ -75,7 +100,11 @@
 #ifdef CONFIG_ENABLE_LINUX_REG
 
 static v_REGDOMAIN_t cur_reg_domain = REGDOMAIN_COUNT;
+<<<<<<< HEAD
 static char linux_reg_cc[2] = {0, 0};
+=======
+static  char linux_reg_cc[2] = {0, 0};
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 static v_REGDOMAIN_t temp_reg_domain = REGDOMAIN_COUNT;
 
 #else
@@ -90,7 +119,10 @@ static char run_time_alpha2[2] = {0, 0}; /* country code from none-default count
 static v_BOOL_t crda_regulatory_entry_valid = VOS_FALSE;
 static v_BOOL_t crda_regulatory_run_time_entry_valid = VOS_FALSE;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*----------------------------------------------------------------------------
  * Preprocessor Definitions and Constants
  * -------------------------------------------------------------------------*/
@@ -103,6 +135,12 @@ static v_BOOL_t crda_regulatory_run_time_entry_valid = VOS_FALSE;
 #define DEFAULT_NV_VALIDITY_BITMAP 0xFFFFFFFF
 #define MAGIC_NUMBER            0xCAFEBABE
 
+<<<<<<< HEAD
+=======
+#define MIN(a, b) (a > b ? b : a)
+#define MAX(a, b) (a > b ? a : b)
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*----------------------------------------------------------------------------
  * Type Declarations
  * -------------------------------------------------------------------------*/
@@ -140,11 +178,16 @@ static CountryInfoTable_t countryInfoTable =
     138,
     {
       {REGDOMAIN_WORLD, {'0', '0'}}, // WORLD DOMAIN
+<<<<<<< HEAD
       {REGDOMAIN_FCC, {'A', 'D'}}, // ANDORRA
+=======
+      {REGDOMAIN_ETSI, {'A', 'D'}}, // ANDORRA
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {REGDOMAIN_ETSI, {'A', 'E'}}, //UAE
       {REGDOMAIN_ETSI, {'A', 'L'}}, //ALBANIA
       {REGDOMAIN_ETSI, {'A', 'M'}}, //ARMENIA
       {REGDOMAIN_ETSI, {'A', 'N'}}, //NETHERLANDS ANTILLES
+<<<<<<< HEAD
       {REGDOMAIN_FCC, {'A', 'R'}}, //ARGENTINA
       {REGDOMAIN_FCC, {'A', 'S'}}, //AMERICAN SOMOA
       {REGDOMAIN_ETSI, {'A', 'T'}}, //AUSTRIA
@@ -163,40 +206,82 @@ static CountryInfoTable_t countryInfoTable =
       {REGDOMAIN_ETSI, {'B', 'O'}}, //BOLIVIA
       {REGDOMAIN_ETSI, {'B', 'R'}}, //BRAZIL
       {REGDOMAIN_FCC, {'B', 'S'}}, //BAHAMAS
+=======
+      {REGDOMAIN_WORLD, {'A', 'R'}}, //ARGENTINA
+      {REGDOMAIN_FCC, {'A', 'S'}}, //AMERICAN SOMOA
+      {REGDOMAIN_ETSI, {'A', 'T'}}, //AUSTRIA
+      {REGDOMAIN_ETSI, {'A', 'U'}}, //AUSTRALIA
+      {REGDOMAIN_ETSI , {'A', 'W'}}, //ARUBA
+      {REGDOMAIN_ETSI,  {'A', 'Z'}}, //AZERBAIJAN
+      {REGDOMAIN_ETSI, {'B', 'A'}}, //BOSNIA AND HERZEGOVINA
+      {REGDOMAIN_APAC, {'B', 'B'}}, //BARBADOS
+      {REGDOMAIN_ETSI, {'B', 'D'}}, //BANGLADESH
+      {REGDOMAIN_ETSI, { 'B', 'E'}}, //BELGIUM
+      {REGDOMAIN_ETSI, {'B', 'G'}}, //BULGARIA
+      {REGDOMAIN_APAC, {'B', 'H'}}, //BAHRAIN
+      {REGDOMAIN_ETSI, {'B', 'L'}}, //
+      {REGDOMAIN_FCC, {'B', 'M'}}, //BERMUDA
+      {REGDOMAIN_APAC, {'B', 'N'}}, //BRUNEI DARUSSALAM
+      {REGDOMAIN_ETSI, {'B', 'O'}}, //BOLIVIA
+      {REGDOMAIN_WORLD, {'B', 'R'}}, //BRAZIL
+      {REGDOMAIN_APAC, {'B', 'S'}}, //BAHAMAS
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {REGDOMAIN_ETSI, {'B', 'Y'}}, //BELARUS
       {REGDOMAIN_ETSI, {'B', 'Z'}}, //BELIZE
       {REGDOMAIN_FCC, {'C', 'A'}}, //CANADA
       {REGDOMAIN_ETSI, {'C', 'H'}}, //SWITZERLAND
+<<<<<<< HEAD
       {REGDOMAIN_ETSI, {'C', 'L'}}, //CHILE
       {REGDOMAIN_FCC, {'C', 'N'}}, //CHINA
       {REGDOMAIN_FCC, {'C', 'O'}}, //COLOMBIA
       {REGDOMAIN_ETSI, {'C', 'R'}}, //COSTA RICA
+=======
+      {REGDOMAIN_APAC, {'C', 'L'}}, //CHILE
+      {REGDOMAIN_APAC, {'C', 'N'}}, //CHINA
+      {REGDOMAIN_APAC, {'C', 'O'}}, //COLOMBIA
+      {REGDOMAIN_APAC, {'C', 'R'}}, //COSTA RICA
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {REGDOMAIN_ETSI, {'C', 'S'}},
       {REGDOMAIN_ETSI, {'C', 'Y'}}, //CYPRUS
       {REGDOMAIN_ETSI, {'C', 'Z'}}, //CZECH REPUBLIC
       {REGDOMAIN_ETSI, {'D', 'E'}}, //GERMANY
       {REGDOMAIN_ETSI, {'D', 'K'}}, //DENMARK
+<<<<<<< HEAD
       {REGDOMAIN_FCC, {'D', 'O'}}, //DOMINICAN REPUBLIC
       {REGDOMAIN_ETSI, {'D', 'Z'}}, //ALGERIA
       {REGDOMAIN_ETSI, {'E', 'C'}}, //ECUADOR
+=======
+      {REGDOMAIN_APAC, {'D', 'O'}}, //DOMINICAN REPUBLIC
+      {REGDOMAIN_ETSI, {'D', 'Z'}}, //ALGERIA
+      {REGDOMAIN_APAC, {'E', 'C'}}, //ECUADOR
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {REGDOMAIN_ETSI, {'E', 'E'}}, //ESTONIA
       {REGDOMAIN_ETSI, {'E', 'G'}}, //EGYPT
       {REGDOMAIN_ETSI, {'E', 'S'}}, //SPAIN
       {REGDOMAIN_ETSI, {'F', 'I'}}, //FINLAND
       {REGDOMAIN_ETSI, {'F', 'R'}}, //FRANCE
       {REGDOMAIN_ETSI, {'G', 'B'}}, //UNITED KINGDOM
+<<<<<<< HEAD
       {REGDOMAIN_FCC, {'G', 'D'}},  //GRENADA
+=======
+      {REGDOMAIN_WORLD, {'G', 'D'}},  //GRENADA
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {REGDOMAIN_ETSI, {'G', 'E'}}, //GEORGIA
       {REGDOMAIN_ETSI, {'G', 'F'}}, //FRENCH GUIANA
       {REGDOMAIN_ETSI, {'G', 'L'}}, //GREENLAND
       {REGDOMAIN_ETSI, {'G', 'P'}}, //GUADELOUPE
       {REGDOMAIN_ETSI, {'G', 'R'}}, //GREECE
+<<<<<<< HEAD
       {REGDOMAIN_FCC, {'G', 'T'}},  //GUATEMALA
+=======
+      {REGDOMAIN_APAC, {'G', 'T'}},  //GUATEMALA
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {REGDOMAIN_FCC, {'G', 'U'}},  //GUAM
       {REGDOMAIN_ETSI, {'H', 'U'}}, //HUNGARY
       {REGDOMAIN_FCC, {'I', 'D'}},  //INDONESIA
       {REGDOMAIN_ETSI, {'I', 'E'}}, //IRELAND
       {REGDOMAIN_ETSI, {'I', 'L'}}, //ISRAEL
+<<<<<<< HEAD
       {REGDOMAIN_ETSI, {'I', 'N'}}, //INDIA
       {REGDOMAIN_ETSI, {'I', 'R'}}, //IRAN, ISLAMIC REPUBLIC OF
       {REGDOMAIN_ETSI, {'I', 'S'}}, //ICELNAD
@@ -213,12 +298,31 @@ static CountryInfoTable_t countryInfoTable =
       {REGDOMAIN_ETSI, {'L', 'B'}}, //LEBANON
       {REGDOMAIN_ETSI, {'L', 'I'}}, //LIECHTENSTEIN
       {REGDOMAIN_ETSI, {'L', 'K'}}, //SRI-LANKA
+=======
+      {REGDOMAIN_APAC, {'I', 'N'}}, //INDIA
+      {REGDOMAIN_ETSI, {'I', 'R'}}, //IRAN, ISLAMIC REPUBLIC OF
+      {REGDOMAIN_ETSI, {'I', 'S'}}, //ICELNAD
+      {REGDOMAIN_ETSI, {'I', 'T'}}, //ITALY
+      {REGDOMAIN_WORLD, {'J', 'M'}},  //JAMAICA
+      {REGDOMAIN_JAPAN, {'J', 'P'}}, //JAPAN
+      {REGDOMAIN_APAC, {'J', 'O'}}, //JORDAN
+      {REGDOMAIN_ETSI, {'K', 'E'}}, //KENYA
+      {REGDOMAIN_ETSI, {'K', 'H'}}, //CAMBODIA
+      {REGDOMAIN_WORLD, {'K', 'P'}}, //KOREA, DEMOCRATIC PEOPLE's REPUBLIC OF
+      {REGDOMAIN_KOREA, {'K', 'R'}}, //KOREA, REPUBLIC OF
+      {REGDOMAIN_ETSI, {'K', 'W'}}, //KUWAIT
+      {REGDOMAIN_WORLD, {'K', 'Z'}}, //KAZAKHSTAN
+      {REGDOMAIN_WORLD, {'L', 'B'}}, //LEBANON
+      {REGDOMAIN_ETSI, {'L', 'I'}}, //LIECHTENSTEIN
+      {REGDOMAIN_WORLD, {'L', 'K'}}, //SRI-LANKA
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {REGDOMAIN_ETSI, {'L', 'T'}}, //LITHUANIA
       {REGDOMAIN_ETSI, {'L', 'U'}}, //LUXEMBOURG
       {REGDOMAIN_ETSI, {'L','V'}},  //LATVIA
       {REGDOMAIN_ETSI, {'M', 'A'}}, //MOROCCO
       {REGDOMAIN_ETSI, {'M', 'C'}}, //MONACO
       {REGDOMAIN_ETSI, {'M', 'K'}}, //MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF
+<<<<<<< HEAD
       {REGDOMAIN_FCC, {'M','N'}}, //MONGOLIA
       {REGDOMAIN_FCC, {'M', 'O'}}, //MACAO
       {REGDOMAIN_FCC, {'M', 'P'}}, //NORTHERN MARIANA ISLANDS
@@ -246,10 +350,40 @@ static CountryInfoTable_t countryInfoTable =
       {REGDOMAIN_FCC, {'P', 'S'}}, //PALESTINIAN TERRITORY, OCCUPIED
       {REGDOMAIN_ETSI, {'P', 'T'}}, //PORTUGAL
       {REGDOMAIN_FCC, {'P', 'Y'}}, //PARAGUAY
+=======
+      {REGDOMAIN_WORLD, {'M','N'}}, //MONGOLIA
+      {REGDOMAIN_APAC, {'M', 'O'}}, //MACAO
+      {REGDOMAIN_FCC, {'M', 'P'}}, //NORTHERN MARIANA ISLANDS
+      {REGDOMAIN_ETSI, {'M', 'Q'}}, //MARTINIQUE
+      {REGDOMAIN_ETSI, {'M', 'T'}}, //MALTA
+      {REGDOMAIN_ETSI, {'M', 'U'}}, //MAURITIUS
+      {REGDOMAIN_ETSI, {'M', 'W'}}, //MALAWI
+      {REGDOMAIN_APAC, {'M', 'X'}}, //MEXICO
+      {REGDOMAIN_APAC, {'M', 'Y'}}, //MALAYSIA
+      {REGDOMAIN_WORLD, {'N', 'G'}}, //NIGERIA
+      {REGDOMAIN_WORLD, {'N', 'I'}}, //NICARAGUA
+      {REGDOMAIN_ETSI, {'N', 'L'}}, //NETHERLANDS
+      {REGDOMAIN_ETSI, {'N', 'O'}}, //NORWAY
+      {REGDOMAIN_APAC, {'N', 'P'}}, //NEPAL
+      {REGDOMAIN_APAC, {'N', 'Z'}}, //NEW-ZEALAND
+      {REGDOMAIN_ETSI, {'O', 'M'}}, //OMAN
+      {REGDOMAIN_APAC, {'P', 'A'}}, //PANAMA
+      {REGDOMAIN_WORLD, {'P', 'E'}}, //PERU
+      {REGDOMAIN_ETSI, {'P', 'F'}}, //FRENCH POLYNESIA
+      {REGDOMAIN_WORLD, {'P', 'G'}}, //PAPUA NEW GUINEA
+      {REGDOMAIN_WORLD, {'P', 'H'}}, //PHILIPPINES
+      {REGDOMAIN_ETSI, {'P', 'K'}}, //PAKISTAN
+      {REGDOMAIN_ETSI, {'P', 'L'}}, //POLAND
+      {REGDOMAIN_FCC, {'P', 'R'}}, //PUERTO RICO
+      {REGDOMAIN_WORLD, {'P', 'S'}}, //PALESTINIAN TERRITORY, OCCUPIED
+      {REGDOMAIN_ETSI, {'P', 'T'}}, //PORTUGAL
+      {REGDOMAIN_WORLD, {'P', 'Y'}}, //PARAGUAY
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {REGDOMAIN_ETSI, {'Q', 'A'}}, //QATAR
       {REGDOMAIN_ETSI, {'R', 'E'}}, //REUNION
       {REGDOMAIN_ETSI, {'R', 'O'}}, //ROMAINIA
       {REGDOMAIN_ETSI, {'R', 'S'}}, //SERBIA
+<<<<<<< HEAD
       {REGDOMAIN_ETSI, {'R', 'U'}}, //RUSSIA
       {REGDOMAIN_FCC, {'R', 'W'}}, //RWANDA
       {REGDOMAIN_ETSI, {'S', 'A'}}, //SAUDI ARABIA
@@ -273,6 +407,31 @@ static CountryInfoTable_t countryInfoTable =
       {REGDOMAIN_ETSI, {'V', 'E'}}, //VENEZUELA
       {REGDOMAIN_FCC, {'V', 'I'}}, //VIRGIN ISLANDS, US
       {REGDOMAIN_ETSI, {'V', 'N'}}, //VIETNAM
+=======
+      {REGDOMAIN_APAC, {'R', 'U'}}, //RUSSIA
+      {REGDOMAIN_WORLD, {'R', 'W'}}, //RWANDA
+      {REGDOMAIN_WORLD, {'S', 'A'}}, //SAUDI ARABIA
+      {REGDOMAIN_ETSI, {'S', 'E'}}, //SWEDEN
+      {REGDOMAIN_APAC, {'S', 'G'}}, //SINGAPORE
+      {REGDOMAIN_ETSI, {'S', 'I'}}, //SLOVENNIA
+      {REGDOMAIN_ETSI, {'S', 'K'}}, //SLOVAKIA
+      {REGDOMAIN_APAC, {'S', 'V'}}, //EL SALVADOR
+      {REGDOMAIN_ETSI, {'S', 'Y'}}, //SYRIAN ARAB REPUBLIC
+      {REGDOMAIN_WORLD, {'T', 'H'}}, //THAILAND
+      {REGDOMAIN_ETSI, {'T', 'N'}}, //TUNISIA
+      {REGDOMAIN_ETSI, {'T', 'R'}}, //TURKEY
+      {REGDOMAIN_WORLD, {'T', 'T'}}, //TRINIDAD AND TOBAGO
+      {REGDOMAIN_FCC, {'T', 'W'}}, //TAIWAN, PRIVINCE OF CHINA
+      {REGDOMAIN_FCC, {'T', 'Z'}}, //TANZANIA, UNITED REPUBLIC OF
+      {REGDOMAIN_WORLD, {'U', 'A'}}, //UKRAINE
+      {REGDOMAIN_KOREA, {'U', 'G'}}, //UGANDA
+      {REGDOMAIN_FCC, {'U', 'S'}}, //USA
+      {REGDOMAIN_WORLD, {'U', 'Y'}}, //URUGUAY
+      {REGDOMAIN_FCC, {'U', 'Z'}}, //UZBEKISTAN
+      {REGDOMAIN_ETSI, {'V', 'E'}}, //VENEZUELA
+      {REGDOMAIN_FCC, {'V', 'I'}}, //VIRGIN ISLANDS, US
+      {REGDOMAIN_FCC, {'V', 'N'}}, //VIETNAM
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {REGDOMAIN_ETSI, {'Y', 'E'}}, //YEMEN
       {REGDOMAIN_ETSI, {'Y', 'T'}}, //MAYOTTE
       {REGDOMAIN_ETSI, {'Z', 'A'}}, //SOUTH AFRICA
@@ -558,6 +717,10 @@ nvEFSTable_t *gnvEFSTable;
 /* EFS Table  to send the NV structure to HAL*/
 static nvEFSTable_t *pnvEFSTable;
 static v_U8_t *pnvEncodedBuf;
+<<<<<<< HEAD
+=======
+static v_U8_t *pnvtmpBuf;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 static v_U8_t *pDictFile;
 static v_U8_t *pEncodedBuf;
 static v_SIZE_t nvReadEncodeBufSize;
@@ -670,10 +833,35 @@ extern const sHalNv nvDefaults;
 
 const sRegulatoryChannel * regChannels = nvDefaults.tables.regDomains[0].channels;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*----------------------------------------------------------------------------
    Function Definitions and Documentation
  * -------------------------------------------------------------------------*/
 VOS_STATUS wlan_write_to_efs (v_U8_t *pData, v_U16_t data_len);
+<<<<<<< HEAD
+=======
+const char * voss_DomainIdtoString(v_U8_t domainIdCurrent)
+{
+    switch (domainIdCurrent)
+    {
+        CASE_RETURN_STRING( REGDOMAIN_FCC );
+        CASE_RETURN_STRING( REGDOMAIN_ETSI );
+        CASE_RETURN_STRING( REGDOMAIN_JAPAN );
+        CASE_RETURN_STRING( REGDOMAIN_WORLD );
+        CASE_RETURN_STRING( REGDOMAIN_N_AMER_EXC_FCC );
+        CASE_RETURN_STRING( REGDOMAIN_APAC );
+        CASE_RETURN_STRING( REGDOMAIN_KOREA );
+        CASE_RETURN_STRING( REGDOMAIN_HI_5GHZ );
+        CASE_RETURN_STRING( REGDOMAIN_NO_5GHZ );
+        CASE_RETURN_STRING( REGDOMAIN_COUNT );
+        default:
+            return "Regulation Domain Unknown";
+    }
+}
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**------------------------------------------------------------------------
   \brief vos_nv_init() - initialize the NV module
   The \a vos_nv_init() initializes the NV module.  This read the binary
@@ -1095,6 +1283,10 @@ VOS_STATUS vos_nv_open(void)
     v_BOOL_t itemIsValid = VOS_FALSE;
     v_U32_t dataOffset;
     sHalNv *pnvData = NULL;
+<<<<<<< HEAD
+=======
+    hdd_context_t *pHddCtx = NULL;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     /*Get the global context */
     pVosContext = vos_get_global_context(VOS_MODULE_ID_SYS, NULL);
@@ -1106,9 +1298,15 @@ VOS_STATUS vos_nv_open(void)
 
     status = hdd_request_firmware(WLAN_NV_FILE,
                                   ((VosContextType*)(pVosContext))->pHDDContext,
+<<<<<<< HEAD
                                   (v_VOID_t**)&pnvEncodedBuf, &nvReadBufSize);
 
     if ((!VOS_IS_STATUS_SUCCESS( status )) || (!pnvEncodedBuf))
+=======
+                                  (v_VOID_t**)&pnvtmpBuf, &nvReadBufSize);
+
+    if ((!VOS_IS_STATUS_SUCCESS( status )) || (!pnvtmpBuf))
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
        VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_FATAL,
                    "%s: unable to download NV file %s",
@@ -1116,26 +1314,57 @@ VOS_STATUS vos_nv_open(void)
        return VOS_STATUS_E_RESOURCES;
     }
 
+<<<<<<< HEAD
     memcpy(&magicNumber, &pnvEncodedBuf[sizeof(v_U32_t)], sizeof(v_U32_t));
 
     /// Allocate buffer with maximum length..
     pEncodedBuf = (v_U8_t *)vos_mem_malloc(nvReadBufSize);
+=======
+    pnvEncodedBuf = (v_U8_t *)vos_mem_vmalloc(nvReadBufSize);
+
+    if (NULL == pnvEncodedBuf) {
+        VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+                    "%s : failed to allocate memory for NV", __func__);
+        return VOS_STATUS_E_NOMEM;
+    }
+    vos_mem_copy(pnvEncodedBuf, pnvtmpBuf, nvReadBufSize);
+    release_firmware(((hdd_context_t*)((VosContextType*)
+                        (pVosContext))->pHDDContext)->nv);
+
+    vos_mem_copy(&magicNumber, &pnvEncodedBuf[sizeof(v_U32_t)], sizeof(v_U32_t));
+
+    /// Allocate buffer with maximum length..
+    pEncodedBuf = (v_U8_t *)vos_mem_vmalloc(nvReadBufSize);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (NULL == pEncodedBuf)
     {
         VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
                     "%s : failed to allocate memory for NV", __func__);
+<<<<<<< HEAD
+=======
+        vos_mem_vfree(pnvEncodedBuf);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return VOS_STATUS_E_NOMEM;
     }
 
     VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
               "NV Table Size %zu", sizeof(nvEFSTable_t));
 
+<<<<<<< HEAD
     pnvEFSTable = (nvEFSTable_t *)vos_mem_malloc(sizeof(nvEFSTable_t));
+=======
+    pnvEFSTable = (nvEFSTable_t *)vos_mem_vmalloc(sizeof(nvEFSTable_t));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (NULL == pnvEFSTable)
     {
         VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
                   "%s : failed to allocate memory for NV", __func__);
+<<<<<<< HEAD
+=======
+        vos_mem_vfree(pnvEncodedBuf);
+        vos_mem_vfree(pEncodedBuf);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return VOS_STATUS_E_NOMEM;
     }
     vos_mem_zero((void *)pnvEFSTable, sizeof(nvEFSTable_t));
@@ -1152,6 +1381,12 @@ VOS_STATUS vos_nv_open(void)
         {
             VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
                       "%s : failed to allocate memory for NV", __func__);
+<<<<<<< HEAD
+=======
+            vos_mem_vfree(pnvEncodedBuf);
+            vos_mem_vfree(pEncodedBuf);
+            vos_mem_vfree(pnvEFSTable);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             return VOS_STATUS_E_NOMEM;
         }
 
@@ -1173,7 +1408,11 @@ VOS_STATUS vos_nv_open(void)
                    "readEncodeBufSize %d",nvReadEncodeBufSize);
 
         if (VOS_STATUS_SUCCESS == status) {
+<<<<<<< HEAD
            VOS_TRACE(VOS_MODULE_ID_VOSS,  VOS_TRACE_LEVEL_ERROR,
+=======
+           VOS_TRACE(VOS_MODULE_ID_VOSS,  VOS_TRACE_LEVEL_INFO,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        "Embedded NV parsed success !!productId %d couple Type %d wlan RevId %d",
                         pnvData->fields.productId,
                         pnvData->fields.couplerType,
@@ -1188,6 +1427,23 @@ VOS_STATUS vos_nv_open(void)
            VOS_TRACE(VOS_MODULE_ID_VOSS,  VOS_TRACE_LEVEL_ERROR,
                        "nvParser failed %d",status);
 
+<<<<<<< HEAD
+=======
+           if (nvReadBufSize != sizeof(sHalNv)) {
+               vos_mem_vfree(pEncodedBuf);
+               pEncodedBuf = (v_U8_t *)vos_mem_vmalloc(sizeof(sHalNv));
+
+               if (!pEncodedBuf) {
+                   VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+                             "%s : failed to allocate memory for NV", __func__);
+                   vos_mem_free(pnvData);
+                   vos_mem_vfree(pnvEncodedBuf);
+                   vos_mem_vfree(pnvEFSTable);
+                   return VOS_STATUS_E_NOMEM;
+               }
+           }
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            nvReadBufSize = 0;
 
            vos_mem_copy(pEncodedBuf, &nvDefaults, sizeof(sHalNv));
@@ -1214,6 +1470,7 @@ VOS_STATUS vos_nv_open(void)
         {
             pnvEFSTable->nvValidityBitmap = DEFAULT_NV_VALIDITY_BITMAP;
             VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_FATAL,
+<<<<<<< HEAD
                       "!!!WARNING: INVALID NV FILE, DRIVER IS USING DEFAULT CAL VALUES %d %d!!!",
                       nvReadBufSize, bufSize);
             return VOS_STATUS_SUCCESS;
@@ -1221,11 +1478,39 @@ VOS_STATUS vos_nv_open(void)
 
         VOS_TRACE(VOS_MODULE_ID_VOSS,  VOS_TRACE_LEVEL_INFO,
                   "NV_2: readBufferSize %zu, EFSV2DefaultSize %zu",
+=======
+                      "Size  mismatch INVALID NV FILE %d %d!!!",
+                      nvReadBufSize, bufSize);
+            vos_mem_vfree(pnvEncodedBuf);
+            vos_mem_vfree(pEncodedBuf);
+            vos_mem_vfree(pnvEFSTable);
+            return VOS_STATUS_E_FAILURE;
+        }
+
+        VOS_TRACE(VOS_MODULE_ID_VOSS,  VOS_TRACE_LEVEL_INFO,
+                  "NV_2: readBufferSize %u, EFSV2DefaultSize %zu",
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                   nvReadBufSize, sizeof(nvEFSTableV2_t));
 
         /* From here, NV2 will be stored into NV3 structure */
         dataOffset = sizeof(v_U32_t);
         nvReadEncodeBufSize = sizeof(sHalNvV2);
+<<<<<<< HEAD
+=======
+        if (nvReadBufSize != nvReadEncodeBufSize)
+        {
+            vos_mem_vfree(pEncodedBuf);
+            pEncodedBuf = (v_U8_t *)vos_mem_vmalloc(nvReadEncodeBufSize);
+            if (!pEncodedBuf)
+            {
+                VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+                          "%s : failed to allocate memory for NV", __func__);
+                vos_mem_vfree(pnvEncodedBuf);
+                vos_mem_vfree(pnvEFSTable);
+                return VOS_STATUS_E_NOMEM;
+            }
+        }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         vos_mem_copy(pEncodedBuf,
                      &pnvEncodedBuf[dataOffset],
                      nvReadBufSize - dataOffset);
@@ -1267,8 +1552,13 @@ VOS_STATUS vos_nv_open(void)
     }
 
     VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
            "INFO: NV binary file version=%d Driver default NV version=%d, continue...\n",
            gnvEFSTable->halnv.fields.nvVersion, WLAN_NV_VERSION);
+=======
+        "INFO: NV version = %d is loaded, driver supports NV version = %d",
+        gnvEFSTable->halnv.fields.nvVersion, WLAN_NV_VERSION);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
      /* Copying the read nv data to the globa NV EFS table */
     {
@@ -1279,23 +1569,38 @@ VOS_STATUS vos_nv_open(void)
                (gnvEFSTable->halnv.fields.nvVersion == NV_VERSION_11N_11AC_COUPER_TYPE))
            {
                VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                      "!!!WARNING: Using Coupler Type field instead of Fw Config table,\n"
                      "Make sure that this is intented or may impact performance!!!\n");
+=======
+                   "INFO: Using Coupler Type field instead of FW Config table, "
+                   "make sure that this is intended or may impact performance.");
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            }
 #ifdef FEATURE_WLAN_CH144
            else if ((WLAN_NV_VERSION == NV_VERSION_CH144_CONFIG) &&
                     (((VosContextType*)(pVosContext))->nvVersion == E_NV_V2))
            {
                VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                      "!!!WARNING: Default NV is NV3 CH144 "
                      "BIN is NV2, NV2 contents will be used!!!");
+=======
+                   "INFO: Driver supports NV3 CH144 by default, "
+                   "NV2 is currently loaded, NV2 will be used.");
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            }
 #endif /* FEATURE_WLAN_CH144 */
            else
            {
                VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                      "!!!WARNING: NV binary file version doesn't match with Driver default NV version\n"
                      "Driver NV defaults will be used, may impact performance!!!\n");
+=======
+                   "INFO: NV loaded doesn't match with driver default NV, "
+                   "driver default NV will be used, may impact performance.");
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                return VOS_STATUS_SUCCESS;
            }
@@ -1349,6 +1654,31 @@ VOS_STATUS vos_nv_open(void)
                 NULL, sizeof(sDefaultCountry) ) !=  VOS_STATUS_SUCCESS)
                     goto error;
             }
+<<<<<<< HEAD
+=======
+            pHddCtx = vos_get_context(VOS_MODULE_ID_HDD, pVosContext);
+            if (NULL != pHddCtx)
+            {
+               if (!vos_mem_compare(pHddCtx->cfg_ini->overrideCountryCode,
+                     CFG_OVERRIDE_COUNTRY_CODE_DEFAULT, 3))
+               {
+                   VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+                             ("Overriding NV Country(%c%c) from INI (%c%c)"),
+                              pnvEFSTable->halnv.tables.defaultCountryTable.countryCode[0],
+                              pnvEFSTable->halnv.tables.defaultCountryTable.countryCode[1],
+                              pHddCtx->cfg_ini->overrideCountryCode[0],
+                              pHddCtx->cfg_ini->overrideCountryCode[1]);
+                   vos_mem_copy(pnvEFSTable->halnv.tables.defaultCountryTable.countryCode,
+                       pHddCtx->cfg_ini->overrideCountryCode,
+                       3);
+               }
+            }
+            else
+            {
+                VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+                           ("Invalid pHddCtx pointer") );
+            }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
 
         if (vos_nv_getValidity(VNV_TPC_POWER_TABLE, &itemIsValid) ==
@@ -1469,13 +1799,20 @@ VOS_STATUS vos_nv_open(void)
 
     return VOS_STATUS_SUCCESS;
 error:
+<<<<<<< HEAD
     vos_mem_free(pnvEFSTable);
     vos_mem_free(pEncodedBuf);
+=======
+    vos_mem_vfree(pnvEFSTable);
+    vos_mem_vfree(pEncodedBuf);
+    vos_mem_vfree(pnvEncodedBuf);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return eHAL_STATUS_FAILURE ;
 }
 
 VOS_STATUS vos_nv_close(void)
 {
+<<<<<<< HEAD
     VOS_STATUS status = VOS_STATUS_SUCCESS;
     v_CONTEXT_t pVosContext= NULL;
          /*Get the global context */
@@ -1490,6 +1827,17 @@ VOS_STATUS vos_nv_close(void)
     vos_mem_free(pnvEFSTable);
     vos_mem_free(pEncodedBuf);
     vos_mem_free(pDictFile);
+=======
+    v_CONTEXT_t pVosContext= NULL;
+         /*Get the global context */
+    pVosContext = vos_get_global_context(VOS_MODULE_ID_SYS, NULL);
+
+    ((hdd_context_t*)((VosContextType*)(pVosContext))->pHDDContext)->nv = NULL;
+    vos_mem_vfree(pnvEFSTable);
+    vos_mem_vfree(pEncodedBuf);
+    vos_mem_free(pDictFile);
+    vos_mem_vfree(pnvEncodedBuf);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     gnvEFSTable=NULL;
     return VOS_STATUS_SUCCESS;
@@ -1522,12 +1870,20 @@ VOS_STATUS vos_nv_getSupportedCountryCode( v_BYTE_t *pBuffer, v_SIZE_t *pBufferS
    if ( NULL == pBuffer || providedBufferSize < *pBufferSize )
    {
       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
+<<<<<<< HEAD
             ("Insufficient memory for country code list\n"));
+=======
+            ("Insufficient memory for country code list"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return VOS_STATUS_E_NOMEM;
    }
    for (i = 0; i < countryInfoTable.countryCount; i++)
    {
+<<<<<<< HEAD
       memcpy( pBuffer, countryInfoTable.countryInfo[i].countryCode, VOS_COUNTRY_CODE_LEN );
+=======
+      vos_mem_copy( pBuffer, countryInfoTable.countryInfo[i].countryCode, VOS_COUNTRY_CODE_LEN );
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       pBuffer += (VOS_COUNTRY_CODE_LEN + paddingSize );
    }
    return VOS_STATUS_SUCCESS;
@@ -1583,13 +1939,21 @@ VOS_STATUS vos_nv_readMacAddress( v_MAC_ADDRESS_t pMacAddress )
          sizeof(fieldImage) );
    if (VOS_STATUS_SUCCESS == status)
    {
+<<<<<<< HEAD
       memcpy( pMacAddress, fieldImage.macAddr, VOS_MAC_ADDRESS_LEN );
+=======
+      vos_mem_copy( pMacAddress, fieldImage.macAddr, VOS_MAC_ADDRESS_LEN );
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
    else
    {
       //This part of the code can be removed when NV is programmed
       const v_U8_t macAddr[VOS_MAC_ADDRESS_LEN] = VOS_HARD_CODED_MAC;
+<<<<<<< HEAD
       memcpy( pMacAddress, macAddr, VOS_MAC_ADDRESS_LEN );
+=======
+      vos_mem_copy( pMacAddress, macAddr, VOS_MAC_ADDRESS_LEN );
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_WARN,
                 "fail to get MAC address from NV, hardcoded to "MAC_ADDRESS_STR,
                 MAC_ADDR_ARRAY(macAddr));
@@ -1694,7 +2058,11 @@ VOS_STATUS vos_nv_setValidity( VNV_TYPE type, v_BOOL_t itemIsValid )
            gnvEFSTable->nvValidityBitmap = newNvValidityBitmap;
            status = wlan_write_to_efs((v_U8_t*)gnvEFSTable,sizeof(nvEFSTable_t));
            if (! VOS_IS_STATUS_SUCCESS(status)) {
+<<<<<<< HEAD
                VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR, ("vos_nv_write_to_efs failed!!!\r\n"));
+=======
+               VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR, ("vos_nv_write_to_efs failed!!!"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                status = VOS_STATUS_E_FAULT;
            }
        }
@@ -1765,13 +2133,21 @@ VOS_STATUS vos_nv_read( VNV_TYPE type, v_VOID_t *outputVoidBuffer,
     if (NULL == outputVoidBuffer)
     {
        VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
              ("Buffer provided is NULL\r\n") );
+=======
+             ("Buffer provided is NULL") );
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
        return VOS_STATUS_E_FAULT;
     }
     if (0 == bufferSize)
     {
        VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
              ("NV type=%d is invalid\r\n"), type );
+=======
+             ("NV type=%d is invalid"), type );
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
        return VOS_STATUS_E_INVAL;
     }
     // check if the NV item has valid data
@@ -1779,7 +2155,11 @@ VOS_STATUS vos_nv_read( VNV_TYPE type, v_VOID_t *outputVoidBuffer,
    if (!itemIsValid)
    {
        VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_WARN,
+<<<<<<< HEAD
             "NV type=%d does not have valid data\r\n", type );
+=======
+            "NV type=%d does not have valid data", type );
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
        return VOS_STATUS_E_EMPTY;
    }
    switch(type)
@@ -1788,72 +2168,120 @@ VOS_STATUS vos_nv_read( VNV_TYPE type, v_VOID_t *outputVoidBuffer,
            itemSize = sizeof(gnvEFSTable->halnv.fields);
            if(bufferSize != itemSize) {
                VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                 ("type = %d buffer size=%d is less than data size=%d\r\n"),type, bufferSize,
+=======
+                ("type = %d buffer size=%d is less than data size=%d"),type, bufferSize,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  itemSize);
                status = VOS_STATUS_E_INVAL;
            }
            else {
+<<<<<<< HEAD
                memcpy(outputVoidBuffer,&gnvEFSTable->halnv.fields,bufferSize);
+=======
+               vos_mem_copy(outputVoidBuffer,&gnvEFSTable->halnv.fields,bufferSize);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            }
            break;
        case VNV_RATE_TO_POWER_TABLE:
            itemSize = sizeof(gnvEFSTable->halnv.tables.pwrOptimum);
            if(bufferSize != itemSize) {
                VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                 ("type = %d buffer size=%d is less than data size=%d\r\n"),type, bufferSize,
+=======
+                ("type = %d buffer size=%d is less than data size=%d"),type, bufferSize,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  itemSize);
                status = VOS_STATUS_E_INVAL;
            }
            else {
+<<<<<<< HEAD
                memcpy(outputVoidBuffer,&gnvEFSTable->halnv.tables.pwrOptimum[0],bufferSize);
+=======
+               vos_mem_copy(outputVoidBuffer,&gnvEFSTable->halnv.tables.pwrOptimum[0],bufferSize);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            }
            break;
        case VNV_REGULARTORY_DOMAIN_TABLE:
            itemSize = sizeof(gnvEFSTable->halnv.tables.regDomains);
            if(bufferSize != itemSize) {
                VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                 ("type = %d buffer size=%d is less than data size=%d\r\n"),type, bufferSize,
+=======
+                ("type = %d buffer size=%d is less than data size=%d"),type, bufferSize,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  itemSize);
                status = VOS_STATUS_E_INVAL;
            }
            else {
+<<<<<<< HEAD
                memcpy(outputVoidBuffer,&gnvEFSTable->halnv.tables.regDomains[0],bufferSize);
+=======
+               vos_mem_copy(outputVoidBuffer,&gnvEFSTable->halnv.tables.regDomains[0],bufferSize);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            }
            break;
        case VNV_DEFAULT_LOCATION:
            itemSize = sizeof(gnvEFSTable->halnv.tables.defaultCountryTable);
            if(bufferSize != itemSize) {
                VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                 ("type = %d buffer size=%d is less than data size=%d\r\n"),type, bufferSize,
+=======
+                ("type = %d buffer size=%d is less than data size=%d"),type, bufferSize,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  itemSize);
                status = VOS_STATUS_E_INVAL;
            }
            else {
+<<<<<<< HEAD
                memcpy(outputVoidBuffer,&gnvEFSTable->halnv.tables.defaultCountryTable,bufferSize);
+=======
+               vos_mem_copy(outputVoidBuffer,&gnvEFSTable->halnv.tables.defaultCountryTable,bufferSize);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            }
            break;
        case VNV_TPC_POWER_TABLE:
            itemSize = sizeof(gnvEFSTable->halnv.tables.plutCharacterized);
            if(bufferSize != itemSize) {
                VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                 ("type = %d buffer size=%d is less than data size=%d\r\n"),type, bufferSize,
+=======
+                ("type = %d buffer size=%d is less than data size=%d"),type, bufferSize,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  itemSize);
                status = VOS_STATUS_E_INVAL;
            }
            else {
+<<<<<<< HEAD
                memcpy(outputVoidBuffer,&gnvEFSTable->halnv.tables.plutCharacterized[0],bufferSize);
+=======
+               vos_mem_copy(outputVoidBuffer,&gnvEFSTable->halnv.tables.plutCharacterized[0],bufferSize);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            }
            break;
        case VNV_TPC_PDADC_OFFSETS:
            itemSize = sizeof(gnvEFSTable->halnv.tables.plutPdadcOffset);
            if(bufferSize != itemSize) {
                VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                 ("type = %d buffer size=%d is less than data size=%d\r\n"),type, bufferSize,
+=======
+                ("type = %d buffer size=%d is less than data size=%d"),type, bufferSize,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  itemSize);
                status = VOS_STATUS_E_INVAL;
            }
            else {
+<<<<<<< HEAD
                memcpy(outputVoidBuffer,&gnvEFSTable->halnv.tables.plutPdadcOffset[0],bufferSize);
+=======
+               vos_mem_copy(outputVoidBuffer,&gnvEFSTable->halnv.tables.plutPdadcOffset[0],bufferSize);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            }
            break;
        case VNV_RSSI_CHANNEL_OFFSETS:
@@ -1863,12 +2291,20 @@ VOS_STATUS vos_nv_read( VNV_TYPE type, v_VOID_t *outputVoidBuffer,
            if(bufferSize != itemSize) {
 
                VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                 ("type = %d buffer size=%d is less than data size=%d\r\n"),type, bufferSize,
+=======
+                ("type = %d buffer size=%d is less than data size=%d"),type, bufferSize,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  itemSize);
                status = VOS_STATUS_E_INVAL;
            }
            else {
+<<<<<<< HEAD
                memcpy(outputVoidBuffer,&gnvEFSTable->halnv.tables.rssiChanOffsets[0],bufferSize);
+=======
+               vos_mem_copy(outputVoidBuffer,&gnvEFSTable->halnv.tables.rssiChanOffsets[0],bufferSize);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            }
            break;
        case VNV_HW_CAL_VALUES:
@@ -1878,12 +2314,20 @@ VOS_STATUS vos_nv_read( VNV_TYPE type, v_VOID_t *outputVoidBuffer,
            if(bufferSize != itemSize) {
 
                VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                 ("type = %d buffer size=%d is less than data size=%d\r\n"),type, bufferSize,
+=======
+                ("type = %d buffer size=%d is less than data size=%d"),type, bufferSize,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  itemSize);
                status = VOS_STATUS_E_INVAL;
            }
            else {
+<<<<<<< HEAD
                memcpy(outputVoidBuffer,&gnvEFSTable->halnv.tables.hwCalValues,bufferSize);
+=======
+               vos_mem_copy(outputVoidBuffer,&gnvEFSTable->halnv.tables.hwCalValues,bufferSize);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            }
            break;
        case VNV_FW_CONFIG:
@@ -1893,60 +2337,100 @@ VOS_STATUS vos_nv_read( VNV_TYPE type, v_VOID_t *outputVoidBuffer,
            if(bufferSize != itemSize) {
 
                VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                 ("type = %d buffer size=%d is less than data size=%d\r\n"),type, bufferSize,
+=======
+                ("type = %d buffer size=%d is less than data size=%d"),type, bufferSize,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  itemSize);
                status = VOS_STATUS_E_INVAL;
            }
            else {
+<<<<<<< HEAD
                memcpy(outputVoidBuffer,&gnvEFSTable->halnv.tables.fwConfig,bufferSize);
+=======
+               vos_mem_copy(outputVoidBuffer,&gnvEFSTable->halnv.tables.fwConfig,bufferSize);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            }
            break;
        case VNV_ANTENNA_PATH_LOSS:
            itemSize = sizeof(gnvEFSTable->halnv.tables.antennaPathLoss);
            if(bufferSize != itemSize) {
                VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                 ("type = %d buffer size=%d is less than data size=%d\r\n"),type, bufferSize,
+=======
+                ("type = %d buffer size=%d is less than data size=%d"),type, bufferSize,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  itemSize);
                status = VOS_STATUS_E_INVAL;
            }
            else {
+<<<<<<< HEAD
                memcpy(outputVoidBuffer,&gnvEFSTable->halnv.tables.antennaPathLoss[0],bufferSize);
+=======
+               vos_mem_copy(outputVoidBuffer,&gnvEFSTable->halnv.tables.antennaPathLoss[0],bufferSize);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            }
            break;
        case VNV_PACKET_TYPE_POWER_LIMITS:
            itemSize = sizeof(gnvEFSTable->halnv.tables.pktTypePwrLimits);
            if(bufferSize != itemSize) {
                VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                 ("type = %d buffer size=%d is less than data size=%d\r\n"),type, bufferSize,
+=======
+                ("type = %d buffer size=%d is less than data size=%d"),type, bufferSize,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  itemSize);
                status = VOS_STATUS_E_INVAL;
            }
            else {
+<<<<<<< HEAD
                memcpy(outputVoidBuffer,gnvEFSTable->halnv.tables.pktTypePwrLimits,bufferSize);
+=======
+               vos_mem_copy(outputVoidBuffer,gnvEFSTable->halnv.tables.pktTypePwrLimits,bufferSize);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            }
            break;
        case VNV_OFDM_CMD_PWR_OFFSET:
            itemSize = sizeof(gnvEFSTable->halnv.tables.ofdmCmdPwrOffset);
            if(bufferSize != itemSize) {
                VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                 ("type = %d buffer size=%d is less than data size=%d\r\n"),type, bufferSize,
+=======
+                ("type = %d buffer size=%d is less than data size=%d"),type, bufferSize,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  itemSize);
                status = VOS_STATUS_E_INVAL;
            }
            else {
+<<<<<<< HEAD
                memcpy(outputVoidBuffer,&gnvEFSTable->halnv.tables.ofdmCmdPwrOffset,bufferSize);
+=======
+               vos_mem_copy(outputVoidBuffer,&gnvEFSTable->halnv.tables.ofdmCmdPwrOffset,bufferSize);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            }
            break;
        case VNV_TX_BB_FILTER_MODE:
            itemSize = sizeof(gnvEFSTable->halnv.tables.txbbFilterMode);
            if(bufferSize != itemSize) {
                VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                 ("type = %d buffer size=%d is less than data size=%d\r\n"),type, bufferSize,
+=======
+                ("type = %d buffer size=%d is less than data size=%d"),type, bufferSize,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  itemSize);
                status = VOS_STATUS_E_INVAL;
            }
            else {
+<<<<<<< HEAD
                memcpy(outputVoidBuffer,&gnvEFSTable->halnv.tables.txbbFilterMode,bufferSize);
+=======
+               vos_mem_copy(outputVoidBuffer,&gnvEFSTable->halnv.tables.txbbFilterMode,bufferSize);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            }
            break;
 
@@ -1955,12 +2439,20 @@ VOS_STATUS vos_nv_read( VNV_TYPE type, v_VOID_t *outputVoidBuffer,
            itemSize = sizeof(gnvEFSTable->halnv.tables.pwrOptimum_virtualRate);
            if(bufferSize != itemSize) {
                VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                 ("type = %d buffer size=%d is less than data size=%d\r\n"),type, bufferSize,
+=======
+                ("type = %d buffer size=%d is less than data size=%d"),type, bufferSize,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  itemSize);
                status = VOS_STATUS_E_INVAL;
            }
            else {
+<<<<<<< HEAD
                memcpy(outputVoidBuffer,&gnvEFSTable->halnv.tables.pwrOptimum_virtualRate,bufferSize);
+=======
+               vos_mem_copy(outputVoidBuffer,&gnvEFSTable->halnv.tables.pwrOptimum_virtualRate,bufferSize);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            }
            break;
 
@@ -2024,7 +2516,11 @@ VOS_STATUS vos_nv_write(VNV_TYPE type, v_VOID_t *inputVoidBuffer,
             }
             else
             {
+<<<<<<< HEAD
                 memcpy(&gnvEFSTableV2->halnvV2.fields,
+=======
+                vos_mem_copy(&gnvEFSTableV2->halnvV2.fields,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        inputVoidBuffer,
                        bufferSize);
             }
@@ -2041,7 +2537,11 @@ VOS_STATUS vos_nv_write(VNV_TYPE type, v_VOID_t *inputVoidBuffer,
             }
             else
             {
+<<<<<<< HEAD
                 memcpy(&gnvEFSTableV2->halnvV2.tables.pwrOptimum[0],
+=======
+                vos_mem_copy(&gnvEFSTableV2->halnvV2.tables.pwrOptimum[0],
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        inputVoidBuffer,
                        bufferSize);
             }
@@ -2058,7 +2558,11 @@ VOS_STATUS vos_nv_write(VNV_TYPE type, v_VOID_t *inputVoidBuffer,
             }
             else
             {
+<<<<<<< HEAD
                 memcpy(&gnvEFSTableV2->halnvV2.tables.regDomains[0],
+=======
+                vos_mem_copy(&gnvEFSTableV2->halnvV2.tables.regDomains[0],
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        inputVoidBuffer,
                        bufferSize);
             }
@@ -2075,7 +2579,11 @@ VOS_STATUS vos_nv_write(VNV_TYPE type, v_VOID_t *inputVoidBuffer,
             }
             else
             {
+<<<<<<< HEAD
                 memcpy(&gnvEFSTableV2->halnvV2.tables.defaultCountryTable,
+=======
+                vos_mem_copy(&gnvEFSTableV2->halnvV2.tables.defaultCountryTable,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        inputVoidBuffer,
                        bufferSize);
             }
@@ -2092,7 +2600,11 @@ VOS_STATUS vos_nv_write(VNV_TYPE type, v_VOID_t *inputVoidBuffer,
             }
             else
             {
+<<<<<<< HEAD
                 memcpy(&gnvEFSTableV2->halnvV2.tables.plutCharacterized[0],
+=======
+                vos_mem_copy(&gnvEFSTableV2->halnvV2.tables.plutCharacterized[0],
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        inputVoidBuffer,
                        bufferSize);
             }
@@ -2109,7 +2621,11 @@ VOS_STATUS vos_nv_write(VNV_TYPE type, v_VOID_t *inputVoidBuffer,
             }
             else
             {
+<<<<<<< HEAD
                 memcpy(&gnvEFSTableV2->halnvV2.tables.plutPdadcOffset[0],
+=======
+                vos_mem_copy(&gnvEFSTableV2->halnvV2.tables.plutPdadcOffset[0],
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        inputVoidBuffer,
                        bufferSize);
             }
@@ -2126,7 +2642,11 @@ VOS_STATUS vos_nv_write(VNV_TYPE type, v_VOID_t *inputVoidBuffer,
             }
             else
             {
+<<<<<<< HEAD
                 memcpy(&gnvEFSTableV2->halnvV2.tables.rssiChanOffsets[0],
+=======
+                vos_mem_copy(&gnvEFSTableV2->halnvV2.tables.rssiChanOffsets[0],
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        inputVoidBuffer,
                        bufferSize);
             }
@@ -2143,7 +2663,11 @@ VOS_STATUS vos_nv_write(VNV_TYPE type, v_VOID_t *inputVoidBuffer,
             }
             else
             {
+<<<<<<< HEAD
                 memcpy(&gnvEFSTableV2->halnvV2.tables.hwCalValues,
+=======
+                vos_mem_copy(&gnvEFSTableV2->halnvV2.tables.hwCalValues,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        inputVoidBuffer,
                        bufferSize);
             }
@@ -2160,7 +2684,11 @@ VOS_STATUS vos_nv_write(VNV_TYPE type, v_VOID_t *inputVoidBuffer,
            }
            else
            {
+<<<<<<< HEAD
                memcpy(&gnvEFSTableV2->halnvV2.tables.fwConfig,
+=======
+               vos_mem_copy(&gnvEFSTableV2->halnvV2.tables.fwConfig,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       inputVoidBuffer,
                       bufferSize);
            }
@@ -2177,7 +2705,11 @@ VOS_STATUS vos_nv_write(VNV_TYPE type, v_VOID_t *inputVoidBuffer,
             }
             else
             {
+<<<<<<< HEAD
                 memcpy(&gnvEFSTableV2->halnvV2.tables.antennaPathLoss[0],
+=======
+                vos_mem_copy(&gnvEFSTableV2->halnvV2.tables.antennaPathLoss[0],
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        inputVoidBuffer,
                        bufferSize);
             }
@@ -2194,7 +2726,11 @@ VOS_STATUS vos_nv_write(VNV_TYPE type, v_VOID_t *inputVoidBuffer,
             }
             else
             {
+<<<<<<< HEAD
                 memcpy(gnvEFSTableV2->halnvV2.tables.pktTypePwrLimits,
+=======
+                vos_mem_copy(gnvEFSTableV2->halnvV2.tables.pktTypePwrLimits,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        inputVoidBuffer,
                        bufferSize);
             }
@@ -2211,7 +2747,11 @@ VOS_STATUS vos_nv_write(VNV_TYPE type, v_VOID_t *inputVoidBuffer,
             }
             else
             {
+<<<<<<< HEAD
                 memcpy(&gnvEFSTableV2->halnvV2.tables.ofdmCmdPwrOffset,
+=======
+                vos_mem_copy(&gnvEFSTableV2->halnvV2.tables.ofdmCmdPwrOffset,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        inputVoidBuffer,
                        bufferSize);
             }
@@ -2228,7 +2768,11 @@ VOS_STATUS vos_nv_write(VNV_TYPE type, v_VOID_t *inputVoidBuffer,
             }
             else
             {
+<<<<<<< HEAD
                 memcpy(&gnvEFSTableV2->halnvV2.tables.txbbFilterMode,
+=======
+                vos_mem_copy(&gnvEFSTableV2->halnvV2.tables.txbbFilterMode,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        inputVoidBuffer,
                        bufferSize);
             }
@@ -2245,7 +2789,11 @@ VOS_STATUS vos_nv_write(VNV_TYPE type, v_VOID_t *inputVoidBuffer,
             }
             else
             {
+<<<<<<< HEAD
                 memcpy(&gnvEFSTableV2->halnvV2.tables.pwrOptimum_virtualRate,
+=======
+                vos_mem_copy(&gnvEFSTableV2->halnvV2.tables.pwrOptimum_virtualRate,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        inputVoidBuffer,
                        bufferSize);
             }
@@ -2266,7 +2814,11 @@ VOS_STATUS vos_nv_write(VNV_TYPE type, v_VOID_t *inputVoidBuffer,
           status = VOS_STATUS_E_FAULT;
       }
 
+<<<<<<< HEAD
       status = wlan_write_to_efs((v_U8_t*)gnvEFSTableV2, sizeof(nvEFSTable_t));
+=======
+      status = wlan_write_to_efs((v_U8_t*)gnvEFSTableV2, sizeof(*gnvEFSTableV2));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       if (!VOS_IS_STATUS_SUCCESS(status))
       {
           VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
@@ -2409,7 +2961,11 @@ VOS_STATUS vos_nv_readDefaultCountryTable( uNvTables *tableData )
 {
 
    VOS_STATUS status = VOS_STATUS_SUCCESS;
+<<<<<<< HEAD
    memcpy(&tableData->defaultCountryTable, &pnvEFSTable->halnv.tables.defaultCountryTable, sizeof(sDefaultCountry));
+=======
+   vos_mem_copy(&tableData->defaultCountryTable, &pnvEFSTable->halnv.tables.defaultCountryTable, sizeof(sDefaultCountry));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    pr_info("DefaultCountry is %c%c\n",
             tableData->defaultCountryTable.countryCode[0],
             tableData->defaultCountryTable.countryCode[1]);
@@ -2690,7 +3246,10 @@ static int create_crda_regulatory_entry(struct wiphy *wiphy,
           continue;
        if (wiphy->bands[i] == NULL)
        {
+<<<<<<< HEAD
           pr_info("error: wiphy->bands[i] is NULL, i = %d\n", i);
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
           return -1;
        }
        // internal channels[] is one continous array for both 2G and 5G bands
@@ -2739,8 +3298,23 @@ static int create_crda_regulatory_entry(struct wiphy *wiphy,
            }
            else // Enable is only last flag we support
            {
+<<<<<<< HEAD
               pnvEFSTable->halnv.tables.regDomains[NUM_REG_DOMAINS-2].channels[k].enabled =
                  NV_CHANNEL_ENABLE;
+=======
+#ifdef FEATURE_WLAN_CH144
+              if ((RF_CHAN_144 == k) && (E_NV_V3 != vos_nv_getNvVersion()))
+              {
+                 //Do not enable channel 144 when NV version is not NV3
+              }
+              else
+#endif
+              {
+                 pnvEFSTable->halnv.tables.regDomains[NUM_REG_DOMAINS-2].\
+                     channels[k].enabled = NV_CHANNEL_ENABLE;
+              }
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
               // max_power is in dBm
               pnvEFSTable->halnv.tables.regDomains[NUM_REG_DOMAINS-2].channels[k].pwrLimit =
                  (tANI_S8) ((wiphy->bands[i]->channels[j].max_power)/100);
@@ -3062,8 +3636,196 @@ static int create_crda_regulatory_entry_from_regd(struct wiphy *wiphy,
   return 0;
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_ENABLE_LINUX_REG
 
+=======
+/**------------------------------------------------------------------------
+  \brief vos_chan_to_freq -
+  \param   - input channel number to know channel frequency
+  \return Channel frequency
+  \sa
+  -------------------------------------------------------------------------*/
+v_U16_t vos_chan_to_freq(v_U8_t chanNum)
+{
+   int i;
+
+   for (i = 0; i < NUM_RF_CHANNELS; i++)
+   {
+      if (rfChannels[i].channelNum == chanNum)
+      {
+         return rfChannels[i].targetFreq;
+      }
+   }
+
+   return (0);
+}
+
+/**------------------------------------------------------------------------
+  \brief vos_freq_to_chan -
+  \param   - input frequency to know channel number
+  \return Channel frequency
+  \sa
+  -------------------------------------------------------------------------*/
+v_U8_t vos_freq_to_chan(v_U32_t freq)
+{
+   int i;
+
+   for (i = 0; i < NUM_RF_CHANNELS; i++)
+   {
+      if (rfChannels[i].targetFreq == freq)
+      {
+         return rfChannels[i].channelNum;
+      }
+   }
+
+   return (0);
+}
+
+/* function to tell about if Default country is Non-Zero */
+v_BOOL_t vos_is_nv_country_non_zero()
+{
+    v_BOOL_t  status = VOS_FALSE;
+    if (!(pnvEFSTable->halnv.tables.defaultCountryTable.countryCode[0] == '0' &&
+        pnvEFSTable->halnv.tables.defaultCountryTable.countryCode[1] == '0'))
+    {
+        VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
+               "Default Country is Non-Zero\n");
+        return VOS_TRUE;
+    }
+
+    return status ;
+}
+
+v_BOOL_t vos_is_channel_valid_for_vht80(v_U32_t chan)
+{
+    v_CONTEXT_t pVosContext = NULL;
+    hdd_context_t *pHddCtx = NULL;
+    v_U16_t freq;
+    v_U32_t i, band;
+    struct wiphy *wiphy;
+
+    pVosContext = vos_get_global_context(VOS_MODULE_ID_SYS, NULL);
+
+    if (NULL != pVosContext)
+    {
+        pHddCtx = vos_get_context(VOS_MODULE_ID_HDD, pVosContext);
+        if (NULL == pHddCtx)
+        {
+           VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+                       ("Invalid pHddCtx pointer") );
+           return VOS_FALSE;
+        }
+    }
+    else
+    {
+       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+                  ("Invalid pVosContext pointer") );
+       return VOS_FALSE;
+    }
+    /* no 80Mhz in 2.4 GHz*/
+    if (chan <= RF_CHAN_14)
+        return VOS_FALSE;
+
+    band = IEEE80211_BAND_5GHZ;
+    freq = vos_chan_to_freq(chan);
+    wiphy = pHddCtx->wiphy;
+
+    for (i = 0; i < wiphy->bands[band]->n_channels; i++)
+    {
+        if (freq ==
+             wiphy->bands[band]->channels[i].center_freq)
+        {
+          if (wiphy->bands[band]->channels[i].flags &
+                                 IEEE80211_CHAN_NO_80MHZ)
+          {
+             return VOS_FALSE;
+          }
+          return VOS_TRUE;
+        }
+    }
+    return VOS_FALSE;
+}
+
+#ifdef CONFIG_ENABLE_LINUX_REG
+
+static int bw20_ch_index_to_bw40_plus_minus_ch_index(int k,
+                                    eChannnelBondingTypes cbflag )
+{
+   int m = INVALID_RF_CHANNEL;
+   if (k >= RF_CHAN_1 && k <= RF_CHAN_14)
+   {
+      if(RF_CHAN_BOND_HT40_PLUS == cbflag)
+         m = k - RF_CHAN_1 + RF_CHAN_BOND_3 ;
+      else
+         m = k - RF_CHAN_1 + RF_CHAN_BOND_3 - HT_40MINUS_INDEX ;
+
+      if (m > RF_CHAN_BOND_11)
+         m = INVALID_RF_CHANNEL;
+      if (m < RF_CHAN_BOND_3)
+         m = INVALID_RF_CHANNEL;
+   }
+   else if (k >= RF_CHAN_240 && k <= RF_CHAN_216)
+   {
+      if(RF_CHAN_BOND_HT40_PLUS == cbflag)
+         m = k - RF_CHAN_240 + RF_CHAN_BOND_242 ;
+      else
+         m = k - RF_CHAN_240 + RF_CHAN_BOND_242 - HT_40MINUS_INDEX;
+
+      if (m > RF_CHAN_BOND_214)
+         m = INVALID_RF_CHANNEL;
+      if (m < RF_CHAN_BOND_242)
+         m = INVALID_RF_CHANNEL;
+   }
+   else if (k >= RF_CHAN_36 && k <= RF_CHAN_64)
+   {
+      if(RF_CHAN_BOND_HT40_PLUS == cbflag)
+         m = k - RF_CHAN_36 + RF_CHAN_BOND_38;
+      else
+         m = k - RF_CHAN_36 + RF_CHAN_BOND_38 - HT_40MINUS_INDEX;
+
+      if (m > RF_CHAN_BOND_62)
+         m = INVALID_RF_CHANNEL;
+      if (m < RF_CHAN_BOND_38)
+         m = INVALID_RF_CHANNEL;
+   }
+#ifdef FEATURE_WLAN_CH144
+   else if (k >= RF_CHAN_100 && k <= RF_CHAN_144)
+#else
+   else if (k >= RF_CHAN_100 && k <= RF_CHAN_140)
+#endif /* FEATURE_WLAN_CH144 */
+   {
+      if(RF_CHAN_BOND_HT40_PLUS == cbflag)
+         m = k - RF_CHAN_100 + RF_CHAN_BOND_102;
+      else
+         m = k - RF_CHAN_100 + RF_CHAN_BOND_102 -  HT_40MINUS_INDEX;
+#ifdef FEATURE_WLAN_CH144
+      if (m > RF_CHAN_BOND_142)
+         m = INVALID_RF_CHANNEL;
+      if (m < RF_CHAN_BOND_102)
+         m = INVALID_RF_CHANNEL;
+#else
+      if (m > RF_CHAN_BOND_138)
+         m = INVALID_RF_CHANNEL;
+      if (m < RF_CHAN_BOND_102)
+         m = INVALID_RF_CHANNEL;
+#endif /* FEATURE_WLAN_CH144 */
+   }
+   else if (k >= RF_CHAN_149 && k <= RF_CHAN_165)
+   {
+      if(RF_CHAN_BOND_HT40_PLUS == cbflag)
+         m = k - RF_CHAN_149 + RF_CHAN_BOND_151;
+      else
+         m = k - RF_CHAN_149 + RF_CHAN_BOND_151 - HT_40MINUS_INDEX;
+
+      if (m > RF_CHAN_BOND_163)
+         m = INVALID_RF_CHANNEL;
+      if (m < RF_CHAN_BOND_151)
+         m = INVALID_RF_CHANNEL;
+   }
+   return m;
+}
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**------------------------------------------------------------------------
   \brief vos_nv_setRegDomain -
   \param clientCtxt  - Client Context, Not used for PRIMA
@@ -3229,9 +3991,16 @@ VOS_STATUS vos_nv_getRegDomainFromCountryCode( v_REGDOMAIN_t *pRegDomain,
         {
             INIT_COMPLETION(pHddCtx->linux_reg_req);
             regulatory_hint(wiphy, country_code);
+<<<<<<< HEAD
             wait_result = wait_for_completion_interruptible_timeout(
                                                             &pHddCtx->linux_reg_req,
                                                             LINUX_REG_WAIT_TIME);
+=======
+            /* Wait for 300ms*/
+            wait_result = wait_for_completion_interruptible_timeout(
+                                                            &pHddCtx->linux_reg_req,
+                                                            msecs_to_jiffies(LINUX_REG_WAIT_TIME));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
             /* if the country information does not exist with the kernel,
                then the driver callback would not be called */
@@ -3267,12 +4036,43 @@ VOS_STATUS vos_nv_getRegDomainFromCountryCode( v_REGDOMAIN_t *pRegDomain,
         }
         else if (COUNTRY_IE == source || COUNTRY_USER == source)
         {
+<<<<<<< HEAD
+=======
+            INIT_COMPLETION(pHddCtx->linux_reg_req);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,9,0))
             regulatory_hint_user(country_code,NL80211_USER_REG_HINT_USER);
 #else
             regulatory_hint_user(country_code);
 #endif
+<<<<<<< HEAD
             *pRegDomain = temp_reg_domain;
+=======
+            wait_result = wait_for_completion_interruptible_timeout(
+                               &pHddCtx->linux_reg_req,
+                               msecs_to_jiffies(LINUX_REG_WAIT_TIME));
+
+            /* if the country information does not exist with the kernel,
+               then the driver callback would not be called */
+
+            if (wait_result >= 0)
+            {
+               VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
+                           "runtime country code : %c%c is found in kernel db",
+                            country_code[0], country_code[1]);
+               *pRegDomain = temp_reg_domain;
+            }
+
+            else
+            {
+                VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_WARN,
+                           "runtime country code : %c%c is not found"
+                           " in kernel db",
+                            country_code[0], country_code[1]);
+
+                return VOS_STATUS_E_EXISTS;
+            }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
 
    }
@@ -3280,6 +4080,7 @@ VOS_STATUS vos_nv_getRegDomainFromCountryCode( v_REGDOMAIN_t *pRegDomain,
    return VOS_STATUS_SUCCESS;
 }
 
+<<<<<<< HEAD
 /* create_linux_regulatory_entry to populate internal structures from wiphy */
 static int create_linux_regulatory_entry(struct wiphy *wiphy,
                 struct regulatory_request *request,
@@ -3329,13 +4130,35 @@ static int create_linux_regulatory_entry(struct wiphy *wiphy,
         /* 2G only */
         else if (i == IEEE80211_BAND_5GHZ && nBandCapability == eCSR_BAND_24)
             continue;
+=======
+int vos_update_nv_table_from_wiphy_band(void *hdd_ctx,
+                      void *pwiphy,v_U8_t nBandCapability)
+{
+   int i, j, m;
+   int k = 0, n = 0;
+   const struct ieee80211_reg_rule *reg_rule;
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,9,0))
+   int err;
+#endif
+   hdd_context_t *pHddCtx = (hdd_context_t *)hdd_ctx;
+   struct wiphy *wiphy = (struct wiphy *)pwiphy;
+
+   for (i = 0, m = 0; i<IEEE80211_NUM_BANDS; i++)
+   {
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         if (wiphy->bands[i] == NULL)
         {
 
+<<<<<<< HEAD
             VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
                       "error: wiphy->bands is NULL, i = %d\n", i);
             return -1;
+=======
+            VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
+                      "error: wiphy->bands is NULL, i = %d", i);
+            continue;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
 
         /* internal channels[] is one continous array for both 2G and 5G bands
@@ -3348,14 +4171,25 @@ static int create_linux_regulatory_entry(struct wiphy *wiphy,
 
         for (j = 0; j < wiphy->bands[i]->n_channels; j++)
         {
+<<<<<<< HEAD
+=======
+             if (IEEE80211_BAND_2GHZ == i && eCSR_BAND_5G == nBandCapability)
+                  wiphy->bands[i]->channels[j].flags |= IEEE80211_CHAN_DISABLED;
+             else if (IEEE80211_BAND_5GHZ == i && eCSR_BAND_24 == nBandCapability)
+                  wiphy->bands[i]->channels[j].flags |= IEEE80211_CHAN_DISABLED;
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             /* k = (m + j) is internal current channel index for 20MHz channel
               n is internal channel index for corresponding 40MHz channel */
 
             k = m + j;
+<<<<<<< HEAD
             n = bw20_ch_index_to_bw40_ch_index(k);
 
             if (n == -1)
                 return -1;
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
             /* If the regulatory rules for a country do not explicilty
              * require a passive scan on a frequency, lift the passive
@@ -3376,12 +4210,37 @@ static int create_linux_regulatory_entry(struct wiphy *wiphy,
             if (0 == err)
 #endif
             {
+<<<<<<< HEAD
                 if (!(reg_rule->flags & NL80211_RRF_PASSIVE_SCAN))
                 {
                     VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
                               "%s: Remove passive scan restriction for %u",
                               __func__, wiphy->bands[i]->channels[j].center_freq);
                     wiphy->bands[i]->channels[j].flags &= ~IEEE80211_CHAN_PASSIVE_SCAN;
+=======
+                /* When Country code in nv.bin file is Non Zero  and Reg Domain
+                 * is world; it's neither CUSTOM nor STRICT. In this Case
+                 * if country code is Non-Zero and domain is world; driver
+                 * will not change channel to active.
+                 */
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+                if  (!(wiphy->regulatory_flags & REGULATORY_STRICT_REG))
+#else
+                if  (!(wiphy->flags & WIPHY_FLAG_STRICT_REGULATORY ))
+#endif
+                {
+                    if (!(reg_rule->flags & NL80211_RRF_PASSIVE_SCAN))
+                    {
+                        VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
+                                  "%s: Remove passive scan restriction for %u",
+                                  __func__, wiphy->bands[i]->channels[j].center_freq);
+                        wiphy->bands[i]->channels[j].flags &= ~IEEE80211_CHAN_PASSIVE_SCAN;
+                    }
+
+                    wiphy->bands[i]->channels[j].max_power =
+                        (int) MBM_TO_DBM(reg_rule->power_rule.max_eirp);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 }
             }
 
@@ -3390,18 +4249,38 @@ static int create_linux_regulatory_entry(struct wiphy *wiphy,
                 if (pnvEFSTable == NULL)
                 {
                     VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                               "error: pnvEFSTable is NULL, probably not parsed nv.bin yet\n");
+=======
+                              "error: pnvEFSTable is NULL, probably not parsed nv.bin yet");
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     return -1;
                 }
                 pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[k].enabled =
                     NV_CHANNEL_DISABLE;
+<<<<<<< HEAD
                 pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].enabled =
                     NV_CHANNEL_DISABLE;
+=======
+                if (INVALID_RF_CHANNEL !=
+                    (n = bw20_ch_index_to_bw40_plus_minus_ch_index( k , RF_CHAN_BOND_HT40_MINUS)))
+                {
+                    pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].enabled =
+                       NV_CHANNEL_DISABLE;
+                }
+                if (INVALID_RF_CHANNEL !=
+                    (n = bw20_ch_index_to_bw40_plus_minus_ch_index( k , RF_CHAN_BOND_HT40_PLUS)))
+                {
+                    pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].enabled =
+                       NV_CHANNEL_DISABLE;
+                }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             }
             /* nv cannot distinguish between DFS and passive channels */
             else if (wiphy->bands[i]->channels[j].flags &
                     (IEEE80211_CHAN_RADAR | IEEE80211_CHAN_PASSIVE_SCAN))
             {
+<<<<<<< HEAD
                 pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[k].enabled =
                     NV_CHANNEL_DFS;
 
@@ -3416,6 +4295,103 @@ static int create_linux_regulatory_entry(struct wiphy *wiphy,
                     /* 40MHz channel power is half of 20MHz (-3dB) ?? */
                     pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].pwrLimit =
                         (tANI_S8) (((wiphy->bands[i]->channels[j].max_power))-3);
+=======
+#ifdef FEATURE_WLAN_CH144
+                if ((RF_CHAN_144 == k) && (E_NV_V3 != vos_nv_getNvVersion()))
+                {
+                    //Do not enable channel 144 when NV version is not NV3
+                }
+                else
+#endif
+                {
+                    pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].\
+                        channels[k].enabled = NV_CHANNEL_DFS;
+                }
+
+                if (!gnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[k].pwrLimit
+                    && !wiphy->bands[i]->channels[j].max_power)
+                {
+                    VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+                               FL("Both NV and DB.txt power limit is zero."
+                                  "Setting default value %d"),TX_POWER_DEFAULT);
+                    wiphy->bands[i]->channels[j].max_power = TX_POWER_DEFAULT;
+                }
+
+                else if (!gnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[k].pwrLimit
+                         || !wiphy->bands[i]->channels[j].max_power)
+                {
+                        wiphy->bands[i]->channels[j].max_power =
+                           MAX(gnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[k].pwrLimit,
+                              ((wiphy->bands[i]->channels[j].max_power)));
+                }
+
+                // Cap the TX power by the power limits specified in NV for the regdomain
+                if (gnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[k].pwrLimit
+                    && wiphy->bands[i]->channels[j].max_power)
+                {
+                    wiphy->bands[i]->channels[j].max_power =
+                           MIN(gnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[k].pwrLimit,
+                              (tANI_S8) ((wiphy->bands[i]->channels[j].max_power)));
+                }
+
+                pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[k].pwrLimit =
+                    (tANI_S8) ((wiphy->bands[i]->channels[j].max_power));
+
+                /* Disable the center channel if neither HT40+ nor HT40- is allowed
+                 */
+                if ((wiphy->bands[i]->channels[j].flags & IEEE80211_CHAN_NO_HT40) ==
+                                                             IEEE80211_CHAN_NO_HT40 )
+                {
+                   if ( INVALID_RF_CHANNEL !=
+                       (n = bw20_ch_index_to_bw40_plus_minus_ch_index( k, RF_CHAN_BOND_HT40_MINUS)))
+                   {
+                       pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].enabled =
+                        NV_CHANNEL_DISABLE;
+                   }
+                   if ( INVALID_RF_CHANNEL !=
+                      (n = bw20_ch_index_to_bw40_plus_minus_ch_index( k, RF_CHAN_BOND_HT40_PLUS)))
+                   {
+                       pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].enabled =
+                         NV_CHANNEL_DISABLE;
+                   }
+                }
+                else
+                {
+                    if (!(wiphy->bands[i]->channels[j].flags & IEEE80211_CHAN_NO_HT40PLUS))
+                    {
+                      if (INVALID_RF_CHANNEL !=
+                          (n = bw20_ch_index_to_bw40_plus_minus_ch_index( k, RF_CHAN_BOND_HT40_PLUS)))
+                      {
+                          pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].enabled =
+                            NV_CHANNEL_DFS;
+
+                          /* 40MHz channel power is half of 20MHz (-3dB), so subtract 3dB from
+                           * wiphy limits, since wiphy has same limits for 20MHz and 40MHz
+                           * channels
+                           */
+                          pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].pwrLimit =
+                           MIN(gnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].pwrLimit,
+                            (tANI_S8) ((wiphy->bands[i]->channels[j].max_power-3)));
+                      }
+                    }
+                    if (!(wiphy->bands[i]->channels[j].flags & IEEE80211_CHAN_NO_HT40MINUS))
+                    {
+                       if (INVALID_RF_CHANNEL !=
+                          (n = bw20_ch_index_to_bw40_plus_minus_ch_index( k, RF_CHAN_BOND_HT40_MINUS)))
+                       {
+                          pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].enabled =
+                            NV_CHANNEL_DFS;
+
+                          /* 40MHz channel power is half of 20MHz (-3dB), so subtract 3dB from
+                           * wiphy limits, since wiphy has same limits for 20MHz and 40MHz
+                           * channels
+                           */
+                          pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].pwrLimit =
+                           MIN(gnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].pwrLimit,
+                             (tANI_S8) ((wiphy->bands[i]->channels[j].max_power-3)));
+                       }
+                    }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 }
                 if ((wiphy->bands[i]->channels[j].flags & IEEE80211_CHAN_NO_80MHZ) == 0)
                 {
@@ -3432,12 +4408,53 @@ static int create_linux_regulatory_entry(struct wiphy *wiphy,
             }
             else /* Enable is only last flag we support */
             {
+<<<<<<< HEAD
                 pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[k].enabled =
                     NV_CHANNEL_ENABLE;
+=======
+#ifdef FEATURE_WLAN_CH144
+                if ((RF_CHAN_144 == k) && (E_NV_V3 != vos_nv_getNvVersion()))
+                {
+                    //Do not enable channel 144 when NV version is not NV3
+                }
+                else
+#endif
+                {
+                    pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].\
+                        channels[k].enabled = NV_CHANNEL_ENABLE;
+                }
+
+                if (!gnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[k].pwrLimit
+                    && !wiphy->bands[i]->channels[j].max_power)
+                {
+                    VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+                               FL("Both NV and DB.txt power limit is zero."
+                                  "Setting default value %d"),TX_POWER_DEFAULT);
+                    wiphy->bands[i]->channels[j].max_power = TX_POWER_DEFAULT;
+                }
+
+                else if (!gnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[k].pwrLimit
+                         || !wiphy->bands[i]->channels[j].max_power)
+                {
+                        wiphy->bands[i]->channels[j].max_power =
+                           MAX(gnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[k].pwrLimit,
+                              ((wiphy->bands[i]->channels[j].max_power)));
+                }
+
+                // Cap the TX power by the power limits specified in NV for the regdomain
+                if (gnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[k].pwrLimit
+                    && wiphy->bands[i]->channels[j].max_power)
+                {
+                    wiphy->bands[i]->channels[j].max_power =
+                           MIN(gnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[k].pwrLimit,
+                              (tANI_S8) ((wiphy->bands[i]->channels[j].max_power)));
+                }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                 /* max_power is in dBm */
                 pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[k].pwrLimit =
                     (tANI_S8) ((wiphy->bands[i]->channels[j].max_power));
+<<<<<<< HEAD
                 if ((wiphy->bands[i]->channels[j].flags & IEEE80211_CHAN_NO_HT40) == 0)
                 {
                     pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].enabled =
@@ -3445,6 +4462,63 @@ static int create_linux_regulatory_entry(struct wiphy *wiphy,
                     /* 40MHz channel power is half of 20MHz (-3dB) */
                     pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].pwrLimit =
                         (tANI_S8) (((wiphy->bands[i]->channels[j].max_power))-3);
+=======
+
+                /* Disable the center channel if neither HT40+ nor HT40- is allowed
+                 */
+                if ((wiphy->bands[i]->channels[j].flags & IEEE80211_CHAN_NO_HT40) ==
+                                                             IEEE80211_CHAN_NO_HT40 )
+                {
+                   if ( INVALID_RF_CHANNEL !=
+                       (n = bw20_ch_index_to_bw40_plus_minus_ch_index( k, RF_CHAN_BOND_HT40_MINUS)))
+                   {
+                       pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].enabled =
+                        NV_CHANNEL_DISABLE;
+                   }
+                   if ( INVALID_RF_CHANNEL !=
+                      (n = bw20_ch_index_to_bw40_plus_minus_ch_index( k, RF_CHAN_BOND_HT40_PLUS)))
+                   {
+                       pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].enabled =
+                         NV_CHANNEL_DISABLE;
+                   }
+                }
+                else
+                {
+                    if (!(wiphy->bands[i]->channels[j].flags & IEEE80211_CHAN_NO_HT40PLUS))
+                    {
+                      if (INVALID_RF_CHANNEL !=
+                          (n = bw20_ch_index_to_bw40_plus_minus_ch_index( k, RF_CHAN_BOND_HT40_PLUS)))
+                      {
+                          pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].enabled =
+                            NV_CHANNEL_ENABLE;
+
+                          /* 40MHz channel power is half of 20MHz (-3dB), so subtract 3dB from
+                           * wiphy limits, since wiphy has same limits for 20MHz and 40MHz
+                           * channels
+                           */
+                          pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].pwrLimit =
+                           MIN(gnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].pwrLimit,
+                            (tANI_S8) ((wiphy->bands[i]->channels[j].max_power-3)));
+                      }
+                    }
+                    if (!(wiphy->bands[i]->channels[j].flags & IEEE80211_CHAN_NO_HT40MINUS))
+                    {
+                       if (INVALID_RF_CHANNEL !=
+                            (n = bw20_ch_index_to_bw40_plus_minus_ch_index( k, RF_CHAN_BOND_HT40_MINUS)))
+                       {
+                          pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].enabled =
+                            NV_CHANNEL_ENABLE;
+
+                          /* 40MHz channel power is half of 20MHz (-3dB), so subtract 3dB from
+                           * wiphy limits, since wiphy has same limits for 20MHz and 40MHz
+                           * channels
+                           */
+                          pnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].pwrLimit =
+                           MIN(gnvEFSTable->halnv.tables.regDomains[temp_reg_domain].channels[n].pwrLimit,
+                             (tANI_S8) ((wiphy->bands[i]->channels[j].max_power-3)));
+                       }
+                    }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 }
                 if ((wiphy->bands[i]->channels[j].flags & IEEE80211_CHAN_NO_80MHZ) == 0)
                 {
@@ -3462,7 +4536,10 @@ static int create_linux_regulatory_entry(struct wiphy *wiphy,
             }
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
     }
 
@@ -3472,6 +4549,46 @@ static int create_linux_regulatory_entry(struct wiphy *wiphy,
     return 0;
 }
 
+<<<<<<< HEAD
+=======
+/* create_linux_regulatory_entry to populate internal structures from wiphy */
+static int create_linux_regulatory_entry(struct wiphy *wiphy,
+                struct regulatory_request *request,
+                v_U8_t nBandCapability)
+{
+    v_CONTEXT_t pVosContext = NULL;
+    hdd_context_t *pHddCtx = NULL;
+
+    pVosContext = vos_get_global_context(VOS_MODULE_ID_SYS, NULL);
+
+    if (NULL != pVosContext)
+    {
+        pHddCtx = vos_get_context(VOS_MODULE_ID_HDD, pVosContext);
+        if (NULL == pHddCtx)
+        {
+           VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+                       ("Invalid pHddCtx pointer") );
+        }
+        else
+        {
+           pHddCtx->isVHT80Allowed = 0;
+        }
+    }
+    else
+    {
+       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+                  ("Invalid pVosContext pointer") );
+    }
+
+    /* 20MHz channels */
+    if (nBandCapability == eCSR_BAND_24)
+        VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
+                  "BandCapability is set to 2G only");
+    return vos_update_nv_table_from_wiphy_band(pHddCtx, wiphy, nBandCapability);
+
+
+}
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*
  * Function: wlan_hdd_linux_reg_notifier
@@ -3481,14 +4598,22 @@ static int create_linux_regulatory_entry(struct wiphy *wiphy,
  * regulatory setting table.
  */
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,9,0))
+<<<<<<< HEAD
 void wlan_hdd_linux_reg_notifier(struct wiphy *wiphy,
                 struct regulatory_request *request)
 #else
 int wlan_hdd_linux_reg_notifier(struct wiphy *wiphy,
+=======
+void __wlan_hdd_linux_reg_notifier(struct wiphy *wiphy,
+                struct regulatory_request *request)
+#else
+int __wlan_hdd_linux_reg_notifier(struct wiphy *wiphy,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 struct regulatory_request *request)
 #endif
 {
     hdd_context_t *pHddCtx = wiphy_priv(wiphy);
+<<<<<<< HEAD
     tANI_U8 nBandCapability;
     v_COUNTRYCODE_t country_code;
     int i;
@@ -3496,6 +4621,15 @@ int wlan_hdd_linux_reg_notifier(struct wiphy *wiphy,
 
     VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
                ("cfg80211 reg notifier callback for country"));
+=======
+    eCsrBand nBandCapability = eCSR_BAND_ALL;
+    v_COUNTRYCODE_t country_code;
+    int i, j;
+    v_BOOL_t isVHT80Allowed;
+
+    VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
+               "cfg80211 reg notifier callback for country for initiator %d", request->initiator);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (NULL == pHddCtx)
     {
@@ -3508,14 +4642,41 @@ int wlan_hdd_linux_reg_notifier(struct wiphy *wiphy,
 #endif
     }
 
+<<<<<<< HEAD
+=======
+    if (vos_is_logp_in_progress(VOS_MODULE_ID_VOSS, NULL))
+    {
+       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
+                   ("SSR is in progress") );
+       goto do_comp;
+    }
+
+    if (WLAN_HDD_IS_UNLOAD_IN_PROGRESS(pHddCtx))
+    {
+       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+                   ("%s Unload is in progress"), __func__ );
+       goto do_comp;
+    }
+
+    VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
+               ("%s: Req initiator %d CC=%c%c"), __func__,
+               request->initiator, request->alpha2[0], request->alpha2[1]);
+
+    sme_GetFreqBand(pHddCtx->hHal, &nBandCapability);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /* first check if this callback is in response to the driver callback */
 
     if (request->initiator == NL80211_REGDOM_SET_BY_DRIVER)
     {
 
+<<<<<<< HEAD
         nBandCapability = pHddCtx->cfg_ini->nBandCapability;
         isVHT80Allowed = pHddCtx->isVHT80Allowed;
         if (create_linux_regulatory_entry(wiphy, request, pHddCtx->cfg_ini->nBandCapability) == 0)
+=======
+        isVHT80Allowed = pHddCtx->isVHT80Allowed;
+        if (create_linux_regulatory_entry(wiphy, request, nBandCapability) == 0)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         {
 
             VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
@@ -3525,16 +4686,46 @@ int wlan_hdd_linux_reg_notifier(struct wiphy *wiphy,
         {
            hdd_checkandupdate_phymode( pHddCtx);
         }
+<<<<<<< HEAD
 
         complete(&pHddCtx->linux_reg_req);
+=======
+        linux_reg_cc[0] =  request->alpha2[0];
+        linux_reg_cc[1] =  request->alpha2[1];
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     else if (request->initiator == NL80211_REGDOM_SET_BY_USER ||
              request->initiator ==  NL80211_REGDOM_SET_BY_CORE)
     {
+<<<<<<< HEAD
 
         /* first lookup the country in the local database */
 
+=======
+        /* Copy the country of kernel, so that we will not send the reg hint
+         * if kernel country and driver country are same during load.
+         */
+        linux_reg_cc[0] = request->alpha2[0];
+        linux_reg_cc[1] = request->alpha2[1];
+        /* first lookup the country in the local database */
+
+        if (!(pnvEFSTable->halnv.tables.defaultCountryTable.countryCode[0] == '0' &&
+             pnvEFSTable->halnv.tables.defaultCountryTable.countryCode[1] == '0') &&
+            (vos_is_load_unload_in_progress( VOS_MODULE_ID_VOSS, NULL)))
+        {
+           VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
+                      (" Default Country in nv is non Zero  and Driver load/unload"
+                       "is in progress; avoid updating country from kernel\n"));
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,9,0))
+           return;
+#else
+           return 0;
+#endif
+        }
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         country_code[0] = request->alpha2[0];
         country_code[1] = request->alpha2[1];
 
@@ -3555,10 +4746,16 @@ int wlan_hdd_linux_reg_notifier(struct wiphy *wiphy,
         if  (REGDOMAIN_COUNT == temp_reg_domain)
             temp_reg_domain = REGDOMAIN_WORLD;
 
+<<<<<<< HEAD
         nBandCapability = pHddCtx->cfg_ini->nBandCapability;
         isVHT80Allowed = pHddCtx->isVHT80Allowed;
         if (create_linux_regulatory_entry(wiphy, request,
                                           pHddCtx->cfg_ini->nBandCapability) == 0)
+=======
+        isVHT80Allowed = pHddCtx->isVHT80Allowed;
+        if (create_linux_regulatory_entry(wiphy, request,
+                                          nBandCapability) == 0)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         {
             VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
                       (" regulatory entry created"));
@@ -3570,14 +4767,21 @@ int wlan_hdd_linux_reg_notifier(struct wiphy *wiphy,
         }
 
         cur_reg_domain = temp_reg_domain;
+<<<<<<< HEAD
         linux_reg_cc[0] = country_code[0];
         linux_reg_cc[1] = country_code[1];
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         /* now pass the new country information to sme */
         if (request->alpha2[0] == '0' && request->alpha2[1] == '0')
         {
            sme_GenericChangeCountryCode(pHddCtx->hHal, country_code,
+<<<<<<< HEAD
                                         REGDOMAIN_COUNT);
+=======
+                                           REGDOMAIN_COUNT);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
         else
         {
@@ -3586,6 +4790,40 @@ int wlan_hdd_linux_reg_notifier(struct wiphy *wiphy,
         }
 
     }
+<<<<<<< HEAD
+=======
+
+    /* Mark channels 36-48 as passive for US CC */
+
+    if (request->initiator == NL80211_REGDOM_SET_BY_DRIVER ||
+       (request->initiator == NL80211_REGDOM_SET_BY_CORE)||
+       (request->initiator == NL80211_REGDOM_SET_BY_USER))
+    {
+       if ( pHddCtx->cfg_ini->gEnableStrictRegulatoryForFCC &&
+            wiphy->bands[IEEE80211_BAND_5GHZ])
+       {
+          for (j=0; j<wiphy->bands[IEEE80211_BAND_5GHZ]->n_channels; j++)
+          {
+              // UNII-1 band channels are passive when domain is FCC.
+             if ((wiphy->bands[IEEE80211_BAND_5GHZ ]->channels[j].center_freq == 5180 ||
+                  wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].center_freq == 5200 ||
+                  wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].center_freq == 5220 ||
+                  wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].center_freq == 5240) &&
+                  ((request->alpha2[0]== 'U'&& request->alpha2[1]=='S') &&
+                                pHddCtx->nEnableStrictRegulatoryForFCC))
+             {
+                 wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].flags |= IEEE80211_CHAN_PASSIVE_SCAN;
+             }
+          }
+       }
+    }
+do_comp:
+    if ((request->initiator == NL80211_REGDOM_SET_BY_DRIVER) ||
+         (request->initiator == NL80211_REGDOM_SET_BY_USER))
+    {
+        complete(&pHddCtx->linux_reg_req);
+    }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,9,0))
     return;
 #else
@@ -3593,6 +4831,29 @@ int wlan_hdd_linux_reg_notifier(struct wiphy *wiphy,
 #endif
 }
 
+<<<<<<< HEAD
+=======
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,9,0))
+void wlan_hdd_linux_reg_notifier(struct wiphy *wiphy,
+                struct regulatory_request *request)
+{
+    vos_ssr_protect(__func__);
+    __wlan_hdd_linux_reg_notifier(wiphy, request);
+    vos_ssr_unprotect(__func__);
+    return;
+}
+#else
+int wlan_hdd_linux_reg_notifier(struct wiphy *wiphy,
+                struct regulatory_request *request)
+{
+    int ret;
+    vos_ssr_protect(__func__);
+    ret = __wlan_hdd_linux_reg_notifier(wiphy, request);
+    vos_ssr_unprotect(__func__);
+    return ret;
+}
+#endif
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /* initialize wiphy from NV.bin */
 VOS_STATUS vos_init_wiphy_from_nv_bin(void)
@@ -3627,27 +4888,53 @@ VOS_STATUS vos_init_wiphy_from_nv_bin(void)
         /* default country is world roaming */
 
         reg_domain = REGDOMAIN_WORLD;
+<<<<<<< HEAD
         wiphy->flags |= WIPHY_FLAG_CUSTOM_REGULATORY;
+=======
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+        wiphy->regulatory_flags |= REGULATORY_CUSTOM_REG;
+#else
+        wiphy->flags |= WIPHY_FLAG_CUSTOM_REGULATORY;
+#endif
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
     else if (REGDOMAIN_WORLD ==
 	     pnvEFSTable->halnv.tables.defaultCountryTable.regDomain) {
 
         reg_domain = pnvEFSTable->halnv.tables.defaultCountryTable.regDomain;
+<<<<<<< HEAD
         wiphy->flags |= WIPHY_FLAG_CUSTOM_REGULATORY;
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
     else {
 
         reg_domain = pnvEFSTable->halnv.tables.defaultCountryTable.regDomain;
+<<<<<<< HEAD
         wiphy->flags |= WIPHY_FLAG_STRICT_REGULATORY;
     }
 
+=======
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+        wiphy->regulatory_flags |= REGULATORY_STRICT_REG;
+#else
+        wiphy->flags |= WIPHY_FLAG_STRICT_REGULATORY;
+#endif
+    }
+
+    temp_reg_domain = cur_reg_domain = reg_domain;
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     m = 0;
     for (i = 0; i < IEEE80211_NUM_BANDS; i++)
     {
 
         if (wiphy->bands[i] == NULL)
         {
+<<<<<<< HEAD
             pr_info("error: wiphy->bands[i] is NULL, i = %d\n", i);
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             continue;
         }
 
@@ -3669,14 +4956,22 @@ VOS_STATUS vos_init_wiphy_from_nv_bin(void)
                 wiphy->bands[i]->channels[j].flags |= IEEE80211_CHAN_PASSIVE_SCAN;
 
                 wiphy->bands[i]->channels[j].max_power =
+<<<<<<< HEAD
                     (pnvEFSTable->halnv.tables.regDomains[reg_domain].channels[k].pwrLimit)*100;
+=======
+                    (pnvEFSTable->halnv.tables.regDomains[reg_domain].channels[k].pwrLimit);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             }
 
             else if (pnvEFSTable->halnv.tables.regDomains[reg_domain].channels[k].enabled ==
                      NV_CHANNEL_ENABLE) {
 
                 wiphy->bands[i]->channels[j].max_power =
+<<<<<<< HEAD
                     (pnvEFSTable->halnv.tables.regDomains[reg_domain].channels[k].pwrLimit)*100;
+=======
+                    (pnvEFSTable->halnv.tables.regDomains[reg_domain].channels[k].pwrLimit);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             }
         }
 
@@ -3687,6 +4982,21 @@ VOS_STATUS vos_init_wiphy_from_nv_bin(void)
 }
 
 
+<<<<<<< HEAD
+=======
+/**------------------------------------------------------------------------
+  \brief vos_getCurrentCountryCode -
+  \param CC  - country code
+  \return None
+  \sa
+  -------------------------------------------------------------------------*/
+
+void vos_getCurrentCountryCode( tANI_U8 *cc)
+{
+    vos_mem_copy(cc, linux_reg_cc, 2);
+}
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #else
 
 /**------------------------------------------------------------------------
@@ -3759,7 +5069,11 @@ VOS_STATUS vos_nv_getRegDomainFromCountryCode( v_REGDOMAIN_t *pRegDomain,
    if (NULL == pRegDomain)
    {
       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
             ("Invalid reg domain pointer\n") );
+=======
+            ("Invalid reg domain pointer") );
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return VOS_STATUS_E_FAULT;
    }
    *pRegDomain = REGDOMAIN_COUNT;
@@ -3767,13 +5081,21 @@ VOS_STATUS vos_nv_getRegDomainFromCountryCode( v_REGDOMAIN_t *pRegDomain,
    if (NULL == countryCode)
    {
       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
             ("Country code array is NULL\r\n") );
+=======
+            ("Country code array is NULL") );
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return VOS_STATUS_E_FAULT;
    }
    if (0 == countryInfoTable.countryCount)
    {
       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
             ("Reg domain table is empty\r\n") );
+=======
+            ("Reg domain table is empty") );
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return VOS_STATUS_E_EMPTY;
    }
    /* If CRDA regulatory settings is valid, i.e. crda is enabled
@@ -3782,7 +5104,11 @@ VOS_STATUS vos_nv_getRegDomainFromCountryCode( v_REGDOMAIN_t *pRegDomain,
       entry if country code is crda's country.
       last one NUM_REG_DOMAINS-1 is reserved for crda */
    VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO_HIGH,
+<<<<<<< HEAD
           "vos_nv_getRegDomainFromCountryCode %c%c\n",
+=======
+          "vos_nv_getRegDomainFromCountryCode %c%c",
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
           countryCode[0], countryCode[1]);
 
    if (crda_regulatory_entry_valid == VOS_TRUE)
@@ -3791,7 +5117,11 @@ VOS_STATUS vos_nv_getRegDomainFromCountryCode( v_REGDOMAIN_t *pRegDomain,
        {
           *pRegDomain = NUM_REG_DOMAINS-1;
               VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO_HIGH,
+<<<<<<< HEAD
               "vos_nv_getRegDomainFromCountryCode return crda init entry\n");
+=======
+              "vos_nv_getRegDomainFromCountryCode return crda init entry");
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
           return VOS_STATUS_SUCCESS;
        }
        if (run_time_alpha2[0]==countryCode[0] &&
@@ -3800,7 +5130,11 @@ VOS_STATUS vos_nv_getRegDomainFromCountryCode( v_REGDOMAIN_t *pRegDomain,
        {
           *pRegDomain = NUM_REG_DOMAINS-2;
               VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO_HIGH,
+<<<<<<< HEAD
               "vos_nv_getRegDomainFromCountryCode return crda none-default country entry\n");
+=======
+              "vos_nv_getRegDomainFromCountryCode return crda none-default country entry");
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            return VOS_STATUS_SUCCESS;
        }
        else
@@ -3814,7 +5148,11 @@ VOS_STATUS vos_nv_getRegDomainFromCountryCode( v_REGDOMAIN_t *pRegDomain,
            if (NULL == pHddCtx)
            {
               VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+<<<<<<< HEAD
                     ("Invalid pHddCtx pointer\r\n") );
+=======
+                    ("Invalid pHddCtx pointer") );
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
               return VOS_STATUS_E_FAULT;
            }
 
@@ -3834,11 +5172,19 @@ VOS_STATUS vos_nv_getRegDomainFromCountryCode( v_REGDOMAIN_t *pRegDomain,
            if (crda_regulatory_run_time_entry_valid == VOS_TRUE)
            {
               VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO_HIGH,
+<<<<<<< HEAD
                  "vos_nv_getRegDomainFromCountryCode return crda new none-default country entry\n");
                return VOS_STATUS_SUCCESS;
            }
            VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
               "vos_nv_getRegDomainFromCountryCode failed to get crda new none-default country entry\n");
+=======
+                 "vos_nv_getRegDomainFromCountryCode return crda new none-default country entry");
+               return VOS_STATUS_SUCCESS;
+           }
+           VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+              "vos_nv_getRegDomainFromCountryCode failed to get crda new none-default country entry");
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
            return VOS_STATUS_E_EXISTS;
        }
    }
@@ -3862,7 +5208,11 @@ VOS_STATUS vos_nv_getRegDomainFromCountryCode( v_REGDOMAIN_t *pRegDomain,
    else
    {
       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_WARN,
+<<<<<<< HEAD
             ("country code is not found\r\n"));
+=======
+            ("country code is not found"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return VOS_STATUS_E_EXISTS;
    }
 }
@@ -3884,10 +5234,17 @@ void* vos_nv_change_country_code_cb(void *pAdapter)
  * regulatory setting table.
  */
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,9,0))
+<<<<<<< HEAD
 void wlan_hdd_crda_reg_notifier(struct wiphy *wiphy,
                 struct regulatory_request *request)
 #else
 int wlan_hdd_crda_reg_notifier(struct wiphy *wiphy,
+=======
+void __wlan_hdd_crda_reg_notifier(struct wiphy *wiphy,
+                struct regulatory_request *request)
+#else
+int __wlan_hdd_crda_reg_notifier(struct wiphy *wiphy,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 struct regulatory_request *request)
 #endif
 {
@@ -3895,15 +5252,56 @@ int wlan_hdd_crda_reg_notifier(struct wiphy *wiphy,
     v_REGDOMAIN_t domainIdCurrent;
     tANI_U8 ccode[WNI_CFG_COUNTRY_CODE_LEN];
     tANI_U8 uBufLen = WNI_CFG_COUNTRY_CODE_LEN;
+<<<<<<< HEAD
     tANI_U8 nBandCapability;
     int i,j,k,m;
 
     wiphy_dbg(wiphy, "info: cfg80211 reg_notifier callback for country"
                      " %c%c\n", request->alpha2[0], request->alpha2[1]);
+=======
+    eCsrBand nBandCapability = eCSR_BAND_ALL;
+    int i,j,k,m,n;
+    int countryIndex = -1;
+
+    wiphy_dbg(wiphy, "info: cfg80211 reg_notifier callback for country"
+                     " %c%c\n", request->alpha2[0], request->alpha2[1]);
+
+    /* During load and SSR, vos_open (which will lead to WDA_SetRegDomain)
+     * is called before we assign pHddCtx->hHal so we might get it as
+     * NULL here leading to crash.
+     */
+    if (NULL == pHddCtx)
+    {
+       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+                   ("%s Invalid pHddCtx pointer"), __func__);
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,9,0))
+       return;
+#else
+       return 0;
+#endif
+    }
+    if((WLAN_HDD_IS_UNLOAD_IN_PROGRESS(pHddCtx)) ||
+        pHddCtx->isLogpInProgress)
+    {
+        VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+                   ("%s load/unload or SSR is in progress Ignore"), __func__ );
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,9,0))
+       return;
+#else
+       return 0;
+#endif
+    }
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (request->initiator == NL80211_REGDOM_SET_BY_USER)
     {
        int status;
        wiphy_dbg(wiphy, "info: set by user\n");
+<<<<<<< HEAD
+=======
+       memset(ccode, 0, WNI_CFG_COUNTRY_CODE_LEN);
+       vos_mem_copy(ccode, request->alpha2, 2);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
        init_completion(&change_country_code);
        /* We will process hints by user from nl80211 in driver.
        * sme_ChangeCountryCode will set the country to driver
@@ -3919,7 +5317,11 @@ int wlan_hdd_crda_reg_notifier(struct wiphy *wiphy,
        status = sme_ChangeCountryCode(pHddCtx->hHal,
                                    (void *)(tSmeChangeCountryCallback)
                                    vos_nv_change_country_code_cb,
+<<<<<<< HEAD
                                    request->alpha2,
+=======
+                                   ccode,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                    &change_country_code,
                                    pHddCtx->pvosContext,
                                    eSIR_FALSE,
@@ -3928,7 +5330,11 @@ int wlan_hdd_crda_reg_notifier(struct wiphy *wiphy,
        {
           status = wait_for_completion_interruptible_timeout(
                                        &change_country_code,
+<<<<<<< HEAD
                                        800);
+=======
+                                       msecs_to_jiffies(WLAN_WAIT_TIME_COUNTRY));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
           if(status <= 0)
           {
              wiphy_dbg(wiphy, "info: set country timed out\n");
@@ -3950,11 +5356,19 @@ int wlan_hdd_crda_reg_notifier(struct wiphy *wiphy,
        //sme_ChangeCountryCode(pHddCtx->hHal, NULL,
        //    &country_code[0], pAdapter, pHddCtx->pvosContext);
     }
+<<<<<<< HEAD
 
     if (request->initiator == NL80211_REGDOM_SET_BY_COUNTRY_IE)
     {
        wiphy_dbg(wiphy, "info: set by country IE\n");
        if (create_crda_regulatory_entry(wiphy, request, pHddCtx->cfg_ini->nBandCapability) != 0)
+=======
+    sme_GetFreqBand(pHddCtx->hHal, &nBandCapability);
+    if (request->initiator == NL80211_REGDOM_SET_BY_COUNTRY_IE)
+    {
+       wiphy_dbg(wiphy, "info: set by country IE\n");
+       if (create_crda_regulatory_entry(wiphy, request, nBandCapability) != 0)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,9,0))
           return;
 #else
@@ -3994,17 +5408,35 @@ int wlan_hdd_crda_reg_notifier(struct wiphy *wiphy,
          }
 
          wiphy_dbg(wiphy, "country: %c%c set by driver\n",ccode[0],ccode[1]);
+<<<<<<< HEAD
+=======
+         for (n = 0; n < MAX_COUNTRY_IGNORE; n++)
+         {
+             if (vos_mem_compare(ccode, countryIgnoreList[n].countryCode, VOS_COUNTRY_CODE_LEN))
+             {
+                 countryIndex = n;
+                 break;
+             }
+         }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
          /* if set by driver itself, it means driver can accept the crda
             regulatory settings and wiphy->regd should be populated with crda
             settings. iwiphy->bands doesn't seem to set ht40 flags in kernel
             correctly, this may be fixed by later kernel */
 
+<<<<<<< HEAD
          nBandCapability = pHddCtx->cfg_ini->nBandCapability;
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
          for (i = 0, m = 0; i < IEEE80211_NUM_BANDS; i++)
          {
              if (NULL == wiphy->bands[i])
              {
+<<<<<<< HEAD
                  VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
+=======
+                 VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                            "error: wiphy->bands[i] is NULL, i = %d", i);
                  continue;
              }
@@ -4065,21 +5497,64 @@ int wlan_hdd_crda_reg_notifier(struct wiphy *wiphy,
                                                              |IEEE80211_CHAN_NO_IBSS
                                                              |IEEE80211_CHAN_RADAR);
                  }
+<<<<<<< HEAD
+=======
+
+                 if (countryIndex != -1)
+                 {
+                     for (n = 0; n < MAX_CHANNELS_IGNORE; n++)
+                     {
+                          v_U16_t freq = vos_chan_to_freq(countryIgnoreList[countryIndex].channelList[n]);
+                          if (wiphy->bands[i]->channels[j].center_freq == freq)
+                          {
+                              wiphy->bands[i]->channels[j].flags  &= ~(IEEE80211_CHAN_DISABLED
+                                     |IEEE80211_CHAN_PASSIVE_SCAN
+                                     |IEEE80211_CHAN_NO_IBSS
+                                     |IEEE80211_CHAN_RADAR);
+                              wiphy->bands[i]->channels[j].flags |= IEEE80211_CHAN_DISABLED;
+                          }
+                     }
+                 }
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
              }
          }
 
          /* Haven't seen any condition that will set by driver after init.
             If we do, then we should also call sme_ChangeCountryCode */
+<<<<<<< HEAD
          if (wiphy->bands[IEEE80211_BAND_5GHZ])
          {
              for (j=0; j<wiphy->bands[IEEE80211_BAND_5GHZ]->n_channels; j++)
              {
                  // p2p UNII-1 band channels are passive when domain is FCC.
+=======
+
+         /* To Disable the strict regulatory FCC rule, need set
+            gEnableStrictRegulatoryForFCC to zero from INI.
+            By default regulatory FCC rule enable or set to 1, and
+            in this case one can control dynamically using IOCTL
+            (nEnableStrictRegulatoryForFCC).
+            If gEnableStrictRegulatoryForFCC is set to zero then
+            IOCTL operation is inactive                              */
+
+         if ( pHddCtx->cfg_ini->gEnableStrictRegulatoryForFCC &&
+              wiphy->bands[IEEE80211_BAND_5GHZ])
+         {
+             for (j=0; j<wiphy->bands[IEEE80211_BAND_5GHZ]->n_channels; j++)
+             {
+                 // UNII-1 band channels are passive when domain is FCC.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  if ((wiphy->bands[IEEE80211_BAND_5GHZ ]->channels[j].center_freq == 5180 ||
                       wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].center_freq == 5200 ||
                       wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].center_freq == 5220 ||
                       wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].center_freq == 5240) &&
+<<<<<<< HEAD
                      ((ccode[0]== 'U'&& ccode[1]=='S') && pHddCtx->nEnableStrictRegulatoryForFCC))
+=======
+                     ((domainIdCurrent == REGDOMAIN_FCC) &&
+                                       pHddCtx->nEnableStrictRegulatoryForFCC))
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  {
                      wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].flags |= IEEE80211_CHAN_PASSIVE_SCAN;
                  }
@@ -4087,10 +5562,33 @@ int wlan_hdd_crda_reg_notifier(struct wiphy *wiphy,
                            wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].center_freq == 5200 ||
                            wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].center_freq == 5220 ||
                            wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].center_freq == 5240) &&
+<<<<<<< HEAD
                           ((ccode[0]!= 'U'&& ccode[1]!='S') || !pHddCtx->nEnableStrictRegulatoryForFCC))
                  {
                      wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].flags &= ~IEEE80211_CHAN_PASSIVE_SCAN;
                  }
+=======
+                          ((domainIdCurrent != REGDOMAIN_FCC) ||
+                                      !pHddCtx->nEnableStrictRegulatoryForFCC))
+                 {
+                     wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].flags &= ~IEEE80211_CHAN_PASSIVE_SCAN;
+                 }
+
+                 //Marking channels 52-144 as Radar channels if they are enabled
+                 k = wiphy->bands[IEEE80211_BAND_2GHZ]->n_channels + j;
+
+                 if ((wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].center_freq == 5260 ||
+                      wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].center_freq == 5280 ||
+                      wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].center_freq == 5300 ||
+                      wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].center_freq == 5320 ||
+                      wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].center_freq == 5500 ||
+                      wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].center_freq == 5520) &&
+                     ((regChannels[k].enabled == NV_CHANNEL_ENABLE) ||
+                      (regChannels[k].enabled == NV_CHANNEL_DFS)))
+                 {
+                     wiphy->bands[IEEE80211_BAND_5GHZ]->channels[j].flags |= IEEE80211_CHAN_RADAR;
+                 }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
              }
          }
 
@@ -4109,4 +5607,28 @@ int wlan_hdd_crda_reg_notifier(struct wiphy *wiphy,
 #endif
 }
 
+<<<<<<< HEAD
+=======
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,9,0))
+void wlan_hdd_crda_reg_notifier(struct wiphy *wiphy,
+                struct regulatory_request *request)
+{
+    vos_ssr_protect(__func__);
+    __wlan_hdd_crda_reg_notifier(wiphy, request);
+    vos_ssr_unprotect(__func__);
+    return;
+}
+#else
+int wlan_hdd_crda_reg_notifier(struct wiphy *wiphy,
+                struct regulatory_request *request)
+{
+    int ret;
+    vos_ssr_protect(__func__);
+    ret = __wlan_hdd_crda_reg_notifier(wiphy, request);
+    vos_ssr_unprotect(__func__);
+    return ret;
+}
+#endif
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif

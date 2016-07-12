@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2014 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,11 +42,21 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /*
  *
+<<<<<<< HEAD
  * Airgo Networks, Inc proprietary. All rights reserved.
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file aniSystemDefs.h contains definitions used by
  * various ANI entities
  * Author:    Chandra Modumudi
@@ -99,7 +114,11 @@ typedef enum eAniAuthType
 #if defined WLAN_FEATURE_VOWIFI_11R
     eSIR_FT_AUTH,
 #endif
+<<<<<<< HEAD
 #if defined FEATURE_WLAN_CCX
+=======
+#if defined FEATURE_WLAN_ESE
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     eSIR_LEAP_AUTH = 0x80,
 #endif
     eSIR_AUTO_SWITCH,
@@ -174,10 +193,17 @@ typedef struct sSirRSNie
 typedef struct sSirAddie
 {
     tANI_U16       length;
+<<<<<<< HEAD
     tANI_U8        addIEdata[SIR_MAC_MAX_IE_LENGTH+2];
 } tSirAddie, *tpSirAddie;
 
 #ifdef FEATURE_WLAN_CCX
+=======
+    tANI_U8        addIEdata[SIR_MAC_MAX_ADD_IE_LENGTH+2];
+} tSirAddie, *tpSirAddie;
+
+#ifdef FEATURE_WLAN_ESE
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 // The CCKM IE needs to be in the
 // Join and Reassoc Req.
@@ -237,6 +263,21 @@ typedef struct sSirMicFailureInfo
 
 } tSirMicFailureInfo, *tpSirMicFailureInfo;
 
+<<<<<<< HEAD
+=======
+typedef struct sSirLostLinkParamsInfo
+{
+    tANI_U8 bssIdx;
+    tANI_U8  rssi;
+    tSirMacAddr  selfMacAddr;
+    tANI_U32 linkFlCnt;
+    tANI_U32 linkFlTx;
+    tANI_U32 lastDataRate;
+    tANI_U32 rsvd1;
+    tANI_U32 rsvd2;
+}tSirLostLinkParamsInfo, *tpSirLostLinkParamsInfo;
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 // Boa command. Used mainly for radar info persistance
 typedef struct sBoaCommand
 {

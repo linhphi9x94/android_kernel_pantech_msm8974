@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #ifndef WLAN_QCT_DAL_STA_H
@@ -54,8 +66,11 @@ DESCRIPTION
   be used by the DAL Control Path Core . 
   
       
+<<<<<<< HEAD
   Copyright (c) 2010 QUALCOMM Incorporated. All Rights Reserved.
   Qualcomm Confidential and Proprietary
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ===========================================================================*/
 
 
@@ -409,6 +424,28 @@ WDI_STATableGetStaAddr
 );
 
 /**
+<<<<<<< HEAD
+=======
+ @brief WDI_STATableGetStaMacAddr - get station MAC address
+
+ @param  pWDICtx:  WDI Context pointer
+         ucSTAIdx:  station index
+         pStaAddr: output station MAC address
+
+ @see
+ @return Result of the function call
+*/
+
+WDI_Status
+WDI_STATableGetStaMacAddr
+(
+    WDI_ControlBlockType*  pWDICtx,
+    wpt_uint8              ucSTAIdx,
+    wpt_macAddr*           staMacAddr
+);
+
+/**
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  @brief WDI_STATableSetStaAddr - set station address
  
  @param  pWDICtx:  WDI Context pointer

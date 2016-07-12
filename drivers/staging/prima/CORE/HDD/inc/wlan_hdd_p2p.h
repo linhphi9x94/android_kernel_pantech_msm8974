@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #ifndef __P2P_H
@@ -46,28 +58,54 @@
 \file         wlan_hdd_p2p.h
 
 \brief       Linux HDD P2P include file
+<<<<<<< HEAD
                Copyright 2008 (c) Qualcomm, Incorporated.
                All Rights Reserved.
                Qualcomm Confidential and Proprietary.
 
 ==========================================================================*/
+=======
+
+==========================================================================*/
+#include <linux/netdevice.h>
+#include <linux/inetdevice.h>
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define ACTION_FRAME_TX_TIMEOUT 2000
 #define WAIT_CANCEL_REM_CHAN    1000
 #define WAIT_REM_CHAN_READY     1000
 #define WAIT_CHANGE_CHANNEL_FOR_OFFCHANNEL_TX 3000
+<<<<<<< HEAD
 
 #define ACTION_FRAME_DEFAULT_WAIT 200
 
+=======
+#define READY_EVENT_PROPOGATE_TIME 2
+
+#define ACTION_FRAME_DEFAULT_WAIT 200
+
+#define ESTIMATED_ROC_DUR_REQD_FOR_ACTION_TX 20
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define WLAN_HDD_GET_TYPE_FRM_FC(__fc__)         (((__fc__) & 0x0F) >> 2)
 #define WLAN_HDD_GET_SUBTYPE_FRM_FC(__fc__)      (((__fc__) & 0xF0) >> 4)
 #define WLAN_HDD_80211_FRM_DA_OFFSET             4
 #define P2P_WILDCARD_SSID_LEN                    7
 #define P2P_WILDCARD_SSID                        "DIRECT-"
+<<<<<<< HEAD
 
+=======
+#define ACTION_FRAME_RSP_WAIT 500
+#define ACTION_FRAME_ACK_WAIT 300
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef WLAN_FEATURE_11W
 #define WLAN_HDD_SET_WEP_FRM_FC(__fc__)     ( (__fc__) = ((__fc__) | 0x40))
 #endif //WLAN_FEATURE_11W
 
+<<<<<<< HEAD
+=======
+#define HDD_P2P_MAX_ROC_DURATION            1000
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 enum hdd_rx_flags {
     HDD_RX_FLAG_DECRYPTED        = 1 << 0,
     HDD_RX_FLAG_MMIC_STRIPPED    = 1 << 1,
@@ -138,6 +176,7 @@ int hdd_setP2pPs( struct net_device *dev, void *msgData );
 int hdd_setP2pOpps( struct net_device *dev, tANI_U8 *command );
 int hdd_setP2pNoa( struct net_device *dev, tANI_U8 *command );
 
+<<<<<<< HEAD
 void hdd_indicateMgmtFrame( hdd_adapter_t *pAdapter,
                             tANI_U32 nFrameLength, tANI_U8* pbFrames,
                             tANI_U8 frameType,
@@ -150,6 +189,22 @@ void wlan_hdd_cancel_existing_remain_on_channel(hdd_adapter_t *pAdapter);
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0))
 int wlan_hdd_action( struct wiphy *wiphy, struct wireless_dev *wdev,
+=======
+void __hdd_indicate_mgmt_frame(hdd_adapter_t *pAdapter,
+                            tANI_U32 nFrameLength, tANI_U8* pbFrames,
+                            tANI_U8 frameType,
+                            tANI_U32 rxChan, tANI_S8 rxRssi);
+void hdd_remainChanReadyHandler( hdd_adapter_t *pAdapter );
+void hdd_sendActionCnf( hdd_adapter_t *pAdapter, tANI_BOOLEAN actionSendSuccess );
+int wlan_hdd_check_remain_on_channel(hdd_adapter_t *pAdapter);
+VOS_STATUS wlan_hdd_cancel_existing_remain_on_channel(hdd_adapter_t *pAdapter);
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
+int wlan_hdd_mgmt_tx(struct wiphy *wiphy, struct wireless_dev *wdev,
+                     struct cfg80211_mgmt_tx_params *params, u64 *cookie);
+#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0))
+int wlan_hdd_mgmt_tx( struct wiphy *wiphy, struct wireless_dev *wdev,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                      struct ieee80211_channel *chan, bool offchan,
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(3,8,0))
                      enum nl80211_channel_type channel_type,
@@ -159,20 +214,32 @@ int wlan_hdd_action( struct wiphy *wiphy, struct wireless_dev *wdev,
                      const u8 *buf, size_t len,  bool no_cck,
                      bool dont_wait_for_ack, u64 *cookie );
 #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3,3,0))
+<<<<<<< HEAD
 int wlan_hdd_action( struct wiphy *wiphy, struct net_device *dev,
+=======
+int wlan_hdd_mgmt_tx( struct wiphy *wiphy, struct net_device *dev,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                      struct ieee80211_channel *chan, bool offchan,
                      enum nl80211_channel_type channel_type,
                      bool channel_type_valid, unsigned int wait,
                      const u8 *buf, size_t len,  bool no_cck,
                      bool dont_wait_for_ack, u64 *cookie );
 #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,38))
+<<<<<<< HEAD
 int wlan_hdd_action( struct wiphy *wiphy, struct net_device *dev,
+=======
+int wlan_hdd_mgmt_tx( struct wiphy *wiphy, struct net_device *dev,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                      struct ieee80211_channel *chan, bool offchan,
                      enum nl80211_channel_type channel_type,
                      bool channel_type_valid, unsigned int wait,
                      const u8 *buf, size_t len, u64 *cookie );
 #else
+<<<<<<< HEAD
 int wlan_hdd_action( struct wiphy *wiphy, struct net_device *dev,
+=======
+int wlan_hdd_mgmt_tx( struct wiphy *wiphy, struct net_device *dev,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
                      struct ieee80211_channel *chan,
                      enum nl80211_channel_type channel_type,
                      bool channel_type_valid,
@@ -204,5 +271,9 @@ int wlan_hdd_del_virtual_intf( struct wiphy *wiphy, struct wireless_dev *wdev );
 #else
 int wlan_hdd_del_virtual_intf( struct wiphy *wiphy, struct net_device *dev );
 #endif
+<<<<<<< HEAD
 
+=======
+void hdd_p2p_roc_work_queue(struct work_struct *work);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif // __P2P_H

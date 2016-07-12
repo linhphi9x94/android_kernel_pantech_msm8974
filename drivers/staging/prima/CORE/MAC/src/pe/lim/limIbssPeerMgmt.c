@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -41,6 +46,19 @@
 
 /*
  * Airgo Networks, Inc proprietary. All rights reserved.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+ */
+
+
+
+
+/*
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file limIbssPeerMgmt.cc contains the utility functions
  * LIM uses to maintain peers in IBSS.
  * Author:        Chandra Modumudi
@@ -52,7 +70,11 @@
 #include "palTypes.h"
 #include "aniGlobal.h"
 #include "sirCommon.h"
+<<<<<<< HEAD
 #include "wniCfgSta.h"
+=======
+#include "wniCfg.h"
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include "limUtils.h"
 #include "limAssocUtils.h"
 #include "limStaHashApi.h"
@@ -217,7 +239,11 @@ ibss_peer_collect(
 
     /* Collect peer VHT capabilities based on the received beacon from the peer */
 #ifdef WLAN_FEATURE_11AC
+<<<<<<< HEAD
     if ( pBeacon->VHTCaps.present )
+=======
+    if (IS_BSS_VHT_CAPABLE(pBeacon->VHTCaps))
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
         pPeer->vhtSupportedChannelWidthSet = pBeacon->VHTOperation.chanWidth;
         pPeer->vhtCapable = pBeacon->VHTCaps.present;
@@ -271,6 +297,10 @@ ibss_sta_caps_update(
         {
             pStaDs->htGreenfield = pPeerNode->htGreenfield;
             pStaDs->htSupportedChannelWidthSet =  pPeerNode->htSupportedChannelWidthSet;
+<<<<<<< HEAD
+=======
+            pStaDs->htSecondaryChannelOffset =  pPeerNode->htSecondaryChannelOffset;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pStaDs->htMIMOPSState =             pPeerNode->htMIMOPSState;
             pStaDs->htMaxAmsduLength =  pPeerNode->htMaxAmsduLength;
             pStaDs->htAMpduDensity =             pPeerNode->htAMpduDensity;
@@ -668,7 +698,11 @@ ibss_bss_add(
                  (tANI_U8 *) &psessionEntry->pLimStartBssReq->ssId,
                   psessionEntry->pLimStartBssReq->ssId.length + 1);
 
+<<<<<<< HEAD
     PELOG1(limLog(pMac, LOG1, FL("invoking ADD_BSS as part of coalescing!"));)
+=======
+    limLog(pMac, LOG1, FL("invoking ADD_BSS as part of coalescing!"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (limMlmAddBss(pMac, &mlmStartReq,psessionEntry) != eSIR_SME_SUCCESS)
     {
         PELOGE(limLog(pMac, LOGE, FL("AddBss failure"));)
@@ -917,7 +951,11 @@ limIbssSetProtection(tpAniSirGlobal pMac, tANI_U8 enable, tpUpdateBeaconParams p
 
     if(!pMac->lim.cfgProtection.fromllb)
     {
+<<<<<<< HEAD
         PELOG1(limLog(pMac, LOG1, FL("protection from 11b is disabled"));)
+=======
+        limLog(pMac, LOG1, FL("protection from 11b is disabled"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return;
     }
 
@@ -958,21 +996,36 @@ limIbssUpdateProtectionParams(tpAniSirGlobal pMac,
 {
   tANI_U32 i;
 
+<<<<<<< HEAD
   PELOG1(limLog(pMac,LOG1, FL("A STA is associated:"));
   limLog(pMac,LOG1, FL("Addr : "));
   limPrintMacAddr(pMac, peerMacAddr, LOG1);)
+=======
+  limLog(pMac,LOG1, FL("A STA is associated:"));
+  limLog(pMac,LOG1, FL("Addr : "));
+  limPrintMacAddr(pMac, peerMacAddr, LOG1);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   for (i=0; i<LIM_PROT_STA_CACHE_SIZE; i++)
   {
       if (pMac->lim.protStaCache[i].active)
       {
+<<<<<<< HEAD
           PELOG1(limLog(pMac, LOG1, FL("Addr: "));)
           PELOG1(limPrintMacAddr(pMac, pMac->lim.protStaCache[i].addr, LOG1);)
+=======
+          limLog(pMac, LOG1, FL("Addr: "));
+          limPrintMacAddr(pMac, pMac->lim.protStaCache[i].addr, LOG1);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
           if (vos_mem_compare(pMac->lim.protStaCache[i].addr,
               peerMacAddr, sizeof(tSirMacAddr)))
           {
+<<<<<<< HEAD
               PELOG1(limLog(pMac, LOG1, FL("matching cache entry at %d already active."), i);)
+=======
+              limLog(pMac, LOG1, FL("matching cache entry at %d already active."), i);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
               return;
           }
       }
@@ -1337,10 +1390,18 @@ limIbssDelBssRsp(
         goto end;
     }
 
+<<<<<<< HEAD
     dphHashTableClassInit(pMac, &psessionEntry->dph.dphHashTable);
     limDeletePreAuthList(pMac);
 
     limIbssDelete(pMac,psessionEntry);
+=======
+    limIbssDelete(pMac,psessionEntry);
+
+    dphHashTableClassInit(pMac, &psessionEntry->dph.dphHashTable);
+    limDeletePreAuthList(pMac);
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     psessionEntry->limMlmState = eLIM_MLM_IDLE_STATE;
 
     MTRACE(macTrace(pMac, TRACE_CODE_MLM_STATE, psessionEntry->peSessionId, psessionEntry->limMlmState));
@@ -1425,6 +1486,19 @@ __limIbssSearchAndDeletePeer(tpAniSirGlobal    pMac,
       pPrevNode = pTempNode;
       pTempNode = pTempNextNode;
    }
+<<<<<<< HEAD
+=======
+   /*
+    * if it is the last peer walking out, we better
+    * we set IBSS state to inactive.
+    */
+   if (0 == pMac->lim.gLimNumIbssPeers)
+   {
+       VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO,
+            "Last STA from IBSS walked out");
+       psessionEntry->limIbssActive = false;
+   }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 /**
@@ -1461,7 +1535,11 @@ limIbssCoalesce(
     tSirMacAddr         currentBssId;
     tLimIbssPeerNode    *pPeerNode;
     tpDphHashNode       pStaDs;
+<<<<<<< HEAD
     tUpdateBeaconParams beaconParams; 
+=======
+    tUpdateBeaconParams beaconParams;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     vos_mem_set((tANI_U8 *)&beaconParams, sizeof(tUpdateBeaconParams), 0);
 
@@ -1471,7 +1549,12 @@ limIbssCoalesce(
                                   MAC_ADDR_ARRAY(currentBssId), MAC_ADDR_ARRAY(pHdr->bssId));
 
     /* Check for IBSS Coalescing only if Beacon is from different BSS */
+<<<<<<< HEAD
     if ( !vos_mem_compare(currentBssId, pHdr->bssId, sizeof( tSirMacAddr )))
+=======
+    if ( !vos_mem_compare(currentBssId, pHdr->bssId, sizeof( tSirMacAddr ))
+          && psessionEntry->isCoalesingInIBSSAllowed)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
        /*
         * If STA entry is already available in the LIM hash table, then it is
@@ -1510,6 +1593,15 @@ limIbssCoalesce(
        ibss_bss_delete(pMac,psessionEntry);
        return eSIR_SUCCESS;
     }
+<<<<<<< HEAD
+=======
+    else
+    {
+       if (!vos_mem_compare(currentBssId, pHdr->bssId, sizeof( tSirMacAddr )))
+           return eSIR_LIM_IGNORE_BEACON;
+    }
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     // STA in IBSS mode and SSID matches with ours
     pPeerNode = ibss_peer_find(pMac, pHdr->sa);
@@ -1519,6 +1611,7 @@ limIbssCoalesce(
         tANI_U32      frameLen;
         tSirRetStatus retCode;
 
+<<<<<<< HEAD
         /** Limit the Max number of IBSS Peers allowed as the max number of STA's allowed
          */
 #ifndef ANI_SIR_IBSS_PEER_CACHINGT
@@ -1529,6 +1622,24 @@ limIbssCoalesce(
             return eSIR_LIM_MAX_STA_REACHED_ERROR;
         }
 #endif
+=======
+        /*
+         * Limit the Max number of IBSS Peers allowed as the max
+         * number of STA's allowed
+         * pMac->lim.gLimNumIbssPeers will be increamented after exiting
+         * this function. so we will add additional 1 to compare against
+         * pMac->lim.gLimIbssStaLimit
+         */
+        if ((pMac->lim.gLimNumIbssPeers+1) >= pMac->lim.gLimIbssStaLimit)
+        {   /*Print every 100th time */
+            if (pMac->lim.gLimIbssRetryCnt % 100 == 0)
+            {
+               limLog(pMac, LOG1, FL("**** MAX STA LIMIT HAS REACHED ****"));
+            }
+            pMac->lim.gLimIbssRetryCnt++;
+            return eSIR_LIM_MAX_STA_REACHED_ERROR;
+        }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         PELOGW(limLog(pMac, LOGW, FL("IBSS Peer node does not exist, adding it***"));)
         frameLen = sizeof(tLimIbssPeerNode) + ieLen - sizeof(tANI_U32);
 
@@ -1560,8 +1671,13 @@ limIbssCoalesce(
         if (pStaDs != NULL)
         {
             /// DPH node already exists for the peer
+<<<<<<< HEAD
             PELOGW(limLog(pMac, LOGW, FL("DPH Node present for just learned peer"));)
             PELOG1(limPrintMacAddr(pMac, pPeerNode->peerMacAddr, LOG1);)
+=======
+            limLog(pMac, LOG1, FL("DPH Node present for just learned peer"));
+            limPrintMacAddr(pMac, pPeerNode->peerMacAddr, LOG1);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             ibss_sta_info_update(pMac, pStaDs, pPeerNode,psessionEntry);
             return eSIR_SUCCESS;
         }

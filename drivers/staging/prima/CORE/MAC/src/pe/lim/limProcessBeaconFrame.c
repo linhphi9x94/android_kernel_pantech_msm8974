@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2011-2015 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,11 +42,21 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /*
  *
+<<<<<<< HEAD
  * Airgo Networks, Inc proprietary. All rights reserved.
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file limProcessBeaconFrame.cc contains the code
  * for processing Received Beacon Frame.
  * Author:        Chandra Modumudi
@@ -52,7 +67,11 @@
  *
  */
 
+<<<<<<< HEAD
 #include "wniCfgSta.h"
+=======
+#include "wniCfg.h"
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include "aniGlobal.h"
 #include "cfgApi.h"
 #include "schApi.h"
@@ -94,6 +113,7 @@ limProcessBeaconFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
     /* here is it required to increment session specific heartBeat beacon counter */  
 
 
+<<<<<<< HEAD
     
     pHdr = WDA_GET_RX_MAC_HEADER(pRxPacketInfo);
 
@@ -101,6 +121,14 @@ limProcessBeaconFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
     PELOG2(limLog(pMac, LOG2, FL("Received Beacon frame with length=%d from "),
            WDA_GET_RX_MPDU_LEN(pRxPacketInfo));
     limPrintMacAddr(pMac, pHdr->sa, LOG2);)
+=======
+    pHdr = WDA_GET_RX_MAC_HEADER(pRxPacketInfo);
+
+
+    limLog(pMac, LOG2, FL("Received Beacon frame with length=%d from "),
+           WDA_GET_RX_MPDU_LEN(pRxPacketInfo));
+    limPrintMacAddr(pMac, pHdr->sa, LOG2);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (!pMac->fScanOffload)
     {
@@ -122,7 +150,11 @@ limProcessBeaconFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
         || pMac->fScanOffload
         )
     {
+<<<<<<< HEAD
         pBeacon = vos_mem_malloc(sizeof(tSchBeaconStruct));
+=======
+        pBeacon = vos_mem_vmalloc(sizeof(tSchBeaconStruct));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         if ( NULL == pBeacon )
         {
             limLog(pMac, LOGE, FL("Unable to allocate memory in limProcessBeaconFrame") );
@@ -136,6 +168,7 @@ limProcessBeaconFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
             // Received wrongly formatted/invalid Beacon.
             // Ignore it and move on.
             limLog(pMac, LOGW,
+<<<<<<< HEAD
                    FL("Received invalid Beacon in state %X"),
                    psessionEntry->limMlmState);
             limPrintMlmState(pMac, LOGW,  psessionEntry->limMlmState);
@@ -143,6 +176,18 @@ limProcessBeaconFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
             return;
         }
 
+=======
+                   FL("Received invalid Beacon in state %d"),
+                   psessionEntry->limMlmState);
+            limPrintMlmState(pMac, LOGW,  psessionEntry->limMlmState);
+            if ((!psessionEntry->currentBssBeaconCnt) &&
+               (sirCompareMacAddr( psessionEntry->bssId, pHdr->sa)))
+                limParseBeaconForTim(pMac, (tANI_U8 *) pRxPacketInfo, psessionEntry);
+
+            vos_mem_vfree(pBeacon);
+            return;
+        }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         /*during scanning, when any session is active, and beacon/Pr belongs to
           one of the session, fill up the following, TBD - HB couter */
         if ((!psessionEntry->lastBeaconDtimPeriod) &&
@@ -204,7 +249,11 @@ limProcessBeaconFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
              // STA in WT_JOIN_BEACON_STATE (IBSS)
             limCheckAndAnnounceJoinSuccess(pMac, pBeacon, pHdr,psessionEntry);
         } // if (pMac->lim.gLimMlmState == eLIM_MLM_WT_PROBE_RESP_STATE)
+<<<<<<< HEAD
         vos_mem_free(pBeacon);
+=======
+        vos_mem_vfree(pBeacon);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     } // if ((pMac->lim.gLimMlmState == eLIM_MLM_WT_PROBE_RESP_STATE) || ...
     else
     {
@@ -227,9 +276,15 @@ limProcessBeaconFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
         }
         else
         {
+<<<<<<< HEAD
             PELOG1(limLog(pMac, LOG1, FL("Received Beacon in unexpected state %d"),
                    psessionEntry->limMlmState);
             limPrintMlmState(pMac, LOG1, psessionEntry->limMlmState);)
+=======
+            limLog(pMac, LOG1, FL("Received Beacon in unexpected state %d"),
+                   psessionEntry->limMlmState);
+            limPrintMlmState(pMac, LOG1, psessionEntry->limMlmState);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef WLAN_DEBUG                    
             pMac->lim.gLimUnexpBcnCnt++;
 #endif
@@ -277,7 +332,11 @@ limProcessBeaconFrameNoSession(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo)
         (pMac->lim.gLimMlmState == eLIM_MLM_PASSIVE_SCAN_STATE) ||
         (pMac->lim.gLimMlmState == eLIM_MLM_LEARN_STATE))
     {
+<<<<<<< HEAD
         pBeacon = vos_mem_malloc(sizeof(tSchBeaconStruct));
+=======
+        pBeacon = vos_mem_vmalloc(sizeof(tSchBeaconStruct));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         if ( NULL == pBeacon )
         {
             limLog(pMac, LOGE, FL("Unable to allocate memory in limProcessBeaconFrameNoSession") );
@@ -287,9 +346,15 @@ limProcessBeaconFrameNoSession(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo)
         if (sirConvertBeaconFrame2Struct(pMac, (tANI_U8 *) pRxPacketInfo, pBeacon) != eSIR_SUCCESS)
         {
             // Received wrongly formatted/invalid Beacon. Ignore and move on. 
+<<<<<<< HEAD
             limLog(pMac, LOGW, FL("Received invalid Beacon in global MLM state %X"), pMac->lim.gLimMlmState);
             limPrintMlmState(pMac, LOGW,  pMac->lim.gLimMlmState);
             vos_mem_free(pBeacon);
+=======
+            limLog(pMac, LOGW, FL("Received invalid Beacon in global MLM state %d"), pMac->lim.gLimMlmState);
+            limPrintMlmState(pMac, LOGW,  pMac->lim.gLimMlmState);
+            vos_mem_vfree(pBeacon);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
             return;
         }
 
@@ -306,11 +371,20 @@ limProcessBeaconFrameNoSession(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo)
         else if (pMac->lim.gLimMlmState == eLIM_MLM_LEARN_STATE)
         {
         }  // end of eLIM_MLM_LEARN_STATE)       
+<<<<<<< HEAD
         vos_mem_free(pBeacon);
     } // end of (eLIM_MLM_WT_PROBE_RESP_STATE) || (eLIM_MLM_PASSIVE_SCAN_STATE)
     else
     {
         limLog(pMac, LOG1, FL("Rcvd Beacon in unexpected MLM state %d"), pMac->lim.gLimMlmState);
+=======
+        vos_mem_vfree(pBeacon);
+    } // end of (eLIM_MLM_WT_PROBE_RESP_STATE) || (eLIM_MLM_PASSIVE_SCAN_STATE)
+    else
+    {
+        limLog(pMac, LOG1, FL("Rcvd Beacon in unexpected MLM state %s (%d)"),
+               limMlmStateStr(pMac->lim.gLimMlmState), pMac->lim.gLimMlmState);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
         limPrintMlmState(pMac, LOG1, pMac->lim.gLimMlmState);
 #ifdef WLAN_DEBUG                    
         pMac->lim.gLimUnexpBcnCnt++;

@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #ifndef _QC_SAP_IOCTL_H_
@@ -105,6 +117,7 @@ typedef enum {
     eQC_WPS_ASSOC_RSP_IE
 } eQCWPSType;
 
+<<<<<<< HEAD
 typedef struct s_CommitConfig {
 
     tSSIDInfo SSIDinfo;
@@ -177,6 +190,8 @@ struct sQcSapreq_mlme {
     u_int8_t    im_macaddr[QCSAP_ADDR_LEN];
 };
 
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*
  * Retrieve the WPA/RSN information element for an associated station.
@@ -226,7 +241,10 @@ typedef struct
 #define QCSAP_IOCTL_SETPARAM          (SIOCIWFIRSTPRIV+0)
 #define QCSAP_IOCTL_GETPARAM          (SIOCIWFIRSTPRIV+1)
 #define QCSAP_IOCTL_COMMIT            (SIOCIWFIRSTPRIV+2)
+<<<<<<< HEAD
 #define QCSAP_IOCTL_SETMLME           (SIOCIWFIRSTPRIV+3)
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #define QCSAP_IOCTL_GET_STAWPAIE      (SIOCIWFIRSTPRIV+4)
 #define QCSAP_IOCTL_SETWPAIE          (SIOCIWFIRSTPRIV+5)
@@ -236,7 +254,10 @@ typedef struct
 #define QCSAP_IOCTL_GET_CHANNEL       (SIOCIWFIRSTPRIV+9)
 #define QCSAP_IOCTL_ASSOC_STA_MACADDR (SIOCIWFIRSTPRIV+10)
 #define QCSAP_IOCTL_DISASSOC_STA      (SIOCIWFIRSTPRIV+11)
+<<<<<<< HEAD
 #define QCSAP_IOCTL_AP_STATS          (SIOCIWFIRSTPRIV+12)
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define QCSAP_IOCTL_GET_STATS         (SIOCIWFIRSTPRIV+13)
 #define QCSAP_IOCTL_CLR_STATS         (SIOCIWFIRSTPRIV+14)
 
@@ -258,6 +279,10 @@ typedef struct
 #define QCSAP_IOCTL_SET_MAX_TX_POWER    (SIOCIWFIRSTPRIV+22)
 #define QCSAP_IOCTL_DATAPATH_SNAP_SHOT  (SIOCIWFIRSTPRIV+23)
 #define QCSAP_IOCTL_SET_TRAFFIC_MONITOR (SIOCIWFIRSTPRIV+24)
+<<<<<<< HEAD
+=======
+#define QCSAP_IOCTL_AP_STATS            (SIOCIWFIRSTPRIV+25) // get routines should be odd numbered
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #define MAX_VAR_ARGS         7
 #define QCSAP_IOCTL_PRIV_GET_SOFTAP_LINK_SPEED (SIOCIWFIRSTPRIV + 31)
@@ -265,12 +290,20 @@ typedef struct
 enum { 
     QCSAP_PARAM_MAX_ASSOC = 1,
     QCSAP_PARAM_GET_WLAN_DBG = 4,
+<<<<<<< HEAD
     QCSAP_PARAM_MODULE_DOWN_IND = 5,
+=======
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     QCSAP_PARAM_CLR_ACL = 6,
     QCSAP_PARAM_ACL_MODE = 7,
     QCSAP_PARAM_HIDE_SSID = 8,
     QCSAP_PARAM_AUTO_CHANNEL = 9,
     QCSAP_PARAM_SET_MC_RATE = 10,
+<<<<<<< HEAD
+=======
+    QCSAP_PARAM_SET_AUTO_CHANNEL = 11,
+    QCSAP_PARAM_GET_FRAME_LOGS = 12,
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 };
 
 int iw_softap_get_channel_list(struct net_device *dev, 

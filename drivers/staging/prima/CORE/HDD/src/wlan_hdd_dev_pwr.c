@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,6 +22,7 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+<<<<<<< HEAD
 /*
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
@@ -37,6 +42,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
+=======
+
+/*
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /**========================================================================= 
@@ -61,6 +73,10 @@
  * Include Files
  * -------------------------------------------------------------------------*/
 #include <wlan_hdd_dev_pwr.h>
+<<<<<<< HEAD
+=======
+#include <vos_sched.h>
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef ANI_BUS_TYPE_PLATFORM
 #include <linux/wcnss_wlan.h>
 #else
@@ -120,7 +136,11 @@ static bool suspend_notify_sent;
 ----------------------------------------------------------------------------*/
 static int wlan_suspend(hdd_context_t* pHddCtx)
 {
+<<<<<<< HEAD
    int rc = 0;
+=======
+   long rc = 0;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    pVosSchedContext vosSchedContext = NULL;
 
@@ -146,13 +166,18 @@ static int wlan_suspend(hdd_context_t* pHddCtx)
    INIT_COMPLETION(pHddCtx->tx_sus_event_var);
 
    /* Indicate Tx Thread to Suspend */
+<<<<<<< HEAD
    set_bit(TX_SUSPEND_EVENT_MASK, &vosSchedContext->txEventFlag);
+=======
+   set_bit(TX_SUSPEND_EVENT, &vosSchedContext->txEventFlag);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    wake_up_interruptible(&vosSchedContext->txWaitQueue);
 
    /* Wait for Suspend Confirmation from Tx Thread */
    rc = wait_for_completion_interruptible_timeout(&pHddCtx->tx_sus_event_var, msecs_to_jiffies(200));
 
+<<<<<<< HEAD
    if(!rc)
    {
       VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL, "%s: Not able to suspend TX thread timeout happened", __func__);
@@ -160,24 +185,73 @@ static int wlan_suspend(hdd_context_t* pHddCtx)
 
       return -ETIME;
    }
+=======
+   if (rc <= 0)
+   {
+      VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
+           "%s: TX Thread: timeout while suspending %ld"
+           , __func__, rc);
+      /* There is a race condition here, where the TX Thread can process the
+       * SUSPEND_EVENT even after the wait_for_completion has timed out.
+       * Check the SUSPEND_EVENT_MASK, if it is already cleared by the TX
+       * Thread then it means it is going to suspend, so do not return failure
+       * from here.
+       */
+      if (!test_and_clear_bit(TX_SUSPEND_EVENT,
+                              &vosSchedContext->txEventFlag))
+      {
+         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
+                   "%s: TX Thread: will still suspend", __func__);
+         goto tx_suspend;
+      }
+
+      return -ETIME;
+   }
+
+tx_suspend:
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* Set the Tx Thread as Suspended */
    pHddCtx->isTxThreadSuspended = TRUE;
 
    INIT_COMPLETION(pHddCtx->rx_sus_event_var);
 
    /* Indicate Rx Thread to Suspend */
+<<<<<<< HEAD
    set_bit(RX_SUSPEND_EVENT_MASK, &vosSchedContext->rxEventFlag);
+=======
+   set_bit(RX_SUSPEND_EVENT, &vosSchedContext->rxEventFlag);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    wake_up_interruptible(&vosSchedContext->rxWaitQueue);
 
    /* Wait for Suspend Confirmation from Rx Thread */
    rc = wait_for_completion_interruptible_timeout(&pHddCtx->rx_sus_event_var, msecs_to_jiffies(200));
 
+<<<<<<< HEAD
    if(!rc)
    {
        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL, "%s: Not able to suspend Rx thread timeout happened", __func__);
 
        clear_bit(RX_SUSPEND_EVENT_MASK, &vosSchedContext->rxEventFlag);
+=======
+   if (rc <= 0)
+   {
+       VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
+            "%s: RX Thread: timeout while suspending %ld", __func__, rc);
+       /* There is a race condition here, where the RX Thread can process the
+        * SUSPEND_EVENT even after the wait_for_completion has timed out.
+        * Check the SUSPEND_EVENT_MASK, if it is already cleared by the RX
+        * Thread then it means it is going to suspend, so do not return failure
+        * from here.
+        */
+       if (!test_and_clear_bit(RX_SUSPEND_EVENT,
+                               &vosSchedContext->rxEventFlag))
+       {
+           VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
+                     "%s: RX Thread: will still suspend", __func__);
+           goto rx_suspend;
+       }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
        /* Indicate Tx Thread to Resume */
        complete(&vosSchedContext->ResumeTxEvent);
@@ -188,17 +262,26 @@ static int wlan_suspend(hdd_context_t* pHddCtx)
        return -ETIME;
    }
 
+<<<<<<< HEAD
+=======
+rx_suspend:
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* Set the Rx Thread as Suspended */
    pHddCtx->isRxThreadSuspended = TRUE;
 
    INIT_COMPLETION(pHddCtx->mc_sus_event_var);
 
    /* Indicate MC Thread to Suspend */
+<<<<<<< HEAD
    set_bit(MC_SUSPEND_EVENT_MASK, &vosSchedContext->mcEventFlag);
+=======
+   set_bit(MC_SUSPEND_EVENT, &vosSchedContext->mcEventFlag);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    wake_up_interruptible(&vosSchedContext->mcWaitQueue);
 
    /* Wait for Suspend Confirmation from MC Thread */
+<<<<<<< HEAD
    rc = wait_for_completion_interruptible_timeout(&pHddCtx->mc_sus_event_var, msecs_to_jiffies(200));
 
    if(!rc)
@@ -206,6 +289,29 @@ static int wlan_suspend(hdd_context_t* pHddCtx)
        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL, "%s: Not able to suspend MC thread timeout happened", __func__);
 
        clear_bit(MC_SUSPEND_EVENT_MASK, &vosSchedContext->mcEventFlag);
+=======
+   rc = wait_for_completion_interruptible_timeout(&pHddCtx->mc_sus_event_var,
+                                                        msecs_to_jiffies(200));
+
+   if (rc <= 0)
+   {
+       VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
+            "%s: MC Thread: timeout while suspending %ld",
+            __func__, rc);
+       /* There is a race condition here, where the MC Thread can process the
+        * SUSPEND_EVENT even after the wait_for_completion has timed out.
+        * Check the SUSPEND_EVENT_MASK, if it is already cleared by the MC
+        * Thread then it means it is going to suspend, so do not return failure
+        * from here.
+        */
+       if (!test_and_clear_bit(MC_SUSPEND_EVENT,
+                               &vosSchedContext->mcEventFlag))
+       {
+           VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
+                     "%s: MC Thread: will still suspend", __func__);
+           goto mc_suspend;
+       }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
        /* Indicate Rx Thread to Resume */
        complete(&vosSchedContext->ResumeRxEvent);
@@ -222,6 +328,10 @@ static int wlan_suspend(hdd_context_t* pHddCtx)
        return -ETIME;
    }
 
+<<<<<<< HEAD
+=======
+mc_suspend:
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* Set the Mc Thread as Suspended */
    pHddCtx->isMcThreadSuspended = TRUE;
    
@@ -292,11 +402,16 @@ static void wlan_resume(hdd_context_t* pHddCtx)
    @return None
 
 ----------------------------------------------------------------------------*/
+<<<<<<< HEAD
 int hddDevSuspendHdlr(struct device *dev)
+=======
+int __hddDevSuspendHdlr(struct device *dev)
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
    int ret = 0;
    hdd_context_t* pHddCtx = NULL;
 
+<<<<<<< HEAD
    pHddCtx =  (hdd_context_t*)wcnss_wlan_get_drvdata(dev);
 
    VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO, "%s: WLAN suspended by platform driver",__func__);
@@ -307,6 +422,18 @@ int hddDevSuspendHdlr(struct device *dev)
       return 0;
    }
 
+=======
+   ENTER();
+
+   pHddCtx =  (hdd_context_t*)wcnss_wlan_get_drvdata(dev);
+
+   /* Get the HDD context */
+   ret = wlan_hdd_validate_context(pHddCtx);
+   if (0 != ret)
+   {
+       return ret;
+   }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if(pHddCtx->isWlanSuspended == TRUE)
    {
       VOS_TRACE(VOS_MODULE_ID_HDD,VOS_TRACE_LEVEL_FATAL,"%s: WLAN is already in suspended state",__func__);
@@ -328,9 +455,27 @@ int hddDevSuspendHdlr(struct device *dev)
       suspend_notify_sent = true;
    }
 #endif
+<<<<<<< HEAD
    return 0;
 }
 
+=======
+
+   EXIT();
+   return 0;
+}
+
+int hddDevSuspendHdlr(struct device *dev)
+{
+    int ret;
+    vos_ssr_protect(__func__);
+    ret = __hddDevSuspendHdlr(dev);
+    vos_ssr_unprotect(__func__);
+
+    return ret;
+}
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*----------------------------------------------------------------------------
 
    @brief Function to resume the wlan driver.
@@ -342,6 +487,7 @@ int hddDevSuspendHdlr(struct device *dev)
    @return None
 
 ----------------------------------------------------------------------------*/
+<<<<<<< HEAD
 int hddDevResumeHdlr(struct device *dev)
 {
    hdd_context_t* pHddCtx = NULL;
@@ -350,6 +496,21 @@ int hddDevResumeHdlr(struct device *dev)
 
    VOS_TRACE(VOS_MODULE_ID_HDD,VOS_TRACE_LEVEL_INFO, "%s: WLAN being resumed by Android OS",__func__);
 
+=======
+int __hddDevResumeHdlr(struct device *dev)
+{
+   hdd_context_t* pHddCtx = NULL;
+   int ret = 0;
+
+   ENTER();
+
+   pHddCtx =  (hdd_context_t*)wcnss_wlan_get_drvdata(dev);
+   ret = wlan_hdd_validate_context(pHddCtx);
+   if (0 != ret)
+   {
+       return ret;
+   }
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if(pHddCtx->isWlanSuspended != TRUE)
    {
       VOS_TRACE(VOS_MODULE_ID_HDD,VOS_TRACE_LEVEL_FATAL,"%s: WLAN is already in resumed state",__func__);
@@ -365,10 +526,28 @@ int hddDevResumeHdlr(struct device *dev)
       suspend_notify_sent = false;
    }
 #endif
+<<<<<<< HEAD
 
    return 0;
 }
 
+=======
+   EXIT();
+   return 0;
+}
+
+int hddDevResumeHdlr(struct device *dev)
+{
+    int ret;
+
+    vos_ssr_protect(__func__);
+    ret = __hddDevResumeHdlr(dev);
+    vos_ssr_unprotect(__func__);
+
+    return ret;
+}
+
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
 static const struct dev_pm_ops pm_ops = {
    .suspend = hddDevSuspendHdlr,
    .resume = hddDevResumeHdlr,
@@ -390,10 +569,14 @@ static const struct dev_pm_ops pm_ops = {
 ----------------------------------------------------------------------------*/
 VOS_STATUS hddRegisterPmOps(hdd_context_t *pHddCtx)
 {
+<<<<<<< HEAD
     wcnss_wlan_set_drvdata(pHddCtx->parent_dev, pHddCtx);
 #ifndef FEATURE_R33D
     wcnss_wlan_register_pm_ops(pHddCtx->parent_dev, &pm_ops);
 #endif /* FEATURE_R33D */
+=======
+    wcnss_wlan_register_pm_ops(pHddCtx->parent_dev, &pm_ops);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return VOS_STATUS_SUCCESS;
 }
 
@@ -412,9 +595,13 @@ VOS_STATUS hddRegisterPmOps(hdd_context_t *pHddCtx)
 ----------------------------------------------------------------------------*/
 VOS_STATUS hddDeregisterPmOps(hdd_context_t *pHddCtx)
 {
+<<<<<<< HEAD
 #ifndef FEATURE_R33D
     wcnss_wlan_unregister_pm_ops(pHddCtx->parent_dev, &pm_ops);
 #endif /* FEATURE_R33D */
+=======
+    wcnss_wlan_unregister_pm_ops(pHddCtx->parent_dev, &pm_ops);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return VOS_STATUS_SUCCESS;
 }
 
@@ -433,6 +620,7 @@ void hddDevTmTxBlockTimeoutHandler(void *usrData)
 {
    hdd_context_t        *pHddCtx = (hdd_context_t *)usrData;
    hdd_adapter_t        *staAdapater;
+<<<<<<< HEAD
    /* Sanity, This should not happen */
    if(NULL == pHddCtx)
    {
@@ -440,14 +628,28 @@ void hddDevTmTxBlockTimeoutHandler(void *usrData)
                 "%s: NULL Context", __func__);
       VOS_ASSERT(0);
       return;
+=======
+
+   ENTER();
+   if (0 != (wlan_hdd_validate_context(pHddCtx)))
+   {
+       return;
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    staAdapater = hdd_get_adapter(pHddCtx, WLAN_HDD_INFRA_STATION);
 
+<<<<<<< HEAD
    if(NULL == staAdapater)
    {
       VOS_TRACE(VOS_MODULE_ID_HDD,VOS_TRACE_LEVEL_ERROR,
                 "%s: NULL Adapter", __func__);
+=======
+   if ((NULL == staAdapater) || (WLAN_HDD_ADAPTER_MAGIC != staAdapater->magic))
+   {
+      VOS_TRACE(VOS_MODULE_ID_HDD,VOS_TRACE_LEVEL_ERROR,
+                FL("invalid Adapter %p"), staAdapater);
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
       VOS_ASSERT(0);
       return;
    }
@@ -461,11 +663,19 @@ void hddDevTmTxBlockTimeoutHandler(void *usrData)
    pHddCtx->tmInfo.txFrameCount = 0;
 
    /* Resume TX flow */
+<<<<<<< HEAD
     
+=======
+   hddLog(VOS_TRACE_LEVEL_INFO, FL("Enabling queues"));
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    netif_tx_wake_all_queues(staAdapater->dev);
    pHddCtx->tmInfo.qBlocked = VOS_FALSE;
    mutex_unlock(&pHddCtx->tmInfo.tmOperationLock);
 
+<<<<<<< HEAD
+=======
+   EXIT();
+>>>>>>> 3bbd1bf... staging: add prima WLAN driver
    return;
 }
 
