@@ -119,7 +119,10 @@
 		compatible = "qcom,mdss-dsi-ctrl";
 		label = "MDSS DSI CTRL->0";
 		cell-index = <0>;
-		reg = <0xfd922800 0x600>;
+		reg = 	<0xfd922800 0x1f8>,
+			<0xfd922b00 0x2b0>,
+			<0xfdf30000 0x108>;
+		reg-names = "dsi_ctrl", "dsi_phy", "mmss_misc_phys";
 		vddio-supply = <&pm8941_l12>;
 		vdda-supply = <&pm8941_l2>;
 		qcom,mdss-fb-map = <&mdss_fb0>;
@@ -132,9 +135,9 @@
 		qcom,platform-bist-ctrl = [00 00 b1 ff 00 00];
 		qcom,platform-regulator-settings = [07 09 03 00 20 00 01];
 		qcom,platform-lane-config = [00 00 00 00 00 00 00 01 97
-			00 00 00 00 05 00 00 01 97
-			00 00 00 00 0a 00 00 01 97
-			00 00 00 00 0f 00 00 01 97
+			00 00 00 00 00 00 00 01 97
+			00 00 00 00 00 00 00 01 97
+			00 00 00 00 00 00 00 01 97
 			00 c0 00 00 00 00 00 01 bb];
 		qcom,platform-supply-entry1 {
 				qcom,supply-name = "vddio";

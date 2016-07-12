@@ -76,6 +76,9 @@ static u8 pantech_ethaddr[14];//ETH_ALEN=6 ->14;
 #include "epautoconf.c"
 #include "composite.c"
 
+#ifdef CONFIG_SND_RAWMIDI
+#include "f_midi.c"
+#endif
 #include "f_diag.c"
 #include "f_qdss.c"
 #include "f_rmnet_smd.c"
@@ -146,6 +149,11 @@ static const char longname[] = "Gadget Android";
 #define PRODUCT_ID		0x0001
 
 #define ANDROID_DEVICE_NODE_NAME_LENGTH 11
+/* f_midi configuration */
+#define MIDI_INPUT_PORTS    1
+#define MIDI_OUTPUT_PORTS   1
+#define MIDI_BUFFER_SIZE    1024
+#define MIDI_QUEUE_LENGTH   32
 
 struct android_usb_function {
 	char *name;
@@ -446,7 +454,7 @@ static void android_work(struct work_struct *data)
 	}
 #ifdef CONFIG_ANDROID_PANTECH_USB_MANAGER
 }
-#endif	
+#endif
 }
 
 static int android_enable(struct android_dev *dev)
@@ -1880,6 +1888,7 @@ struct mass_storage_function_config {
 	struct fsg_common *common;
 };
 
+#define MAX_LUN_NAME 8
 static int mass_storage_function_init(struct android_usb_function *f,
 					struct usb_composite_dev *cdev)
 {
@@ -1887,8 +1896,9 @@ static int mass_storage_function_init(struct android_usb_function *f,
 	struct mass_storage_function_config *config;
 	struct fsg_common *common;
 	int err;
-	int i;
-	const char *name[3];
+	int i, n;
+	char name[FSG_MAX_LUNS][MAX_LUN_NAME];
+	u8 uicc_nluns = dev->pdata ? dev->pdata->uicc_nluns : 0;
 
 	config = kzalloc(sizeof(struct mass_storage_function_config),
 								GFP_KERNEL);
@@ -1896,23 +1906,35 @@ static int mass_storage_function_init(struct android_usb_function *f,
 		return -ENOMEM;
 
 	config->fsg.nluns = 1;
-	name[0] = "lun";
+	snprintf(name[0], MAX_LUN_NAME, "lun");
+	config->fsg.luns[0].removable = 1;
+
 	if (dev->pdata && dev->pdata->cdrom) {
 		config->fsg.luns[config->fsg.nluns].cdrom = 1;
 		config->fsg.luns[config->fsg.nluns].ro = 1;
 		config->fsg.luns[config->fsg.nluns].removable = 0;
-		name[config->fsg.nluns] = "lun0";
+		snprintf(name[config->fsg.nluns], MAX_LUN_NAME, "lun0");
 		config->fsg.nluns++;
 	}
 	if (dev->pdata && dev->pdata->internal_ums) {
 		config->fsg.luns[config->fsg.nluns].cdrom = 0;
 		config->fsg.luns[config->fsg.nluns].ro = 0;
 		config->fsg.luns[config->fsg.nluns].removable = 1;
-		name[config->fsg.nluns] = "lun1";
+		snprintf(name[config->fsg.nluns], MAX_LUN_NAME, "lun1");
 		config->fsg.nluns++;
 	}
 
-	config->fsg.luns[0].removable = 1;
+	if (uicc_nluns > FSG_MAX_LUNS - config->fsg.nluns) {
+		uicc_nluns = FSG_MAX_LUNS - config->fsg.nluns;
+		pr_debug("limiting uicc luns to %d\n", uicc_nluns);
+	}
+
+	for (i = 0; i < uicc_nluns; i++) {
+		n = config->fsg.nluns;
+		snprintf(name[n], MAX_LUN_NAME, "uicc%d", i);
+		config->fsg.luns[n].removable = 1;
+		config->fsg.nluns++;
+	}
 
 #ifdef CONFIG_ANDROID_PANTECH_USB
 	config->fsg.vendor_name = "Pantech";
@@ -1924,7 +1946,7 @@ static int mass_storage_function_init(struct android_usb_function *f,
 	config->fsg.luns[config->fsg.nluns].cdrom = 1;
 	config->fsg.luns[config->fsg.nluns].ro = 1;
 	//JB patch
-	name[config->fsg.nluns]="lun0";
+	snprintf(name[config->fsg.nluns], MAX_LUN_NAME, "lun0");
 	config->fsg.nluns++;	
 #endif
 
@@ -2096,7 +2118,8 @@ static ssize_t audio_source_pcm_show(struct device *dev,
 	struct audio_source_config *config = f->config;
 
 	/* print PCM card and device numbers */
-	return sprintf(buf, "%d %d\n", config->card, config->device);
+	return snprintf(buf, PAGE_SIZE,
+			"%d %d\n", config->card, config->device);
 }
 
 static DEVICE_ATTR(pcm, S_IRUGO | S_IWUSR, audio_source_pcm_show, NULL);
@@ -2162,6 +2185,61 @@ static struct android_usb_function uasp_function = {
 	.bind_config	= uasp_function_bind_config,
 };
 
+#ifdef CONFIG_SND_RAWMIDI
+static int midi_function_init(struct android_usb_function *f,
+					struct usb_composite_dev *cdev)
+{
+	struct midi_alsa_config *config;
+
+	config = kzalloc(sizeof(struct midi_alsa_config), GFP_KERNEL);
+	f->config = config;
+	if (!config)
+		return -ENOMEM;
+	config->card = -1;
+	config->device = -1;
+	return 0;
+}
+
+static void midi_function_cleanup(struct android_usb_function *f)
+{
+	kfree(f->config);
+}
+
+static int midi_function_bind_config(struct android_usb_function *f,
+						struct usb_configuration *c)
+{
+	struct midi_alsa_config *config = f->config;
+
+	return f_midi_bind_config(c, SNDRV_DEFAULT_IDX1, SNDRV_DEFAULT_STR1,
+			MIDI_INPUT_PORTS, MIDI_OUTPUT_PORTS, MIDI_BUFFER_SIZE,
+			MIDI_QUEUE_LENGTH, config);
+}
+
+static ssize_t midi_alsa_show(struct device *dev,
+		struct device_attribute *attr, char *buf)
+{
+	struct android_usb_function *f = dev_get_drvdata(dev);
+	struct midi_alsa_config *config = f->config;
+
+	/* print ALSA card and device numbers */
+	return sprintf(buf, "%d %d\n", config->card, config->device);
+}
+
+static DEVICE_ATTR(alsa, S_IRUGO, midi_alsa_show, NULL);
+
+static struct device_attribute *midi_function_attributes[] = {
+	&dev_attr_alsa,
+	NULL
+};
+
+static struct android_usb_function midi_function = {
+	.name		= "midi",
+	.init		= midi_function_init,
+	.cleanup	= midi_function_cleanup,
+	.bind_config	= midi_function_bind_config,
+	.attributes	= midi_function_attributes,
+};
+#endif
 static struct android_usb_function *supported_functions[] = {
 	&mbim_function,
 	&ecm_qc_function,
@@ -2191,6 +2269,9 @@ static struct android_usb_function *supported_functions[] = {
 	&audio_source_function,
 #endif
 	&uasp_function,
+#ifdef CONFIG_SND_RAWMIDI
+	&midi_function,
+#endif
 #ifdef CONFIG_ANDROID_PANTECH_USB_MANAGER
 #ifdef CONFIG_PANTECH_VERIZON
 	&usbnet_function,
@@ -2990,6 +3071,8 @@ android_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *c)
 	struct android_configuration	*conf;
 	int value = -EOPNOTSUPP;
 	unsigned long flags;
+	bool do_work = false;
+	bool prev_configured = false;
 
 	req->zero = 0;
 	req->complete = composite_setup_complete;
@@ -3012,6 +3095,12 @@ android_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *c)
 			}
 		}
 
+	/*
+	 * skip the  work when 2nd set config arrives
+	 * with same value from the host.
+	 */
+	if (cdev->config)
+		prev_configured = true;
 	/* Special case the accessory function.
 	 * It needs to handle control requests before it is enabled.
 	 */
@@ -3028,13 +3117,15 @@ android_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *c)
 	spin_lock_irqsave(&cdev->lock, flags);
 	if (!dev->connected) {
 		dev->connected = 1;
-		schedule_work(&dev->work);
+		do_work = true;
 	} else if (c->bRequest == USB_REQ_SET_CONFIGURATION &&
 						cdev->config) {
-		schedule_work(&dev->work);
+		if (!prev_configured)
+			do_work = true;
 	}
 	spin_unlock_irqrestore(&cdev->lock, flags);
-
+	if (do_work)
+		schedule_work(&dev->work);
 	return value;
 }
 
@@ -3268,6 +3359,10 @@ static int __devinit android_probe(struct platform_device *pdev)
 		}
 
 		pdata->streaming_func_count = len;
+
+		ret = of_property_read_u32(pdev->dev.of_node,
+				"qcom,android-usb-uicc-nluns",
+				&pdata->uicc_nluns);
 	} else {
 		pdata = pdev->dev.platform_data;
 	}

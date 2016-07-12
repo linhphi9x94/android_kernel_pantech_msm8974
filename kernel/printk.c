@@ -409,17 +409,17 @@ int do_syslog(int type, char __user *buf, int len, bool from_file)
 // p15060
 // for dmesg user mode
 #ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
-	if (type >> 12 == 0xB04A)
-		type = type & 0xFFF;
-	else {
-		error = check_syslog_permissions(type, from_file);
-		if (error)
-			goto out;
-	}
+    if (type >> 12 == 0xB04A)
+        type = type & 0xFFF;
+    else {
+        error = check_syslog_permissions(type, from_file);
+        if (error)
+            goto out;
+    }
 #else
-	error = check_syslog_permissions(type, from_file);
-	if (error)
-		goto out;
+    error = check_syslog_permissions(type, from_file);
+    if (error)
+        goto out;
 #endif
 
 	error = security_syslog(type);
@@ -1016,43 +1016,43 @@ asmlinkage int vprintk(const char *fmt, va_list args)
 			if (printk_time) {
 				/* Add the current time stamp */
 #ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
-				char tbuf[50+EXTRA_BUF_SIZE], *tp;
-				unsigned tlen;
-				unsigned long long t;
-				unsigned long nanosec_rem;
-
-				struct timespec time;
-				struct tm tmresult;
-
-				t = cpu_clock(printk_cpu);
-				nanosec_rem = do_div(t, 1000000000);
-
-				time = __current_kernel_time();
-				time_to_tm(time.tv_sec,sys_tz.tz_minuteswest * 60* (-1),&tmresult);
-				tlen = sprintf(tbuf, "[%5lu.%06lu / %02d-%02d %02d:%02d:%02d.%03lu]-CPU:%d %c[%15s:%5d] ",
-						(unsigned long) t,
-						nanosec_rem / 1000,
-						tmresult.tm_mon+1,
-						tmresult.tm_mday,
-						tmresult.tm_hour,
-						tmresult.tm_min,
-						tmresult.tm_sec,
-						(unsigned long) time.tv_nsec/1000000,
-						printk_cpu,
-						in_interrupt() ? 'I' : ' ',
-						current->comm,
-						task_pid_nr(current));
+                char tbuf[50+EXTRA_BUF_SIZE], *tp;
+                unsigned tlen;
+                unsigned long long t;
+                unsigned long nanosec_rem;
+                
+                struct timespec time;
+                struct tm tmresult;
+                
+                t = cpu_clock(printk_cpu);
+                nanosec_rem = do_div(t, 1000000000);
+                
+                time = __current_kernel_time();
+                time_to_tm(time.tv_sec,sys_tz.tz_minuteswest * 60* (-1),&tmresult);
+                tlen = sprintf(tbuf, "[%5lu.%06lu / %02d-%02d %02d:%02d:%02d.%03lu]-CPU:%d %c[%15s:%5d] ",
+                               (unsigned long) t,
+                               nanosec_rem / 1000,
+                               tmresult.tm_mon+1,
+                               tmresult.tm_mday,
+                               tmresult.tm_hour,
+                               tmresult.tm_min,
+                               tmresult.tm_sec,
+                               (unsigned long) time.tv_nsec/1000000,
+                               printk_cpu,
+                               in_interrupt() ? 'I' : ' ',
+                               current->comm,
+                               task_pid_nr(current));
 #else
 				char tbuf[50], *tp;
 				unsigned tlen;
 				unsigned long long t;
 				unsigned long nanosec_rem;
-
+                
 				t = cpu_clock(printk_cpu);
 				nanosec_rem = do_div(t, 1000000000);
 				tlen = sprintf(tbuf, "[%5lu.%06lu] ",
-						(unsigned long) t,
-						nanosec_rem / 1000);
+                               (unsigned long) t,
+                               nanosec_rem / 1000);
 #endif
 
 				for (tp = tbuf; tp < tbuf + tlen; tp++)
@@ -1447,13 +1447,13 @@ again:
 		retry = 1;
 	raw_spin_unlock_irqrestore(&logbuf_lock, flags);
 
-	if (retry && console_trylock()) {
+	if (retry && console_trylock())
+	{
 #ifdef CONFIG_F_QUALCOMM_BUGFIX_SURFACEFLINGER_PENDING
 		retry = 0;
 #endif	
 		goto again;
 	}
-
 	if (wake_klogd)
 		wake_up_klogd();
 }

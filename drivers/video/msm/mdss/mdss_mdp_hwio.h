@@ -1,4 +1,4 @@
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -21,9 +21,7 @@
 #define ENHIST_LUT_ENTRIES 256
 #define HIST_V_SIZE	256
 
-#define MDSS_MDP_HW_REV_100		0x10000000
-#define MDSS_MDP_HW_REV_102		0x10020000
-#define MDSS_MDP_HW_REV_103		0x10030000
+#define MDSS_MDP_FETCH_CONFIG_RESET_VALUE	0x00000087
 
 #define MDSS_REG_HW_VERSION				0x0
 #define MDSS_REG_HW_INTR_STATUS				0x10
@@ -111,7 +109,8 @@ enum mdss_mdp_ctl_index {
 #define MDSS_MDP_REG_CTL_OFFSET(ctl) (0x00600 + ((ctl) * \
 					 MDSS_MDP_CTL_ADDRESS_OFFSET))
 
-#define MDSS_MDP_REG_CTL_LAYER(lm)			((lm) * 0x004)
+#define MDSS_MDP_REG_CTL_LAYER(lm)	\
+			((lm == 5) ? (0x024) : ((lm) * 0x004))
 #define MDSS_MDP_REG_CTL_TOP				0x014
 #define MDSS_MDP_REG_CTL_FLUSH				0x018
 #define MDSS_MDP_REG_CTL_START				0x01C
@@ -380,6 +379,7 @@ enum mdss_mdp_writeback_index {
 
 #define MDSS_MDP_MAX_AD_AL	65535
 #define MDSS_MDP_MAX_AD_STR	255
+#define MDSS_MDP_AD_BL_SCALE	4095
 
 #define MDSS_MDP_REG_AD_BYPASS				0x000
 #define MDSS_MDP_REG_AD_CTRL_0				0x004
@@ -521,6 +521,8 @@ enum mdss_mpd_intf_index {
 #define MDSS_MDP_REG_INTF_LINE_COUNT			0x0B0
 #define MDSS_MDP_PANEL_FORMAT_RGB888			0x213F
 #define MDSS_MDP_PANEL_FORMAT_RGB666			0x212A
+
+#define MDSS_MDP_PANEL_FORMAT_PACK_ALIGN_MSB		BIT(7)
 
 enum mdss_mdp_pingpong_index {
 	MDSS_MDP_PINGPONG0,

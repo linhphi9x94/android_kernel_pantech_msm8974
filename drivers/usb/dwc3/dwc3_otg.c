@@ -145,6 +145,17 @@ static int dwc3_otg_set_suspend(struct usb_phy *phy, int suspend)
 	return 0;
 }
 
+static void dwc3_otg_set_hsphy_auto_suspend(struct dwc3_otg *dotg, bool susp);
+static int dwc3_otg_set_autosuspend(struct usb_phy *phy, int enable_autosuspend)
+{
+	struct usb_otg *otg = phy->otg;
+	struct dwc3_otg *dotg = container_of(otg, struct dwc3_otg, otg);
+
+	dwc3_otg_set_hsphy_auto_suspend(dotg, enable_autosuspend);
+
+	return 0;
+}
+
 static void dwc3_otg_set_hsphy_auto_suspend(struct dwc3_otg *dotg, bool susp)
 {
 	struct dwc3 *dwc = dotg->dwc;
@@ -283,6 +294,7 @@ static int dwc3_otg_start_host(struct usb_otg *otg, int on)
 	if (on) {
 		dev_dbg(otg->phy->dev, "%s: turn on host\n", __func__);
 
+		dwc3_otg_notify_host_mode(otg, on);
 #if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349)
 		//xsemiyas_debug:warmup_time
 		smb349_otg_power(1);
@@ -318,10 +330,10 @@ static int dwc3_otg_start_host(struct usb_otg *otg, int on)
 			dev_err(otg->phy->dev,
 				"%s: failed to add XHCI pdev ret=%d\n",
 				__func__, ret);
+			dwc3_otg_notify_host_mode(otg, 0);
 			return ret;
 		}
 
-		dwc3_otg_notify_host_mode(otg, on);
 #ifdef CONFIG_PANTECH_QUALCOMM_OTG_MODE_OVP_BUG		
 		//xsemiyas_debug
 		while((value = get_pantech_chg_otg_mode()) != 1){
@@ -751,7 +763,7 @@ static int dwc3_otg_set_power(struct usb_phy *phy, unsigned mA)
 			dotg->charger->chg_type == DWC3_PROPRIETARY_CHARGER)
 		power_supply_type = POWER_SUPPLY_TYPE_USB_DCP;
 	else
-		power_supply_type = POWER_SUPPLY_TYPE_BATTERY;
+		power_supply_type = POWER_SUPPLY_TYPE_UNKNOWN;
 
 #if defined(CONFIG_PANTECH_PMIC_CHARGER_BQ2419X)
 	/*
@@ -1250,6 +1262,7 @@ int dwc3_otg_init(struct dwc3 *dwc)
 	dotg->otg.phy->dev = dwc->dev;
 	dotg->otg.phy->set_power = dwc3_otg_set_power;
 	dotg->otg.phy->set_suspend = dwc3_otg_set_suspend;
+	dotg->otg.phy->set_phy_autosuspend = dwc3_otg_set_autosuspend;
 
 	ret = usb_set_transceiver(dotg->otg.phy);
 	if (ret) {

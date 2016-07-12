@@ -1,4 +1,4 @@
- /* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+ /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -106,6 +106,7 @@ static struct wcd9xxx_mbhc_config mbhc_cfg = {
 			    1 << MBHC_CS_ENABLE_REMOVAL),
 	.do_recalibration = false,
 	.use_vddio_meas = false,
+	.hw_jack_type = FOUR_POLE_JACK,
 };
 
 /*
@@ -286,6 +287,8 @@ static int msm_tx_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
 					SNDRV_PCM_HW_PARAM_CHANNELS);
 
 	pr_debug("%s(), channel:%d\n", __func__, msm_pri_mi2s_tx_ch);
+	param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+					msm_sec_mi2s_rx_bit_format);
 	rate->min = rate->max = 48000;
 	channels->min = channels->max = msm_pri_mi2s_tx_ch;
 
@@ -293,7 +296,7 @@ static int msm_tx_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
 }
 
 
-static const char *const btsco_rate_text[] = {"8000", "16000"};
+static const char *const btsco_rate_text[] = {"BTSCO_RATE_8KHZ", "BTSCO_RATE_16KHZ"};
 static const struct soc_enum msm_btsco_enum[] = {
 	SOC_ENUM_SINGLE_EXT(2, btsco_rate_text),
 };
@@ -313,10 +316,10 @@ static int msm_btsco_rate_put(struct snd_kcontrol *kcontrol,
 			      struct snd_ctl_elem_value *ucontrol)
 {
 	switch (ucontrol->value.integer.value[0]) {
-	case 8000:
+	case 0:
 		msm_btsco_rate = BTSCO_RATE_8KHZ;
 		break;
-	case 16000:
+	case 1:
 		msm_btsco_rate = BTSCO_RATE_16KHZ;
 		break;
 	default:
@@ -621,8 +624,8 @@ static void *def_msm8x10_wcd_mbhc_cal(void)
 	btn_low[5] = 190;
 	btn_high[5] = 228;
 	btn_low[6] = 229;
-	btn_high[6] = 269;
-	btn_low[7] = 270;
+	btn_high[6] = 264;
+	btn_low[7] = 265;
 	btn_high[7] = 500;
 	n_ready = wcd9xxx_mbhc_cal_btn_det_mp(btn_cfg, MBHC_BTN_DET_N_READY);
 	n_ready[0] = 80;
@@ -891,6 +894,21 @@ static struct snd_soc_dai_link msm8x10_dai[] = {
 		.codec_name = "snd-soc-dummy",
 		.be_id = MSM_FRONTEND_DAI_QCHAT,
 	},
+	{/* hw:x,15 */
+		.name = "MSM8X10 Media9",
+		.stream_name = "MultiMedia9",
+		.cpu_dai_name   = "MultiMedia9",
+		.platform_name  = "msm-pcm-dsp.0",
+		.dynamic = 1,
+		.trigger = {SND_SOC_DPCM_TRIGGER_POST,
+			SND_SOC_DPCM_TRIGGER_POST},
+		.codec_dai_name = "snd-soc-dummy-dai",
+		.codec_name = "snd-soc-dummy",
+		.ignore_suspend = 1,
+		/* this dainlink has playback support */
+		.ignore_pmdown_time = 1,
+		.be_id = MSM_FRONTEND_DAI_MULTIMEDIA9
+	},
 	/* Backend I2S DAI Links */
 	{
 		.name = LPASS_BE_SEC_MI2S_RX,
@@ -1036,6 +1054,19 @@ static struct snd_soc_dai_link msm8x10_dai[] = {
 		.be_hw_params_fixup = msm_be_hw_params_fixup,
 		.ignore_suspend = 1,
 	},
+	/* Incall Music 2 BACK END DAI Link */
+	{
+		.name = LPASS_BE_VOICE2_PLAYBACK_TX,
+		.stream_name = "Voice2 Farend Playback",
+		.cpu_dai_name = "msm-dai-q6-dev.32770",
+		.platform_name = "msm-pcm-routing",
+		.codec_name     = "msm-stub-codec.1",
+		.codec_dai_name = "msm-stub-rx",
+		.no_pcm = 1,
+		.be_id = MSM_BACKEND_DAI_VOICE2_PLAYBACK_TX,
+		.be_hw_params_fixup = msm_be_hw_params_fixup,
+		.ignore_suspend = 1,
+	},
 };
 
 struct snd_soc_card snd_soc_card_msm8x10 = {
@@ -1048,6 +1079,8 @@ struct snd_soc_card snd_soc_card_msm8x10 = {
 static __devinit int msm8x10_asoc_machine_probe(struct platform_device *pdev)
 {
 	struct snd_soc_card *card = &snd_soc_card_msm8x10;
+	const char *mbhc_audio_jack_type = NULL;
+	size_t n = strlen("4-pole-jack");
 	int ret;
 
 	dev_dbg(&pdev->dev, "%s\n", __func__);
@@ -1084,6 +1117,35 @@ static __devinit int msm8x10_asoc_machine_probe(struct platform_device *pdev)
 						"qcom,headset-jack-type-NC");
 	mbhc_cfg.use_int_rbias = of_property_read_bool(pdev->dev.of_node,
 						"qcom,mbhc-bias-internal");
+
+	ret = of_property_read_string(pdev->dev.of_node,
+		"qcom,mbhc-audio-jack-type", &mbhc_audio_jack_type);
+	if (ret) {
+		dev_dbg(&pdev->dev, "Looking up %s property in node %s failed",
+			"qcom,mbhc-audio-jack-type",
+			pdev->dev.of_node->full_name);
+		mbhc_cfg.hw_jack_type = FOUR_POLE_JACK;
+		mbhc_cfg.enable_anc_mic_detect = false;
+		dev_dbg(&pdev->dev, "Jack type properties set to default");
+	} else {
+		if (!strncmp(mbhc_audio_jack_type, "4-pole-jack", n)) {
+			mbhc_cfg.hw_jack_type = FOUR_POLE_JACK;
+			mbhc_cfg.enable_anc_mic_detect = false;
+			dev_dbg(&pdev->dev, "This hardware has 4 pole jack");
+		} else if (!strncmp(mbhc_audio_jack_type, "5-pole-jack", n)) {
+			mbhc_cfg.hw_jack_type = FIVE_POLE_JACK;
+			mbhc_cfg.enable_anc_mic_detect = true;
+			dev_dbg(&pdev->dev, "This hardware has 5 pole jack");
+		} else if (!strncmp(mbhc_audio_jack_type, "6-pole-jack", n)) {
+			mbhc_cfg.hw_jack_type = SIX_POLE_JACK;
+			mbhc_cfg.enable_anc_mic_detect = true;
+			dev_dbg(&pdev->dev, "This hardware has 6 pole jack");
+		} else {
+			mbhc_cfg.hw_jack_type = FOUR_POLE_JACK;
+			mbhc_cfg.enable_anc_mic_detect = false;
+			dev_dbg(&pdev->dev, "Unknown value, hence setting to default");
+		}
+	}
 
 	spdev = pdev;
 
