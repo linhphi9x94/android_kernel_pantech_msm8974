@@ -16,8 +16,6 @@ config DEFINE_LIST_EF56S
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
         select PANTECH_SND_BOOTUP_HEADSET_INFO
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
 endif
 
 if MACH_MSM8974_EF59S
@@ -32,8 +30,6 @@ config DEFINE_LIST_EF59S
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
         select PANTECH_SND_BOOTUP_HEADSET_INFO
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
 endif
 
 if MACH_MSM8974_EF59K
@@ -47,8 +43,6 @@ config DEFINE_LIST_EF59K
         select NLS_UTF8
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
 endif
 
 if MACH_MSM8974_EF59L
@@ -62,8 +56,6 @@ config DEFINE_LIST_EF59L
         select NLS_UTF8
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
 endif
 
 if MACH_MSM8974_EF60S
@@ -78,8 +70,6 @@ config DEFINE_LIST_EF60S
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
         select PANTECH_SND_BOOTUP_HEADSET_INFO
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
 endif
 
 if MACH_MSM8974_EF61K
@@ -93,8 +83,6 @@ config DEFINE_LIST_EF61K
         select NLS_UTF8
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
 endif
 
 if MACH_MSM8974_EF62L
@@ -108,8 +96,6 @@ config DEFINE_LIST_EF62L
         select NLS_UTF8
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
-        select PANTECH_SND_QSOUND
-        select PANTECH_SND_FLAC
 endif
 
 if MACH_MSM8974_EF63S
@@ -124,8 +110,6 @@ config DEFINE_LIST_EF63S
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
         select PANTECH_SND_BOOTUP_HEADSET_INFO
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
 endif
 
 if MACH_MSM8974_EF63K
@@ -139,8 +123,6 @@ config DEFINE_LIST_EF63K
         select NLS_UTF8
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
 endif
 
 if MACH_MSM8974_EF63L
@@ -154,8 +136,6 @@ config DEFINE_LIST_EF63L
         select NLS_UTF8
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
 endif
 
 if MACH_MSM8974_EF65S
@@ -170,8 +150,6 @@ config DEFINE_LIST_EF65S
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
         select PANTECH_SND_BOOTUP_HEADSET_INFO
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
 endif
 
 config EV10
@@ -307,15 +285,6 @@ config PANTECH_SND_QCOM_PATCH
   bool
        
 config PANTECH_SND_BOOTUP_HEADSET_INFO
-  bool
-
-config PANTECH_SND_NXP
-  bool
-
-config PANTECH_SND_QSOUND
-  bool
-
-config PANTECH_SND_FLAC
   bool
 
 config PANTECH_GPIO_SLEEP_CONFIG
