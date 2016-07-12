@@ -216,6 +216,14 @@ static void diag_update_event_mask(uint8_t *buf, int num_bytes)
 	uint8_t *ptr = driver->event_masks;
 	uint8_t *temp = buf + 2;
 
+#ifdef CONFIG_PANTECH_USB_QXDM_ONOFF
+#if defined(CONFIG_PANTECH_JAPAN)
+	if(!qxdm_msg_onoff_control) {
+		memset(ptr, 0, EVENT_MASK_SIZE);
+		return;
+	}	
+#endif
+#endif
 	mutex_lock(&driver->diagchar_mutex);
 	if (CHK_OVERFLOW(ptr, ptr, ptr+EVENT_MASK_SIZE, num_bytes)) {
 		memcpy(ptr, temp, num_bytes);
@@ -593,6 +601,69 @@ void diag_send_msg_mask_update(struct diag_smd_info *smd_info,
 	}
 	mutex_unlock(&driver->diag_cntl_mutex);
 }
+#ifdef CONFIG_PANTECH_USB_QXDM_ONOFF
+extern bool qxdm_msg_onoff_control;
+
+void diag_send_modem_msg_mask_update(smd_channel_t *ch, int updated_ssid_first,
+						int updated_ssid_last, int proc)
+{
+	void *buf = driver->buf_msg_mask_update;
+	int first, last, actual_last, size = -ENOMEM, retry_count = 0;
+	int header_size = sizeof(struct diag_ctrl_msg_mask);
+	uint8_t *ptr = driver->msg_masks;
+
+	mutex_lock(&driver->diag_cntl_mutex);
+	while (*(uint32_t *)(ptr + 4)) {
+		first = *(uint32_t *)ptr;
+		ptr += 4;
+		last = *(uint32_t *)ptr;
+		ptr += 4;
+		actual_last = *(uint32_t *)ptr;
+		ptr += 4;
+
+		if ((updated_ssid_first >= first && updated_ssid_last <=
+			 actual_last) || (updated_ssid_first == ALL_SSID)) {
+			/* send f3 mask update */
+			driver->msg_mask->cmd_type = DIAG_CTRL_MSG_F3_MASK;
+			driver->msg_mask->msg_mask_size = actual_last -
+								 first + 1;
+			driver->msg_mask->data_len = 11 +
+					 4 * (driver->msg_mask->msg_mask_size);
+			driver->msg_mask->stream_id = 1; /* 2, if dual stream */
+			driver->msg_mask->status = 3; /* status valid mask */
+			driver->msg_mask->msg_mode = 0; /* Legcay mode */
+			driver->msg_mask->ssid_first = first;
+			driver->msg_mask->ssid_last = actual_last;
+			memcpy(buf, driver->msg_mask, header_size);
+			memset(buf+header_size, 0 , 4 * (driver->msg_mask->msg_mask_size));
+
+			if (ch) {
+				while (retry_count < 3) {
+					size = smd_write(ch, buf, header_size +
+					 4*(driver->msg_mask->msg_mask_size));
+					if (size == -ENOMEM) {
+						retry_count++;
+						usleep_range(10000, 10100);
+					} else
+						break;
+				}
+				if (size != header_size +
+					 4*(driver->msg_mask->msg_mask_size))
+					pr_err("diag: proc %d, msg mask update fail %d, tried %d\n",
+						proc, size, (header_size +
+					4*(driver->msg_mask->msg_mask_size)));
+				else
+					pr_debug("diag: sending mask update for ssid first %d, last %d on PROC %d\n",
+						first, actual_last, proc);
+			} else
+				pr_err("diag: proc %d, ch invalid msg mask update\n",
+					proc);
+		}
+		ptr += MAX_SSID_PER_RANGE*4;
+	}
+	mutex_unlock(&driver->diag_cntl_mutex);
+}
+#endif
 
 void diag_send_feature_mask_update(struct diag_smd_info *smd_info)
 {
@@ -664,6 +735,20 @@ int diag_process_apps_masks(unsigned char *buf, int len)
 	int equip_id, copy_len;
 #if defined(CONFIG_DIAG_OVER_USB)
 	int payload_length;
+#endif
+
+#ifdef CONFIG_PANTECH_USB_QXDM_ONOFF
+#if defined(CONFIG_PANTECH_DOMESTIC) || defined(CONFIG_PANTECH_ATNT) || defined(CONFIG_PANTECH_VERIZON)
+/* do nothing */
+#elif defined(CONFIG_PANTECH_JAPAN)
+	if(!qxdm_msg_onoff_control){
+		if (*buf == 0x60){	// event
+			*(int *)(buf+1) = 0;
+		} else if ((*buf == 0x73) && (*(int *)(buf+4) == 3)) { //log mask update
+			*(int *)(buf+4) = 0;
+		}
+	}
+#endif
 #endif
 
 	/* Set log masks */
@@ -798,6 +883,40 @@ int diag_process_apps_masks(unsigned char *buf, int len)
 			for (i = 0; i < 8 + ssid_range; i++)
 				*(driver->apps_rsp_buf + i) = *(buf+i);
 			*(driver->apps_rsp_buf + 6) = 0x1;
+#ifdef CONFIG_PANTECH_USB_QXDM_ONOFF
+			if(!qxdm_msg_onoff_control){
+#if defined(CONFIG_PANTECH_DOMESTIC) || defined(CONFIG_PANTECH_ATNT)
+			for (i = 0; i < NUM_SMD_CONTROL_CHANNELS; i++) {
+					if (driver->smd_cntl[i].ch){
+						if(i == MODEM_DATA)
+							diag_send_modem_msg_mask_update(
+							driver->smd_cntl[i].ch,
+							ALL_SSID, ALL_SSID,
+							driver->smd_cntl[i].peripheral);
+						else
+							diag_send_msg_mask_update(
+								&driver->smd_cntl[i],
+								ssid_first, ssid_last,
+								driver->smd_cntl[i].peripheral);
+					}
+				}
+#elif defined(CONFIG_PANTECH_JAPAN)
+				rt_mask = 0;
+				diag_set_msg_mask(rt_mask);
+				diag_update_userspace_clients(MSG_MASKS_TYPE);
+
+			for (i = 0; i < NUM_SMD_CONTROL_CHANNELS; i++) {
+				if (driver->smd_cntl[i].ch)
+					diag_send_msg_mask_update(
+						&driver->smd_cntl[i],
+							ALL_SSID, ALL_SSID,
+							driver->smd_cntl[i].peripheral);
+				}
+#else	//CONFIG_PANTECH_VERIZON
+	/* do nothing */
+#endif
+			} else	{			
+#endif			
 			for (i = 0; i < NUM_SMD_CONTROL_CHANNELS; i++) {
 				if (driver->smd_cntl[i].ch)
 					diag_send_msg_mask_update(
@@ -806,6 +925,9 @@ int diag_process_apps_masks(unsigned char *buf, int len)
 						driver->smd_cntl[i].peripheral);
 
 			}
+#ifdef CONFIG_PANTECH_USB_QXDM_ONOFF
+			}
+#endif
 			encode_rsp_and_send(8 + ssid_range - 1);
 			return 0;
 		}
@@ -911,6 +1033,20 @@ void diag_masks_init(void)
 	driver->msg_status = DIAG_CTRL_MASK_INVALID;
 	driver->log_status = DIAG_CTRL_MASK_INVALID;
 
+#ifdef CONFIG_PANTECH_USB_QXDM_ONOFF
+#if defined(CONFIG_PANTECH_USER_BUILD) /* user mode */
+#if defined(CONFIG_PANTECH_DOMESTIC) || defined(CONFIG_PANTECH_ATNT) || defined(CONFIG_PANTECH_JAPAN)
+	qxdm_msg_onoff_control = 0;
+#elif defined(CONFIG_PANTECH_VERIZON)
+	qxdm_msg_onoff_control = 1;
+#else
+	qxdm_msg_onoff_control = 1;
+#endif
+#else /* eng mode */
+	qxdm_msg_onoff_control = 1;	
+#endif
+#endif
+
 	if (driver->event_mask == NULL) {
 		driver->event_mask = kzalloc(sizeof(
 			struct diag_ctrl_event_mask), GFP_KERNEL);
@@ -1014,3 +1150,79 @@ void diag_masks_exit(void)
 	kfree(driver->feature_mask);
 	kfree(driver->buf_feature_mask_update);
 }
+
+#ifdef CONFIG_ANDROID_PANTECH_USB
+void pantech_diag_init_mask_table(void)
+{
+	int i;
+
+	if(driver->logging_mode != USB_MODE)
+		return;
+
+	pr_debug(KERN_ERR "diag: F3 message mask disable\n");
+	diag_set_msg_mask(0);
+	diag_update_userspace_clients(MSG_MASKS_TYPE);
+#if defined(CONFIG_DIAG_OVER_USB)
+	if (chk_apps_only()) {
+		driver->apps_rsp_buf[0] = 0x7d; /* cmd_code */
+		driver->apps_rsp_buf[1] = 0x5; /* set subcommand */
+		driver->apps_rsp_buf[2] = 1; /* success */
+		driver->apps_rsp_buf[3] = 0; /* rsvd */
+		*(int *)(driver->apps_rsp_buf + 4) = 0;
+		/* send msg mask update to peripheral */
+		for (i = 0; i < NUM_SMD_CONTROL_CHANNELS; i++) {
+			if (driver->smd_cntl[i].ch)
+				diag_send_msg_mask_update(
+						&driver->smd_cntl[i],
+						ALL_SSID, ALL_SSID,
+						driver->smd_cntl[i].peripheral);
+		}
+	}
+#endif
+
+	pr_debug(KERN_ERR "diag: log mask disable\n");
+	diag_disable_log_mask();
+	diag_update_userspace_clients(LOG_MASKS_TYPE);
+#if defined(CONFIG_DIAG_OVER_USB)
+	if (chk_apps_only()) {
+		driver->apps_rsp_buf[0] = 0x73;
+		driver->apps_rsp_buf[1] = 0x0;
+		driver->apps_rsp_buf[2] = 0x0;
+		driver->apps_rsp_buf[3] = 0x0;
+		*(int *)(driver->apps_rsp_buf + 4) = 0x0;
+		*(int *)(driver->apps_rsp_buf + 8) = 0x0; /* status */
+		for (i = 0; i < NUM_SMD_CONTROL_CHANNELS; i++) {
+			if (driver->smd_cntl[i].ch)
+				diag_send_log_mask_update(
+						&driver->smd_cntl[i],
+						ALL_EQUIP_ID);
+		}
+	}
+#endif
+
+	pr_debug(KERN_ERR "diag: event mask disable\n");
+	driver->event_status = DIAG_CTRL_MASK_ALL_DISABLED;
+	diag_toggle_event_mask(0);
+	diag_update_userspace_clients(EVENT_MASKS_TYPE);
+#if defined(CONFIG_DIAG_OVER_USB)
+	if (chk_apps_only()) {
+		driver->apps_rsp_buf[0] = 0x60;
+		driver->apps_rsp_buf[1] = 0x0;
+		driver->apps_rsp_buf[2] = 0x0;
+		for (i = 0; i < NUM_SMD_CONTROL_CHANNELS; i++) {
+			if (driver->smd_cntl[i].ch){
+				if(diag_event_num_bytes){
+					diag_send_event_mask_update(
+							&driver->smd_cntl[i],
+							diag_event_num_bytes);
+				}else{
+					diag_send_event_mask_update(
+							&driver->smd_cntl[i],
+							EVENT_MASK_SIZE);
+				}
+			}	
+		}
+	}
+#endif
+}
+#endif

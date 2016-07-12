@@ -183,7 +183,11 @@ struct msm_gpio_set_tbl {
 };
 
 struct msm_camera_gpio_num_info {
+#ifdef CONFIG_PANTECH_CAMERA
+	uint16_t gpio_num[11];
+#else
 	uint16_t gpio_num[7];
+#endif
 };
 
 struct msm_camera_gpio_conf {

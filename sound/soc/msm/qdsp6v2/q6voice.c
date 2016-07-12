@@ -4304,13 +4304,28 @@ int voc_start_playback(uint32_t set, uint16_t port_id)
 		/* Voice and VoLTE call use the same pseudo port and hence
 		 * use the same mixer control. So enable incall delivery
 		 * for VoLTE as well with Voice.
+		 * pantech needs voip also for VoLTE.
 		 */
+#if defined(CONFIG_PANTECH_SND)		 
+		if (is_voice_session(v->session_id)) {
+			pr_info("%s: is_voice_session set done try volte now",__func__);
+			v = voice_get_session(voc_get_session_id(
+							VOLTE_SESSION_NAME));
+		} else if (is_volte_session(v->session_id)) {
+			pr_info("%s: is_volte_session set done try voip now",__func__);
+			v = voice_get_session(voc_get_session_id(
+				VOIP_SESSION_NAME));
+		} else {
+			break;
+		}
+#else
 		if (is_voice_session(v->session_id)) {
 			v = voice_get_session(voc_get_session_id(
 							VOLTE_SESSION_NAME));
 		} else {
 			break;
 		}
+#endif
 	}
 
 	return ret;

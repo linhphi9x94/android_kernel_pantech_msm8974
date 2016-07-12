@@ -453,6 +453,9 @@ struct vfe_device {
 	uint8_t vt_enable;
 	void __iomem *p_avtimer_msw;
 	void __iomem *p_avtimer_lsw;
+#ifdef CONFIG_PANTECH_CAMERA    //_QBUG_CAMIF_ON_CLOSE
+	uint8_t ignore_error;
+#endif
 };
 
 #endif

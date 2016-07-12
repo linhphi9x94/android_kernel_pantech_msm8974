@@ -21,12 +21,41 @@
 #include <linux/leds.h>
 #include <linux/qpnp/pwm.h>
 #include <linux/err.h>
+#include <linux/workqueue.h>
+#include <linux/msm_tsens.h>
 
+#include "mdss_fb.h"
 #include "mdss_dsi.h"
+#include "mdss_mdp.h"
+#ifdef CONFIG_F_SKYDISP_SMARTDIMMING
+#include "ef63_display.h"
+#include <mach/msm_smsm.h>
+#endif
+extern struct msm_fb_data_type * mfdmsm_fb_get_mfd(void);
 
 #define DT_CMD_HDR 6
+#define NEW_REV	1
+#define OLD_REV	0
 
 DEFINE_LED_TRIGGER(bl_led_trigger);
+
+#ifdef F_LSI_VDDM_OFFSET_RD_WR 
+unsigned int ldi_vddm_lut[128][2] = {
+	{0, 13}, {1, 13}, {2, 14}, {3, 15}, {4, 16}, {5, 17}, {6, 18}, {7, 19}, {8, 20}, {9, 21},
+	{10, 22}, {11, 23}, {12, 24}, {13, 25}, {14, 26}, {15, 27}, {16, 28}, {17, 29}, {18, 30}, {19, 31},
+	{20, 32}, {21, 33}, {22, 34}, {23, 35}, {24, 36}, {25, 37}, {26, 38}, {27, 39}, {28, 40}, {29, 41},
+	{30, 42}, {31, 43}, {32, 44}, {33, 45}, {34, 46}, {35, 47}, {36, 48}, {37, 49}, {38, 50}, {39, 51},
+	{40, 52}, {41, 53}, {42, 54}, {43, 55}, {44, 56}, {45, 57}, {46, 58}, {47, 59}, {48, 60}, {49, 61},
+	{50, 62}, {51, 63}, {52, 63}, {53, 63}, {54, 63}, {55, 63}, {56, 63}, {57, 63}, {58, 63}, {59, 63},
+	{60, 63}, {61, 63}, {62, 63}, {63, 63}, {64, 12}, {65, 11}, {66, 10}, {67, 9}, {68, 8}, {69, 7},
+	{70, 6}, {71, 5}, {72, 4}, {73, 3}, {74, 2}, {75, 1}, {76, 64}, {77, 65}, {78, 66}, {79, 67},
+	{80, 68}, {81, 69}, {82, 70}, {83, 71}, {84, 72}, {85, 73}, {86, 74}, {87, 75}, {88, 76}, {89, 77},
+	{90, 78}, {91, 79}, {92, 80}, {93, 81}, {94, 82}, {95, 83}, {96, 84}, {97, 85}, {98, 86}, {99, 87},
+	{100, 88}, {101, 89}, {102, 90}, {103, 91}, {104, 92}, {105, 93}, {106, 94}, {107, 95}, {108, 96}, {109, 97},
+	{110, 98}, {111, 99}, {112, 100}, {113, 101}, {114, 102}, {115, 103}, {116, 104}, {117, 105}, {118, 106}, {119, 107},
+	{120, 108}, {121, 109}, {122, 110}, {123, 111}, {124, 112}, {125, 113}, {126, 114}, {127, 115},
+};
+#endif
 
 void mdss_dsi_panel_pwm_cfg(struct mdss_dsi_ctrl_pdata *ctrl)
 {
@@ -86,7 +115,29 @@ static struct dsi_cmd_desc dcs_read_cmd = {
 	{DTYPE_DCS_READ, 1, 0, 1, 5, sizeof(dcs_cmd)},
 	dcs_cmd
 };
+#ifdef CONFIG_F_SKYDISP_SMARTDIMMING
+u32 mdss_dsi_panel_cmd_read(struct mdss_dsi_ctrl_pdata *ctrl, char cmd0,
+		char cmd1, void (*fxn)(int,char *), char *rbuf, int len)
+{
+	struct dcs_cmd_req cmdreq;
 
+	dcs_cmd[0] = cmd0;
+	dcs_cmd[1] = cmd1;
+	memset(&cmdreq, 0, sizeof(cmdreq));
+	cmdreq.cmds = &dcs_read_cmd;
+	cmdreq.cmds_cnt = 1;
+	cmdreq.flags = CMD_REQ_RX | CMD_REQ_COMMIT;
+	cmdreq.rlen = len;
+	cmdreq.rbuf = rbuf;
+	cmdreq.cb = fxn; /* call back */
+	mdss_dsi_cmdlist_put(ctrl, &cmdreq);
+	/*
+	 * blocked here, until call back called
+	 */
+
+	return 0;
+}
+#else
 u32 mdss_dsi_panel_cmd_read(struct mdss_dsi_ctrl_pdata *ctrl, char cmd0,
 		char cmd1, void (*fxn)(int), char *rbuf, int len)
 {
@@ -108,6 +159,7 @@ u32 mdss_dsi_panel_cmd_read(struct mdss_dsi_ctrl_pdata *ctrl, char cmd0,
 
 	return 0;
 }
+#endif
 
 static void mdss_dsi_panel_cmds_send(struct mdss_dsi_ctrl_pdata *ctrl,
 			struct dsi_panel_cmds *pcmds)
@@ -129,6 +181,191 @@ static void mdss_dsi_panel_cmds_send(struct mdss_dsi_ctrl_pdata *ctrl,
 	mdss_dsi_cmdlist_put(ctrl, &cmdreq);
 }
 
+#if defined (CONFIG_F_SKYDISP_EF56_SS) || defined (CONFIG_F_SKYDISP_EF59_SS) || defined (CONFIG_F_SKYDISP_EF60_SS)
+static char led_pwm1[3] = {0x51, 0x00, 0x00};	/* DTYPE_DCS_LWRITE */
+static struct dsi_cmd_desc backlight_cmd = {
+	{DTYPE_DCS_LWRITE, 1, 0, 0, 1, sizeof(led_pwm1)},
+	led_pwm1
+};
+
+void mdss_dsi_panel_bklt_dcs(struct mdss_dsi_ctrl_pdata *ctrl, int level)
+{
+	struct dcs_cmd_req cmdreq;
+
+	pr_err("%s: level=%d\n", __func__, level);
+#if 0//defined (CONFIG_F_SKYDISP_EF56_SS)
+//PWM 22khz
+	led_pwm1[1] = (unsigned char)(level >>8) & 0x0F; 
+       led_pwm1[2] = (unsigned char)level & 0xFF;
+#else
+//PWM 10khz
+       led_pwm1[2] = (unsigned char)level & 0xFF;
+#endif
+
+	memset(&cmdreq, 0, sizeof(cmdreq));
+	cmdreq.cmds = &backlight_cmd;
+	cmdreq.cmds_cnt = 1;
+	cmdreq.flags = CMD_REQ_COMMIT | CMD_CLK_CTRL;
+	cmdreq.rlen = 0;
+	cmdreq.cb = NULL;
+
+       msleep(1);
+	mdss_dsi_cmdlist_put(ctrl, &cmdreq);
+}
+#elif defined(CONFIG_F_SKYDISP_EF63_SS)
+static void mdss_dsi_cmds_send(struct mdss_dsi_ctrl_pdata *ctrl,
+				struct dcs_cmd_req * cmdreq,struct dsi_cmd_desc * cmds)
+{
+
+
+	memset(cmdreq, 0, sizeof(cmdreq));
+	cmdreq->cmds = cmds;
+	cmdreq->cmds_cnt = 1;
+	cmdreq->flags = CMD_REQ_COMMIT | CMD_CLK_CTRL;
+	cmdreq->rlen = 0;
+	cmdreq->cb = NULL;
+
+	mdss_dsi_cmdlist_put(ctrl, cmdreq);
+}
+
+void mdss_dsi_panel_bklt_dcs(struct mdss_dsi_ctrl_pdata *ctrl, int level)
+{
+
+	int i;
+	struct dcs_cmd_req cmdreq;
+	struct tsens_device tsens_dev;
+#ifdef CONFIG_F_SKYDISP_ELVSS_WORK
+	int index;
+	int  ret = 0;
+	long temp,average_temp = 0;
+	
+	char G_para[2] = {0xb0, 0x05};
+	char temp_set_lsi[2] = {0xb8, 0x00};	
+	struct dsi_cmd_desc g_para_cmd = {{DTYPE_DCS_WRITE1, 1, 0, 0, 1, sizeof(G_para)},G_para};
+	struct dsi_cmd_desc temp_lsi_cmd = {{DTYPE_DCS_LWRITE, 1, 0, 0, 0, sizeof(temp_set_lsi)},temp_set_lsi};
+		
+#endif	
+#ifdef CONFIG_F_SKYDISP_HBM_FOR_AMOLED
+	if(ctrl->hbm_onoff == true)
+		return;
+#endif	
+	if(ctrl->offline_charger == true){
+		
+		backlight_cmd.payload = oled_gamma;
+		locking_cmd.payload = locking;
+		aor_cmd.payload = aor_dim[20];
+		elvss_cmd.payload = elvss_set[20];//20
+
+	}
+	else{
+		backlight_cmd.payload = oled_gamma;
+		locking_cmd.payload = locking;
+		aor_cmd.payload = aor_dim[level];
+		elvss_cmd.payload = elvss_set[level];
+		
+		oled_gamma[0] = 0xca;	
+		oled_gamma[1] = (0x0100 & ctrl->gamma_set.gamma_table[level][0]) >> 8 ;
+		oled_gamma[2] =0x0ff & ctrl->gamma_set.gamma_table[level][0] ;	
+		oled_gamma[3] =  (0x0100 & ctrl->gamma_set.gamma_table[level][1]) >> 8 ;	
+		oled_gamma[4] = 0x0ff & ctrl->gamma_set.gamma_table[level][1] ;
+		oled_gamma[5] = (0x0100 & ctrl->gamma_set.gamma_table[level][2]) >> 8 ;
+		oled_gamma[6] = 0x0ff & ctrl->gamma_set.gamma_table[level][2] ;
+
+			
+		for(i = 7; i <34;i++ ){
+			if(ctrl->gamma_set.gamma_table[level][i-4] < 255){
+				oled_gamma[i] = ctrl->gamma_set.gamma_table[level][i-4] ;
+			}
+			else{
+				oled_gamma[i] =0xff; 
+			}
+		}
+#ifdef CONFIG_F_SKYDISP_ELVSS_WORK
+		for(index = 1; index <=10; index++){
+			tsens_dev.sensor_num = index;
+			ret = tsens_get_temp(&tsens_dev, &temp);
+			if (ret) {
+				pr_err(" Unable to read TSENS sensor %d\n", tsens_dev.sensor_num);
+				return;
+			}
+			//printk("elvss_temp_work %ld\n",temp);
+			average_temp += temp;
+		}
+		average_temp = average_temp /10;
+		if(average_temp > 127)
+			average_temp = 127;
+		if(average_temp  < -127)
+			average_temp = -127;
+		
+		if(average_temp <= 127 && average_temp >= 0){
+			if(ctrl->manufacture_id == SAMSUNG_DRIVER_IC)
+				temp_set_lsi[1] = 0x7f & (unsigned char)average_temp;
+			else
+				temp_set[1] = 0x7f & (unsigned char)average_temp;
+		}
+		if(average_temp >= -127 && average_temp <= -1){
+			if(ctrl->manufacture_id == SAMSUNG_DRIVER_IC)
+				temp_set_lsi[1] =0x80 | (~(unsigned char)average_temp);
+			else	
+				temp_set[1] = 0x80 | (~(unsigned char)average_temp);
+		}
+		if(ctrl->manufacture_id == SAMSUNG_DRIVER_IC)
+			temp_cmd.payload = temp_set_lsi;
+		else
+		temp_cmd.payload = temp_set;
+		
+#endif
+	}
+	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_ON, false);
+	mdss_set_tx_power_mode(0 , &ctrl->panel_data );
+        msleep(2);
+
+	//if(ctrl->manufacture_id == SAMSUNG_DRIVER_IC)
+		//mdss_dsi_cmds_send(ctrl,&cmdreq,&mtp_unlock_cmd);
+	
+	mdss_dsi_cmds_send(ctrl,&cmdreq,&backlight_cmd);
+	mdss_dsi_cmds_send(ctrl,&cmdreq,&aor_cmd);
+	mdss_dsi_cmds_send(ctrl,&cmdreq,&elvss_cmd);
+	mdss_dsi_cmds_send(ctrl,&cmdreq,&locking_cmd);
+#if (1) // no-feature because urgency-issue
+/*
+* 20140422, kkcho, Bug-Fix : Sometimes.. backlight_set fail
+* Apply the below code from samsung
+*/
+	if(ctrl->manufacture_id == SAMSUNG_DRIVER_IC){
+		ndelay(100);
+		mdss_dsi_cmds_send(ctrl,&cmdreq,&locking_disable_cmd);
+	}
+#endif	
+
+#ifdef CONFIG_F_SKYDISP_ELVSS_WORK
+	if(ctrl->manufacture_id == SAMSUNG_DRIVER_IC){
+		mdss_dsi_cmds_send(ctrl,&cmdreq,&g_para_cmd);
+		mdss_dsi_cmds_send(ctrl,&cmdreq,&temp_lsi_cmd);
+#ifdef CONFIG_F_SKYDISP_HBM_FOR_AMOLED
+		if(ctrl->onflag){
+			mdss_dsi_panel_cmds_send(ctrl, &ctrl->display_on_cmds);
+			ctrl->onflag = false;
+		}
+#endif
+	}else{
+		mdss_dsi_cmds_send(ctrl,&cmdreq,&temp_cmd);
+	}
+#endif  
+
+	msleep(1);
+	mdss_set_tx_power_mode(1 ,&ctrl->panel_data);
+        mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_OFF, false);
+
+	pr_err(" %d backlight level = %d AOR = 0x%x ELVSS = 0x%x TEMP = 0x%x lock = 0x%x ctrl->onflag = %d\n",
+		level,gamma_level[level],aor_dim[level][4],elvss_set[level][2],temp_cmd.payload[1],locking[1],ctrl->onflag);	
+#ifdef F_WA_WATCHDOG_DURING_BOOTUP
+	ctrl->octa_blck_set =1;
+#endif
+	
+//TODO
+}
+#else
 static char led_pwm1[2] = {0x51, 0x0};	/* DTYPE_DCS_WRITE1 */
 static struct dsi_cmd_desc backlight_cmd = {
 	{DTYPE_DCS_WRITE1, 1, 0, 0, 1, sizeof(led_pwm1)},
@@ -152,9 +389,113 @@ static void mdss_dsi_panel_bklt_dcs(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 
 	mdss_dsi_cmdlist_put(ctrl, &cmdreq);
 }
+#endif
 
 void mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 {
+#if defined (CONFIG_F_SKYDISP_EF56_SS) || defined (CONFIG_F_SKYDISP_EF59_SS) ||defined (CONFIG_F_SKYDISP_EF60_SS) ||(defined (CONFIG_F_SKYDISP_EF63_SS) && (CONFIG_BOARD_VER <= CONFIG_PT20)) 
+	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
+	struct mdss_panel_info *pinfo = NULL;
+
+	if (pdata == NULL) {
+		pr_err("%s: Invalid input data\n", __func__);
+		return;
+	}
+
+	ctrl_pdata = container_of(pdata, struct mdss_dsi_ctrl_pdata,
+				panel_data);
+
+	if (!gpio_is_valid(ctrl_pdata->bl_en_gpio)) {
+		pr_debug("%s:%d, reset line not configured\n",
+			   __func__, __LINE__);
+	}
+
+	if (!gpio_is_valid(ctrl_pdata->rst_gpio)) {
+		pr_debug("%s:%d, reset line not configured\n",
+			   __func__, __LINE__);
+		return;
+	}
+	if (!gpio_is_valid(ctrl_pdata->lcd_vcip_reg_en_gpio)) {
+		pr_debug("%s:%d, lcd vcip line not configured\n",
+			   __func__, __LINE__);
+		return;
+	}
+	pr_debug("%s: enable = %d\n", __func__, enable);
+	pinfo = &(ctrl_pdata->panel_data.panel_info);
+
+	if (enable) {
+		if (gpio_is_valid(ctrl_pdata->lcd_vcip_reg_en_gpio))
+			gpio_set_value((ctrl_pdata->lcd_vcip_reg_en_gpio), 1);
+              msleep(5);
+#if defined (CONFIG_F_SKYDISP_EF56_SS)			  
+		if (gpio_is_valid(ctrl_pdata->lcd_vcin_reg_en_gpio))
+			gpio_set_value((ctrl_pdata->lcd_vcin_reg_en_gpio), 1);
+              msleep(3);	
+#endif			  
+			//gpio_set_value((ctrl_pdata->rst_gpio),1);
+              	//msleep(10); 
+			//gpio_set_value((ctrl_pdata->rst_gpio),0);
+			msleep(20);
+			gpio_set_value((ctrl_pdata->rst_gpio),1);
+              msleep(10); 
+		if (ctrl_pdata->ctrl_state & CTRL_STATE_PANEL_INIT) {
+			pr_debug("%s: Panel Not properly turned OFF\n",
+						__func__);
+			ctrl_pdata->ctrl_state &= ~CTRL_STATE_PANEL_INIT;
+			pr_debug("%s: Reset panel done\n", __func__);
+		}
+	} else {
+		gpio_set_value((ctrl_pdata->rst_gpio), 0);
+		msleep(5);
+#if defined (CONFIG_F_SKYDISP_EF56_SS)		
+		if (gpio_is_valid(ctrl_pdata->lcd_vcin_reg_en_gpio))
+			gpio_set_value((ctrl_pdata->lcd_vcin_reg_en_gpio), 0);	
+		msleep(3);
+#endif
+		if (gpio_is_valid(ctrl_pdata->lcd_vcip_reg_en_gpio))
+			gpio_set_value((ctrl_pdata->lcd_vcip_reg_en_gpio), 0);
+		msleep(100);
+	}
+#elif (defined (CONFIG_F_SKYDISP_EF63_SS) && (CONFIG_BOARD_VER >= CONFIG_WS10))
+	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
+	struct mdss_panel_info *pinfo = NULL;
+
+	if (pdata == NULL) {
+		pr_err("%s: Invalid input data\n", __func__);
+		return;
+	}
+
+	ctrl_pdata = container_of(pdata, struct mdss_dsi_ctrl_pdata,
+				panel_data);
+
+	if (!gpio_is_valid(ctrl_pdata->octa_rst_gpio)) {
+		pr_debug("%s:%d, reset line not configured\n",
+			   __func__, __LINE__);
+		return;
+	}
+
+	pr_debug("%s: enable = %d\n", __func__, enable);
+	pinfo = &(ctrl_pdata->panel_data.panel_info);
+
+	if (enable) {
+#if 0		
+		gpio_set_value((ctrl->octa_rst_gpio), 1);
+		msleep(10);
+		gpio_set_value((ctrl->octa_rst_gpio), 0);
+              msleep(10); 
+		gpio_set_value((ctrl->octa_rst_gpio), 1);
+		msleep(10);
+#endif		
+		if (ctrl_pdata->ctrl_state & CTRL_STATE_PANEL_INIT) {
+			pr_debug("%s: Panel Not properly turned OFF\n",
+						__func__);
+			ctrl_pdata->ctrl_state &= ~CTRL_STATE_PANEL_INIT;
+			pr_debug("%s: Reset panel done\n", __func__);
+		}
+	} else {
+		gpio_set_value((ctrl_pdata->octa_rst_gpio), 0);
+	}
+#else  //QUALCOMM default
 	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
 	struct mdss_panel_info *pinfo = NULL;
 	int i;
@@ -209,6 +550,7 @@ void mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 		if (gpio_is_valid(ctrl_pdata->disp_en_gpio))
 			gpio_set_value((ctrl_pdata->disp_en_gpio), 0);
 	}
+#endif	
 }
 
 static char caset[] = {0x2a, 0x00, 0x00, 0x03, 0x00};	/* DTYPE_DCS_LWRITE */
@@ -265,19 +607,668 @@ static int mdss_dsi_panel_partial_update(struct mdss_panel_data *pdata)
 
 	return rc;
 }
-
-static void mdss_dsi_panel_bl_ctrl(struct mdss_panel_data *pdata,
-							u32 bl_level)
+#ifdef CONFIG_F_SKYDISP_CABC_CONTROL
+void cabc_control(struct mdss_panel_data *pdata, int state)
 {
 	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
+	ctrl_pdata = container_of(pdata, struct mdss_dsi_ctrl_pdata,panel_data);
+#if defined (CONFIG_F_SKYDISP_EF56_SS) ||defined (CONFIG_F_SKYDISP_EF60_SS)
+	if(state == 1){
+		*(ctrl_pdata->cabc_cmds.cmds->payload + 1) = 0x01;	
+		ctrl_pdata->on_cmds.buf[207] = 0x01;
+	}else if(state == 0){
+		*(ctrl_pdata->cabc_cmds.cmds->payload + 1) = 0x00;
+		ctrl_pdata->on_cmds.buf[207] = 0x00;
+	}else { //for err
+		*(ctrl_pdata->cabc_cmds.cmds->payload+ 1) = 0x01;
+		ctrl_pdata->on_cmds.buf[207] = 0x01;
+	}	
+#else
+	if(state == 1){
+		*(ctrl_pdata->cabc_cmds.cmds->payload + 1) = 0x03;	
+		ctrl_pdata->on_cmds.buf[178] = 0x03;
+	}else if(state == 0){
+		*(ctrl_pdata->cabc_cmds.cmds->payload + 1) = 0x00;
+		ctrl_pdata->on_cmds.buf[178] = 0x00;
+	}else { //for err
+		*(ctrl_pdata->cabc_cmds.cmds->payload+ 1) = 0x03;
+		ctrl_pdata->on_cmds.buf[178] = 0x03;
+	}	
+#endif
+	mdss_dsi_panel_cmds_send(ctrl_pdata, &ctrl_pdata->cabc_cmds);
+}
+#endif
 
+#ifdef CONFIG_F_SKYDISP_AMOLED_READ_DATA
+void mtp_read_genernal(int data,char * read_buf)
+{
+	struct msm_fb_data_type *mfd = mfdmsm_fb_get_mfd();
+	struct mdss_panel_info *panel_info = mfd->panel_info;
+	struct mdss_panel_data * pdata =NULL;
+	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
+	int index = 0;
+
+	pdata = container_of(panel_info, struct mdss_panel_data,
+				panel_info);
+	ctrl_pdata = container_of(pdata, struct mdss_dsi_ctrl_pdata,
+				panel_data);
+
+	for(index = 0; index < data; index++){
+		printk("0x%x ",*(read_buf));
+		(read_buf)++;
+	}
+	printk("\n");
+	
+}
+void pannel_read(struct mdss_panel_data *pdata, int state)
+{
+	struct msm_fb_data_type *mfd = mfdmsm_fb_get_mfd();
+	struct mdss_dsi_ctrl_pdata *ctrl = NULL;
+	struct dcs_cmd_req cmdreq;
+	int i;
+	char mtp_write_data[2] = {0xb0, 0x00};
+
+	
+	struct dsi_cmd_desc mtp_data_cmd = {{DTYPE_DCS_WRITE1, 1, 0, 0, 1, sizeof(mtp_write_data)},mtp_write_data};
+	memset(&cmdreq, 0, sizeof(cmdreq));
+	cmdreq.cmds = &mtp_data_cmd;
+	cmdreq.cmds_cnt = 1;
+	cmdreq.flags = CMD_REQ_COMMIT | CMD_CLK_CTRL;
+	cmdreq.rlen = 0;
+	cmdreq.cb = NULL;
+
+
+
+	ctrl = container_of(pdata, struct mdss_dsi_ctrl_pdata,
+				panel_data);
+	
+	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_ON, false);
+	
+
+	printk("---------------Gamma = %d-----------------\n",gamma_level[mfd->bl_level]);	
+	printk("---------------CA register--------------------\n");
+	
+	for(i = 0; i < 4; i++){
+		*(cmdreq.cmds->payload + 1) = i*8;
+		mdss_dsi_cmdlist_put(ctrl, &cmdreq);
+		mdss_dsi_panel_cmd_read(ctrl,0xca,0x00,mtp_read_genernal,ctrl->rx_buf.data,8);
+	
+	}	
+
+	*(cmdreq.cmds->payload + 1) = 32;
+	mdss_dsi_cmdlist_put(ctrl, &cmdreq);
+	mdss_dsi_panel_cmd_read(ctrl,0xca,0x00,mtp_read_genernal,ctrl->rx_buf.data,1);
+		
+	printk("---------------C8 register--------------------\n");
+
+	for(i = 0; i < 12; i++){
+		*(cmdreq.cmds->payload + 1) = i*8;
+		mdss_dsi_cmdlist_put(ctrl, &cmdreq);
+		mdss_dsi_panel_cmd_read(ctrl,0xc8,0x00,mtp_read_genernal,ctrl->rx_buf.data,8);
+	
+	}		
+	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_ON, true);
+
+}
+#endif
+#ifdef CONFIG_F_SKYDISP_HBM_FOR_AMOLED
+void mtp_read_hbm_elvss(int data,char * read_buf)
+{
+	int index = 0;
+	static int index_cnt = 1;
+
+	for(index = 0; index < data; index++){
+		elvss_hbm_cmd_backup[index_cnt] = *(read_buf);
+		(read_buf)++;
+		index_cnt++;
+	}
+	
+
+}
+void mtp_read_hbm(int data,char * read_buf)
+{
+
+	int index = 0;
+	static int index_cnt = 1;
+	static int first_entry = true;
+
+	for(index = 0; index < data; index++){
+		if(index_cnt == 7 && first_entry){
+			elvss_hbm_cmd[17] = *(read_buf);
+			index_cnt = index_cnt-1; 
+			first_entry = false;
+		}else{
+			hbm_gamma[index_cnt] = *(read_buf);
+		}
+		(read_buf)++;
+		index_cnt++;
+	}
+	
+
+	
+}
+void acl_control(struct mdss_panel_data *pdata, int state)
+{
+	struct dcs_cmd_req cmdreq;
+	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
+	char acl_data[2] = {0x55, 0x01};
+	struct dsi_cmd_desc acl_data_cmd = {{DTYPE_DCS_WRITE1, 1, 0, 0, 1, sizeof(acl_data)},acl_data};
+	
+	ctrl_pdata = container_of(pdata, struct mdss_dsi_ctrl_pdata,
+				panel_data);
+
+
+	if(state == 0){		
+		acl_data[1] = 0x00; 
+	}
+	else if(state == 1)
+	{
+		acl_data[1] = 0x01;
+	}
+	else if(state == 2)
+	{
+		acl_data[1] = 0x02;
+	}
+	else if(state == 3)
+	{
+		acl_data[1] = 0x03;
+	}
+	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_ON, false);
+	mdss_set_tx_power_mode(0 , pdata );
+	
+	mdss_dsi_cmds_send(ctrl_pdata,&cmdreq,&acl_data_cmd);
+	
+	mdss_set_tx_power_mode(1 , pdata );
+	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_OFF, false);	
+	pr_info("Oled acl  = %d \n",state );
+}
+void hbm_control_magna(struct mdss_panel_data *pdata, int state)
+{
+
+	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
+	struct dcs_cmd_req cmdreq;
+	struct msm_fb_data_type * mfd = mfdmsm_fb_get_mfd();
+
+	char hbm_data[2] = {0x53, 0xD0};
+	char acl_data[2] = {0x55, 0x00};	
+	struct dsi_cmd_desc hbm_data_cmd = {{DTYPE_DCS_WRITE1, 1, 0, 0, 1, sizeof(hbm_data)},hbm_data};
+	struct dsi_cmd_desc acl_data_cmd = {{DTYPE_DCS_WRITE1, 1, 0, 0, 1, sizeof(acl_data)},acl_data};
+
+	ctrl_pdata = container_of(pdata, struct mdss_dsi_ctrl_pdata,
+				panel_data);
+
+	
 	if (pdata == NULL) {
 		pr_err("%s: Invalid input data\n", __func__);
 		return;
 	}
+	
+	if(!mfd->panel_power_on)
+	{
+		printk("[%s] panel is off state (%d).....\n",__func__,mfd->panel_power_on);
+		return;
+	}
+	
+	//if(pdata->hbm_flag == state)
+		//return;
+	
+	if(state == 0){
+		hbm_data[1] = 0x00;
+		acl_data[1] = 0x01; 
+		ctrl_pdata->hbm_onoff = false;
+	}
+	else
+	{//off
+		hbm_data[1] = 0xD0;
+		acl_data[1] = 0x02;
+		ctrl_pdata->hbm_onoff = true;
+	}
 
+	memset(&cmdreq, 0, sizeof(cmdreq));
+	cmdreq.cmds = &hbm_data_cmd;
+	cmdreq.cmds_cnt = 1;
+	cmdreq.flags = CMD_REQ_COMMIT | CMD_CLK_CTRL;
+	cmdreq.rlen = 0;
+	cmdreq.cb = NULL;
+
+	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_ON, false);
+	mdss_set_tx_power_mode(0 , pdata );
+	
+	mdss_dsi_cmdlist_put(ctrl_pdata, &cmdreq);
+	
+	cmdreq.cmds = &acl_data_cmd;
+	mdss_dsi_cmdlist_put(ctrl_pdata, &cmdreq);
+	
+	mdss_set_tx_power_mode(1 , pdata );
+	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_OFF, false);
+	//pdata->hbm_flag = state;
+	pr_info("Oled hbm %s \n",state ? "on" : "off" );
+
+}
+
+void hbm_control_ddi(struct mdss_panel_data *pdata, int state)
+{
+
+	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
+	struct dcs_cmd_req cmdreq;
+	struct msm_fb_data_type * mfd = mfdmsm_fb_get_mfd();
+	
+	char aor_hbm_cmd[5] = {0xB2,0x00,0x08,0x00,0x08};	
+	char acl_hbm_cmd[2] = {0x55, 0x01};	
+	
+	struct dsi_cmd_desc hbm_gamma_cmd = {{DTYPE_DCS_LWRITE, 1, 0, 0, 1, sizeof(hbm_gamma)},hbm_gamma};	
+	struct dsi_cmd_desc hbm_aor_cmd = {{DTYPE_DCS_LWRITE, 1, 0, 0, 1, sizeof(aor_hbm_cmd)},aor_hbm_cmd};	
+	struct dsi_cmd_desc hbm_elvss_cmd = {{DTYPE_DCS_LWRITE, 1, 0, 0, 1, sizeof(elvss_hbm_cmd)},elvss_hbm_cmd};	
+	struct dsi_cmd_desc hbm_acl_cmd = {{DTYPE_DCS_LWRITE, 1, 0, 0, 1, sizeof(acl_hbm_cmd)},acl_hbm_cmd};	
+	
 	ctrl_pdata = container_of(pdata, struct mdss_dsi_ctrl_pdata,
 				panel_data);
+#ifdef CONFIG_F_SKYDISP_EF63_DRIVER_IC_CHECK
+	if(ctrl_pdata->manufacture_id_rev == NEW_REV){
+		aor_hbm_cmd[2] = 0x0e;
+		aor_hbm_cmd[4] = 0x0e;
+	}
+#endif	
+	if (pdata == NULL) {
+		pr_err("%s: Invalid input data\n", __func__);
+		return;
+	}
+	
+	if(!mfd->panel_power_on)
+	{
+		printk("[%s] panel is off state (%d).....\n",__func__,mfd->panel_power_on);
+		return;
+	}
+	
+	//if(pdata->hbm_flag == state)
+		//return;
+
+	
+	
+	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_ON, false);
+	mdss_set_tx_power_mode(0 , &ctrl_pdata->panel_data );
+	
+	if(state == 1){
+		//mdss_dsi_cmds_send(ctrl_pdata,&cmdreq,&mtp_unlock_cmd);
+		mdss_dsi_cmds_send(ctrl_pdata,&cmdreq,&hbm_gamma_cmd);
+		mdss_dsi_cmds_send(ctrl_pdata,&cmdreq,&hbm_aor_cmd);
+		mdss_dsi_cmds_send(ctrl_pdata,&cmdreq,&hbm_elvss_cmd);
+		mdss_dsi_cmds_send(ctrl_pdata,&cmdreq,&hbm_acl_cmd);
+		mdss_dsi_cmds_send(ctrl_pdata,&cmdreq,&locking_cmd);
+		ctrl_pdata->hbm_onoff = true;
+	}else
+	{
+
+		aor_cmd.payload = aor_dim[mfd->bl_level];	
+
+		memcpy(elvss_hbm_cmd,elvss_hbm_cmd_backup,sizeof(elvss_hbm_cmd));
+		
+		elvss_hbm_cmd[1] = 	elvss_set[mfd->bl_level][1];
+		elvss_hbm_cmd[2] =  elvss_set[mfd->bl_level][2];
+		acl_hbm_cmd[1] = 0x01;
+		//mdss_dsi_cmds_send(ctrl_pdata,&cmdreq,&mtp_unlock_cmd);
+		mdss_dsi_cmds_send(ctrl_pdata,&cmdreq,&backlight_cmd);
+		mdss_dsi_cmds_send(ctrl_pdata,&cmdreq,&aor_cmd);
+		mdss_dsi_cmds_send(ctrl_pdata,&cmdreq,&hbm_elvss_cmd);
+		mdss_dsi_cmds_send(ctrl_pdata,&cmdreq,&hbm_acl_cmd);
+		mdss_dsi_cmds_send(ctrl_pdata,&cmdreq,&locking_cmd);
+		ctrl_pdata->hbm_onoff = false;
+	}	
+	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_ON, true);
+	mdss_set_tx_power_mode(1 , &ctrl_pdata->panel_data );
+	//pdata->hbm_flag = state;
+	pr_info("Oled hbm %s \n",state ? "on" : "off" );
+}
+
+#endif
+#ifdef CONFIG_F_SKYDISP_SMARTDIMMING
+void panel_gamma_sort(struct mdss_dsi_ctrl_pdata *pdata)
+{
+	int i;
+	int index;
+	int cnt = 27;
+	int temp_data = 0;
+	if(pdata == NULL)
+		return;
+
+	
+	for(index = 0; index < GAMMA_TABLE_SIZE; index++){
+		for(i = 0; i < 15;){
+			temp_data = pdata->gamma_set.gamma_table[index][i];
+			pdata->gamma_set.gamma_table[index][i] = pdata->gamma_set.gamma_table[index][cnt];
+			pdata->gamma_set.gamma_table[index][cnt] = temp_data;
+
+			temp_data= pdata->gamma_set.gamma_table[index][i+1];
+			pdata->gamma_set.gamma_table[index][i+1] = pdata->gamma_set.gamma_table[index][cnt+1];
+			pdata->gamma_set.gamma_table[index][cnt+1] = temp_data;
+
+			temp_data= pdata->gamma_set.gamma_table[index][i+2];
+			pdata->gamma_set.gamma_table[index][i+2] = pdata->gamma_set.gamma_table[index][cnt+2];
+			pdata->gamma_set.gamma_table[index][cnt+2] = temp_data;
+			i += 3; 
+			cnt -= 3;
+		}
+		cnt =27;
+	}
+#if 0
+	for( i = 0; i < 32;i++){
+		printk("-----------%d gamma----------------\n",gamma_level[i]);
+		for( index = 0; index< 30;){
+			printk("R : 0x%x  G :0x%x B : 0x%x\n",pdata->gamma_set.gamma_table[i][index],pdata->gamma_set.gamma_table[i][index+1],pdata->gamma_set.gamma_table[i][index+2]);
+		index+=3;
+		}
+	}
+#endif
+}
+void mtp_read(int data,char * read_buf)
+{
+
+	struct msm_fb_data_type *mfd = mfdmsm_fb_get_mfd();
+	struct mdss_panel_info *panel_info = mfd->panel_info;
+	struct mdss_panel_data * pdata =NULL;
+	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
+	int index = 0;
+	int temp_index = V203;
+	
+	pdata = container_of(panel_info, struct mdss_panel_data,
+				panel_info);
+	ctrl_pdata = container_of(pdata, struct mdss_dsi_ctrl_pdata,
+				panel_data);
+
+	for(index = 0; index < data; index++){
+		printk("OLED Mtp Value[%d] = %d 0x%x\n",ctrl_pdata->mtp_cnt,*read_buf,*read_buf);
+		ctrl_pdata->panel_read_mtp.mtp_data_RGB[ctrl_pdata->mtp_cnt] = *(read_buf);
+		(read_buf)++;
+		ctrl_pdata->mtp_cnt++;
+	}
+	
+	if(ctrl_pdata->mtp_cnt == MTP_READ_MAX)
+	{
+		ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_R][V255] = ((ctrl_pdata->panel_read_mtp.mtp_data_RGB[0] & 0x01) <<8) + ctrl_pdata->panel_read_mtp.mtp_data_RGB[1];
+		ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_G][V255] = ((ctrl_pdata->panel_read_mtp.mtp_data_RGB[2] & 0x01) << 8) + ctrl_pdata->panel_read_mtp.mtp_data_RGB[3];
+		ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_B][V255] = ((ctrl_pdata->panel_read_mtp.mtp_data_RGB[4] & 0x01) << 8)+ ctrl_pdata->panel_read_mtp.mtp_data_RGB[5];
+
+		if(ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_R][V255] > 255)
+			ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_R][V255] = -(ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_R][V255] -256);
+		if(ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_G][V255] > 255)
+			ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_G][V255] = -(ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_G][V255] -256);
+		if(ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_B][V255] > 255)
+			ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_B][V255] = -(ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_B][V255] -256);
+
+		for(index = 6; index < MTP_READ_MAX; )
+		{
+			ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_R][temp_index] = ctrl_pdata->panel_read_mtp.mtp_data_RGB[index];
+			ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_G][temp_index] = ctrl_pdata->panel_read_mtp.mtp_data_RGB[index + 1];
+			ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_B][temp_index] = ctrl_pdata->panel_read_mtp.mtp_data_RGB[index + 2];
+			
+			if(ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_R][temp_index] > 127)
+				ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_R][temp_index] = -(ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_R][temp_index] - 128);
+			if(ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_G][temp_index] > 127)
+				ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_G][temp_index] = -(ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_G][temp_index] - 128);
+			if(ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_B][temp_index] > 127)
+				ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_B][temp_index] = -(ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_B][temp_index] - 128);
+			
+			index += 3;
+			temp_index--;
+		}	
+
+		//gamma_add2_mtp
+		for(index = 0; index < V255_MAX; index++){
+			for(temp_index = 0; temp_index < RGB_MAX; temp_index++){
+				ctrl_pdata->panel_read_mtp.gamma_add2_mtp[temp_index][index] = ctrl_pdata->panel_read_mtp.mtp_RGB[temp_index][index] 
+																+ ctrl_pdata->panel_read_mtp.panel_gamma_data[temp_index][index];
+			}
+		}	
+		
+#if 0//def SMART_DIMMING_DEBUG
+		for(index = 0;index < 10;index++)
+			printk("mtp_data_R[%d]\n",ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_R][index]);
+		printk("======\n");
+		for(index = 0;index < 10;index++)
+			printk("mtp_data_G[%d]\n",ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_G][index]);
+		printk("======\n");
+		for(index = 0;index < 10;index++)
+			printk("mtp_data_B[%d]\n",ctrl_pdata->panel_read_mtp.mtp_RGB[RGB_B][index]);
+
+		for(index = 0;index < 10;index++)
+			printk("panel_gamma_data_R[%d]\n",ctrl_pdata->panel_read_mtp.panel_gamma_data[RGB_R][index]);
+		printk("======\n");
+		for(index = 0;index < 10;index++)
+			printk("panel_gamma_data_G[%d]\n",ctrl_pdata->panel_read_mtp.panel_gamma_data[RGB_G][index]);
+		printk("======\n");
+		for(index = 0;index < 10;index++)
+			printk("panel_gamma_data_B[%d]\n",ctrl_pdata->panel_read_mtp.panel_gamma_data[RGB_B][index]);
+		
+		for(index = 0;index < 10;index++)
+			printk("gamma_add2_mtp[%d]\n",ctrl_pdata->panel_read_mtp.gamma_add2_mtp[RGB_R][index]);
+		printk("======\n");
+		for(index = 0;index < 10;index++)
+			printk("gamma_add2_mtp[%d]\n",ctrl_pdata->panel_read_mtp.gamma_add2_mtp[RGB_G][index]);
+		printk("======\n");
+		for(index = 0;index < 10;index++)
+			printk("gamma_add2_mtp[%d]\n",ctrl_pdata->panel_read_mtp.gamma_add2_mtp[RGB_B][index]);
+#endif
+	}
+
+}	
+
+#ifdef CONFIG_F_SKYDISP_EF63_DRIVER_IC_CHECK
+
+
+static void ef63_octa_driver_ic_check(struct mdss_dsi_ctrl_pdata *ctrl)
+{
+	char id1[]= {0};
+	char id3[]= {0};
+	mdss_dsi_panel_cmd_read(ctrl, 0xda, 0x00, NULL, id1, 1);
+		
+	//mdss_dsi_panel_cmd_read(ctrl, 0xdb, 0x00, NULL, id2, 1);
+	mdss_dsi_panel_cmd_read(ctrl, 0xdc, 0x00, NULL, id3, 1);
+
+	if(id1[0] == 0x40  /*&& id2[0] == 0x40 && id3[0] == 0x24*/){
+	
+		if(id3[0] >= 0x28)
+			ctrl->manufacture_id_rev = NEW_REV;
+		else
+			ctrl->manufacture_id_rev = OLD_REV;				
+		ctrl->manufacture_id = SAMSUNG_DRIVER_IC;
+		printk("[PANTECH_LCD]DDI_connect: id1=%x, id2=.., id3=%x\n",id1[0],id3[0] );
+	}
+	else if(id1[0] == 0x20 /*&& id2[0] == 0x0 && id3[0] == 0x01*/)	{			
+		ctrl->manufacture_id = MAGNA_DRIVER_IC;
+		printk("[PANTECH_LCD]MaganaIC_connect: id1=%x, id2=.., id3=.\n",id1[0]);
+	}
+	else
+		ctrl->manufacture_id = NO_CONNECT;		
+}
+#endif
+
+#ifdef F_LSI_VDDM_OFFSET_RD_WR 
+static void ef63_octa_vddm_offset(struct mdss_dsi_ctrl_pdata *ctrl)
+{
+	int vddm_offset;
+	char vddm_offset_read[]={0};
+	
+	mdss_dsi_panel_cmd_read(ctrl, 0xD7, 0x00, NULL, vddm_offset_read, 1);
+	vddm_offset=(unsigned int)(vddm_offset_read[0] & 0x7F);
+	pr_info("%s:vddm_offset = %d , ldi_vddm_lut[%d][1] = %d \n", __func__, vddm_offset, vddm_offset, ldi_vddm_lut[vddm_offset][1]);
+	ctrl->vddm_offset_write_cmds.buf[27] = ldi_vddm_lut[vddm_offset][1];
+}
+#endif
+void read_reg_chipdependency(struct mdss_dsi_ctrl_pdata *ctrl_pdata,int base_addr,int offset)
+{
+	struct dcs_cmd_req cmdreq;
+	int quotient,remainder,index;
+	
+	char mtp_write_data[2] = {0xb0, 0x00};	
+	struct dsi_cmd_desc mtp_data_cmd = {{DTYPE_DCS_WRITE1, 1, 0, 0, 1, sizeof(mtp_write_data)},mtp_write_data};
+	mtp_write_data[1] = base_addr;	
+	quotient  = offset / 8;
+	if(offset >= 8)
+		remainder = offset % 8;
+	else
+		remainder = offset;
+	
+
+	
+	//if(ctrl_pdata->manufacture_id == SAMSUNG_DRIVER_IC)
+		//mdss_dsi_cmds_send(ctrl_pdata,&cmdreq,&mtp_unlock_cmd);
+	
+	memset(&cmdreq, 0, sizeof(cmdreq));
+	cmdreq.cmds = &mtp_data_cmd;
+	cmdreq.cmds_cnt = 1;
+	cmdreq.flags = CMD_REQ_COMMIT | CMD_CLK_CTRL;
+	cmdreq.rlen = 0;
+	cmdreq.cb = NULL;
+	
+	for(index = 0; index < quotient; index++){
+		*(cmdreq.cmds->payload + 1) = 8 * index  + base_addr;
+		mdss_dsi_cmdlist_put(ctrl_pdata, &cmdreq);	
+		mdss_dsi_panel_cmd_read(ctrl_pdata,0xc8,0x00,mtp_read,ctrl_pdata->rx_buf.data,8);
+		printk("Reg Offset  = 0x%x index = %d mtp_write_data = %d\n",*(cmdreq.cmds->payload + 1),index, mtp_write_data[1]);
+	}
+
+	*(cmdreq.cmds->payload + 1) = quotient * 8 + base_addr;
+	mdss_dsi_cmdlist_put(ctrl_pdata, &cmdreq);
+	mdss_dsi_panel_cmd_read(ctrl_pdata,0xc8,0x00,mtp_read,ctrl_pdata->rx_buf.data,remainder);
+	printk("Reg Offset  = 0x%x index = %d mtp_write_data = %d\n",*(cmdreq.cmds->payload + 1),index, mtp_write_data[1]);
+
+	
+#ifdef CONFIG_F_SKYDISP_HBM_FOR_AMOLED
+	if(ctrl_pdata->manufacture_id == SAMSUNG_DRIVER_IC){//read for hbm
+		*(cmdreq.cmds->payload + 1) = 33;
+		mdss_dsi_cmdlist_put(ctrl_pdata, &cmdreq);
+		mdss_dsi_panel_cmd_read(ctrl_pdata,0xc8,0x00,mtp_read_hbm,ctrl_pdata->rx_buf.data,7);
+		*(cmdreq.cmds->payload + 1) = 72;
+		mdss_dsi_cmdlist_put(ctrl_pdata, &cmdreq);
+		mdss_dsi_panel_cmd_read(ctrl_pdata,0xc8,0x00,mtp_read_hbm,ctrl_pdata->rx_buf.data,8);
+		*(cmdreq.cmds->payload + 1) = 80;
+		mdss_dsi_cmdlist_put(ctrl_pdata, &cmdreq);
+		mdss_dsi_panel_cmd_read(ctrl_pdata,0xc8,0x00,mtp_read_hbm,ctrl_pdata->rx_buf.data,7);
+
+		*(cmdreq.cmds->payload + 1) = 0;
+		mdss_dsi_cmdlist_put(ctrl_pdata, &cmdreq);//elvss 6reg
+		mdss_dsi_panel_cmd_read(ctrl_pdata,0xb6,0x00,mtp_read_hbm_elvss,ctrl_pdata->rx_buf.data,8);
+		*(cmdreq.cmds->payload + 1) = 8;
+		mdss_dsi_cmdlist_put(ctrl_pdata, &cmdreq);
+		mdss_dsi_panel_cmd_read(ctrl_pdata,0xb6,0x00,mtp_read_hbm_elvss,ctrl_pdata->rx_buf.data,8);
+		
+		*(cmdreq.cmds->payload + 1) = 16;
+		mdss_dsi_cmdlist_put(ctrl_pdata, &cmdreq);
+		mdss_dsi_panel_cmd_read(ctrl_pdata,0xb6,0x00,mtp_read_hbm_elvss,ctrl_pdata->rx_buf.data,1);
+}
+#endif
+}
+void mtp_read_work(struct work_struct *work)
+{
+	struct msm_fb_data_type *mfd = mfdmsm_fb_get_mfd();
+	struct mdss_panel_info *panel_info = mfd->panel_info;
+	struct mdss_panel_data * pdata =NULL;
+	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
+	
+	pdata = container_of(panel_info, struct mdss_panel_data,
+				panel_info);
+	ctrl_pdata = container_of(pdata, struct mdss_dsi_ctrl_pdata,
+				panel_data);
+
+	mdss_dsi_sw_reset(pdata);
+	mdss_dsi_host_init(&panel_info->mipi, pdata);
+	mdss_dsi_op_mode_config(panel_info->mipi.mode, pdata);
+
+	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_ON, false);
+	mdss_set_tx_power_mode(0 , pdata );
+
+#ifdef CONFIG_F_SKYDISP_EF63_DRIVER_IC_CHECK
+	ef63_octa_driver_ic_check(ctrl_pdata);	
+#endif
+
+#ifdef F_LSI_VDDM_OFFSET_RD_WR 
+	if(ctrl_pdata->manufacture_id == SAMSUNG_DRIVER_IC)
+		ef63_octa_vddm_offset(ctrl_pdata);
+#endif
+
+	if(ctrl_pdata->manufacture_id == SAMSUNG_DRIVER_IC){
+		read_reg_chipdependency(ctrl_pdata,0x00,33);
+#ifdef CONFIG_F_SKYDISP_HBM_FOR_AMOLED
+	ctrl_pdata->onflag = false;
+	ctrl_pdata->panel_data.hbm_control = hbm_control_ddi;
+	ctrl_pdata->panel_data.acl_control = acl_control;
+#endif	
+	}
+	else if(ctrl_pdata->manufacture_id == MAGNA_DRIVER_IC){
+		read_reg_chipdependency(ctrl_pdata,0x00,33);
+#ifdef CONFIG_F_SKYDISP_HBM_FOR_AMOLED
+	ctrl_pdata->panel_data.hbm_control = hbm_control_magna;
+#endif	
+	}
+	else
+		pr_err("not connected");
+	
+	mdss_set_tx_power_mode(1 , pdata );
+	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_OFF, false);
+
+	if(ctrl_pdata->manufacture_id == SAMSUNG_DRIVER_IC)
+	{
+		if(ctrl_pdata->manufacture_id_rev == NEW_REV){
+			memcpy(aor_dim,aor_dim_lsi_rev,sizeof(aor_dim));
+			memcpy(elvss_set,elvss_set_lsi_rev,sizeof(elvss_set));
+			memcpy(gamma_level,gamma_level_lsi,sizeof(gamma_level));
+			memcpy(locking,locking_lsi,sizeof(locking));
+			memcpy(oled_gamma,oled_gamma_lsi,sizeof(oled_gamma));
+			printk("Samsung LCD is New Rev Ver\n");
+		}
+		else{
+			memcpy(aor_dim,aor_dim_lsi,sizeof(aor_dim));
+			memcpy(elvss_set,elvss_set_lsi,sizeof(elvss_set));
+			memcpy(gamma_level,gamma_level_lsi,sizeof(gamma_level));
+			memcpy(locking,locking_lsi,sizeof(locking));
+			memcpy(oled_gamma,oled_gamma_lsi,sizeof(oled_gamma));
+			printk("Samsung LCD is Old Rev Ver\n");
+		}
+	}
+
+	
+	
+}
+#endif
+#if defined (CONFIG_F_SKYDISP_EF56_SS) || defined (CONFIG_F_SKYDISP_EF59_SS) || defined (CONFIG_F_SKYDISP_EF60_SS)
+bool first_enable = false;
+#endif
+static void mdss_dsi_panel_bl_ctrl(struct mdss_panel_data *pdata,
+							u32 bl_level)
+{
+	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
+	struct msm_fb_data_type * mfd = mfdmsm_fb_get_mfd();
+	
+	if (pdata == NULL) {
+		pr_err("%s: Invalid input data\n", __func__);
+		return;
+	}
+	
+	if(!mfd->panel_power_on)
+	{
+		printk("[%s] panel is off state (%d).....\n",__func__,mfd->panel_power_on);
+		return;
+	}
+	
+	ctrl_pdata = container_of(pdata, struct mdss_dsi_ctrl_pdata,
+				panel_data);
+#if defined (CONFIG_F_SKYDISP_EF56_SS) || defined (CONFIG_F_SKYDISP_EF59_SS) || defined (CONFIG_F_SKYDISP_EF60_SS)
+	if(bl_level == 0)
+	{
+		gpio_set_value((ctrl_pdata->bl_en_gpio), 0);	
+		first_enable = false;
+		printk("%s:bl_en_gpio off\n",__func__);
+	}
+	else
+	{     
+	       if(first_enable ==false)
+	       {
+			gpio_set_value((ctrl_pdata->bl_en_gpio), 1);		
+			first_enable = true;
+			printk("%s:bl_en_gpio on\n",__func__);
+	       }
+	}
+#endif
 
 	/*
 	 * Some backlight controllers specify a minimum duty cycle
@@ -296,7 +1287,15 @@ static void mdss_dsi_panel_bl_ctrl(struct mdss_panel_data *pdata,
 		mdss_dsi_panel_bklt_pwm(ctrl_pdata, bl_level);
 		break;
 	case BL_DCS_CMD:
+#if defined (CONFIG_F_SKYDISP_EF56_SS) || defined (CONFIG_F_SKYDISP_EF59_SS) || defined (CONFIG_F_SKYDISP_EF60_SS)
+		mdss_set_tx_power_mode(0 , pdata );
+		msleep(2);
+#endif
 		mdss_dsi_panel_bklt_dcs(ctrl_pdata, bl_level);
+#if defined (CONFIG_F_SKYDISP_EF56_SS) || defined (CONFIG_F_SKYDISP_EF59_SS) || defined (CONFIG_F_SKYDISP_EF60_SS)
+		msleep(1);
+		mdss_set_tx_power_mode(1 , pdata);
+#endif
 		break;
 	default:
 		pr_err("%s: Unknown bl_ctrl configuration\n",
@@ -321,10 +1320,50 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 
 	pr_debug("%s: ctrl=%p ndx=%d\n", __func__, ctrl, ctrl->ndx);
 
-	if (ctrl->on_cmds.cmd_cnt)
-		mdss_dsi_panel_cmds_send(ctrl, &ctrl->on_cmds);
+#if defined (CONFIG_F_SKYDISP_EF63_SS) && (CONFIG_BOARD_VER >= CONFIG_WS10)
+	gpio_set_value((ctrl->octa_rst_gpio), 1);
+	msleep(10);
+	gpio_set_value((ctrl->octa_rst_gpio), 0);
+	msleep(10);
+	gpio_set_value((ctrl->octa_rst_gpio), 1);
+	msleep(10);
+#endif
 
-	pr_debug("%s:-\n", __func__);
+#ifdef CONFIG_F_SKYDISP_CMDS_CONTROL	
+	if(ctrl->lcd_cmds_check == false){
+#endif
+		if (ctrl->on_cmds.cmd_cnt){
+#if defined(CONFIG_MACH_MSM8974_EF56S) || defined(CONFIG_F_SKYDISP_EF60_SS)
+	       	if(ctrl->lcd_on_skip_during_bootup)
+				ctrl->on_cmds.buf[189] = 0x00;
+#elif defined(CONFIG_F_SKYDISP_EF59_SS)
+	      		 if(ctrl->lcd_on_skip_during_bootup)
+				ctrl->on_cmds.buf[160] = 0x00;
+#endif
+#ifdef F_SKYDISP_MAGNAIC_OPERATING_BEFORE_TP20
+			if(ctrl->manufacture_id == MAGNA_DRIVER_IC)
+				mdss_dsi_panel_cmds_send(ctrl, &ctrl->magnaic_on_cmds);
+			else				
+#endif
+			mdss_dsi_panel_cmds_send(ctrl, &ctrl->on_cmds);
+		}
+#ifdef CONFIG_F_SKYDISP_CMDS_CONTROL		
+	}else if(ctrl->lcd_cmds_check == true){
+		if (ctrl->on_cmds_user.cmd_cnt)
+			mdss_dsi_panel_cmds_send(ctrl, &ctrl->on_cmds_user);
+		pr_info("user LCD on cmds---------------->\n");
+	}
+#endif
+#ifdef F_LSI_VDDM_OFFSET_RD_WR
+		if(ctrl->manufacture_id == SAMSUNG_DRIVER_IC){
+			mdss_dsi_panel_cmds_send(ctrl, &ctrl->vddm_offset_write_cmds);
+#ifdef CONFIG_F_SKYDISP_HBM_FOR_AMOLED
+			ctrl->onflag = true;
+#endif
+		}
+#endif
+
+	pr_err("%s:-\n", __func__);
 	return 0;
 }
 
@@ -347,8 +1386,19 @@ static int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
 
 	if (ctrl->off_cmds.cmd_cnt)
 		mdss_dsi_panel_cmds_send(ctrl, &ctrl->off_cmds);
+#ifdef CONFIG_F_SKYDISP_HBM_FOR_AMOLED
+	ctrl->onflag = false;
+#endif
+#if defined(CONFIG_MACH_MSM8974_EF56S) || defined(CONFIG_F_SKYDISP_EF60_SS) || \
+	defined(CONFIG_F_SKYDISP_EF59_SS)
+	if(!ctrl->lcd_on_skip_during_bootup)
+		ctrl->lcd_on_skip_during_bootup = true;
+#endif
+#ifdef CONFIG_F_SKYDISP_HBM_FOR_AMOLED
+	//pdata->hbm_flag = 0;
+#endif
 
-	pr_debug("%s:-\n", __func__);
+	pr_err("%s:-\n", __func__);
 	return 0;
 }
 
@@ -469,7 +1519,7 @@ static int mdss_dsi_parse_dcs_cmds(struct device_node *np,
 	else
 		pcmds->link_state = DSI_LP_MODE;
 
-	pr_debug("%s: dcs_cmd=%x len=%d, cmd_cnt=%d link_state=%d\n", __func__,
+	pr_err("%s: dcs_cmd=%x len=%d, cmd_cnt=%d link_state=%d\n", __func__,
 		pcmds->buf[0], pcmds->blen, pcmds->cmd_cnt, pcmds->link_state);
 
 	return 0;
@@ -903,8 +1953,27 @@ static int mdss_panel_parse_dt(struct device_node *np,
 	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->on_cmds,
 		"qcom,mdss-dsi-on-command", "qcom,mdss-dsi-on-command-state");
 
+#ifdef F_SKYDISP_MAGNAIC_OPERATING_BEFORE_TP20
+	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->magnaic_on_cmds,
+		"qcom,mdss-dsi-magnaic-on-command", "qcom,mdss-dsi-on-command-state");
+#endif
+
 	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->off_cmds,
 		"qcom,mdss-dsi-off-command", "qcom,mdss-dsi-off-command-state");
+#ifdef CONFIG_F_SKYDISP_CABC_CONTROL
+	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->cabc_cmds,
+		"qcom,mdss-dsi-cabc-command", "qcom,mdss-dsi-cabc-command-state");
+#endif	
+#ifdef F_LSI_VDDM_OFFSET_RD_WR
+	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->display_on_cmds,
+		"qcom,mdss-dsi-display-on-cmds", "qcom,mdss-dsi-on-command-state");
+	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->read_enable_cmds,
+		"qcom,mdss-dsi-panel-read-enable-cmds", "qcom,mdss-dsi-on-command-state");
+	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->read_disable_cmds,
+		"qcom,mdss-dsi-panel-read-disable-cmds", "qcom,mdss-dsi-on-command-state");	
+	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->vddm_offset_write_cmds,
+		"qcom,mdss-dsi-panel-ldi-vddm-offset-write-cmds", "qcom,mdss-dsi-on-command-state");
+#endif
 
 	return 0;
 
@@ -920,6 +1989,10 @@ int mdss_dsi_panel_init(struct device_node *node,
 	static const char *panel_name;
 	bool cont_splash_enabled;
 	bool partial_update_enabled;
+#ifdef CONFIG_F_SKYDISP_SMARTDIMMING
+	int i = 0;
+	oem_pm_smem_vendor1_data_type *smem_id_vendor1_ptr;
+#endif 
 
 	if (!node) {
 		pr_err("%s: no panel node\n", __func__);
@@ -972,5 +2045,35 @@ int mdss_dsi_panel_init(struct device_node *node,
 	ctrl_pdata->off = mdss_dsi_panel_off;
 	ctrl_pdata->panel_data.set_backlight = mdss_dsi_panel_bl_ctrl;
 
+#ifdef CONFIG_F_SKYDISP_AMOLED_READ_DATA
+	ctrl_pdata->panel_data.panel_read = pannel_read;
+#endif
+#ifdef CONFIG_F_SKYDISP_SMARTDIMMING
+	INIT_DELAYED_WORK_DEFERRABLE(&ctrl_pdata->panel_read_work, mtp_read_work);
+	schedule_delayed_work(&ctrl_pdata->panel_read_work, msecs_to_jiffies(3000));
+
+	for(ctrl_pdata->mtp_cnt = 0;ctrl_pdata->mtp_cnt < V255_MAX; ctrl_pdata->mtp_cnt++){
+		for(i = 0 ; i < RGB_MAX; i++){
+			if(ctrl_pdata->mtp_cnt == VT)
+				ctrl_pdata->panel_read_mtp.panel_gamma_data[i][ctrl_pdata->mtp_cnt] = 0;
+			else if(ctrl_pdata->mtp_cnt > VT && ctrl_pdata->mtp_cnt < V255)
+				ctrl_pdata->panel_read_mtp.panel_gamma_data[i][ctrl_pdata->mtp_cnt] = 128;
+			else if(ctrl_pdata->mtp_cnt == V255)
+				ctrl_pdata->panel_read_mtp.panel_gamma_data[i][ctrl_pdata->mtp_cnt] = 256;
+		}
+	}
+	//panel_gamma_data
+	ctrl_pdata->mtp_cnt = 0;	
+	ctrl_pdata->gamma_sort = panel_gamma_sort;
+       ctrl_pdata->gamma_buf = oled_gamma;
+
+	smem_id_vendor1_ptr =  (oem_pm_smem_vendor1_data_type*)smem_alloc(SMEM_ID_VENDOR1,sizeof(oem_pm_smem_vendor1_data_type));
+	if(smem_id_vendor1_ptr->power_on_mode == 0){
+		ctrl_pdata->offline_charger=1;
+	}
+
+	pr_err(" Boot Mode: %s\n",ctrl_pdata->offline_charger ? "Offline": "Online");
+
+#endif
 	return 0;
 }

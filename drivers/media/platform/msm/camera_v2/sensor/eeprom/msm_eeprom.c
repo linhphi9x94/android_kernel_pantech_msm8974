@@ -24,6 +24,42 @@
 #define CDBG(fmt, args...) pr_debug(fmt, ##args)
 #endif
 
+#ifdef CONFIG_PANTECH_CAMERA_EEPROM_CHECKSUM
+uint16_t crc16table[] = 
+{0x0000, 0xC0C1, 0xC181, 0x0140, 0xC301, 0x03C0, 0x0280, 0xC241,
+0xC601, 0x06C0, 0x0780, 0xC741, 0x0500, 0xC5C1, 0xC481, 0x0440,
+0xCC01, 0x0CC0, 0x0D80, 0xCD41, 0x0F00, 0xCFC1, 0xCE81, 0x0E40,
+0x0A00, 0xCAC1, 0xCB81, 0x0B40, 0xC901, 0x09C0, 0x0880, 0xC841,
+0xD801, 0x18C0, 0x1980, 0xD941, 0x1B00, 0xDBC1, 0xDA81, 0x1A40,
+0x1E00, 0xDEC1, 0xDF81, 0x1F40, 0xDD01, 0x1DC0, 0x1C80, 0xDC41,
+0x1400, 0xD4C1, 0xD581, 0x1540, 0xD701, 0x17C0, 0x1680, 0xD641,
+0xD201, 0x12C0, 0x1380, 0xD341, 0x1100, 0xD1C1, 0xD081, 0x1040,
+0xF001, 0x30C0, 0x3180, 0xF141, 0x3300, 0xF3C1, 0xF281, 0x3240,
+0x3600, 0xF6C1, 0xF781, 0x3740, 0xF501, 0x35C0, 0x3480, 0xF441,
+0x3C00, 0xFCC1, 0xFD81, 0x3D40, 0xFF01, 0x3FC0, 0x3E80, 0xFE41,
+0xFA01, 0x3AC0, 0x3B80, 0xFB41, 0x3900, 0xF9C1, 0xF881, 0x3840,
+0x2800, 0xE8C1, 0xE981, 0x2940, 0xEB01, 0x2BC0, 0x2A80, 0xEA41,
+0xEE01, 0x2EC0, 0x2F80, 0xEF41, 0x2D00, 0xEDC1, 0xEC81, 0x2C40,
+0xE401, 0x24C0, 0x2580, 0xE541, 0x2700, 0xE7C1, 0xE681, 0x2640,
+0x2200, 0xE2C1, 0xE381, 0x2340, 0xE101, 0x21C0, 0x2080, 0xE041,
+0xA001, 0x60C0, 0x6180, 0xA141, 0x6300, 0xA3C1, 0xA281, 0x6240,
+0x6600, 0xA6C1, 0xA781, 0x6740, 0xA501, 0x65C0, 0x6480, 0xA441,
+0x6C00, 0xACC1, 0xAD81, 0x6D40, 0xAF01, 0x6FC0, 0x6E80, 0xAE41,
+0xAA01, 0x6AC0, 0x6B80, 0xAB41, 0x6900, 0xA9C1, 0xA881, 0x6840,
+0x7800, 0xB8C1, 0xB981, 0x7940, 0xBB01, 0x7BC0, 0x7A80, 0xBA41,
+0xBE01, 0x7EC0, 0x7F80, 0xBF41, 0x7D00, 0xBDC1, 0xBC81, 0x7C40,
+0xB401, 0x74C0, 0x7580, 0xB541, 0x7700, 0xB7C1, 0xB681, 0x7640,
+0x7200, 0xB2C1, 0xB381, 0x7340, 0xB101, 0x71C0, 0x7080, 0xB041,
+0x5000, 0x90C1, 0x9181, 0x5140, 0x9301, 0x53C0, 0x5280, 0x9241,
+0x9601, 0x56C0, 0x5780, 0x9741, 0x5500, 0x95C1, 0x9481, 0x5440,
+0x9C01, 0x5CC0, 0x5D80, 0x9D41, 0x5F00, 0x9FC1, 0x9E81, 0x5E40,
+0x5A00, 0x9AC1, 0x9B81, 0x5B40, 0x9901, 0x59C0, 0x5880, 0x9841,
+0x8801, 0x48C0, 0x4980, 0x8941, 0x4B00, 0x8BC1, 0x8A81, 0x4A40,
+0x4E00, 0x8EC1, 0x8F81, 0x4F40, 0x8D01, 0x4DC0, 0x4C80, 0x8C41,
+0x4400, 0x84C1, 0x8581, 0x4540, 0x8701, 0x47C0, 0x4680, 0x8641,
+0x8201, 0x42C0, 0x4380, 0x8341, 0x4100, 0x81C1, 0x8081, 0x4040};
+#endif
+
 DEFINE_MSM_MUTEX(msm_eeprom_mutex);
 
 int32_t msm_eeprom_config(struct msm_eeprom_ctrl_t *e_ctrl,
@@ -154,12 +190,265 @@ static const struct v4l2_subdev_internal_ops msm_eeprom_internal_ops = {
 	.open = msm_eeprom_open,
 	.close = msm_eeprom_close,
 };
+#ifdef CONFIG_PANTECH_CAMERA_IMX214
+int32_t rumba_command_resigster_read(struct msm_eeprom_ctrl_t *e_ctrl, uint8_t * readdata, uint32_t readsize, uint32_t addr_offset)
+{
+	int rc = 0;
+	uint8_t SendData[2];
+	uint16_t RcvData[1];
+	uint8_t* ReadData = NULL;
+
+	SendData[0] = readsize; /* Data Read Size 256byte set */
+       CDBG("%s: Data Read Size = 0x%x", __func__, SendData[0]);
+
+	e_ctrl->i2c_client.addr_type = MSM_CAMERA_I2C_WORD_ADDR;
+	rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_write(
+		&(e_ctrl->i2c_client), 0x0F,
+		SendData[0], MSM_CAMERA_I2C_BYTE_DATA);
+	if (rc < 0) {
+		pr_err("%s:%d rumba comand write failed\n", __func__, __LINE__);
+		return rc;
+	}
+
+       CDBG("%s: addr_offset = 0x%x", __func__, addr_offset );
+	if(addr_offset < 0x7400 || addr_offset > 0x7BFF){
+		pr_err("%s:%d addr_offset out of range\n", __func__, __LINE__);
+		return -1;
+	}
+
+	addr_offset = addr_offset - 0x7400;
+
+       SendData[0] = (addr_offset & 0x00FF); 
+       SendData[1] = (addr_offset & 0xFF00) >> 8; /* Data Read Start Address offset 0 set (0x7400-0x74FF) */
+
+       CDBG("%s: SendData[0] = 0x%x", __func__, SendData[0] );
+       CDBG("%s: SendData[1] = 0x%x", __func__, SendData[1] );
+
+	e_ctrl->i2c_client.addr_type = MSM_CAMERA_I2C_WORD_ADDR;
+	rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_write_seq(
+		&(e_ctrl->i2c_client), 0x10,
+		&SendData[0], 2);
+	if (rc < 0) {
+		pr_err("%s:%d rumba comand write failed\n", __func__, __LINE__);
+		return rc;
+	}
+
+       SendData[0] = 0x04; /* READ Command Set */
+
+	e_ctrl->i2c_client.addr_type = MSM_CAMERA_I2C_WORD_ADDR;
+	rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_write(
+		&(e_ctrl->i2c_client), 0x0E,
+		SendData[0], MSM_CAMERA_I2C_BYTE_DATA);
+	if (rc < 0) {
+		pr_err("%s:%d rumba comand write failed\n", __func__, __LINE__);
+		return rc;
+	}
+       CDBG("%s: SendData[0] = 0x%x", __func__, SendData[0]);
+
+	e_ctrl->i2c_client.addr_type = MSM_CAMERA_I2C_WORD_ADDR;
+	rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_read(
+		&(e_ctrl->i2c_client), 0x0E,
+		&RcvData[0], MSM_CAMERA_I2C_BYTE_DATA);
+	if (rc < 0) {
+		pr_err("%s:%d rumba comand read failed\n", __func__, __LINE__);
+		return rc;
+	}
+
+       CDBG("%s: RcvData[0] = 0x%x", __func__, RcvData[0]);
+	if (RcvData[0] == 0x14){
+		ReadData = readdata;
+       	e_ctrl->i2c_client.addr_type = MSM_CAMERA_I2C_WORD_ADDR;
+       	rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_read_seq(
+       		&(e_ctrl->i2c_client), 0x0100,
+       		ReadData, readsize);
+       	if (rc < 0) {
+       		pr_err("%s:%d rumba comand read failed\n", __func__, __LINE__);
+       		return rc;
+       	}
+ 	}
+ 	return rc;
+
+}
+#endif
+
+#ifdef CONFIG_PANTECH_CAMERA_EEPROM_CHECKSUM
+uint16_t get_nvm_checksum(const uint8_t *a_data_ptr, signed long a_size)
+{
+       uint16_t crc = 0;
+       int i;
+       
+       for (i = 0; i < a_size; i++)
+       {
+            uint8_t index = crc ^ a_data_ptr[i];
+            crc = (crc >> 8) ^ crc16table[index];
+       }
+       
+       return crc;
+}
+
+int32_t read_eeprom_memory_checksum(struct msm_eeprom_ctrl_t *e_ctrl)
+{
+       int rc = 0;
+       int i, j;
+#ifdef CONFIG_PANTECH_CAMERA_IMX214
+	int loop, count = 0;
+#endif
+       uint8_t *memptr = NULL;
+       uint32_t checksum_addr = 0;
+       uint32_t checksum_read_data = 0;
+       uint32_t checksum_data_byte = 0;
+       uint32_t num_bytes = 0;
+       uint32_t num_block = 0;
+       uint32_t checksum = 0;
+       uint16_t valid_size = 0;
+       uint16_t data_ptr_index = 0;
+#ifdef CONFIG_PANTECH_CAMERA_READ_EEPROM
+       uint16_t main_offset = 0;
+#endif
+
+       struct msm_eeprom_board_info *eb_info = NULL;
+       struct eeprom_memory_map_t *emap = NULL;
+       
+       if (!e_ctrl) {
+              pr_err("%s e_ctrl is NULL", __func__);
+              rc = -1;
+              return rc;
+       }
+       eb_info = e_ctrl->eboard_info;
+       emap = eb_info->eeprom_map;
+       num_bytes = e_ctrl->num_bytes;
+#if defined(CONFIG_PANTECH_CAMERA_IMX135)
+       num_block = eb_info->num_blocks -1; //just check awb,lsc within second block reading time
+#elif defined(CONFIG_PANTECH_CAMERA_IMX214)
+       num_block = eb_info->num_blocks - 2; //just check awb,lsc within first block reading time
+#endif
+       checksum_data_byte = EEPROM_READ_CHECKSUM_BYTE;
+       memptr = kzalloc(checksum_data_byte, GFP_KERNEL);
+#ifdef CONFIG_PANTECH_CAMERA_READ_EEPROM
+       main_offset = eb_info->i2c_slaveaddr >> 1;
+#endif
+	   	
+       for (i = 0; i < num_block; i++) { // exeception of af checksum 
+              if (i == 0) {
+                     checksum_addr = EEPROM_AWB_CHECKSUM_ADDR; 
+              } else if (i == 1) {
+                     checksum_addr = EEPROM_LSC_CHECKSUM_ADDR; 
+              } else {
+                     checksum_addr = EEPROM_AF_CHECKSUM_ADDR; 
+              }
+#ifdef CONFIG_PANTECH_CAMERA_READ_EEPROM
+              if (e_ctrl->is_increase_slave_address > 0){
+                     e_ctrl->i2c_client.cci_client->sid = main_offset + checksum_addr/e_ctrl->set_block_bytes;
+              }
+#endif
+              CDBG("%s: e_ctrl->i2c_client->cci_client->sid = 0x%x", __func__, e_ctrl->i2c_client.cci_client->sid);
+#if defined(CONFIG_PANTECH_CAMERA_IMX135)
+              e_ctrl->i2c_client.addr_type = emap[i].mem.addr_t;
+              rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_read_seq(
+                     &(e_ctrl->i2c_client), checksum_addr,
+                     memptr, checksum_data_byte);
+              if (rc < 0) {
+                     pr_err("%s: read failed\n", __func__);
+                     goto out;
+              }
+              
+              for (j=0; j < checksum_data_byte; j++){
+                     checksum_read_data |= memptr[j] << (8*(checksum_data_byte -j-1)) ;
+                     CDBG("%s: memptr[%d] = 0x%x", __func__, j, memptr[j]);
+              }
+              CDBG("%s: checksum_read_data  = %d", __func__, checksum_read_data );
+ 			  
+              valid_size = emap[i].mem.valid_size;
+              CDBG("%s: valid_size = %d, data_ptr_index = %d ", __func__, valid_size, data_ptr_index);
+              checksum = get_nvm_checksum(&e_ctrl->memory_data[data_ptr_index], valid_size);
+              data_ptr_index += valid_size;
+              
+              CDBG("%s: checksum = %d ", __func__, checksum);
+              if (checksum_read_data == checksum){
+                     if (i == 0)
+                            pr_err("%s: AWB(0x%x) checksum success\n", __func__, checksum_addr);
+                     else
+                            pr_err("%s: LSC(0x%x) checksum success\n", __func__, checksum_addr);
+              } else {
+                     if (i == 0)              
+                            pr_err("%s:  AWB(0x%x) checksum failed\n", __func__, checksum_addr);
+                     else 
+                            pr_err("%s: LSC(0x%x) checksum failed\n", __func__, checksum_addr);
+                     goto out;
+              }
+              checksum = 0;
+              checksum_read_data = 0;
+			  
+#elif defined(CONFIG_PANTECH_CAMERA_IMX214)
+              // rumba-sa has to read as 4byte block size;
+              rc = rumba_command_resigster_read(e_ctrl, memptr, checksum_data_byte, checksum_addr);
+              if (rc < 0) {
+                     pr_err("%s: read failed\n", __func__);
+                     goto out;
+              }
+              
+              for (loop=0; loop < 2; loop++){
+                     for (j=0; j < 2; j++){
+                            checksum_read_data |= memptr[count] << (8*(1-j)) ;
+                            CDBG("%s: memptr[%d] = 0x%x", __func__, count, memptr[count]);
+                            count++;
+                     }
+                     CDBG("%s: checksum_read_data  = %d", __func__, checksum_read_data);
+                 
+                     if (loop == 0){
+                            valid_size = EEPROM_AWB_BLOCK_SIZE;
+                     } else {
+                            valid_size = emap[i].mem.valid_size - EEPROM_AWB_BLOCK_SIZE;
+                     }
+                     CDBG("%s: valid_size = %d, data_ptr_index = %d ", __func__, valid_size, data_ptr_index);
+                     checksum = get_nvm_checksum(&e_ctrl->memory_data[data_ptr_index], valid_size);
+                     data_ptr_index += valid_size;
+                     
+                     CDBG("%s: checksum = %d ", __func__, checksum);
+                     if (checksum_read_data == checksum){
+                            if (loop == 0)
+                                   pr_err("%s: AWB(0x%x) checksum success\n", __func__, checksum_addr);
+                            else
+                                   pr_err("%s: LSC(0x%x) checksum success\n", __func__, EEPROM_LSC_CHECKSUM_ADDR);
+                     } else {
+                            if (loop == 0)                     
+                                   pr_err("%s: AWB(0x%x) checksum failed\n", __func__, checksum_addr);
+                            else
+                                   pr_err("%s: LSC(0x%x) checksum failed\n", __func__, EEPROM_LSC_CHECKSUM_ADDR);
+                            goto out;
+                     }
+                     checksum = 0;		 
+                     checksum_read_data = 0;		 
+              }
+#endif
+       }
+       
+       kfree(memptr);
+       return rc;
+out:
+	kfree(memptr);
+	return rc;
+}
+#endif
 
 int32_t read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl)
 {
 	int rc = 0;
 	int j;
 	uint8_t *memptr = NULL;
+
+#ifdef CONFIG_PANTECH_CAMERA_READ_EEPROM
+       int loop = 0;
+       uint16_t main_offset = 0;
+       uint32_t set_block_bytes = 0;
+       uint16_t valid_addr = 0;
+       uint16_t valid_size = 0;
+       uint16_t init_addr = 0;
+       uint32_t block_bytes = 0;
+       uint32_t read_bytes = 0;
+       uint32_t remain_bytes = 0;
+#endif
+
 	struct msm_eeprom_board_info *eb_info = NULL;
 	struct eeprom_memory_map_t *emap = NULL;
 	if (!e_ctrl) {
@@ -183,6 +472,7 @@ int32_t read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl)
 				return rc;
 			}
 		}
+#ifndef CONFIG_PANTECH_CAMERA		
 		if (emap[j].pageen.valid_size) {
 			e_ctrl->i2c_client.addr_type = emap[j].pageen.addr_t;
 			rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_write(
@@ -194,6 +484,7 @@ int32_t read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl)
 				return rc;
 			}
 		}
+#endif		
 		if (emap[j].poll.valid_size) {
 			e_ctrl->i2c_client.addr_type = emap[j].poll.addr_t;
 			rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_poll(
@@ -205,7 +496,101 @@ int32_t read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl)
 				return rc;
 			}
 		}
+#ifdef CONFIG_PANTECH_CAMERA_READ_EEPROM
+              if (emap[j].mem.valid_size) {
+                     main_offset = eb_info->i2c_slaveaddr >> 1;
+                     set_block_bytes = e_ctrl->set_block_bytes;
+                     valid_addr = emap[j].mem.valid_size + emap[j].mem.addr;
+#if defined(CONFIG_PANTECH_CAMERA_IMX135)
+                     valid_size = valid_addr;
+#elif defined(CONFIG_PANTECH_CAMERA_IMX214)
+                     valid_size = emap[j].mem.valid_size;
+#endif 
+                     init_addr = emap[0].mem.addr;
 
+                     CDBG("%s: j = %d, main_offset = 0x%x, mem.addr = 0x%x, mem.addr_t = %d", __func__, j, main_offset, emap[j].mem.addr, emap[j].mem.addr_t);
+                     CDBG("%s: emap[%d].mem.valid_size = %d, set_block_bytes = %d", __func__, j, emap[j].mem.valid_size, set_block_bytes);
+                     if (emap[j].mem.valid_size > CCI_READ_MAX && set_block_bytes > 0) {
+                            for (loop=0; valid_addr-emap[j].mem.addr > 0;loop++) {
+                                   if (e_ctrl->is_increase_slave_address){
+                                       e_ctrl->i2c_client.cci_client->sid = main_offset + emap[j].mem.addr/set_block_bytes;
+                                   }
+                                   CDBG("%s: loop = %d, e_ctrl->i2c_client->cci_client->sid = 0x%x", __func__, loop, e_ctrl->i2c_client.cci_client->sid);
+                                   
+                                   if (valid_size-(emap[j].mem.addr-init_addr) > set_block_bytes)
+                                          block_bytes = set_block_bytes - ((emap[j].mem.addr-init_addr)%set_block_bytes);
+                                   else 
+                                          block_bytes = valid_size -(emap[j].mem.addr-init_addr) ;
+                                   
+                                   CDBG("%s: block_bytes = %d", __func__, block_bytes);
+                                   if (block_bytes > CCI_READ_MAX)
+                                          read_bytes = block_bytes - (block_bytes%CCI_READ_MAX);
+                                   else
+                                          read_bytes = block_bytes;
+
+                                   if (read_bytes > 0){
+                                        CDBG("%s: read_bytes = %d", __func__, read_bytes);
+#if defined(CONFIG_PANTECH_CAMERA_IMX135)
+                                        e_ctrl->i2c_client.addr_type = emap[j].mem.addr_t;
+                                        rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_read_seq(
+                                               &(e_ctrl->i2c_client), emap[j].mem.addr,
+                                               memptr, read_bytes);
+#elif defined(CONFIG_PANTECH_CAMERA_IMX214)
+                                        rc = rumba_command_resigster_read(e_ctrl, memptr, read_bytes, emap[j].mem.addr);
+#endif
+                                        if (rc < 0) {
+                                               pr_err("%s: read failed\n", __func__);
+                                               return rc;
+                                        }
+                                        emap[j].mem.addr += read_bytes;
+                                        memptr += read_bytes;
+                                   }
+
+                                   if (block_bytes > CCI_READ_MAX)
+                                          remain_bytes = block_bytes%CCI_READ_MAX;
+                                   else
+                                          remain_bytes = 0;
+
+                                   if (remain_bytes > 0){
+                                        CDBG("%s: remain_bytes = %d", __func__, remain_bytes);
+#if defined(CONFIG_PANTECH_CAMERA_IMX135)
+                                        e_ctrl->i2c_client.addr_type = emap[j].mem.addr_t;
+                                        rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_read_seq(
+                                               &(e_ctrl->i2c_client), emap[j].mem.addr,
+                                               memptr, remain_bytes);
+#elif defined(CONFIG_PANTECH_CAMERA_IMX214)
+                                        rc = rumba_command_resigster_read(e_ctrl, memptr, remain_bytes, emap[j].mem.addr);
+#endif
+                                        if (rc < 0) {
+                                               pr_err("%s: read failed\n", __func__);
+                                               return rc;
+                                        }
+                                        emap[j].mem.addr += remain_bytes;
+                                        memptr += remain_bytes;
+                                  }
+                            }
+                     } else {
+                            if (e_ctrl->is_increase_slave_address){
+                                   e_ctrl->i2c_client.cci_client->sid = main_offset + emap[j].mem.addr/set_block_bytes;
+                            }
+							
+                            CDBG("%s: loop = %d, e_ctrl->i2c_client->cci_client->sid = 0x%x", __func__, loop, e_ctrl->i2c_client.cci_client->sid);
+#if defined(CONFIG_PANTECH_CAMERA_IMX135)
+                            e_ctrl->i2c_client.addr_type = emap[j].mem.addr_t;
+                            rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_read_seq(
+                                   &(e_ctrl->i2c_client), emap[j].mem.addr,
+                                   memptr, emap[j].mem.valid_size);
+#elif defined(CONFIG_PANTECH_CAMERA_IMX214)
+                            rc = rumba_command_resigster_read(e_ctrl, memptr, emap[j].mem.valid_size, emap[j].mem.addr);
+#endif
+                            if (rc < 0) {
+                                   pr_err("%s: read failed\n", __func__);
+                                   return rc;
+                            }
+                            memptr += emap[j].mem.valid_size;
+                     }
+              }
+ #else
 		if (emap[j].mem.valid_size) {
 			e_ctrl->i2c_client.addr_type = emap[j].mem.addr_t;
 			rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_read_seq(
@@ -217,6 +602,7 @@ int32_t read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl)
 			}
 			memptr += emap[j].mem.valid_size;
 		}
+#ifndef CONFIG_PANTECH_CAMERA
 		if (emap[j].pageen.valid_size) {
 			e_ctrl->i2c_client.addr_type = emap[j].pageen.addr_t;
 			rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_write(
@@ -227,6 +613,8 @@ int32_t read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl)
 				return rc;
 			}
 		}
+#endif	
+#endif	
 	}
 	return rc;
 }
@@ -345,11 +733,13 @@ static int msm_eeprom_alloc_memory_map(struct msm_eeprom_ctrl_t *e_ctrl,
 			goto out;
 		}
 
+#ifndef CONFIG_PANTECH_CAMERA
 		snprintf(property, 14, "qcom,pageen%d", i);
 		rc = of_property_read_u32_array(of, property,
 			(uint32_t *) &eb->eeprom_map[i].pageen, count);
 		if (rc < 0)
 			pr_err("%s: pageen not needed\n", __func__);
+#endif
 
 		snprintf(property, 12, "qcom,poll%d", i);
 		rc = of_property_read_u32_array(of, property,
@@ -859,6 +1249,15 @@ static int32_t msm_eeprom_platform_probe(struct platform_device *pdev)
 		rc = -ENOMEM;
 		goto cciclient_free;
 	}
+#ifdef CONFIG_PANTECH_CAMERA_READ_EEPROM
+       e_ctrl->set_block_bytes = EEPROM_READ_BLOCK;
+#if defined(CONFIG_PANTECH_CAMERA_IMX135)
+       e_ctrl->is_increase_slave_address = true;
+#else
+       e_ctrl->is_increase_slave_address = false;
+#endif
+#endif 
+	
 	eb_info = e_ctrl->eboard_info;
 	power_info = &eb_info->power_info;
 	eb_info->i2c_slaveaddr = temp;
@@ -903,6 +1302,13 @@ static int32_t msm_eeprom_platform_probe(struct platform_device *pdev)
 		pr_err("%s read_eeprom_memory failed\n", __func__);
 		goto power_down;
 	}
+#ifdef CONFIG_PANTECH_CAMERA_EEPROM_CHECKSUM
+	rc = read_eeprom_memory_checksum(e_ctrl);
+	if (rc < 0) {
+		pr_err("%s read_eeprom_memory checksum failed\n", __func__);
+		goto power_down;
+	}
+#endif
 		pr_err("%s line %d\n", __func__, __LINE__);
 	for (j = 0; j < e_ctrl->num_bytes; j++)
 		CDBG("memory_data[%d] = 0x%X\n", j, e_ctrl->memory_data[j]);
@@ -1018,9 +1424,13 @@ static int __init msm_eeprom_init_module(void)
 	rc = platform_driver_probe(&msm_eeprom_platform_driver,
 		msm_eeprom_platform_probe);
 	CDBG("%s:%d platform rc %d\n", __func__, __LINE__, rc);
+#ifdef CONFIG_PANTECH_CAMERA//eeprom
+	return rc;
+#else
 	rc = spi_register_driver(&msm_eeprom_spi_driver);
 	CDBG("%s:%d spi rc %d\n", __func__, __LINE__, rc);
 	return i2c_add_driver(&msm_eeprom_i2c_driver);
+#endif
 }
 
 static void __exit msm_eeprom_exit_module(void)

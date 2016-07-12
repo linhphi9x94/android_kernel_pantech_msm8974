@@ -33,6 +33,7 @@
 #include <trace/events/power.h>
 #include <mach/socinfo.h>
 #include <mach/cpufreq.h>
+#include <mach/pantech_debug.h>
 
 #include "acpuclock.h"
 
@@ -135,6 +136,16 @@ static int set_cpu_freq(struct cpufreq_policy *policy, unsigned int new_freq,
 	cpufreq_notify_transition(&freqs, CPUFREQ_PRECHANGE);
 
 	trace_cpu_frequency_switch_start(freqs.old, freqs.new, policy->cpu);
+
+#if defined(CONFIG_PANTECH_DEBUG)
+#if defined(CONFIG_PANTECH_DEBUG_DCVS_LOG) //p14291_pantech_dbg
+//    printk(KERN_ERR "CPU[%d] : Switching  %u KHz -> %u KHz\n",
+//				        policy->cpu, freqs.old, freqs.new);
+
+    if(pantech_debug_enable)
+		 pantech_debug_dcvs_log(policy->cpu, freqs.old, freqs.new);
+#endif
+#endif 
 	if (is_clk) {
 		unsigned long rate = new_freq * 1000;
 		rate = clk_round_rate(cpu_clk[policy->cpu], rate);

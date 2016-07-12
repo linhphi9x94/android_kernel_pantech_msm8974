@@ -151,6 +151,9 @@ struct scsi_device {
 					   SD_LAST_BUGGY_SECTORS */
 	unsigned no_read_disc_info:1;	/* Avoid READ_DISC_INFO cmds */
 	unsigned no_read_capacity_16:1; /* Avoid READ_CAPACITY_16 cmds */
+#if defined(CONFIG_ANDROID_PANTECH_USB_OTG_INTENT)
+	unsigned try_rc_10_first:1; /* Try READ_CAPACACITY_10 first */
+#endif //2014.7.22 Lexar memory(protection information support) detection issue.
 	unsigned is_visible:1;	/* is the device visible in sysfs */
 	unsigned use_rpm_auto:1; /* Enable runtime PM auto suspend */
 

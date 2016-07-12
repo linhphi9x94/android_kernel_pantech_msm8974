@@ -133,6 +133,75 @@ int qpnp_misc_irqs_available(struct device *consumer_dev)
 	return __misc_irqs_available(mdev_found);
 }
 
+#ifdef CONFIG_PANTECH_USB_EXTERNAL_ID_PULLUP
+#define USB_ID_CTL1 0x46
+static u8 qpnp_write_byte(struct spmi_device *spmi, u16 addr, u8 data)
+{
+	int rc;
+
+	rc = spmi_ext_register_writel(spmi->ctrl, spmi->sid, addr, &data, 1);
+	if (rc) {
+		pr_err("SPMI write failed rc=%d\n", rc);
+		return 0;
+	}
+	return 1;
+}
+
+static bool __misc_usb_id_set(struct qpnp_misc_dev *dev, bool set_bit)
+{
+	u8 data;
+	int rc;
+
+	data = qpnp_read_byte(dev->spmi, 
+			dev->resource->start + USB_ID_CTL1);
+
+	data &= 0x7F; //clear internal pull-up bit[bit7]
+	data |= set_bit << 7;
+
+	pr_debug("set to external usb_id pullup! reg=0x%x, value=0x%x\n", 
+			dev->resource->start + USB_ID_CTL1, data);
+
+	rc = qpnp_write_byte(dev->spmi,
+			dev->resource->start + USB_ID_CTL1, data);
+
+	return rc;
+}
+
+int qpnp_misc_usb_id_pull_up_set(struct device *consumer_dev, bool set_bit)
+{
+	struct device_node *misc_node = NULL;
+	struct qpnp_misc_dev *mdev = NULL;
+	struct qpnp_misc_dev *mdev_found = NULL;
+
+	misc_node = of_parse_phandle(consumer_dev->of_node, "qcom,misc-ref", 0);
+	if (!misc_node) {
+		pr_debug("Could not find qcom,misc-ref property in %s\n",
+			consumer_dev->of_node->full_name);
+		return 0;
+	}
+
+	mutex_lock(&qpnp_misc_dev_list_mutex);
+	list_for_each_entry(mdev, &qpnp_misc_dev_list, list) {
+		if (mdev->dev->of_node == misc_node) {
+			mdev_found = mdev;
+			break;
+		}
+	}
+	mutex_unlock(&qpnp_misc_dev_list_mutex);
+
+	if (!mdev_found) {
+		/* No MISC device was found. This API should only
+		 * be called by drivers which have specified the
+		 * misc phandle in their device tree node */
+		pr_err("no probed misc device found\n");
+		return -EPROBE_DEFER;
+	}
+
+	return __misc_usb_id_set(mdev_found, set_bit);
+}
+EXPORT_SYMBOL(qpnp_misc_usb_id_pull_up_set);
+#endif
+
 static int __devinit qpnp_misc_probe(struct spmi_device *spmi)
 {
 	struct resource *resource;

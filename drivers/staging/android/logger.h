@@ -20,6 +20,13 @@
 #include <linux/types.h>
 #include <linux/ioctl.h>
 
+//---------------------------------------------------
+// PS1 Team add
+/*
+#define FEATURE_SKY_CP_ADB_LOG_FOR_VITAMIN
+*/
+//--------------------------------------------------
+
 /*
  * The userspace structure for version 1 of the logger_entry ABI.
  * This structure is returned to userspace unless the caller requests
@@ -55,6 +62,17 @@ struct logger_entry {
 #define LOGGER_LOG_EVENTS	"log_events"	/* system/hardware events */
 #define LOGGER_LOG_SYSTEM	"log_system"	/* system/framework messages */
 #define LOGGER_LOG_MAIN		"log_main"	/* everything else */
+
+#ifdef CONFIG_PANTECH_PS_WIFI_COM_PREF_LOGGING
+#define LOGGER_LOG_WIFI	"log_wifi"
+#endif
+#ifdef CONFIG_PANTECH_PS_WQE_COM_PREF_LOGGING
+#define LOGGER_LOG_WQE	"log_wqe"
+#endif
+
+#ifdef FEATURE_SKY_CP_ADB_LOG_FOR_VITAMIN
+#define LOGGER_LOG_VITAMIN "log_vitamin" /* pantech exceptional debugging */
+#endif
 
 #define LOGGER_ENTRY_MAX_PAYLOAD	4076
 

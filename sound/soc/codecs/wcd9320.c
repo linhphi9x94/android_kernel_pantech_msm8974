@@ -2448,6 +2448,52 @@ static int taiko_codec_enable_aux_pga(struct snd_soc_dapm_widget *w,
 	return 0;
 }
 
+#if defined(CONFIG_MACH_MSM8974_EF60S) || defined(CONFIG_MACH_MSM8974_EF61K) || defined(CONFIG_MACH_MSM8974_EF62L)
+static int Piezo_amp_init = 0;
+static int Piezo_amp_onoff = 0;
+static void msm8974_vega_Piezo_spk_amp_onoff(bool on)
+{
+	int ret = 0;
+
+	if (Piezo_amp_onoff == on) {
+		return;
+	} else {
+		Piezo_amp_onoff = on;
+	}
+
+	if (!Piezo_amp_init) {
+		ret = gpio_tlmm_config(GPIO_CFG(68, 0, GPIO_CFG_OUTPUT, GPIO_CFG_NO_PULL, GPIO_CFG_2MA), GPIO_CFG_ENABLE);
+		ret = gpio_request(68, "Piezo_amp");
+		Piezo_amp_init = 1;
+	}
+
+	if (on) {
+		ret = gpio_direction_output(68, 1);
+		if (ret) {
+			pr_err("+++++%s: unable to set direction [%d]\n", __func__,ret);
+		}
+	} else {
+		gpio_direction_output(68, 0);
+	}
+}
+
+static void msm8974_vega_Piezo_spk_amp_init(void)
+{
+	int ret = 0;
+	
+	pr_err("[ JMLEE LOG ] msm8974_vega_Piezo_spk_amp_init() ############################### \n");
+
+	Piezo_amp_onoff = 0;
+
+	if (!Piezo_amp_init) {
+		ret = gpio_tlmm_config(GPIO_CFG(68, 0, GPIO_CFG_OUTPUT, GPIO_CFG_NO_PULL, GPIO_CFG_2MA), GPIO_CFG_ENABLE);
+		ret = gpio_request(68, "Piezo_amp");
+		Piezo_amp_init = 1;
+	}
+	gpio_direction_output(68, 0);
+}
+#endif
+
 static int taiko_codec_enable_lineout(struct snd_soc_dapm_widget *w,
 		struct snd_kcontrol *kcontrol, int event)
 {
@@ -2488,8 +2534,15 @@ static int taiko_codec_enable_lineout(struct snd_soc_dapm_widget *w,
 		pr_debug("%s: sleeping 3 ms after %s PA turn on\n",
 				__func__, w->name);
 		usleep_range(3000, 3000);
+
+#if defined(CONFIG_MACH_MSM8974_EF60S) || defined(CONFIG_MACH_MSM8974_EF61K) || defined(CONFIG_MACH_MSM8974_EF62L)
+		msm8974_vega_Piezo_spk_amp_onoff(1);
+#endif
 		break;
 	case SND_SOC_DAPM_POST_PMD:
+#if defined(CONFIG_MACH_MSM8974_EF60S) || defined(CONFIG_MACH_MSM8974_EF61K) || defined(CONFIG_MACH_MSM8974_EF62L)
+		msm8974_vega_Piezo_spk_amp_onoff(0);
+#endif
 		wcd9xxx_clsh_fsm(codec, &taiko->clsh_d,
 						 WCD9XXX_CLSH_STATE_LO,
 						 WCD9XXX_CLSH_REQ_DISABLE,
@@ -3000,8 +3053,13 @@ static int taiko_codec_enable_vdd_spkr(struct snd_soc_dapm_widget *w,
 
 	pr_debug("%s: %d %s\n", __func__, event, w->name);
 
+/* 2014-01-27 LS3@SND It doesn't need to enable regulator because we got VDD_SPKDRV from battery
+   "priv->spkdrv_reg" is always NULL. unnecessary warning message removal(CASE#01181676) */
+#if !defined(CONFIG_PANTECH_SND)
 	WARN_ONCE(!priv->spkdrv_reg, "SPKDRV supply %s isn't defined\n",
 		  WCD9XXX_VDD_SPKDRV_NAME);
+#endif
+
 	switch (event) {
 	case SND_SOC_DAPM_PRE_PMU:
 		if (priv->spkdrv_reg) {
@@ -6135,7 +6193,11 @@ static const struct wcd9xxx_reg_mask_val taiko_2_0_reg_defaults[] = {
 	TAIKO_REG_VAL(TAIKO_A_CDC_RX4_B4_CTL, 0x8),
 	TAIKO_REG_VAL(TAIKO_A_CDC_RX5_B4_CTL, 0x8),
 	TAIKO_REG_VAL(TAIKO_A_CDC_RX6_B4_CTL, 0x8),
-	TAIKO_REG_VAL(TAIKO_A_CDC_RX7_B4_CTL, 0x8),
+#ifdef CONFIG_PANTECH_SND // 2013-11-28 LS3@SND H/W(KimGyuTae) request(SPK Drive HPF 4Hz -> 75Hz)
+	TAIKO_REG_VAL(TAIKO_A_CDC_RX7_B4_CTL, 0x9), // HPF 75Hz
+#else /* QCOM_original */
+	TAIKO_REG_VAL(TAIKO_A_CDC_RX7_B4_CTL, 0x8), // HPF 4Hz
+#endif /* CONFIG_PANTECH_SND */
 	TAIKO_REG_VAL(TAIKO_A_CDC_VBAT_GAIN_UPD_MON, 0x0),
 	TAIKO_REG_VAL(TAIKO_A_CDC_PA_RAMP_B1_CTL, 0x0),
 	TAIKO_REG_VAL(TAIKO_A_CDC_PA_RAMP_B2_CTL, 0x0),
@@ -6249,6 +6311,10 @@ static void taiko_codec_init_reg(struct snd_soc_codec *codec)
 		snd_soc_update_bits(codec, taiko_codec_reg_init_val[i].reg,
 				taiko_codec_reg_init_val[i].mask,
 				taiko_codec_reg_init_val[i].val);
+
+#if defined (CONFIG_MACH_MSM8974_EF60S) || defined (CONFIG_MACH_MSM8974_EF61K) || defined (CONFIG_MACH_MSM8974_EF62L)
+	msm8974_vega_Piezo_spk_amp_init();
+#endif
 }
 
 static void taiko_slim_interface_init_reg(struct snd_soc_codec *codec)
@@ -6497,7 +6563,17 @@ static int taiko_setup_zdet(struct wcd9xxx_mbhc *mbhc,
 		/* Clean up starts */
 		/* Turn off PA ramp generator */
 		snd_soc_write(codec, WCD9XXX_A_CDC_PA_RAMP_B1_CTL, 0x0);
-		wcd9xxx_enable_static_pa(mbhc, false);
+
+/* 2014-07-15 LS3@SND CASE#01623486(CR#694315) Rx mute is occurred when headset out/in while next music play(Impedance detection) */
+#ifdef CONFIG_PANTECH_SND_QCOM_PATCH
+		pr_debug("%s: event_state = [%ld], hph_pa_dac_state = [%ld]\n", __func__, mbhc->event_state, mbhc->hph_pa_dac_state);
+		if (!mbhc->hph_pa_dac_state &&
+		    (!(test_bit(MBHC_EVENT_PA_HPHL, &mbhc->event_state) ||
+		       test_bit(MBHC_EVENT_PA_HPHR, &mbhc->event_state))))
+#else /* QCOM_original */
+		if (!mbhc->hph_pa_dac_state)
+#endif /* CONFIG_PANTECH_SND_QCOM_PATCH */
+			wcd9xxx_enable_static_pa(mbhc, false);
 		wcd9xxx_restore_registers(codec, &taiko->reg_save_restore);
 		break;
 	}
@@ -6600,7 +6676,15 @@ static int taiko_post_reset_cb(struct wcd9xxx *wcd9xxx)
 		ret = wcd9xxx_mbhc_init(&taiko->mbhc, &taiko->resmgr, codec,
 					taiko_enable_mbhc_micbias,
 					&mbhc_cb, &cdc_intr_ids,
+/*
+ * 2014-02-19 LS3@SND Impedance detection feature not used for removing pop-up noise.
+ * CASE#01244567 : [MSM8974] Requirements related to the polling noise of headset.
+ */
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_BQ2419X) // Impedance detection is enabled for EF63 (Qualcomm Ori.)
 					rco_clk_rate, true);
+#else
+					rco_clk_rate, false);
+#endif
 		if (ret)
 			pr_err("%s: mbhc init failed %d\n", __func__, ret);
 		else
@@ -6791,7 +6875,15 @@ static int taiko_codec_probe(struct snd_soc_codec *codec)
 	ret = wcd9xxx_mbhc_init(&taiko->mbhc, &taiko->resmgr, codec,
 				taiko_enable_mbhc_micbias,
 				&mbhc_cb, &cdc_intr_ids,
+/*
+ * 2014-02-19 LS3@SND Impedance detection feature not used for removing pop-up noise.
+ * CASE#01244567 : [MSM8974] Requirements related to the polling noise of headset.
+ */
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_BQ2419X) // Impedance detection is enabled for EF63 (Qualcomm Ori.)
 				rco_clk_rate, true);
+#else
+				rco_clk_rate, false);
+#endif
 	if (ret) {
 		pr_err("%s: mbhc init failed %d\n", __func__, ret);
 		goto err_init;

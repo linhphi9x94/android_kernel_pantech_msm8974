@@ -13,7 +13,7 @@ config PRINTK_TIME
 config DEFAULT_MESSAGE_LOGLEVEL
 	int "Default message log level (1-7)"
 	range 1 7
-	default "4"
+	default "7"
 	help
 	  Default log level for printk statements with no specified priority.
 

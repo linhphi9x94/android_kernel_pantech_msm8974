@@ -78,6 +78,10 @@ allnoconfig allyesconfig allmodconfig alldefconfig randconfig: $(obj)/conf
 
 PHONY += listnewconfig oldnoconfig savedefconfig defconfig
 
+ifneq ($(PERF_DEFCONFIG),)
+export KCONFIG_PERF := arch/$(SRCARCH)/configs/msm8974_pantech_perf_defconfig
+endif
+
 listnewconfig oldnoconfig: $(obj)/conf
 	$< --$@ $(Kconfig)
 

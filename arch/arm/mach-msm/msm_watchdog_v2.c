@@ -41,6 +41,107 @@
 #define SCM_SET_REGSAVE_CMD	0x2
 #define SCM_SVC_SEC_WDOG_DIS	0x7
 
+#ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
+#define TARGET_APPS_CPUS  4
+typedef  unsigned int uint32;
+
+/* External CPU Dump Structure */
+
+typedef struct
+{
+	uint32 mon_lr;
+	uint32 mon_spsr;
+	uint32 usr_r0;
+	uint32 usr_r1;
+	uint32 usr_r2;
+	uint32 usr_r3;
+	uint32 usr_r4;
+	uint32 usr_r5;
+	uint32 usr_r6;
+	uint32 usr_r7;
+	uint32 usr_r8;
+	uint32 usr_r9;
+	uint32 usr_r10;
+	uint32 usr_r11;
+	uint32 usr_r12;
+	uint32 usr_r13;
+	uint32 usr_r14;
+	uint32 irq_spsr;
+	uint32 irq_r13;
+	uint32 irq_r14;
+	uint32 svc_spsr;
+	uint32 svc_r13;
+	uint32 svc_r14;
+	uint32 abt_spsr;
+	uint32 abt_r13;
+	uint32 abt_r14;
+	uint32 und_spsr;
+	uint32 und_r13;
+	uint32 und_r14;
+	uint32 fiq_spsr;
+	uint32 fiq_r8;
+	uint32 fiq_r9;	
+	uint32 fiq_r10;
+	uint32 fiq_r11;
+	uint32 fiq_r12;
+	uint32 fiq_r13;	
+	uint32 fiq_r14;
+}cpu_ctxt_regs_ext_type;
+
+// FOR TZ
+typedef struct tzbsp_cpu_ctx_s
+{
+	cpu_ctxt_regs_ext_type saved_ctx;
+	uint32 mon_sp;
+	uint32 wdog_pc;
+} tzbsp_cpu_ctx_t;
+
+/* Structure of the entire non-secure context dump buffer. Because TZ is single
+ * entry only a single secure context is saved. */
+typedef struct tzbsp_dump_buf_s
+{
+	uint32 magic;
+	uint32 version;
+	uint32 cpu_count;
+	uint32 sc_status[TARGET_APPS_CPUS];
+	tzbsp_cpu_ctx_t sc_ns[TARGET_APPS_CPUS];
+	cpu_ctxt_regs_ext_type sec;
+	uint32 wdt_sts[TARGET_APPS_CPUS];
+} tzbsp_dump_buf_t;
+
+
+// FOR DBICPUDump(in Debug Image)
+typedef struct
+{
+	cpu_ctxt_regs_ext_type saved_ctx;
+	uint32 mon_r13;
+	uint32 pc;
+
+}dbi_cpu_ctxt_regs_ext_type;
+
+// External format for CPU context
+typedef struct
+{
+	/* Magic number to indicate we have dumped context */ 
+	uint32 magic_number;
+	/* Version of the dump format */
+	uint32 version;
+	/* CPUs which have their context dumped */	
+	uint32 cpu_count;
+	/* Status register - used by TZ and Debug Image */
+	uint32 status[TARGET_APPS_CPUS];
+	/* Context for all CPUs */
+	dbi_cpu_ctxt_regs_ext_type cpu_regs[TARGET_APPS_CPUS];
+	/* Secure Context - Not used  */
+	dbi_cpu_ctxt_regs_ext_type __reserved3;
+	/* Watchdog status - not used */
+	uint32 __reserved[TARGET_APPS_CPUS];
+}DBICPUDumpType;
+
+tzbsp_dump_buf_t* tzbsp_dump_temp = NULL;
+DBICPUDumpType* dbi_dump_temp = NULL;
+#endif //CONFIG_PANTECH_ERR_CRASH_LOGGING
+
 static struct workqueue_struct *wdog_wq;
 
 struct msm_watchdog_data {
@@ -433,9 +534,13 @@ static void init_watchdog_work(struct work_struct *work)
 	wdog_dd->min_slack_ns = ULLONG_MAX;
 	configure_bark_dump(wdog_dd);
 	timeout = (wdog_dd->bark_time * WDT_HZ)/1000;
+#if defined(CONFIG_PANTECH_USER_BUILD) /* user mode */
 	__raw_writel(timeout, wdog_dd->base + WDT0_BARK_TIME);
 	__raw_writel(timeout + 3*WDT_HZ, wdog_dd->base + WDT0_BITE_TIME);
-
+#else /* eng mode */
+        __raw_writel(timeout*2, wdog_dd->base + WDT0_BARK_TIME);
+        __raw_writel((timeout + 3*WDT_HZ)*2, wdog_dd->base + WDT0_BITE_TIME);
+#endif
 	wdog_dd->panic_blk.notifier_call = panic_wdog_handler;
 	atomic_notifier_chain_register(&panic_notifier_list,
 				       &wdog_dd->panic_blk);
@@ -520,6 +625,11 @@ static int __devinit msm_wdog_dt_to_pdata(struct platform_device *pdev,
 	return 0;
 }
 
+/* (+) p16652 - for watchdog debugging */
+#ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
+struct msm_watchdog_data *p_wdog_dd = NULL;
+#endif
+
 static int __devinit msm_watchdog_probe(struct platform_device *pdev)
 {
 	int ret;
@@ -536,6 +646,11 @@ static int __devinit msm_watchdog_probe(struct platform_device *pdev)
 	wdog_dd = kzalloc(sizeof(struct msm_watchdog_data), GFP_KERNEL);
 	if (!wdog_dd)
 		return -EIO;
+
+#ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING    
+    p_wdog_dd = wdog_dd;
+#endif
+
 	ret = msm_wdog_dt_to_pdata(pdev, wdog_dd);
 	if (ret)
 		goto err;

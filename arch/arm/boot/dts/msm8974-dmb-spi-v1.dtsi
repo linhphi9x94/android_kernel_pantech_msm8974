@@ -1,0 +1,53 @@
+/*
+ * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/* DMB_SPI : EF63 KK */
+
+/ {
+
+	aliases { /* DMB_SPI */
+		spi1 = &spi_1;
+	};
+
+	spi_1: spi@f9923000 { /* DMB_SPI  BLSP1 */
+		compatible = "qcom,spi-qup-v2";
+		reg = <0xf9923000 0x1000>, <0xf9904000 0x19000>;
+		reg-names = "spi_physical", "spi_bam_physical";
+		interrupts = <0 95 0>, <0 238 0>;
+		interrupt-names = "spi_irq", "spi_bam_irq";
+		spi-max-frequency = <10800000>; /* FCI */
+		qcom,use-bam;
+		qcom,bam-consumer-pipe-index = <12>;
+		qcom,bam-producer-pipe-index = <13>;
+		qcom,ver-reg-exists;
+		qcom,master-id = <86>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		dmb_spi@0{
+		  compatible = "dmb,dmb_spi";
+		  reg=<0>;
+		  spi-max-frequency = <10800000>; /* FCI */
+		  #spi-cpol;
+		  #spi-cpha; /* MODE 0 */
+		  #spi-cs-high;
+		  interrupt-parent = <&msmgpio>;
+		  interrupts = <92 0>;
+		  dmb,irq-gpio = <&msmgpio 92 0x00>;
+		  #interrupt-names = "irq_gpio";
+		  dmb,gpios = <&msmgpio 3 0>, /* DMB CLK  */
+			  <&msmgpio 1 0>, /* DMB MISO */
+			  <&msmgpio 0 0>; /* DMB MOSI */
+		  dmb,cs-gpios = <&msmgpio 2 0>; /* DMB CS */
+		};
+	};
+};

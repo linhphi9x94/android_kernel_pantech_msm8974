@@ -1,0 +1,36 @@
+/* Copyright (c) 2013, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/dts-v1/;
+
+/include/ "msm8974-v2.2.dtsi"
+/include/ "msm8974-ef60s.dtsi"
+/include/ "msm8974-camera-sensor-ef60.dtsi"
+/include/ "msm8974-pmic-max17058-blsp5.dtsi"
+/include/ "msm8974-pmic-smb347.dtsi"
+/include/ "msm8974-dmb-spi-v2.dtsi"
+
+/ {
+	model = "Qualcomm MSM 8974v2.2 Pantech EF60S";
+	compatible = "qcom,msm8974-mtp", "qcom,msm8974", "qcom,mtp";
+	qcom,msm-id = <126 606 0x20002>,
+		      <185 606 0x20002>,
+		      <186 606 0x20002>;
+};
+
+&usb3 {
+	qcom,dwc-hsphy-init = <0x00F199A4>; /* FEATURE_HSUSB_SET_SIGNALING_PARAM */
+};
+
+&pm8941_chg {
+	qcom,bpd-detection = "bpd_thm";
+};

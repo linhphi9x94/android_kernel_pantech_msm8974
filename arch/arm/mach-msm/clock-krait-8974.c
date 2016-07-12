@@ -9,6 +9,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
+#define PANTECH_ACPUPVS
 
 #include <linux/kernel.h>
 #include <linux/init.h>
@@ -30,6 +31,15 @@
 #include <mach/clk.h>
 #include "clock-krait.h"
 #include "clock.h"
+
+#if defined(PANTECH_ACPUPVS)
+#include <linux/proc_fs.h>
+#endif
+
+#if !defined(CONFIG_MACH_MSM8974_EF63S) && !defined(CONFIG_MACH_MSM8974_EF63K) && !defined(CONFIG_MACH_MSM8974_EF63L)
+/* Qualcomm patch for upscaling of 25mV 20140303  p13447 shinjg */
+#define CONFIG_QUALCOMM_25MV_UP_PATCH 
+#endif
 
 /* Clock inputs coming into Krait subsystem */
 DEFINE_FIXED_DIV_CLK(hfpll_src_clk, 1, NULL);
@@ -413,6 +423,30 @@ static struct clk *cpu_clk[] = {
 	&krait3_clk.c,
 };
 
+#if defined(PANTECH_ACPUPVS)
+char acpupvs[30] = {0,};
+int proc_speed, proc_pvs, proc_pvs_ver;
+struct proc_dir_entry *acpu_pvs_info;
+
+static int read_proc_acpu_pvs_info
+(char *page, char **start, off_t off, int count, int *eof, void *data)
+{
+    int len = 0;
+//p16101 for PVS
+
+    len  = sprintf(page, "SPEED BIN : 0x%x , PVS : 0x%x , PVS VER : 0x%x", proc_speed, proc_pvs, proc_pvs_ver);
+//p16101 for PVS
+
+    return len;
+}
+
+static int write_proc_acpu_pvs_info
+(struct file *file, const char *buffer, unsigned long count, void *data)
+{
+    return 0;
+}
+#endif
+
 static void get_krait_bin_format_b(struct platform_device *pdev,
 					int *speed, int *pvs, int *pvs_ver)
 {
@@ -579,7 +613,11 @@ static void krait_update_uv(int *uv, int num, int boost_uv)
 			uv[i] = max(1150000, uv[i]);
 	};
 
+#if defined(CONFIG_QUALCOMM_25MV_UP_PATCH)
+	if (1) {
+#else
 	if (enable_boost) {
+#endif
 		for (i = 0; i < num; i++)
 			uv[i] += boost_uv;
 	}
@@ -688,6 +726,18 @@ static int clock_krait_8974_driver_probe(struct platform_device *pdev)
 	snprintf(table_name, ARRAY_SIZE(table_name),
 			"qcom,speed%d-pvs%d-bin-v%d", speed, pvs, pvs_ver);
 
+#ifdef PANTECH_ACPUPVS
+    acpu_pvs_info = create_proc_entry("acpu_pvs_info", S_IRUGO | S_IWUSR | S_IWGRP, NULL);
+    if (acpu_pvs_info) {
+        proc_speed = speed;
+        proc_pvs = pvs;
+		proc_pvs_ver = pvs_ver;
+        acpu_pvs_info->read_proc  = read_proc_acpu_pvs_info;
+        acpu_pvs_info->write_proc = write_proc_acpu_pvs_info;
+        acpu_pvs_info->data       = NULL;
+    }
+#endif
+
 	rows = parse_tbl(dev, table_name, 3,
 			(u32 **) &freq, (u32 **) &uv, (u32 **) &ua);
 	if (rows < 0) {
@@ -705,7 +755,11 @@ static int clock_krait_8974_driver_probe(struct platform_device *pdev)
 		}
 	}
 
+#if defined(CONFIG_QUALCOMM_25MV_UP_PATCH)
+	krait_update_uv(uv, rows, 25000);
+#else
 	krait_update_uv(uv, rows, pvs ? 25000 : 0);
+#endif
 
 	if (clk_init_vdd_class(dev, &krait0_clk.c, rows, freq, uv, ua))
 		return -ENOMEM;

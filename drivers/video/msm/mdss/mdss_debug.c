@@ -25,6 +25,8 @@
 #include "mdss_mdp.h"
 #include "mdss_mdp_hwio.h"
 #include "mdss_debug.h"
+#include "mdss_dsi.h"
+
 
 #define DEFAULT_BASE_REG_CNT 0x100
 #define GROUP_BYTES 4
@@ -345,7 +347,127 @@ static const struct file_operations mdss_stat_fops = {
 	.release = mdss_debug_stat_release,
 	.read = mdss_debug_stat_read,
 };
+#ifdef CONFIG_F_SKYDISP_SMARTDIMMING
+static int mdss_debug_mtp_open(struct inode *inode, struct file *file)
+{
+	/* non-seekable */
+	file->f_mode &= ~(FMODE_LSEEK | FMODE_PREAD | FMODE_PWRITE);
+	file->private_data = inode->i_private;
+	return 0;
+}
 
+static int mdss_debug_mtp_release(struct inode *inode, struct file *file)
+{
+	return 0;
+}
+
+static ssize_t mdss_debug_mtp_read(struct file *file, char __user *buff,
+		size_t count, loff_t *ppos)
+{
+	struct mdss_data_type *mdata = file->private_data;
+	int len, tot;
+	int i;
+	char bp[512];
+	struct mdss_dsi_ctrl_pdata *panel_pdata = NULL;
+	
+	if (*ppos)
+		return 0;	/* the end */
+
+	len = sizeof(bp);
+
+	tot = scnprintf(bp, len, "\nmtp:\n");
+	
+	panel_pdata = container_of(mdata->ctl_off->panel_data, struct mdss_dsi_ctrl_pdata,panel_data);
+
+	for(i = 0;i < 10; i++){
+		tot += scnprintf(bp + tot, len - tot, "R: %d    G: %d    B: %d\n",
+		       panel_pdata->panel_read_mtp.mtp_RGB[0][i], panel_pdata->panel_read_mtp.mtp_RGB[1][i], panel_pdata->panel_read_mtp.mtp_RGB[2][i]);
+	
+	}
+	tot += scnprintf(bp + tot, len - tot, "\n");
+
+	if (copy_to_user(buff, bp, tot))
+		return -EFAULT;
+
+	*ppos += tot;	/* increase offset */
+
+	return tot;
+}
+
+static const struct file_operations mdss_mtp_fops = {
+	.open = mdss_debug_mtp_open,
+	.release = mdss_debug_mtp_release,
+	.read = mdss_debug_mtp_read,
+};
+
+static int mdss_debug_gamma_open(struct inode *inode, struct file *file)
+{
+	/* non-seekable */
+	file->f_mode &= ~(FMODE_LSEEK | FMODE_PREAD | FMODE_PWRITE);
+	file->private_data = inode->i_private;
+	return 0;
+}
+
+static int mdss_debug_gamma_release(struct inode *inode, struct file *file)
+{
+	return 0;
+}
+
+static ssize_t mdss_debug_gamma_read(struct file *file, char __user *buff,
+		size_t count, loff_t *ppos)
+{
+	struct mdss_data_type *mdata = file->private_data;
+	int len, tot;
+	int i;
+	char bp[512];
+	int Base_gamma_array[32] = {5,10,20,30,40,50,60,70,80,90,98,105,111,119,126,134,143,152,162,172,
+								183,195,207,220,234,249,265,282,300,316,333,350};
+	int gamma_level_lsi[32] = {
+			5,10,20,30,41,50,60,68,77,87,98,105,111,119,126,134,143,152,162,
+			172,183,195,207,220,234,249,265,282,300,316,333,350
+	};
+
+	struct mdss_dsi_ctrl_pdata *panel_pdata = NULL;
+	
+	if (*ppos)
+		return 0;	/* the end */
+
+	len = sizeof(bp);
+	panel_pdata = container_of(mdata->ctl_off->panel_data, struct mdss_dsi_ctrl_pdata,panel_data);
+	if(panel_pdata-> manufacture_id == SAMSUNG_DRIVER_IC)
+		memcpy(Base_gamma_array,gamma_level_lsi,sizeof(gamma_level_lsi));
+	
+	tot = scnprintf(bp, len, "\nGamma: %d\n",Base_gamma_array[mdata->ctl_off->mfd->bl_level]);
+	
+
+	
+	for(i = 33;i > 6;){
+		tot += scnprintf(bp + tot, len - tot, "R: 0x%x    G: 0x%x   B: 0x%x\n",
+		       panel_pdata->gamma_buf[i-2],  panel_pdata->gamma_buf[i-1],  panel_pdata->gamma_buf[i]);
+		i-=3;
+	
+	}
+	tot += scnprintf(bp + tot, len - tot, "R: 0x%x    G: 0x%x    B: 0x%x\n",
+			       (panel_pdata->gamma_buf[1] <<8)+panel_pdata->gamma_buf[2] ,  
+			       (panel_pdata->gamma_buf[3] <<8)+ panel_pdata->gamma_buf[4], 
+			       (panel_pdata->gamma_buf[5] << 8)+ panel_pdata->gamma_buf[6]);
+	
+	tot += scnprintf(bp + tot, len - tot, "\n");
+
+	if (copy_to_user(buff, bp, tot))
+		return -EFAULT;
+
+	*ppos += tot;	/* increase offset */
+
+	return tot;
+}
+
+static const struct file_operations mdss_gamma_fops = {
+	.open = mdss_debug_gamma_open,
+	.release = mdss_debug_gamma_release,
+	.read = mdss_debug_gamma_read,
+};
+#endif
 static int mdss_debugfs_cleanup(struct mdss_debug_data *mdd)
 {
 	struct mdss_debug_base *base, *tmp;
@@ -391,6 +513,10 @@ int mdss_debugfs_init(struct mdss_data_type *mdata)
 		return -ENODEV;
 	}
 	debugfs_create_file("stat", 0644, mdd->root, mdata, &mdss_stat_fops);
+#ifdef CONFIG_F_SKYDISP_SMARTDIMMING
+	debugfs_create_file("mtp", 0644, mdd->root, mdata, &mdss_mtp_fops);
+	debugfs_create_file("gamma", 0644, mdd->root, mdata, &mdss_gamma_fops);
+#endif
 
 	debugfs_create_u32("min_mdp_clk", 0644, mdd->root,
 			(u32 *)&mdata->min_mdp_clk);

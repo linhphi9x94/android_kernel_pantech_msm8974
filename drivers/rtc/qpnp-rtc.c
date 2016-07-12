@@ -50,6 +50,10 @@ static bool poweron_alarm;
 module_param(poweron_alarm, bool, 0644);
 MODULE_PARM_DESC(poweron_alarm, "Enable/Disable power-on alarm");
 
+#ifdef CONFIG_PANTECH_PMIC_RTC_ALM_OFF
+static int alarm_irq_disable = 0;
+#endif /* CONFIG_PANTECH_PMIC_RTC_ALM_OFF */
+
 /* rtc driver internal structure */
 struct qpnp_rtc {
 	u8  rtc_ctrl_reg;
@@ -617,6 +621,53 @@ fail_alarm_disable:
 	}
 }
 
+#ifdef CONFIG_PANTECH_PMIC_RTC_ALM_OFF
+int qpnp_force_alarm_irq_disable(void)
+{
+    alarm_irq_disable = 1;
+    return 0;
+}
+
+static int qpnp_rtc_suspend(struct device *dev)
+{
+    u8 value[4] = {0};
+    u8 reg;
+    int rc;
+    struct qpnp_rtc *rtc_dd = dev_get_drvdata(dev);
+
+    if(alarm_irq_disable) {
+        pr_info("Disabling alarm interrupts\n");
+
+        /* Disable RTC alarms */
+        reg = rtc_dd->alarm_ctrl_reg1;
+        reg &= ~BIT_RTC_ALARM_ENABLE;
+        rc = qpnp_write_wrapper(rtc_dd, &reg,
+                                rtc_dd->alarm_base + REG_OFFSET_ALARM_CTRL1, 1);
+        if (rc)
+            pr_err("SPMI write failed\n");
+
+        /* Clear Alarm register */
+        rc = qpnp_write_wrapper(rtc_dd, value,
+                                rtc_dd->alarm_base + REG_OFFSET_ALARM_RW,
+                                NUM_8_BIT_RTC_REGS);
+        if (rc)
+            pr_err("SPMI write failed\n");
+    }
+
+    return 0;
+}
+
+static int qpnp_rtc_resume(struct device *dev)
+{
+	return 0;
+}
+
+static const struct dev_pm_ops qpnp_rtc_pm_ops = {
+    .resume = qpnp_rtc_resume,
+    .suspend = qpnp_rtc_suspend,
+};
+#endif /* CONFIG_PANTECH_PMIC_RTC_ALM_OFF */
+
 static struct of_device_id spmi_match_table[] = {
 	{
 		.compatible = "qcom,qpnp-rtc",
@@ -632,6 +683,10 @@ static struct spmi_driver qpnp_rtc_driver = {
 		.name   = "qcom,qpnp-rtc",
 		.owner  = THIS_MODULE,
 		.of_match_table = spmi_match_table,
+#ifdef CONFIG_PANTECH_PMIC_RTC_ALM_OFF
+		.pm	= &qpnp_rtc_pm_ops,
+#endif /* CONFIG_PANTECH_PMIC_RTC_ALM_OFF */
+
 	},
 };
 

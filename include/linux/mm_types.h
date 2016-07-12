@@ -14,6 +14,7 @@
 #include <linux/page-debug-flags.h>
 #include <asm/page.h>
 #include <asm/mmu.h>
+#include <mach/pantech_memlog.h>
 
 #ifndef AT_VECTOR_SIZE_ARCH
 #define AT_VECTOR_SIZE_ARCH 0
@@ -149,6 +150,11 @@ struct page {
 	 */
 	void *shadow;
 #endif
+
+#ifdef CONFIG_PANTECH_MEM_LEAK_TRACE
+	struct page_onwer_info onwer_info;
+#endif
+
 }
 /*
  * The struct page can be forced to be double word aligned so that atomic ops

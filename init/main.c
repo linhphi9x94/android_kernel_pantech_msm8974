@@ -456,6 +456,10 @@ static void __init mm_init(void)
 	 * page_cgroup requires contiguous pages,
 	 * bigger than MAX_ORDER unless SPARSEMEM.
 	 */
+#ifdef CONFIG_PANTECH_MEM_LEAK_TRACE
+	//for swapper. init lock  before using kernel's memory system.
+	rwlock_init(&current->leak_detector.ld_lock);
+#endif 
 	page_cgroup_init_flatmem();
 	mem_init();
 	kmem_cache_init();

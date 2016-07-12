@@ -61,6 +61,7 @@
 #include <linux/migrate.h>
 #include <linux/page-debug-flags.h>
 
+#include <mach/pantech_memlog.h>
 #include <asm/tlbflush.h>
 #include <asm/div64.h>
 #include "internal.h"
@@ -704,6 +705,11 @@ static void free_pcppages_bulk(struct zone *zone, int count,
 static void free_one_page(struct zone *zone, struct page *page, int order,
 				int migratetype)
 {
+
+#ifdef CONFIG_PANTECH_MEM_LEAK_TRACE
+	writeLog_free_info(order, page);
+#endif
+
 	spin_lock(&zone->lock);
 	zone->pages_scanned = 0;
 
@@ -780,6 +786,7 @@ bool is_cma_pageblock(struct page *page)
 {
 	return get_pageblock_migratetype(page) == MIGRATE_CMA;
 }
+EXPORT_SYMBOL(is_cma_pageblock); /* P14527: Add for texfat module */
 
 /* Free whole pageblock and set it's migration type to MIGRATE_CMA. */
 void __init init_cma_reserved_pageblock(struct page *page)
@@ -1406,6 +1413,11 @@ void free_hot_cold_page(struct page *page, int cold)
 		free_pcppages_bulk(zone, pcp->batch, pcp);
 		pcp->count -= pcp->batch;
 	}
+
+#ifdef CONFIG_PANTECH_MEM_LEAK_TRACE
+    writeLog_free_info(0, page);
+#endif
+
 
 out:
 	local_irq_restore(flags);
@@ -2637,6 +2649,11 @@ out:
 	 */
 	if (unlikely(!put_mems_allowed(cpuset_mems_cookie) && !page))
 		goto retry_cpuset;
+
+#ifdef CONFIG_PANTECH_MEM_LEAK_TRACE
+	if(page)
+		writeLog_alloc_info(order, page);
+#endif
 
 	return page;
 }

@@ -86,6 +86,13 @@ DEFINE_PER_CPU(struct avc_cache_stats, avc_cache_stats) = { 0 };
 static struct avc_cache avc_cache;
 static struct avc_callback_node *avc_callbacks;
 static struct kmem_cache *avc_node_cachep;
+#ifdef CONFIG_PANTECH_SELINUX_DENIAL_LOG //P11536-SHPARK-SELinux 
+static struct pantech_avc_format pantech_avc;
+struct pantech_avc_format pantech_get_avc(void)
+{     
+    return pantech_avc;
+}
+#endif
 
 static inline int avc_hash(u32 ssid, u32 tsid, u16 tclass)
 {
@@ -823,6 +830,14 @@ inline int avc_has_perm_noaudit(u32 ssid, u32 tsid,
 	denied = requested & ~(avd->allowed);
 	if (unlikely(denied))
 		rc = avc_denied(ssid, tsid, tclass, requested, flags, avd);
+
+#ifdef CONFIG_PANTECH_SELINUX_DENIAL_LOG //P11536-SHPARK-SELinux 
+	pantech_avc.real_denied= rc;
+	if(avd->flags == 1)
+	  pantech_avc.permissive_domain= 1;
+	else
+	  pantech_avc.permissive_domain = 0;
+#endif
 
 	rcu_read_unlock();
 	return rc;

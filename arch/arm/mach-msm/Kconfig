@@ -1139,6 +1139,90 @@ config MACH_FSM9XXX_SURF
 	  chipset based SURF evaluation board and
 	  FFA board.
 
+config MACH_MSM8974_EF60S
+        depends on ARCH_MSM8974
+        bool "MSM8974 EF60S"
+        select CUST_PANTECH_H
+        help
+          Support for the Pantech MSM8974 Ef60s device.
+
+config MACH_MSM8974_EF65S
+        depends on ARCH_MSM8974
+        bool "MSM8974 EF65S"
+        select CUST_PANTECH_H
+        help
+          Support for the Pantech MSM8974 Ef65s device.
+
+config MACH_MSM8974_EF61K
+        depends on ARCH_MSM8974
+        bool "MSM8974 EF61K"
+        select CUST_PANTECH_H
+        help
+          Support for the Pantech MSM8974 Ef61k device.
+
+config MACH_MSM8974_EF62L
+        depends on ARCH_MSM8974
+        bool "MSM8974 EF62L"
+        select CUST_PANTECH_H
+        help
+          Support for the Pantech MSM8974 Ef62l device.
+
+
+config MACH_MSM8974_EF63S
+        depends on ARCH_MSM8974
+        bool "MSM8974 EF63S"
+        select CUST_PANTECH_H
+        help
+          Support for the Pantech MSM8974 Ef63s device.
+
+config MACH_MSM8974_EF63K
+        depends on ARCH_MSM8974
+        bool "MSM8974 EF63K"
+        select CUST_PANTECH_H
+        help
+          Support for the Pantech MSM8974 Ef63k device.
+
+config MACH_MSM8974_EF63L
+        depends on ARCH_MSM8974
+        bool "MSM8974 EF63L"
+        select CUST_PANTECH_H
+        help
+          Support for the Pantech MSM8974 Ef63l device.
+
+config MACH_MSM8974_EF56S
+        depends on ARCH_MSM8974
+        bool "MSM8974 EF56S"
+        select CUST_PANTECH_H
+        help
+          Support for the Pantech MSM8974 EF56S device.
+
+config MACH_MSM8974_EF59S
+        depends on ARCH_MSM8974
+        bool "MSM8974 EF59S"
+        select CUST_PANTECH_H
+        help
+          Support for the Pantech MSM8974 EF59S device.
+
+config MACH_MSM8974_EF59K
+        depends on ARCH_MSM8974
+        bool "MSM8974 EF59K"
+        select CUST_PANTECH_H
+        help
+          Support for the Pantech MSM8974 EF59K device.
+
+config MACH_MSM8974_EF59L
+        depends on ARCH_MSM8974
+        bool "MSM8974 EF59L"
+        select CUST_PANTECH_H
+        help
+          Support for the Pantech MSM8974 EF59L device.
+
+config CUST_PANTECH_H
+	bool
+
+if CUST_PANTECH_H
+source "arch/arm/mach-msm/cust/Kconfig"
+endif	   
 endmenu
 
 config MSM_STACKED_MEMORY

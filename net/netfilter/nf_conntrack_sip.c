@@ -1467,8 +1467,14 @@ static int sip_help_tcp(struct sk_buff *skb, unsigned int protoff,
 		end += strlen("\r\n\r\n") + clen;
 
 		msglen = origlen = end - dptr;
+    
+#ifdef CONFIG_SKY_DS_ACCEPT_SIP_LAGRE_PACKET
+		if (msglen > datalen)
+			return NF_ACCEPT;
+#else
 		if (msglen > datalen)
 			return NF_DROP;
+#endif /* CONFIG_SKY_DS_ACCEPT_SIP_LAGRE_PACKET */
 
 		ret = process_sip_msg(skb, ct, dataoff, &dptr, &msglen);
 		if (ret != NF_ACCEPT)

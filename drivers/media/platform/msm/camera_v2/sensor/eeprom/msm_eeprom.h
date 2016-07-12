@@ -27,6 +27,35 @@ struct msm_eeprom_ctrl_t;
 #define DEFINE_MSM_MUTEX(mutexname) \
 	static struct mutex mutexname = __MUTEX_INITIALIZER(mutexname)
 
+#ifdef CONFIG_PANTECH_CAMERA
+#define CONFIG_PANTECH_CAMERA_READ_EEPROM 
+#define CONFIG_PANTECH_CAMERA_EEPROM_CHECKSUM
+#define CCI_READ_MAX 12
+
+#if defined(CONFIG_PANTECH_CAMERA_IMX135)
+#ifdef CONFIG_PANTECH_CAMERA_READ_EEPROM
+#define EEPROM_READ_BLOCK 256
+#endif
+#ifdef CONFIG_PANTECH_CAMERA_EEPROM_CHECKSUM
+#define EEPROM_READ_CHECKSUM_BYTE 2
+#define EEPROM_AWB_CHECKSUM_ADDR 0x06F8
+#define EEPROM_LSC_CHECKSUM_ADDR 0x06FA
+#define EEPROM_AF_CHECKSUM_ADDR 0x0700
+#endif
+#elif defined(CONFIG_PANTECH_CAMERA_IMX214)
+#ifdef CONFIG_PANTECH_CAMERA_READ_EEPROM
+ #define EEPROM_READ_BLOCK 64
+#endif
+#ifdef CONFIG_PANTECH_CAMERA_EEPROM_CHECKSUM
+#define EEPROM_READ_CHECKSUM_BYTE 4
+#define EEPROM_AWB_CHECKSUM_ADDR 0x7944
+#define EEPROM_LSC_CHECKSUM_ADDR 0x7946
+#define EEPROM_AF_CHECKSUM_ADDR 0x794C
+#define EEPROM_AWB_BLOCK_SIZE 6
+#endif
+#endif
+#endif
+
 struct msm_eeprom_ctrl_t {
 	struct platform_device *pdev;
 	struct mutex *eeprom_mutex;
@@ -43,6 +72,10 @@ struct msm_eeprom_ctrl_t {
 	uint8_t is_supported;
 	struct msm_eeprom_board_info *eboard_info;
 	uint32_t subdev_id;
+#ifdef CONFIG_PANTECH_CAMERA_READ_EEPROM
+	uint32_t set_block_bytes;
+	bool is_increase_slave_address;
+#endif 
 };
 
 #endif

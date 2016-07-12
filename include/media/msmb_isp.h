@@ -228,7 +228,9 @@ enum msm_vfe_reg_cfg_type {
 	VFE_READ_DMI_32BIT,
 	VFE_READ_DMI_64BIT,
 	GET_SOC_HW_VER,
+#ifdef CONFIG_PANTECH_CAMERA//F_PANTECH_CAMERA_QBUG_VFE_MAX_CLOCK_SETTING
 	GET_MAX_CLK_RATE,
+#endif
 };
 
 struct msm_vfe_cfg_cmd2 {

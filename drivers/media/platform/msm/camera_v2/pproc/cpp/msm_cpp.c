@@ -114,7 +114,11 @@ static void msm_enqueue(struct msm_device_queue *queue,
 	queue->len++;
 	if (queue->len > queue->max) {
 		queue->max = queue->len;
+#ifdef CONFIG_PANTECH_CAMERA
+		CPP_DBG("queue %s new max is %d\n", queue->name, queue->max);
+#else
 		pr_info("queue %s new max is %d\n", queue->name, queue->max);
+#endif
 	}
 	list_add_tail(entry, &queue->list);
 	wake_up(&queue->wait);
@@ -850,8 +854,13 @@ static void cpp_load_fw(struct cpp_device *cpp_dev, char *fw_name_bin)
 
 	/*Get Bootloader Version*/
 	msm_cpp_write(MSM_CPP_CMD_GET_BOOTLOADER_VER, cpp_dev->base);
+#ifdef CONFIG_PANTECH_CAMERA
+	CPP_DBG("MC Bootloader Version: 0x%x\n",
+		   msm_cpp_read(cpp_dev->base));
+#else
 	pr_info("MC Bootloader Version: 0x%x\n",
 		   msm_cpp_read(cpp_dev->base));
+#endif
 
 	/*Get Firmware Version*/
 	msm_cpp_write(MSM_CPP_CMD_GET_FW_VER, cpp_dev->base);
@@ -863,7 +872,11 @@ static void cpp_load_fw(struct cpp_device *cpp_dev, char *fw_name_bin)
 	msm_cpp_poll(cpp_dev->base, MSM_CPP_MSG_ID_CMD);
 	msm_cpp_poll(cpp_dev->base, 0x2);
 	msm_cpp_poll(cpp_dev->base, MSM_CPP_MSG_ID_FW_VER);
+#ifdef CONFIG_PANTECH_CAMERA
+	CPP_DBG("CPP FW Version: 0x%x\n", msm_cpp_read(cpp_dev->base));
+#else
 	pr_info("CPP FW Version: 0x%x\n", msm_cpp_read(cpp_dev->base));
+#endif
 	msm_cpp_poll(cpp_dev->base, MSM_CPP_MSG_ID_TRAILER);
 
 	/*Disable MC clock*/
@@ -936,6 +949,38 @@ static int cpp_close_node(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
 
 	cpp_dev->cpp_open_cnt--;
 	if (cpp_dev->cpp_open_cnt == 0) {
+#ifdef CONFIG_PANTECH_CAMERA
+		CPP_DBG("%s: irq_status: 0x%x\n", __func__,
+			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x4));
+		CPP_DBG("%s: DEBUG_SP: 0x%x\n", __func__,
+			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x40));
+		CPP_DBG("%s: DEBUG_T: 0x%x\n", __func__,
+			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x44));
+		CPP_DBG("%s: DEBUG_N: 0x%x\n", __func__,
+			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x48));
+		CPP_DBG("%s: DEBUG_R: 0x%x\n", __func__,
+			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x4C));
+		CPP_DBG("%s: DEBUG_OPPC: 0x%x\n", __func__,
+			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x50));
+		CPP_DBG("%s: DEBUG_MO: 0x%x\n", __func__,
+			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x54));
+		CPP_DBG("%s: DEBUG_TIMER0: 0x%x\n", __func__,
+			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x60));
+		CPP_DBG("%s: DEBUG_TIMER1: 0x%x\n", __func__,
+			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x64));
+		CPP_DBG("%s: DEBUG_GPI: 0x%x\n", __func__,
+			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x70));
+		CPP_DBG("%s: DEBUG_GPO: 0x%x\n", __func__,
+			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x74));
+		CPP_DBG("%s: DEBUG_T0: 0x%x\n", __func__,
+			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x80));
+		CPP_DBG("%s: DEBUG_R0: 0x%x\n", __func__,
+			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x84));
+		CPP_DBG("%s: DEBUG_T1: 0x%x\n", __func__,
+			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x88));
+		CPP_DBG("%s: DEBUG_R1: 0x%x\n", __func__,
+			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x8C));
+#else
 		pr_debug("irq_status: 0x%x\n",
 			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x4));
 		pr_debug("DEBUG_SP: 0x%x\n",
@@ -966,6 +1011,7 @@ static int cpp_close_node(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
 			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x88));
 		pr_debug("DEBUG_R1: 0x%x\n",
 			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x8C));
+#endif
 		msm_camera_io_w(0x0, cpp_dev->base + MSM_CPP_MICRO_CLKEN_CTL);
 		cpp_deinit_mem(cpp_dev);
 		iommu_detach_device(cpp_dev->domain, cpp_dev->iommu_ctx);

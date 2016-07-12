@@ -900,6 +900,18 @@ static void pp_update_pa_v2_vig_opmode(struct pp_sts_type *pp_sts,
 		*opmode |= MDSS_MDP_VIG_OP_PA_MEM_COL_FOL_MASK;
 }
 
+#ifdef CONFIG_F_SKYDISP_SHARPNESS_CTRL
+unsigned int sharpness_count = SHARP_STRENGTH_DEFAULT;
+void sharpness_control(struct msm_fb_data_type *mfd, int count)
+{
+	if(count == 0)
+		sharpness_count = SHARP_STRENGTH_DEFAULT;
+	else
+       sharpness_count = count;
+	   pr_debug("[kkCHO_DEBUG] *************** count = %d\n",count);
+}
+#endif
+
 static int mdss_mdp_scale_setup(struct mdss_mdp_pipe *pipe)
 {
 	u32 scale_config = 0;
@@ -941,7 +953,11 @@ static int mdss_mdp_scale_setup(struct mdss_mdp_pipe *pipe)
 	if (!(pipe->pp_cfg.config_ops & MDP_OVERLAY_PP_SHARP_CFG)) {
 		pipe->pp_cfg.sharp_cfg.flags = MDP_PP_OPS_ENABLE |
 			MDP_PP_OPS_WRITE;
+#ifdef CONFIG_F_SKYDISP_SHARPNESS_CTRL	
+		pipe->pp_cfg.sharp_cfg.strength = sharpness_count;
+#else	
 		pipe->pp_cfg.sharp_cfg.strength = SHARP_STRENGTH_DEFAULT;
+#endif		
 		pipe->pp_cfg.sharp_cfg.edge_thr = SHARP_EDGE_THR_DEFAULT;
 		pipe->pp_cfg.sharp_cfg.smooth_thr = SHARP_SMOOTH_THR_DEFAULT;
 		pipe->pp_cfg.sharp_cfg.noise_thr = SHARP_NOISE_THR_DEFAULT;

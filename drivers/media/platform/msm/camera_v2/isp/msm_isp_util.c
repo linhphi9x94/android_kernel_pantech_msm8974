@@ -277,6 +277,7 @@ int msm_isp_unsubscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
 	return rc;
 }
 
+#ifdef CONFIG_PANTECH_CAMERA//F_PANTECH_CAMERA_QBUG_VFE_MAX_CLOCK_SETTING
 static int msm_isp_get_max_clk_rate(struct vfe_device *vfe_dev, long *rate)
 {
 	int           clk_idx = 0;
@@ -313,6 +314,7 @@ static int msm_isp_get_max_clk_rate(struct vfe_device *vfe_dev, long *rate)
 	*rate = round_rate;
 	return 0;
 }
+#endif
 
 static int msm_isp_set_clk_rate(struct vfe_device *vfe_dev, long *rate)
 {
@@ -655,6 +657,7 @@ static int msm_isp_send_hw_cmd(struct vfe_device *vfe_dev,
 	case GET_SOC_HW_VER:
 		*cfg_data = vfe_dev->soc_hw_version;
 		break;
+#ifdef CONFIG_PANTECH_CAMERA//F_PANTECH_CAMERA_QBUG_VFE_MAX_CLOCK_SETTING
 	case GET_MAX_CLK_RATE: {
 		int rc = 0;
 
@@ -672,6 +675,7 @@ static int msm_isp_send_hw_cmd(struct vfe_device *vfe_dev,
 		}
 		break;
 	}
+#endif
 	}
 	return 0;
 }
@@ -1156,7 +1160,11 @@ int msm_isp_close_node(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
 
 	rc = vfe_dev->hw_info->vfe_ops.axi_ops.halt(vfe_dev);
 	if (rc <= 0)
+#ifdef CONFIG_PANTECH_CAMERA //Camif error log
+		pr_debug("%s: halt timeout rc=%ld\n", __func__, rc);
+#else
 		pr_err("%s: halt timeout rc=%ld\n", __func__, rc);
+#endif
 
 	vfe_dev->buf_mgr->ops->buf_mgr_deinit(vfe_dev->buf_mgr);
 	vfe_dev->hw_info->vfe_ops.core_ops.release_hw(vfe_dev);

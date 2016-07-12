@@ -665,6 +665,23 @@ config TI_DRV2667
 	  To compile this driver as a module, choose M here: the
 	  module will be called ti_drv2667.
 
+config DRV2603
+	bool "TI DRV2603"
+
+config PN544
+	bool "NXP PN544 NFC Controller Driver"
+	depends on I2C && ( MACH_MSM8974_EF56S || MACH_MSM8974_EF57K || MACH_MSM8974_EF58L)
+	default y
+	help
+	  NXP PN544 Near Field Communication controller support.
+
+config PN547
+	bool "NXP PN547 NFC Controller Driver"
+	depends on I2C && (MACH_MSM8974_EF59S || MACH_MSM8974_EF59K || MACH_MSM8974_EF59L || MACH_MSM8974_EF60S || MACH_MSM8974_EF65S || MACH_MSM8974_EF61K || MACH_MSM8974_EF62L || MACH_MSM8974_EF63S ||MACH_MSM8974_EF63K || MACH_MSM8974_EF63L)
+	default y
+	help
+	  NXP PN547 Near Field Communication controller support.
+
 source "drivers/misc/c2port/Kconfig"
 source "drivers/misc/eeprom/Kconfig"
 source "drivers/misc/cb710/Kconfig"

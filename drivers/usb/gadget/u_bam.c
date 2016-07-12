@@ -54,6 +54,12 @@ static const char *bam_ch_names[] = { "bam_dmux_ch_8" };
 
 #define DL_INTR_THRESHOLD			20
 
+#define FEATURE_PANTECH_ANDROID_USB_ZLP_WORKAROUND
+
+#ifdef FEATURE_PANTECH_ANDROID_USB_ZLP_WORKAROUND
+//#define USE_ZERO_FLAG  //if zero_flag should be used, define this feature.
+#endif
+
 static unsigned int bam_pending_limit = BAM_PENDING_LIMIT;
 module_param(bam_pending_limit, uint, S_IRUGO | S_IWUSR);
 
@@ -195,6 +201,9 @@ static void gbam_write_data_tohost(struct gbam_port *port)
 	int				ret;
 	struct usb_request		*req;
 	struct usb_ep			*ep;
+#if defined(FEATURE_PANTECH_ANDROID_USB_ZLP_WORKAROUND) && !defined(USE_ZERO_FLAG)
+	static bool useZLP = false;
+#endif
 
 	spin_lock_irqsave(&port->port_lock_dl, flags);
 	if (!port->port_usb) {
@@ -205,6 +214,17 @@ static void gbam_write_data_tohost(struct gbam_port *port)
 	ep = port->port_usb->in;
 
 	while (!list_empty(&d->tx_idle)) {
+#if defined(FEATURE_PANTECH_ANDROID_USB_ZLP_WORKAROUND) && !defined(USE_ZERO_FLAG)
+		if(useZLP){
+			useZLP = false;
+			req = list_first_entry(&d->tx_idle,
+														 struct usb_request,
+														 list);
+			req->context = NULL;
+			req->buf = NULL;
+			req->length = 0;
+
+		}else{
 		skb = __skb_dequeue(&d->tx_skb_q);
 		if (!skb) {
 			spin_unlock_irqrestore(&port->port_lock_dl, flags);
@@ -216,6 +236,20 @@ static void gbam_write_data_tohost(struct gbam_port *port)
 		req->context = skb;
 		req->buf = skb->data;
 		req->length = skb->len;
+		}
+#else
+		skb = __skb_dequeue(&d->tx_skb_q);
+		if (!skb) {
+			spin_unlock_irqrestore(&port->port_lock_dl, flags);
+			return;
+		}
+		req = list_first_entry(&d->tx_idle,
+				struct usb_request,
+				list);
+		req->context = skb;
+		req->buf = skb->data;
+		req->length = skb->len;
+#endif
 		n_tx_req_queued++;
 		if (n_tx_req_queued == dl_intr_threshold) {
 			req->no_interrupt = 0;
@@ -223,9 +257,29 @@ static void gbam_write_data_tohost(struct gbam_port *port)
 		} else {
 			req->no_interrupt = 1;
 		}
+		// LS2_USB 20130723 pooyi send zelo length packet  
+		if((req->length % ep->maxpacket) == 0)
+			req->zero = 1;
+		else
+			req->zero = 0;
 
+#if defined(FEATURE_PANTECH_ANDROID_USB_ZLP_WORKAROUND)
+#ifdef USE_ZERO_FLAG
+		// LS2_USB 20130723 pooyi send zelo length packet  
+		if(req->length && ((req->length % ep->maxpacket) == 0))
+			req->zero = 1;
+		else
+			req->zero = 0;
+#else
+		if(req->length && ((req->length % ep->maxpacket) == 0))
+			useZLP = true;
+		else
+			useZLP = false;
+#endif
+#else
 		/* Send ZLP in case packet length is multiple of maxpacksize */
 		req->zero = 1;
+#endif
 
 		list_del(&req->list);
 
@@ -395,7 +449,12 @@ static void gbam_epin_complete(struct usb_ep *ep, struct usb_request *req)
 		break;
 	}
 
+#if defined(FEATURE_PANTECH_ANDROID_USB_ZLP_WORKAROUND) && !defined(USE_ZERO_FLAG)
+	if(skb)
 	dev_kfree_skb_any(skb);
+#else
+		dev_kfree_skb_any(skb);
+#endif
 
 	if (!port)
 		return;

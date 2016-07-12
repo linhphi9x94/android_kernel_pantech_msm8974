@@ -59,7 +59,32 @@
 
 #include "debug.h"
 
+#if defined(CONFIG_ANDROID_PANTECH_USB_OTG_INTENT)
+//LS2_USB tarial ssphy tune
+struct dwc3 *temp_dwc3;
+#endif
+
+#ifdef CONFIG_PANTECH_USB_DEBUG
+extern int dwc3_logmask_value;
+#undef dev_dbg
+#define dev_dbg(dev, format, arg...)		\
+	do{if(dwc3_logmask_value & USB_DEBUG_MASK) dev_printk(KERN_DEBUG, dev, format, ##arg);}while(0)
+#endif
+
+#ifdef CONFIG_PANTECH_USB_STATE_DEBUG
+extern int usb_link_state;
+#endif
+
+#ifdef CONFIG_ANDROID_PANTECH_USB_OTG_INTENT
+#define OTG_SWITCH_NAME	"host_configuration"
+#define DEV_SWITCH_NAME	"dev_configuration"
+#endif
+
+#ifdef CONFIG_ANDROID_PANTECH_USB_SUPER_SPEED
 static char *maximum_speed = "super";
+#else
+static char *maximum_speed = "high";
+#endif
 module_param(maximum_speed, charp, 0);
 MODULE_PARM_DESC(maximum_speed, "Maximum supported speed.");
 
@@ -504,6 +529,149 @@ void dwc3_post_host_reset_core_init(struct dwc3 *dwc)
 	dwc3_notify_event(dwc, DWC3_CONTROLLER_POST_INITIALIZATION_EVENT);
 }
 
+#ifdef CONFIG_PANTECH_USB_STATE_DEBUG
+void dwc3_state_work(struct work_struct *data)
+{
+	struct dwc3 *dwc = container_of(data, struct dwc3,state_work.work);
+	char *state[2] = { NULL, NULL };
+	char **uevent_envp = NULL;
+
+	switch(usb_link_state)
+	{
+		case DWC3_LINK_STATE_U0:
+			if(dwc->gadget.speed == USB_SPEED_SUPER)
+				state[0] = "DWC3_STATE=DWC3_LINK_STATE_U0";
+			else 
+				state[0] = "DWC3_STATE=DWC3_LINK_STATE_ON";
+			break;
+		case DWC3_LINK_STATE_U1:
+			state[0] = "DWC3_STATE=DWC3_LINK_STATE_U1";
+			break;
+		case DWC3_LINK_STATE_U2:
+			if(dwc->gadget.speed == USB_SPEED_SUPER)
+				state[0] = "DWC3_STATE=DWC3_LINK_STATE_U2";
+			else
+				state[0] = "DWC3_STATE=DWC3_LINK_STATE_SLEEP";
+			break;
+		case DWC3_LINK_STATE_U3:
+			if(dwc->gadget.speed == USB_SPEED_SUPER)
+				state[0] = "DWC3_STATE=DWC3_LINK_STATE_U3";
+			else
+				state[0] = "DWC3_STATE=DWC3_LINK_STATE_SUSPEND";
+			break;
+		case DWC3_LINK_STATE_SS_DIS:
+			state[0] = "DWC3_STATE=DWC3_LINK_STATE_SS_DIS";
+			break;
+		case DWC3_LINK_STATE_RX_DET:
+			if(dwc->gadget.speed == USB_SPEED_SUPER)
+				state[0] = "DWC3_STATE=DWC3_LINK_STATE_RX_DET";
+			else 
+				state[0] = "DWC3_STATE=DWC3_LINK_STATE_EARLY_SUSPEND";
+			break;
+		case DWC3_LINK_STATE_SS_INACT:
+			state[0] = "DWC3_STATE=DWC3_LINK_STATE_SS_INACT";
+			break;
+		case DWC3_LINK_STATE_POLL:
+			state[0] = "DWC3_STATE=DWC3_LINK_STATE_POLL";
+			break;
+		case DWC3_LINK_STATE_RECOV:
+			state[0] = "DWC3_STATE=DWC3_LINK_STATE_RECOV";
+			break;
+		case DWC3_LINK_STATE_HRESET:
+			state[0] = "DWC3_STATE=DWC3_LINK_STATE_HRESET";
+			break;
+		case DWC3_LINK_STATE_CMPLY:
+			state[0] = "DWC3_STATE=DWC3_LINK_STATE_CMPLY";
+			break;
+		case DWC3_LINK_STATE_LPBK:
+			state[0] = "DWC3_STATE=DWC3_LINK_STATE_LPBK";
+			break;
+		case DWC3_LINK_STATE_RESET:
+			state[0] = "DWC3_STATE=DWC3_LINK_STATE_RESET";
+			break;
+		case DWC3_LINK_STATE_RESUME:
+			state[0] = "DWC3_STATE=DWC3_LINK_STATE_RESUME";
+			break;
+		default:
+			state[0] = "DWC3_STATE=DWC3_LINK_STATE_MASK";
+			break;
+	}
+	
+	uevent_envp = state;
+	if(uevent_envp) {
+		kobject_uevent_env(&dwc->dev->kobj, KOBJ_CHANGE, uevent_envp);
+	}
+
+}
+#endif
+
+#ifdef CONFIG_ANDROID_PANTECH_USB_OTG_INTENT
+static ssize_t print_otg_switch_name(struct switch_dev *sdev_otg, char *buf)
+{
+	return sprintf(buf, "%s\n", OTG_SWITCH_NAME);
+}
+
+static ssize_t print_otg_switch_state(struct switch_dev *sdev_otg, char *buf)
+{
+	return sprintf(buf, "%d\n", sdev_otg->state);
+}
+
+int set_otg_host_state(int mode)
+{
+	struct dwc3 *dwc = temp_dwc3;
+	
+	printk(KERN_ERR "%s : tarial set_otg_host_state [%d]\n", __func__, mode);
+
+	if(mode == 0)
+		switch_set_state(&dwc->sdev_otg, 0);
+	else if(mode == 1)
+		switch_set_state(&dwc->sdev_otg, 1);
+	else if(mode == 2)
+		switch_set_state(&dwc->sdev_otg, 2);
+	else
+		return -1;	
+
+	return 0;
+	
+}
+EXPORT_SYMBOL(set_otg_host_state);
+
+static ssize_t print_otg_dev_switch_name(struct switch_dev *sdev_otg_dev, char *buf)
+{
+	return sprintf(buf, "%s\n", DEV_SWITCH_NAME);
+}
+
+static ssize_t print_otg_dev_switch_state(struct switch_dev *sdev_otg_dev, char *buf)
+{
+	return sprintf(buf, "%d\n", sdev_otg_dev->state);
+}
+
+int set_otg_dev_state(int mode)
+{
+	struct dwc3 *dwc = temp_dwc3;
+
+	printk(KERN_ERR "%s : tarial set_otg_dev_state [%d]\n", __func__, mode);
+	
+	if(mode == 0){
+		switch_set_state(&dwc->sdev_otg_dev, 0);
+	}else if(mode == 1){
+		switch_set_state(&dwc->sdev_otg_dev, 1);
+#if defined(CONFIG_PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY) || defined(CONFIG_PANTECH_USB_TI_OTG_DISABLE_LOW_BATTERY)
+	}else if(mode == 2){
+		switch_set_state(&dwc->sdev_otg_dev, 2);
+	}else if(mode == 3){
+		switch_set_state(&dwc->sdev_otg_dev, 3);
+#endif
+	}else{
+		return -1;	
+	}
+
+	return 0;
+	
+}
+EXPORT_SYMBOL(set_otg_dev_state);
+#endif
+
 static void (*notify_event) (struct dwc3 *, unsigned);
 void dwc3_set_notifier(void (*notify)(struct dwc3 *, unsigned))
 {
@@ -621,6 +789,10 @@ static int __devinit dwc3_probe(struct platform_device *pdev)
 		return ret;
 	}
 
+#ifdef CONFIG_PANTECH_USB_STATE_DEBUG
+	INIT_DELAYED_WORK(&dwc->state_work, dwc3_state_work);
+#endif
+
 	mode = DWC3_MODE(dwc->hwparams.hwparams0);
 
 	/* Override mode if user selects host-only config with DRD core */
@@ -668,6 +840,19 @@ static int __devinit dwc3_probe(struct platform_device *pdev)
 			dwc3_otg_exit(dwc);
 			goto err1;
 		}
+#ifdef CONFIG_ANDROID_PANTECH_USB_OTG_INTENT
+		dwc->sdev_otg.name = OTG_SWITCH_NAME;
+		dwc->sdev_otg.print_name = print_otg_switch_name;
+		dwc->sdev_otg.print_state = print_otg_switch_state;
+
+		(void)switch_dev_register(&dwc->sdev_otg);
+
+		dwc->sdev_otg_dev.name = DEV_SWITCH_NAME;
+		dwc->sdev_otg_dev.print_name = print_otg_dev_switch_name;
+		dwc->sdev_otg_dev.print_state = print_otg_dev_switch_state;
+
+		(void)switch_dev_register(&dwc->sdev_otg_dev);
+#endif
 		break;
 	default:
 		dev_err(dev, "Unsupported mode of operation %d\n", mode);
@@ -680,6 +865,11 @@ static int __devinit dwc3_probe(struct platform_device *pdev)
 		dev_err(dev, "failed to initialize debugfs\n");
 		goto err2;
 	}
+
+#if defined(CONFIG_ANDROID_PANTECH_USB_OTG_INTENT)
+	//LS2_USB tarial ssphy tune
+	temp_dwc3 = dwc;
+#endif
 
 	dwc3_notify_event(dwc, DWC3_CONTROLLER_POST_INITIALIZATION_EVENT);
 
@@ -697,6 +887,10 @@ err2:
 		dwc3_gadget_exit(dwc);
 		dwc3_host_exit(dwc);
 		dwc3_otg_exit(dwc);
+#ifdef CONFIG_ANDROID_PANTECH_USB_OTG_INTENT
+		switch_dev_unregister(&dwc->sdev_otg);
+		switch_dev_unregister(&dwc->sdev_otg_dev);
+#endif
 		break;
 	default:
 		/* do nothing */

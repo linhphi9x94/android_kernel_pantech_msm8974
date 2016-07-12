@@ -58,6 +58,7 @@
 #include <asm/unistd.h>
 #include <asm/pgtable.h>
 #include <asm/mmu_context.h>
+#include <mach/pantech_memlog.h>
 
 static void exit_mm(struct task_struct * tsk);
 
@@ -74,6 +75,11 @@ static void __unhash_process(struct task_struct *p, bool group_dead)
 		__this_cpu_dec(process_counts);
 	}
 	list_del_rcu(&p->thread_group);
+
+#ifdef CONFIG_PANTECH_MEM_LEAK_TRACE
+    backup_mem_info_if_need(p);
+#endif
+
 }
 
 /*
@@ -169,6 +175,12 @@ void release_task(struct task_struct * p)
 {
 	struct task_struct *leader;
 	int zap_leader;
+
+#ifdef CONFIG_PANTECH_MEM_LEAK_TRACE
+	if ( p->leak_detector.total_alloc_size > 0 && p->group_leader )
+		memcpy( p->lt_info.backup_group_leader, p->group_leader->comm, TASK_COMM_LEN);
+#endif
+
 repeat:
 	/* don't need to get the RCU readlock here - the process is dead and
 	 * can't be modifying its own credentials. But shut RCU-lockdep up */

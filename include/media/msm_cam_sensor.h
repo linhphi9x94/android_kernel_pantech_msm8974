@@ -8,6 +8,16 @@
 #include <linux/v4l2-mediabus.h>
 #include <linux/i2c.h>
 
+#ifdef CONFIG_PANTECH_CAMERA
+#if defined(CONFIG_PANTECH_CAMERA_EF56_SS) || defined(CONFIG_PANTECH_CAMERA_EF59_SS) || defined(CONFIG_PANTECH_CAMERA_EF60_SS) || (defined(CONFIG_PANTECH_CAMERA_EF63_SS) && (CONFIG_BOARD_VER < CONFIG_WS10))
+
+#ifndef CONFIG_PANTECH_CAMERA_ACT_WV560
+#define CONFIG_PANTECH_CAMERA_ACT_WV560
+#endif
+
+#endif
+#endif
+
 #define I2C_SEQ_REG_SETTING_MAX   5
 #define I2C_SEQ_REG_DATA_MAX      20
 #define MAX_CID                   16
@@ -94,9 +104,36 @@ enum msm_sensor_power_seq_gpio_t {
 	SENSOR_GPIO_VANA,
 	SENSOR_GPIO_VDIG,
 	SENSOR_GPIO_VAF,
+#ifdef CONFIG_PANTECH_CAMERA
+#ifdef CONFIG_PANTECH_CAMERA_IMX135
+	SENSOR_GPIO_R_WP,
+#endif	
+#ifdef CONFIG_PANTECH_CAMERA_IMX214
+	SENSOR_GPIO_CAM0_SVDD0_EN,
+	SENSOR_GPIO_CAM0_SVDD1_EN,
+	SENSOR_GPIO_CAM0_AVDD_EN,
+#endif	
+#endif
 	SENSOR_GPIO_MAX,
 };
 
+#ifdef CONFIG_PANTECH_CAMERA
+#ifdef CONFIG_PANTECH_CAMERA_IMX135
+#define RCAM_VDIG 0
+#define RCAM_VANA 1
+#define RCAM_VIO 2
+#define RCAM_VAF 3
+#endif
+#ifdef CONFIG_PANTECH_CAMERA_IMX214
+#define RCAM_VANA 0
+#define RCAM_VIO 1
+#define RCAM_VAF 2
+#endif
+#ifdef CONFIG_PANTECH_CAMERA_S5K6B2YX
+#define FCAM_VDIG 0
+#define FCAM_VANA 1
+#endif
+#endif
 enum msm_camera_vreg_name_t {
 	CAM_VDIG,
 	CAM_VIO,
@@ -443,11 +480,22 @@ enum msm_actuator_cfg_type_t {
 	CFG_SET_DEFAULT_FOCUS,
 	CFG_SET_POSITION,
 	CFG_MOVE_FOCUS,
+#ifdef CONFIG_PANTECH_CAMERA_ADD_OIS
+	CFG_SET_OIS_MODE,
+	CFG_SET_OIS_INFO_CTRL,
+	CFG_GET_OIS_INFO,
+#endif
+#ifdef CONFIG_PANTECH_CAMERA//F_PANTECH_CAMERA_ADD_RESET_FOCUS
+    CFG_SET_ACTUATOR_SW_LANDING,
+#endif
 };
 
 enum actuator_type {
 	ACTUATOR_VCM,
 	ACTUATOR_PIEZO,
+#ifdef CONFIG_PANTECH_CAMERA
+	ACTUATOR_HVCM,
+#endif
 };
 
 enum msm_actuator_data_type {
@@ -540,6 +588,16 @@ enum af_camera_name {
 	ACTUATOR_WEB_CAM_2,
 };
 
+#ifdef CONFIG_PANTECH_CAMERA_ADD_OIS
+struct pantech_ois_get_info_t {
+    uint16_t gyro_out_x;
+    uint16_t gyro_out_y;
+    uint16_t cal_gyro_out_x;
+    uint16_t cal_gyro_out_y;
+    uint16_t hall_out_x;
+    uint16_t hall_out_y;
+};
+#endif
 
 struct msm_actuator_set_position_t {
 	uint16_t number_of_steps;
@@ -556,6 +614,11 @@ struct msm_actuator_cfg_data {
 		struct msm_actuator_get_info_t get_info;
 		struct msm_actuator_set_position_t setpos;
 		enum af_camera_name cam_name;
+#ifdef CONFIG_PANTECH_CAMERA_ADD_OIS
+		struct pantech_ois_get_info_t ois_pos;
+		int32_t ois_info_ctrl;
+		uint16_t ois_mode;
+#endif
 	} cfg;
 };
 

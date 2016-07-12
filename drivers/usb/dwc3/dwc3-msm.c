@@ -47,10 +47,75 @@
 #include <mach/msm_bus.h>
 #include <mach/clk.h>
 
+#ifdef CONFIG_PANTECH_PMIC_ABNORMAL
+#include <linux/power/qpnp-charger.h>
+#endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
+
 #include "dwc3_otg.h"
 #include "core.h"
 #include "gadget.h"
 #include "debug.h"
+
+#ifdef CONFIG_PANTECH_USB_REDRIVER_EN_CONTROL
+#include <linux/gpio.h>
+#define REDRIVER_EN 81
+#endif
+
+#ifdef CONFIG_PANTECH_USB_VER_SWITCH
+extern int usb_reconnect_cb(int type);
+#endif
+
+#ifdef CONFIG_PANTECH_USB_DEBUG
+int dwc3_logmask_value;
+// tarial link_state change history
+extern int link_state_array[4];
+extern struct dwc3 *temp_dwc3;
+
+#undef dev_dbg
+#define dev_dbg(dev, format, arg...)		\
+	do{ if(dwc3_logmask_value & USB_DEBUG_MASK) dev_printk(KERN_DEBUG, dev, format, ##arg);}while(0)
+
+#endif
+
+#ifdef CONFIG_PANTECH_USB_BLOCKING_MDMSTATE
+extern int get_pantech_mdm_state(void);
+extern void set_pantech_mdm_callback(void *cb);
+
+enum mdm_reg_type {
+    MDM_REG_TYPE_RETRY,
+    MDM_REG_TYPE_CONTROL
+};
+static enum mdm_reg_type mdm_reg_value;
+static void control_otg_mdm_state(bool mdm_enabled);
+static void register_mdm_callback(enum mdm_reg_type value);
+#endif
+
+#ifdef CONFIG_PANTECH_USB_TUNE_SIGNALING_PARAM
+static struct dwc3_msm *context;
+static u32 pantech_ssphy_init;
+static u32 pantech_rx_equal_data; 
+#endif
+#ifdef CONFIG_PANTECH_USB_EXTERNAL_ID_PULLUP
+#if defined(CONFIG_PANTECH_PMIC_SHARED_DATA) && !defined(CONFIG_MACH_MSM8974_EF56S) \
+	&& !defined(CONFIG_MACH_MSM8974_EF63S) && !defined(CONFIG_MACH_MSM8974_EF63K) && !defined(CONFIG_MACH_MSM8974_EF63L)
+#include <mach/msm_smsm.h>
+int get_oem_hw_rev(void)
+{
+	oem_pm_smem_vendor1_data_type *smem_vendor1_ptr;
+
+	smem_vendor1_ptr = (oem_pm_smem_vendor1_data_type*) smem_alloc(SMEM_ID_VENDOR1,
+			sizeof(oem_pm_smem_vendor1_data_type));
+    
+    if(smem_vendor1_ptr) {
+        pr_debug("%s: hw board rev = %d\n", __func__, smem_vendor1_ptr->hw_rev);
+        return smem_vendor1_ptr->hw_rev;
+    }
+
+    return 1;
+}
+#endif /* CONFIG_PANTECH_PMIC_SHARED_DATA .... */
+extern int qpnp_misc_usb_id_pull_up_set(struct device *consumer_dev, bool set_bit);
+#endif /* CONFIG_PANTECH_USB_EXTERNAL_ID_PULLUP */
 
 /* ADC threshold values */
 static int adc_low_threshold = 700;
@@ -246,6 +311,9 @@ struct dwc3_msm {
 	bool ext_chg_opened;
 	bool ext_chg_active;
 	struct completion ext_chg_wait;
+#ifdef CONFIG_ANDROID_PANTECH_USB_MANAGER
+	struct delayed_work connect_work;
+#endif
 };
 
 #define USB_HSPHY_3P3_VOL_MIN		3050000 /* uV */
@@ -1382,6 +1450,644 @@ static int dwc3_msm_link_clk_reset(struct dwc3_msm *mdwc, bool assert)
 	return ret;
 }
 
+#ifdef CONFIG_PANTECH_USB_TUNE_SIGNALING_PARAM
+void pantech_set_otg_signaling_param(int on)		
+{
+	struct dwc3_msm *mdwc = context;
+
+	printk("[%s] Enter on=%d\n", __func__, on);
+	
+	if (on) {
+#if defined(CONFIG_MACH_MSM8974_EF59S) || defined(CONFIG_MACH_MSM8974_EF59K) || defined(CONFIG_MACH_MSM8974_EF59L) \
+		|| defined(CONFIG_MACH_MSM8974_EF63S) || defined(CONFIG_MACH_MSM8974_EF63K) || defined(CONFIG_MACH_MSM8974_EF63L)
+		//Set OTG on, HSUSB Signaling set hs amplitude 14% + source-impedance 1 ohm
+		dwc3_msm_write_readback(mdwc->base, PARAMETER_OVERRIDE_X_REG, 0x00301E00, (10 << 9) | (1 << 20)); 
+#else // others model(ef56, ef60)
+		//Set OTG on, HSUSB Signaling set source-impedance 1 ohm
+		dwc3_msm_write_readback(mdwc->base, PARAMETER_OVERRIDE_X_REG, 0x00300000, 1 << 20); 
+#endif /* defined(CONFIG_MACH_MSM8974_EF59S) || defined(CONFIG_MACH_MSM8974_EF59K) || defined(CONFIG_MACH_MSM8974_EF59L) */
+	} else {		
+		if (mdwc->hsphy_init_seq)
+			dwc3_msm_write_readback(mdwc->base,
+				PARAMETER_OVERRIDE_X_REG, 0x03FFFFFF,
+				mdwc->hsphy_init_seq & 0x03FFFFFF);
+	}
+
+}
+#endif
+
+#ifdef CONFIG_PANTECH_USB_DEBUG
+/* changing log_mask */
+static ssize_t dwc3_logmask_show(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	return sprintf(buf, "%d\n", dwc3_logmask_value);
+}
+
+static ssize_t dwc3_logmask_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t size)
+{
+	int temp;
+	sscanf(buf, "%d", &temp);
+	
+	dwc3_logmask_value = temp;
+
+	return size;
+}
+static DEVICE_ATTR(dwc3_logmask, S_IRUGO | S_IWUSR, dwc3_logmask_show, dwc3_logmask_store);
+
+// tarial link_state change history test
+static ssize_t usb3_link_state_change_show(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	return sprintf(buf, "%x:%x:%x:%x\n", link_state_array[0], link_state_array[1], link_state_array[2], link_state_array[3]);
+}
+static DEVICE_ATTR(usb3_link_state_change, S_IRUGO, usb3_link_state_change_show, NULL);
+
+static ssize_t usb3_link_state_show(struct device *dev, struct device_attribute *attr, char *buf)
+{
+
+	unsigned long		flags;
+	struct dwc3		*dwc = temp_dwc3;
+	enum dwc3_link_state	state;
+	u32			reg;
+
+	spin_lock_irqsave(&dwc->lock, flags);
+	reg = dwc3_readl(dwc->regs, DWC3_DSTS);
+	state = DWC3_DSTS_USBLNKST(reg);
+	spin_unlock_irqrestore(&dwc->lock, flags);
+	if(dwc->gadget.speed == USB_SPEED_SUPER) {
+		switch (state) {
+			case DWC3_LINK_STATE_U0:
+				return sprintf(buf, "U0\n");
+				
+			case DWC3_LINK_STATE_U1:
+				return sprintf(buf, "U1\n");
+				
+			case DWC3_LINK_STATE_U2:
+				return sprintf(buf, "U2\n");
+				
+			case DWC3_LINK_STATE_U3:
+				return sprintf(buf, "U3\n");
+				
+			case DWC3_LINK_STATE_SS_DIS:
+				return sprintf(buf, "SS.Disabled\n");
+				
+			case DWC3_LINK_STATE_RX_DET:
+				return sprintf(buf, "Rx.Detect\n");
+				
+			case DWC3_LINK_STATE_SS_INACT:
+				return sprintf(buf, "SS.Inactive\n");
+				
+			case DWC3_LINK_STATE_POLL:
+				return sprintf(buf, "Poll\n");
+				
+			case DWC3_LINK_STATE_RECOV:
+				return sprintf(buf, "Recovery\n");
+				
+			case DWC3_LINK_STATE_HRESET:
+				return sprintf(buf, "HRESET\n");
+				
+			case DWC3_LINK_STATE_CMPLY:
+				return sprintf(buf, "Compliance\n");
+				
+			case DWC3_LINK_STATE_LPBK:
+				return sprintf(buf, "Loopback\n");
+				
+			default:
+				return sprintf(buf, "UNKNOWN %d\n", reg);
+		}
+	} else
+		return  sprintf(buf, "USB_SPEED_HIGH\n");
+}
+static DEVICE_ATTR(usb3_link_state_show, S_IRUGO, usb3_link_state_show, NULL);
+
+// for stability test Y-CABLE process
+static int otg_irq_disable = 0; //default enable
+
+//+++ 20130806, P14787, djjeon, charging setting stability test for pmic
+void otg_detect_control_test(int on)
+{
+	struct dwc3_msm *mdwc = context;
+	
+	if(otg_irq_disable != on) {
+		otg_irq_disable = on;
+
+		if(otg_irq_disable == 0)
+			enable_irq(mdwc->pmic_id_irq);
+		else
+			disable_irq(mdwc->pmic_id_irq);
+	} else
+		printk(KERN_ERR "%s : tarial current state is same!\n", __func__);
+}
+EXPORT_SYMBOL(otg_detect_control_test);
+//--- 20130806, P14787, djjeon, charging setting stability test for pmic
+
+static ssize_t otg_detect_control_show(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	return sprintf(buf, "%s\n", otg_irq_disable ? "disable" : "enable");
+}
+
+static ssize_t otg_detect_control_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t size)
+{
+	int temp;
+	struct dwc3_msm *mdwc = context;
+
+	sscanf(buf, "%d", &temp);
+
+	if(otg_irq_disable != temp) {
+		otg_irq_disable = temp;
+
+		if(otg_irq_disable == 0)
+			enable_irq(mdwc->pmic_id_irq);
+		else
+			disable_irq(mdwc->pmic_id_irq);
+	} else
+		printk(KERN_ERR "%s : tarial current state is same!\n", __func__);
+
+	return size;
+}
+static DEVICE_ATTR(otg_detect_control, S_IRUGO | S_IWUSR, otg_detect_control_show, otg_detect_control_store);
+
+#endif
+
+#ifdef CONFIG_PANTECH_USB_VER_SWITCH
+/* changing usb verion 3.0 <-> 2.0 */
+static ssize_t dwc3_usb_ver_swi_show(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	int usb_ver = 0;
+	struct dwc3		*dwc = temp_dwc3;
+	if(dwc && (dwc->gadget.max_speed == USB_SPEED_SUPER))
+	{
+		usb_ver = 1;	
+	}else{
+		usb_ver = 0;
+	}
+	return sprintf(buf, "%d\n", usb_ver);
+}
+
+static ssize_t dwc3_usb_ver_swi_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t size)
+{
+	int temp;
+	int usb_ver;
+	struct dwc3		*dwc = temp_dwc3;
+
+	sscanf(buf, "%d", &temp);
+	if((temp<0) || (temp>1)) {
+		printk(KERN_ERR "%s : Invalid param range! allowed 0 or 1.\n", __func__);
+		return size;
+	}
+
+	if(!dwc){
+		printk(KERN_ERR "%s : dwc is null!\n", __func__);
+		return size;
+	}
+
+	usb_ver = (dwc->gadget.max_speed == USB_SPEED_HIGH)? 0 : 1;
+
+	if(temp == usb_ver){
+		printk(KERN_ERR "%s : usb_ver(%d) is same!\n", __func__, usb_ver);
+		return size;
+	}
+
+	if(temp == 0){
+		dwc->maximum_speed = DWC3_DCFG_HIGHSPEED;	
+		dwc->gadget.max_speed = USB_SPEED_HIGH;
+	}else{
+		dwc->maximum_speed = DWC3_DCFG_SUPERSPEED;	
+		dwc->gadget.max_speed = USB_SPEED_SUPER;
+	}
+
+	usb_reconnect_cb(0);
+	return size;
+}
+static DEVICE_ATTR(dwc3_usb_ver_swi, S_IRUGO | S_IWUSR, dwc3_usb_ver_swi_show, dwc3_usb_ver_swi_store);
+#endif
+
+#ifdef CONFIG_PANTECH_USB_TUNE_SIGNALING_PARAM
+/* 
+ * SSUSB tune
+ */
+static ssize_t usb3_tx_swing_full_show(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	int read_value;
+	unsigned long reg;
+	struct dwc3_msm *mdwc = context;
+
+	reg = dwc3_msm_read_reg(mdwc->base, SS_PHY_PARAM_CTRL_1);
+	reg &= 0x07f00000;
+	read_value = reg >> 20;	
+	
+	return sprintf(buf, "%d\n", read_value);
+}
+
+static ssize_t usb3_tx_swing_full_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t size)
+{
+	int temp;
+	unsigned long write_value;
+	struct dwc3_msm *mdwc = context;
+
+	sscanf(buf, "%d", &temp);
+	
+	if((temp<0) || (temp>127)) {
+		printk(KERN_ERR "%s : Invalid param range! allowed 0 to 127.\n", __func__);
+		return size;
+	}
+	write_value = temp;
+  pantech_ssphy_init &= ~0x07F00000;
+  pantech_ssphy_init |= (write_value << 20);
+
+	dwc3_msm_write_readback(mdwc->base, SS_PHY_PARAM_CTRL_1, 0x07f00000, write_value << 20);
+
+	return size;
+}
+static DEVICE_ATTR(usb3_tx_swing_full, S_IRUGO | S_IWUSR, usb3_tx_swing_full_show, usb3_tx_swing_full_store);
+
+static ssize_t usb3_tx_deemph_3_5db_show(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	int read_value;
+	unsigned long reg;
+	struct dwc3_msm *mdwc = context;
+
+	reg = dwc3_msm_read_reg(mdwc->base, SS_PHY_PARAM_CTRL_1);
+	reg &= 0x00003f00;
+	read_value = reg >> 8;
+	
+	return sprintf(buf, "%d\n", read_value);
+}
+
+static ssize_t usb3_tx_deemph_3_5db_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t size)
+{
+	int temp;
+	unsigned long write_value;
+	struct dwc3_msm *mdwc = context;
+
+	sscanf(buf, "%d", &temp);
+
+	if((temp<0) || (temp>63)) {
+		printk(KERN_ERR "%s : Invalid param range! allowed 0 to 63.\n", __func__);
+		return size;
+	}
+
+	write_value = temp;
+  pantech_ssphy_init &= ~0x00003F00;
+  pantech_ssphy_init |= (write_value << 8);
+
+	dwc3_msm_write_readback(mdwc->base, SS_PHY_PARAM_CTRL_1, 0x00003f00, write_value << 8);
+
+	return size;
+}
+static DEVICE_ATTR(usb3_tx_deemph_3_5db, S_IRUGO | S_IWUSR, usb3_tx_deemph_3_5db_show, usb3_tx_deemph_3_5db_store);
+
+static ssize_t usb3_rx_equalization_show(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	int read_value;
+	unsigned long reg;
+	struct dwc3_msm *mdwc = context;
+
+	/*
+	 * Fix RX Equalization setting as follows
+	 * LANE0.RX_OVRD_IN_HI. RX_EQ_EN set to 0
+	 * LANE0.RX_OVRD_IN_HI.RX_EQ_EN_OVRD set to 1
+	 * LANE0.RX_OVRD_IN_HI.RX_EQ set to 3
+	 * LANE0.RX_OVRD_IN_HI.RX_EQ_OVRD set to 1
+	 */
+	reg = dwc3_msm_ssusb_read_phycreg(mdwc->base, 0x1006);
+	reg &= ~0xFFFFF8FF; // set value 000 ~ 111;
+
+	read_value = reg >> 8;
+	
+	return sprintf(buf, "%d\n", read_value);
+}
+
+static ssize_t usb3_rx_equalization_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t size)
+{
+	int temp;
+	//unsigned long write_value;
+	//struct dwc3_msm *mdwc = context;
+
+	sscanf(buf, "%d", &temp);
+
+	if((temp<0) || (temp>7)) {
+		printk(KERN_ERR "%s : Invalid param range! allowed 0 to 7.\n", __func__);
+		return size;
+	}
+
+	pantech_rx_equal_data = temp;
+
+	return size;
+}
+static DEVICE_ATTR(usb3_rx_equalization, S_IRUGO | S_IWUSR, usb3_rx_equalization_show, usb3_rx_equalization_store);
+
+static unsigned long rx_elastic_buffer = 0x00; //1032A base default value
+static ssize_t usb3_rx_elastic_show(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	unsigned long reg;
+	struct dwc3_msm *mdwc = context;
+	
+	reg = dwc3_msm_read_reg(mdwc->base, DWC3_GUSB3PIPECTL(0));
+	reg &= 0x00000001;
+
+	return sprintf(buf, "%d\n", (int)reg);
+}
+
+static ssize_t usb3_rx_elastic_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t size)
+{
+	int write_value;
+	
+	sscanf(buf, "%d", &write_value);
+
+	if((write_value<0) || (write_value>1)) {
+		printk(KERN_ERR "%s : Invalid param range! allowed 0 to 1.\n", __func__);
+		return size;
+	}
+
+	rx_elastic_buffer = write_value;
+
+	return size;
+}
+static DEVICE_ATTR(usb3_rx_elastic, S_IRUGO | S_IWUSR, usb3_rx_elastic_show, usb3_rx_elastic_store);
+
+/* 
+ * LS, FS, HSUSB tune
+ */
+// output impedance for ls/fs
+static ssize_t usb2_txfsls_show(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	int read_value;
+	unsigned long reg;
+	struct dwc3_msm *mdwc = context;
+
+	reg = dwc3_msm_read_reg(mdwc->base, PARAMETER_OVERRIDE_X_REG);
+	reg &= 0x03C00000;
+	read_value = reg >> 22;
+	
+	return sprintf(buf, "%d\n", read_value);
+}
+
+static ssize_t usb2_txfsls_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t size)
+{
+	int temp;
+	unsigned long write_value;
+	struct dwc3_msm *mdwc = context;
+
+	sscanf(buf, "%d", &temp);
+
+	if((temp<0) || (temp>15)) {
+		printk(KERN_ERR "%s : Invalid param range! allowed 0 to 15.\n", __func__);
+		return size;
+	}
+
+	write_value = temp;
+
+	dwc3_msm_write_readback(mdwc->base, PARAMETER_OVERRIDE_X_REG, 0x03C00000, write_value << 22);
+
+	return size;
+}
+static DEVICE_ATTR(usb2_txfsls, S_IRUGO | S_IWUSR, usb2_txfsls_show, usb2_txfsls_store);
+
+// output impedance for hs
+static ssize_t usb2_txres_show(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	int read_value;
+	unsigned long reg;
+	struct dwc3_msm *mdwc = context;
+
+	reg = dwc3_msm_read_reg(mdwc->base, PARAMETER_OVERRIDE_X_REG);
+	reg &= 0x00300000;
+	read_value = reg >> 20;
+	
+	return sprintf(buf, "%d\n", read_value);
+}
+
+static ssize_t usb2_txres_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t size)
+{
+	int temp;
+	unsigned long write_value;
+	struct dwc3_msm *mdwc = context;
+
+	sscanf(buf, "%d", &temp);
+
+	if((temp<0) || (temp>4)) {
+		printk(KERN_ERR "%s : Invalid param range! allowed 0 to 4.\n", __func__);
+		return size;
+	}
+
+	write_value = temp;
+
+	dwc3_msm_write_readback(mdwc->base, PARAMETER_OVERRIDE_X_REG, 0x00300000, write_value << 20);
+
+	return size;
+}
+static DEVICE_ATTR(usb2_txres, S_IRUGO | S_IWUSR, usb2_txres_show, usb2_txres_store);
+
+// hs cross over voltage
+static ssize_t usb2_txhsxv_show(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	int read_value;
+	unsigned long reg;
+	struct dwc3_msm *mdwc = context;
+
+	reg = dwc3_msm_read_reg(mdwc->base, PARAMETER_OVERRIDE_X_REG);
+	reg &= 0x000C0000;
+	read_value = reg >> 18;
+	
+	return sprintf(buf, "%d\n", read_value);
+}
+
+static ssize_t usb2_txhsxv_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t size)
+{
+	int temp;
+	unsigned long write_value;
+	struct dwc3_msm *mdwc = context;
+
+	sscanf(buf, "%d", &temp);
+
+	if((temp<0) || (temp>4)) {
+		printk(KERN_ERR "%s : Invalid param range! allowed 0 to 4.\n", __func__);
+		return size;
+	}
+
+	write_value = temp;
+
+	dwc3_msm_write_readback(mdwc->base, PARAMETER_OVERRIDE_X_REG, 0x000C0000, write_value << 18);
+
+	return size;
+}
+static DEVICE_ATTR(usb2_txhsxv, S_IRUGO | S_IWUSR, usb2_txhsxv_show, usb2_txhsxv_store);
+
+// hs rise/fall time
+static ssize_t usb2_txrise_show(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	int read_value;
+	unsigned long reg;
+	struct dwc3_msm *mdwc = context;
+
+	reg = dwc3_msm_read_reg(mdwc->base, PARAMETER_OVERRIDE_X_REG);
+	reg &= 0x00030000;
+	read_value = reg >> 16;
+	
+	return sprintf(buf, "%d\n", read_value);
+}
+
+static ssize_t usb2_txrise_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t size)
+{
+	int temp;
+	unsigned long write_value;
+	struct dwc3_msm *mdwc = context;
+
+	sscanf(buf, "%d", &temp);
+
+	if((temp<0) || (temp>4)) {
+		printk(KERN_ERR "%s : Invalid param range! allowed 0 to 4.\n", __func__);
+		return size;
+	}
+
+	write_value = temp;
+
+	dwc3_msm_write_readback(mdwc->base, PARAMETER_OVERRIDE_X_REG, 0x00030000, write_value << 16);
+
+	return size;
+}
+static DEVICE_ATTR(usb2_txrise, S_IRUGO | S_IWUSR, usb2_txrise_show, usb2_txrise_store);
+
+// pre-emphasis amplitude
+static ssize_t usb2_txpreempamp_show(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	int read_value;
+	unsigned long reg;
+	struct dwc3_msm *mdwc = context;
+
+	reg = dwc3_msm_read_reg(mdwc->base, PARAMETER_OVERRIDE_X_REG);
+	reg &= 0x0000C000;
+	read_value = reg >> 14;
+	
+	return sprintf(buf, "%d\n", read_value);
+}
+
+static ssize_t usb2_txpreempamp_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t size)
+{
+	int temp;
+	unsigned long write_value;
+	struct dwc3_msm *mdwc = context;
+
+	sscanf(buf, "%d", &temp);
+
+	if((temp<0) || (temp>4)) {
+		printk(KERN_ERR "%s : Invalid param range! allowed 0 to 4.\n", __func__);
+		return size;
+	}
+
+	write_value = temp;
+
+	dwc3_msm_write_readback(mdwc->base, PARAMETER_OVERRIDE_X_REG, 0x0000C000, write_value << 14);
+
+	return size;
+}
+static DEVICE_ATTR(usb2_txpreempamp, S_IRUGO | S_IWUSR, usb2_txpreempamp_show, usb2_txpreempamp_store);
+
+// pre-emphasis duration
+static ssize_t usb2_txpreemppulse_show(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	int read_value;
+	unsigned long reg;
+	struct dwc3_msm *mdwc = context;
+
+	reg = dwc3_msm_read_reg(mdwc->base, PARAMETER_OVERRIDE_X_REG);
+	reg &= 0x00002000;
+	read_value = reg >> 13;
+	
+	return sprintf(buf, "%d\n", read_value);
+}
+
+static ssize_t usb2_txpreemppulse_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t size)
+{
+	int temp;
+	unsigned long write_value;
+	struct dwc3_msm *mdwc = context;
+
+	sscanf(buf, "%d", &temp);
+
+	if((temp<0) || (temp>1)) {
+		printk(KERN_ERR "%s : Invalid param range! allowed 0 to 1.\n", __func__);
+		return size;
+	}
+
+	write_value = temp;
+
+	dwc3_msm_write_readback(mdwc->base, PARAMETER_OVERRIDE_X_REG, 0x00002000, write_value << 13);
+
+	return size;
+}
+static DEVICE_ATTR(usb2_txpreemppulse, S_IRUGO | S_IWUSR, usb2_txpreemppulse_show, usb2_txpreemppulse_store);
+
+// hs amplitude
+static ssize_t usb2_txvref_show(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	int read_value;
+	unsigned long reg;
+	struct dwc3_msm *mdwc = context;
+
+	reg = dwc3_msm_read_reg(mdwc->base, PARAMETER_OVERRIDE_X_REG);
+	reg &= 0x00001E00;
+	read_value = reg >> 9;
+	
+	return sprintf(buf, "%d\n", read_value);
+
+}
+
+static ssize_t usb2_txvref_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t size)
+{
+	int temp;
+	unsigned long write_value;
+	struct dwc3_msm *mdwc = context;
+
+	sscanf(buf, "%d", &temp);
+
+	if((temp<0) || (temp>15)) {
+		printk(KERN_ERR "%s : Invalid param range! allowed 0 to 15.\n", __func__);
+		return size;
+	}
+
+	write_value = temp;
+
+	dwc3_msm_write_readback(mdwc->base, PARAMETER_OVERRIDE_X_REG, 0x00001E00, write_value << 9);
+
+	return size;
+
+}
+static DEVICE_ATTR(usb2_txvref, S_IRUGO | S_IWUSR, usb2_txvref_show, usb2_txvref_store);
+
+static struct attribute *dwc3_pantech_phy_control_attrs[] = {
+#ifdef CONFIG_PANTECH_USB_DEBUG
+	&dev_attr_dwc3_logmask.attr,
+// tarial link_state change history test
+	&dev_attr_usb3_link_state_change.attr,
+	&dev_attr_usb3_link_state_show.attr,
+// for stability test Y-CABLE process
+	&dev_attr_otg_detect_control.attr,
+#endif
+#ifdef CONFIG_PANTECH_USB_VER_SWITCH
+	&dev_attr_dwc3_usb_ver_swi.attr,
+#endif
+	// ssusb tune param
+	&dev_attr_usb3_tx_swing_full.attr,
+	&dev_attr_usb3_tx_deemph_3_5db.attr,
+	&dev_attr_usb3_rx_elastic.attr,
+	&dev_attr_usb3_rx_equalization.attr,
+	// hsusb tune param
+	&dev_attr_usb2_txfsls.attr,
+	&dev_attr_usb2_txres.attr,
+	&dev_attr_usb2_txhsxv.attr,
+	&dev_attr_usb2_txrise.attr,
+	&dev_attr_usb2_txpreempamp.attr,
+	&dev_attr_usb2_txpreemppulse.attr,
+	&dev_attr_usb2_txvref.attr,
+	NULL,
+};
+
+static struct attribute_group dwc3_pantech_phy_control_attr_grp = {
+	.attrs = dwc3_pantech_phy_control_attrs,
+};
+#endif
+
 /* Reinitialize SSPHY parameters by overriding using QSCRATCH CR interface */
 static void dwc3_msm_ss_phy_reg_init(struct dwc3_msm *mdwc)
 {
@@ -1412,7 +2118,11 @@ static void dwc3_msm_ss_phy_reg_init(struct dwc3_msm *mdwc)
 	data &= ~(1 << 6);
 	data |= (1 << 7);
 	data &= ~(0x7 << 8);
+#ifdef CONFIG_PANTECH_USB_TUNE_SIGNALING_PARAM
+	data |= (pantech_rx_equal_data << 8); //set value 000 ~ 111
+#else
 	data |= (0x3 << 8);
+#endif
 	data |= (0x1 << 11);
 	dwc3_msm_ssusb_write_phycreg(mdwc->base, 0x1006, data);
 
@@ -1440,8 +2150,13 @@ static void dwc3_msm_ss_phy_reg_init(struct dwc3_msm *mdwc)
 	 * TX_DEEMPH_3_5DB [13:8] to 22
 	 * LOS_BIAS [2:0] to 0x5
 	 */
+#ifdef CONFIG_PANTECH_USB_TUNE_SIGNALING_PARAM
+	dwc3_msm_write_readback(mdwc->base, SS_PHY_PARAM_CTRL_1,
+				0x07f03f07, pantech_ssphy_init);
+#else
 	dwc3_msm_write_readback(mdwc->base, SS_PHY_PARAM_CTRL_1,
 				0x07f03f07, 0x07f01605);
+#endif
 }
 
 /* Initialize QSCRATCH registers for HSPHY and SSPHY operation */
@@ -2264,6 +2979,10 @@ static int dwc3_msm_power_get_property_usb(struct power_supply *psy,
 {
 	struct dwc3_msm *mdwc = container_of(psy, struct dwc3_msm,
 								usb_psy);
+#ifdef CONFIG_PANTECH_PMIC_ABNORMAL
+    int nonstandard_working_state = qpnp_chg_get_nonstandard_state() == NONSTANDARD_WORKING ? 1 : 0;
+#endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
+
 	switch (psp) {
 	case POWER_SUPPLY_PROP_SCOPE:
 		val->intval = mdwc->host_mode;
@@ -2272,22 +2991,69 @@ static int dwc3_msm_power_get_property_usb(struct power_supply *psy,
 		val->intval = mdwc->voltage_max;
 		break;
 	case POWER_SUPPLY_PROP_CURRENT_MAX:
+#ifdef CONFIG_PANTECH_PMIC_ABNORMAL
+        if((nonstandard_working_state)
+           && (mdwc->current_max <= 2 && mdwc->charger.chg_type == DWC3_SDP_CHARGER))
+            val->intval = 500000;  /* 500 mA */
+        else
 		val->intval = mdwc->current_max;
+#else
+		val->intval = mdwc->current_max;
+#endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
 		break;
 	case POWER_SUPPLY_PROP_PRESENT:
 		val->intval = mdwc->vbus_active;
 		break;
 	case POWER_SUPPLY_PROP_ONLINE:
+#ifdef CONFIG_PANTECH_QUALCOMM_OTG_MODE_OVP_BUG
+        switch(mdwc->charger.chg_type) {
+        case DWC3_SDP_CHARGER:
+        case DWC3_PROPRIETARY_CHARGER:
+            val->intval = 1;
+            break;
+        default:
+            val->intval = 0;
+            break;
+        }
+#else
 		val->intval = mdwc->online;
+#endif /* CONFIG_PANTECH_QUALCOMM_OTG_MODE_OVP_BUG */
 		break;
 	case POWER_SUPPLY_PROP_TYPE:
+#ifdef CONFIG_PANTECH_PMIC_ABNORMAL
+        if(nonstandard_working_state)
+            val->intval = POWER_SUPPLY_TYPE_USB_DCP;
+        else
+            val->intval = psy->type;
+#else
 		val->intval = psy->type;
+#endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
 		break;
 	default:
 		return -EINVAL;
 	}
 	return 0;
 }
+
+#ifdef CONFIG_ANDROID_PANTECH_USB_MANAGER
+static void dwc3_connect_work(struct work_struct *data)
+{
+	struct dwc3_msm *mdwc = container_of(data, struct dwc3_msm,
+								connect_work.work);
+	char *disconnect[2] = { "USB_CABLE=DISCONNECT", NULL };
+	char *connect[2] = { "USB_CABLE=CONNECT", NULL };
+	char **uevent_envp = NULL;
+	
+	if(mdwc->vbus_active)
+		uevent_envp = connect;
+	else
+		uevent_envp = disconnect;
+	if(uevent_envp) {
+		kobject_uevent_env(&mdwc->dev->kobj, KOBJ_CHANGE, uevent_envp);
+		printk(KERN_ERR "%s: send uevent %s\n", __func__, uevent_envp[0]);
+	}
+}		
+#endif
 
 static int dwc3_msm_power_set_property_usb(struct power_supply *psy,
 				  enum power_supply_property psp,
@@ -2318,6 +3084,19 @@ static int dwc3_msm_power_set_property_usb(struct power_supply *psy,
 				init = true;
 		}
 		mdwc->vbus_active = val->intval;
+#ifdef CONFIG_ANDROID_PANTECH_USB_MANAGER
+		printk(KERN_ERR "%s:USB VBUS state from PMIC [%d]\n", __func__, val->intval);
+		queue_delayed_work(system_nrt_wq, &mdwc->connect_work, 0);
+#endif
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_BQ2419X)
+		/* FIXME : In case of abnormal charger state, 
+		 * We are fixed to match charger variable between power_supply_type and charger type.
+		 * This code is only valid on EF63 series.
+		 * LS4-USB tarial
+		 */
+		if((val->intval==0) && (psy->type==5))
+			mdwc->charger.chg_type = DWC3_DCP_CHARGER;
+#endif
 		break;
 	case POWER_SUPPLY_PROP_ONLINE:
 		mdwc->online = val->intval;
@@ -2330,6 +3109,10 @@ static int dwc3_msm_power_set_property_usb(struct power_supply *psy,
 		break;
 	case POWER_SUPPLY_PROP_TYPE:
 		psy->type = val->intval;
+#if defined(CONFIG_PANTECH_PMIC_ABNORMAL)
+		if((psy->type == 5) && (mdwc->charger.chg_type == DWC3_SDP_CHARGER)) //for External DCP
+			mdwc->charger.chg_type = DWC3_DCP_CHARGER;
+#endif
 		break;
 	default:
 		return -EINVAL;
@@ -2439,6 +3222,29 @@ static void dwc3_id_work(struct work_struct *w)
 	struct dwc3_msm *mdwc = container_of(w, struct dwc3_msm, id_work);
 	int ret;
 
+#ifdef CONFIG_PANTECH_USB_BLOCKING_MDMSTATE
+    {
+        int value = get_pantech_mdm_state();
+
+        printk(KERN_ERR "[PUSB][%s]:mdm_state[%d], id_state[%d]\n",__func__, value,mdwc->id_state);
+        if(value < 0){
+            register_mdm_callback(MDM_REG_TYPE_RETRY);
+            return;
+        }else if(value == 0){
+            register_mdm_callback(MDM_REG_TYPE_CONTROL);
+        }else{
+            if(mdwc->id_state == DWC3_ID_GROUND){
+                if(mdwc->id_adc_detect){
+                    qpnp_adc_tm_usbid_end(mdwc->adc_tm_dev);
+                    mdwc->id_adc_detect = false;
+                }
+                mdwc->id_state = DWC3_ID_FLOAT;
+                return;
+            }
+        }
+    }
+#endif
+    
 	/* Give external client a chance to handle */
 	if (!mdwc->ext_inuse && usb_ext) {
 		if (mdwc->pmic_id_irq)
@@ -2462,10 +3268,69 @@ static void dwc3_id_work(struct work_struct *w)
 	}
 
 	if (!mdwc->ext_inuse) { /* notify OTG */
+#ifndef CONFIG_PANTECH_SIO_BUG_FIX //remove otg id detect state during operating peripheral mode
 		mdwc->ext_xceiv.id = mdwc->id_state;
 		dwc3_resume_work(&mdwc->resume_work.work);
+#else
+		if(mdwc->ext_xceiv.bsv && !mdwc->id_state) {
+			printk(KERN_ERR "%s : tarial bsv already detect!!! cancel otg id notify.\n", __func__);
+		} else {
+			mdwc->ext_xceiv.id = mdwc->id_state;
+			dwc3_resume_work(&mdwc->resume_work.work);		
+		}
+#endif
 	}
 }
+
+#ifdef CONFIG_PANTECH_USB_BLOCKING_MDMSTATE
+static void control_otg_mdm_state(bool mdm_enabled)
+{
+    struct dwc3_msm *mdwc = context;
+
+    printk(KERN_ERR "[PUSB][%s]:mdm_reg_value=%d, mdm_enabled=%d, id_state[%d]\n", __func__, (int)mdm_reg_value, mdm_enabled, mdwc->id_state);
+    switch(mdm_reg_value){
+    case MDM_REG_TYPE_RETRY:
+        {
+            if(mdm_enabled){
+                qpnp_adc_tm_usbid_end(mdwc->adc_tm_dev);
+                mdwc->id_adc_detect = false;
+                mdwc->id_state = DWC3_ID_FLOAT;
+            }else{
+	            dwc3_id_work(&mdwc->id_work);
+            }
+            mdm_reg_value = MDM_REG_TYPE_CONTROL;
+            break;
+        }
+    case MDM_REG_TYPE_CONTROL:
+        {
+            if(mdm_enabled){
+                if(mdwc->id_adc_detect){
+                    qpnp_adc_tm_usbid_end(mdwc->adc_tm_dev);
+                    mdwc->id_adc_detect = false;
+                }
+                if(mdwc->id_state != DWC3_ID_FLOAT){
+                    mdwc->id_state = DWC3_ID_FLOAT;
+                    dwc3_id_work(&mdwc->id_work); 
+                }
+            }else{
+			    if(!mdwc->id_adc_detect){
+                    //maybe regenerate interrupt.     
+                    mdwc->id_state = DWC3_ID_FLOAT;
+                    dwc3_init_adc_work(&mdwc->init_adc_work.work);
+                }
+            }
+            break;
+        }
+    }
+}
+
+static void register_mdm_callback(enum mdm_reg_type value)
+{
+    printk(KERN_ERR "[PUSB][%s]:mdm_reg_value=%d\n", __func__,  (int)value);
+    mdm_reg_value = value;
+    set_pantech_mdm_callback((void*)control_otg_mdm_state);
+}
+#endif
 
 static irqreturn_t dwc3_pmic_id_irq(int irq, void *data)
 {
@@ -2745,6 +3610,9 @@ static int __devinit dwc3_msm_probe(struct platform_device *pdev)
 	}
 
 	platform_set_drvdata(pdev, mdwc);
+#ifdef CONFIG_PANTECH_USB_TUNE_SIGNALING_PARAM
+	context = mdwc;
+#endif
 	mdwc->dev = &pdev->dev;
 
 	INIT_LIST_HEAD(&mdwc->req_complete_list);
@@ -2754,6 +3622,9 @@ static int __devinit dwc3_msm_probe(struct platform_device *pdev)
 	INIT_WORK(&mdwc->usb_block_reset_work, dwc3_block_reset_usb_work);
 	INIT_WORK(&mdwc->id_work, dwc3_id_work);
 	INIT_DELAYED_WORK(&mdwc->init_adc_work, dwc3_init_adc_work);
+#ifdef CONFIG_ANDROID_PANTECH_USB_MANAGER
+	INIT_DELAYED_WORK(&mdwc->connect_work, dwc3_connect_work);
+#endif	
 	init_completion(&mdwc->ext_chg_wait);
 
 	ret = dwc3_msm_config_gdsc(mdwc, 1);
@@ -2947,6 +3818,33 @@ static int __devinit dwc3_msm_probe(struct platform_device *pdev)
 			} else if (ret == 0) {
 				mdwc->pmic_id_irq = 0;
 			} else {
+#ifdef CONFIG_PANTECH_USB_EXTERNAL_ID_PULLUP
+#ifdef CONFIG_PANTECH_PMIC_SHARED_DATA
+#if defined(CONFIG_MACH_MSM8974_EF59S) || defined(CONFIG_MACH_MSM8974_EF59K) || defined(CONFIG_MACH_MSM8974_EF59L)
+				if(get_oem_hw_rev() >= 4) // in case of EF59 series, usb external id set after TP20
+#elif defined(CONFIG_MACH_MSM8974_EF60S) || defined(CONFIG_MACH_MSM8974_EF65S) || defined(CONFIG_MACH_MSM8974_EF61K) || defined(CONFIG_MACH_MSM8974_EF62L)
+				if(get_oem_hw_rev() >= 1) // in case of EF60 series, usb external id set after WS20
+#elif defined(CONFIG_MACH_MSM8974_EF56S)
+				if(0) // other model(ex, ef56s)
+#else
+				if(1) // other model(ex, ef63 series)
+#endif
+#else
+#if defined(CONFIG_MACH_MSM8974_EF63S) || defined(CONFIG_MACH_MSM8974_EF63K) || defined(CONFIG_MACH_MSM8974_EF63L) \
+					|| defined(CONFIG_MACH_MSM8974_EF60S) || defined(CONFIG_MACH_MSM8974_EF65S) || defined(CONFIG_MACH_MSM8974_EF61K) \
+					|| defined(CONFIG_MACH_MSM8974_EF62L) || defined(CONFIG_MACH_MSM8974_EF59S) \
+					|| defined(CONFIG_MACH_MSM8974_EF59K) || defined(CONFIG_MACH_MSM8974_EF59L)
+				if(1)
+#else
+				if(0) // other model(ex. ef56s) 
+#endif
+#endif /* CONFIG_PANTECH_PMIC_SHARED_DATA */
+				{
+				if (!qpnp_misc_usb_id_pull_up_set(&pdev->dev, 0))
+					dev_err(&pdev->dev, "external usb_id set fail!\n");
+				}
+#endif /* CONFIG_PANTECH_USB_EXTERNAL_ID_PULLUP */
+
 				ret = devm_request_irq(&pdev->dev,
 						       mdwc->pmic_id_irq,
 						       dwc3_pmic_id_irq,
@@ -2963,6 +3861,7 @@ static int __devinit dwc3_msm_probe(struct platform_device *pdev)
 				/* Update initial ID state */
 				mdwc->id_state =
 					!!irq_read_line(mdwc->pmic_id_irq);
+				printk(KERN_ERR "%s: Update initial ID state value = [%d]\n", __func__, mdwc->id_state); //LS4_USB
 				if (mdwc->id_state == DWC3_ID_GROUND)
 					queue_work(system_nrt_wq,
 							&mdwc->id_work);
@@ -3020,6 +3919,21 @@ static int __devinit dwc3_msm_probe(struct platform_device *pdev)
 		dev_dbg(&pdev->dev, "unable to read hsphy init seq\n");
 	else if (!mdwc->hsphy_init_seq)
 		dev_warn(&pdev->dev, "incorrect hsphyinitseq.Using PORvalue\n");
+
+#ifdef CONFIG_PANTECH_USB_TUNE_SIGNALING_PARAM
+	if (of_property_read_u32(node, "qcom,dwc-ssphy-init",
+						&pantech_ssphy_init))
+  {
+    pantech_ssphy_init = 0x07F01605;//qualcomm default
+  }
+  
+	if (of_property_read_u32(node, "qcom,dwc-ssphy-rx-equal-data",
+						&pantech_rx_equal_data))
+  {
+
+    pantech_rx_equal_data = 0x3;//qualcomm default
+  }
+#endif
 
 	if (of_property_read_u32(node, "qcom,dwc-ssphy-deemphasis-value",
 						&mdwc->deemphasis_val))
@@ -3154,6 +4068,18 @@ static int __devinit dwc3_msm_probe(struct platform_device *pdev)
 	device_init_wakeup(mdwc->dev, 1);
 	pm_stay_awake(mdwc->dev);
 	dwc3_msm_debugfs_init(mdwc);
+
+#ifdef CONFIG_PANTECH_USB_TUNE_SIGNALING_PARAM
+	//LS2_USB tarial ssphy tune
+	ret = sysfs_create_group(&context->dev->kobj, &dwc3_pantech_phy_control_attr_grp);
+#endif
+#ifdef CONFIG_PANTECH_USB_DEBUG
+	dwc3_logmask_value = 0;
+#endif
+
+#ifdef CONFIG_PANTECH_USB_REDRIVER_EN_CONTROL
+	gpio_request(REDRIVER_EN, "redriver_en");
+#endif
 
 	return 0;
 

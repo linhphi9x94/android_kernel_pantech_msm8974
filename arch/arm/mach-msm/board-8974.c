@@ -49,6 +49,12 @@
 #include "modem_notifier.h"
 #include "platsmp.h"
 
+#ifndef CONFIG_PANTECH_SNS_PIXART_VLED_PWR_CONTROLED_BY_DDF
+#include <mach/gpio.h>
+#include <linux/gpio.h>
+#include <linux/i2c.h>
+#endif
+
 
 static struct memtype_reserve msm8974_reserve_table[] __initdata = {
 	[MEMTYPE_SMI] = {
@@ -174,6 +180,26 @@ void __init msm8974_init(void)
 	regulator_has_full_constraints();
 	board_dt_populate(adata);
 	msm8974_add_drivers();
+
+#ifndef CONFIG_PANTECH_SNS_PIXART_VLED_PWR_CONTROLED_BY_DDF
+    {
+#define PWR_IRMOTION_3P3 102
+        static unsigned irmotion_i2c_gpio_table[] = {
+            GPIO_CFG(PWR_IRMOTION_3P3,0, GPIO_CFG_OUTPUT, GPIO_CFG_PULL_UP, GPIO_CFG_2MA),
+        };
+        int ret=0, i=0;
+
+        printk("%s (%d) : gpio and pwr setting.\n", __func__, __LINE__);
+        for(i=0;i<ARRAY_SIZE(irmotion_i2c_gpio_table);i++) {
+            ret = gpio_tlmm_config(irmotion_i2c_gpio_table[i], GPIO_CFG_ENABLE);
+            if(ret) {
+                pr_err("%s:Failed irmotion_i2c_gpio_table gpio_tlmm_config(%d) = %d\n", __func__, i, ret);
+                return;
+            }
+        }
+        gpio_set_value(PWR_IRMOTION_3P3, 1);
+    }
+#endif
 }
 
 void __init msm8974_init_very_early(void)

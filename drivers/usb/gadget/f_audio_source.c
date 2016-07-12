@@ -550,6 +550,11 @@ static int audio_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
 			audio->audio_ep_enabled = false;
 		}
 	}
+	
+#ifdef CONFIG_ANDROID_PANTECH_USB_MANAGER
+	usb_interface_enum_cb(AUDIO_TYPE_FLAG);
+#endif
+	
 	return 0;
 }
 

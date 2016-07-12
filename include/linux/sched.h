@@ -92,6 +92,7 @@ struct sched_param {
 #include <linux/llist.h>
 
 #include <asm/processor.h>
+#include <mach/pantech_memlog.h> 
 
 struct exec_domain;
 struct futex_pi_state;
@@ -1619,6 +1620,12 @@ struct task_struct {
 #ifdef CONFIG_HAVE_HW_BREAKPOINT
 	atomic_t ptrace_bp_refcnt;
 #endif
+
+#ifdef CONFIG_PANTECH_MEM_LEAK_TRACE
+    struct leak_detector_struct leak_detector;
+	struct addtl_task_info lt_info;
+#endif
+
 };
 
 /* Future-safe accessor for struct task_struct's cpus_allowed. */

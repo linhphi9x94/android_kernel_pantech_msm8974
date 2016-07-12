@@ -9,6 +9,14 @@
  * published by the Free Software Foundation.
  */
 
+// ++ P16088 140220 LS4@Touch/HS - To set home key enable/disable by user space when smart cover open/close.
+#if defined(CONFIG_MACH_MSM8974_EF59S) || defined(CONFIG_MACH_MSM8974_EF59K) || defined(CONFIG_MACH_MSM8974_EF59L) || \
+    defined(CONFIG_MACH_MSM8974_EF60S) || defined(CONFIG_MACH_MSM8974_EF65S) || defined(CONFIG_MACH_MSM8974_EF61K) || defined(CONFIG_MACH_MSM8974_EF62L) || \
+    defined(CONFIG_MACH_MSM8974_EF63S) || defined(CONFIG_MACH_MSM8974_EF63K) || defined(CONFIG_MACH_MSM8974_EF63L)
+#define USER_SET_GPIO_KEYS_ON_OFF
+#endif
+// -- P16088
+
 #include <linux/module.h>
 
 #include <linux/init.h>
@@ -29,6 +37,14 @@
 #include <linux/of_platform.h>
 #include <linux/of_gpio.h>
 #include <linux/spinlock.h>
+// ++ P16088 140220 LS4@Touch/HS - To set home key enable/disable by user space when smart cover open/close.
+#ifdef USER_SET_GPIO_KEYS_ON_OFF
+#include <linux/miscdevice.h>
+#endif
+#ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
+#include <mach/pantech_apanic.h>
+#endif
+// -- P16088
 
 struct gpio_button_data {
 	const struct gpio_keys_button *button;
@@ -50,6 +66,15 @@ struct gpio_keys_drvdata {
 	void (*disable)(struct device *dev);
 	struct gpio_button_data data[0];
 };
+
+// ++ P16088 140220 LS4@Touch/HS - To set home key enable/disable by user space when smart cover open/close.
+#ifdef USER_SET_GPIO_KEYS_ON_OFF
+struct gpio_button_data *home_button;
+#define GPIO_KEYS_IOCTL_SET_HOMEKEY_ON_OFF 0
+#define SET_HOMEKEY_ON 1
+#define SET_HOMEKEY_OFF 0
+#endif
+// -- P16088
 
 /*
  * SYSFS interface for enabling/disabling keys and switches:
@@ -336,6 +361,9 @@ static void gpio_keys_gpio_report_event(struct gpio_button_data *bdata)
 			input_event(input, type, button->code, button->value);
 	} else {
 		input_event(input, type, button->code, !!state);
+#ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
+		pantech_force_dump_key(button->code,state);
+#endif
 	}
 	input_sync(input);
 }
@@ -535,6 +563,44 @@ static void gpio_keys_close(struct input_dev *input)
 		ddata->disable(input->dev.parent);
 }
 
+// ++ P16088 140220 LS4@Touch/HS - To set home key enable/disable by user space when smart cover open/close.
+#ifdef USER_SET_GPIO_KEYS_ON_OFF
+static long gpio_keys_ioctl(struct file *filp, unsigned int cmd, unsigned long arg) {
+	switch (cmd) {
+		case GPIO_KEYS_IOCTL_SET_HOMEKEY_ON_OFF:
+			if (arg == SET_HOMEKEY_OFF) {
+				printk("gpio_keys_ioctl() home key disable\n");
+				gpio_keys_disable_button(home_button);
+			} else if (arg == SET_HOMEKEY_ON) {
+				printk("gpio_keys_ioctl() home key enable\n");
+				gpio_keys_enable_button(home_button);
+			} else {
+				printk("gpio_keys_ioctl() unexpected argument, arg : %d\n", (int)arg);
+			}
+			break;
+			
+		default:
+			printk("gpio_keys_ioctl() unexpected command : %d\n", cmd);
+			break;
+	}
+	
+	return 0;
+}
+
+static struct file_operations gpio_keys_fops = {
+	.owner = THIS_MODULE,
+	.unlocked_ioctl = gpio_keys_ioctl,
+};
+
+static struct miscdevice gpio_keys_miscdev = {
+	.minor = MISC_DYNAMIC_MINOR,
+	.name = "gpio_keys_dev",
+	.fops = &gpio_keys_fops,
+};
+static int gpio_keys_miscdev_registered = 0;
+#endif
+// -- P16088
+
 /*
  * Handlers for alternative sources of platform_data
  */
@@ -655,6 +721,12 @@ static int __devinit gpio_keys_probe(struct platform_device *pdev)
 	int i, error;
 	int wakeup = 0;
 
+// ++ P16088 140220 LS4@Touch/HS - To set home key enable/disable by user space when smart cover open/close.
+#ifdef USER_SET_GPIO_KEYS_ON_OFF
+	home_button = 0;
+#endif
+// -- P16088
+
 	if (!pdata) {
 		error = gpio_keys_get_devtree_pdata(dev, &alt_pdata);
 		if (error)
@@ -706,6 +778,13 @@ static int __devinit gpio_keys_probe(struct platform_device *pdev)
 
 		if (button->wakeup)
 			wakeup = 1;
+
+// ++ P16088 140220 LS4@Touch/HS - To set home key enable/disable by user space when smart cover open/close.
+#ifdef USER_SET_GPIO_KEYS_ON_OFF
+    	if(bdata->button->code == 102)
+			home_button = bdata;
+#endif
+// -- P16088
 	}
 
 	error = sysfs_create_group(&pdev->dev.kobj, &gpio_keys_attr_group);
@@ -732,6 +811,16 @@ static int __devinit gpio_keys_probe(struct platform_device *pdev)
 
 	device_init_wakeup(&pdev->dev, wakeup);
 
+// ++ P16088 140220 LS4@Touch/HS - To set home key enable/disable by user space when smart cover open/close.
+#ifdef USER_SET_GPIO_KEYS_ON_OFF
+	error = misc_register(&gpio_keys_miscdev);
+	if (error)
+		printk("could not register gpio keys miscdevice, error: %d\n", error);
+	else
+		gpio_keys_miscdev_registered = 1;
+#endif
+// -- P16088
+
 	return 0;
 
  fail3:
@@ -756,6 +845,13 @@ static int __devexit gpio_keys_remove(struct platform_device *pdev)
 	struct gpio_keys_drvdata *ddata = platform_get_drvdata(pdev);
 	struct input_dev *input = ddata->input;
 	int i;
+	
+// ++ P16088 140220 LS4@Touch/HS - To set home key enable/disable by user space when smart cover open/close.
+#ifdef USER_SET_GPIO_KEYS_ON_OFF
+	if (gpio_keys_miscdev_registered)
+		misc_deregister(&gpio_keys_miscdev);
+#endif
+// -- P16088
 
 	sysfs_remove_group(&pdev->dev.kobj, &gpio_keys_attr_group);
 

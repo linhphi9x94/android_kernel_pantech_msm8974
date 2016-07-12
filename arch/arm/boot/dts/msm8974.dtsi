@@ -18,7 +18,7 @@
 	interrupt-parent = <&intc>;
 
 	aliases {
-		spi0 = &spi_0;
+		//spi0 = &spi_0;
 		spi7 = &spi_7;
 		sdhc1 = &sdhc_1; /* SDC1 eMMC slot */
 		sdhc2 = &sdhc_2; /* SDC2 SD card slot */
@@ -242,6 +242,20 @@
 		status = "disabled";
 	};
 
+	blsp1_uart0: serial@f991d000 {
+		compatible = "qcom,msm-lsuart-v14";
+		reg = <0xf991d000 0x1000>;
+		interrupts = <0 107 0>;
+		status = "disabled";
+
+		qcom,msm-bus,name = "serial_uart1";
+		qcom,msm-bus,num-cases = <2>;
+		qcom,msm-bus,num-paths = <1>;
+		qcom,msm-bus,vectors-KBps =
+				<86 512 0 0>,
+				<86 512 500 800>;
+	};
+
 	blsp1_uart1: serial@f991e000 {
 		compatible = "qcom,msm-lsuart-v14";
 		reg = <0xf991e000 0x1000>;
@@ -254,6 +268,20 @@
 		qcom,msm-bus,vectors-KBps =
 				<86 512 0 0>,
 				<86 512 500 800>;
+	};
+
+	blsp2_uart3: serial@f9960000 {
+		compatible = "qcom,msm-lsuart-v14";
+		reg = <0xf9960000 0x1000>;
+		interrupts = <0 116 0>;
+		status = "disabled";
+
+		qcom,msm-bus,name = "serial_uart10";
+		qcom,msm-bus,num-cases = <2>;
+		qcom,msm-bus,num-paths = <1>;
+		qcom,msm-bus,vectors-KBps =
+				<84 512 0 0>,
+				<84 512 500 800>;
 	};
 
 	usb_otg: usb@f9a55000 {
@@ -777,10 +805,12 @@
 			"MIC BIAS1 Internal1", "Handset Mic",
 			"AMIC2", "MIC BIAS2 External",
 			"MIC BIAS2 External", "Headset Mic",
-			"AMIC3", "MIC BIAS2 External",
-			"MIC BIAS2 External", "ANCRight Headset Mic",
-			"AMIC4", "MIC BIAS2 External",
-			"MIC BIAS2 External", "ANCLeft Headset Mic",
+			"AMIC3", "MIC BIAS3 External",
+			"MIC BIAS3 External", "Handset Mic",
+			"AMIC4", "MIC BIAS4 External",
+			"MIC BIAS4 External", "Handset Mic",
+			"AMIC5", "MIC BIAS4 External",
+			"MIC BIAS4 External", "Handset Mic",
 			"DMIC1", "MIC BIAS1 External",
 			"MIC BIAS1 External", "Digital Mic1",
 			"DMIC2", "MIC BIAS1 External",
@@ -819,6 +849,17 @@
 		interrupts = <0 190 0 0 187 0>;
 		qcom,pmic-arb-ee = <0>;
 		qcom,pmic-arb-channel = <0>;
+	
+        qcom,pm8941@1 {
+		qcom,vib@c000 {
+			status = "okay";
+			compatible = "qcom,qpnp-vibrator";
+			reg = <0xc000 0x100>;
+			label = "vibrator";
+			qcom,vib-timeout-ms = <15000>;
+			qcom,vib-vtg-level-mV = <3100>;
+	        };
+		};
 	};
 
 	i2c_0: i2c@f9967000 { /* BLSP#11 */
@@ -834,7 +875,7 @@
 		qcom,i2c-src-freq = <19200000>;
 		qcom,master-id = <84>;
 	};
-
+/* block for DMB
 	i2c_1: i2c@f9923000 {
 		cell-index = <1>;
 		compatible = "qcom,i2c-qup";
@@ -851,7 +892,7 @@
 		qcom,master-id = <86>;
 		status = "disabled";
 	};
-
+*/
 	i2c_2: i2c@f9924000 {
 		cell-index = <2>;
 		compatible = "qcom,i2c-qup";
@@ -867,8 +908,8 @@
 		qcom,scl-gpio = <&msmgpio 7 0>;
 		qcom,sda-gpio = <&msmgpio 6 0>;
 	};
-
-	spi_0: spi@f9923000 { /* BLSP1 QUP1 */
+/* block for DMB
+	spi_0: spi@f9923000 {
 		compatible = "qcom,spi-qup-v2";
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -891,7 +932,7 @@
 		qcom,bam-producer-pipe-index = <13>;
 		qcom,master-id = <86>;
 	};
-
+*/
 	qcom,clock-krait@f9016000 {
 		compatible = "qcom,clock-krait-8974";
 		reg = <0xf9016000 0x20>,
@@ -2196,11 +2237,11 @@
 		compatible = "qcom,msm-thermal";
 		qcom,sensor-id = <5>;
 		qcom,poll-ms = <250>;
-		qcom,limit-temp = <60>;
+		qcom,limit-temp = <90>;
 		qcom,temp-hysteresis = <10>;
 		qcom,freq-step = <2>;
 		qcom,freq-control-mask = <0xf>;
-		qcom,core-limit-temp = <80>;
+		qcom,core-limit-temp = <110>;
 		qcom,core-temp-hysteresis = <10>;
 		qcom,core-control-mask = <0xe>;
 		qcom,hotplug-temp = <110>;

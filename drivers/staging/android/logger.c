@@ -29,8 +29,24 @@
 
 #include <asm/ioctls.h>
 
+#ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
+#include <mach/pantech_sys_info.h>
+#endif
+
 #ifndef CONFIG_LOGCAT_SIZE
 #define CONFIG_LOGCAT_SIZE 256
+#endif
+
+#ifdef CONFIG_PANTECH_PS_WIFI_COM_PREF_LOGGING
+#define CONFIG_WIFI_LOGCAT_SIZE 128
+#endif
+
+#ifdef CONFIG_PANTECH_PS_WQE_COM_PREF_LOGGING
+#define CONFIG_WQE_LOGCAT_SIZE 4
+#endif
+
+#ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
+#define LOGCAT_HEADER_SIZE 0xC
 #endif
 
 /*
@@ -714,6 +730,26 @@ static const struct file_operations logger_fops = {
  * must be a power of two, and greater than
  * (LOGGER_ENTRY_MAX_PAYLOAD + sizeof(struct logger_entry)).
  */
+ 
+#ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING 
+#define DEFINE_LOGGER_DEVICE(VAR, NAME, SIZE) \
+static unsigned char _buf_ ## VAR[SIZE + LOGCAT_HEADER_SIZE]; \
+static struct logger_log VAR = { \
+	.buffer = _buf_ ## VAR, \
+	.misc = { \
+		.minor = MISC_DYNAMIC_MINOR, \
+		.name = NAME, \
+		.fops = &logger_fops, \
+		.parent = NULL, \
+	}, \
+	.wq = __WAIT_QUEUE_HEAD_INITIALIZER(VAR .wq), \
+	.readers = LIST_HEAD_INIT(VAR .readers), \
+	.mutex = __MUTEX_INITIALIZER(VAR .mutex), \
+	.w_off = 0, \
+	.head = 0, \
+	.size = SIZE, \
+};
+#else
 #define DEFINE_LOGGER_DEVICE(VAR, NAME, SIZE) \
 static unsigned char _buf_ ## VAR[SIZE]; \
 static struct logger_log VAR = { \
@@ -732,10 +768,17 @@ static struct logger_log VAR = { \
 	.size = SIZE, \
 };
 
+#endif
 DEFINE_LOGGER_DEVICE(log_main, LOGGER_LOG_MAIN, CONFIG_LOGCAT_SIZE*1024)
 DEFINE_LOGGER_DEVICE(log_events, LOGGER_LOG_EVENTS, CONFIG_LOGCAT_SIZE*1024)
 DEFINE_LOGGER_DEVICE(log_radio, LOGGER_LOG_RADIO, CONFIG_LOGCAT_SIZE*1024)
 DEFINE_LOGGER_DEVICE(log_system, LOGGER_LOG_SYSTEM, CONFIG_LOGCAT_SIZE*1024)
+#ifdef CONFIG_PANTECH_PS_WIFI_COM_PREF_LOGGING
+DEFINE_LOGGER_DEVICE(log_wifi, LOGGER_LOG_WIFI, CONFIG_WIFI_LOGCAT_SIZE*1024)
+#endif
+#ifdef CONFIG_PANTECH_PS_WQE_COM_PREF_LOGGING
+DEFINE_LOGGER_DEVICE(log_wqe, LOGGER_LOG_WQE, CONFIG_WQE_LOGCAT_SIZE*1024)
+#endif
 
 static struct logger_log *get_log_from_minor(int minor)
 {
@@ -747,8 +790,37 @@ static struct logger_log *get_log_from_minor(int minor)
 		return &log_radio;
 	if (log_system.misc.minor == minor)
 		return &log_system;
+#ifdef CONFIG_PANTECH_PS_WIFI_COM_PREF_LOGGING
+	if (log_wifi.misc.minor == minor)
+		return &log_wifi;
+#endif
+#ifdef CONFIG_PANTECH_PS_WQE_COM_PREF_LOGGING
+	if (log_wqe.misc.minor == minor)
+		return &log_wqe;
+#endif	
 	return NULL;
 }
+
+#ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
+static pantech_log_header logcat_header;
+
+pantech_log_header *get_pantech_logcat_dump_address(void)
+{
+    logcat_header.mlogcat_buf_address = (unsigned int*)virt_to_phys((void*)log_main.buffer);
+    logcat_header.mlogcat_w_off = (unsigned int*)virt_to_phys((void*)&(log_main.w_off));
+    logcat_header.mlogcat_size = (unsigned int)log_main.size;
+
+    logcat_header.slogcat_buf_address = (unsigned int*)virt_to_phys((void*)log_system.buffer);
+    logcat_header.slogcat_w_off = (unsigned int*)virt_to_phys((void*)&(log_system.w_off));
+    logcat_header.slogcat_size = (unsigned int)log_system.size;
+
+    logcat_header.rlogcat_buf_address = (unsigned int*)virt_to_phys((void*)log_radio.buffer);
+    logcat_header.rlogcat_w_off = (unsigned int*)virt_to_phys((void*)&(log_radio.w_off));
+    logcat_header.rlogcat_size = (unsigned int)log_radio.size;
+    
+    return &logcat_header;
+}
+#endif
 
 static int __init init_log(struct logger_log *log)
 {
@@ -786,6 +858,18 @@ static int __init logger_init(void)
 	ret = init_log(&log_system);
 	if (unlikely(ret))
 		goto out;
+
+#ifdef CONFIG_PANTECH_PS_WIFI_COM_PREF_LOGGING
+	ret = init_log(&log_wifi);
+	if (unlikely(ret))
+		goto out;
+#endif
+
+#ifdef CONFIG_PANTECH_PS_WQE_COM_PREF_LOGGING
+	ret = init_log(&log_wqe);
+	if (unlikely(ret))
+		goto out;
+#endif
 
 out:
 	return ret;

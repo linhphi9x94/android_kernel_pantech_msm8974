@@ -101,9 +101,44 @@ config MSM_ISPIF_V1
           of any CID of MSM_CSI22_HEADER can be routed to of pixel
           or raw data interface in VFE.
 
+comment "PANTECH_CAMERA Configuration"
+config PANTECH_CAMERA
+	bool "PANTECH CAMERA DRIVERS"
+	default n
+
+config PANTECH_CAMERA_IMX135
+	bool "Sensor IMX135 (BAYER 12M)"
+	depends on MSMB_CAMERA && PANTECH_CAMERA
+	default n
+	---help---
+		Sony 12 MP Bayer Sensor with auto focus, uses
+		4 mipi lanes, preview config = 2104 x 1560 at 49 fps,
+		snapshot config = 4208 x 3120 at 24 fps,
+		Video HDR support.
+
+config PANTECH_CAMERA_IMX214
+	bool "Sensor IMX214 (BAYER 12M)"
+	depends on MSMB_CAMERA && PANTECH_CAMERA
+	default n
+	---help---
+		Sony 12 MP Bayer Sensor with auto focus, uses
+		4 mipi lanes, preview config = 2104 x 1560 at 49 fps,
+		snapshot config = 4208 x 3120 at 24 fps,
+		Video HDR support.
+
+config PANTECH_CAMERA_S5K6B2YX
+	bool "Sensor S5K6B2YX (BAYER 2MP)"
+	depends on MSMB_CAMERA && PANTECH_CAMERA
+	default n
+	---help---
+		Samsung 2 MP Bayer Sensor, supports 2 mipi lanes.
+		Supports low-power vision mode.
+		This sensor does not support auto focus.
+
 config S5K3L1YX
 	bool "Sensor S5K3L1YX (BAYER 12M)"
 	depends on MSMB_CAMERA
+	default n
 	---help---
 		Samsung 12 MP Bayer Sensor with auto focus, uses
 		4 mipi lanes, preview config = 1984 * 1508 at 30 fps,
@@ -113,6 +148,7 @@ config S5K3L1YX
 config IMX135
 	bool "Sensor IMX135 (BAYER 12M)"
 	depends on MSMB_CAMERA
+	default n
 	---help---
 		Sony 12 MP Bayer Sensor with auto focus, uses
 		4 mipi lanes, preview config = 2104 x 1560 at 49 fps,
@@ -122,6 +158,7 @@ config IMX135
 config IMX134
 	bool "Sensor IMX134 (BAYER 8M)"
 	depends on MSMB_CAMERA
+	default n
 	---help---
 		Sony 8 MP Bayer Sensor with auto focus, uses
 		4 mipi lanes full resolution @30fps and
@@ -131,6 +168,7 @@ config IMX134
 config OV2720
 	bool "Sensor OV2720 (BAYER 2M)"
 	depends on MSMB_CAMERA
+	default n
 	---help---
 		OmniVision 2 MP Bayer Sensor, supports 2 mipi lanes,
 		preview and snapshot config at 1932 * 1092 at 30 fps,
@@ -140,6 +178,7 @@ config OV2720
 config OV9724
 	bool "Sensor OV9724 (BAYER 2M)"
 	depends on MSMB_CAMERA
+	default n
 	---help---
 		OmniVision 2 MP Bayer Sensor, supports 2 mipi lanes,
 		preview and snapshot config at 1280*720 at 30 fps,
@@ -149,6 +188,7 @@ config OV9724
 config HI256
         bool "Hynix hi256 (YUV 2MP)"
         depends on MSMB_CAMERA
+	default n
         ---help---
                 OmniVision 8 MP Bayer Sensor with auto focus.uses
                 2 mipi lanes, preview config = 1632*1224 30 fps,
@@ -158,6 +198,7 @@ config HI256
 config OV5648
 	bool "Sensor OV5648 (BAYER 5M)"
 	depends on MSMB_CAMERA
+	default n
 	---help---
 		OmniVision 5 MP Bayer Sensor, only use 1 mipi lane,
 		preview set to 1296*972 at 30 fps,
@@ -167,6 +208,7 @@ config OV5648
 config MT9M114
 	bool "Sensor MT9M114 (YUV 1.26MP)"
 	depends on MSMB_CAMERA
+	default n
 	---help---
 		MT9M114 is Aptina YUV sensor. It supports 1.26 MP preview
 		and snapshot. The preview and snapshot resolution shall be
@@ -176,6 +218,7 @@ config MT9M114
 config SP1628
 	bool "Sensor SP1628 (YUV 720P)"
 	depends on MSMB_CAMERA
+	default n
 	---help---
 		SP1628 is SuperPix YUV sensor. It supports 720P preview
 		and snapshot. The preview and snapshot resolution shall be
@@ -185,6 +228,7 @@ config SP1628
 config GC0339
 	bool "Sensor GC0339 (BAYER .3M)"
 	depends on MSMB_CAMERA
+	default n
 	---help---
 		gc0339 is a Galaxycore .3 MP Bayer Sensor.
 		It supports 1 or 2 mipi lanes.
@@ -194,6 +238,7 @@ config GC0339
 config OV8825
 	bool "OmniVision OV8825 (BAYER 8MP)"
 	depends on MSMB_CAMERA
+	default n
 	---help---
 		OmniVision 8 MP Bayer Sensor with auto focus.uses
 		2 mipi lanes, preview config = 1632*1224 30 fps,
@@ -203,6 +248,7 @@ config OV8825
 config OV8865
 	bool "OmniVision OV8865 (BAYER 8MP)"
 	depends on MSMB_CAMERA
+	default n
 	---help---
 		OmniVision 8 MP Bayer Sensor with auto focus.uses
 		4 mipi lanes, preview config = 1632*1224 30 fps,
@@ -212,6 +258,7 @@ config OV8865
 config s5k4e1
 	bool "Sensor s5k4e1 (BAYER 5MP)"
 	depends on MSMB_CAMERA
+	default n
 	---help---
 		Samsung 5 MP Bayer Sensor. It uses 2 mipi lanes,
 		supports 720P preview at 30 fps
@@ -221,6 +268,7 @@ config s5k4e1
 config OV12830
 	bool "OmniVision OV12830 (BAYER 12MP)"
 	depends on MSMB_CAMERA
+	default n
 	---help---
 		OmniVision 12.8 MP Bayer Sensor with auto focus.uses
 		4 mipi lanes, preview config = 2112 * 1500 at 30 fps,

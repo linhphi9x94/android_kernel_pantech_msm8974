@@ -1,0 +1,194 @@
+/*
+ * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+&pm8941_lsid1 {
+	qcom,leds@d000 {
+		status = "okay";
+		qcom,rgb_0 {
+			label = "rgb";
+			linux,name = "led:rgb_red";
+			qcom,mode = "lpg";			
+			qcom,pwm-channel = <6>;
+			qcom,pwm-us = <1000>;
+			qcom,max-current = <12>;
+			qcom,start-idx = <1>;			
+			qcom,ramp-step-ms = <20>;
+			qcom,duty-pcts = [00 00 00 01 01 01 02 02 03 03 
+							  04 05 06 07 08 0A 0C 0E 11 14
+							  17 1B 20 26 2D 35 3E 49 55 64 
+							  64 55 49 3E 35 2D 26 20 1B 17 
+							  14 11 0E 0C 0A 08 07 06 05 04 
+							  03 03 02 02 01 01 01 00 00 00];
+			qcom,lut-flags = <3>;
+			qcom,pause-lo = <0>;
+			qcom,pause-hi = <0>;			
+			qcom,default-state = "off";
+			qcom,turn-off-delay-ms = <500>;
+			qcom,id = <3>;
+		//	linux,default-trigger = "battery-charging";
+		//	qcom,use-blink;
+		};
+
+		qcom,rgb_1 {
+			label = "rgb";
+			linux,name = "led:rgb_green";
+			qcom,mode = "lpg";
+			qcom,pwm-channel = <5>;
+			qcom,pwm-us = <1000>;
+			qcom,max-current = <12>;
+			qcom,start-idx = <1>;
+			qcom,ramp-step-ms = <20>;
+			qcom,duty-pcts = [00 03 07 0A 0E 11 15 18 1C 1F 
+							  22 26 29 2D 30 34 37 3B 3E 42 
+							  45 48 4C 4F 53 56 5A 5D 61 64 
+							  64 61 5D 5A 56 53 4F 4C 48 45 
+							  42 3E 3B 37 34 30 2D 29 26 22 
+							  1F 1C 18 15 11 0E 0A 07 03 00];
+			qcom,lut-flags = <3>;
+			qcom,pause-lo = <0>;
+			qcom,pause-hi = <0>;
+			qcom,default-state = "off";
+			qcom,turn-off-delay-ms = <500>;
+			qcom,id = <4>;
+		//	linux,default-trigger = "battery-full";
+		//	qcom,use-blink;
+		};
+
+		qcom,rgb_2 {
+			label = "rgb";
+			linux,name = "led:rgb_blue";
+			qcom,mode = "lpg";
+			qcom,pwm-channel = <4>;
+			qcom,pwm-us = <1000>;
+			qcom,max-current = <12>;
+			qcom,start-idx = <1>;
+			qcom,ramp-step-ms = <20>;
+			qcom,duty-pcts = [00 03 07 0A 0E 11 15 18 1C 1F 
+							  22 26 29 2D 30 34 37 3B 3E 42 
+							  45 48 4C 4F 53 56 5A 5D 61 64 
+							  64 61 5D 5A 56 53 4F 4C 48 45 
+							  42 3E 3B 37 34 30 2D 29 26 22 
+							  1F 1C 18 15 11 0E 0A 07 03 00];
+			qcom,lut-flags = <3>;
+			qcom,pause-lo = <0>;
+			qcom,pause-hi = <0>;			
+			qcom,default-state = "off";
+			qcom,turn-off-delay-ms = <500>;
+			qcom,id = <5>;
+		//	linux,default-trigger = "none";			
+		//	qcom,use-blink;
+		};
+	};
+
+	qcom,leds@d100 {
+		status = "disabled";
+	};
+
+	qcom,leds@d200 {
+		status = "disabled";
+	};
+
+	qcom,leds@d300 {
+		status = "okay";
+		pm8941_flash0: qcom,flash_0 {
+			qcom,max-current = <1000>;
+			qcom,default-state = "off";
+			qcom,headroom = <3>;
+			qcom,duration = <1280>;
+			qcom,clamp-curr = <200>;
+			qcom,startup-dly = <3>;
+			qcom,safety-timer;
+			label = "flash";
+			linux,default-trigger =
+				"flash0_trigger";
+			qcom,id = <1>;
+			linux,name = "led:flash_0";
+			qcom,current = <800>;//<625>;
+		};
+
+		pm8941_flash1: qcom,flash_1 {
+			qcom,max-current = <1000>;
+			qcom,default-state = "off";
+			qcom,headroom = <3>;
+			qcom,duration = <1280>;
+			qcom,clamp-curr = <200>;
+			qcom,startup-dly = <3>;
+			qcom,safety-timer;
+			linux,default-trigger =
+				"flash1_trigger";
+			label = "flash";
+			qcom,id = <2>;
+			linux,name = "led:flash_1";
+			qcom,current = <800>;//<625>;
+		};
+
+		pm8941_torch: qcom,flash_torch {
+			qcom,max-current = <400>;//<200>;
+			qcom,default-state = "off";
+			qcom,headroom = <0>;
+			qcom,startup-dly = <1>;
+			linux,default-trigger =
+				"torch_trigger";
+			label = "flash";
+			qcom,id = <2>;
+			linux,name = "led:flash_torch";
+			qcom,current = <400>;//<200>;
+			qcom,torch-enable;
+		};
+	};
+
+	qcom,leds@d400 {
+		status = "disabled";
+	};
+
+	qcom,leds@d500 {
+		status = "disabled";
+	};
+
+	qcom,leds@d600 {
+		status = "disabled";
+	};
+
+	qcom,leds@d700 {
+		status = "disabled";
+	};
+
+	qcom,leds@e200 {
+		status = "okay";
+
+		qcom,kpdbl1 {
+			label = "kpdbl";
+			linux,name = "kpdbl_menu";
+			qcom,mode = "pwm";
+			qcom,pwm-channel = <8>;
+			qcom,pwm-us = <1000>;
+			qcom,id = <7>;
+			qcom,max-current = <20>;
+			qcom,row-id = <0>;
+			qcom,row-src-en;
+			qcom,always-on;
+		};
+		qcom,kpdbl2 {
+			label = "kpdbl";
+			linux,name = "kpdbl_back";
+			qcom,mode = "pwm";
+			qcom,pwm-channel = <9>;
+			qcom,pwm-us = <1000>;
+			qcom,id = <7>;
+			qcom,max-current = <20>;
+			qcom,row-id = <1>;
+			qcom,row-src-en;
+			qcom,always-on;
+		};
+    };
+};

@@ -451,7 +451,10 @@ static int ext4_has_free_clusters(struct ext4_sb_info *sbi,
 
 	if (free_clusters - (nclusters + root_clusters + dirty_clusters) <
 					EXT4_FREECLUSTERS_WATERMARK) {
-		free_clusters  = EXT4_C2B(sbi, percpu_counter_sum_positive(fcc));
+
+		/*20140206 p14986 kernel patch - wrong conversion of free cluters*/
+		/*free_clusters  = EXT4_C2B(sbi, percpu_counter_sum_positive(fcc));*/
+		free_clusters  = percpu_counter_sum_positive(fcc);
 		dirty_clusters = percpu_counter_sum_positive(dcc);
 	}
 	/* Check whether we have space after accounting for current

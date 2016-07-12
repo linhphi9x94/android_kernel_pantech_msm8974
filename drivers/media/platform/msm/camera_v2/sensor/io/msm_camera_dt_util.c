@@ -113,6 +113,16 @@ int msm_camera_get_dt_power_setting_data(struct device_node *of_node,
 				ps[i].seq_val = SENSOR_GPIO_STANDBY;
 			else if (!strcmp(seq_name, "sensor_gpio_vdig"))
 				ps[i].seq_val = SENSOR_GPIO_VDIG;
+#ifdef CONFIG_PANTECH_CAMERA//eeprom
+#if defined (CONFIG_PANTECH_CAMERA_IMX135)			
+			else if (!strcmp(seq_name, "sensor_gpio_wp"))
+				ps[i].seq_val = SENSOR_GPIO_R_WP;
+#endif			
+#if defined (CONFIG_PANTECH_CAMERA_IMX214)			
+			else if (!strcmp(seq_name, "sensor_gpio_cam0_avdd_en"))
+				ps[i].seq_val = SENSOR_GPIO_CAM0_AVDD_EN;
+#endif			
+#endif
 			else
 				rc = -EILSEQ;
 			break;
@@ -337,6 +347,45 @@ int32_t msm_camera_init_gpio_pin_tbl(struct device_node *of_node,
 		CDBG("%s qcom,gpio-reset %d\n", __func__,
 			gconf->gpio_num_info->gpio_num[SENSOR_GPIO_STANDBY]);
 	}
+
+#ifdef CONFIG_PANTECH_CAMERA//eeprom
+#if defined(CONFIG_PANTECH_CAMERA_IMX135)
+	if (of_property_read_bool(of_node, "qcom,gpio-wp") == true) {
+		rc = of_property_read_u32(of_node, "qcom,gpio-wp", &val);
+		if (rc < 0) {
+			pr_err("%s:%d read qcom,gpio-wp failed rc %d\n",
+				__func__, __LINE__, rc);
+			goto ERROR;
+		} else if (val >= gpio_array_size) {
+			pr_err("%s:%d qcom,gpio-wp invalid %d\n",
+				__func__, __LINE__, val);
+			goto ERROR;
+		}
+		gconf->gpio_num_info->gpio_num[SENSOR_GPIO_R_WP] =
+			gpio_array[val];
+		CDBG("%s qcom,gpio-wp %d\n", __func__,
+			gconf->gpio_num_info->gpio_num[SENSOR_GPIO_R_WP]);
+	}
+#endif	
+#if defined(CONFIG_PANTECH_CAMERA_IMX214)
+	if (of_property_read_bool(of_node, "qcom,avdd-en") == true) {
+		rc = of_property_read_u32(of_node, "qcom,avdd-en", &val);
+		if (rc < 0) {
+			pr_err("%s:%d read qcom,avdd-en failed rc %d\n",
+				__func__, __LINE__, rc);
+			goto ERROR;
+		} else if (val >= gpio_array_size) {
+			pr_err("%s:%d qcom,avdd-en invalid %d\n",
+				__func__, __LINE__, val);
+			goto ERROR;
+		}
+		gconf->gpio_num_info->gpio_num[SENSOR_GPIO_CAM0_AVDD_EN] =
+			gpio_array[val];
+		CDBG("%s qcom,avdd-en %d\n", __func__,
+			gconf->gpio_num_info->gpio_num[SENSOR_GPIO_CAM0_AVDD_EN]);
+	}
+#endif	
+#endif
 	return rc;
 
 ERROR:
@@ -476,6 +525,23 @@ int msm_camera_power_up(struct msm_camera_power_ctrl_t *ctrl,
 			sensor_i2c_client);
 		return -EINVAL;
 	}
+
+#ifdef CONFIG_PANTECH_CAMERA//eeprom
+	if (ctrl->gpio_conf != NULL) {
+		pr_err("%s:%d mux install\n", __func__, __LINE__);
+		msm_gpiomux_install(
+			(struct msm_gpiomux_config *)
+			ctrl->gpio_conf->cam_gpiomux_conf_tbl,
+			ctrl->gpio_conf->cam_gpiomux_conf_tbl_size);
+	
+
+		rc = msm_camera_request_gpio_table(
+			ctrl->gpio_conf->cam_gpio_req_tbl,
+			ctrl->gpio_conf->cam_gpio_req_tbl_size, 1);
+		if (rc < 0)
+			no_gpio = rc;
+	}
+#else
 	if (ctrl->gpio_conf->cam_gpiomux_conf_tbl != NULL) {
 		pr_err("%s:%d mux install\n", __func__, __LINE__);
 		msm_gpiomux_install(
@@ -489,6 +555,7 @@ int msm_camera_power_up(struct msm_camera_power_ctrl_t *ctrl,
 		ctrl->gpio_conf->cam_gpio_req_tbl_size, 1);
 	if (rc < 0)
 		no_gpio = rc;
+#endif
 
 	for (index = 0; index < ctrl->power_setting_size; index++) {
 		CDBG("%s index %d\n", __func__, index);
@@ -623,6 +690,9 @@ power_up_failed:
 				(power_setting->delay * 1000) + 1000);
 		}
 	}
+#ifdef CONFIG_PANTECH_CAMERA//eeprom
+	if (ctrl->gpio_conf != NULL)
+#endif
 	msm_camera_request_gpio_table(
 		ctrl->gpio_conf->cam_gpio_req_tbl,
 		ctrl->gpio_conf->cam_gpio_req_tbl_size, 0);
@@ -701,6 +771,9 @@ int msm_camera_power_down(struct msm_camera_power_ctrl_t *ctrl,
 				(power_setting->delay * 1000) + 1000);
 		}
 	}
+#ifdef CONFIG_PANTECH_CAMERA//eeprom
+	if (ctrl->gpio_conf != NULL)
+#endif
 	msm_camera_request_gpio_table(
 		ctrl->gpio_conf->cam_gpio_req_tbl,
 		ctrl->gpio_conf->cam_gpio_req_tbl_size, 0);

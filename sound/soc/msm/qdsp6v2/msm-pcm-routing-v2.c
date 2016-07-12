@@ -37,6 +37,10 @@
 #include "q6voice.h"
 #include "q6core.h"
 
+#ifdef CONFIG_PANTECH_SND_NXP
+#include "lvse-routing.h"
+#endif
+
 struct msm_pcm_routing_bdai_data {
 	u16 port_id; /* AFE port ID */
 	u8 active; /* track if this backend is enabled */
@@ -50,11 +54,13 @@ struct msm_pcm_routing_bdai_data {
 	unsigned int  format;
 };
 
+#if !defined(CONFIG_PANTECH_SND_QSOUND) //pantech modify 20140121 hdj
 struct msm_pcm_routing_fdai_data {
 	u16 be_srate; /* track prior backend sample rate for flushing purpose */
 	int strm_id; /* ASM stream ID */
 	struct msm_pcm_routing_evt event_info;
 };
+#endif
 
 #define INVALID_SESSION -1
 #define SESSION_TYPE_RX 0
@@ -291,6 +297,27 @@ static struct msm_pcm_routing_fdai_data
  * Performance mode is only valid when session is valid.
  */
 static int fe_dai_perf_mode[MSM_FRONTEND_DAI_MM_SIZE][2];
+
+#ifdef CONFIG_PANTECH_SND_QSOUND 
+#ifdef CONFIG_PANTECH_SND //pantech modify 20140121 hdj
+struct msm_pcm_routing_fdai_data* get_fe_dsp_stream_ids(int index)
+{
+	if (index < 0 || index >= MSM_FRONTEND_DAI_MM_SIZE) return NULL;
+	return &fe_dai_map[index][0];
+}
+#else
+int* get_fe_dsp_stream_ids(int index)
+{
+	if (index < 0 || index >= MSM_FRONTEND_DAI_MM_SIZE) return NULL;
+	return &fe_dai_map[index][0];
+}
+#endif
+struct msm_pcm_routing_bdai_data* get_be_entry(int index)
+{
+	if (index < 0 || index >= MSM_BACKEND_DAI_MAX) return NULL;
+	return &msm_bedais[index];
+}
+#endif
 
 static uint8_t is_be_dai_extproc(int be_dai)
 {
@@ -2670,6 +2697,28 @@ static const struct snd_kcontrol_new multimedia5_vol_mixer_controls[] = {
 	msm_routing_set_multimedia5_vol_mixer, multimedia5_rx_vol_gain),
 };
 
+#ifdef CONFIG_PANTECH_SND_NXP
+static const struct snd_kcontrol_new lvse_controls[] = {
+	{.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
+	.name = "LVSE",
+	.access = SNDRV_CTL_ELEM_ACCESS_TLV_READ |
+			SNDRV_CTL_ELEM_ACCESS_READWRITE,
+	.info = snd_soc_info_volsw, \
+	.get = lvse_routing_get_control,
+	.put = lvse_routing_set_control,
+	.private_value = ((unsigned long)&(struct soc_mixer_control)
+	{.reg = SND_SOC_NOPM,
+	.rreg = SND_SOC_NOPM,
+	.shift = 0,
+	.rshift = 0,
+	.max = 0xFFFFFFFF,
+	.platform_max = 0xFFFFFFFF,
+	.invert = 0
+	})
+	}
+};
+#endif
+
 static const struct snd_kcontrol_new multi_ch_channel_map_mixer_controls[] = {
 	SOC_SINGLE_MULTI_EXT("Playback Channel Map", SND_SOC_NOPM, 0, 16,
 	0, 8, msm_routing_get_channel_map_mixer,
@@ -4132,6 +4181,12 @@ static int msm_routing_probe(struct snd_soc_platform *platform)
 	snd_soc_add_platform_controls(platform,
 				multimedia5_vol_mixer_controls,
 			ARRAY_SIZE(multimedia5_vol_mixer_controls));
+
+#ifdef CONFIG_PANTECH_SND_NXP
+	snd_soc_add_platform_controls(platform,
+				lvse_controls,
+			ARRAY_SIZE(lvse_controls));
+#endif
 
 	snd_soc_add_platform_controls(platform,
 				lpa_SRS_trumedia_controls,

@@ -80,6 +80,11 @@
 						unsigned int)
 #define MSMFB_ASYNC_BLIT              _IOW(MSMFB_IOCTL_MAGIC, 168, unsigned int)
 
+#ifdef CONFIG_F_SKYDISP_SMARTDIMMING
+#define MSMFB_LCD_SMART_DIMMING_READ   _IOW(MSMFB_IOCTL_MAGIC, 202, struct mdss_panel_smart_dimming)
+#define MSMFB_LCD_SMART_DIMMING_WRITE   _IOW(MSMFB_IOCTL_MAGIC, 203, struct mdss_panel_gamma)
+#endif
+
 #define FB_TYPE_3D_PANEL 0x10101010
 #define MDP_IMGTYPE2_START 0x10000
 #define MSMFB_DRIVER_VERSION	0xF9E8D701

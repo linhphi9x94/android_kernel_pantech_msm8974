@@ -446,6 +446,14 @@ struct audit_field {
 	void				*lsm_rule;
 };
 
+#ifdef CONFIG_PANTECH_SELINUX_DENIAL_LOG //P11536-SHPARK-SELinux 
+struct pantech_avc_format {
+    int     real_denied;
+    int     permissive_domain;
+};
+extern struct pantech_avc_format pantech_get_avc(void);
+#endif
+
 extern int __init audit_register_class(int class, unsigned *list);
 extern int audit_classify_syscall(int abi, unsigned syscall);
 extern int audit_classify_arch(int arch);

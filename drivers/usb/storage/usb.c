@@ -797,6 +797,10 @@ static int usb_stor_acquire_resources(struct us_data *us)
 }
 
 /* Release all our dynamic resources */
+#if defined(CONFIG_ANDROID_PANTECH_USB_OTG_INTENT)
+extern void pantech_us_data_complete(void);
+#endif
+
 static void usb_stor_release_resources(struct us_data *us)
 {
 	US_DEBUGP("-- %s\n", __func__);
@@ -807,6 +811,11 @@ static void usb_stor_release_resources(struct us_data *us)
 	 */
 	US_DEBUGP("-- sending exit command to thread\n");
 	complete(&us->cmnd_ready);
+#if defined(CONFIG_ANDROID_PANTECH_USB_OTG_INTENT)
+	if(!strncmp(us->scsi_name, "usb-storage", strlen("usb-storage"))){
+		pantech_us_data_complete();
+	}
+#endif
 	if (us->ctl_thread)
 		kthread_stop(us->ctl_thread);
 

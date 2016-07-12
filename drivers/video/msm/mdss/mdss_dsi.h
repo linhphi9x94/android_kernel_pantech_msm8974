@@ -150,6 +150,10 @@ enum dsi_lane_map_type {
 #define DSI_BTA_TERM    BIT(1)
 #define DSI_CMD_TERM    BIT(0)
 
+#ifdef CONFIG_F_SKYDISP_SMARTDIMMING
+#define MTP_READ_MAX 33
+#endif
+
 extern struct device dsi_dev;
 extern int mdss_dsi_clk_on;
 extern u32 dsi_irq;
@@ -227,6 +231,58 @@ enum {
 #define DSI_EV_MDP_FIFO_UNDERFLOW	0x0002
 #define DSI_EV_MDP_BUSY_RELEASE		0x80000000
 
+#if defined (CONFIG_F_SKYDISP_EF63_SS) && (CONFIG_BOARD_VER >= CONFIG_TP10)
+/*20140304, kkcho, [EF63] Driver-IC changed from TP20. So, processing to be able to use overlapping for WS20/TP10*/
+#define F_SKYDISP_MAGNAIC_OPERATING_BEFORE_TP20
+#endif
+
+#if defined (CONFIG_F_SKYDISP_EF63_SS) && (CONFIG_BOARD_VER >= CONFIG_TP10)
+#define F_LSI_VDDM_OFFSET_RD_WR
+#endif
+
+#ifdef CONFIG_F_SKYDISP_EF63_DRIVER_IC_CHECK
+#define NO_CONNECT 0
+#define SAMSUNG_DRIVER_IC 1
+#define MAGNA_DRIVER_IC 2
+#endif
+
+#ifdef CONFIG_F_SKYDISP_SMARTDIMMING
+#define SMART_DIMMING_DEBUG	1
+#define GAMMA_TABLE_SIZE 32
+/* 20140217, kkcho, Bug-fix: boot fail by watchdog-bark(mdss_dsi_timeout_status/mdss_isr_error message)*/
+#define F_WA_WATCHDOG_DURING_BOOTUP 
+enum {
+	VT,
+	V3,
+	V11,
+	V23,
+	V35,
+	V51,
+	V87,
+	V151,
+	V203,
+	V255,
+	V255_MAX,
+};
+enum {
+	RGB_R,
+	RGB_G,
+	RGB_B,
+	RGB_MAX,
+};
+
+struct mdss_panel_gamma
+{
+	int gamma_table[GAMMA_TABLE_SIZE][30];
+};
+struct mdss_panel_smart_dimming{
+	int mtp_data_RGB[33];
+	int mtp_RGB[RGB_MAX][V255_MAX];
+	int panel_gamma_data[RGB_MAX][V255_MAX];
+	int gamma_add2_mtp[RGB_MAX][V255_MAX];
+};
+#endif
+
 struct mdss_dsi_ctrl_pdata {
 	int ndx;	/* panel_num */
 	int (*on) (struct mdss_panel_data *pdata);
@@ -252,6 +308,14 @@ struct mdss_dsi_ctrl_pdata {
 	int disp_en_gpio;
 	int disp_te_gpio;
 	int mode_gpio;
+	int bl_en_gpio;
+	int lcd_vcip_reg_en_gpio;
+	int lcd_vcin_reg_en_gpio;
+	int lcd_vddio_reg_en_gpio;
+	int lcd_vddio_switch_en_gpio;	
+	int octa_rst_gpio;
+	int octa_vci_reg_en_gpio;
+	int octa_vddi_reg_en_gpio;
 	int rst_gpio_requested;
 	int disp_en_gpio_requested;
 	int disp_te_gpio_requested;
@@ -273,7 +337,29 @@ struct mdss_dsi_ctrl_pdata {
 	struct mdss_panel_recovery *recovery;
 
 	struct dsi_panel_cmds on_cmds;
+#ifdef F_SKYDISP_MAGNAIC_OPERATING_BEFORE_TP20
+	struct dsi_panel_cmds magnaic_on_cmds;
+#endif
 	struct dsi_panel_cmds off_cmds;
+
+#ifdef CONFIG_F_SKYDISP_CABC_CONTROL
+	struct dsi_panel_cmds cabc_cmds;
+#endif
+#ifdef CONFIG_F_SKYDISP_CMDS_CONTROL
+	int lcd_cmds_check;
+	struct dsi_panel_cmds on_cmds_user;
+#endif
+#ifdef CONFIG_F_SKYDISP_EF63_SS
+	struct dsi_panel_cmds display_on_cmds;
+	struct dsi_panel_cmds read_enable_cmds;
+	struct dsi_panel_cmds read_disable_cmds;
+	struct dsi_panel_cmds vddm_offset_write_cmds;
+#endif
+
+#if defined(CONFIG_MACH_MSM8974_EF56S) || defined(CONFIG_F_SKYDISP_EF60_SS)	|| \
+	defined(CONFIG_F_SKYDISP_EF59_SS)
+	int lcd_on_skip_during_bootup;
+#endif
 
 	struct dcs_cmd_list cmdlist;
 	struct completion dma_comp;
@@ -288,6 +374,29 @@ struct mdss_dsi_ctrl_pdata {
 
 	struct dsi_buf tx_buf;
 	struct dsi_buf rx_buf;
+
+#ifdef CONFIG_F_SKYDISP_SMARTDIMMING
+	struct delayed_work panel_read_work;
+	struct mdss_panel_smart_dimming panel_read_mtp;
+	struct mdss_panel_gamma gamma_set;
+	
+	void (*gamma_sort)(struct mdss_dsi_ctrl_pdata *pdata);
+	
+	int mtp_cnt; 	
+#ifdef CONFIG_F_SKYDISP_EF63_DRIVER_IC_CHECK
+	int manufacture_id;
+	int manufacture_id_rev;
+#endif
+#ifdef F_WA_WATCHDOG_DURING_BOOTUP	
+	int octa_blck_set;
+#endif	
+	int offline_charger;
+	char * gamma_buf;
+#ifdef CONFIG_F_SKYDISP_HBM_FOR_AMOLED
+	int hbm_onoff;
+	int onflag;
+#endif
+#endif
 };
 
 int dsi_panel_device_register(struct device_node *pan_node,
@@ -344,4 +453,5 @@ int mdss_dsi_bta_status_check(struct mdss_dsi_ctrl_pdata *ctrl);
 int mdss_dsi_panel_init(struct device_node *node,
 		struct mdss_dsi_ctrl_pdata *ctrl_pdata,
 		bool cmd_cfg_cont_splash);
+void mdss_set_tx_power_mode(int mode, struct mdss_panel_data *pdata);
 #endif /* MDSS_DSI_H */

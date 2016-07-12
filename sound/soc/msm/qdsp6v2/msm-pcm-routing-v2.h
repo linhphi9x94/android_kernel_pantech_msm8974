@@ -153,6 +153,14 @@ struct msm_pcm_routing_evt {
 	void *priv_data;
 };
 
+#ifdef CONFIG_PANTECH_SND_QSOUND //pantech modify 20140121 hdj
+struct msm_pcm_routing_fdai_data {
+	u16 be_srate; /* track prior backend sample rate for flushing purpose */
+	int strm_id; /* ASM stream ID */
+	struct msm_pcm_routing_evt event_info;
+};
+#endif
+
 void msm_pcm_routing_reg_phy_stream_v2(int fedai_id, bool perf_mode,
 				       int dspst_id, int stream_type,
 				       struct msm_pcm_routing_evt event_info);
@@ -166,4 +174,15 @@ int multi_ch_pcm_set_volume(unsigned volume);
 uint32_t get_adm_rx_topology(void);
 
 uint32_t get_adm_tx_topology(void);
+
+#ifdef CONFIG_PANTECH_SND_QSOUND
+struct msm_pcm_routing_bdai_data;
+#ifdef CONFIG_PANTECH_SND //pantech modify 20140121 hdj
+struct msm_pcm_routing_fdai_data* get_fe_dsp_stream_ids(int index);
+#else
+int* get_fe_dsp_stream_ids(int fe_index);
+#endif
+struct msm_pcm_routing_bdai_data* get_be_entry(int be_index);
+#endif
+
 #endif /*_MSM_PCM_H*/

@@ -106,7 +106,11 @@ struct dcs_cmd_req {
 	u32 flags;
 	int rlen;       /* rx length */
 	char *rbuf;	/* rx buf */
+#ifdef CONFIG_F_SKYDISP_SMARTDIMMING
+	void (*cb)(int data,char * buf);
+#else
 	void (*cb)(int data);
+#endif
 };
 
 struct dcs_cmd_list {

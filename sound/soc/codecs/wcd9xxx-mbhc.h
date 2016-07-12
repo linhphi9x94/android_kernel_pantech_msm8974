@@ -420,4 +420,7 @@ void *wcd9xxx_mbhc_cal_btn_det_mp(
 			    const enum wcd9xxx_mbhc_btn_det_mem mem);
 int wcd9xxx_mbhc_get_impedance(struct wcd9xxx_mbhc *mbhc, uint32_t *zl,
 			       uint32_t *zr);
+#ifdef CONFIG_PANTECH_SND_BOOTUP_HEADSET_INFO
+int wcd9xxx_headsetJackStatusGet(void);
+#endif
 #endif /* __WCD9XXX_MBHC_H__ */

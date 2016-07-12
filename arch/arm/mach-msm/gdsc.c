@@ -79,6 +79,18 @@ static int gdsc_enable(struct regulator_dev *rdev)
 		if (ret) {
 			dev_err(&rdev->dev, "%s enable timed out\n",
 				sc->rdesc.name);
+#ifdef CONFIG_F_QUALCOMM_WORKAROUND_FOR_GDSC_OXILI_FAIL
+#if (0) // below code need repeat-test
+			udelay(TIMEOUT_US); 
+			regval = readl_relaxed(sc->gdscr); 
+			dev_err(&rdev->dev, "%s final state: 0x%x (%d us after timeout)\n", 
+				sc->rdesc.name, regval, TIMEOUT_US); 
+#endif	
+		dev_warn(&rdev->dev, "%s enable taking longer than %dus\n",
+			 sc->rdesc.name, TIMEOUT_US);
+		readl_tight_poll(sc->gdscr, regval, regval & PWR_ON_MASK);
+		dev_warn(&rdev->dev, "%s enabled\n", sc->rdesc.name);
+#endif
 			return ret;
 		}
 	} else {
@@ -135,7 +147,11 @@ static int gdsc_disable(struct regulator_dev *rdev)
 		sc->resets_asserted = true;
 	}
 
+#ifdef CONFIG_F_QUALCOMM_WORKAROUND_FOR_GDSC_OXILI_FAIL
+	return 0;
+#else
 	return ret;
+#endif
 }
 
 static struct regulator_ops gdsc_ops = {

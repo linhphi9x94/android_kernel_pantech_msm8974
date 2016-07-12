@@ -27,8 +27,13 @@
 /* 1.5 bus fudge factor */
 #define MDSS_MDP_BUS_FUDGE_FACTOR_IB(val) (((val) / 2) * 3)
 #define MDSS_MDP_BUS_FUDGE_FACTOR_HIGH_IB(val) (val << 1)
+#ifdef CONFIG_F_SKYDISP_ADJUST_MDP_BANDWIDTH
+#define MDSS_MDP_BUS_FUDGE_FACTOR_AB(val) (div_u64(val,10) * 40);  //it is okay about 3.10 but 4.0 is safe for underrun*/
+#else
 #define MDSS_MDP_BUS_FUDGE_FACTOR_AB(val) (val << 1)
-#define MDSS_MDP_BUS_FLOOR_BW (1600000000ULL >> MDSS_MDP_BUS_FACTOR_SHIFT)
+#endif
+/* 20140325, kkcho, Bug-fix : 8974_KK underrun-issue, 1.6G ==> 3.2G */
+#define MDSS_MDP_BUS_FLOOR_BW (3200000000ULL >> MDSS_MDP_BUS_FACTOR_SHIFT)
 
 /* 1.25 clock fudge factor */
 #define MDSS_MDP_CLK_FUDGE_FACTOR(val) (((val) * 5) / 4)
@@ -63,6 +68,26 @@ static inline u32 mdss_mdp_get_pclk_rate(struct mdss_mdp_ctl *ctl)
 		pinfo->clk_rate;
 }
 
+#ifdef CONFIG_F_QUALCOMM_MOVIE_PLAYER_MDP_UNDERRUN
+static inline u32 mdss_mdp_clk_fudge_factor(struct mdss_mdp_mixer *mixer,
+						u32 rate){
+	struct mdss_panel_info *pinfo = &mixer->ctl->panel_data->panel_info;
+
+	rate = MDSS_MDP_CLK_FUDGE_FACTOR(rate);
+
+	/*
+	 * If the panel is video mode and its back porch period is
+	 * small, the workaround of increasing mdp clk is needed to
+	 * avoid underrun.
+	 */
+	if (mixer->ctl->is_video_mode && pinfo &&
+		(pinfo->lcdc.v_back_porch < MDP_MIN_VBP))
+		rate = MDSS_MDP_CLK_FUDGE_FACTOR(rate);
+
+	return rate;
+}
+#endif
+
 static u32 __mdss_mdp_ctrl_perf_ovrd_helper(struct mdss_mdp_mixer *mixer,
 		u32 *npipe)
 {
@@ -87,6 +112,30 @@ static u32 __mdss_mdp_ctrl_perf_ovrd_helper(struct mdss_mdp_mixer *mixer,
 	return ovrd;
 }
 
+#ifdef CONFIG_F_QUALCOMM_MDP_RGB_LAYER_UNDERRUN
+static void getNumFullRGBLayers(struct mdss_mdp_mixer *mixer,
+    u32 *nFullRGBPipe)
+{
+    struct mdss_panel_info *pinfo;
+    struct mdss_mdp_pipe *pipe;
+    u32 mnum = 0;
+
+    if (!mixer || !mixer->ctl->panel_data)
+        return;
+
+    pinfo = &mixer->ctl->panel_data->panel_info;
+    for (mnum = 0; mnum < MDSS_MDP_MAX_STAGE; mnum++) {
+        pipe = mixer->stage_pipe[mnum];
+        if (pipe && pinfo) {
+            if (pipe->src.w==pinfo->xres && pipe->src.h==pinfo->yres && !pipe->src_fmt->is_yuv)
+                *nFullRGBPipe = *nFullRGBPipe + 1;
+        }
+    }
+
+    return;
+}
+#endif
+
 /**
  * mdss_mdp_ctrl_perf_ovrd() - Determines if performance override is needed
  * @mdata:	Struct containing references to all MDP5 hardware structures
@@ -105,6 +154,9 @@ static void __mdss_mdp_ctrl_perf_ovrd(struct mdss_data_type *mdata,
 {
 	struct mdss_mdp_ctl *ctl;
 	u32 i, npipe = 0, ovrd = 0;
+#ifdef CONFIG_F_QUALCOMM_MDP_RGB_LAYER_UNDERRUN
+	u32 nFullRGBPipe = 0;
+#endif
 
 	for (i = 0; i < mdata->nctl; i++) {
 		ctl = mdata->ctl_off + i;
@@ -114,7 +166,21 @@ static void __mdss_mdp_ctrl_perf_ovrd(struct mdss_data_type *mdata,
 				ctl->mixer_left, &npipe);
 		ovrd |= __mdss_mdp_ctrl_perf_ovrd_helper(
 				ctl->mixer_right, &npipe);
+
+#ifdef CONFIG_F_QUALCOMM_MDP_RGB_LAYER_UNDERRUN
+        getNumFullRGBLayers(ctl->mixer_left, &nFullRGBPipe);
+        getNumFullRGBLayers(ctl->mixer_right, &nFullRGBPipe);
+#endif
 	}
+
+#ifdef CONFIG_F_QUALCOMM_MDP_RGB_LAYER_UNDERRUN
+    if (nFullRGBPipe>=4) {
+        pr_debug("*** Before adjust ib quota = %llu bytes\n", *ib_quota);
+        *ib_quota = (div_u64(*ib_quota,10) * 15); // It is OK with multiplied ib value by 1.5 and more
+        *ab_quota = *ib_quota;
+        pr_debug("*** After adjust ib quota = %llu bytes\n", *ib_quota);
+    }
+#endif
 
 	*ab_quota = MDSS_MDP_BUS_FUDGE_FACTOR_AB(*ab_quota);
 	if (npipe > 1)
@@ -162,7 +228,9 @@ static int mdss_mdp_ctl_perf_commit(struct mdss_data_type *mdata, u32 flags)
 		mdss_mdp_bus_scale_set_quota(bus_ab_quota, bus_ib_quota);
 	}
 	if (flags & MDSS_MDP_PERF_UPDATE_CLK) {
+#ifndef CONFIG_F_QUALCOMM_MOVIE_PLAYER_MDP_UNDERRUN
 		clk_rate = MDSS_MDP_CLK_FUDGE_FACTOR(clk_rate);
+#endif
 		pr_debug("update clk rate = %lu HZ\n", clk_rate);
 		mdss_mdp_set_clk_rate(clk_rate);
 	}
@@ -238,8 +306,15 @@ int mdss_mdp_perf_calc_pipe(struct mdss_mdp_pipe *pipe,
 		perf->ib_quota = (quota / pipe->dst.h) * v_total;
 	}
 	perf->ab_quota = quota;
+#ifdef CONFIG_F_QUALCOMM_MOVIE_PLAYER_MDP_UNDERRUN
+	rate = mdss_mdp_clk_fudge_factor(mixer, rate);
+#endif
 	perf->mdp_clk_rate = rate;
-
+#ifdef CONFIG_F_QUALCOMM_MOVIE_PLAYER_MDP_UNDERRUN
+	pr_debug("src(w,h)(%d,%d) dst(w,h)(%d,%d) v_total=%d v_deci=%d fps=%d\n",
+		pipe->src.w, pipe->src.h, pipe->dst.w, pipe->dst.h, v_total,
+		pipe->vert_deci, fps);
+#endif
 	pr_debug("mixer=%d pnum=%d clk_rate=%u bus ab=%u ib=%u\n",
 		 mixer->num, pipe->num, rate, perf->ab_quota, perf->ib_quota);
 
@@ -273,9 +348,12 @@ static void mdss_mdp_perf_mixer_update(struct mdss_mdp_mixer *mixer,
 			v_total = mixer->height;
 		}
 		*clk_rate = mixer->width * v_total * fps;
+#ifndef CONFIG_F_QUALCOMM_MOVIE_PLAYER_MDP_UNDERRUN
 		if (pinfo && pinfo->lcdc.v_back_porch < MDP_MIN_VBP)
 			*clk_rate = MDSS_MDP_CLK_FUDGE_FACTOR(*clk_rate);
-
+#else
+		*clk_rate = mdss_mdp_clk_fudge_factor(mixer, *clk_rate);
+#endif
 		if (!pinfo) {
 			/* perf for bus writeback */
 			*bus_ab_quota = fps * mixer->width * mixer->height * 3;

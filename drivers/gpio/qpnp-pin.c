@@ -27,6 +27,12 @@
 #include <linux/export.h>
 #include <linux/qpnp/pin.h>
 
+#ifdef CONFIG_PANTECH_PMIC_BOARD_TYPE
+#include <linux/proc_fs.h>
+#include <linux/string.h>
+struct proc_dir_entry *board_type_info;
+#endif
+
 #define Q_REG_ADDR(q_spec, reg_index)	\
 		((q_spec)->offset + reg_index)
 
@@ -153,6 +159,11 @@ enum qpnp_pin_param_type {
 #define QPNP_PIN_AOUT_REF_INVALID	8
 #define QPNP_PIN_AIN_ROUTE_INVALID	8
 #define QPNP_PIN_CS_OUT_INVALID		8
+
+
+#ifdef CONFIG_PANTECH_PMIC_BOARD_TYPE
+static int pm_gpio_base;
+#endif
 
 struct qpnp_pin_spec {
 	uint8_t slave;			/* 0-15 */
@@ -1153,6 +1164,64 @@ static int qpnp_pin_is_valid_pin(struct qpnp_pin_spec *q_spec)
 	return 0;
 }
 
+#ifdef CONFIG_PANTECH_PMIC_BOARD_TYPE
+#define SKT 1
+#define KT  2
+#define LGT 4
+
+static short check_board_type(void){
+
+
+    short board_type = 0;
+
+	gpio_request(pm_gpio_base + 2, NULL);
+	gpio_request(pm_gpio_base + 3, NULL);
+	gpio_request(pm_gpio_base + 7, NULL);
+	
+	gpio_direction_input(pm_gpio_base + 2 /* 3 */);
+	gpio_direction_input(pm_gpio_base + 3 /* 4 */);
+	gpio_direction_input(pm_gpio_base + 7 /* 8 */);
+
+    board_type = (0x1 & gpio_get_value(pm_gpio_base + 2));
+    board_type = board_type | (0x1 & gpio_get_value(pm_gpio_base + 3))<<1;
+    board_type = board_type | (0x1 & gpio_get_value(pm_gpio_base + 7))<<2;
+
+	gpio_free(pm_gpio_base + 2);
+	gpio_free(pm_gpio_base + 3);
+	gpio_free(pm_gpio_base + 7);
+
+    return board_type;
+}
+
+static int read_proc_board_type_info
+(char *page, char **start, off_t off, int count, int *eof, void *data)
+{
+    int len = 0;
+
+	switch(check_board_type()){
+	case SKT:
+		len  = sprintf(page, "SKT");
+		break;
+	case KT:
+		len  = sprintf(page, "KT");
+		break;
+	case LGT:
+		len  = sprintf(page, "LGT");
+		break;
+	default:
+		len  = sprintf(page, "NONE");
+		break;
+	}
+    return len;
+}
+
+static int write_proc_board_type_info
+(struct file *file, const char *buffer, unsigned long count, void *data)
+{
+    return 0;
+}
+#endif
+
 static int qpnp_pin_probe(struct spmi_device *spmi)
 {
 	struct qpnp_pin_chip *q_chip;
@@ -1347,6 +1416,20 @@ static int qpnp_pin_probe(struct spmi_device *spmi)
 		dev_err(&spmi->dev, "%s: debugfs creation failed\n", __func__);
 		goto err_probe;
 	}
+
+#ifdef CONFIG_PANTECH_PMIC_BOARD_TYPE
+	if(strncmp(q_chip->gpio_chip.label, "pm8941-gpio", 11) == 0){
+		pm_gpio_base = q_chip->gpio_chip.base;
+		printk("========pm_base : %d", pm_gpio_base);
+		
+		board_type_info = create_proc_entry("board_type_info", S_IRUGO | S_IWUSR | S_IWGRP, NULL);
+		if (board_type_info) {
+			board_type_info->read_proc  = read_proc_board_type_info;
+			board_type_info->write_proc = write_proc_board_type_info;
+			board_type_info->data       = NULL;
+		}
+	}
+#endif
 
 	return 0;
 

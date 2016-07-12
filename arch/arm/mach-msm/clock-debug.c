@@ -29,6 +29,10 @@
 
 #include "clock.h"
 
+#ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
+#include "acpuclock.h"
+#endif
+
 static LIST_HEAD(clk_list);
 static DEFINE_SPINLOCK(clk_list_lock);
 
@@ -69,6 +73,29 @@ DEFINE_SIMPLE_ATTRIBUTE(clock_rate_fops, clock_debug_rate_get,
 			clock_debug_rate_set, "%llu\n");
 
 static struct clk *measure;
+
+#ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
+//extern void	force_cpufreq_for_test(int cpu, unsigned int freq);
+
+void disable_l2_clock(void)
+{
+	void __iomem *l2_hfpll_address = ioremap(0xF9016000, 4);
+//	force_cpufreq_for_test(0, 1574400);
+	writel(0, l2_hfpll_address);
+}
+
+int cause_secure_bite_get(void *data, u64 *val)
+{
+	pr_crit("Causing a secure bite\n");
+	disable_l2_clock();
+	pr_crit("We are dead. This will not print.\n");
+
+	return 0;
+}
+
+DEFINE_SIMPLE_ATTRIBUTE(secure_bite_fops, cause_secure_bite_get,
+			NULL, "%lld\n");
+#endif
 
 static int clock_debug_measure_get(void *data, u64 *val)
 {
@@ -550,6 +577,11 @@ static int clock_debug_init(void)
 	if (!debugfs_create_file("enabled_clocks", S_IRUGO, debugfs_base, NULL,
 				&enabled_clocks_fops))
 		return -ENOMEM;
+
+#ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
+	debugfs_create_file("secure_bite", S_IRUSR, debugfs_base, NULL,
+		&secure_bite_fops);
+#endif
 
 	measure = clk_get_sys("debug", "measure");
 	if (IS_ERR(measure))

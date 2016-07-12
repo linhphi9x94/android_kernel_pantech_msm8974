@@ -91,6 +91,10 @@ struct rtc_pll_info {
 #define RTC_PLL_GET	_IOR('p', 0x11, struct rtc_pll_info)  /* Get PLL correction */
 #define RTC_PLL_SET	_IOW('p', 0x12, struct rtc_pll_info)  /* Set PLL correction */
 
+#ifdef CONFIG_PANTECH_PMIC_RTC_ALM_OFF
+#define RTC_F_ALM_OFF	_IOW('p', 0x13, unsigned long)	 
+#endif /* CONFIG_PANTECH_PMIC_RTC_ALM_OFF */
+
 /* interrupt flags */
 #define RTC_IRQF 0x80	/* Any of the following is active */
 #define RTC_PF 0x40	/* Periodic interrupt */
@@ -236,6 +240,10 @@ extern int rtc_initialize_alarm(struct rtc_device *rtc,
 				struct rtc_wkalrm *alrm);
 extern void rtc_update_irq(struct rtc_device *rtc,
 			unsigned long num, unsigned long events);
+
+#ifdef CONFIG_PANTECH_PMIC_RTC_ALM_OFF
+extern int qpnp_force_alarm_irq_disable(void);
+#endif /* CONFIG_PANTECH_PMIC_RTC_ALM_OFF */
 
 extern struct rtc_device *rtc_class_open(char *name);
 extern void rtc_class_close(struct rtc_device *rtc);

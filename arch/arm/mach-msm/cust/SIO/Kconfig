@@ -1,0 +1,315 @@
+if CUST_PANTECH_H
+
+###################################################
+#           PANTECH USB part Feature              #
+###################################################
+
+if MACH_MSM8974_EF56S
+config DEFINE_LIST_EF56S
+        bool
+        default y
+        select PANTECH_CONSOLE_UART10
+        select ANDROID_PANTECH_USB_ABNORMAL_CHARGER_INFO
+        select PANTECH_SIO_TEMP
+        select PANTECH_SIO_BUG_FIX
+        select PANTECH_USB_DEBUG
+        select PANTECH_USB_STATE_DEBUG
+        select PANTECH_USB_BLOCKING_MDMSTATE
+	select PANTECH_QUALCOMM_OTG_MODE_OVP_BUG
+	select PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY
+endif
+
+if MACH_MSM8974_EF59S
+config DEFINE_LIST_EF59S
+        bool
+        default y
+        select PANTECH_CONSOLE_UART10
+        select ANDROID_PANTECH_USB_ABNORMAL_CHARGER_INFO
+        select PANTECH_SIO_TEMP
+        select PANTECH_SIO_BUG_FIX
+        select PANTECH_USB_DEBUG
+        select PANTECH_USB_STATE_DEBUG
+        select PANTECH_USB_BLOCKING_MDMSTATE
+        select PANTECH_USB_EXTERNAL_ID_PULLUP
+	select PANTECH_QUALCOMM_OTG_MODE_OVP_BUG
+	select PANTECH_USB_VER_SWITCH
+	select PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY
+endif
+
+if MACH_MSM8974_EF59K
+config DEFINE_LIST_EF59K
+        bool
+        default y
+        select PANTECH_CONSOLE_UART10
+        select ANDROID_PANTECH_USB_ABNORMAL_CHARGER_INFO
+        select PANTECH_SIO_TEMP
+        select PANTECH_SIO_BUG_FIX
+        select PANTECH_USB_DEBUG
+        select PANTECH_USB_STATE_DEBUG
+        select PANTECH_USB_BLOCKING_MDMSTATE
+        select PANTECH_USB_EXTERNAL_ID_PULLUP
+	select PANTECH_QUALCOMM_OTG_MODE_OVP_BUG
+	select PANTECH_USB_VER_SWITCH
+	select PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY
+endif
+
+if MACH_MSM8974_EF59L
+config DEFINE_LIST_EF59L
+        bool
+        default y
+        select PANTECH_CONSOLE_UART10
+        select ANDROID_PANTECH_USB_ABNORMAL_CHARGER_INFO
+        select PANTECH_SIO_TEMP
+        select PANTECH_SIO_BUG_FIX
+        select PANTECH_USB_DEBUG
+        select PANTECH_USB_STATE_DEBUG
+        select PANTECH_USB_BLOCKING_MDMSTATE
+        select PANTECH_USB_EXTERNAL_ID_PULLUP
+	select PANTECH_QUALCOMM_OTG_MODE_OVP_BUG
+	select PANTECH_USB_VER_SWITCH
+	select PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY
+endif
+
+if MACH_MSM8974_EF60S
+config DEFINE_LIST_EF60S
+        bool
+        default y
+        select PANTECH_CONSOLE_UART10
+        select ANDROID_PANTECH_USB_ABNORMAL_CHARGER_INFO
+        select PANTECH_SIO_TEMP
+        select PANTECH_SIO_BUG_FIX
+        select PANTECH_USB_DEBUG
+        select PANTECH_USB_STATE_DEBUG
+        select PANTECH_USB_BLOCKING_MDMSTATE
+        select PANTECH_USB_EXTERNAL_ID_PULLUP
+	select PANTECH_QUALCOMM_OTG_MODE_OVP_BUG
+	select PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY
+endif
+
+if MACH_MSM8974_EF65S
+config DEFINE_LIST_EF65S
+        bool
+        default y
+        select PANTECH_CONSOLE_UART10
+        select ANDROID_PANTECH_USB_ABNORMAL_CHARGER_INFO
+        select PANTECH_SIO_TEMP
+        select PANTECH_SIO_BUG_FIX
+        select PANTECH_USB_DEBUG
+        select PANTECH_USB_STATE_DEBUG
+        select PANTECH_USB_BLOCKING_MDMSTATE
+        select PANTECH_USB_EXTERNAL_ID_PULLUP
+	select PANTECH_QUALCOMM_OTG_MODE_OVP_BUG
+	select PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY
+endif
+
+if MACH_MSM8974_EF61K
+config DEFINE_LIST_EF61K
+        bool
+        default y
+        select PANTECH_CONSOLE_UART10
+        select ANDROID_PANTECH_USB_ABNORMAL_CHARGER_INFO
+        select PANTECH_SIO_TEMP
+        select PANTECH_SIO_BUG_FIX
+        select PANTECH_USB_DEBUG
+        select PANTECH_USB_STATE_DEBUG
+        select PANTECH_USB_BLOCKING_MDMSTATE
+        select PANTECH_USB_EXTERNAL_ID_PULLUP
+	select PANTECH_QUALCOMM_OTG_MODE_OVP_BUG
+	select PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY
+endif
+
+if MACH_MSM8974_EF62L
+config DEFINE_LIST_EF62L
+        bool
+        default y
+        select PANTECH_CONSOLE_UART10
+        select ANDROID_PANTECH_USB_ABNORMAL_CHARGER_INFO
+        select PANTECH_SIO_TEMP
+        select PANTECH_SIO_BUG_FIX
+        select PANTECH_USB_DEBUG
+        select PANTECH_USB_STATE_DEBUG
+        select PANTECH_USB_BLOCKING_MDMSTATE
+        select PANTECH_USB_EXTERNAL_ID_PULLUP
+	select PANTECH_QUALCOMM_OTG_MODE_OVP_BUG
+	select PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY
+endif
+
+if MACH_MSM8974_EF63S
+config DEFINE_LIST_EF63S
+        bool
+        default y
+        select PANTECH_CONSOLE_UART10
+        select ANDROID_PANTECH_USB_ABNORMAL_CHARGER_INFO
+        select PANTECH_SIO_TEMP
+        select PANTECH_SIO_BUG_FIX
+        select PANTECH_USB_DEBUG
+        select PANTECH_USB_STATE_DEBUG
+        select PANTECH_USB_BLOCKING_MDMSTATE
+        select PANTECH_USB_EXTERNAL_ID_PULLUP
+	select PANTECH_USB_TI_OTG_DISABLE_LOW_BATTERY
+endif
+
+if MACH_MSM8974_EF63K
+config DEFINE_LIST_EF63K
+        bool
+        default y
+        select PANTECH_CONSOLE_UART10
+        select ANDROID_PANTECH_USB_ABNORMAL_CHARGER_INFO
+        select PANTECH_SIO_TEMP
+        select PANTECH_SIO_BUG_FIX
+        select PANTECH_USB_DEBUG
+        select PANTECH_USB_STATE_DEBUG
+        select PANTECH_USB_BLOCKING_MDMSTATE
+        select PANTECH_USB_EXTERNAL_ID_PULLUP
+	select PANTECH_USB_TI_OTG_DISABLE_LOW_BATTERY
+endif
+
+if MACH_MSM8974_EF63L
+config DEFINE_LIST_EF63L
+        bool
+        default y
+        select PANTECH_CONSOLE_UART10
+        select ANDROID_PANTECH_USB_ABNORMAL_CHARGER_INFO
+        select PANTECH_SIO_TEMP
+        select PANTECH_SIO_BUG_FIX
+        select PANTECH_USB_DEBUG
+        select PANTECH_USB_STATE_DEBUG
+        select PANTECH_USB_BLOCKING_MDMSTATE
+        select PANTECH_USB_EXTERNAL_ID_PULLUP
+	select PANTECH_USB_TI_OTG_DISABLE_LOW_BATTERY
+endif
+
+
+comment "PANTECH USB Driver"
+
+config PANTECH_CONSOLE_UART1
+  bool
+
+config PANTECH_CONSOLE_UART10
+  bool
+  
+config ANDROID_PANTECH_USB
+  bool "PANTECH USB"
+  default y
+	 help
+     Support Pantech USB
+
+config ANDROID_PANTECH_USB_MANAGER
+  depends on ANDROID_PANTECH_USB
+  bool "PANTECH USB Manager"
+  default y
+  help
+     Support Pantech USB Manager
+
+config ANDROID_PANTECH_USB_CDFREE
+  depends on ANDROID_PANTECH_USB && (PANTECH_VERIZON || PANTECH_DOMESTIC)
+  bool "PANTECH USB Cdfree"
+  default y
+	 help
+     Support Pantech USB Cdfree 
+
+config ANDROID_PANTECH_USB_FACTORY_CABLE
+  depends on ANDROID_PANTECH_USB
+  bool "PANTECH USB FACTORY CABLE"
+  default y
+	 help
+     Support Pantech USB
+
+config ANDROID_PANTECH_USB_OTG
+  bool "PANTECH USB OTG"
+  default y
+	 help
+     Support Pantech USB OTG
+
+config ANDROID_PANTECH_USB_OTG_INTENT
+  depends on ANDROID_PANTECH_USB_OTG
+  bool "PANTECH USB OTG Intent"
+  default y
+	 help
+     Support Pantech USB OTG Intent
+
+config ANDROID_PANTECH_USB_OTG_CHARGER_SUSPEND
+  depends on ANDROID_PANTECH_USB
+  bool "PANTECH USB OTG Charger suspend"
+  default n
+	 help
+     Support Pantech USB OTG Intent
+
+config ANDROID_PANTECH_USB_ABNORMAL_CHARGER_INFO
+ depends on ANDROID_PANTECH_USB
+  bool "PANTECH USB Charger cable abnormal case"
+  default n
+	 help
+     Support Pantech USB
+
+config ANDROID_PANTECH_USB_SUPER_SPEED
+  depends on ANDROID_PANTECH_USB
+  bool "PANTECH USB SUPER SPEED DEVICE"
+  default n
+
+config PANTECH_SIO_BUG_FIX
+  depends on ANDROID_PANTECH_USB
+  bool "Debug feature for qualcomm bugs"
+  default n
+  
+config PANTECH_SIO_TEMP
+  depends on ANDROID_PANTECH_USB
+  bool "Temporary feature for development"
+  default n
+  
+config PANTECH_USB_DEBUG
+  depends on ANDROID_PANTECH_USB
+  bool "DWC3 core debug feature"
+  default n
+
+config PANTECH_USB_STATE_DEBUG
+  depends on ANDROID_PANTECH_USB
+  bool "DWC3 core debug feature"
+  default n
+ 
+config PANTECH_USB_BLOCKING_MDMSTATE
+  depends on ANDROID_PANTECH_USB
+  bool "Mobile device management code feature"
+  default n
+
+config PANTECH_USB_TUNE_SIGNALING_PARAM
+  depends on ANDROID_PANTECH_USB
+  bool "DWC3 core line signaling tune feature"
+  default y
+
+config PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY
+  depends on ANDROID_PANTECH_USB
+  bool "OTG device electrical source manage for SMB charger IC"
+  default n
+
+config PANTECH_USB_TI_OTG_DISABLE_LOW_BATTERY
+  depends on ANDROID_PANTECH_USB
+  bool "OTG device electrical source manage for TI charger IC"
+  default n
+
+config PANTECH_USB_REDRIVER_EN_CONTROL
+  depends on ANDROID_PANTECH_USB
+  bool "Redriver IC enable control for USB3 line"
+  default n
+  
+config PANTECH_USB_VER_SWITCH
+  depends on ANDROID_PANTECH_USB
+  bool "USB2 to USB3 dynamic change feature"
+  default n
+  
+config PANTECH_USB_EXTERNAL_ID_PULLUP
+  depends on ANDROID_PANTECH_USB
+  bool "Use external USB_ID pull-up without internal USB_ID"
+  default n
+  
+config PANTECH_USB_QXDM_ONOFF
+  depends on ANDROID_PANTECH_USB
+  bool "qxdm message on/off function"
+  default y
+
+config PANTECH_QUALCOMM_OTG_MODE_OVP_BUG
+  depends on ANDROID_PANTECH_USB
+  bool "OTG connection state setup for external charger IC"
+  default n
+
+endif

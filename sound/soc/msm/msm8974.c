@@ -121,7 +121,12 @@ static struct wcd9xxx_mbhc_config mbhc_cfg = {
 	.mclk_rate = TAIKO_EXT_CLK_RATE,
 	.gpio = 0,
 	.gpio_irq = 0,
-	.gpio_level_insert = 1,
+/* 2013-11-28 LS3@SND PANTECH will use NO plug type instead of NC(See the wcd9xxx_insert_detect_setup() of wcd9xxx-mbhc.c) */
+#ifdef CONFIG_PANTECH_SND
+	.gpio_level_insert = 0, // PANTECH HEADSET PLUG_TYPE(NO Type)
+#else /* QCOM_original */
+	.gpio_level_insert = 1, // QCOM HEADSET PLUG_TYPE(NC Type)
+#endif /* CONFIG_PANTECH_SND */
 	.detect_extn_cable = true,
 	.micbias_enable_flags = 1 << MBHC_MICBIAS_ENABLE_THRESHOLD_HEADSET,
 	.insert_detect = true,
@@ -728,6 +733,10 @@ static const struct soc_enum msm_btsco_enum[] = {
 	SOC_ENUM_SINGLE_EXT(2, btsco_rate_text),
 };
 
+#ifdef CONFIG_PANTECH_SND_BOOTUP_HEADSET_INFO
+static const char *headset_status_function[] = {"Get"};
+#endif
+
 static int slim0_rx_sample_rate_get(struct snd_kcontrol *kcontrol,
 	struct snd_ctl_elem_value *ucontrol)
 {
@@ -993,6 +1002,20 @@ static int hdmi_rx_sample_rate_put(struct snd_kcontrol *kcontrol,
 
 	return 0;
 }
+
+#ifdef CONFIG_PANTECH_SND_BOOTUP_HEADSET_INFO
+static int headset_status_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
+{
+	ucontrol->value.integer.value[0] = wcd9xxx_headsetJackStatusGet();
+	return 0;
+}
+
+static int headset_status_set(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
+{
+	pr_info("%s() %s\n", __func__, "This behaviour is not implemented");
+	return 0;
+}
+#endif /* CONFIG_PANTECH_SND_BOOTUP_HEADSET_INFO */
 
 static int msm_btsco_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
 					struct snd_pcm_hw_params *params)
@@ -1313,6 +1336,13 @@ static int msm_slim_0_tx_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
 			SNDRV_PCM_HW_PARAM_CHANNELS);
 
 	pr_debug("%s()\n", __func__);
+
+/* 2014-03-26 LS3@SND Recording failure after FLAC 24bit pause due to below patch of R2147A.3 */
+#if !defined(CONFIG_PANTECH_SND)
+	param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
+				   slim0_rx_bit_format);
+#endif
+
 	rate->min = rate->max = 48000;
 	channels->min = channels->max = msm_slim_0_tx_ch;
 
@@ -1399,6 +1429,9 @@ static const struct soc_enum msm_snd_enum[] = {
 	SOC_ENUM_SINGLE_EXT(3, slim0_rx_sample_rate_text),
 	SOC_ENUM_SINGLE_EXT(8, proxy_rx_ch_text),
 	SOC_ENUM_SINGLE_EXT(3, hdmi_rx_sample_rate_text),
+#ifdef CONFIG_PANTECH_SND_BOOTUP_HEADSET_INFO
+	SOC_ENUM_SINGLE_EXT(1, headset_status_function),
+#endif
 };
 
 static const struct snd_kcontrol_new msm_snd_controls[] = {
@@ -1691,7 +1724,11 @@ void *def_taiko_mbhc_cal(void)
 #undef S
 #define S(X, Y) ((WCD9XXX_MBHC_CAL_PLUG_TYPE_PTR(taiko_cal)->X) = (Y))
 	S(v_no_mic, 30);
+#ifdef CONFIG_PANTECH_SND
+	S(v_hs_max, 2900); // 2013-11-29 LS3@SND H/W tuning value for 2.7V Micbias
+#else /* QCOM_original */
 	S(v_hs_max, 2400);
+#endif /* CONFIG_PANTECH_SND */
 #undef S
 #define S(X, Y) ((WCD9XXX_MBHC_CAL_BTN_DET_PTR(taiko_cal)->X) = (Y))
 	S(c[0], 62);
@@ -1709,6 +1746,24 @@ void *def_taiko_mbhc_cal(void)
 	btn_low = wcd9xxx_mbhc_cal_btn_det_mp(btn_cfg, MBHC_BTN_DET_V_BTN_LOW);
 	btn_high = wcd9xxx_mbhc_cal_btn_det_mp(btn_cfg,
 					       MBHC_BTN_DET_V_BTN_HIGH);
+#ifdef CONFIG_PANTECH_SND
+	btn_low[0] = -50;
+	btn_high[0] = 180;
+	btn_low[1] = 181;
+	btn_high[1] = 320;
+	btn_low[2] = 370;
+	btn_high[2] = 520;
+	btn_low[3] = 530;
+	btn_high[3] = 530;
+	btn_low[4] = 530;
+	btn_high[4] = 530;
+	btn_low[5] = 530;
+	btn_high[5] = 530;
+	btn_low[6] = 530;
+	btn_high[6] = 530;
+	btn_low[7] = 530;
+	btn_high[7] = 530;
+#else /* QCOM_original */
 	btn_low[0] = -50;
 	btn_high[0] = 20;
 	btn_low[1] = 21;
@@ -1725,6 +1780,7 @@ void *def_taiko_mbhc_cal(void)
 	btn_high[6] = 269;
 	btn_low[7] = 270;
 	btn_high[7] = 500;
+#endif /* CONFIG_PANTECH_SND */
 	n_ready = wcd9xxx_mbhc_cal_btn_det_mp(btn_cfg, MBHC_BTN_DET_N_READY);
 	n_ready[0] = 80;
 	n_ready[1] = 68;

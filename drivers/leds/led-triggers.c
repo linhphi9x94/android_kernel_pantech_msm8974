@@ -59,6 +59,12 @@ ssize_t led_trigger_store(struct device *dev, struct device_attribute *attr,
 			up_write(&led_cdev->trigger_lock);
 
 			up_read(&triggers_list_lock);
+
+//++ p11309 - 2013.12.01 for LED Trigger Debug
+			LED_TRIG_DBG("%s, led device= %s, level= %d\n", __func__, 
+				trig->name, led_cdev->brightness);
+//-- p11309
+
 			return count;
 		}
 	}
@@ -184,6 +190,11 @@ int led_trigger_register(struct led_trigger *trigger)
 	}
 	up_read(&leds_list_lock);
 
+//++ p11309 - 2013.12.01 for LED Trigger Debug
+	printk("[+++ LED trigger] Registered trigger name: %s\n",
+		trigger->name);
+//-- p11309
+
 	return 0;
 }
 EXPORT_SYMBOL_GPL(led_trigger_register);
@@ -227,6 +238,11 @@ void led_trigger_event(struct led_trigger *trigger,
 		led_set_brightness(led_cdev, brightness);
 	}
 	read_unlock(&trigger->leddev_list_lock);
+
+//++ p11309 - 2013.12.01 for LED Trigger Debug
+	LED_TRIG_DBG("%s, led device= %s, level= %d\n", __func__, 
+		trigger->name, brightness);
+//-- p11309
 }
 EXPORT_SYMBOL_GPL(led_trigger_event);
 

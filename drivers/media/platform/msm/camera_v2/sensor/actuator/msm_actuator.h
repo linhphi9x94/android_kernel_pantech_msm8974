@@ -19,6 +19,22 @@
 #include <media/msmb_camera.h>
 #include "msm_camera_i2c.h"
 
+#ifdef CONFIG_PANTECH_CAMERA
+
+#if defined(CONFIG_PANTECH_CAMERA_EF56_SS) || defined(CONFIG_PANTECH_CAMERA_EF59_SS) || defined(CONFIG_PANTECH_CAMERA_EF60_SS) || (defined(CONFIG_PANTECH_CAMERA_EF63_SS) && (CONFIG_BOARD_VER < CONFIG_WS10))
+#ifndef CONFIG_PANTECH_CAMERA_ACT_WV560
+#define CONFIG_PANTECH_CAMERA_ACT_WV560
+#endif
+#endif
+
+#if (defined(CONFIG_PANTECH_CAMERA_EF63_SS) && (CONFIG_BOARD_VER > CONFIG_PT10)) || defined(CONFIG_PANTECH_CAMERA_EF65_SS)
+#ifndef CONFIG_PANTECH_CAMERA_RUMBA_SA
+#define CONFIG_PANTECH_CAMERA_RUMBA_SA
+#endif
+#endif
+
+#endif
+
 #define DEFINE_MSM_MUTEX(mutexname) \
 	static struct mutex mutexname = __MUTEX_INITIALIZER(mutexname)
 
@@ -45,6 +61,9 @@ struct msm_actuator_func_tbl {
 			int16_t);
 	int32_t (*actuator_set_position)(struct msm_actuator_ctrl_t *,
 		struct msm_actuator_set_position_t *);
+#ifdef CONFIG_PANTECH_CAMERA//F_PANTECH_CAMERA_ADD_RESET_FOCUS
+    int32_t (*actuator_sw_landing)(struct msm_actuator_ctrl_t *);
+#endif
 };
 
 struct msm_actuator {

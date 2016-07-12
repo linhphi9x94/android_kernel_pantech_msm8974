@@ -89,6 +89,13 @@
 	};
 };
 
+/* add by p11219, In order to solve the issue of single bit error*/
+&gdsc_venus {
+	qcom,skip-logic-collapse;
+	qcom,retain-periph;
+	qcom,retain-mem;
+};
+
 &gdsc_mdss {
 	qcom,retain-periph;
 	qcom,retain-mem;

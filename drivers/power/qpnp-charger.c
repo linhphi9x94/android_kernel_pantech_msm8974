@@ -33,6 +33,89 @@
 #include <linux/android_alarm.h>
 #include <linux/spinlock.h>
 
+#if defined(CONFIG_PANTECH_PMIC_MONITOR_TEST)
+#include <linux/proc_fs.h>
+#include <linux/uaccess.h>
+#include <linux/miscdevice.h>
+#endif /* CONFIG_PANTECH_PMIC_MONITOR_TEST */
+
+#ifdef CONFIG_PANTECH_PMIC_BMS_TEST
+#include <linux/input.h>
+#endif /* CONFIG_PANTECH_PMIC_BMS_TEST */
+
+#if defined(CONFIG_PANTECH_PMIC_BATTERY_CHARGING_DISCHARGING_TEST) || defined(CONFIG_PANTECH_PMIC_MONITOR_TEST)
+#include <linux/types.h>
+#include <linux/ioctl.h>
+#endif /* CONFIG_PANTECH_PMIC_BATTERY_CHARGING_DISCHARGING_TEST || CONFIG_PANTECH_PMIC_MONITOR_TEST */
+
+#if defined(CONFIG_PANTECH_PMIC_POWER_ON_OFF_TEST) // 20130524. MKS.
+#include <linux/input.h>
+#include <linux/time.h>
+#endif /* CONFIG_PANTECH_PMIC_POWER_ON_OFF_TEST */
+
+#include <mach/msm_smsm.h>
+#include <linux/power/max17058_battery_pantech.h>
+
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349)
+#include <linux/power/smb349_charger_pantech.h>
+#endif /* CONFIG_PANTECH_PMIC_CHARGER_SMB349 */
+
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+#include <linux/power/smb347_charger_pantech.h>
+#endif /* CONFIG_PANTECH_PMIC_CHARGER_SMB347 */
+
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+#include <mach/restart.h>
+#if defined(CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND)
+#include <linux/gpio.h>
+#include <mach/gpiomux.h>
+#endif /* CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND */
+
+//20130610 djjeon PMIC  10% offline charging  Auto power on
+#ifdef CONFIG_PANTECH_PMIC_AUTO_PWR_ON
+#include <linux/reboot.h>
+#include <linux/fs.h>
+#include <linux/file.h>
+#include <asm/uaccess.h>
+#include <linux/workqueue.h>
+#endif /* CONFIG_PANTECH_PMIC_AUTO_PWR_ON */
+
+#ifdef CONFIG_PANTECH_PMIC_ABNORMAL
+#include <linux/power/qpnp-charger.h>
+#endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
+
+#ifdef CONFIG_PANTECH_PMIC_CHARGER_SMB347
+extern struct _smb347_external smb_data_ext;
+#else
+extern struct _smb349_external smb_data_ext;
+#endif
+extern void smb349_current_set(int cable_type, int current_ma);
+extern void smb349_current_jeita(int mode, int cable_type);
+extern int is_temp_state_changed(int* state, int64_t temp);
+extern void smb349_charging_enable(bool enable);
+#if defined(CONFIG_PANTECH_PMIC_EOC) || defined(CONFIG_PANTECH_PMIC_BMS_TEST)
+extern int max17058_FG_SOC(void);
+#endif /* CONFIG_PANTECH_PMIC_EOC || CONFIG_PANTECH_PMIC_BMS_TEST */
+#endif /* CONFIG_PANTECH_PMIC_CHARGER_SMB349 || CONFIG_PANTECH_PMIC_CHARGER_SMB347 */
+
+#if defined(CONFIG_PANTECH_PMIC_CHARGE_LIMIT_WITH_LCD)
+extern int  offline_boot_ok, boot_lcd_cnt;
+#endif /* CONFIG_PANTECH_PMIC_CHARGE_LIMIT_WITH_LCD */
+
+#if defined(CONFIG_MACH_MSM8974_EF56S)
+#define OFFLINE_CHARGING_STABLE_NUM 4
+
+int offline_charging_count_ok = 0;
+bool offline_charging_current_set_ok = false;
+#endif
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+static int check_tmep_num = 0;
+#endif
+
+#ifdef CONFIG_PANTECH_QUALCOMM_OTG_MODE_OVP_BUG
+static int is_pantech_host_mode = 0;
+#endif /* CONFIG_PANTECH_QUALCOMM_OTG_MODE_OVP_BUG */
+
 /* Interrupt offsets */
 #define INT_RT_STS(base)			(base + 0x10)
 #define INT_SET_TYPE(base)			(base + 0x11)
@@ -214,6 +297,16 @@
 #define BOOST_FLASH_WA			BIT(1)
 #define POWER_STAGE_WA			BIT(2)
 
+/* 
+ * This definition is for pantech device
+ * If you want to add other definition, write it here.
+ */
+/* Peripheral register offsets */
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+#define CHGR_BAT_IF_PRES_CTRL         0x48
+#define CHGR_BAT_IF_BTC_CTRL           0x49
+#endif
+
 struct qpnp_chg_irq {
 	int		irq;
 	unsigned long		disabled;
@@ -224,6 +317,32 @@ struct qpnp_chg_regulator {
 	struct regulator_dev			*rdev;
 };
 
+#if defined(CONFIG_PANTECH_PMIC_BATTERY_CHARGING_DISCHARGING_TEST) || defined(CONFIG_PANTECH_PMIC_MONITOR_TEST)
+#define PM8941_CHARER_IOCTL_MAGIC 'p'
+
+#if defined(CONFIG_PANTECH_PMIC_BATTERY_CHARGING_DISCHARGING_TEST)
+#define PM8941_CHARER_TEST_SET_CHARING_CTL        _IOW(PM8941_CHARER_IOCTL_MAGIC, 1, unsigned)
+#define PM8941_CHARER_TEST_GET_CHARING_CTL        _IOW(PM8941_CHARER_IOCTL_MAGIC, 2, unsigned)
+#endif /* CONFIG_PANTECH_PMIC_BATTERY_CHARGING_DISCHARGING_TEST */
+
+// todo, FEATURE_AARM_RELEASE_MODE will be rename.
+#if !defined(FEATURE_AARM_RELEASE_MODE)
+#define CONFIG_PANTECH_USED_ALL_OTHER_WRITABLE_FILES
+#endif /* FEATURE_AARM_RELEASE_MODE */
+
+#if defined(CONFIG_PANTECH_PMIC_MONITOR_TEST)
+#define PM8941_CHARGER_TEST_SET_PM_CHG_TEST	_IOW(PM8941_CHARER_IOCTL_MAGIC, 3, unsigned)
+#define PM8941_CHARGER_TEST_CHARGING_SETTING	_IOW(PM8941_CHARER_IOCTL_MAGIC, 4, unsigned)
+extern void otg_detect_control_test(int on);
+#endif /* CONFIG_PANTECH_PMIC_MONITOR_TEST */
+#endif /* CONFIG_PANTECH_BATTERY_CHARING_DISCHARING_TEST || CONFIG_PANTECH_CHARGER_MONITOR_TEST */
+
+#ifdef CONFIG_PANTECH_PMIC_DISABLE_REPETITION_OF_SYSOK
+static int usbin_irq_count = 0;
+#endif
+#if defined(CONFIG_PANTECH_PMIC_DISABLE_REPETITION_OF_SYSOK) || defined(CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND)
+static bool is_sysok_used = true;
+#endif
 /**
  * struct qpnp_chg_chip - device information
  * @dev:			device pointer to access the parent
@@ -273,6 +392,7 @@ struct qpnp_chg_regulator {
  * @bms_psy			power supply to export information to userspace
  * @batt_psy:			power supply to export information to userspace
  * @flags:			flags to activate specific workarounds
+ * @update_psy_change:	call power_supply_chaged() every 30sec 
  *				throughout the driver
  *
  */
@@ -361,6 +481,10 @@ struct qpnp_chg_chip {
 	struct delayed_work		arb_stop_work;
 	struct delayed_work		eoc_work;
 	struct delayed_work		usbin_health_check;
+#ifdef CONFIG_PANTECH_PMIC_DISABLE_REPETITION_OF_SYSOK
+	struct delayed_work		usbin_irq_check_work;
+	struct delayed_work		usbin_irq_count_work;
+#endif
 	struct work_struct		soc_check_work;
 	struct delayed_work		aicl_check_work;
 	struct work_struct		insertion_ocv_work;
@@ -379,6 +503,41 @@ struct qpnp_chg_chip {
 	struct work_struct		reduce_power_stage_work;
 	bool				power_stage_workaround_running;
 	bool				power_stage_workaround_enable;
+#if defined(CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND)
+	struct qpnp_chg_irq		sysok_valid;
+	struct delayed_work		sysok_work;
+#endif
+#if defined(CONFIG_PANTECH_PMIC_PHYSICAL_DROP)
+	struct delayed_work		drop_work;
+#endif
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+	int battery_id_adc; 
+#if defined(CONFIG_PANTECH_PMIC_EOC)
+	bool end_recharing;
+#endif 
+#endif 
+#ifdef CONFIG_PANTECH_PMIC_BMS_TEST
+	int current_uvolt;
+	int current_temp;
+	int soc;
+	int charge_output_voltage;		//20130521 djjeon, powerlog add ICHG
+#endif /* CONFIG_PANTECH_PMIC_BMS_TEST */
+#if defined(CONFIG_PANTECH_PMIC_MONITOR_TEST)
+	bool pm_chg_test;
+	u64 cable_adc;
+	bool charging_setting;//+++ 20130806, P14787, djjeon, charging setting stability test
+#endif
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+    struct delayed_work		update_heartbeat_work;
+    struct wake_lock		    smb349_cable_wake_lock;
+    int update_psy_change;	
+#endif
+#ifdef CONFIG_PANTECH_PMIC_ABNORMAL
+    int nonstandard_state;
+    struct work_struct		update_abnormal_wq_excutor;
+    struct workqueue_struct *update_abnormal_wq;
+    struct delayed_work		update_abnormal_delayed_work;
+#endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
 };
 
 
@@ -439,6 +598,128 @@ is_within_range(int value, int left, int right)
 		return 1;
 	return 0;
 }
+
+#if defined(CONFIG_QPNP_CHARGER)
+struct qpnp_chg_chip *the_qpnp_chip;
+//static int pm_hw_init_flag = 0; 
+#endif
+
+#ifdef CONFIG_PANTECH_PMIC_BMS_TEST
+static struct input_dev *bms_input_dev;
+static struct platform_device *bms_input_attr_dev;
+static atomic_t bms_input_flag;
+static atomic_t bms_cutoff_flag;
+#endif /* CONFIG_PANTECH_PMIC_BMS_TEST */
+
+#if defined(CONFIG_PANTECH_PMIC_MONITOR_TEST)
+struct proc_dir_entry *pm8941_charger_dir;
+#endif
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+static int64_t batt_temp = -100;
+#endif
+
+#if defined(CONFIG_PANTECH_PMIC_CHARGE_LIMIT_WITH_TSENSOR)
+extern int t_sensor_value(void);
+extern void smb349_t_sense_limit(int mode);
+#endif
+
+#if defined (CONFIG_PANTECH_USB_BLOCKING_MDMSTATE)
+extern void get_mdm_state(char *mdm_state);
+#endif
+
+#ifdef CONFIG_PANTECH_PMIC_POWER_ON_OFF_TEST
+struct pmic_pwrkey_emulation {
+	struct input_dev *pwr;
+	struct delayed_work power_key_emulation_work;
+};
+
+static struct pmic_pwrkey_emulation *pwr_test;
+static struct kobject *kobj_pwr_test;
+static int pwr_on_trigger;
+static u32 pwrkey_delay_ms;
+static bool is_offline_charging_mode;
+static int power_worker_count=0;
+#endif /* CONFIG_PANTECH_PMIC_POWER_ON_OFF_TEST */
+
+static int charger_probe = 0;
+
+#ifdef CONFIG_PANTECH_PMIC_ABNORMAL
+extern int composite_get_udc_state(char *udc_state);
+
+#ifdef CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND 
+#define  SC_SYSOK  5
+static struct gpiomux_setting sc_sysok_sleep_config = {
+	.func = GPIOMUX_FUNC_GPIO,
+	.drv = GPIOMUX_DRV_2MA,
+	.pull = GPIOMUX_PULL_NONE,
+	.dir = GPIOMUX_IN,
+};
+static struct gpiomux_setting sc_sysok_active_config = {
+	.func = GPIOMUX_FUNC_GPIO,
+	.drv = GPIOMUX_DRV_2MA,
+	.pull = GPIOMUX_PULL_NONE ,
+	.dir = GPIOMUX_IN,
+};
+
+static struct msm_gpiomux_config sc_sysok = {
+	.gpio = SC_SYSOK,
+	.settings = {
+		[GPIOMUX_ACTIVE]    = &sc_sysok_active_config,
+		[GPIOMUX_SUSPENDED] = &sc_sysok_sleep_config,
+	},
+};
+#endif /* CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND */
+#endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
+
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+#if (defined(CONFIG_MACH_MSM8974_EF56S) || defined(CONFIG_MACH_MSM8974_EF57K) || defined(CONFIG_MACH_MSM8974_EF58L))&& (CONFIG_BOARD_VER <= CONFIG_WS20) 
+#define FACTORY_DUMMY_ID_MIN  1310
+#define FACTORY_DUMMY_ID_MAX 1420
+#elif defined(CONFIG_MACH_MSM8974_EF56S) || defined(CONFIG_MACH_MSM8974_EF57K) || defined(CONFIG_MACH_MSM8974_EF58L) || defined(CONFIG_MACH_MSM8974_EF59S) ||  defined(CONFIG_MACH_MSM8974_EF59K) || defined(CONFIG_MACH_MSM8974_EF59L) || defined(CONFIG_MACH_MSM8974_EF60S) || defined(CONFIG_MACH_MSM8974_EF65S) || defined(CONFIG_MACH_MSM8974_EF61K) || defined(CONFIG_MACH_MSM8974_EF62L)
+#define FACTORY_DUMMY_ID_MIN  930
+#define FACTORY_DUMMY_ID_MAX 1230
+#endif
+static int get_battery_id_adc(void)
+{
+	int64_t rc;
+	int battery_id_adc;
+	struct qpnp_vadc_result results;
+
+	if (!the_qpnp_chip) {
+		pr_err("%s: the_chip is NULL\n", __func__);
+		return 0;
+	}
+
+    rc = qpnp_vadc_read(the_qpnp_chip->vadc_dev, LR_MUX2_BAT_ID, &results); 
+    battery_id_adc = results.physical;
+
+    pr_info("%s: results.physica %d\n", __func__, battery_id_adc/1000);
+
+    return battery_id_adc / 1000;
+
+}
+
+int is_fatctory_dummy_connect(void)
+{
+	int factory_check = 0;
+
+	// Added CODE (by skkim p14200@LS1)
+	if (!the_qpnp_chip) {
+		pr_err("%s: the_chip is NULL\n", __func__);
+		return 0;
+	}
+
+	if ((the_qpnp_chip->battery_id_adc > FACTORY_DUMMY_ID_MIN) && (the_qpnp_chip->battery_id_adc  < FACTORY_DUMMY_ID_MAX)){
+       	factory_check = 1;
+		pr_debug("factory dummy connected\n");
+	}
+	smb_data_ext.is_factory_dummy = factory_check;
+	
+	return factory_check;
+
+}
+EXPORT_SYMBOL_GPL(is_fatctory_dummy_connect);
+#endif
 
 static int
 qpnp_chg_read(struct qpnp_chg_chip *chip, u8 *val,
@@ -594,6 +875,11 @@ qpnp_chg_is_batt_present(struct qpnp_chg_chip *chip)
 	u8 batt_pres_rt_sts;
 	int rc;
 
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+	if(is_fatctory_dummy_connect())
+		return 1;
+#endif
+
 	rc = qpnp_chg_read(chip, &batt_pres_rt_sts,
 				 INT_RT_STS(chip->bat_if_base), 1);
 	if (rc) {
@@ -622,9 +908,56 @@ qpnp_chg_is_batfet_closed(struct qpnp_chg_chip *chip)
 	return (batfet_closed_rt_sts & BAT_FET_ON_IRQ) ? 1 : 0;
 }
 
+// added by skkim (p14200@LS1;2012.08.27)
+#if defined(CONFIG_PANTECH_PMIC_PHYSICAL_DROP)
+static int
+qpnp_chg_is_temp_present(struct qpnp_chg_chip *chip)
+{
+	u8 temp_pres_rt_sts;
+	int rc;
+	
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+	if(is_fatctory_dummy_connect()) {
+		return 1;
+	}
+#endif
+	rc = qpnp_chg_read(chip, &temp_pres_rt_sts,
+				chip->bat_if_base + CHGR_BAT_IF_PRES_STATUS, 1);
+	if (rc) {
+		pr_err("spmi read failed: addr=%03X, rc=%d\n",
+				INT_RT_STS(chip->bat_if_base), rc);
+		return rc;
+	}
+	return (int) temp_pres_rt_sts;
+}
+#endif
+
 #define USB_VALID_BIT	BIT(7)
 static int
 qpnp_chg_is_usb_chg_plugged_in(struct qpnp_chg_chip *chip)
+{
+#if defined(CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND)
+	return gpio_get_value(SC_SYSOK) == 0 ? 1 : 0;
+#else
+	u8 usbin_valid_rt_sts;
+	int rc;
+
+	rc = qpnp_chg_read(chip, &usbin_valid_rt_sts,
+				 chip->usb_chgpth_base + CHGR_STATUS , 1);
+
+	if (rc) {
+		pr_err("spmi read failed: addr=%03X, rc=%d\n",
+				chip->usb_chgpth_base + CHGR_STATUS, rc);
+		return rc;
+	}
+	pr_debug("chgr usb sts 0x%x\n", usbin_valid_rt_sts);
+
+	return (usbin_valid_rt_sts & USB_VALID_BIT) ? 1 : 0;
+#endif
+}
+#if defined(CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND)
+static int
+qpnp_chg_is_usb_valid_plugged_in(struct qpnp_chg_chip *chip)
 {
 	u8 usbin_valid_rt_sts;
 	int rc;
@@ -641,6 +974,7 @@ qpnp_chg_is_usb_chg_plugged_in(struct qpnp_chg_chip *chip)
 
 	return (usbin_valid_rt_sts & USB_VALID_BIT) ? 1 : 0;
 }
+#endif
 
 static bool
 qpnp_chg_is_ibat_loop_active(struct qpnp_chg_chip *chip)
@@ -834,8 +1168,24 @@ qpnp_chg_iusbmax_set(struct qpnp_chg_chip *chip, int mA)
 	int rc = 0;
 	u8 usb_reg = 0, temp = 8;
 
+#if 0//defined(CONFIG_PANTECH_BMS_TEST)	// for TEST (p14200@LS1)
+	int enable, soc=-1;
+#endif
+
+#if defined(CONFIG_QPNP_CHARGER)
+    if( mA > 1000 ) {
+#if (defined(CONFIG_MACH_MSM8974_EF59S) ||  defined(CONFIG_MACH_MSM8974_EF59K) || defined(CONFIG_MACH_MSM8974_EF59L)) && (CONFIG_BOARD_VER >= CONFIG_TP10)
+        mA = 1800 ;
+#else
+        mA = 2000 ;
+#endif
+    }
+    the_qpnp_chip->maxinput_usb_ma = mA;
+    pr_debug("%s: maxinput_usb_ma=%d (%ps)\n", __func__, the_qpnp_chip->maxinput_usb_ma, __builtin_return_address(0));
+#endif
+
 	if (mA < 0 || mA > QPNP_CHG_I_MAX_MAX_MA) {
-		pr_err("bad mA=%d asked to set\n", mA);
+		pr_debug("bad mA=%d asked to set (%ps)\n", mA, __builtin_return_address(0));
 		return -EINVAL;
 	}
 
@@ -1141,6 +1491,88 @@ qpnp_bat_if_adc_measure_work(struct work_struct *work)
 		pr_err("request ADC error\n");
 }
 
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+static int qpnp_get_cable_type(void)
+{	
+    union power_supply_propval ret = {0,};
+    the_qpnp_chip->usb_psy->get_property(the_qpnp_chip->usb_psy,
+                                         POWER_SUPPLY_PROP_TYPE, &ret);
+    
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349)
+    smb_data_ext.is_CDP = 0;
+#endif	
+    
+#ifdef CONFIG_PANTECH_PMIC_ABNORMAL
+    if((qpnp_chg_get_nonstandard_state() == NONSTANDARD_WORKING)
+       && (ret.intval == POWER_SUPPLY_TYPE_USB_DCP))
+        ret.intval = POWER_SUPPLY_TYPE_USB;
+#endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
+
+    switch(ret.intval) {
+    case POWER_SUPPLY_TYPE_USB:
+        return PANTECH_USB;
+    case POWER_SUPPLY_TYPE_USB_CDP:
+#ifdef CONFIG_PANTECH_PMIC_CHARGER_SMB349
+        smb_data_ext.is_CDP = 1;
+#endif /* CONFIG_PANTECH_PMIC_CHARGER_SMB349 */
+    case POWER_SUPPLY_TYPE_USB_DCP:
+        return PANTECH_AC;
+    }
+
+    return PANTECH_CABLE_NONE;
+}
+
+static void qpnp_set_cable_type(int type)
+{	
+    union power_supply_propval ret = {type,};
+    the_qpnp_chip->usb_psy->set_property(the_qpnp_chip->usb_psy,
+                                         POWER_SUPPLY_PROP_TYPE, &ret);
+}
+
+void smb349_mode_setting(void)
+{
+    if(qpnp_get_cable_type() == PANTECH_USB)
+        smb349_write_reg(0x31,0x02); //usb mode
+    else
+        smb349_write_reg(0x31,0x01); //hc mode
+}
+#endif
+
+#if defined(CONFIG_PANTECH_PMIC_PHYSICAL_DROP)
+static void
+qpnp_bat_if_drop_work(struct work_struct *work)
+{
+    struct delayed_work *dwork = to_delayed_work(work);
+    struct qpnp_chg_chip *chip = container_of(dwork,
+                                              struct qpnp_chg_chip, drop_work);
+    int batt_present, temp_present;
+
+    batt_present = qpnp_chg_is_batt_present(chip);
+    pr_info("%s: [DROP] batt-pres : %d\n", __func__, batt_present);
+    temp_present = qpnp_chg_is_temp_present(chip);
+    pr_info("%s: [DROP] temp-pres : %d\n", __func__, temp_present);
+
+    if (chip->batt_present ^ batt_present) {
+        pr_info("%s: [DEBUG;drop_wrok] (chip->batt_present ^ batt_present) IN\n", __func__);
+        chip->batt_present = batt_present;
+        power_supply_changed(&chip->batt_psy);
+        power_supply_changed(chip->usb_psy);
+
+        if (chip->cool_bat_decidegc && chip->warm_bat_decidegc
+            && batt_present) {
+            schedule_work(&chip->adc_measure_work);
+        }
+    }
+
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+    if (!temp_present) {
+        pr_info("%s: msm_restart#2 batt_present %d\n", __func__, chip->batt_present);
+        msm_restart(0xC9,0);
+    }
+#endif
+}
+#endif
+
 static void
 qpnp_bat_if_adc_disable_work(struct work_struct *work)
 {
@@ -1172,6 +1604,7 @@ qpnp_chg_vbatdet_lo_irq_handler(int irq, void *_chip)
 	}
 	qpnp_chg_disable_irq(&chip->chg_vbatdet_lo);
 
+#if 0 // 20130813, djjeon, TA cable disconnect problem.(offline charging)
 	pr_debug("psy changed usb_psy\n");
 	power_supply_changed(chip->usb_psy);
 	if (chip->dc_chgpth_base) {
@@ -1182,9 +1615,12 @@ qpnp_chg_vbatdet_lo_irq_handler(int irq, void *_chip)
 		pr_debug("psy changed batt_psy\n");
 		power_supply_changed(&chip->batt_psy);
 	}
+#endif
+
 	return IRQ_HANDLED;
 }
 
+#if 0
 #define ARB_STOP_WORK_MS	1000
 static irqreturn_t
 qpnp_chg_usb_chg_gone_irq_handler(int irq, void *_chip)
@@ -1210,6 +1646,7 @@ qpnp_chg_usb_chg_gone_irq_handler(int irq, void *_chip)
 
 	return IRQ_HANDLED;
 }
+#endif
 
 static irqreturn_t
 qpnp_chg_usb_usb_ocp_irq_handler(int irq, void *_chip)
@@ -1440,11 +1877,17 @@ qpnp_chg_usb_usbin_valid_irq_handler(int irq, void *_chip)
 	struct qpnp_chg_chip *chip = _chip;
 	int usb_present, host_mode, usbin_health;
 	u8 psy_health_sts;
-
+	
+#if defined(CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND)
+	usb_present = qpnp_chg_is_usb_valid_plugged_in(chip);
+#else
 	usb_present = qpnp_chg_is_usb_chg_plugged_in(chip);
+#endif
+
 	host_mode = qpnp_chg_is_otg_en_set(chip);
-	pr_debug("usbin-valid triggered: %d host_mode: %d\n",
-		usb_present, host_mode);
+	
+	pr_info("%s: usbin-valid triggered: %d host_mode: %d chip->usb_present [%d]\n", __func__,
+		usb_present, host_mode, chip->usb_present );
 
 	/* In host mode notifications cmoe from USB supply */
 	if (host_mode)
@@ -1514,8 +1957,23 @@ qpnp_chg_usb_usbin_valid_irq_handler(int irq, void *_chip)
 		}
 
 		power_supply_set_present(chip->usb_psy, chip->usb_present);
+
+		// 20130813, djjeon, TA cable disconnect problem.(offline charging)
+		if (chip->dc_chgpth_base)
+			power_supply_changed(&chip->dc_psy);
+
+#ifdef CONFIG_PANTECH_PMIC_ABNORMAL
+        queue_work(the_qpnp_chip->update_abnormal_wq, &the_qpnp_chip->update_abnormal_wq_excutor);
+#endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
 		schedule_work(&chip->batfet_lcl_work);
 	}
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+    if( chip->usb_present) {
+        wake_lock(&chip->smb349_cable_wake_lock);
+    } else { 
+        wake_unlock(&chip->smb349_cable_wake_lock);
+    }
+#endif 
 
 	return IRQ_HANDLED;
 }
@@ -1559,9 +2017,17 @@ qpnp_chg_bat_if_batt_pres_irq_handler(int irq, void *_chip)
 {
 	struct qpnp_chg_chip *chip = _chip;
 	int batt_present;
+#if defined(CONFIG_PANTECH_PMIC_PHYSICAL_DROP)	
+	int temp_present;
+#endif
 
 	batt_present = qpnp_chg_is_batt_present(chip);
 	pr_debug("batt-pres triggered: %d\n", batt_present);
+	
+#if defined(CONFIG_PANTECH_PMIC_PHYSICAL_DROP)
+	temp_present = qpnp_chg_is_temp_present(chip);
+	pr_debug("temp-pres : %d\n", temp_present);
+#endif
 
 	if (chip->batt_present ^ batt_present) {
 		if (batt_present) {
@@ -1586,6 +2052,23 @@ qpnp_chg_bat_if_batt_pres_irq_handler(int irq, void *_chip)
 			pr_debug("disabling vadc notifications\n");
 		}
 	}
+#if defined(CONFIG_PANTECH_PMIC_PHYSICAL_DROP)
+    if (!batt_present) {
+        pr_debug("%s: [DEBUG] TEST CODE - DROP WORK schedule Setting\n", __func__);
+        schedule_delayed_work(&chip->drop_work, round_jiffies_relative(msecs_to_jiffies(1000)) );	
+    }
+#endif
+
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+#if defined(CONFIG_PANTECH_PMIC_PHYSICAL_DROP)
+    if(!temp_present) {
+#else
+    if(!chip->batt_present) {
+#endif
+        pr_err("msm_restart#1 batt_present %d\n", chip->batt_present);
+        msm_restart(0xC9,0);	
+    }
+#endif
 
 	return IRQ_HANDLED;
 }
@@ -1887,6 +2370,7 @@ qpnp_power_get_property_mains(struct power_supply *psy,
 {
 	struct qpnp_chg_chip *chip = container_of(psy, struct qpnp_chg_chip,
 								dc_psy);
+	union power_supply_propval ret = {0,};	//djjeon 0709 add
 
 	switch (psp) {
 	case POWER_SUPPLY_PROP_PRESENT:
@@ -1894,8 +2378,16 @@ qpnp_power_get_property_mains(struct power_supply *psy,
 		val->intval = 0;
 		if (chip->charging_disabled)
 			return 0;
-
+#if 0
+		//20130710, P14787, delete
 		val->intval = qpnp_chg_is_dc_chg_plugged_in(chip);
+#else
+		//20130710, P14787, usbOnline update only DCP , CDP
+		chip->usb_psy->get_property(chip->usb_psy,
+                          POWER_SUPPLY_PROP_TYPE, &ret);	
+		if(ret.intval == POWER_SUPPLY_TYPE_USB_DCP || ret.intval == POWER_SUPPLY_TYPE_USB_CDP)
+			val->intval = qpnp_chg_is_usb_chg_plugged_in(chip);
+#endif
 		break;
 	case POWER_SUPPLY_PROP_CURRENT_MAX:
 		val->intval = chip->maxinput_dc_ma * 1000;
@@ -1931,6 +2423,9 @@ qpnp_aicl_check_work(struct work_struct *work)
 static int
 get_prop_battery_voltage_now(struct qpnp_chg_chip *chip)
 {
+#if defined(CONFIG_PANTECH_PMIC_FUELGAUGE_MAX17058)
+	return max17058_get_voltage();  
+#else
 	int rc = 0;
 	struct qpnp_vadc_result results;
 
@@ -1945,6 +2440,7 @@ get_prop_battery_voltage_now(struct qpnp_chg_chip *chip)
 		}
 		return results.physical;
 	}
+#endif
 }
 
 #define BATT_PRES_BIT BIT(7)
@@ -1963,6 +2459,57 @@ get_prop_batt_present(struct qpnp_chg_chip *chip)
 	return (batt_present & BATT_PRES_BIT) ? 1 : 0;
 }
 
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+
+#if 1 // (defined(CONFIG_MACH_MSM8974_EF56S) && (CONFIG_BOARD_VER < CONFIG_TP10))
+static int set_prop_batt_present_ctrl(struct qpnp_chg_chip *chip)
+{
+    int rc;
+    u8 temp;
+
+    temp = 0x09;
+    rc = qpnp_chg_write(chip, &temp,
+                        chip->bat_if_base + CHGR_BAT_IF_PRES_CTRL, 1);
+    if (rc) {
+        pr_err("Couldn't write battery pres ctrl write failed rc=%d\n", rc);
+        return 0;
+    };
+
+    return 0;
+}
+#endif
+static int set_prop_batt_btc_ctrl(struct qpnp_chg_chip *chip)
+{
+       int rc;
+	u8 reg;
+
+	rc = qpnp_chg_read(chip, &reg, chip->bat_if_base, 1);
+	if (rc) {
+		pr_err("spmi read failed: addr=%03X, rc=%d\n", chip->bat_if_base, rc);
+		return rc;
+	}
+	pr_debug("%s: addr = 0x%x read 0x%x\n", __func__, chip->bat_if_base, reg);
+
+	reg = reg & 0x7f;
+
+	pr_debug("%s: Writing 0x%x\n", __func__, reg);
+	
+	rc = qpnp_chg_write(chip, &reg,
+		chip->bat_if_base + CHGR_BAT_IF_BTC_CTRL, 1);
+	if (rc) {
+		pr_err("%s: Couldn't write battery pres ctrl write failed rc=%d\n", __func__, rc);
+		return 0;
+	};
+
+	return 0;
+}
+int cable_present_state(void)
+{
+	return the_qpnp_chip->usb_present;
+}
+EXPORT_SYMBOL_GPL(cable_present_state);
+#endif
+
 #define BATT_TEMP_HOT	BIT(6)
 #define BATT_TEMP_OK	BIT(7)
 static int
@@ -1978,12 +2525,23 @@ get_prop_batt_health(struct qpnp_chg_chip *chip)
 		return POWER_SUPPLY_HEALTH_UNKNOWN;
 	};
 
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+	if(smb_data_ext.prev_state_mode == BATT_THERM_COLD)
+	{
+		return POWER_SUPPLY_HEALTH_COLD;
+	}else if(smb_data_ext.prev_state_mode == BATT_THERM_HOT) {
+		return POWER_SUPPLY_HEALTH_OVERHEAT;
+	}else {
+		return POWER_SUPPLY_HEALTH_GOOD;
+	}
+#else 
 	if (BATT_TEMP_OK & batt_health)
 		return POWER_SUPPLY_HEALTH_GOOD;
 	if (BATT_TEMP_HOT & batt_health)
 		return POWER_SUPPLY_HEALTH_OVERHEAT;
 	else
 		return POWER_SUPPLY_HEALTH_COLD;
+#endif
 }
 
 static int
@@ -2011,6 +2569,37 @@ get_prop_charge_type(struct qpnp_chg_chip *chip)
 }
 
 #define DEFAULT_CAPACITY	50
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+static int
+get_prop_batt_status(struct qpnp_chg_chip *chip)
+{
+#if defined(CONFIG_PANTECH_PMIC_CHARGING_DISABLE)
+    //sayuss charge_CMD
+    if(chip->charging_disabled)
+        return POWER_SUPPLY_STATUS_DISCHARGING;
+#endif
+    if(chip->usb_present) {
+#ifdef CONFIG_PANTECH_QUALCOMM_OTG_MODE_OVP_BUG
+        if(is_pantech_host_mode)
+            return POWER_SUPPLY_STATUS_DISCHARGING;
+#endif
+#if defined(CONFIG_PANTECH_PMIC_FUELGAUGE_MAX17058)	
+        if (max17058_get_soc() == 100)
+            return POWER_SUPPLY_STATUS_FULL;
+#endif
+        if( get_prop_batt_health(chip) == POWER_SUPPLY_HEALTH_COLD 
+            || get_prop_batt_health(chip) == POWER_SUPPLY_HEALTH_OVERHEAT)
+            return POWER_SUPPLY_STATUS_NOT_CHARGING;
+
+        return POWER_SUPPLY_STATUS_CHARGING;
+    }
+    else {
+        return POWER_SUPPLY_STATUS_DISCHARGING;
+    }
+
+    return POWER_SUPPLY_STATUS_UNKNOWN;
+}
+#else 
 static int
 get_batt_capacity(struct qpnp_chg_chip *chip)
 {
@@ -2065,6 +2654,15 @@ get_prop_batt_status(struct qpnp_chg_chip *chip)
 
 	return POWER_SUPPLY_STATUS_DISCHARGING;
 }
+#endif
+
+#if defined(CONFIG_PANTECH_PMIC_LED)
+int get_batt_status(void)
+{
+    return get_prop_batt_status(the_qpnp_chip);
+}
+EXPORT_SYMBOL_GPL(get_batt_status);
+#endif
 
 static int
 get_prop_current_now(struct qpnp_chg_chip *chip)
@@ -2122,10 +2720,10 @@ get_prop_capacity(struct qpnp_chg_chip *chip)
 
 	if (chip->fake_battery_soc >= 0)
 		return chip->fake_battery_soc;
-
+/*
 	if (chip->use_default_batt_values || !get_prop_batt_present(chip))
 		return DEFAULT_CAPACITY;
-
+*/
 	if (chip->bms_psy) {
 		chip->bms_psy->get_property(chip->bms_psy,
 				POWER_SUPPLY_PROP_CAPACITY, &ret);
@@ -2158,7 +2756,15 @@ get_prop_capacity(struct qpnp_chg_chip *chip)
 		}
 		return soc;
 	} else {
+#if defined(CONFIG_PANTECH_PMIC_FUELGAUGE_MAX17058)	
+		soc = max17058_get_soc();	//20130719 djjeon BMS remove
+		if(soc<0)
+			pr_info("No BMS supply registered return 50\n");
+		else
+			return soc;
+#else
 		pr_debug("No BMS supply registered return 50\n");
+#endif	
 	}
 
 	/* return default capacity to avoid userspace
@@ -2166,6 +2772,12 @@ get_prop_capacity(struct qpnp_chg_chip *chip)
 	return DEFAULT_CAPACITY;
 }
 
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+int get_prop_batt_temp(void)
+{
+    return batt_temp;
+}
+#else
 #define DEFAULT_TEMP		250
 #define MAX_TOLERABLE_BATT_TEMP_DDC	680
 static int
@@ -2187,6 +2799,7 @@ get_prop_batt_temp(struct qpnp_chg_chip *chip)
 
 	return (int)results.physical;
 }
+#endif 
 
 static int get_prop_cycle_count(struct qpnp_chg_chip *chip)
 {
@@ -2197,6 +2810,18 @@ static int get_prop_cycle_count(struct qpnp_chg_chip *chip)
 			  POWER_SUPPLY_PROP_CYCLE_COUNT, &ret);
 	return ret.intval;
 }
+
+#ifdef CONFIG_PANTECH_QUALCOMM_OTG_MODE_OVP_BUG
+extern int get_pantech_chg_otg_mode(void)
+{
+    return is_pantech_host_mode;
+}
+
+extern void set_pantech_chg_otg_mode(int val)
+{
+    is_pantech_host_mode = val;
+}
+#endif
 
 static int get_prop_vchg_loop(struct qpnp_chg_chip *chip)
 {
@@ -2227,8 +2852,46 @@ qpnp_batt_external_power_changed(struct power_supply *psy)
 								batt_psy);
 	union power_supply_propval ret = {0,};
 
+#ifdef CONFIG_PANTECH_QUALCOMM_OTG_MODE_OVP_BUG
+	//xsemiyas_debug
+	int value;
+#endif
+	if (charger_probe == 0) {
+    	pr_info("%s: Not yet complete probing\n", __func__);
+    	return;
+ 	}
+
 	if (!chip->bms_psy)
 		chip->bms_psy = power_supply_get_by_name("bms");
+
+	chip->usb_psy->get_property(chip->usb_psy,
+			  POWER_SUPPLY_PROP_SCOPE, &ret);
+	if (ret.intval) {
+		if ((ret.intval == POWER_SUPPLY_SCOPE_SYSTEM)
+				&& !qpnp_chg_is_otg_en_set(chip)) {
+#ifdef CONFIG_PANTECH_QUALCOMM_OTG_MODE_OVP_BUG				
+			//xsemiyas_debug
+			value = switch_usb_to_host_mode(chip);
+			if(value == 0) {
+				is_pantech_host_mode = 1;
+			}else {
+				is_pantech_host_mode = -1;
+			}
+#else
+			switch_usb_to_host_mode(chip);
+#endif			
+			return;
+		}
+		if ((ret.intval == POWER_SUPPLY_SCOPE_DEVICE)
+				&& qpnp_chg_is_otg_en_set(chip)) {
+			switch_usb_to_charge_mode(chip);
+#ifdef CONFIG_PANTECH_QUALCOMM_OTG_MODE_OVP_BUG			
+			//xsemiyas_debug
+			is_pantech_host_mode = 0;
+#endif
+			return;
+		}
+	}
 
 	chip->usb_psy->get_property(chip->usb_psy,
 			  POWER_SUPPLY_PROP_ONLINE, &ret);
@@ -2247,7 +2910,14 @@ qpnp_batt_external_power_changed(struct power_supply *psy)
 						get_prop_batt_present(chip)) {
 			if (ret.intval ==  2)
 				qpnp_chg_usb_suspend_enable(chip, 1);
+#ifdef CONFIG_PANTECH_PMIC_ABNORMAL
+            if(qpnp_chg_get_nonstandard_state() == NONSTANDARD_WORKING)
+			    qpnp_chg_iusbmax_set(chip, USB_WALL_THRESHOLD_MA);
+            else
 			qpnp_chg_iusbmax_set(chip, QPNP_CHG_I_MAX_MIN_100);
+#else
+			qpnp_chg_iusbmax_set(chip, QPNP_CHG_I_MAX_MIN_100);
+#endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
 		} else {
 			qpnp_chg_usb_suspend_enable(chip, 0);
 			if (((ret.intval / 1000) > USB_WALL_THRESHOLD_MA)
@@ -2272,8 +2942,48 @@ qpnp_batt_external_power_changed(struct power_supply *psy)
 						charger_monitor);
 				schedule_work(&chip->reduce_power_stage_work);
 			}
+#ifdef CONFIG_PANTECH_PMIC_ABNORMAL
+			if(((ret.intval / 1000) > USB_WALL_THRESHOLD_MA)
+			&& (delayed_work_pending(&chip->update_abnormal_delayed_work))) {
+				chip->nonstandard_state = NONSTANDARD_ACIN;
+				cancel_delayed_work(&chip->update_abnormal_delayed_work);
+			}
+#endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
 		}
 	}
+
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+#ifdef CONFIG_PANTECH_QUALCOMM_OTG_MODE_OVP_BUG
+    if(is_pantech_host_mode == 0)
+        smb349_current_set(qpnp_get_cable_type(), chip->maxinput_usb_ma);
+#else
+    smb349_current_set(qpnp_get_cable_type(), chip->maxinput_usb_ma);
+#endif 
+#endif
+
+//+++ 20130806, P14787, djjeon, charging setting stability test
+#if ((defined(CONFIG_PANTECH_PMIC_MONITOR_TEST) && defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349)) || (defined(CONFIG_PANTECH_PMIC_MONITOR_TEST) && defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)))
+    if(chip->charging_setting) {
+        if(chip->usb_present == true) {
+            smb349_test_limit_up(1);
+        }
+    }
+#endif	
+//--- 20130806, P14787, djjeon, charging setting stability test
+
+#if defined(CONFIG_PANTECH_PMIC_EOC)
+    if(!chip->usb_present && chip->end_recharing) {
+        smb349_write_reg(0x04, 0xEE);
+        chip->end_recharing = false;
+        pr_debug("end_recharing %d\n", chip->end_recharing);
+    }
+#endif
+#if defined(CONFIG_PANTECH_PMIC_CHARGE_LIMIT_WITH_TSENSOR)
+    if(chip->usb_present == false) {
+        smb_data_ext.t_prev_mode = false;
+        smb_data_ext.t_sensor_mode = false;
+    }
+#endif
 
 skip_set_iusb_max:
 	pr_debug("end of power supply changed\n");
@@ -2318,7 +3028,11 @@ qpnp_batt_power_get_property(struct power_supply *psy,
 		val->intval = chip->insertion_ocv_uv;
 		break;
 	case POWER_SUPPLY_PROP_TEMP:
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+		val->intval	= get_prop_batt_temp();
+#else
 		val->intval = get_prop_batt_temp(chip);
+#endif
 		break;
 	case POWER_SUPPLY_PROP_COOL_TEMP:
 		val->intval = chip->cool_bat_decidegc;
@@ -2363,7 +3077,12 @@ qpnp_batt_power_get_property(struct power_supply *psy,
 		val->intval = qpnp_chg_vinmin_get(chip) * 1000;
 		break;
 	case POWER_SUPPLY_PROP_ONLINE:
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
 		val->intval = get_prop_online(chip);
+		val->intval = false; //battery fet close not use
+#else
+		val->intval = get_prop_online(chip);
+#endif
 		break;
 	default:
 		return -EINVAL;
@@ -2594,6 +3313,7 @@ qpnp_chg_input_current_settled(struct qpnp_chg_chip *chip)
 {
 	int rc, ibat_max_ma;
 	u8 reg, chgr_sts, ibat_trim, i;
+    int not_active_count = 0;
 
 	chip->aicl_settled = true;
 
@@ -2666,10 +3386,12 @@ qpnp_chg_input_current_settled(struct qpnp_chg_chip *chip)
 		 * ibat_max
 		 */
 		msleep(20);
-		if (qpnp_chg_is_ibat_loop_active(chip))
+		if (qpnp_chg_is_ibat_loop_active(chip)) {
 			qpnp_chg_trim_ibat(chip, ibat_trim);
-		else
+        } else {
 			pr_debug("ibat loop not active\n");
+            not_active_count++;
+        }
 
 		/* read the adjusted ibat_trim for further adjustments */
 		rc = qpnp_chg_read(chip, &ibat_trim,
@@ -2685,7 +3407,7 @@ qpnp_chg_input_current_settled(struct qpnp_chg_chip *chip)
 	if (rc)
 		pr_err("failed to restore ibatmax rc=%d\n", rc);
 
-	return rc;
+	return not_active_count == 3 ? -EAGAIN : rc;
 }
 
 
@@ -3260,6 +3982,160 @@ qpnp_chg_soc_check_work(struct work_struct *work)
 	get_prop_capacity(chip);
 }
 
+#ifdef CONFIG_PANTECH_PMIC_ABNORMAL
+static void qpnp_set_enforce_cable_type(struct qpnp_chg_chip *chip)
+{
+    power_supply_set_current_limit(chip->usb_psy, 1000*2000);
+    qpnp_set_cable_type(POWER_SUPPLY_TYPE_USB_DCP);
+    pr_info("The cable type is enforce changed to USB_DCP type.\n");
+}
+
+static void check_abnormal_worker(struct work_struct *work)	
+{
+    struct qpnp_chg_chip *chip = container_of(work, struct qpnp_chg_chip, update_abnormal_delayed_work.work);
+    int cable_type;
+    char udc_state[128] = {0,};
+    char mdm_state[64] = {0,};
+    int rc = 0;
+
+    chip->nonstandard_state = NONSTANDARD_COMPLETED;
+#ifdef CONFIG_PANTECH_USB_BLOCKING_MDMSTATE
+    get_mdm_state(mdm_state);
+    if(strcmp(mdm_state, "USB_DISABLED")) {
+#endif /* CONFIG_PANTECH_USB_BLOCKING_MDMSTATE */
+        if(chip->usb_present) {
+            cable_type = qpnp_get_cable_type();
+            switch(cable_type) {
+            case PANTECH_USB:
+                rc = composite_get_udc_state(udc_state);
+                if(rc<0) {
+                    pr_err("%s: Failed to get udc_state. rc=%d\n", __func__, rc);
+                    break;
+                }
+                if(!strcmp(udc_state, "DISCONNECTED")) {
+                    qpnp_set_enforce_cable_type(chip);
+#ifdef CONFIG_PANTECH_PMIC_CHARGE_LIMIT_WITH_LCD
+                    if(get_is_offline_charging_mode())
+                        boot_lcd_cnt=4;
+#endif /* CONFIG_PANTECH_PMIC_CHARGE_LIMIT_WITH_LCD */
+                }
+                break;
+            case PANTECH_CABLE_NONE:
+                qpnp_set_enforce_cable_type(chip);
+                break;
+            }
+        }
+    }
+}
+
+static void check_abnormal_worker_excutor(struct work_struct *work)
+{
+    struct qpnp_chg_chip *chip = container_of(work, struct qpnp_chg_chip, update_abnormal_wq_excutor);
+    
+    if(chip->usb_present) {
+        chip->nonstandard_state = NONSTANDARD_WORKING;
+#ifdef CONFIG_PANTECH_QUALCOMM_OTG_MODE_OVP_BUG 
+        if(is_pantech_host_mode == 0) {
+            if(delayed_work_pending(&chip->update_abnormal_delayed_work))
+                cancel_delayed_work(&chip->update_abnormal_delayed_work);
+            queue_delayed_work(chip->update_abnormal_wq, &chip->update_abnormal_delayed_work,
+                                    round_jiffies_relative(msecs_to_jiffies(90000)));		
+        }
+#else 
+        if(delayed_work_pending(&chip->update_abnormal_delayed_work))
+            cancel_delayed_work(&chip->update_abnormal_delayed_work);
+        queue_delayed_work(chip->update_abnormal_wq, &chip->update_abnormal_delayed_work,
+                            round_jiffies_relative(msecs_to_jiffies(90000)));		
+#endif /* CONFIG_PANTECH_QUALCOMM_OTG_MODE_OVP_BUG */
+    } else {
+        chip->nonstandard_state = NONSTANDARD_READY;
+        if(delayed_work_pending(&chip->update_abnormal_delayed_work))
+            cancel_delayed_work(&chip->update_abnormal_delayed_work);
+    }
+    }
+
+void qpnp_chg_notify_charger_type(int type)
+{
+    pr_info("type=%d (%ps)\n", type, __builtin_return_address(0));
+    if(delayed_work_pending(&the_qpnp_chip->update_abnormal_delayed_work)) {
+        the_qpnp_chip->nonstandard_state = NONSTANDARD_USBIN;
+        cancel_delayed_work(&the_qpnp_chip->update_abnormal_delayed_work);
+}
+}
+EXPORT_SYMBOL_GPL(qpnp_chg_notify_charger_type);
+
+int qpnp_chg_get_nonstandard_state(void)
+{
+    return the_qpnp_chip ? the_qpnp_chip->nonstandard_state : NONSTANDARD_READY;
+}
+EXPORT_SYMBOL_GPL(qpnp_chg_get_nonstandard_state);
+#endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
+
+#ifdef CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND
+static irqreturn_t
+qpnp_sysok_irq_handler(int irq, void *_chip)
+{
+	struct qpnp_chg_chip *chip = _chip;
+	int usb_present, host_mode;
+
+	usb_present = qpnp_chg_is_usb_chg_plugged_in(chip);
+	host_mode = qpnp_chg_is_otg_en_set(chip);
+	pr_info("%s: sysok triggered: %d host_mode: %d chip->usb_present [%d]\n", __func__,
+		usb_present, host_mode, chip->usb_present );
+
+	/* In host mode notifications cmoe from USB supply */
+	if (host_mode)
+		return IRQ_HANDLED;
+
+	if (chip->usb_present ^ usb_present) {
+		chip->usb_present = usb_present;
+
+#ifdef CONFIG_PANTECH_PMIC_DISABLE_REPETITION_OF_SYSOK
+		if(usbin_irq_count < 30){
+			usbin_irq_count++;
+			if(usbin_irq_count == 1)
+				schedule_delayed_work(&chip->usbin_irq_count_work,
+					round_jiffies_relative(msecs_to_jiffies(1000)));
+		} else {
+			usbin_irq_count = 0;
+			usb_present = 0;
+			chip->usb_present = 0;
+			disable_irq_nosync(chip->sysok_valid.irq);
+			schedule_delayed_work(&chip->usbin_irq_check_work, round_jiffies_relative(msecs_to_jiffies(10000)));
+			pr_err("sysok irq disabled for 10 sec...\n");
+		}
+#endif
+        if (!usb_present) {
+            qpnp_chg_usb_suspend_enable(chip, 1);
+            chip->chg_done = false;
+            chip->prev_usb_max_ma = -EINVAL; 
+        } else {
+            schedule_delayed_work(&chip->eoc_work,
+                                  msecs_to_jiffies(EOC_CHECK_PERIOD_MS));
+        }
+        power_supply_set_present(chip->usb_psy, chip->usb_present);
+
+		//20130813, djjeon, TA cable disconnect problem.(offline charging)
+		if (chip->dc_chgpth_base)
+			power_supply_changed(&chip->dc_psy);
+
+#ifdef CONFIG_PANTECH_PMIC_ABNORMAL
+        queue_work(the_qpnp_chip->update_abnormal_wq, &the_qpnp_chip->update_abnormal_wq_excutor);
+#endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
+	}
+
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+    if(chip->usb_present) {
+        wake_lock(&chip->smb349_cable_wake_lock);
+    } else { 
+        wake_unlock(&chip->smb349_cable_wake_lock);
+    }
+#endif 
+
+	return IRQ_HANDLED;
+}
+#endif /* CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND */
+
 #define HYSTERISIS_DECIDEGC 20
 static void
 qpnp_chg_adc_notification(enum qpnp_tm_state state, void *ctx)
@@ -3273,7 +4149,11 @@ qpnp_chg_adc_notification(enum qpnp_tm_state state, void *ctx)
 		return;
 	}
 
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+	temp = get_prop_batt_temp();
+#else
 	temp = get_prop_batt_temp(chip);
+#endif
 
 	pr_debug("temp = %d state = %s\n", temp,
 			state == ADC_TM_WARM_STATE ? "warm" : "cool");
@@ -3670,10 +4550,25 @@ qpnp_batt_power_set_property(struct power_supply *psy,
 		break;
 	case POWER_SUPPLY_PROP_CAPACITY:
 		chip->fake_battery_soc = val->intval;
-		power_supply_changed(&chip->batt_psy);
 		break;
 	case POWER_SUPPLY_PROP_CHARGING_ENABLED:
 		chip->charging_disabled = !(val->intval);
+#if defined(CONFIG_PANTECH_PMIC_CHARGING_DISABLE)  // todo
+		pr_info("%s: charging_disabled=%d\n", __func__, chip->charging_disabled);
+		// sayuss charge_CMD 
+		smb_data_ext.smb_chg_disabled = chip->charging_disabled;
+		if(smb_data_ext.smb_chg_disabled){ // sayuss charge_CMD 
+			smb349_write_reg(0x30,0x81); //charging disable
+			smb349_write_reg(0x31,0x00); //usb 100mA limit
+		} else if(chip->usb_present && !smb_data_ext.smb_chg_disabled) {
+		 	is_temp_state_changed(&smb_data_ext.prev_state_mode, batt_temp);
+			smb349_current_jeita(smb_data_ext.prev_state_mode, qpnp_get_cable_type());
+			pr_info("%s: cable_type=%d\n", __func__, qpnp_get_cable_type());
+		}
+        qpnp_chg_charge_en(chip, !chip->charging_disabled);
+        qpnp_chg_force_run_on_batt(chip,
+                    chip->charging_disabled);
+#else
 		if (chip->charging_disabled) {
 			/* disable charging */
 			qpnp_chg_charge_en(chip, !chip->charging_disabled);
@@ -3685,29 +4580,32 @@ qpnp_batt_power_set_property(struct power_supply *psy,
 					chip->charging_disabled);
 			qpnp_chg_charge_en(chip, !chip->charging_disabled);
 		}
+#endif
 		break;
 	case POWER_SUPPLY_PROP_SYSTEM_TEMP_LEVEL:
 		qpnp_batt_system_temp_level_set(chip, val->intval);
 		break;
 	case POWER_SUPPLY_PROP_INPUT_CURRENT_MAX:
 		if (qpnp_chg_is_usb_chg_plugged_in(chip))
-			qpnp_chg_iusbmax_set(chip, val->intval / 1000);
+			rc = qpnp_chg_iusbmax_set(chip, val->intval / 1000);
 		break;
 	case POWER_SUPPLY_PROP_INPUT_CURRENT_TRIM:
-		qpnp_chg_iusb_trim_set(chip, val->intval);
+		rc = qpnp_chg_iusb_trim_set(chip, val->intval);
 		break;
 	case POWER_SUPPLY_PROP_INPUT_CURRENT_SETTLED:
-		qpnp_chg_input_current_settled(chip);
+		rc = qpnp_chg_input_current_settled(chip);
 		break;
 	case POWER_SUPPLY_PROP_VOLTAGE_MIN:
-		qpnp_chg_vinmin_set(chip, val->intval / 1000);
+		rc = qpnp_chg_vinmin_set(chip, val->intval / 1000);
 		break;
 	default:
 		return -EINVAL;
 	}
 
-	pr_debug("psy changed batt_psy\n");
-	power_supply_changed(&chip->batt_psy);
+	if(!rc) {
+		pr_debug("psy changed batt_psy\n");
+		power_supply_changed(&chip->batt_psy);
+	}
 	return rc;
 }
 
@@ -3866,8 +4764,12 @@ qpnp_chg_request_irqs(struct qpnp_chg_chip *chip)
 			rc = devm_request_irq(chip->dev, chip->batt_pres.irq,
 				qpnp_chg_bat_if_batt_pres_irq_handler,
 				IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING
+#if 1 // sayuss : we use below
+				,"batt-pres", chip);
+#else
 				| IRQF_SHARED | IRQF_ONESHOT,
 				"batt-pres", chip);
+#endif
 			if (rc < 0) {
 				pr_err("Can't request %d batt-pres irq: %d\n",
 						chip->batt_pres.irq, rc);
@@ -3904,6 +4806,13 @@ qpnp_chg_request_irqs(struct qpnp_chg_chip *chip)
 		case SMBB_USB_CHGPTH_SUBTYPE:
 		case SMBBP_USB_CHGPTH_SUBTYPE:
 		case SMBCL_USB_CHGPTH_SUBTYPE:
+#if defined(CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND)
+			msm_gpiomux_install(&sc_sysok, 1);
+			gpio_request(SC_SYSOK, "sys_ok");
+			chip->sysok_valid.irq = gpio_to_irq(SC_SYSOK);
+			rc = request_irq(chip->sysok_valid.irq, qpnp_sysok_irq_handler,
+				(IRQF_TRIGGER_FALLING | IRQF_TRIGGER_RISING), "sysok_handler", chip);
+#endif
 			if (chip->ovp_monitor_enable) {
 				chip->coarse_det_usb.irq =
 					spmi_get_irq_byname(spmi,
@@ -3940,7 +4849,7 @@ qpnp_chg_request_irqs(struct qpnp_chg_chip *chip)
 						chip->usbin_valid.irq, rc);
 				return rc;
 			}
-
+#if 0 
 			chip->chg_gone.irq = spmi_get_irq_byname(spmi,
 						spmi_resource, "chg-gone");
 			if (chip->chg_gone.irq < 0) {
@@ -3956,7 +4865,7 @@ qpnp_chg_request_irqs(struct qpnp_chg_chip *chip)
 						chip->chg_gone.irq, rc);
 				return rc;
 			}
-
+#endif
 			if ((subtype == SMBBP_USB_CHGPTH_SUBTYPE) ||
 				(subtype == SMBCL_USB_CHGPTH_SUBTYPE)) {
 				chip->usb_ocp.irq = spmi_get_irq_byname(spmi,
@@ -3979,7 +4888,14 @@ qpnp_chg_request_irqs(struct qpnp_chg_chip *chip)
 			}
 
 			enable_irq_wake(chip->usbin_valid.irq);
+#if 0
 			enable_irq_wake(chip->chg_gone.irq);
+#endif 
+
+#if defined(FEATURE_PANTECH_PMIC_USBIN_DROP_WORKAROUND)
+			enable_irq_wake(chip->sysok_valid.irq);
+			qpnp_chg_disable_irq(&chip->usbin_valid);
+#endif
 			break;
 		case SMBB_DC_CHGPTH_SUBTYPE:
 			chip->dcin_valid.irq = spmi_get_irq_byname(spmi,
@@ -4344,6 +5260,783 @@ qpnp_chg_hwinit(struct qpnp_chg_chip *chip, u8 subtype,
 	return rc;
 }
 
+#ifdef CONFIG_PANTECH_PMIC_BMS_TEST
+static ssize_t bms_input_show_flag(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	int enable;
+	enable = atomic_read(&bms_input_flag);
+	return sprintf(buf, "%d\n", enable);
+}
+
+static ssize_t bms_input_store_flag(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
+{
+	u8 scale = (u8)simple_strtoul(buf, NULL, 10);	
+	atomic_set(&bms_input_flag, scale);
+	return count;
+}
+
+static ssize_t bms_cutoff_show_flag(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	int enable;
+	enable = atomic_read(&bms_cutoff_flag);
+	return sprintf(buf, "%d\n", enable);
+}
+
+static ssize_t bms_cutoff_store_flag(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
+{
+	u8 scale = (u8)simple_strtoul(buf, NULL, 10);
+	atomic_set(&bms_cutoff_flag, scale);
+	return count;
+}
+
+//#if defined(CONFIG_PANTECH_USED_ALL_OTHER_WRITABLE_FILES)
+#ifdef CONFIG_PANTECH_USER_BUILD // MKS. fixed for CTS test.
+static DEVICE_ATTR(setflag, S_IRUGO, bms_input_show_flag, bms_input_store_flag);
+static DEVICE_ATTR(cutoff, S_IRUGO, bms_cutoff_show_flag, bms_cutoff_store_flag);
+#else
+static DEVICE_ATTR(setflag, 0666, bms_input_show_flag, bms_input_store_flag);
+static DEVICE_ATTR(cutoff, 0666, bms_cutoff_show_flag, bms_cutoff_store_flag);
+#endif /* CONFIG_PANTECH_USER_BUILD */
+
+static struct attribute *bms_input_attrs[] = {
+	&dev_attr_setflag.attr,
+	&dev_attr_cutoff.attr,
+	NULL,
+};
+
+static struct attribute_group bms_input_attr_group = {
+	.attrs = bms_input_attrs,
+};
+
+//20130521 djjeon, powerlog add ICHG
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)//20130524 djjeon VCHG=current
+static int get_batt_chg_current(struct qpnp_chg_chip *chip)
+{
+	struct qpnp_vadc_result results;
+	int rc, try_max = 0;
+
+	do{
+		rc = qpnp_vadc_read(chip->vadc_dev, P_MUX2_1_1, &results);
+		if(rc == -EINVAL)
+			return -EINVAL;
+		try_max++;
+	}while(rc && (try_max < 20));
+	if(!rc){
+		if(the_qpnp_chip->usb_present)
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349)
+			return ((int)results.physical)*2/1000;
+#else
+			return ((int)results.physical)*1/750;
+#endif
+	else
+			return -1;
+	}else{
+		return 0;
+	}
+}
+#endif
+#endif /* CONFIG_PANTECH_PMIC_BMS_TEST */
+
+#if defined(CONFIG_PANTECH_PMIC_MONITOR_TEST)
+static char *str_cable_type[] = {
+		"NO_CABLE", "STANDARD_CABLE", "FACTORY_CABLE", "TA_CABLE", "WIRELESS_CABLE",
+		"UNKNOWN_CABLE", "INVALID_CABLE",
+};
+
+static int proc_debug_pm_chg_get_fsm_state(char *page, char **start, off_t offset,
+					int count, int *eof, void *data)
+{
+	int fsm_state;
+
+	if (!the_qpnp_chip) {
+		pr_debug("%s: the_chip is NULL\n", __func__);
+		return 0;
+	}
+
+	fsm_state = 0;  //imsi charging state
+	*eof = 1;
+
+	return sprintf(page, "%d\n", fsm_state);
+}
+
+static int proc_debug_pm_chg_get_I_USBMax(char *page, char **start, off_t offset,
+					int count, int *eof, void *data)
+{
+	int usb_max;
+	if (!the_qpnp_chip) {
+		pr_debug("%s: the_chip is NULL\n", __func__);
+		return 0;
+	}
+	*eof = 1;  
+
+	if(qpnp_get_cable_type() == PANTECH_USB){
+			usb_max = 500;
+	}else if(qpnp_get_cable_type() == PANTECH_AC)
+		usb_max = 1800;
+
+	return sprintf(page, "%d\n", usb_max);
+}
+
+static int proc_debug_pm_chg_get_I_BattMax(char *page, char **start, off_t offset,
+					int count, int *eof, void *data)
+{
+	int battmax;
+	if (!the_qpnp_chip) {
+		pr_debug("%s: the_chip is NULL\n", __func__);
+		return 0;
+	}
+	
+	*eof = 1;  
+	if(qpnp_get_cable_type() == PANTECH_USB){
+			battmax = 500;
+	}else if(qpnp_get_cable_type() == PANTECH_AC)
+		battmax = 2000;
+
+	return sprintf(page, "%d\n", battmax);
+
+}
+
+static int proc_debug_pm_chg_get_I_BattCurrent(char *page, char **start, off_t offset,
+					int count, int *eof, void *data)
+{
+	int ichg_meas_ma;
+
+	if (!the_qpnp_chip) {
+		pr_debug("%s: the_chip is NULL\n", __func__);
+		return 0;
+	}
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)//20130524 djjeon VCHG=current
+	ichg_meas_ma =((int)get_batt_chg_current(the_qpnp_chip));
+#else
+	ichg_meas_ma = (get_prop_current_now(the_qpnp_chip)) / 1000;
+#endif 
+	*eof = 1;  
+
+	return sprintf(page, "%d\n", ichg_meas_ma);  //batt charging current
+}
+
+static int proc_debug_pm_chg_get_BattID(char *page, char **start, off_t offset,
+					int count, int *eof, void *data)
+{
+	int64_t rc;
+	struct qpnp_vadc_result results;
+
+	if (!the_qpnp_chip) {
+		pr_debug("%s: the_chip is NULL\n", __func__);
+		return 0;
+	}
+
+	rc = qpnp_vadc_read(the_qpnp_chip->vadc_dev, LR_MUX2_BAT_ID, &results);//LR_MUX2_PU1_PU2_BAT_ID, &results);		20130604 djjeon channel modify
+	*eof = 1;  
+
+	return sprintf(page, "%lld\n", results.physical);
+}
+
+static int proc_debug_pm_chg_get_CableID(char *page, char **start, off_t offset,
+					int count, int *eof, void *data)
+{
+	int64_t rc;
+	struct qpnp_vadc_result results;
+	if (!the_qpnp_chip) {
+		pr_debug("%s: the_chip is NULL\n", __func__);
+		return 0;
+	}
+
+	*eof = 1;  
+		
+	if (the_qpnp_chip->usb_present)
+       rc = qpnp_vadc_read(the_qpnp_chip->vadc_dev, LR_MUX10_PU2_AMUX_USB_ID_LV, &results);
+       else
+	   		results.physical = 0;  
+	return sprintf(page, "%lld\n", results.physical );  //imsi charging cable ID 
+}
+
+static int proc_debug_pm_chg_get_CableType(char *page, char **start, off_t offset,
+					int count, int *eof, void *data)
+{
+    int cable_index = 0;
+    union power_supply_propval ret = {0,};
+    if (!the_qpnp_chip) {
+        pr_debug("%s: the_chip is NULL\n", __func__);
+        return 0;
+    }
+
+    the_qpnp_chip->usb_psy->get_property(the_qpnp_chip->usb_psy,
+                                         POWER_SUPPLY_PROP_TYPE, &ret);
+
+    switch(ret.intval) {
+    case POWER_SUPPLY_TYPE_USB:
+        cable_index = 1;
+        break;
+    case POWER_SUPPLY_TYPE_USB_DCP:
+    case POWER_SUPPLY_TYPE_USB_CDP:
+        cable_index = 3;
+        break;
+    }
+
+    *eof = 1;  
+
+    return sprintf(page, "%s\n", str_cable_type[cable_index]); //imsi  charging type 
+}
+
+static int proc_debug_pm_chg_get_pm_chg_test(char *page, char **start, off_t offset,
+					int count, int *eof, void *data)
+{
+	if(!the_qpnp_chip) {
+		pr_debug("%s: the_chip is NULL\n", __func__);
+		return 0;
+	}
+
+	*eof = 1;  
+	return sprintf(page, "%d\n", the_qpnp_chip->charging_disabled);
+}
+//+++ 20130806, P14787, djjeon, charging setting stability test
+static int proc_debug_pm_chg_get_charging_setting(char *page, char **start, off_t offset,
+					int count, int *eof, void *data)
+{
+	if(!the_qpnp_chip) {
+		pr_debug("%s: the_chip is NULL\n", __func__);
+		return 0;
+	}
+
+	*eof = 1;  
+	return sprintf(page, "%d\n", the_qpnp_chip->charging_setting);
+}
+//--- 20130806, P14787, djjeon, charging setting stability test
+
+static int proc_debug_pm_chg_get_aicl(char *page, char **start, off_t offset,
+					int count, int *eof, void *data)
+{
+    unsigned char value;
+	*eof = 1;  
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+    value = smb349_get_reg(0x3F);
+#else 
+    value = 0;
+#endif
+	return sprintf(page, "%d\n", value);
+}
+
+static int proc_debug_pm_chg_get_aicl_detail(char *page, char **start, off_t offset,
+					int count, int *eof, void *data)
+{
+    char temp[32];
+    int aicl_results[] = { 300, 500, 700, 900, 1200, 1500, 1800, 2000, 2200, 2500, 2500, 2500, 2500, 2500, 2500, 2500 };
+    int aicl_status_bit = 0;
+    unsigned char value;
+
+	*eof = 1;  
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+    value = smb349_get_reg(0x3F);
+#else 
+    value = 0;
+#endif
+
+    if(value&0x80) {
+        aicl_status_bit |= 0x80;
+    }
+
+    switch(value&0x60) {
+    case 0x60:
+        sprintf(temp, "N/A");
+        break;
+    case 0x40:
+        sprintf(temp, "USB1 or USB1.5 Mode");
+        break;
+    case 0x20:
+        sprintf(temp, "USB5 or USB9 Mode");
+        break;
+    case 0x00:
+        sprintf(temp, "High-Current(HC) Mode");
+        break;
+    }
+
+    if(value&0x10) {
+        aicl_status_bit |= 0x10;
+    }
+
+	return sprintf(page, "USBIN Input : %s\nMode : %s\nStatus : %s\nResults : %dmA\n", 
+                   aicl_status_bit & 0x80 ? "In Use" : "Not in Use",
+                   temp, 
+                   aicl_status_bit & 0x10 ? "Completed" : "Not Completed",
+                   aicl_status_bit & 0x10 ? aicl_results[(value&0x0f)] : -1 
+                   );
+}
+
+static int proc_debug_pm_chg_get_IInLim(char *page, char **start, off_t offset,
+					int count, int *eof, void *data)
+{
+    int val = -2;
+    *eof = 1;  
+	
+   return sprintf(page, "%d\n", val);
+}
+
+
+static int proc_debug_pm_chg_get_Ichg(char *page, char **start, off_t offset,
+					int count, int *eof, void *data)
+{
+    int val = -2;
+    *eof = 1;  
+	
+   return sprintf(page, "%d\n", val);
+}
+
+static unsigned char smb_get_reg_state = 0;
+static int proc_debug_smb_read_regs(char *page, char **start, off_t offset,
+					int count, int *eof, void *data)
+{
+    char *buffer = page;
+    unsigned char value = 0;
+    int rtn_value = 0;
+    if(offset == 0) {
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+        value = smb349_get_reg(smb_get_reg_state);
+#else 
+        value = 0;
+#endif
+        pr_info("%s: smb_get_reg_state=%02x value=%02x\n", __func__, smb_get_reg_state, value);
+        buffer += sprintf(buffer, "%d\n", value);
+        rtn_value = buffer - page;
+    }
+	return rtn_value;
+}
+
+static int proc_debug_smb_write_regs(struct file *file, const char __user *buffer,
+			   unsigned long count, void *data)
+{
+    char temp[8];
+
+    if(copy_from_user(temp, buffer, count)) {
+        pr_err("%s: Failed to copy from user\n", __func__);
+        return -EFAULT;
+    }
+
+    smb_get_reg_state = (unsigned char)simple_strtoul(temp, NULL, 0);
+    if(smb_get_reg_state > 0xff) 
+        smb_get_reg_state = 0xff;
+    pr_info("%s: smb_get_reg_state=%02x\n", __func__, smb_get_reg_state);
+
+    return count;
+}
+#endif
+
+
+#if defined(CONFIG_PANTECH_PMIC_BATTERY_CHARGING_DISCHARGING_TEST) || defined(CONFIG_PANTECH_PMIC_MONITOR_TEST)
+static int pm8941_charger_test_misc_open(struct inode *inode, struct file *file)
+{
+	return 0;
+}
+
+static long pm8941_charger_test_misc_ioctl(struct file *file,
+		    unsigned int cmd, unsigned long arg)
+{
+    int rc;
+    uint32_t n;
+
+    pr_info("%s: cmd = [%x]\n", __func__, cmd);
+
+    switch (cmd) {
+#if defined(CONFIG_PANTECH_PMIC_BATTERY_CHARGING_DISCHARGING_TEST)
+    case PM8941_CHARER_TEST_SET_CHARING_CTL:
+        rc = copy_from_user(&n, (void *)arg, sizeof(n));
+        if (!rc) {
+            if (n)
+                charging_disabled = 1;
+            else
+                charging_disabled = 0;
+
+            if (the_qpnp_chip)
+                qpnp_chg_charge_en(the_qpnp_chip, !the_qpnp_chip->charging_disabled);
+            pr_info("%s: SET_CHARING_CTL charging_disabled[%d]\n", __func__, the_qpnp_chip->charging_disabled);
+        }
+        break;
+
+    case PM8941_CHARER_TEST_GET_CHARING_CTL:
+        if (copy_to_user((void *)arg, &the_qpnp_chip->charging_disabled, sizeof(int)))
+            rc = -EINVAL;
+        else
+            rc = 0;
+        break;
+#endif
+
+#if defined(CONFIG_PANTECH_PMIC_MONITOR_TEST)
+    case PM8941_CHARGER_TEST_SET_PM_CHG_TEST:
+        rc = copy_from_user(&n, (void *)arg, sizeof(n));
+        if (!rc) {
+            if (n)
+                the_qpnp_chip->charging_disabled = 1;
+            else
+                the_qpnp_chip->charging_disabled = 0;
+                
+            smb_data_ext.smb_chg_disabled = the_qpnp_chip->charging_disabled;
+            
+            if(smb_data_ext.smb_chg_disabled){
+				smb349_write_reg(0x30,0x81);
+				smb349_write_reg(0x31,0x00);
+            } else if(the_qpnp_chip->usb_present && !smb_data_ext.smb_chg_disabled) {
+				is_temp_state_changed(&smb_data_ext.prev_state_mode, batt_temp);
+				smb349_current_jeita(smb_data_ext.prev_state_mode, qpnp_get_cable_type());
+				pr_info("%s: cable_type=%d\n", __func__, qpnp_get_cable_type());
+            }
+
+            if (the_qpnp_chip){
+                qpnp_chg_charge_en(the_qpnp_chip, !the_qpnp_chip->charging_disabled);
+                qpnp_chg_force_run_on_batt(the_qpnp_chip, the_qpnp_chip->charging_disabled);
+            }
+            pr_err("%s: SET_PM_CHG_TEST charging_disabled [%d]\n", __func__, the_qpnp_chip->charging_disabled);
+        }	
+        break;
+
+        //+++ 20130806, P14787, djjeon, charging setting stability test		
+    case PM8941_CHARGER_TEST_CHARGING_SETTING:
+        rc = copy_from_user(&n, (void *)arg, sizeof(n));
+        if (!rc) {
+            the_qpnp_chip->charging_setting = n;
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349)	|| defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)			
+            smb349_test_limit_up(n);
+#endif
+            otg_detect_control_test(n);
+            pr_debug("SET_CHARGING_SETTING charging_setting [%d]\n", n);
+        }
+        else
+            pr_err("%s: SET_CHARGING_SETTING read error \n", __func__);
+        break;
+        //--- 20130806, P14787, djjeon, charging setting stability test		
+#endif
+
+    default:
+        rc = -EINVAL;
+    }
+
+    return rc;
+}
+
+static int pm8941_charger_battery_test_misc_release(struct inode *inode, struct file *file)
+{
+	return 0;
+}
+
+static struct file_operations pm8941_charger_test_dev_fops = {
+	.owner = THIS_MODULE,
+	.open = pm8941_charger_test_misc_open,
+	.unlocked_ioctl	= pm8941_charger_test_misc_ioctl,
+	.release	= pm8941_charger_battery_test_misc_release,
+};
+
+struct miscdevice pm8941_charger_test_misc_device = {
+	.minor	= MISC_DYNAMIC_MINOR,
+	.name	= "qcom,qpnp-charger",
+	.fops	= &pm8941_charger_test_dev_fops,
+};
+int pm8941_charger_battery_charging_test_init(void)
+{
+	return misc_register(&pm8941_charger_test_misc_device);
+}
+#endif
+
+#if defined(CONFIG_PANTECH_PMIC_MONITOR_TEST)
+void pm8941_charger_test_charger_monitor_init(struct qpnp_chg_chip *chip)
+{
+	struct proc_dir_entry *ent;
+
+	if (!chip)
+		return;
+
+	chip->pm_chg_test = false;
+	chip->cable_adc = 0;
+	chip->charging_setting = false;	//+++ 20130806, P14787, djjeon, charging setting stability test
+
+	pm8941_charger_dir = proc_mkdir(QPNP_CHARGER_DEV_NAME, NULL);
+	if (!pm8941_charger_dir) {
+		pr_err("%s: Unable to create /proc/%s directory\n", __func__, QPNP_CHARGER_DEV_NAME);
+		return;
+	}
+
+	ent = create_proc_entry("fsm_state", 0, pm8941_charger_dir);
+
+	if (!ent) {
+		pr_err("%s: Unable to create /proc/fsm_state entry\n", __func__);
+		return;
+	}
+	ent->read_proc = proc_debug_pm_chg_get_fsm_state;
+
+	ent = create_proc_entry("cable_type", 0, pm8941_charger_dir);
+	if (!ent) {
+		pr_err("%s: Unable to create /proc/cable_type entry\n", __func__);
+		return;
+	}
+	ent->read_proc = proc_debug_pm_chg_get_CableType;
+
+	ent = create_proc_entry("cable_id", 0, pm8941_charger_dir);
+	if (!ent) {
+		pr_err("%s: Unable to create /proc/cable_id entry\n", __func__);
+		return;
+	}
+	ent->read_proc = proc_debug_pm_chg_get_CableID;
+
+	ent = create_proc_entry("batt_id", 0, pm8941_charger_dir);
+	if (!ent) {
+		pr_err("%s: Unable to create /proc/batt_id entry\n", __func__);
+		return;
+	}
+	ent->read_proc = proc_debug_pm_chg_get_BattID;
+
+	ent = create_proc_entry("i_usbmax", 0, pm8941_charger_dir);
+	if (!ent) {
+		pr_err("%s: Unable to create /proc/i_usbmax entry\n", __func__);
+		return;
+	}
+	ent->read_proc = proc_debug_pm_chg_get_I_USBMax;
+
+	ent = create_proc_entry("i_battmax", 0, pm8941_charger_dir);
+	if (!ent) {
+		pr_err("%s: Unable to create /proc/i_battmax entry\n", __func__);
+		return;
+	}
+	ent->read_proc = proc_debug_pm_chg_get_I_BattMax;
+
+	ent = create_proc_entry("i_battcurr", 0, pm8941_charger_dir);
+	if (!ent) {
+		pr_err("%s: Unable to create /proc/i_battcurr entry\n", __func__);
+		return;
+	}
+	ent->read_proc = proc_debug_pm_chg_get_I_BattCurrent;
+
+	ent = create_proc_entry("pm_chg_test", 0, pm8941_charger_dir);
+	if (!ent) {
+		pr_err("%s: Unable to create /proc/pm_chg_test entry\n", __func__);
+		return;
+	}
+	ent->read_proc = proc_debug_pm_chg_get_pm_chg_test;      
+//+++ 20130806, P14787, djjeon, charging setting stability test
+	ent = create_proc_entry("charging_setting", 0, pm8941_charger_dir);
+	if (!ent) {
+		pr_err("%s: Unable to create /proc/charging_setting entry\n", __func__);
+		return;
+	}
+	ent->read_proc = proc_debug_pm_chg_get_charging_setting;      
+//--- 20130806, P14787, djjeon, charging setting stability test	
+
+	ent = create_proc_entry("aicl", 0, pm8941_charger_dir);
+	if (!ent) {
+		pr_err("%s: Unable to create /proc/%s/aicl entry\n", __func__, QPNP_CHARGER_DEV_NAME);
+		return;
+	}
+	ent->read_proc = proc_debug_pm_chg_get_aicl;
+
+	ent = create_proc_entry("aicl_detail", 0, pm8941_charger_dir);
+	if (!ent) {
+		pr_err("%s: Unable to create /proc/%s/aicl_detail entry\n", __func__, QPNP_CHARGER_DEV_NAME);
+		return;
+	}
+	ent->read_proc = proc_debug_pm_chg_get_aicl_detail;
+
+	/* Not Supported */
+	ent = create_proc_entry("iinlim", 0, pm8941_charger_dir);
+	if (!ent) {
+		pr_err("%s: Unable to create /proc/%s/iinlim entry\n", __func__,QPNP_CHARGER_DEV_NAME);
+		return;
+	}
+	ent->read_proc = proc_debug_pm_chg_get_IInLim;
+
+
+	/*Not Supported */
+	ent = create_proc_entry("ichg", 0, pm8941_charger_dir);
+	if (!ent) {
+		pr_err("%s: Unable to create /proc/%s/ichg\n", __func__,QPNP_CHARGER_DEV_NAME);
+		return;
+	}	
+	ent->read_proc = proc_debug_pm_chg_get_Ichg;	
+
+	ent = create_proc_entry("regs", 0666, pm8941_charger_dir);
+	if (!ent) {
+		pr_err("%s: Unable to create /proc/%s/regs entry\n", __func__, QPNP_CHARGER_DEV_NAME);
+		return;
+}
+	ent->read_proc = proc_debug_smb_read_regs;
+	ent->write_proc = proc_debug_smb_write_regs;
+}
+#endif
+
+#if defined(CONFIG_PANTECH_PMIC_EOC)
+#if defined(CONFIG_MACH_MSM8974_EF59S) || defined(CONFIG_MACH_MSM8974_EF59K) || defined(CONFIG_MACH_MSM8974_EF59L) 
+#define EOC_START 99
+#define EOC_END	  101	
+#elif defined(CONFIG_MACH_MSM8974_EF60S) || defined(CONFIG_MACH_MSM8974_EF65S) || defined(CONFIG_MACH_MSM8974_EF61K) || defined(CONFIG_MACH_MSM8974_EF62L)
+#define EOC_START 97
+#define EOC_END	  99	
+#else
+#define EOC_START 98
+#define EOC_END	  100	
+#endif
+#endif
+
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+static void check_temperature_worker(struct work_struct *work)				 
+{	
+	int rc = 0;	
+    int soc;
+	static int pre_soc = 0;
+    struct qpnp_vadc_result results;
+    struct delayed_work *dwork = to_delayed_work(work);
+    struct qpnp_chg_chip *chip = container_of(dwork, struct qpnp_chg_chip, update_heartbeat_work);
+#ifdef CONFIG_PANTECH_PMIC_BMS_TEST
+    int enable;
+#endif /* CONFIG_PANTECH_PMIC_BMS_TEST */
+    
+	rc = qpnp_vadc_read(chip->vadc_dev, LR_MUX1_BATT_THERM, &results);
+	if (rc) {
+		pr_debug("Unable to read batt temperature rc=%d\n", rc);
+		return ;
+	}
+
+	soc = max17058_get_soc();
+	if(soc != pre_soc) {
+		pre_soc = soc;
+		pr_debug("%s: changed soc [%d]\n", __func__, pre_soc);
+	}
+
+#ifdef CONFIG_PANTECH_PMIC_AUTO_PWR_ON
+	if(get_is_offline_charging_mode()) {
+		if (get_auto_power_on_flag()) {
+			if(5<soc) {
+				pr_debug("%s: machine_restart soc=%d\n", __func__, soc);
+				machine_restart(NULL);
+			}
+			else {
+				pr_debug("%s: Not yet Auto Power ON soc=%d\n", __func__, soc);
+            }
+		}
+    }
+#endif /* CONFIG_PANTECH_PMIC_AUTO_PWR_ON */
+
+#if defined(CONFIG_PANTECH_PMIC_SHARED_DATA)
+    if(is_fatctory_dummy_connect())
+        batt_temp = 250;
+    else if(results.physical > 730 && check_tmep_num == 3 )
+		batt_temp = results.physical;
+	else if(results.physical > 730){
+		check_tmep_num++;
+        batt_temp = 730;	
+	}else{
+		check_tmep_num = 0;
+        batt_temp = results.physical;	
+	}
+#else
+    batt_temp = results.physical;
+#endif
+
+	if(is_temp_state_changed(&smb_data_ext.prev_state_mode, batt_temp))
+		smb349_current_jeita(smb_data_ext.prev_state_mode, qpnp_get_cable_type());
+
+#if defined(CONFIG_PANTECH_PMIC_CHARGE_LIMIT_WITH_TSENSOR)
+    if(smb_data_ext.prev_state_mode == BATT_THERM_NORMAL){
+        if(t_sensor_value() == T_SENSE_UP)
+            smb349_t_sense_limit(true);
+        else if(t_sensor_value() == T_SENSE_DOWN){
+            smb349_t_sense_limit(false);
+        }
+    }else if(smb_data_ext.t_sensor_mode == true){
+        smb349_t_sense_limit(false);
+        smb_data_ext.t_sensor_mode = false;
+    }	
+#endif
+
+    pr_debug("%s: batt_temp==%lld\n", __func__, batt_temp);
+
+#if defined(CONFIG_PANTECH_PMIC_FUELGAUGE_MAX17058)
+    max17058_update_rcomp(batt_temp);
+#endif
+
+#if defined(CONFIG_PANTECH_PMIC_CHARGE_LIMIT_WITH_LCD)
+    if(get_is_offline_charging_mode() && ((qpnp_get_cable_type()== PANTECH_USB) || (qpnp_get_cable_type() == PANTECH_AC))) {
+#if defined(CONFIG_MACH_MSM8974_EF56S)
+       if (offline_charging_current_set_ok == false)
+       {
+          offline_charging_count_ok++;
+          if ( offline_charging_count_ok > OFFLINE_CHARGING_STABLE_NUM )
+          {
+              pr_err("+++++++++++++Offline current setting OK+++++++++++++\n");
+              offline_charging_current_set_ok = true;
+		boot_lcd_cnt = 4;
+		offline_boot_ok = 1;
+		offline_charging_count_ok  = 0;
+          }
+       }
+#endif	 
+        pr_debug("%s: offline_boot_ok=%d chip->usb_present=%d offline_boot_ok=%d\n", __func__, offline_boot_ok, chip->usb_present, offline_boot_ok);
+        if(chip->usb_present && offline_boot_ok) {
+            if(4==boot_lcd_cnt){
+                {
+                    boot_lcd_cnt = 10;
+                    smb349_current_jeita(smb_data_ext.prev_state_mode,qpnp_get_cable_type());
+                }
+            }
+        }
+    }
+#endif
+
+#ifdef CONFIG_PANTECH_PMIC_BMS_TEST
+    enable = atomic_read(&bms_input_flag);
+    if (enable) {
+        pr_debug("Charging Log soc (%d)", soc);
+        chip->charge_output_voltage = get_batt_chg_current(chip);			//20130521 djjeon, powerlog add ICHG
+        input_report_rel(bms_input_dev, REL_RX, soc);
+#if defined(CONFIG_PANTECH_PMIC_FUELGAUGE_MAX17058)
+        input_report_rel(bms_input_dev, REL_RY, max17058_get_voltage() / 1000);
+#else
+        input_report_rel(bms_input_dev, REL_RY, 0);
+#endif
+        input_report_rel(bms_input_dev, REL_RY, 0);
+        input_report_rel(bms_input_dev, REL_RZ, batt_temp);	
+        input_report_rel(bms_input_dev, REL_X, chip->charge_output_voltage);		//20130521 djjeon, powerlog add ICHG	
+        input_report_rel(bms_input_dev, REL_Y, max17058_FG_SOC());		// real soc, 20131030 p13787 ryu
+        input_sync(bms_input_dev);
+    }
+#endif /* CONFIG_PANTECH_PMIC_BMS_TEST */
+
+#if defined(CONFIG_PANTECH_PMIC_EOC)
+    if(chip->usb_present) {
+        if((max17058_FG_SOC() <= EOC_START) && chip->end_recharing){
+            smb349_write_reg(0x04, 0xEE);
+            smb349_write_reg(0x30,0x81); //charging disable
+            smb349_mode_setting();
+            smb349_write_reg(0x30,0x83); //charging disable
+            smb349_mode_setting();
+            chip->end_recharing = false;
+            pr_debug("end_recharing %d\n", chip->end_recharing);
+        } else if(max17058_FG_SOC() >= EOC_END && !chip->end_recharing) {
+            smb349_write_reg(0x04, 0xAE);
+            chip->end_recharing = true;
+            pr_debug("end_recharing %d\n", chip->end_recharing);
+        }
+    }
+#endif
+
+    if(!chip->usb_present && (max17058_FG_SOC()<=5))
+		power_supply_changed(&chip->batt_psy);
+     else if(chip->update_psy_change>=5)    {
+	    power_supply_changed(&chip->batt_psy);
+        chip->update_psy_change=0;		
+    }
+    else
+	   chip->update_psy_change++;
+	
+
+#ifdef CONFIG_PANTECH_PMIC_POWER_ON_OFF_TEST
+    if(is_offline_charging_mode==1) {
+        power_worker_count++;
+        if(power_worker_count>6)
+            schedule_delayed_work(&pwr_test->power_key_emulation_work, round_jiffies_relative(msecs_to_jiffies(1000)));
+    }
+#endif /* CONFIG_PANTECH_PMIC_POWER_ON_OFF_TEST */
+
+    schedule_delayed_work(&chip->update_heartbeat_work,
+                        round_jiffies_relative(msecs_to_jiffies(5000)));
+}
+#endif
+
 #define OF_PROP_READ(chip, prop, qpnp_dt_property, retval, optional)	\
 do {									\
 	if (retval)							\
@@ -4492,6 +6185,141 @@ qpnp_charger_read_dt_props(struct qpnp_chg_chip *chip)
 	return rc;
 }
 
+#ifdef CONFIG_PANTECH_PMIC_DISABLE_REPETITION_OF_SYSOK
+static void usbin_irq_count_worker(struct work_struct *work)
+{
+	if(usbin_irq_count<30){
+		usbin_irq_count = 0;
+	}
+	return;
+}
+static void usbin_irq_check_worker(struct work_struct *work)
+{
+	struct delayed_work *dwork = to_delayed_work(work);
+	struct qpnp_chg_chip *chip = container_of(dwork, struct qpnp_chg_chip, usbin_irq_check_work);
+
+	if(is_sysok_used){
+		enable_irq(chip->sysok_valid.irq);
+		qpnp_sysok_irq_handler(SC_SYSOK, chip);
+	}
+	
+	return;
+}
+#endif
+#ifdef CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND
+static void sysok_irq_handler_worker(struct work_struct *work)
+{
+	struct delayed_work *dwork = to_delayed_work(work);
+	struct qpnp_chg_chip *chip = container_of(dwork, struct qpnp_chg_chip, sysok_work);
+
+	if(is_sysok_used){ 
+		qpnp_sysok_irq_handler(SC_SYSOK, chip);
+	}
+	
+	return;
+}
+
+#endif
+#ifdef CONFIG_PANTECH_PMIC_POWER_ON_OFF_TEST
+void set_is_offline_charging_mode(void)
+{
+	static oem_pm_smem_vendor1_data_type *smem_id_vendor1_ptr;
+	
+	smem_id_vendor1_ptr = (oem_pm_smem_vendor1_data_type*)smem_alloc(SMEM_ID_VENDOR1,
+		sizeof(oem_pm_smem_vendor1_data_type));
+	
+	if(smem_id_vendor1_ptr->power_on_mode==0)
+		is_offline_charging_mode = 1;
+}
+
+static void pwrkey_sw_pressed(struct work_struct *work)
+{
+	pr_debug("%s: [MKS] pwrkey_sw_pressed Entered !!!", __func__);
+	
+	input_report_key(pwr_test->pwr, KEY_POWER, 1);
+	input_sync(pwr_test->pwr);
+	msleep(3000);
+	input_report_key(pwr_test->pwr, KEY_POWER, 0);
+	input_sync(pwr_test->pwr);
+
+	return;
+}
+
+static ssize_t pwronoff_trigger_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
+{
+	return sprintf(buf, "%d\n", pwr_on_trigger);
+}
+
+static ssize_t pwronoff_trigger_store(struct kobject *kobj, struct kobj_attribute *attr, const char *buf, size_t count)
+{
+	sscanf(buf, "%d\n", &pwr_on_trigger);
+	pr_debug("%s: [MKS] pwronoff_trigger_store Entered !!!pwr_on_trigger(%d)", __func__, pwr_on_trigger);
+	if (!pwr_test)
+		return 0;
+
+	schedule_delayed_work(&pwr_test->power_key_emulation_work, round_jiffies_relative(msecs_to_jiffies((pwrkey_delay_ms==0) ? 65000 : pwrkey_delay_ms)));
+
+	return count;
+}
+
+static ssize_t pwronoff_delay_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
+{
+	return sprintf(buf, "%d\n", pwrkey_delay_ms);
+}
+
+static ssize_t pwronoff_delay_store(struct kobject *kobj, struct kobj_attribute *attr, const char *buf, size_t count)
+{
+	sscanf(buf, "%d\n", &pwrkey_delay_ms);
+	pr_debug("%s: [MKS] pwronoff_delay_store Entered !!!pwrkey_delay_ms(%d)", __func__, pwrkey_delay_ms);
+	
+	return count;
+}
+
+static struct kobj_attribute pwr_onoff_attr =
+        __ATTR(pwr_onoff_trigger, 0666, pwronoff_trigger_show, pwronoff_trigger_store);
+static struct kobj_attribute pwr_onoff_delay_attr =
+        __ATTR(pwr_onoff_delay, 0666, pwronoff_delay_show, pwronoff_delay_store);
+
+static struct attribute *g[] = {
+        &pwr_onoff_attr.attr,
+        &pwr_onoff_delay_attr.attr,
+        NULL,
+};
+static struct attribute_group pwr_onoff_attr_group = {
+        .attrs = g,
+};
+#endif /* CONFIG_PANTECH_PMIC_POWER_ON_OFF_TEST */
+
+#ifdef CONFIG_PANTECH_PMIC_ABNORMAL
+static ssize_t qpnp_sysfs_abnormal_state(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	struct qpnp_chg_chip *chip = dev_get_drvdata(dev);
+    char tmp[32] = {0,};
+
+    switch(chip->nonstandard_state) {
+    case NONSTANDARD_READY:
+        strcpy(tmp, "READY");
+        break;
+    case NONSTANDARD_WORKING:
+        strcpy(tmp, "WORKING");
+        break;
+    case NONSTANDARD_USBIN:
+        strcpy(tmp, "USB-IN");
+        break;
+    case NONSTANDARD_ACIN:
+        strcpy(tmp, "AC-IN");
+        break;
+    case NONSTANDARD_COMPLETED:
+        strcpy(tmp, "COMPLETED");
+        break;
+    default:
+        break;
+    }
+    return snprintf(buf, 32, "abnormal state : %s\n", tmp);
+}
+static DEVICE_ATTR(abnormal_state, S_IRUGO, qpnp_sysfs_abnormal_state, NULL);
+#endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
+
 static int __devinit
 qpnp_charger_probe(struct spmi_device *spmi)
 {
@@ -4500,6 +6328,9 @@ qpnp_charger_probe(struct spmi_device *spmi)
 	struct resource *resource;
 	struct spmi_resource *spmi_resource;
 	int rc = 0;
+#ifdef CONFIG_PANTECH_PMIC_POWER_ON_OFF_TEST
+	int err;
+#endif /* CONFIG_PANTECH_PMIC_POWER_ON_OFF_TEST */
 
 	chip = devm_kzalloc(&spmi->dev,
 			sizeof(struct qpnp_chg_chip), GFP_KERNEL);
@@ -4719,6 +6550,11 @@ qpnp_charger_probe(struct spmi_device *spmi)
 			goto fail_chg_enable;
 		}
 	}
+	
+#if defined(CONFIG_QPNP_CHARGER)	
+	the_qpnp_chip = chip;
+#endif
+
 	dev_set_drvdata(&spmi->dev, chip);
 	device_init_wakeup(&spmi->dev, 1);
 
@@ -4749,6 +6585,10 @@ qpnp_charger_probe(struct spmi_device *spmi)
 			qpnp_bat_if_adc_measure_work);
 		INIT_WORK(&chip->adc_disable_work,
 			qpnp_bat_if_adc_disable_work);
+#if defined(CONFIG_PANTECH_PMIC_PHYSICAL_DROP)
+		INIT_DELAYED_WORK(&chip->drop_work,
+			qpnp_bat_if_drop_work);
+#endif
 	}
 
 	INIT_DELAYED_WORK(&chip->eoc_work, qpnp_eoc_work);
@@ -4757,6 +6597,19 @@ qpnp_charger_probe(struct spmi_device *spmi)
 			qpnp_usbin_health_check_work);
 	INIT_WORK(&chip->soc_check_work, qpnp_chg_soc_check_work);
 	INIT_DELAYED_WORK(&chip->aicl_check_work, qpnp_aicl_check_work);
+
+#ifdef CONFIG_PANTECH_PMIC_ABNORMAL
+    chip->update_abnormal_wq = create_singlethread_workqueue("abnormal_work");
+	INIT_DELAYED_WORK(&chip->update_abnormal_delayed_work, check_abnormal_worker);
+    INIT_WORK(&chip->update_abnormal_wq_excutor, check_abnormal_worker_excutor);
+#endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
+#ifdef CONFIG_PANTECH_PMIC_DISABLE_REPETITION_OF_SYSOK
+	INIT_DELAYED_WORK(&chip->usbin_irq_check_work, usbin_irq_check_worker);
+	INIT_DELAYED_WORK(&chip->usbin_irq_count_work, usbin_irq_count_worker);
+#endif
+#ifdef CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND
+	INIT_DELAYED_WORK(&chip->sysok_work, sysok_irq_handler_worker);
+#endif
 
 	if (chip->dc_chgpth_base) {
 		chip->dc_psy.name = "qpnp-dc";
@@ -4817,6 +6670,9 @@ qpnp_charger_probe(struct spmi_device *spmi)
 		pr_err("failed to configure btc %d\n", rc);
 		goto unregister_dc_psy;
 	}
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+	chip->battery_id_adc = get_battery_id_adc();
+#endif 	
 
 	qpnp_chg_charge_en(chip, !chip->charging_disabled);
 	qpnp_chg_force_run_on_batt(chip, chip->charging_disabled);
@@ -4828,8 +6684,18 @@ qpnp_charger_probe(struct spmi_device *spmi)
 		goto unregister_dc_psy;
 	}
 
-	qpnp_chg_usb_chg_gone_irq_handler(chip->chg_gone.irq, chip);
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+#if defined(CONFIG_PANTECH_PMIC_EOC)
+	chip->end_recharing = false;
+#endif
+	wake_lock_init(&chip->smb349_cable_wake_lock, WAKE_LOCK_SUSPEND, "smb349_cable_wake_lock");
+#endif
+#if defined(CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND)
+	qpnp_sysok_irq_handler(SC_SYSOK, chip);
+#else
+//	qpnp_chg_usb_chg_gone_irq_handler(chip->chg_gone.irq, chip);
 	qpnp_chg_usb_usbin_valid_irq_handler(chip->usbin_valid.irq, chip);
+#endif
 	qpnp_chg_dc_dcin_valid_irq_handler(chip->dcin_valid.irq, chip);
 	power_supply_set_present(chip->usb_psy,
 			qpnp_chg_is_usb_chg_plugged_in(chip));
@@ -4848,7 +6714,118 @@ qpnp_charger_probe(struct spmi_device *spmi)
 			qpnp_chg_is_dc_chg_plugged_in(chip),
 			get_prop_batt_present(chip),
 			get_prop_batt_health(chip));
+
+#ifdef CONFIG_PANTECH_PMIC_BMS_TEST
+	atomic_set(&bms_input_flag, 0);
+	atomic_set(&bms_cutoff_flag, 1);
+
+	bms_input_attr_dev = platform_device_register_simple("bms_app_attr", -1, NULL, 0);
+
+	if (!bms_input_attr_dev) {
+		pr_debug("BMS: Unable to register platform_device_register_simple device\n");
+		rc = -ENXIO;
+		//goto free_irq;
+	}
+
+	rc = sysfs_create_group(&bms_input_attr_dev->dev.kobj, &bms_input_attr_group);	
+	if (rc) {
+		pr_debug("[BMS] failed: sysfs_create_group  [ERROR]\n");	
+		goto unregister_input_attr;
+	} 
+
+	bms_input_dev = input_allocate_device();
+
+	if (!bms_input_dev) {
+		pr_debug("BMS: Unable to input_allocate_device \n");
+		rc = -ENXIO;
+		goto remove_sysfs;
+	}
+	
+
+	set_bit(EV_REL, bms_input_dev->evbit);
+
+	input_set_capability(bms_input_dev, EV_REL, REL_RX);	// SOC
+	input_set_capability(bms_input_dev, EV_REL, REL_RY); 	// Volt
+	input_set_capability(bms_input_dev, EV_REL, REL_RZ);    // TEMP
+	input_set_capability(bms_input_dev, EV_REL, REL_X);		// VCHG 20130521 djjeon, powerlog add ICHG
+	input_set_capability(bms_input_dev, EV_REL, REL_Y);	//real soc, 20131030 p13787 ryu 
+	bms_input_dev->name="bms_app";
+
+	rc = input_register_device(bms_input_dev);
+
+	if (rc) {
+		pr_debug("BMS: Unable to register input_register_device device\n");
+		goto free_input_device;
+	}
+#endif /* CONFIG_PANTECH_PMIC_BMS_TEST */
+     
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+#if 1 // (defined(CONFIG_MACH_MSM8974_EF56S) && (CONFIG_BOARD_VER < CONFIG_TP10))
+       set_prop_batt_present_ctrl(chip);
+#endif
+       set_prop_batt_btc_ctrl(chip);
+#endif
+
+#if defined(CONFIG_PANTECH_PMIC_MONITOR_TEST)
+	pm8941_charger_test_charger_monitor_init(chip);
+#endif
+	
+#if defined(CONFIG_PANTECH_PMIC_MONITOR_TEST) || defined(CONFIG_PANTECH_PMIC_BATTERY_CHARGING_DISCHARGING_TEST)
+	pm8941_charger_battery_charging_test_init();
+#endif
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+	INIT_DELAYED_WORK(&chip->update_heartbeat_work, check_temperature_worker);	
+    schedule_delayed_work(&chip->update_heartbeat_work, round_jiffies_relative(msecs_to_jiffies(1000)));	   	
+#endif
+
+#ifdef CONFIG_PANTECH_PMIC_POWER_ON_OFF_TEST
+	set_is_offline_charging_mode();
+
+	pwr_test = kzalloc(sizeof(*pwr_test), GFP_KERNEL);
+	if (!pwr_test)
+		return -ENOMEM;
+
+	pwr_test->pwr = input_allocate_device();
+	if (!pwr_test->pwr){
+		pr_err("Can't allocate power button\n");
+	}else{
+		pwr_test->pwr->name = "pmic_pwrkey_emulation";
+		pwr_test->pwr->evbit[0]=BIT(EV_KEY);
+		set_bit(KEY_POWER, pwr_test->pwr->keybit);
+
+		err = input_register_device(pwr_test->pwr);
+		if (err) {
+			pr_err("Can't register power key emulation: %d\n", err);
+			// 20130527. MKS. to do. error handling.
+		}
+		INIT_DELAYED_WORK(&pwr_test->power_key_emulation_work, pwrkey_sw_pressed);
+
+		kobj_pwr_test = kobject_create_and_add("pmic_pwrkey_emulation", NULL);
+		if (kobj_pwr_test)
+			err = sysfs_create_group(kobj_pwr_test, &pwr_onoff_attr_group);
+			// 20130527. MKS. to do. error handling.
+	}	
+#endif /* CONFIG_PANTECH_PMIC_POWER_ON_OFF_TEST */
+
+#ifdef CONFIG_PANTECH_PMIC_ABNORMAL
+    if(device_create_file(chip->dev, &dev_attr_abnormal_state))
+        pr_err("%s: Error, could not create abnormal_state\n", __func__);
+#endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
+
+	charger_probe =1; 
+	
 	return 0;
+
+#ifdef CONFIG_PANTECH_PMIC_BMS_TEST
+free_input_device:
+        input_free_device(bms_input_dev);
+		
+remove_sysfs:
+        sysfs_remove_group(&bms_input_attr_dev->dev.kobj, &bms_input_attr_group);
+		
+unregister_input_attr:
+        platform_device_unregister(bms_input_attr_dev);
+#endif /* CONFIG_PANTECH_PMIC_BMS_TEST */
 
 unregister_dc_psy:
 	if (chip->dc_chgpth_base)
@@ -4872,11 +6849,18 @@ qpnp_charger_remove(struct spmi_device *spmi)
 							&chip->adc_param);
 	}
 
+#ifdef CONFIG_PANTECH_PMIC_ABNORMAL
+    device_remove_file(chip->dev, &dev_attr_abnormal_state);
+#endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
+
 	cancel_delayed_work_sync(&chip->aicl_check_work);
 	power_supply_unregister(&chip->dc_psy);
 	cancel_work_sync(&chip->soc_check_work);
 	cancel_delayed_work_sync(&chip->usbin_health_check);
 	cancel_delayed_work_sync(&chip->arb_stop_work);
+#if defined(CONFIG_PANTECH_PMIC_PHYSICAL_DROP)
+	cancel_delayed_work(&chip->drop_work); // skkim p14200@LS1
+#endif
 	cancel_delayed_work_sync(&chip->eoc_work);
 	cancel_work_sync(&chip->adc_disable_work);
 	cancel_work_sync(&chip->adc_measure_work);
@@ -4889,6 +6873,10 @@ qpnp_charger_remove(struct spmi_device *spmi)
 	mutex_destroy(&chip->batfet_vreg_lock);
 	mutex_destroy(&chip->jeita_configure_lock);
 
+#if defined(CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND)
+	free_irq(gpio_to_irq(SC_SYSOK), chip);
+#endif
+
 	regulator_unregister(chip->otg_vreg.rdev);
 	regulator_unregister(chip->boost_vreg.rdev);
 
@@ -4899,6 +6887,11 @@ static int qpnp_chg_resume(struct device *dev)
 {
 	struct qpnp_chg_chip *chip = dev_get_drvdata(dev);
 	int rc = 0;
+	
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+	schedule_delayed_work(&chip->update_heartbeat_work,
+        	round_jiffies_relative(msecs_to_jiffies(0)));
+#endif
 
 	if (chip->bat_if_base) {
 		rc = qpnp_chg_masked_write(chip,
@@ -4908,6 +6901,15 @@ static int qpnp_chg_resume(struct device *dev)
 		if (rc)
 			pr_debug("failed to force on VREF_BAT_THM rc=%d\n", rc);
 	}
+	qpnp_chg_enable_irq(&chip->batt_pres);//ADD THIS CODE FOR WORKAROUND
+#if defined(CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND)
+	enable_irq(chip->sysok_valid.irq);
+	qpnp_chg_disable_irq(&chip->usbin_valid);
+	schedule_delayed_work(&chip->sysok_work, round_jiffies_relative(msecs_to_jiffies(250)));
+#if defined(CONFIG_PANTECH_PMIC_DISABLE_REPETITION_OF_SYSOK) || defined(CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND)
+	is_sysok_used = true;
+#endif
+#endif
 
 	return rc;
 }
@@ -4916,6 +6918,18 @@ static int qpnp_chg_suspend(struct device *dev)
 {
 	struct qpnp_chg_chip *chip = dev_get_drvdata(dev);
 	int rc = 0;
+
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
+	cancel_delayed_work(&chip->update_heartbeat_work);
+#endif
+    qpnp_chg_disable_irq(&chip->batt_pres);//ADD THIS CODE FOR WORKAROUND
+#if defined(CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND)
+	qpnp_chg_enable_irq(&chip->usbin_valid);
+	disable_irq_nosync(chip->sysok_valid.irq);
+#if defined(CONFIG_PANTECH_PMIC_DISABLE_REPETITION_OF_SYSOK) || defined(CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND)
+	is_sysok_used = false;
+#endif
+#endif
 
 	if (chip->bat_if_base) {
 		rc = qpnp_chg_masked_write(chip,

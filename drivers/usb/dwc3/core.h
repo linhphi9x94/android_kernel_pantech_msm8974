@@ -52,6 +52,13 @@
 
 #include "dwc3_otg.h"
 
+#ifdef CONFIG_ANDROID_PANTECH_USB_OTG_INTENT
+#include <linux/switch.h>
+#endif
+#ifdef CONFIG_PANTECH_USB_DEBUG
+#define USB_DEBUG_MASK (1 << 0)
+#endif
+
 /* Global constants */
 #define DWC3_EP0_BOUNCE_SIZE	512
 #define DWC3_ENDPOINTS_NUM	32
@@ -783,6 +790,14 @@ struct dwc3 {
 	void (*notify_event) (struct dwc3 *, unsigned);
 	int			tx_fifo_size;
 	bool			tx_fifo_reduced;
+#ifdef CONFIG_PANTECH_USB_STATE_DEBUG
+	struct delayed_work 	state_work;
+#endif
+	
+#ifdef CONFIG_ANDROID_PANTECH_USB_OTG_INTENT
+	struct switch_dev	sdev_otg;
+	struct switch_dev	sdev_otg_dev;
+#endif
 };
 
 /* -------------------------------------------------------------------------- */

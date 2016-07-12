@@ -32,6 +32,12 @@
 #include <mach/socinfo.h>
 #include <mach/rpm-regulator.h>
 
+#if defined(CONFIG_PANTECH_DEBUG)
+#if defined(CONFIG_PANTECH_DEBUG_DCVS_LOG) //p14291_pantech_dbg
+#include <mach/pantech_debug.h> 
+#endif
+#endif
+
 #include "acpuclock.h"
 #include "avs.h"
 

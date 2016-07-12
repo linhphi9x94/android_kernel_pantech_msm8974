@@ -24,6 +24,58 @@
 #include "io.h"
 #include "xhci.h"
 
+//On Booting, check charger initialization 
+#if defined(CONFIG_MACH_MSM8974_EF59S) || defined(CONFIG_MACH_MSM8974_EF59K) || defined(CONFIG_MACH_MSM8974_EF59L)|| defined(CONFIG_MACH_MSM8974_EF60S) || defined(CONFIG_MACH_MSM8974_EF65S)|| defined(CONFIG_MACH_MSM8974_EF61K)|| defined(CONFIG_MACH_MSM8974_EF62L) || defined(CONFIG_MACH_MSM8974_EF56S)
+#define FEATURE_PANTECH_USB_CHARGER_INIT_ERROR
+#endif
+//smb349 charger IC feature(by LS1 Lee sangjae)
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349)
+#ifdef CONFIG_PANTECH_PMIC_OTG
+#include <linux/delay.h>
+extern void smb349_otg_power_current(int mode);
+#endif /* CONFIG_PANTECH_PMIC_OTG */
+#ifdef CONFIG_PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY
+#ifdef CONFIG_ANDROID_PANTECH_USB_OTG_INTENT
+extern int set_otg_dev_state(int mode);
+#endif /* CONFIG_ANDROID_PANTECH_USB_OTG_INTENT */
+static int is_otg_enabled=0;
+#ifdef CONFIG_PANTECH_PMIC_OTG_UVLO
+extern int max17058_get_soc_for_otg(void);
+#endif /* CONFIG_PANTECH_PMIC_OTG_UVLO */
+#endif /* CONFIG_PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY */
+extern void smb349_otg_power(int on);
+#endif /* defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) */
+
+#if defined(CONFIG_PANTECH_USB_TI_OTG_DISABLE_LOW_BATTERY)
+/* FIXME : This feature is used for TI external charger(ef63 series)
+ * LS4-USB tarial
+ */
+#include <linux/delay.h>
+#if defined(CONFIG_PANTECH_EF63_PMIC_FUELGAUGE_MAX17058)
+extern int max17058_get_soc_for_led(void);
+#endif
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_BQ2419X)
+extern int chg_force_switching_scope(bool u2c);
+#endif
+extern int set_otg_dev_state(int mode);
+static int is_otg_enabled=0;
+#endif /* CONFIG_PANTECH_USB_TI_OTG_DISABLE_LOW_BATTERY */
+
+#ifdef CONFIG_PANTECH_USB_DEBUG
+extern int dwc3_logmask_value;
+#undef dev_dbg
+#define dev_dbg(dev, format, arg...)		\
+	do{if(dwc3_logmask_value & USB_DEBUG_MASK) dev_printk(KERN_DEBUG, dev, format, ##arg);}while(0)
+#endif
+
+#ifdef CONFIG_ANDROID_PANTECH_USB_OTG_INTENT
+extern int set_otg_host_state(int mode);
+#endif
+
+#ifdef CONFIG_PANTECH_USB_BLOCKING_MDMSTATE
+extern int get_pantech_mdm_state(void);
+#endif
+
 #define VBUS_REG_CHECK_DELAY	(msecs_to_jiffies(1000))
 #define MAX_INVALID_CHRGR_RETRY 3
 static int max_chgr_retry_count = MAX_INVALID_CHRGR_RETRY;
@@ -173,6 +225,18 @@ static void dwc3_otg_set_peripheral_regs(struct dwc3_otg *dotg)
  *
  * Returns 0 on success otherwise negative errno.
  */
+#ifdef CONFIG_PANTECH_QUALCOMM_OTG_MODE_OVP_BUG
+//xsemiyas_debug
+extern int get_pantech_chg_otg_mode(void);
+extern void set_pantech_chg_otg_mode(int val);
+#endif
+
+#ifdef CONFIG_PANTECH_USB_TUNE_SIGNALING_PARAM
+extern void pantech_set_otg_signaling_param(int on);	
+#endif
+#ifdef FEATURE_PANTECH_USB_CHARGER_INIT_ERROR
+extern int charger_ready_status(void);
+#endif
 static int dwc3_otg_start_host(struct usb_otg *otg, int on)
 {
 	struct dwc3_otg *dotg = container_of(otg, struct dwc3_otg, otg);
@@ -180,9 +244,22 @@ static int dwc3_otg_start_host(struct usb_otg *otg, int on)
 	struct dwc3 *dwc = dotg->dwc;
 	int ret = 0;
 
+#ifdef CONFIG_PANTECH_QUALCOMM_OTG_MODE_OVP_BUG
+	//xsemiyas_debug
+	int value;
+#endif
+#if defined(CONFIG_PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY) || defined(CONFIG_PANTECH_USB_TI_OTG_DISABLE_LOW_BATTERY)
+	int level;
+#endif
+
 	if (!dwc->xhci)
 		return -EINVAL;
 
+#ifdef FEATURE_PANTECH_USB_CHARGER_INIT_ERROR
+	if(!charger_ready_status())
+		return -ENODEV;
+#endif
+#if !defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347) && !defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) && !defined(CONFIG_PANTECH_PMIC_CHARGER_BQ2419X)
 	if (!dotg->vbus_otg) {
 		dotg->vbus_otg = devm_regulator_get(dwc->dev->parent,
 							"vbus_dwc3");
@@ -193,9 +270,28 @@ static int dwc3_otg_start_host(struct usb_otg *otg, int on)
 			return ret;
 		}
 	}
+#endif /* !defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347) && !defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) && !defined(CONFIG_PANTECH_CHARGER_BQ2419X) */
+
+#if defined(CONFIG_PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY) && defined(CONFIG_PANTECH_PMIC_OTG_UVLO)
+	level = max17058_get_soc_for_otg();
+#elif defined(CONFIG_PANTECH_USB_TI_OTG_DISABLE_LOW_BATTERY) && defined(CONFIG_PANTECH_EF63_PMIC_FUELGAUGE_MAX17058)
+	level = max17058_get_soc_for_led();
+#else
+	level = 50;
+#endif
 
 	if (on) {
 		dev_dbg(otg->phy->dev, "%s: turn on host\n", __func__);
+
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349)
+		//xsemiyas_debug:warmup_time
+		smb349_otg_power(1);
+		usleep_range(60, 100);
+#ifdef CONFIG_PANTECH_PMIC_OTG
+		smb349_otg_power_current(3);
+#endif /* CONFIG_PANTECH_PMIC_OTG */
+		smb349_otg_power(0);
+#endif /* defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) */
 
 		/*
 		 * This should be revisited for more testing post-silicon.
@@ -226,27 +322,106 @@ static int dwc3_otg_start_host(struct usb_otg *otg, int on)
 		}
 
 		dwc3_otg_notify_host_mode(otg, on);
+#ifdef CONFIG_PANTECH_QUALCOMM_OTG_MODE_OVP_BUG		
+		//xsemiyas_debug
+		while((value = get_pantech_chg_otg_mode()) != 1){
+			if(value == -1){
+				set_pantech_chg_otg_mode(0);
+				dev_err(otg->phy->dev, "unable to enable qpnp_otg_mode\n");
+				return -ENXIO;
+			}
+			msleep(10);
+		}
+#endif
+
+#if defined(CONFIG_PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY)
+		if (level < 10) {
+			dev_err(dwc->dev, "Low Battery!!, OTG power not set!\n");
+#ifdef CONFIG_ANDROID_PANTECH_USB_OTG_INTENT
+			set_otg_dev_state(2);
+#endif			
+			return 0;
+		}
+#elif defined(CONFIG_PANTECH_USB_TI_OTG_DISABLE_LOW_BATTERY)
+		if (level < 10) {
+			dev_err(dwc->dev, "Battery is not enough!, OTG power remove!\n");
+#ifdef CONFIG_ANDROID_PANTECH_USB_OTG_INTENT
+			set_otg_dev_state(2);
+#endif
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_BQ2419X)
+			//chg_force_switching_scope(1); //otg power remove
+			dwc3_otg_notify_host_mode(otg, 0); //otg power remove
+#endif
+			return 0;
+		}
+#endif
+
+#ifdef CONFIG_PANTECH_USB_TUNE_SIGNALING_PARAM
+		pantech_set_otg_signaling_param(on);
+#endif
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349)
+		smb349_otg_power(on);
+#ifdef CONFIG_PANTECH_PMIC_OTG
+		usleep_range(60, 100);//xsemiyas_debug: change 60uS
+		smb349_otg_power_current(3); //750mA current setting
+#endif /* CONFIG_PANTECH_PMIC_OTG */
+#elif !defined(CONFIG_PANTECH_PMIC_CHARGER_BQ2419X)
 		ret = regulator_enable(dotg->vbus_otg);
 		if (ret) {
 			dev_err(otg->phy->dev, "unable to enable vbus_otg\n");
 			platform_device_del(dwc->xhci);
 			return ret;
 		}
+#endif /* defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) */
 
 		/* re-init OTG EVTEN register as XHCI reset clears it */
 		if (ext_xceiv && !ext_xceiv->otg_capability)
 			dwc3_otg_reset(dotg);
+#if defined(CONFIG_PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY) || defined(CONFIG_PANTECH_USB_TI_OTG_DISABLE_LOW_BATTERY)
+		is_otg_enabled = 1;
+#endif
+
 	} else {
 		dev_dbg(otg->phy->dev, "%s: turn off host\n", __func__);
 
+#ifdef CONFIG_PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY
+		if (level >= 10) {
+#endif
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349)
+		smb349_otg_power(on);
+#ifdef CONFIG_PANTECH_PMIC_OTG
+		smb349_otg_power_current(1); //250mA current setting
+#endif /* CONFIG_PANTECH_PMIC_OTG */
+#ifdef CONFIG_PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY
+		}
+#endif
+#elif !defined(CONFIG_PANTECH_PMIC_CHARGER_BQ2419X)
 		ret = regulator_disable(dotg->vbus_otg);
 		if (ret) {
 			dev_err(otg->phy->dev, "unable to disable vbus_otg\n");
 			return ret;
 		}
+#endif /* defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) */
+#ifdef CONFIG_PANTECH_USB_TUNE_SIGNALING_PARAM
+		pantech_set_otg_signaling_param(on);
+#endif
+#if defined(CONFIG_PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY) || defined(CONFIG_PANTECH_USB_TI_OTG_DISABLE_LOW_BATTERY)
+		is_otg_enabled = 0;
+#endif
 		dwc3_otg_notify_host_mode(otg, on);
 
+#ifdef CONFIG_PANTECH_SIO_BUG_FIX
+		/* FIXME : Sometimes sm_work is executed twice in abnormal state.
+		 * So platform_device_del is executed twice. 
+		 * And this code is occurred NULL pointer exception at seconds procedure.
+		 * We are fixed below code only executed one.
+		 * from LS4-USB tarial
+		 */
+		if (dwc->xhci)
+			platform_device_del(dwc->xhci);
+#else
 		platform_device_del(dwc->xhci);
+#endif
 		/*
 		 * Perform USB hardware RESET (both core reset and DBM reset)
 		 * when moving from host to peripheral. This is required for
@@ -267,6 +442,32 @@ static int dwc3_otg_start_host(struct usb_otg *otg, int on)
 
 	return 0;
 }
+
+#if defined(CONFIG_PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY) || defined(CONFIG_PANTECH_USB_TI_OTG_DISABLE_LOW_BATTERY)
+int get_pantech_otg_enabled(void)
+{
+	return is_otg_enabled;
+}
+EXPORT_SYMBOL(get_pantech_otg_enabled);
+
+void pantech_otg_uvlo_notify(int on)
+{
+	printk(KERN_ERR "UVLO!! OTG power disconnect, on = [%d]\n", on);
+	is_otg_enabled = 0;
+#ifdef CONFIG_ANDROID_PANTECH_USB_OTG_INTENT
+	set_otg_dev_state(3);
+#endif
+	if(on) {
+		msleep(5000);
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349)
+		smb349_otg_power(0);
+#elif defined(CONFIG_PANTECH_PMIC_CHARGER_BQ2419X)
+		chg_force_switching_scope(1); //OTG power remove
+#endif
+	}
+}
+EXPORT_SYMBOL(pantech_otg_uvlo_notify);
+#endif
 
 /**
  * dwc3_otg_set_host -  bind/unbind the host controller driver.
@@ -455,10 +656,21 @@ static void dwc3_ext_event_notify(struct usb_otg *otg,
 		}
 		if (ext_xceiv->id == DWC3_ID_FLOAT) {
 			dev_dbg(phy->dev, "XCVR: ID set\n");
+#if defined(CONFIG_ANDROID_PANTECH_USB_OTG_INTENT)
+			/* FIXME : OTG host intent only notify to user layer
+			 * when previous OTG_ID state is 0.
+			 * LS4-USB tarial
+			 */
+			if(get_pantech_otg_enabled())
+				set_otg_host_state(0);
+#endif
 			set_bit(ID, &dotg->inputs);
 		} else {
 			dev_dbg(phy->dev, "XCVR: ID clear\n");
 			clear_bit(ID, &dotg->inputs);
+#ifdef CONFIG_ANDROID_PANTECH_USB_OTG_INTENT
+			set_otg_host_state(1);
+#endif
 		}
 
 		if (ext_xceiv->bsv) {
@@ -541,7 +753,16 @@ static int dwc3_otg_set_power(struct usb_phy *phy, unsigned mA)
 	else
 		power_supply_type = POWER_SUPPLY_TYPE_BATTERY;
 
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_BQ2419X)
+	/*
+	* FIXME : We does not use 2mA vbus draw event for EF63 series.
+	* LS4-USB tarial
+	*/
+	if(mA != 2)
 	power_supply_set_supply_type(dotg->psy, power_supply_type);
+#else
+	power_supply_set_supply_type(dotg->psy, power_supply_type);
+#endif
 
 	if (dotg->charger->chg_type == DWC3_CDP_CHARGER)
 		mA = DWC3_IDEV_CHG_MAX;
@@ -558,12 +779,24 @@ static int dwc3_otg_set_power(struct usb_phy *phy, unsigned mA)
 		if (power_supply_set_current_limit(dotg->psy, 1000*mA))
 			goto psy_error;
 	} else if (dotg->charger->max_power > 0 && (mA == 0 || mA == 2)) {
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_BQ2419X) 
+		if (!dotg->dwc->vbus_active){
+			dev_dbg(phy->dev, "%s : charger cable disconnection\n", __func__);
+			/* Disable charging */
+			if (power_supply_set_online(dotg->psy, false))
+				goto psy_error;
+			/* Set max current limit */
+			if (power_supply_set_current_limit(dotg->psy, 0))
+				goto psy_error;
+		}
+#else
 		/* Disable charging */
 		if (power_supply_set_online(dotg->psy, false))
 			goto psy_error;
 		/* Set max current limit */
 		if (power_supply_set_current_limit(dotg->psy, 0))
 			goto psy_error;
+#endif /* defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) */
 	}
 
 	power_supply_changed(dotg->psy);
@@ -766,6 +999,7 @@ static void dwc3_otg_sm_work(struct work_struct *w)
 					dwc3_otg_start_peripheral(&dotg->otg,
 									1);
 					phy->state = OTG_STATE_B_PERIPHERAL;
+					pr_info("DWC3_SDP_CHARGER\n");
 					work = 1;
 					break;
 				case DWC3_FLOATED_CHARGER:
@@ -822,8 +1056,17 @@ static void dwc3_otg_sm_work(struct work_struct *w)
 		break;
 
 	case OTG_STATE_B_PERIPHERAL:
+#ifdef CONFIG_PANTECH_USB_BLOCKING_MDMSTATE
+		if (0 < get_pantech_mdm_state())
+			dwc3_otg_set_power(phy, DWC3_BLOCKING_USB_MDMSTATE_MAX);
+#endif
+#ifndef CONFIG_PANTECH_SIO_BUG_FIX
 		if (!test_bit(B_SESS_VLD, &dotg->inputs) ||
 				!test_bit(ID, &dotg->inputs)) {
+#else
+		if (!test_bit(B_SESS_VLD, &dotg->inputs)) {
+		
+#endif
 			dev_dbg(phy->dev, "!id || !bsv\n");
 			dwc3_otg_start_peripheral(&dotg->otg, 0);
 			phy->state = OTG_STATE_B_IDLE;
@@ -871,10 +1114,21 @@ static void dwc3_otg_sm_work(struct work_struct *w)
 	case OTG_STATE_A_HOST:
 		if (test_bit(ID, &dotg->inputs)) {
 			dev_dbg(phy->dev, "id\n");
+#ifdef CONFIG_PANTECH_SIO_BUG_FIX
+			/* FIXME : If OTG cable is disconnecting, below process is must completed 
+			 * before pm_runtime_suspend.
+			 * So we are ignored pm_runtime_suspend request.
+			 * LS4-USB tarial
+			 */
+			pm_runtime_get_noresume(phy->dev);
+#endif
 			dwc3_otg_start_host(&dotg->otg, 0);
 			phy->state = OTG_STATE_B_IDLE;
 			dotg->vbus_retry_count = 0;
 			work = 1;
+#ifdef CONFIG_PANTECH_SIO_BUG_FIX
+			pm_runtime_put_noidle(phy->dev);
+#endif
 		}
 		break;
 

@@ -495,4 +495,40 @@ config QPNP_BMS
 	  Say Y here to enable support for QPNP chip bms device.
 	  It registers a fuelgauge bms power supply to report
 	  State of Charge.
+
+config PANTECH_PMIC_FUELGAUGE_MAX17058
+    tristate "Maxim MAX17058 Fuel Gauge"
+    depends on I2C
+    help
+      MAX17040 is fuel-gauge systems for lithium-ion (Li+) batteries
+      in handheld and portable equipment. The MAX17058 is configured
+      to operate with a single lithium cell
+
+config PANTECH_EF63_PMIC_FUELGAUGE_MAX17058
+	bool "Pantech MAX17058 Fuel gauge driver"
+	depends on I2C
+        help
+          Say Y to include support for MAX17058 Fuel gauge.
+	  
+config PANTECH_PMIC_CHARGER_SMB349
+	tristate "Summit Microelectronics SMB349 Battery Charger"
+    depends on I2C
+    help
+	  Say Y to include support for Summit Microelectronics SMB349
+	  Battery Charger.
+
+config PANTECH_PMIC_CHARGER_SMB347
+	tristate "Summit Microelectronics SMB347 Battery Charger"
+    depends on I2C
+    help
+	  Say Y to include support for Summit Microelectronics SMB347
+	  Battery Charger.
+	  
+config PANTECH_PMIC_CHARGER_BQ2419X
+	tristate "Pantech BQ2419X charger support"
+	depends on SPMI
+        depends on OF_SPMI
+        depends on I2C
+        help
+          Say Y to include support for TI BQ2419X  Battery Charger.	  
 endif # POWER_SUPPLY

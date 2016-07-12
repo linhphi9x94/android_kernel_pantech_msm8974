@@ -859,6 +859,10 @@ static int ncm_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
 	} else
 		goto fail;
 
+#ifdef CONFIG_ANDROID_PANTECH_USB_MANAGER
+	usb_interface_enum_cb(NCM_TYPE_FLAG);
+#endif
+
 	return 0;
 fail:
 	return -EINVAL;

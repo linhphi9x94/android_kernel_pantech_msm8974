@@ -22,7 +22,14 @@
 #include <linux/usb/otg.h>
 #include "power.h"
 
+#if defined(CONFIG_PANTECH_PMIC_CHARGER_BQ2419X)
+#define DWC3_IDEV_CHG_MAX 2000
+#else
 #define DWC3_IDEV_CHG_MAX 1500
+#endif
+#ifdef CONFIG_PANTECH_USB_BLOCKING_MDMSTATE
+#define DWC3_BLOCKING_USB_MDMSTATE_MAX 500
+#endif
 
 struct dwc3_charger;
 

@@ -76,6 +76,7 @@
 #include <asm/cacheflush.h>
 #include <asm/tlbflush.h>
 
+#include <mach/pantech_memlog.h>
 #include <trace/events/sched.h>
 
 #define CREATE_TRACE_POINTS
@@ -1332,6 +1333,10 @@ static struct task_struct *copy_process(unsigned long clone_flags,
 		if (!pid)
 			goto bad_fork_cleanup_io;
 	}
+
+#ifdef CONFIG_PANTECH_MEM_LEAK_TRACE
+	init_task_leak_info(p);
+#endif
 
 	p->pid = pid_nr(pid);
 	p->tgid = p->pid;

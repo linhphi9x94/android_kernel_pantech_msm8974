@@ -28,6 +28,8 @@
  * with the relevant device-wide data.
  */
 
+#define FEATURE_PANTECH_SSUSB_MAXPOWER_SET
+
 /* big enough to hold our biggest descriptor */
 #define USB_BUFSIZ	4096
 
@@ -370,8 +372,16 @@ static int config_buf(struct usb_configuration *config,
 	c->bConfigurationValue = config->bConfigurationValue;
 	c->iConfiguration = config->iConfiguration;
 	c->bmAttributes = USB_CONFIG_ATT_ONE | config->bmAttributes;
+#ifdef FEATURE_PANTECH_SSUSB_MAXPOWER_SET
+	if(config->cdev->vbus_draw_units == 8) //SSUSB
+		c->bMaxPower = 900 / config->cdev->vbus_draw_units;
+	else //HSUSB
+		c->bMaxPower = CONFIG_USB_GADGET_VBUS_DRAW / config->cdev->vbus_draw_units;
+
+#else
 	c->bMaxPower = config->bMaxPower ? :
 		(CONFIG_USB_GADGET_VBUS_DRAW / config->cdev->vbus_draw_units);
+#endif
 
 	/* There may be e.g. OTG descriptors */
 	if (config->descriptors) {
@@ -692,9 +702,17 @@ static int set_config(struct usb_composite_dev *cdev,
 		}
 	}
 
+#ifdef FEATURE_PANTECH_SSUSB_MAXPOWER_SET
+	if(cdev->vbus_draw_units == 8) //SSUSB
+		power = 900;
+	else //HSUSB
+		power = CONFIG_USB_GADGET_VBUS_DRAW;
+#else
 	/* when we return, be sure our power usage is valid */
 	power = c->bMaxPower ? (cdev->vbus_draw_units * c->bMaxPower) :
 			CONFIG_USB_GADGET_VBUS_DRAW;
+#endif
+
 done:
 	usb_gadget_vbus_draw(gadget, power);
 	if (result >= 0 && cdev->delayed_status)
@@ -1129,6 +1147,10 @@ composite_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
 					cdev->desc.bcdUSB = cpu_to_le16(0x0300);
 					cdev->desc.bMaxPacketSize0 = 9;
 					cdev->vbus_draw_units = 8;
+#ifdef CONFIG_ANDROID_PANTECH_USB_MANAGER
+					//LS2_USB tarial USB3 detect test code
+					usb3_state_set(1);
+#endif
 					DBG(cdev, "Config SS device in SS\n");
 				} else {
 					cdev->desc.bcdUSB = cpu_to_le16(0x0210);
@@ -1614,9 +1636,16 @@ composite_resume(struct usb_gadget *gadget)
 
 		maxpower = cdev->config->bMaxPower;
 
+#ifdef FEATURE_PANTECH_SSUSB_MAXPOWER_SET
+		if(cdev->vbus_draw_units == 8)
+			usb_gadget_vbus_draw(gadget, 900);
+		else
+			usb_gadget_vbus_draw(gadget, CONFIG_USB_GADGET_VBUS_DRAW);
+#else
 		usb_gadget_vbus_draw(gadget, maxpower ?
 			(cdev->vbus_draw_units * maxpower) :
 			CONFIG_USB_GADGET_VBUS_DRAW);
+#endif
 	}
 
 	cdev->suspended = 0;
@@ -1731,3 +1760,11 @@ void usb_composite_setup_continue(struct usb_composite_dev *cdev)
 	spin_unlock_irqrestore(&cdev->lock, flags);
 }
 
+#ifdef  CONFIG_ANDROID_PANTECH_USB_ABNORMAL_CHARGER_INFO
+extern int get_udc_state(char *udc_state);
+int composite_get_udc_state(char *udc_state)
+{
+	return get_udc_state(udc_state);
+}
+EXPORT_SYMBOL(composite_get_udc_state);
+#endif

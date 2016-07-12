@@ -1,0 +1,11 @@
+if CUST_PANTECH_H
+
+###################################################
+# PANTECH Secure Boot Section                     #
+#                                                 #
+config PANTECH_SECBOOT
+  bool
+  default n
+
+endif
+

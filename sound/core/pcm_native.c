@@ -1779,12 +1779,22 @@ static int snd_pcm_hw_rule_sample_bits(struct snd_pcm_hw_params *params,
 	return snd_interval_refine(hw_param_interval(params, rule->var), &t);
 }
 
+#ifdef CONFIG_PANTECH_SND_FLAC //20131223 jhsong : qct patch for 24bit pcm on offload
+#if SNDRV_PCM_RATE_5512 != 1 << 0 || SNDRV_PCM_RATE_192000 != 1 << 14
+#error "Change this table"
+#endif
+
+static unsigned int rates[] = { 5512, 8000, 11025, 12000, 16000, 22050, 24000,
+				32000, 44100, 48000, 64000, 88200, 96000,
+				176400, 192000 };
+#else
 #if SNDRV_PCM_RATE_5512 != 1 << 0 || SNDRV_PCM_RATE_192000 != 1 << 12
 #error "Change this table"
 #endif
 
 static unsigned int rates[] = { 5512, 8000, 11025, 16000, 22050, 32000, 44100,
                                  48000, 64000, 88200, 96000, 176400, 192000 };
+#endif
 
 const struct snd_pcm_hw_constraint_list snd_pcm_known_rates = {
 	.count = ARRAY_SIZE(rates),

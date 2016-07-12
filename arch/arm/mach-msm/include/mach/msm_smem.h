@@ -151,6 +151,25 @@ enum {
 	SMEM_NUM_ITEMS,
 };
 
+#if defined(CONFIG_PANTECH_PMIC)
+typedef struct
+{
+    uint32_t  power_on_reason;
+    uint32_t  factory_cable_adc;
+    uint32_t  battery_id_adc;
+    uint32_t  hw_rev_adc;
+    uint32_t  power_on_mode;
+    uint8_t   silent_boot_mode;
+#if defined(CONFIG_MACH_MSM8974_EF65S) && defined(CONFIG_PANTECH_ERR_CRASH_LOGGING)
+    uint8_t	   skt_charging_mode;
+#endif
+    uint32_t  hw_rev;
+    uint32_t  battery_id;
+    uint8_t   backlight_off;
+    uint32_t auto_power_on_soc_check;   //FEATURE_PANTECH_PMIC_AUTO_PWR_ON
+} oem_pm_smem_vendor1_data_type;
+#endif /* CONFIG_PANTECH_PMIC */
+
 #ifdef CONFIG_MSM_SMD
 void *smem_alloc(unsigned id, unsigned size);
 void *smem_alloc2(unsigned id, unsigned size_in);

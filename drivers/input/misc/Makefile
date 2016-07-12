@@ -66,3 +66,6 @@ obj-$(CONFIG_BMP18X_I2C)		+= bmp18x-i2c.o
 obj-$(CONFIG_SENSORS_MMA8X5X)	  	+= mma8x5x.o
 obj-$(CONFIG_SENSORS_STK3X1X)		+= stk3x1x.o
 obj-$(CONFIG_SENSORS_CAPELLA_CM36283)	+= cm36283.o
+obj-$(CONFIG_INPUT_FPC1080)             += fpc1080.o
+obj-$(CONFIG_INPUT_FPC1080_MODULE)             += fpc1080_module.o
+obj-$(CONFIG_INPUT_GPIO)		+= gpio_switch.o 

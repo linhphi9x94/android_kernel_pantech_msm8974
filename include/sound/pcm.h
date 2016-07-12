@@ -121,6 +121,20 @@ struct snd_pcm_ops {
 #define SNDRV_PCM_RATE_5512		(1<<0)		/* 5512Hz */
 #define SNDRV_PCM_RATE_8000		(1<<1)		/* 8000Hz */
 #define SNDRV_PCM_RATE_11025		(1<<2)		/* 11025Hz */
+#ifdef CONFIG_PANTECH_SND_FLAC  //20131223 jhsong : qct patch for 24bit pcm on offload
+#define SNDRV_PCM_RATE_12000		(1<<3)		/* 12000Hz */
+#define SNDRV_PCM_RATE_16000		(1<<4)		/* 16000Hz */
+#define SNDRV_PCM_RATE_22050		(1<<5)		/* 22050Hz */
+#define SNDRV_PCM_RATE_24000		(1<<6)		/* 22050Hz */
+#define SNDRV_PCM_RATE_32000		(1<<7)		/* 32000Hz */
+#define SNDRV_PCM_RATE_44100		(1<<8)		/* 44100Hz */
+#define SNDRV_PCM_RATE_48000		(1<<9)		/* 48000Hz */
+#define SNDRV_PCM_RATE_64000		(1<<10)		/* 64000Hz */
+#define SNDRV_PCM_RATE_88200		(1<<11)		/* 88200Hz */
+#define SNDRV_PCM_RATE_96000		(1<<12)		/* 96000Hz */
+#define SNDRV_PCM_RATE_176400		(1<<13)		/* 176400Hz */
+#define SNDRV_PCM_RATE_192000		(1<<14)		/* 192000Hz */
+#else
 #define SNDRV_PCM_RATE_16000		(1<<3)		/* 16000Hz */
 #define SNDRV_PCM_RATE_22050		(1<<4)		/* 22050Hz */
 #define SNDRV_PCM_RATE_32000		(1<<5)		/* 32000Hz */
@@ -131,13 +145,25 @@ struct snd_pcm_ops {
 #define SNDRV_PCM_RATE_96000		(1<<10)		/* 96000Hz */
 #define SNDRV_PCM_RATE_176400		(1<<11)		/* 176400Hz */
 #define SNDRV_PCM_RATE_192000		(1<<12)		/* 192000Hz */
+#endif
 
 #define SNDRV_PCM_RATE_CONTINUOUS	(1<<30)		/* continuous range */
 #define SNDRV_PCM_RATE_KNOT		(1<<31)		/* supports more non-continuos rates */
 
+#ifdef CONFIG_PANTECH_SND_FLAC  //20131223 jhsong : qct patch for 24bit pcm on offload
+#define SNDRV_PCM_RATE_8000_44100	(SNDRV_PCM_RATE_8000|\
+					 SNDRV_PCM_RATE_11025|\
+					 SNDRV_PCM_RATE_12000|\
+					 SNDRV_PCM_RATE_16000|\
+					 SNDRV_PCM_RATE_22050|\
+					 SNDRV_PCM_RATE_24000|\
+					 SNDRV_PCM_RATE_32000|\
+					 SNDRV_PCM_RATE_44100)
+#else
 #define SNDRV_PCM_RATE_8000_44100	(SNDRV_PCM_RATE_8000|SNDRV_PCM_RATE_11025|\
 					 SNDRV_PCM_RATE_16000|SNDRV_PCM_RATE_22050|\
 					 SNDRV_PCM_RATE_32000|SNDRV_PCM_RATE_44100)
+#endif
 #define SNDRV_PCM_RATE_8000_48000	(SNDRV_PCM_RATE_8000_44100|SNDRV_PCM_RATE_48000)
 #define SNDRV_PCM_RATE_8000_96000	(SNDRV_PCM_RATE_8000_48000|SNDRV_PCM_RATE_64000|\
 					 SNDRV_PCM_RATE_88200|SNDRV_PCM_RATE_96000)

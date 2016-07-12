@@ -23,6 +23,9 @@
 #include <linux/input.h>
 #include <linux/log2.h>
 #include <linux/qpnp/power-on.h>
+#ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
+#include <mach/pantech_apanic.h>
+#endif
 
 /* Common PNP defines */
 #define QPNP_PON_REVISION2(base)		(base + 0x01)
@@ -388,6 +391,9 @@ qpnp_pon_input_dispatch(struct qpnp_pon *pon, u32 pon_type)
 					(pon_rt_sts & pon_rt_bit));
 	input_sync(pon->pon_input);
 
+#ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
+	pantech_force_dump_key(cfg->key_code, 1);
+#endif
 	return 0;
 }
 

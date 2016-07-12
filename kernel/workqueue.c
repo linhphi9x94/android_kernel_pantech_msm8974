@@ -43,6 +43,12 @@
 #include <linux/idr.h>
 #include <linux/bug.h>
 
+#if defined(CONFIG_PANTECH_DEBUG)
+#ifdef CONFIG_PANTECH_DEBUG_SCHED_LOG  //p14291_pantech_dbg
+#include <mach/pantech_debug.h> 
+#endif
+#endif
+
 #include "workqueue_sched.h"
 
 enum {
@@ -1856,6 +1862,13 @@ __acquires(&gcwq->lock)
 	 */
 	if ((worker->flags & WORKER_UNBOUND) && need_more_worker(pool))
 		wake_up_worker(pool);
+
+#if defined(CONFIG_PANTECH_DEBUG)
+#ifdef CONFIG_PANTECH_DEBUG_SCHED_LOG  //p14291_121102
+    if(pantech_debug_enable)
+        pantechdbg_sched_msg("@%pS", f);
+#endif
+#endif
 
 	spin_unlock_irq(&gcwq->lock);
 

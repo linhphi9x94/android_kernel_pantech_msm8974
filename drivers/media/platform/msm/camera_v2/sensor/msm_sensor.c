@@ -566,8 +566,14 @@ int32_t msm_sensor_init_gpio_pin_tbl(struct device_node *of_node,
 		}
 		gconf->gpio_num_info->gpio_num[SENSOR_GPIO_STANDBY] =
 			gpio_array[val];
+#ifdef CONFIG_PANTECH_CAMERA
+		CDBG("%s qcom,gpio-standby %d\n", __func__,
+			gconf->gpio_num_info->gpio_num[SENSOR_GPIO_STANDBY]);
+#else
 		CDBG("%s qcom,gpio-reset %d\n", __func__,
 			gconf->gpio_num_info->gpio_num[SENSOR_GPIO_STANDBY]);
+#endif
+
 	}
 
 	rc = of_property_read_u32(of_node, "qcom,gpio-vio", &val);
@@ -654,6 +660,77 @@ int32_t msm_sensor_init_gpio_pin_tbl(struct device_node *of_node,
 			__func__, __LINE__, rc);
 		goto ERROR;
 	}
+
+#ifdef CONFIG_PANTECH_CAMERA
+#if defined(CONFIG_PANTECH_CAMERA_IMX135)
+	if (of_property_read_bool(of_node, "qcom,gpio-wp") == true) {
+		rc = of_property_read_u32(of_node, "qcom,gpio-wp", &val);
+		if (rc < 0) {
+			pr_err("%s:%d read qcom,gpio-wp failed rc %d\n",
+				__func__, __LINE__, rc);
+			goto ERROR;
+		} else if (val >= gpio_array_size) {
+			pr_err("%s:%d qcom,gpio-wp invalid %d\n",
+				__func__, __LINE__, val);
+			goto ERROR;
+		}
+		gconf->gpio_num_info->gpio_num[SENSOR_GPIO_R_WP] =
+			gpio_array[val];
+		CDBG("%s qcom,gpio-wp %d\n", __func__,
+			gconf->gpio_num_info->gpio_num[SENSOR_GPIO_R_WP]);
+	}
+#endif
+#if defined(CONFIG_PANTECH_CAMERA_IMX214)
+	if (of_property_read_bool(of_node, "qcom,avdd-en") == true) {
+		rc = of_property_read_u32(of_node, "qcom,avdd-en", &val);
+		if (rc < 0) {
+			pr_err("%s:%d read qcom,avdd-en failed rc %d\n",
+				__func__, __LINE__, rc);
+			goto ERROR;
+		} else if (val >= gpio_array_size) {
+			pr_err("%s:%d qcom,avdd-en invalid %d\n",
+				__func__, __LINE__, val);
+			goto ERROR;
+		}
+		gconf->gpio_num_info->gpio_num[SENSOR_GPIO_CAM0_AVDD_EN] =
+			gpio_array[val];
+		CDBG("%s qcom,avdd-en %d\n", __func__,
+			gconf->gpio_num_info->gpio_num[SENSOR_GPIO_CAM0_AVDD_EN]);
+	}
+	if (of_property_read_bool(of_node, "qcom,svdd0-en") == true) {
+		rc = of_property_read_u32(of_node, "qcom,svdd0-en", &val);
+		if (rc < 0) {
+			pr_err("%s:%d read qcom,svdd0-en failed rc %d\n",
+				__func__, __LINE__, rc);
+			goto ERROR;
+		} else if (val >= gpio_array_size) {
+			pr_err("%s:%d qcom,svdd0-en invalid %d\n",
+				__func__, __LINE__, val);
+			goto ERROR;
+		}
+		gconf->gpio_num_info->gpio_num[SENSOR_GPIO_CAM0_SVDD0_EN] =
+			gpio_array[val];
+		CDBG("%s qcom,svdd0-en %d\n", __func__,
+			gconf->gpio_num_info->gpio_num[SENSOR_GPIO_CAM0_SVDD0_EN]);
+	}
+	if (of_property_read_bool(of_node, "qcom,svdd1-en") == true) {
+		rc = of_property_read_u32(of_node, "qcom,svdd1-en", &val);
+		if (rc < 0) {
+			pr_err("%s:%d read qcom,svdd1-en failed rc %d\n",
+				__func__, __LINE__, rc);
+			goto ERROR;
+		} else if (val >= gpio_array_size) {
+			pr_err("%s:%d qcom,svdd1-en invalid %d\n",
+				__func__, __LINE__, val);
+			goto ERROR;
+		}
+		gconf->gpio_num_info->gpio_num[SENSOR_GPIO_CAM0_SVDD1_EN] =
+			gpio_array[val];
+		CDBG("%s qcom,svdd1-en %d\n", __func__,
+			gconf->gpio_num_info->gpio_num[SENSOR_GPIO_CAM0_SVDD1_EN]);
+	}
+#endif	
+#endif
 	return 0;
 
 ERROR:
@@ -957,7 +1034,11 @@ static struct msm_cam_clk_info cam_8610_clk_info[] = {
 };
 
 static struct msm_cam_clk_info cam_8974_clk_info[] = {
+#ifdef CONFIG_PANTECH_CAMERA
+	[SENSOR_CAM_MCLK] = {"cam_src_clk", 19200000},
+#else
 	[SENSOR_CAM_MCLK] = {"cam_src_clk", 24000000},
+#endif
 	[SENSOR_CAM_CLK] = {"cam_clk", 0},
 };
 

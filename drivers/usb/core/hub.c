@@ -29,6 +29,13 @@
 #include <asm/uaccess.h>
 #include <asm/byteorder.h>
 
+#ifdef CONFIG_PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY
+#ifdef CONFIG_PANTECH_PMIC_OTG_UVLO
+extern int smb347_get_otg_status(void);
+#endif
+extern void pantech_otg_uvlo_notify(int on);
+#endif
+
 #include "usb.h"
 
 #if defined(CONFIG_USB_PEHCI_HCD) || defined(CONFIG_USB_PEHCI_HCD_MODULE)
@@ -180,6 +187,9 @@ EXPORT_SYMBOL_GPL(ehci_cf_port_reset_rwsem);
 #define HUB_DEBOUNCE_STEP	  25
 #define HUB_DEBOUNCE_STABLE	 100
 
+#ifdef CONFIG_ANDROID_PANTECH_USB_OTG_INTENT
+extern int set_otg_dev_state(int mode);
+#endif
 
 static int usb_reset_and_verify_device(struct usb_device *udev);
 
@@ -1722,6 +1732,22 @@ void usb_disconnect(struct usb_device **pdev)
 	}
 #endif
 
+#ifdef CONFIG_ANDROID_PANTECH_USB_OTG_INTENT
+	if(udev->product != NULL){
+		if (strcmp(udev->product, "xHCI Host Controller")) {
+			set_otg_dev_state(0);
+#ifdef CONFIG_PANTECH_USB_SMB_OTG_DISABLE_LOW_BATTERY
+#ifdef CONFIG_PANTECH_PMIC_OTG_UVLO
+			if(smb347_get_otg_status())
+				pantech_otg_uvlo_notify(0);
+#endif
+#endif
+		}
+	} else {
+		set_otg_dev_state(0);
+	}
+#endif
+
 	usb_lock_device(udev);
 
 	/* Free up all the children before we remove this device */
@@ -2037,6 +2063,28 @@ int usb_new_device(struct usb_device *udev)
 
 	/* Tell the world! */
 	announce_device(udev);
+
+#ifdef CONFIG_ANDROID_PANTECH_USB_OTG_INTENT
+	printk("^^^^ bDeviceClass %d\n",udev->descriptor.bDeviceClass);
+	printk("^^^^ bDeviceSubClass %d\n",udev->descriptor.bDeviceSubClass);
+	printk("^^^^ bDeviceProtocol %d\n",udev->descriptor.bDeviceProtocol);
+
+	if(udev->product != NULL){
+		if (strcmp(udev->product, "xHCI Host Controller")) {			
+			set_otg_dev_state(1);
+		}
+	}else{
+		if(udev->descriptor.bDeviceClass == 0x09 && udev->descriptor.bDeviceSubClass == 0x00 && 
+			udev->descriptor.bDeviceProtocol == 0x01){
+				//printk("^^^^ it's hub\n");
+				err = 1;
+				goto fail;
+		}else{
+			 set_otg_dev_state(1);
+			//printk("^^^^ it's not hub\n");
+		}
+	}
+#endif
 
 	device_enable_async_suspend(&udev->dev);
 

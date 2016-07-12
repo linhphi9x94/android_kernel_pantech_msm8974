@@ -141,6 +141,10 @@ def build(target):
     print 'Building %s in %s log %s' % (target, dest_dir, log_name)
     if not os.path.isdir(dest_dir):
         os.mkdir(dest_dir)
+
+    perf_defconfig = msm8974_pantech_perf_defconfig
+	print 'Perf defconfig : %s' % perf_defconfig
+		
     defconfig = 'arch/arm/configs/%s_defconfig' % target
     dotconfig = '%s/.config' % dest_dir
     savedefconfig = '%s/defconfig' % dest_dir
@@ -153,6 +157,7 @@ def build(target):
 
     devnull = open('/dev/null', 'r')
     subprocess.check_call(['make', 'O=%s' % dest_dir,
+	    'PERF_DEFCONFIG=%s' % perf_defconfig,
         '%s_defconfig' % target], env=make_env, stdin=devnull)
     devnull.close()
 

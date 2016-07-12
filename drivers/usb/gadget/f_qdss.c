@@ -580,6 +580,10 @@ static int qdss_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
 
 	if (qdss->usb_connected && ch->app_conn)
 		queue_work(qdss->wq, &qdss->connect_w);
+		
+#ifdef CONFIG_ANDROID_PANTECH_USB_MANAGER
+	usb_interface_enum_cb(QDSS_TYPE_FLAG);
+#endif
 
 	return 0;
 fail:
