@@ -84,11 +84,16 @@ static inline unsigned int VENUS_EXTRADATA_SIZE(int width, int height)
 	(void)height;
 	(void)width;
 
+#if 1
+	return 0;
+#else
 	/*
 	 * In the future, calculate the size based on the w/h but just
 	 * hardcode it for now since 8K satisfies all current usecases.
 	 */
 	return 8 * 1024;
+#endif
+
 }
 
 static inline unsigned int VENUS_Y_STRIDE(int color_fmt, int width)
