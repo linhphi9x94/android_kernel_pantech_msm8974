@@ -1892,6 +1892,9 @@ static int fts_remove(struct i2c_client *client)
 #endif
 
 #ifdef PAN_TSP_IO	
+#ifdef CONFIG_POWERSUSPEND
+	pan_fts_io_unregister();
+#endif
 	misc_deregister(&touch_event);
 	misc_deregister(&touch_io);
 #endif

@@ -6,7 +6,9 @@
 #include <linux/delay.h>
 #include <linux/gpio.h>
 #include "fts_ts.h"
-
+#ifdef CONFIG_POWERSUSPEND
+#include <linux/powersuspend.h>
+#endif
 
 #define FTS_FW_REG_WRITE	0xB0
 #define FTS_FW_REG_READ		0xB2
@@ -137,6 +139,29 @@ int ioctl_debug(unsigned long arg);
 unsigned char fts_read_raw_data(unsigned int Col, unsigned int Row);
 void raw_data_print(void);
 
+
+#ifdef CONFIG_POWERSUSPEND
+static void fts_early_suspend(struct power_suspend *h)
+{
+		io_info->suspend(io_info);
+#if defined(CONFIG_KEYBOARD_TC370) && !defined(CONFIG_KEYBOARD_TC370_SLEEP)
+		pan_tm_key_suspend();
+#endif
+}
+
+static void fts_late_resume(struct power_suspend *h)
+{
+		io_info->resume(io_info);
+#if defined(CONFIG_KEYBOARD_TC370) && !defined(CONFIG_KEYBOARD_TC370_SLEEP)
+		pan_tm_key_resume();
+#endif
+}
+
+static struct power_suspend fts_power_suspend = {
+	.suspend = fts_early_suspend,
+	.resume = fts_late_resume,
+};
+#endif
 
 #ifdef TOUCH_MONITOR
 char printproc_buf[1024];
@@ -452,9 +477,23 @@ int pan_fts_io_register(struct fts_ts_info *info)
   register_notify_func(EMERGENCY_MODE,"smart_cover",pan_hall_ic_event);
 #endif
 
+#ifdef CONFIG_POWERSUSPEND
+	register_power_suspend(&fts_power_suspend);
+#endif
+
 	return 0;
 }
 EXPORT_SYMBOL(pan_fts_io_register);
+
+#ifdef CONFIG_POWERSUSPEND
+int pan_fts_io_unregister(void)
+{
+	unregister_power_suspend(&fts_power_suspend);
+
+	return 0;
+}
+EXPORT_SYMBOL(pan_fts_io_unregister);
+#endif
 
 int ts_fops_open(struct inode *inode, struct file *filp)
 {	

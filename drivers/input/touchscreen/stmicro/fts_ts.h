@@ -329,6 +329,9 @@ int GetSystemStatus(struct fts_ts_info *info, unsigned char *val1, unsigned char
 
 #ifdef PAN_TSP_IO
 int pan_fts_io_register(struct fts_ts_info * info);
+#ifdef CONFIG_POWERSUSPEND
+int pan_fts_io_unregister(void);
+#endif
 int ts_fops_open(struct inode *inode, struct file *filp);
 long ts_fops_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
 int open(struct inode *inode, struct file *file);
