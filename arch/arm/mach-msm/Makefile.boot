@@ -90,55 +90,103 @@ endif
 else ifeq ($(CONFIG_MACH_MSM8974_EF63S),y)
 ifeq ($(CONFIG_BOARD_VER),$(CONFIG_PT10))
 	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63s-pt10.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63k-pt10.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63l-pt10.dtb
 else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_PT20))
 	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63s-pt20.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63k-pt20.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63l-pt20.dtb
 else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_WS10))
 	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63s-ws10.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63k-ws10.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63l-ws10.dtb
 else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_WS15))
 	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63s-ws15.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63k-ws15.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63l-ws15.dtb
 else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_WS20))
 	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63s-ws20.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63k-ws20.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63l-ws20.dtb
 else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_TP10))
 	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63s-tp10.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63k-tp10.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63l-tp10.dtb
 else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_TP20))	
 	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63s-tp20.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63k-tp20.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63l-tp20.dtb
 else
 	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63s-pp10.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63k-pp10.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63l-pp10.dtb
 endif
 else ifeq ($(CONFIG_MACH_MSM8974_EF63K),y)
 ifeq ($(CONFIG_BOARD_VER),$(CONFIG_PT10))
+	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63s-pt10.dtb
 	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63k-pt10.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63l-pt10.dtb
 else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_PT20))
+	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63s-pt20.dtb
 	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63k-pt20.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63l-pt20.dtb
 else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_WS10))
+	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63s-ws10.dtb
 	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63k-ws10.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63l-ws10.dtb
 else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_WS15))
+	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63s-ws15.dtb
 	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63k-ws15.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63l-ws15.dtb
 else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_WS20))
+	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63s-ws20.dtb
 	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63k-ws20.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63l-ws20.dtb
 else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_TP10))
+	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63s-tp10.dtb
 	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63k-tp10.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63l-tp10.dtb
 else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_TP20))
+	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63s-tp20.dtb
 	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63k-tp20.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63l-tp20.dtb
 else
+	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63s-pp10.dtb
 	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63k-pp10.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63l-pp10.dtb
 endif
 else ifeq ($(CONFIG_MACH_MSM8974_EF63L),y)
 ifeq ($(CONFIG_BOARD_VER),$(CONFIG_PT10))
+	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63s-pt10.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63k-pt10.dtb
 	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63l-pt10.dtb
 else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_PT20))	
+	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63s-pt20.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63k-pt20.dtb
 	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63l-pt20.dtb
 else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_WS10))	
+	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63s-ws10.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63k-ws10.dtb
 	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63l-ws10.dtb
 else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_WS15))	
+	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63s-ws15.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63k-ws15.dtb
 	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63l-ws15.dtb
 else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_WS20))	
+	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63s-ws20.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63k-ws20.dtb
 	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63l-ws20.dtb
 else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_TP10))	
+	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63s-tp10.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63k-tp10.dtb
 	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63l-tp10.dtb
 else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_TP20))	
+	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63s-tp20.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63k-tp20.dtb
 	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63l-tp20.dtb
 else	
+	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63s-pp10.dtb
+	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63k-pp10.dtb
 	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63l-pp10.dtb
 endif	
 else ifeq ($(CONFIG_MACH_MSM8974_EF56S),y)
