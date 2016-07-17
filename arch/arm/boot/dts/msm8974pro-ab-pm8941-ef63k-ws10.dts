@@ -35,6 +35,13 @@
 	};
 };
 
+&ehci {
+	status = "ok";
+	qcom,usb2-enable-uicc;
+	hsusb_vdd_dig-supply = <&pm8841_s2_corner>;
+	qcom,vdd-voltage-level = <1 2 3 5 7>;
+};
+
 &dsi_ams529_1080p_cmd_ef63_ws10 {
        qcom,cont-splash-enabled;
 };
