@@ -219,6 +219,7 @@
 	sound {
 		qcom,model = "msm8974-taiko-mtp-snd-card";
 		qcom,cdc-micbias2-headset-only;
+		qcom,mbhc-audio-jack-type = "6-pole-jack";
 	};
 
 	aliases {
@@ -830,6 +831,7 @@
 
 &slim_msm {
 	taiko_codec {
+		qcom,cdc-micbias1-ext-cap;
 		qcom,cdc-micbias2-ext-cap;
 		qcom,cdc-micbias3-ext-cap;
 	};
