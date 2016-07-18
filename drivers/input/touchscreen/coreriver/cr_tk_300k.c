@@ -1538,48 +1538,8 @@ static int tkey_i2c_suspend (struct i2c_client *client, pm_message_t message)
 // suspend & resume func of pan_tm_key driver is called for stmicro touch ic sus & resum func().
 int pan_tm_key_resume (void)
 {
-    int rc = 0;
-
     dbg_cr("%s\n",__FUNCTION__);
-    
-    if(pan_tm == NULL)
-        return 0;
 
-    if(pan_tm->state == APPMODE) {
-        dbg_cr("%s : TM state is already APPMODE\n", __func__);
-        return 0;
-    }
-
-    if(pan_tm->cover_state == 1) {
-        dbg_cr("%s : cover state is closed\n", __func__);
-        return 0;
-    }
-
-    // set gpio mode to qup i2c
-    set_i2c_from_gpio_function(true);
-    msleep(10);
-    cr_tk_fw_power_onoff(pan_tm, 1);
-    msleep(100);
-        
-#ifdef PAN_TM_LED_OPERATION
-    if(pan_tm->tm_led_brightness) {
-        rc = i2c_smbus_write_byte_data(pan_tm->client, 0, TK_KEY_LED_ON);
-        if(rc < 0) {
-            dbg_cr("%s : failed to set TM_LED ON, error = %d\n", __func__, rc);
-            return rc;
-        } else {
-            dbg_cr("%s : set TM_LED ON\n", __func__);
-        }
-        msleep(20);
-    }
-#endif
-    
-    // set APPMODE
-    pan_tm->state = APPMODE;
-
-    // set mode
-    pan_tm_set_mode(pan_tm->mode);
-    
     // enable tm key irq.
     tkey_enable(pan_tm);
     return 0;
@@ -1588,42 +1548,11 @@ EXPORT_SYMBOL(pan_tm_key_resume);
 
 int pan_tm_key_suspend (void)
 {
-    int rc = 0;
-
     dbg_cr("%s\n",__FUNCTION__);
-
-    if(pan_tm == NULL)
-        return 0;
-
-    if(pan_tm->state == SUSMODE) {
-        dbg_cr("%s : TM state is already SUSMODE\n", __func__);
-        return 0;
-    }
 
     // disable tm key irq.
     tkey_disable(pan_tm);
 
-#ifdef PAN_TM_LED_OPERATION
-    if(pan_tm->tm_led_brightness) {
-        rc = i2c_smbus_write_byte_data(pan_tm->client, 0, TK_KEY_LED_OFF);
-        if(rc < 0) {
-            dbg_cr("%s : failed to set TM_LED OFF, error = %d\n", __func__, rc);
-            return rc;
-        } else {
-            dbg_cr("%s : set TM_LED OFF\n", __func__);
-        }
-         pan_tm->tm_led_brightness = 0; 
-    }
-#endif
-    // set qup i2c to gpio mode
-    set_i2c_from_gpio_function(false);
-    msleep(10);
-    gpio_set_value(TK_GPIO_SCL, 0);
-    gpio_set_value(TK_GPIO_SCL, 0);
-    
-    // power off
-    cr_tk_fw_power_onoff(pan_tm, 0);
-    pan_tm->state = SUSMODE;
     return 0;
 }
 EXPORT_SYMBOL(pan_tm_key_suspend);
