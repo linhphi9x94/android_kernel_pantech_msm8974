@@ -869,6 +869,46 @@ static void fts_unknown_event_handler(struct fts_ts_info *info,
 			data[7]);
 }
 
+void fts_release_all_finger(struct fts_ts_info *info)
+{
+	int i;
+
+	for (i = 0; i < FINGER_MAX; i++) {
+		input_mt_slot(info->input_dev, i);
+		input_mt_report_slot_state(info->input_dev, MT_TOOL_FINGER, 0);
+
+		if (info->finger[i].state != EVENTID_LEAVE_POINTER) {
+			info->touch_count--;
+			if (info->touch_count < 0)
+				info->touch_count = 0;
+
+			dbg_op("[R] tID:%d mc: %d tc:%d Ver[%02X]\n",
+					i, info->finger[i].mcount,
+					info->touch_count, info->panel_revision);
+		}
+
+		info->finger[i].state = EVENTID_LEAVE_POINTER;
+		info->finger[i].mcount = 0;
+	}
+
+	input_report_key(info->input_dev, BTN_TOUCH, 0);
+#ifdef CONFIG_GLOVE_TOUCH
+	input_report_switch(info->input_dev, SW_GLOVE, false);
+	info->touch_mode = FTS_TM_NORMAL;
+#endif
+
+#ifdef CONFIG_INPUT_BOOSTER
+	INPUT_BOOSTER_REPORT_KEY_EVENT(info->input_dev, KEY_BOOSTER_TOUCH, 0);
+	INPUT_BOOSTER_SEND_EVENT(KEY_BOOSTER_TOUCH, BOOSTER_MODE_FORCE_OFF);
+#endif
+
+	input_sync(info->input_dev);
+
+#ifdef TSP_BOOSTER
+	fts_set_dvfs_lock(info, TSP_BOOSTER_FORCE_OFF, false);
+#endif
+}
+
 static unsigned char fts_event_handler_type_b(struct fts_ts_info *info,
 		unsigned char data[],
 		unsigned char LeftEvent)
@@ -943,6 +983,13 @@ static unsigned char fts_event_handler_type_b(struct fts_ts_info *info,
 			booster_restart = true;
 #endif
 		case EVENTID_MOTION_POINTER:
+
+			if (info->touch_count == 0) {
+				printk("SHTSPDBG: EVENTID_MOTION_POINTER %s %d: count 0\n", __func__, __LINE__);
+				fts_release_all_finger(info);
+				break;
+			}
+
 			info->finger[TouchID].state = EventID;
 
 			if (EventID == EVENTID_MOTION_POINTER)
@@ -1012,6 +1059,13 @@ static unsigned char fts_event_handler_type_b(struct fts_ts_info *info,
 			break;
 
 		case EVENTID_LEAVE_POINTER:
+
+			if (info->touch_count <= 0) {
+				printk("SHTSPDBG: EVENTID_LEAVE_POINTER %s %d: count 0\n", __func__, __LINE__);
+				fts_release_all_finger(info);
+				break;
+			}
+
 			info->touch_count--;
 
 			input_mt_slot(info->input_dev, TouchID);
@@ -1968,46 +2022,6 @@ static void fts_reinit(struct fts_ts_info *info)
 
 	fts_command(info, FLUSHBUFFER);
 	fts_interrupt_set(info, INT_ENABLE);
-}
-
-void fts_release_all_finger(struct fts_ts_info *info)
-{
-	int i;
-
-	for (i = 0; i < FINGER_MAX; i++) {
-		input_mt_slot(info->input_dev, i);
-		input_mt_report_slot_state(info->input_dev, MT_TOOL_FINGER, 0);
-
-		if (info->finger[i].state != EVENTID_LEAVE_POINTER) {
-			info->touch_count--;
-			if (info->touch_count < 0)
-				info->touch_count = 0;
-
-			dbg_op("[R] tID:%d mc: %d tc:%d Ver[%02X]\n",
-					i, info->finger[i].mcount,
-					info->touch_count, info->panel_revision);
-		}
-
-		info->finger[i].state = EVENTID_LEAVE_POINTER;
-		info->finger[i].mcount = 0;
-	}
-
-	input_report_key(info->input_dev, BTN_TOUCH, 0);
-#ifdef CONFIG_GLOVE_TOUCH
-	input_report_switch(info->input_dev, SW_GLOVE, false);
-	info->touch_mode = FTS_TM_NORMAL;
-#endif
-
-#ifdef CONFIG_INPUT_BOOSTER
-	INPUT_BOOSTER_REPORT_KEY_EVENT(info->input_dev, KEY_BOOSTER_TOUCH, 0);
-	INPUT_BOOSTER_SEND_EVENT(KEY_BOOSTER_TOUCH, BOOSTER_MODE_FORCE_OFF);
-#endif
-
-	input_sync(info->input_dev);
-
-#ifdef TSP_BOOSTER
-	fts_set_dvfs_lock(info, TSP_BOOSTER_FORCE_OFF, false);
-#endif
 }
 
 static int fts_stop_device(struct fts_ts_info *info)
