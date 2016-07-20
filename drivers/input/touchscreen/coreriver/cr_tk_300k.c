@@ -51,8 +51,9 @@
 #include <asm/uaccess.h>
 #include <linux/input/cr_tk_300k.h>
 #include "cr_tk_fw.h"
-
-
+#ifdef CONFIG_POWERSUSPEND
+#include <linux/powersuspend.h>
+#endif
 
 /* -------------------------------------------------------------------- */
 /* debug option */
@@ -83,6 +84,11 @@ static  void __exit     tkey_i2c_exit      (void);
 #ifdef CONFIG_HAS_EARLYSUSPEND_CR
 static void tkey_suspend (struct early_suspend *h);
 static void tkey_resume (struct early_suspend *h);
+#endif
+
+#ifdef CONFIG_POWERSUSPEND
+static void tkey_suspend (struct power_suspend *h);
+static void tkey_resume (struct power_suspend *h);
 #endif
 
 int pan_tm_key_resume (void);
@@ -1347,6 +1353,12 @@ int tkey_probe (struct i2c_client *client)
     //if, is in USER_SLEEP status and no active auto expiring wake lock
     register_early_suspend(&tk->power);
 #endif
+#ifdef CONFIG_POWERSUSPEND
+    tk->power.resume    = tkey_resume;
+    tk->power.suspend   = tkey_suspend;
+
+    register_power_suspend(&tk->power);
+#endif
 
     /* Linux - Register ISR for Interupt */
     tk->irq = gpio_to_irq(TK_GPIO_INT);
@@ -1438,10 +1450,31 @@ int tkey_remove	(struct device *dev)
 #ifdef PAN_TM_LED_OPERATION
   led_classdev_unregister(&tk->tm_led_cdev);
 #endif
+#ifdef CONFIG_POWERSUSPEND
+  unregister_power_suspend(&tk->power);
+#endif
   kfree(tk);
 
 	return 0;
 }
+
+#ifdef CONFIG_POWERSUSPEND
+static void tkey_resume (struct power_suspend *h)
+{
+    printk("SHTSPDBG: %s\n",__FUNCTION__);
+
+    // enable tm key irq.
+    tkey_enable(pan_tm);
+}
+static void tkey_suspend (struct power_suspend *h)
+{
+    dbg_cr("SHTSPDBG: %s\n",__FUNCTION__);
+
+    // disable tm key irq.
+    tkey_disable(pan_tm);
+}
+#endif
+
 #ifdef CONFIG_KEYBOARD_TC370_SLEEP
 #ifdef CONFIG_HAS_EARLYSUSPEND_CR
 static void tkey_resume (struct early_suspend *h)

@@ -29,6 +29,9 @@
     #include <linux/suspend.h>
 #endif
 
+#ifdef CONFIG_POWERSUSPEND
+#include <linux/powersuspend.h>
+#endif
 
 
 //[*]--------------------------------------------------------------------------------------------------[*]
@@ -224,6 +227,9 @@ struct tkey {
 	enum pan_tm_key_state       state;
 #if	defined(CONFIG_HAS_EARLYSUSPEND_CR)
     struct early_suspend        power;
+#endif
+#if defined(CONFIG_POWERSUSPEND)
+    struct power_suspend        power;
 #endif
     int mode; // 0 : normal, 1 : glove
     int cover_state; // 0 : opened, 1 : closed
