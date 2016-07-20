@@ -10,14 +10,14 @@
 ##############################################################################
 
 export ARCH=arm
-export PATH=/home/xdavn/bluros/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin:$PATH
+export PATH=/home/xdavn/BlurOS/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin:$PATH
 export CROSS_COMPILE=arm-linux-androideabi-
 
 ##############################################################################
 # make zImage
 ##############################################################################
 mkdir -p ./obj/KERNEL_OBJ/
-make ARCH=arm O=./obj/KERNEL_OBJ/ cyanogenmod_ef63_defconfig
+make ARCH=arm O=./obj/KERNEL_OBJ/ bluros_a910_defconfig
 make -j8 ARCH=arm O=./obj/KERNEL_OBJ/ 2>&1 | tee kernel_log.txt
 
 ##############################################################################
