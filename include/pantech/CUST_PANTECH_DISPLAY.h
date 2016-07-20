@@ -235,6 +235,14 @@
 ******************************************************/
 #define CONFIG_F_SKYDISP_DO_NOT_INCREASE_DECIMATOR_WB_PANEL
 
+<<<<<<< HEAD
+=======
+//+US1-CF1
+//Google Patches (HWUI , GUI, UI)
+#define FEATURE_HWUI_GUI_GOOGLE_PATCHES
+//-US1-CF1
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  /*****************************************************
 * owner  : p13832      
 * date    : 2014.06.11

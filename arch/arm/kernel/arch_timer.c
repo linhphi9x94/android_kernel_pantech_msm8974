@@ -15,6 +15,10 @@
 #include <linux/device.h>
 #include <linux/smp.h>
 #include <linux/cpu.h>
+<<<<<<< HEAD
+=======
+#include <linux/cpu_pm.h>
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <linux/jiffies.h>
 #include <linux/clockchips.h>
 #include <linux/interrupt.h>
@@ -259,6 +263,11 @@ static int __cpuinit arch_timer_setup(struct clock_event_device *clk)
 	if (arch_timer_ppi2)
 		enable_percpu_irq(arch_timer_ppi2, 0);
 
+<<<<<<< HEAD
+=======
+	arch_counter_set_user_access();
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 }
 
@@ -408,6 +417,36 @@ static void __init arch_timer_counter_init(void)
 	register_current_timer_delay(&arch_delay_timer);
 }
 
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_CPU_PM
+static unsigned int saved_cntkctl;
+static int arch_timer_cpu_pm_notify(struct notifier_block *self,
+				unsigned long action, void *hcpu)
+{
+	if (action == CPU_PM_ENTER)
+		saved_cntkctl = arch_timer_get_cntkctl();
+	else if (action == CPU_PM_ENTER_FAILED || action == CPU_PM_EXIT)
+		arch_timer_set_cntkctl(saved_cntkctl);
+	return NOTIFY_OK;
+}
+
+static struct notifier_block arch_timer_cpu_pm_notifier = {
+	.notifier_call = arch_timer_cpu_pm_notify,
+};
+
+static int __init arch_timer_cpu_pm_init(void)
+{
+	return cpu_pm_register_notifier(&arch_timer_cpu_pm_notifier);
+}
+#else
+static int __init arch_timer_cpu_pm_init(void)
+{
+	return 0;
+}
+#endif
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int __init arch_timer_common_register(void)
 {
 	int err;
@@ -443,6 +482,13 @@ static int __init arch_timer_common_register(void)
 		}
 	}
 
+<<<<<<< HEAD
+=======
+	err = arch_timer_cpu_pm_init();
+	if (err)
+		goto out_free_irq;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	err = local_timer_register(&arch_timer_ops);
 	if (err) {
 		/*
@@ -456,10 +502,19 @@ static int __init arch_timer_common_register(void)
 	}
 
 	if (err)
+<<<<<<< HEAD
 		goto out_free_irq;
 
 	return 0;
 
+=======
+		goto out_unreg_notify;
+
+	return 0;
+
+out_unreg_notify:
+	cpu_pm_unregister_notifier(&arch_timer_cpu_pm_notifier);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 out_free_irq:
 	free_percpu_irq(arch_timer_ppi, arch_timer_evt);
 	if (arch_timer_ppi2)
@@ -493,8 +548,13 @@ static int __init arch_timer_mem_register(void)
 	clockevents_config_and_register(clk, arch_timer_rate,
 					0xf, 0x7fffffff);
 
+<<<<<<< HEAD
 	err = request_irq(arch_timer_spi, arch_timer_handler_mem, 0,
 		"arch_timer", clk);
+=======
+	err = request_irq(arch_timer_spi, arch_timer_handler_mem,
+			IRQF_TIMER, "arch_timer", clk);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return err;
 }

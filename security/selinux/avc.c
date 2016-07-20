@@ -98,7 +98,13 @@ DEFINE_PER_CPU(struct avc_cache_stats, avc_cache_stats) = { 0 };
 static struct avc_cache avc_cache;
 static struct avc_callback_node *avc_callbacks;
 static struct kmem_cache *avc_node_cachep;
+<<<<<<< HEAD
 
+=======
+static struct kmem_cache *avc_operation_decision_node_cachep;
+static struct kmem_cache *avc_operation_node_cachep;
+static struct kmem_cache *avc_operation_perm_cachep;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_PANTECH_SELINUX_DENIAL_LOG //P11536-SHPARK-SELinux 
 static struct pantech_avc_format pantech_avc;
 struct pantech_avc_format pantech_get_avc(void)
@@ -107,10 +113,13 @@ struct pantech_avc_format pantech_get_avc(void)
 }
 #endif
 
+<<<<<<< HEAD
 static struct kmem_cache *avc_operation_decision_node_cachep;
 static struct kmem_cache *avc_operation_node_cachep;
 static struct kmem_cache *avc_operation_perm_cachep;
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static inline int avc_hash(u32 ssid, u32 tsid, u16 tclass)
 {
 	return (ssid ^ (tsid<<2) ^ (tclass<<4)) & (AVC_CACHE_SLOTS - 1);

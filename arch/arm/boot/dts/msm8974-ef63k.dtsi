@@ -77,7 +77,11 @@
         interrupts = <0 96 0>;
         interrupts-names = "qup_err_intr";
         qcom,i2c-bus-freq = <400000>;
+<<<<<<< HEAD
         qcom,i2c-src-freq = <19200000>;
+=======
+        qcom,i2c-src-freq = <50000000>;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
         atmel_mxt_fw30@4a {
             compatible = "atmel,atmel_mxt_540s";
@@ -104,7 +108,11 @@
       interrupts = <0 104 0>;
       interrupt-names = "qup_err_intr";
       qcom,i2c-bus-freq = <100000>;
+<<<<<<< HEAD
       qcom,i2c-src-freq = <19200000>;
+=======
+      qcom,i2c-src-freq = <50000000>;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
       
       coreriver@20 { // Slave driver and slave Address
               compatible ="coreriver,tk-300k";// Manufacture , model
@@ -149,7 +157,11 @@
                 interrupts = <0 105 0>;
                 interrupt-names = "qup_err_intr";
                 qcom,i2c-bus-freq = <100000>;
+<<<<<<< HEAD
                 qcom,i2c-src-freq = <19200000>;
+=======
+                qcom,i2c-src-freq = <50000000>;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
                 qcom,master-id = <84>;
 
 		bq2419x-i2c@6b {
@@ -173,7 +185,11 @@
 			interrupts = <0 100 0>;
 			interrupt-names = "qup_err_intr"; 
 			qcom,i2c-bus-freq = <400000>;
+<<<<<<< HEAD
 			qcom,i2c-src-freq = <19200000>; 
+=======
+			qcom,i2c-src-freq = <50000000>; 
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			pn547@28 {
 			compatible = "nxp,pn547";
 			reg = <0x28>;
@@ -262,6 +278,10 @@
 	sound {
 		qcom,model = "msm8974-taiko-mtp-snd-card";
 		qcom,cdc-micbias2-headset-only;
+<<<<<<< HEAD
+=======
+		qcom,mbhc-audio-jack-type = "6-pole-jack";
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	};
 
 	aliases { /* DMB_SPI */
@@ -879,6 +899,10 @@
 
 &slim_msm {
 	taiko_codec {
+<<<<<<< HEAD
+=======
+		qcom,cdc-micbias1-ext-cap;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		qcom,cdc-micbias2-ext-cap;
 		qcom,cdc-micbias3-ext-cap;
 		qcom,cdc-micbias4-ext-cap;

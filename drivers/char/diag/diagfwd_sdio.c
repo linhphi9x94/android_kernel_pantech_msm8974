@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2011, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2011, 2013, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -131,7 +135,10 @@ int diagfwd_connect_sdio(void)
 
 int diagfwd_disconnect_sdio(void)
 {
+<<<<<<< HEAD
 	usb_diag_free_req(driver->mdm_ch);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (driver->sdio_ch && (driver->logging_mode == USB_MODE)) {
 		driver->in_busy_sdio = 1;
 		diag_sdio_close();
@@ -280,10 +287,13 @@ err:
 
 void diagfwd_sdio_exit(void)
 {
+<<<<<<< HEAD
 #ifdef CONFIG_DIAG_OVER_USB
 	if (driver->usb_connected)
 		usb_diag_free_req(driver->mdm_ch);
 #endif
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	platform_driver_unregister(&msm_sdio_ch_driver);
 #ifdef CONFIG_DIAG_OVER_USB
 	usb_diag_close(driver->mdm_ch);

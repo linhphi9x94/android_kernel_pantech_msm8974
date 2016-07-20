@@ -1963,9 +1963,12 @@ static void __perf_event_sync_stat(struct perf_event *event,
 	perf_event_update_userpage(next_event);
 }
 
+<<<<<<< HEAD
 #define list_next_entry(pos, member) \
 	list_entry(pos->member.next, typeof(*pos), member)
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static void perf_event_sync_stat(struct perf_event_context *ctx,
 				   struct perf_event_context *next_ctx)
 {

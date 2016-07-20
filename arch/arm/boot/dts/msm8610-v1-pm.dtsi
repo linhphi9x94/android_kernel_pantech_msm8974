@@ -145,6 +145,7 @@
 			compatible = "qcom,system-modes";
 
 			qcom,system-modes@0 {
+<<<<<<< HEAD
 				qcom,l2 = "l2_cache_gdhs";
 				qcom,latency-us = <10700>;
 				qcom,ss-power = <372>;
@@ -155,6 +156,8 @@
 			};
 
 			qcom,system-modes@1 {
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				qcom,l2 = "l2_cache_pc_no_rpm";
 				qcom,latency-us = <1000>;
 				qcom,ss-power = <315>;
@@ -164,7 +167,11 @@
 				qcom,sync-cpus;
 			};
 
+<<<<<<< HEAD
 			qcom,system-modes@2 {
+=======
+			qcom,system-modes@1 {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				qcom,l2 = "l2_cache_pc";
 				qcom,latency-us = <12700>;
 				qcom,ss-power = <315>;
@@ -172,6 +179,10 @@
 				qcom,time-overhead = <2400>;
 				qcom,min-cpu-mode= "pc";
 				qcom,sync-cpus;
+<<<<<<< HEAD
+=======
+				qcom,send-rpm-sleep-set;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			};
 		};
 	};
@@ -236,6 +247,10 @@
 			<0xff 191>, /* lpass_irq_out_apcs(3) */
 			<0xff 192>, /* lpass_irq_out_apcs(4) */
 			<0xff 194>, /* lpass_irq_out_apcs(6) */
+<<<<<<< HEAD
+=======
+			<0xff 198>, /* QDSS - u_qdss */
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			<0xff 200>, /* rpm_ipc(4) */
 			<0xff 201>, /* rpm_ipc(5) */
 			<0xff 202>, /* rpm_ipc(6) */

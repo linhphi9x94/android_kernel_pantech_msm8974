@@ -84,11 +84,22 @@ static inline unsigned int VENUS_EXTRADATA_SIZE(int width, int height)
 	(void)height;
 	(void)width;
 
+<<<<<<< HEAD
+=======
+#if 1
+	return 0;
+#else
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/*
 	 * In the future, calculate the size based on the w/h but just
 	 * hardcode it for now since 8K satisfies all current usecases.
 	 */
 	return 8 * 1024;
+<<<<<<< HEAD
+=======
+#endif
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static inline unsigned int VENUS_Y_STRIDE(int color_fmt, int width)

@@ -197,6 +197,15 @@ struct mmc_hotplug {
 	void *handler_priv;
 };
 
+<<<<<<< HEAD
+=======
+enum dev_state {
+	DEV_SUSPENDING = 1,
+	DEV_SUSPENDED,
+	DEV_RESUMED,
+};
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct mmc_host {
 	struct device		*parent;
 	struct device		class_dev;
@@ -418,9 +427,18 @@ struct mmc_host {
 		bool		enable;
 		bool		initialized;
 		bool		in_progress;
+<<<<<<< HEAD
 		struct delayed_work work;
 		enum mmc_load	state;
 	} clk_scaling;
+=======
+		/* freq. transitions are not allowed in invalid state */
+		bool		invalid_state;
+		struct delayed_work work;
+		enum mmc_load	state;
+	} clk_scaling;
+	enum dev_state dev_status;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	unsigned long		private[0] ____cacheline_aligned;
 };
 

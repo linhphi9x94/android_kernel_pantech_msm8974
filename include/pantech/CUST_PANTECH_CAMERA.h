@@ -1083,6 +1083,16 @@ applied patch code based on LINUX build ID LNX.LA.3.5-07510-8x74.0-1.
 */
 #define F_PANTECH_CAMERA_QBUG_STREM_ON_FAIL
 
+<<<<<<< HEAD
+=======
+/****************************************************************
+ * Description : case# 01684701
+ Add SBA log for camif error during recording video.
+ * Creation Date : 2014/9/02
+ * Added By : lee hwanhee
+ ****************************************************************/
+#define F_PANTECH_CAMERA_QBUG_SBA_LOG_FOR_CAMIF_ERROR
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #if defined(F_PANTECH_CAMERA_IMX214)
 /*

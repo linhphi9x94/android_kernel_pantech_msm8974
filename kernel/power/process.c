@@ -35,6 +35,10 @@ static int try_to_freeze_tasks(bool user_only)
 	u64 elapsed_csecs64;
 	unsigned int elapsed_csecs;
 	bool wakeup = false;
+<<<<<<< HEAD
+=======
+	int sleep_usecs = USEC_PER_MSEC;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	do_gettimeofday(&start);
 
@@ -81,9 +85,18 @@ static int try_to_freeze_tasks(bool user_only)
 
 		/*
 		 * We need to retry, but first give the freezing tasks some
+<<<<<<< HEAD
 		 * time to enter the regrigerator.
 		 */
 		msleep(10);
+=======
+		 * time to enter the refrigerator.  Start with an initial
+		 * 1 ms sleep followed by exponential backoff until 8 ms.
+		 */
+		usleep_range(sleep_usecs / 2, sleep_usecs);
+		if (sleep_usecs < 8 * USEC_PER_MSEC)
+			sleep_usecs *= 2;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	do_gettimeofday(&end);

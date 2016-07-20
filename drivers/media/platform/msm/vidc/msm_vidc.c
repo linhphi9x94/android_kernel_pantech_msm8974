@@ -698,11 +698,30 @@ int output_buffer_cache_invalidate(struct msm_vidc_inst *inst,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static bool valid_v4l2_buffer(struct v4l2_buffer *b,
+		struct msm_vidc_inst *inst) {
+	enum vidc_ports port =
+		!V4L2_TYPE_IS_MULTIPLANAR(b->type) ? MAX_PORT_NUM :
+		b->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE ? CAPTURE_PORT :
+		b->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE ? OUTPUT_PORT :
+								MAX_PORT_NUM;
+
+	return port != MAX_PORT_NUM &&
+		inst->fmts[port]->num_planes == b->length;
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int msm_vidc_prepare_buf(void *instance, struct v4l2_buffer *b)
 {
 	struct msm_vidc_inst *inst = instance;
 
+<<<<<<< HEAD
 	if (!inst || !b)
+=======
+	if (!inst || !b || !valid_v4l2_buffer(b, inst))
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -EINVAL;
 
 	if (is_dynamic_output_buffer_mode(b, inst)) {
@@ -852,6 +871,7 @@ int msm_vidc_qbuf(void *instance, struct v4l2_buffer *b)
 	int rc = 0;
 	int i;
 
+<<<<<<< HEAD
 	if (!inst || !b)
 		return -EINVAL;
 
@@ -860,6 +880,10 @@ int msm_vidc_qbuf(void *instance, struct v4l2_buffer *b)
 			b->length);
 		return -EINVAL;
 	}
+=======
+	if (!inst || !b || !valid_v4l2_buffer(b, inst))
+		return -EINVAL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (is_dynamic_output_buffer_mode(b, inst)) {
 		if (b->m.planes[0].reserved[0])
@@ -934,6 +958,7 @@ int msm_vidc_dqbuf(void *instance, struct v4l2_buffer *b)
 	struct buffer_info *buffer_info = NULL;
 	int i = 0, rc = 0;
 
+<<<<<<< HEAD
 	if (!inst || !b)
 		return -EINVAL;
 
@@ -942,6 +967,10 @@ int msm_vidc_dqbuf(void *instance, struct v4l2_buffer *b)
 			b->length);
 		return -EINVAL;
 	}
+=======
+	if (!inst || !b || !valid_v4l2_buffer(b, inst))
+		return -EINVAL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (inst->session_type == MSM_VIDC_DECODER)
 		rc = msm_vdec_dqbuf(instance, b);
@@ -1223,7 +1252,11 @@ void *msm_vidc_open(int core_id, int session_type)
 	mutex_init(&inst->bufq[OUTPUT_PORT].lock);
 	mutex_init(&inst->lock);
 	inst->session_type = session_type;
+<<<<<<< HEAD
 	INIT_LIST_HEAD(&inst->pendingq);
+=======
+	INIT_MSM_VIDC_LIST(&inst->pendingq);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	INIT_LIST_HEAD(&inst->internalbufs);
 	INIT_LIST_HEAD(&inst->persistbufs);
 	INIT_LIST_HEAD(&inst->registered_bufs);
@@ -1265,6 +1298,14 @@ void *msm_vidc_open(int core_id, int session_type)
 			"Failed to initialize vb2 queue on capture port\n");
 		goto fail_bufq_output;
 	}
+<<<<<<< HEAD
+=======
+
+	mutex_lock(&core->lock);
+	list_add_tail(&inst->list, &core->instances);
+	mutex_unlock(&core->lock);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	rc = msm_comm_try_state(inst, MSM_VIDC_CORE_INIT);
 	if (rc) {
 		dprintk(VIDC_ERR,
@@ -1276,12 +1317,23 @@ void *msm_vidc_open(int core_id, int session_type)
 
 	setup_event_queue(inst, &core->vdev[session_type].vdev);
 
+<<<<<<< HEAD
 	mutex_lock(&core->lock);
 	list_add_tail(&inst->list, &core->instances);
 	mutex_unlock(&core->lock);
 	return inst;
 fail_init:
 	vb2_queue_release(&inst->bufq[OUTPUT_PORT].vb2_bufq);
+=======
+	return inst;
+fail_init:
+	vb2_queue_release(&inst->bufq[OUTPUT_PORT].vb2_bufq);
+
+	mutex_lock(&core->lock);
+	list_del(&inst->list);
+	mutex_unlock(&core->lock);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 fail_bufq_output:
 	vb2_queue_release(&inst->bufq[CAPTURE_PORT].vb2_bufq);
 fail_bufq_capture:
@@ -1299,6 +1351,7 @@ err_invalid_core:
 
 static void cleanup_instance(struct msm_vidc_inst *inst)
 {
+<<<<<<< HEAD
 	struct list_head *ptr, *next;
 	struct vb2_buf_entry *entry;
 	if (inst) {
@@ -1311,6 +1364,18 @@ static void cleanup_instance(struct msm_vidc_inst *inst)
 				kfree(entry);
 			}
 		}
+=======
+	struct vb2_buf_entry *entry, *dummy;
+	if (inst) {
+		mutex_lock(&inst->pendingq.lock);
+		list_for_each_entry_safe(entry, dummy, &inst->pendingq.list,
+				list) {
+			list_del(&entry->list);
+			kfree(entry);
+		}
+		mutex_unlock(&inst->pendingq.lock);
+		mutex_lock(&inst->lock);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (!list_empty(&inst->internalbufs)) {
 			mutex_unlock(&inst->lock);
 			if (msm_comm_release_scratch_buffers(inst))
@@ -1355,7 +1420,11 @@ int msm_vidc_close(void *instance)
 	int rc = 0;
 	int i;
 
+<<<<<<< HEAD
 	if (!inst)
+=======
+	if (!inst || !inst->core)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -EINVAL;
 
 	v4l2_fh_del(&inst->event_handler);
@@ -1373,6 +1442,10 @@ int msm_vidc_close(void *instance)
 	}
 
 	core = inst->core;
+<<<<<<< HEAD
+=======
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mutex_lock(&core->lock);
 	list_for_each_safe(ptr, next, &core->instances) {
 		temp = list_entry(ptr, struct msm_vidc_inst, list);
@@ -1386,6 +1459,12 @@ int msm_vidc_close(void *instance)
 	else if (inst->session_type == MSM_VIDC_ENCODER)
 		msm_venc_ctrl_deinit(inst);
 
+<<<<<<< HEAD
+=======
+	for (i = 0; i < MAX_PORT_NUM; i++)
+		vb2_queue_release(&inst->bufq[i].vb2_bufq);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	cleanup_instance(inst);
 	if (inst->state != MSM_VIDC_CORE_INVALID &&
 		core->state != VIDC_CORE_INVALID)
@@ -1395,8 +1474,13 @@ int msm_vidc_close(void *instance)
 	if (rc)
 		dprintk(VIDC_ERR,
 			"Failed to move video instance to uninit state\n");
+<<<<<<< HEAD
 	for (i = 0; i < MAX_PORT_NUM; i++)
 		vb2_queue_release(&inst->bufq[i].vb2_bufq);
+=======
+
+	msm_comm_session_clean(inst);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	msm_smem_delete_client(inst->mem_client);
 	pr_info(VIDC_DBG_TAG "Closed video instance: %p\n", VIDC_INFO, inst);
@@ -1404,3 +1488,11 @@ int msm_vidc_close(void *instance)
 
 	return 0;
 }
+<<<<<<< HEAD
+=======
+
+int msm_vidc_suspend(int core_id)
+{
+	return msm_comm_suspend(core_id);
+}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

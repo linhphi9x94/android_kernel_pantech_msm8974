@@ -1,6 +1,10 @@
 /* Qualcomm CE device driver.
  *
+<<<<<<< HEAD
  * Copyright (c) 2010-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2010-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -33,12 +37,22 @@
 #include <mach/scm.h>
 #include <mach/msm_bus.h>
 #include <linux/qcedev.h>
+<<<<<<< HEAD
+=======
+#include "qcedevi.h"
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include "qce.h"
 
 
 #define CACHE_LINE_SIZE 32
 #define CE_SHA_BLOCK_SIZE SHA256_BLOCK_SIZE
 
+<<<<<<< HEAD
+=======
+/* are FIPS integrity tests done ?? */
+bool is_fips_qcedev_integritytest_done;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static uint8_t  _std_init_vector_sha1_uint8[] =   {
 	0x67, 0x45, 0x23, 0x01, 0xEF, 0xCD, 0xAB, 0x89,
 	0x98, 0xBA, 0xDC, 0xFE, 0x10, 0x32, 0x54, 0x76,
@@ -52,6 +66,7 @@ static uint8_t _std_init_vector_sha256_uint8[] = {
 	0x1F, 0x83, 0xD9, 0xAB, 0x5B, 0xE0, 0xCD, 0x19
 };
 
+<<<<<<< HEAD
 enum qcedev_crypto_oper_type {
   QCEDEV_CRYPTO_OPER_CIPHER	= 0,
   QCEDEV_CRYPTO_OPER_SHA	= 1,
@@ -144,6 +159,10 @@ struct qcedev_handle {
 	struct	qcedev_sha_ctxt sha_ctxt;
 };
 
+=======
+static DEFINE_MUTEX(send_cmd_lock);
+static DEFINE_MUTEX(qcedev_sent_bw_req);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*-------------------------------------------------------------------------
 * Resource Locking Service
 * ------------------------------------------------------------------------*/
@@ -345,6 +364,15 @@ static int qcedev_open(struct inode *inode, struct file *file)
 	struct qcedev_handle *handle;
 	struct qcedev_control *podev;
 
+<<<<<<< HEAD
+=======
+	/* IF FIPS tests not passed, return error */
+	if (((g_fips140_status == FIPS140_STATUS_FAIL) ||
+		(g_fips140_status == FIPS140_STATUS_PASS_CRYPTO)) &&
+		is_fips_qcedev_integritytest_done)
+		return -ENXIO;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	podev = qcedev_minor_to_control(MINOR(inode->i_rdev));
 	if (podev == NULL) {
 		pr_err("%s: no such device %d\n", __func__,
@@ -427,7 +455,11 @@ again:
 	return;
 }
 
+<<<<<<< HEAD
 static void qcedev_sha_req_cb(void *cookie, unsigned char *digest,
+=======
+void qcedev_sha_req_cb(void *cookie, unsigned char *digest,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	unsigned char *authdata, int ret)
 {
 	struct qcedev_sha_req *areq;
@@ -454,7 +486,11 @@ static void qcedev_sha_req_cb(void *cookie, unsigned char *digest,
 };
 
 
+<<<<<<< HEAD
 static void qcedev_cipher_req_cb(void *cookie, unsigned char *icv,
+=======
+void qcedev_cipher_req_cb(void *cookie, unsigned char *icv,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	unsigned char *iv, int ret)
 {
 	struct qcedev_cipher_req *areq;
@@ -825,7 +861,11 @@ static int qcedev_sha_update_max_xfer(struct qcedev_async_req *qcedev_areq,
 	if (user_src && __copy_from_user(k_src,
 				(void __user *)user_src,
 				qcedev_areq->sha_op_req.data[0].len)) {
+<<<<<<< HEAD
 		kfree(k_buf_src);
+=======
+		kzfree(k_buf_src);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -EFAULT;
 	}
 	k_src += qcedev_areq->sha_op_req.data[0].len;
@@ -834,7 +874,11 @@ static int qcedev_sha_update_max_xfer(struct qcedev_async_req *qcedev_areq,
 		if (user_src && __copy_from_user(k_src,
 					(void __user *)user_src,
 					qcedev_areq->sha_op_req.data[i].len)) {
+<<<<<<< HEAD
 			kfree(k_buf_src);
+=======
+			kzfree(k_buf_src);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			return -EFAULT;
 		}
 		k_src += qcedev_areq->sha_op_req.data[i].len;
@@ -865,7 +909,11 @@ static int qcedev_sha_update_max_xfer(struct qcedev_async_req *qcedev_areq,
 	handle->sha_ctxt.last_blk = 0;
 	handle->sha_ctxt.first_blk = 0;
 
+<<<<<<< HEAD
 	kfree(k_buf_src);
+=======
+	kzfree(k_buf_src);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return err;
 }
 
@@ -979,7 +1027,11 @@ static int qcedev_sha_update(struct qcedev_async_req *qcedev_areq,
 		}
 		sreq->entries = saved_req->entries;
 		sreq->data_len = saved_req->data_len;
+<<<<<<< HEAD
 		kfree(saved_req);
+=======
+		kzfree(saved_req);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	} else
 		err = qcedev_sha_update_max_xfer(qcedev_areq, handle, sg_src);
 
@@ -1000,11 +1052,14 @@ static int qcedev_sha_final(struct qcedev_async_req *qcedev_areq,
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	if (handle->sha_ctxt.trailing_buf_len == 0) {
 		pr_err("%s Incorrect trailng buffer %d\n", __func__,
 					handle->sha_ctxt.trailing_buf_len);
 		return -EINVAL;
 	}
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	handle->sha_ctxt.last_blk = 1;
 
 	total = handle->sha_ctxt.trailing_buf_len;
@@ -1038,7 +1093,11 @@ static int qcedev_sha_final(struct qcedev_async_req *qcedev_areq,
 	handle->sha_ctxt.init_done = false;
 	memset(&handle->sha_ctxt.trailing_buf[0], 0, 64);
 
+<<<<<<< HEAD
 	kfree(k_buf_src);
+=======
+	kzfree(k_buf_src);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return err;
 }
 
@@ -1090,7 +1149,11 @@ static int qcedev_hash_cmac(struct qcedev_async_req *qcedev_areq,
 			(void __user *)qcedev_areq->sha_op_req.data[i].vaddr;
 		if (user_src && __copy_from_user(k_src, (void __user *)user_src,
 				qcedev_areq->sha_op_req.data[i].len)) {
+<<<<<<< HEAD
 			kfree(k_buf_src);
+=======
+			kzfree(k_buf_src);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			return -EFAULT;
 		}
 		k_src += qcedev_areq->sha_op_req.data[i].len;
@@ -1104,7 +1167,11 @@ static int qcedev_hash_cmac(struct qcedev_async_req *qcedev_areq,
 	handle->sha_ctxt.diglen = qcedev_areq->sha_op_req.diglen;
 	err = submit_req(qcedev_areq, handle);
 
+<<<<<<< HEAD
 	kfree(k_buf_src);
+=======
+	kzfree(k_buf_src);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return err;
 }
 
@@ -1224,7 +1291,11 @@ static int qcedev_hmac_get_ohash(struct qcedev_async_req *qcedev_areq,
 	handle->sha_ctxt.last_blk = 0;
 	handle->sha_ctxt.first_blk = 0;
 
+<<<<<<< HEAD
 	kfree(k_src);
+=======
+	kzfree(k_src);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return err;
 }
 
@@ -1507,8 +1578,13 @@ static int qcedev_vbuf_ablk_cipher(struct qcedev_async_req *areq,
 				err = qcedev_vbuf_ablk_cipher_max_xfer(areq,
 						&di, handle, k_align_src);
 				if (err < 0) {
+<<<<<<< HEAD
 					kfree(k_buf_src);
 					kfree(saved_req);
+=======
+					kzfree(k_buf_src);
+					kzfree(saved_req);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 					return err;
 				}
 
@@ -1549,8 +1625,13 @@ static int qcedev_vbuf_ablk_cipher(struct qcedev_async_req *areq,
 				err = qcedev_vbuf_ablk_cipher_max_xfer(areq,
 						&di, handle, k_align_src);
 				if (err < 0) {
+<<<<<<< HEAD
 					kfree(k_buf_src);
 					kfree(saved_req);
+=======
+					kzfree(k_buf_src);
+					kzfree(saved_req);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 					return err;
 				}
 
@@ -1593,8 +1674,13 @@ static int qcedev_vbuf_ablk_cipher(struct qcedev_async_req *areq,
 	creq->data_len = saved_req->data_len;
 	creq->byteoffset = saved_req->byteoffset;
 
+<<<<<<< HEAD
 	kfree(saved_req);
 	kfree(k_buf_src);
+=======
+	kzfree(saved_req);
+	kzfree(k_buf_src);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return err;
 
 }
@@ -1703,6 +1789,21 @@ static int qcedev_check_cipher_params(struct qcedev_cipher_op_req *req,
 		goto error;
 	}
 
+<<<<<<< HEAD
+=======
+	/* Ensure IV size */
+	if (req->ivlen > QCEDEV_MAX_IV_SIZE) {
+		pr_err("%s: ivlen is not correct: %u\n", __func__, req->ivlen);
+		goto error;
+	}
+
+	/* Ensure Key size */
+	if (req->encklen > QCEDEV_MAX_KEY_SIZE) {
+		pr_err("%s: Klen is not correct: %u\n", __func__, req->encklen);
+		goto error;
+	}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* Ensure zer ivlen for ECB  mode  */
 	if (req->ivlen > 0) {
 		if ((req->mode == QCEDEV_AES_MODE_ECB) ||
@@ -1718,8 +1819,13 @@ static int qcedev_check_cipher_params(struct qcedev_cipher_op_req *req,
 		}
 	}
 	/* Check for sum of all dst length is equal to data_len  */
+<<<<<<< HEAD
 	for (i = 0; (i < QCEDEV_MAX_BUFFERS) && (total < req->data_len); i++) {
 		if (req->vbuf.dst[i].len > ULONG_MAX - total) {
+=======
+	for (i = 0; i < req->entries; i++) {
+		if (req->vbuf.dst[i].len >= ULONG_MAX - total) {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			pr_err("%s: Integer overflow on total req dst vbuf length\n",
 				__func__);
 			goto error;
@@ -1762,10 +1868,16 @@ static int qcedev_check_sha_params(struct qcedev_sha_op_req *req,
 		pr_err("%s: CMAC not supported\n", __func__);
 		goto sha_error;
 	}
+<<<<<<< HEAD
 	if ((req->entries == 0) || (req->data_len == 0) ||
 			(req->entries > QCEDEV_MAX_BUFFERS)) {
 		pr_err("%s: Invalid data length (%d)/ num entries (%d)\n",
 				__func__, req->data_len, req->entries);
+=======
+	if ((!req->entries) || (req->entries > QCEDEV_MAX_BUFFERS)) {
+		pr_err("%s: Invalid num entries (%d)\n",
+						__func__, req->entries);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		goto sha_error;
 	}
 
@@ -2001,6 +2113,61 @@ static long qcedev_ioctl(struct file *file, unsigned cmd, unsigned long arg)
 		}
 		break;
 
+<<<<<<< HEAD
+=======
+		/* This IOCTL call can be called only once
+		by FIPS Integrity test */
+	case QCEDEV_IOCTL_UPDATE_FIPS_STATUS:
+		{
+		enum fips_status status;
+		if (is_fips_qcedev_integritytest_done)
+			return -EPERM;
+
+		if (!access_ok(VERIFY_WRITE, (void __user *)arg,
+			sizeof(enum fips_status)))
+			return -EFAULT;
+
+		if (__copy_from_user(&status, (void __user *)arg,
+			sizeof(enum fips_status)))
+			return -EFAULT;
+
+		g_fips140_status = _fips_update_status(status);
+		pr_info("qcedev: FIPS140-2 Global status flag: %d\n",
+			g_fips140_status);
+		is_fips_qcedev_integritytest_done = true;
+
+		if (g_fips140_status == FIPS140_STATUS_FAIL) {
+			pr_info("qcedev: FIPS140-2 Integrity test failed\n");
+			break;
+		}
+
+		if (!(_do_msm_fips_drbg_init(drbg_call_back)) &&
+			(g_fips140_status != FIPS140_STATUS_NA))
+			g_fips140_status = FIPS140_STATUS_PASS;
+		}
+
+		pr_info("qcedev: FIPS140-2 Global status flag: %d\n",
+			g_fips140_status);
+
+		break;
+
+		/* Read only IOCTL call to read the
+		current FIPS140-2 Status */
+	case QCEDEV_IOCTL_QUERY_FIPS_STATUS:
+		{
+		enum fips_status status;
+		if (!access_ok(VERIFY_WRITE, (void __user *)arg,
+			sizeof(enum fips_status)))
+			return -EFAULT;
+
+		status = g_fips140_status;
+		if (__copy_to_user((void __user *)arg, &status,
+			sizeof(enum fips_status)))
+			return -EFAULT;
+
+		}
+		break;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	default:
 		return -ENOTTY;
 	}
@@ -2076,6 +2243,28 @@ static int qcedev_probe(struct platform_device *pdev)
 			goto err;
 		}
 	}
+<<<<<<< HEAD
+=======
+
+/*
+ * FIPS140-2 Known Answer Tests:
+ * IN case of any failure, do not Init the module
+ */
+	is_fips_qcedev_integritytest_done = false;
+	if (g_fips140_status != FIPS140_STATUS_NA) {
+		if (_fips_qcedev_cipher_selftest(&qce_dev[0]) ||
+			_fips_qcedev_sha_selftest(&qce_dev[0])) {
+			pr_err("qcedev: FIPS140-2 Known Answer Tests : Failed\n");
+			panic("SYSTEM CAN NOT BOOT !!!");
+			rc = -1;
+		} else {
+			pr_info("qcedev: FIPS140-2 Known Answer Tests : Successful\n");
+			rc = 0;
+		}
+	} else
+		pr_info("qcedev: FIPS140-2 Known Answer Tests : Skipped\n");
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (rc >= 0)
 		return 0;
 	else
@@ -2111,6 +2300,78 @@ static int qcedev_remove(struct platform_device *pdev)
 	return 0;
 };
 
+<<<<<<< HEAD
+=======
+static int qcedev_suspend(struct platform_device *pdev, pm_message_t state)
+{
+	struct qcedev_control *podev;
+	int ret;
+	podev = platform_get_drvdata(pdev);
+
+	if (!podev || !podev->platform_support.bus_scale_table)
+		return 0;
+
+	mutex_lock(&qcedev_sent_bw_req);
+	if (podev->high_bw_req_count) {
+		ret = msm_bus_scale_client_update_request(
+				podev->bus_scale_handle, 0);
+		if (ret) {
+			pr_err("%s Unable to set to low bandwidth\n",
+						__func__);
+			goto suspend_exit;
+		}
+		ret = qce_disable_clk(podev->qce);
+		if (ret) {
+			pr_err("%s Unable disable clk\n", __func__);
+			ret = msm_bus_scale_client_update_request(
+				podev->bus_scale_handle, 1);
+			if (ret)
+				pr_err("%s Unable to set to high bandwidth\n",
+					__func__);
+			goto suspend_exit;
+		}
+	}
+
+suspend_exit:
+	mutex_unlock(&qcedev_sent_bw_req);
+	return 0;
+}
+
+static int qcedev_resume(struct platform_device *pdev)
+{
+	struct qcedev_control *podev;
+	int ret;
+	podev = platform_get_drvdata(pdev);
+
+	if (!podev || !podev->platform_support.bus_scale_table)
+		return 0;
+
+	mutex_lock(&qcedev_sent_bw_req);
+	if (podev->high_bw_req_count) {
+		ret = qce_enable_clk(podev->qce);
+		if (ret) {
+			pr_err("%s Unable enable clk\n", __func__);
+			goto resume_exit;
+		}
+		ret = msm_bus_scale_client_update_request(
+				podev->bus_scale_handle, 1);
+		if (ret) {
+			pr_err("%s Unable to set to high bandwidth\n",
+						__func__);
+			ret = qce_disable_clk(podev->qce);
+			if (ret)
+				pr_err("%s Unable enable clk\n",
+					__func__);
+			goto resume_exit;
+		}
+	}
+
+resume_exit:
+	mutex_unlock(&qcedev_sent_bw_req);
+	return 0;
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static struct of_device_id qcedev_match[] = {
 	{	.compatible = "qcom,qcedev",
 	},
@@ -2120,6 +2381,11 @@ static struct of_device_id qcedev_match[] = {
 static struct platform_driver qcedev_plat_driver = {
 	.probe = qcedev_probe,
 	.remove = qcedev_remove,
+<<<<<<< HEAD
+=======
+	.suspend = qcedev_suspend,
+	.resume = qcedev_resume,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	.driver = {
 		.name = "qce",
 		.owner = THIS_MODULE,

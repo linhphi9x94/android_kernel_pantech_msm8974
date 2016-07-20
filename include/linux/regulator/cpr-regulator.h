@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -73,12 +77,21 @@ enum cpr_corner_enum {
  * %VDD_MX_VMIN_APC_SLOW_CORNER_CEILING:
  *					Equal to slow speed corner ceiling
  * %VDD_MX_VMIN_MX_VMAX:		Equal to specified vdd-mx-vmax voltage
+<<<<<<< HEAD
+=======
+ * %VDD_MX_VMIN_APC_CORNER_MAP:		Equal to the APC corner mapped MX
+ *					voltage
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  */
 enum vdd_mx_vmin_method {
 	VDD_MX_VMIN_APC,
 	VDD_MX_VMIN_APC_CORNER_CEILING,
 	VDD_MX_VMIN_APC_SLOW_CORNER_CEILING,
 	VDD_MX_VMIN_MX_VMAX,
+<<<<<<< HEAD
+=======
+	VDD_MX_VMIN_APC_CORNER_MAP,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 #ifdef CONFIG_MSM_CPR_REGULATOR

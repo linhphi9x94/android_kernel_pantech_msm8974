@@ -91,6 +91,10 @@ struct kgsl_device_platform_data {
 	struct coresight_device *csdev;
 	struct coresight_platform_data *coresight_pdata;
 	unsigned int chipid;
+<<<<<<< HEAD
+=======
+	unsigned int pm_qos_latency;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 #endif

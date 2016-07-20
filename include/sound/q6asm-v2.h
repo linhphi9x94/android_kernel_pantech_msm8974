@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -165,6 +169,10 @@ struct audio_client {
 	/* Relative or absolute TS */
 	atomic_t	       time_flag;
 	atomic_t	       nowait_cmd_cnt;
+<<<<<<< HEAD
+=======
+	atomic_t               mem_state;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	void		       *priv;
 	uint32_t               io_mode;
 	uint64_t	       time_stamp;
@@ -176,10 +184,19 @@ struct audio_client {
 	struct audio_port_data port[2];
 	wait_queue_head_t      cmd_wait;
 	wait_queue_head_t      time_wait;
+<<<<<<< HEAD
+=======
+	wait_queue_head_t      mem_wait;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int                    perf_mode;
 	int					   stream_id;
 	/* audio cache operations fptr*/
 	int (*fptr_cache_ops)(struct audio_buffer *abuff, int cache_op);
+<<<<<<< HEAD
+=======
+	atomic_t               unmap_cb_success;
+	atomic_t               reset;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 void q6asm_audio_client_free(struct audio_client *ac);
@@ -406,7 +423,10 @@ int q6asm_get_mqfx_param(int session_id, uint32_t module_id, uint32_t param_id, 
 
 #endif  //CONFIG_PANTECH_SND_QSOUND
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* PP specific */
 int q6asm_equalizer(struct audio_client *ac, void *eq);
 

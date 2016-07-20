@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -267,7 +271,11 @@
 	rpm-regulator-ldoa11 {
 		status = "okay";
 		pma8084_l11: regulator-l11 {
+<<<<<<< HEAD
 			regulator-min-microvolt = <1300000>;
+=======
+			regulator-min-microvolt = <1225000>;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			regulator-max-microvolt = <1300000>;
 			qcom,init-voltage = <1300000>;
 			status = "okay";
@@ -483,6 +491,10 @@
 		qcom,use-phase-scaling-factor;
 		qcom,phase-scaling-factor-bits-pos = <16>;
 		qcom,valid-scaling-factor-versions = <0 1 1 0>;
+<<<<<<< HEAD
+=======
+		qcom,force-auto-mode;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		krait0_vreg: regulator@f9088000 {
 			compatible = "qcom,krait-regulator";

@@ -31,6 +31,10 @@
 #include <linux/delay.h>
 #include <linux/scatterlist.h>
 #include <linux/slab.h>
+<<<<<<< HEAD
+=======
+#include <linux/irq.h>
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <linux/mmc/mmc.h>
 #include <linux/pm.h>
 #include <linux/pm_runtime.h>
@@ -38,10 +42,24 @@
 #include <linux/dma-mapping.h>
 #include <mach/gpio.h>
 #include <mach/msm_bus.h>
+<<<<<<< HEAD
+=======
+#include <mach/mpm.h>
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <linux/iopoll.h>
 
 #include "sdhci-pltfm.h"
 
+<<<<<<< HEAD
+=======
+enum sdc_mpm_pin_state {
+	SDC_DAT1_DISABLE,
+	SDC_DAT1_ENABLE,
+	SDC_DAT1_ENWAKE,
+	SDC_DAT1_DISWAKE,
+};
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define SDHCI_VER_100		0x2B
 #define CORE_HC_MODE		0x78
 #define HC_MODE_EN		0x1
@@ -156,6 +174,12 @@
 
 #define INVALID_TUNING_PHASE	-1
 
+<<<<<<< HEAD
+=======
+#define sdhci_is_valid_mpm_wakeup_int(_h) ((_h)->pdata->mpm_sdiowakeup_int >= 0)
+#define sdhci_is_valid_gpio_wakeup_int(_h) ((_h)->pdata->sdiowakeup_irq >= 0)
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static const u32 tuning_block_64[] = {
 	0x00FF0FFF, 0xCCC3CCFF, 0xFFCC3CC3, 0xEFFEFFFE,
 	0xDDFFDFFF, 0xFBFFFBFF, 0xFF7FFFBF, 0xEFBDF777,
@@ -283,6 +307,11 @@ struct sdhci_msm_pltfm_data {
 	struct sdhci_msm_bus_voting_data *voting_data;
 	u32 *sup_clk_table;
 	unsigned char sup_clk_cnt;
+<<<<<<< HEAD
+=======
+	int mpm_sdiowakeup_int;
+	int sdiowakeup_irq;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 struct sdhci_msm_bus_vote {
@@ -318,6 +347,10 @@ struct sdhci_msm_host {
 	bool calibration_done;
 	u8 saved_tuning_phase;
 	atomic_t controller_clock;
+<<<<<<< HEAD
+=======
+	bool is_sdiowakeup_enabled;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 enum vdd_io_level {
@@ -861,6 +894,17 @@ retry:
 		memset(data_buf, 0, size);
 		mmc_wait_for_req(mmc, &mrq);
 
+<<<<<<< HEAD
+=======
+		/*
+		 * wait for 146 MCLK cycles for the card to send out the data
+		 * and thus move to TRANS state. As the MCLK would be minimum
+		 * 200MHz when tuning is performed, we need maximum 0.73us
+		 * delay. To be on safer side 1ms delay is given.
+		 */
+		if (cmd.error)
+			usleep_range(1000, 1200);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (!cmd.error && !data.error &&
 			!memcmp(data_buf, tuning_block_pattern, size)) {
 			/* tuning is successful at this tuning point */
@@ -1338,7 +1382,11 @@ static struct sdhci_msm_pltfm_data *sdhci_msm_populate_pdata(struct device *dev)
 	struct device_node *np = dev->of_node;
 	u32 bus_width = 0;
 	u32 cpu_dma_latency;
+<<<<<<< HEAD
 	int len, i;
+=======
+	int len, i, mpm_int;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int clk_table_len;
 	u32 *clk_table = NULL;
 	enum of_gpio_flags flags = OF_GPIO_ACTIVE_LOW;
@@ -1433,6 +1481,15 @@ static struct sdhci_msm_pltfm_data *sdhci_msm_populate_pdata(struct device *dev)
 	if (of_get_property(np, "qcom,nonremovable", NULL))
 		pdata->nonremovable = true;
 
+<<<<<<< HEAD
+=======
+	if (!of_property_read_u32(np, "qcom,dat1-mpm-int",
+				  &mpm_int))
+		pdata->mpm_sdiowakeup_int = mpm_int;
+	else
+		pdata->mpm_sdiowakeup_int = -1;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return pdata;
 out:
 	return NULL;
@@ -1933,6 +1990,42 @@ static int sdhci_msm_set_vdd_io_vol(struct sdhci_msm_pltfm_data *pdata,
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+/*
+ * Acquire spin-lock host->lock before calling this function
+ */
+static void sdhci_msm_cfg_sdiowakeup_gpio_irq(struct sdhci_host *host,
+					      bool enable)
+{
+	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
+	struct sdhci_msm_host *msm_host = pltfm_host->priv;
+
+	if (enable && !msm_host->is_sdiowakeup_enabled)
+		enable_irq(msm_host->pdata->sdiowakeup_irq);
+	else if (!enable && msm_host->is_sdiowakeup_enabled)
+		disable_irq_nosync(msm_host->pdata->sdiowakeup_irq);
+	else
+		dev_warn(&msm_host->pdev->dev, "%s: wakeup to config: %d curr: %d\n",
+			__func__, enable, msm_host->is_sdiowakeup_enabled);
+	msm_host->is_sdiowakeup_enabled = enable;
+}
+
+static irqreturn_t sdhci_msm_sdiowakeup_irq(int irq, void *data)
+{
+	struct sdhci_host *host = (struct sdhci_host *)data;
+	unsigned long flags;
+
+	pr_debug("%s: irq (%d) received\n", __func__, irq);
+
+	spin_lock_irqsave(&host->lock, flags);
+	sdhci_msm_cfg_sdiowakeup_gpio_irq(host, false);
+	spin_unlock_irqrestore(&host->lock, flags);
+
+	return IRQ_HANDLED;
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static irqreturn_t sdhci_msm_pwr_irq(int irq, void *data)
 {
 	struct sdhci_host *host = (struct sdhci_host *)data;
@@ -2609,6 +2702,41 @@ static struct sdhci_ops sdhci_msm_ops = {
 	.enable_controller_clock = sdhci_msm_enable_controller_clock,
 };
 
+<<<<<<< HEAD
+=======
+static int sdhci_msm_cfg_mpm_pin_wakeup(struct sdhci_host *host, unsigned mode)
+{
+	int ret = 0;
+	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
+	struct sdhci_msm_host *msm_host = pltfm_host->priv;
+	unsigned int pin = msm_host->pdata->mpm_sdiowakeup_int;
+
+	if (!pin)
+		return 0;
+
+	switch (mode) {
+	case SDC_DAT1_DISABLE:
+		ret = msm_mpm_enable_pin(pin, 0);
+		break;
+	case SDC_DAT1_ENABLE:
+		ret = msm_mpm_set_pin_type(pin, IRQ_TYPE_LEVEL_LOW);
+		if (!ret)
+			ret = msm_mpm_enable_pin(pin, 1);
+		break;
+	case SDC_DAT1_ENWAKE:
+		ret = msm_mpm_set_pin_wake(pin, 1);
+		break;
+	case SDC_DAT1_DISWAKE:
+		ret = msm_mpm_set_pin_wake(pin, 0);
+		break;
+	default:
+		ret = -EINVAL;
+		break;
+	}
+	return ret;
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int __devinit sdhci_msm_probe(struct platform_device *pdev)
 {
 	struct sdhci_host *host;
@@ -2619,6 +2747,10 @@ static int __devinit sdhci_msm_probe(struct platform_device *pdev)
 	u32 vdd_max_current;
 	u16 host_version;
 	u32 pwr, irq_status, irq_ctl;
+<<<<<<< HEAD
+=======
+	unsigned long flags;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	pr_debug("%s: Enter %s\n", dev_name(&pdev->dev), __func__);
 	msm_host = devm_kzalloc(&pdev->dev, sizeof(struct sdhci_msm_host),
@@ -2767,7 +2899,11 @@ static int __devinit sdhci_msm_probe(struct platform_device *pdev)
 	 * max. 1ms for reset completion.
 	 */
 	ret = readl_poll_timeout(msm_host->core_mem + CORE_POWER,
+<<<<<<< HEAD
 			pwr, !(pwr & CORE_SW_RST), 100, 10);
+=======
+			pwr, !(pwr & CORE_SW_RST), 10, 1000);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (ret) {
 		dev_err(&pdev->dev, "reset failed (%d)\n", ret);
@@ -2810,7 +2946,10 @@ static int __devinit sdhci_msm_probe(struct platform_device *pdev)
 	host->quirks |= SDHCI_QUIRK_SINGLE_POWER_WRITE;
 	host->quirks |= SDHCI_QUIRK_CAP_CLOCK_BASE_BROKEN;
 	host->quirks2 |= SDHCI_QUIRK2_ALWAYS_USE_BASE_CLOCK;
+<<<<<<< HEAD
 	host->quirks2 |= SDHCI_QUIRK2_IGNORE_CMDCRC_FOR_TUNING;
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	host->quirks2 |= SDHCI_QUIRK2_USE_MAX_DISCARD_SIZE;
 	host->quirks2 |= SDHCI_QUIRK2_IGNORE_DATATOUT_FOR_R1BCMD;
 	host->quirks2 |= SDHCI_QUIRK2_BROKEN_PRESET_VALUE;
@@ -2837,6 +2976,11 @@ static int __devinit sdhci_msm_probe(struct platform_device *pdev)
 		host->quirks2 |= SDHCI_QUIRK2_RDWR_TX_ACTIVE_EOT;
 	}
 
+<<<<<<< HEAD
+=======
+	host->quirks2 |= SDHCI_QUIRK2_IGN_DATA_END_BIT_ERROR;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* Setup PWRCTL irq */
 	msm_host->pwr_irq = platform_get_irq_byname(pdev, "pwr_irq");
 	if (msm_host->pwr_irq < 0) {
@@ -2885,14 +3029,23 @@ static int __devinit sdhci_msm_probe(struct platform_device *pdev)
 	msm_host->mmc->caps2 |= (MMC_CAP2_BOOTPART_NOACC |
 				MMC_CAP2_DETECT_ON_ERR);
 	msm_host->mmc->caps2 |= MMC_CAP2_SANITIZE;
+<<<<<<< HEAD
 /*	P13156: Blocked for avoid FS_CARSH
 	//msm_host->mmc->caps2 |= MMC_CAP2_CACHE_CTRL;   */ 
+=======
+/*	P13156: Blocked for avoid FS_CARSH   */
+	//msm_host->mmc->caps2 |= MMC_CAP2_CACHE_CTRL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	msm_host->mmc->caps2 |= MMC_CAP2_POWEROFF_NOTIFY;
 	msm_host->mmc->caps2 |= MMC_CAP2_CLK_SCALE;
 	msm_host->mmc->caps2 |= MMC_CAP2_STOP_REQUEST;
 	msm_host->mmc->caps2 |= MMC_CAP2_ASYNC_SDIO_IRQ_4BIT_MODE;
 	msm_host->mmc->caps2 |= MMC_CAP2_CORE_PM;
+<<<<<<< HEAD
 	msm_host->mmc->pm_caps |= MMC_PM_KEEP_POWER;
+=======
+	msm_host->mmc->pm_caps |= MMC_PM_KEEP_POWER | MMC_PM_WAKE_SDIO_IRQ;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (msm_host->pdata->nonremovable)
 		msm_host->mmc->caps |= MMC_CAP_NONREMOVABLE;
@@ -2918,6 +3071,30 @@ static int __devinit sdhci_msm_probe(struct platform_device *pdev)
 		dev_err(&pdev->dev, "%s: Failed to set dma mask\n", __func__);
 	}
 
+<<<<<<< HEAD
+=======
+	msm_host->pdata->sdiowakeup_irq = platform_get_irq_byname(pdev,
+							  "sdiowakeup_irq");
+	if (msm_host->pdata->sdiowakeup_irq >= 0) {
+		msm_host->is_sdiowakeup_enabled = true;
+		ret = request_irq(msm_host->pdata->sdiowakeup_irq,
+				  sdhci_msm_sdiowakeup_irq,
+				  IRQF_SHARED | IRQF_TRIGGER_LOW,
+				  "sdhci-msm sdiowakeup", host);
+		if (ret) {
+			dev_err(&pdev->dev, "%s: request sdiowakeup IRQ %d: failed: %d\n",
+				__func__, msm_host->pdata->sdiowakeup_irq, ret);
+			msm_host->pdata->sdiowakeup_irq = -1;
+			msm_host->is_sdiowakeup_enabled = false;
+			goto free_cd_gpio;
+		} else {
+			spin_lock_irqsave(&host->lock, flags);
+			sdhci_msm_cfg_sdiowakeup_gpio_irq(host, false);
+			spin_unlock_irqrestore(&host->lock, flags);
+		}
+	}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ret = sdhci_add_host(host);
 	if (ret) {
 		dev_err(&pdev->dev, "Add host failed (%d)\n", ret);
@@ -2951,6 +3128,20 @@ static int __devinit sdhci_msm_probe(struct platform_device *pdev)
 	else if (mmc_use_core_runtime_pm(host->mmc))
 		pm_runtime_enable(&pdev->dev);
 
+<<<<<<< HEAD
+=======
+	if (msm_host->pdata->mpm_sdiowakeup_int != -1) {
+		ret = sdhci_msm_cfg_mpm_pin_wakeup(host, SDC_DAT1_ENABLE);
+		if (ret) {
+			pr_err("%s: enabling wakeup: failed: ret: %d\n",
+			       mmc_hostname(host->mmc), ret);
+			ret = 0;
+			msm_host->pdata->mpm_sdiowakeup_int = -1;
+		}
+	}
+
+	device_enable_async_suspend(&pdev->dev);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* Successful initialization */
 	goto out;
 
@@ -2962,6 +3153,11 @@ remove_host:
 free_cd_gpio:
 	if (gpio_is_valid(msm_host->pdata->status_gpio))
 		mmc_cd_gpio_free(msm_host->mmc);
+<<<<<<< HEAD
+=======
+	if (sdhci_is_valid_gpio_wakeup_int(msm_host))
+		free_irq(msm_host->pdata->sdiowakeup_irq, host);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 vreg_deinit:
 	sdhci_msm_vreg_init(&pdev->dev, msm_host->pdata, false);
 bus_unregister:
@@ -3007,6 +3203,15 @@ static int __devexit sdhci_msm_remove(struct platform_device *pdev)
 	pm_runtime_disable(&pdev->dev);
 	sdhci_pltfm_free(pdev);
 
+<<<<<<< HEAD
+=======
+	if (sdhci_is_valid_mpm_wakeup_int(msm_host))
+		sdhci_msm_cfg_mpm_pin_wakeup(host, SDC_DAT1_DISABLE);
+
+	if (sdhci_is_valid_gpio_wakeup_int(msm_host))
+		free_irq(msm_host->pdata->sdiowakeup_irq, host);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (gpio_is_valid(msm_host->pdata->status_gpio))
 		mmc_cd_gpio_free(msm_host->mmc);
 
@@ -3022,13 +3227,83 @@ static int __devexit sdhci_msm_remove(struct platform_device *pdev)
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static int sdhci_msm_cfg_sdio_wakeup(struct sdhci_host *host, bool enable)
+{
+	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
+	struct sdhci_msm_host *msm_host = pltfm_host->priv;
+	unsigned long flags;
+	int ret = 0;
+
+	if (!(host->mmc->card && mmc_card_sdio(host->mmc->card) &&
+	      (sdhci_is_valid_mpm_wakeup_int(msm_host) ||
+	      sdhci_is_valid_gpio_wakeup_int(msm_host)) &&
+	      mmc_card_wake_sdio_irq(host->mmc))) {
+		return 1;
+	}
+
+	spin_lock_irqsave(&host->lock, flags);
+	if (enable) {
+		/* configure DAT1 gpio if applicable */
+		if (sdhci_is_valid_gpio_wakeup_int(msm_host)) {
+			ret = enable_irq_wake(msm_host->pdata->sdiowakeup_irq);
+			if (!ret)
+				sdhci_msm_cfg_sdiowakeup_gpio_irq(host, true);
+			goto out;
+		} else {
+			ret = sdhci_msm_cfg_mpm_pin_wakeup(host,
+							   SDC_DAT1_ENWAKE);
+			if (ret)
+				goto out;
+			ret = enable_irq_wake(host->irq);
+			if (ret)
+				sdhci_msm_cfg_mpm_pin_wakeup(host,
+							     SDC_DAT1_DISWAKE);
+		}
+	} else {
+		if (sdhci_is_valid_gpio_wakeup_int(msm_host)) {
+			ret = disable_irq_wake(msm_host->pdata->sdiowakeup_irq);
+			sdhci_msm_cfg_sdiowakeup_gpio_irq(host, false);
+		} else {
+			ret = sdhci_msm_cfg_mpm_pin_wakeup(host,
+							   SDC_DAT1_DISWAKE);
+			if (ret)
+				goto out;
+			ret = disable_irq_wake(host->irq);
+		}
+	}
+out:
+	if (ret)
+		pr_err("%s: %s: %sable wakeup: failed: %d gpio: %d mpm: %d\n",
+		       mmc_hostname(host->mmc), __func__, enable ? "en" : "dis",
+		       ret, msm_host->pdata->sdiowakeup_irq,
+		       msm_host->pdata->mpm_sdiowakeup_int);
+	spin_unlock_irqrestore(&host->lock, flags);
+	return ret;
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int sdhci_msm_runtime_suspend(struct device *dev)
 {
 	struct sdhci_host *host = dev_get_drvdata(dev);
 	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
 	struct sdhci_msm_host *msm_host = pltfm_host->priv;
+<<<<<<< HEAD
 
 	disable_irq(host->irq);
+=======
+	int ret;
+
+	ret = sdhci_msm_cfg_sdio_wakeup(host, true);
+	/* pwr_irq is not monitored by mpm on suspend, hence disable it */
+	if (!ret)
+		goto skip_disable_host_irq;
+
+	disable_irq(host->irq);
+
+skip_disable_host_irq:
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	disable_irq(msm_host->pwr_irq);
 
 	/*
@@ -3049,10 +3324,24 @@ static int sdhci_msm_runtime_resume(struct device *dev)
 	struct sdhci_host *host = dev_get_drvdata(dev);
 	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
 	struct sdhci_msm_host *msm_host = pltfm_host->priv;
+<<<<<<< HEAD
 
 	enable_irq(msm_host->pwr_irq);
 	enable_irq(host->irq);
 
+=======
+	int ret;
+
+	ret = sdhci_msm_cfg_sdio_wakeup(host, false);
+	if (!ret)
+		goto skip_enable_host_irq;
+
+	enable_irq(host->irq);
+
+skip_enable_host_irq:
+	enable_irq(msm_host->pwr_irq);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 }
 
@@ -3104,6 +3393,29 @@ static int sdhci_msm_resume(struct device *dev)
 out:
 	return ret;
 }
+<<<<<<< HEAD
+=======
+
+static int sdhci_msm_suspend_noirq(struct device *dev)
+{
+	struct sdhci_host *host = dev_get_drvdata(dev);
+	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
+	struct sdhci_msm_host *msm_host = pltfm_host->priv;
+	int ret = 0;
+
+	/*
+	 * ksdioirqd may get scheduled after sdhc suspend, hence retry
+	 * suspend in case the clocks are ON
+	 */
+	if (atomic_read(&msm_host->clks_on)) {
+		pr_warn("%s: %s: clock ON after suspend, aborting suspend\n",
+			mmc_hostname(host->mmc), __func__);
+		ret = -EAGAIN;
+	}
+
+	return ret;
+}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif
 
 #ifdef CONFIG_PM
@@ -3111,6 +3423,10 @@ static const struct dev_pm_ops sdhci_msm_pmops = {
 	SET_SYSTEM_SLEEP_PM_OPS(sdhci_msm_suspend, sdhci_msm_resume)
 	SET_RUNTIME_PM_OPS(sdhci_msm_runtime_suspend, sdhci_msm_runtime_resume,
 			   NULL)
+<<<<<<< HEAD
+=======
+	.suspend_noirq = sdhci_msm_suspend_noirq,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 #define SDHCI_MSM_PMOPS (&sdhci_msm_pmops)

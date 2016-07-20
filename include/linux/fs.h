@@ -342,6 +342,26 @@ struct inodes_stat_t {
 #define FS_IOC32_SETFLAGS		_IOW('f', 2, int)
 #define FS_IOC32_GETVERSION		_IOR('v', 1, int)
 #define FS_IOC32_SETVERSION		_IOW('v', 2, int)
+<<<<<<< HEAD
+=======
+ /*
+ * File system encryption support
+ */
+/* Policy provided via an ioctl on the topmost directory */
+#define FS_KEY_DESCRIPTOR_SIZE 8
+
+struct fscrypt_policy {
+	__u8 version;
+	__u8 contents_encryption_mode;
+	__u8 filenames_encryption_mode;
+	__u8 flags;
+	__u8 master_key_descriptor[FS_KEY_DESCRIPTOR_SIZE];
+} __packed;
+
+#define FS_IOC_SET_ENCRYPTION_POLICY	_IOR('f', 19, struct fscrypt_policy)
+#define FS_IOC_GET_ENCRYPTION_PWSALT	_IOW('f', 20, __u8[16])
+#define FS_IOC_GET_ENCRYPTION_POLICY	_IOW('f', 21, struct fscrypt_policy)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /*
  * Inode flags (FS_IOC_GETFLAGS / FS_IOC_SETFLAGS)
@@ -418,6 +438,11 @@ struct kstatfs;
 struct vm_area_struct;
 struct vfsmount;
 struct cred;
+<<<<<<< HEAD
+=======
+struct fscrypt_info;
+struct fscrypt_operations;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 extern void __init inode_init(void);
 extern void __init inode_init_early(void);
@@ -847,6 +872,14 @@ struct inode {
 #ifdef CONFIG_IMA
 	atomic_t		i_readcount; /* struct files open RO */
 #endif
+<<<<<<< HEAD
+=======
+
+#if IS_ENABLED(CONFIG_FS_ENCRYPTION)
+	struct fscrypt_info	*i_crypt_info;
+#endif
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	void			*i_private; /* fs or device private pointer */
 };
 
@@ -1441,6 +1474,12 @@ struct super_block {
 	const struct xattr_handler **s_xattr;
 
 	struct list_head	s_inodes;	/* all inodes */
+<<<<<<< HEAD
+=======
+
+	const struct fscrypt_operations	*s_cop;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct hlist_bl_head	s_anon;		/* anonymous dentries for (nfs) exporting */
 #ifdef CONFIG_SMP
 	struct list_head __percpu *s_files;
@@ -1844,6 +1883,7 @@ int sync_inode_metadata(struct inode *inode, int wait);
 struct file_system_type {
 	const char *name;
 	int fs_flags;
+<<<<<<< HEAD
 #define FS_REQUIRES_DEV		1 
 #define FS_BINARY_MOUNTDATA	2
 #define FS_HAS_SUBTYPE		4
@@ -1851,6 +1891,15 @@ struct file_system_type {
 #define FS_USERNS_DEV_MOUNT	16 /* A userns mount does not imply MNT_NODEV */
 #define FS_REVAL_DOT		16384	/* Check the paths ".", ".." for staleness */
 #define FS_RENAME_DOES_D_MOVE	32768	/* FS will handle d_move() during rename() internally. */
+=======
+#define FS_REQUIRES_DEV                1
+#define FS_BINARY_MOUNTDATA    2
+#define FS_HAS_SUBTYPE         4
+#define FS_USERNS_MOUNT                8       /* Can be mounted by userns root */
+#define FS_USERNS_DEV_MOUNT    16 /* A userns mount does not imply MNT_NODEV */
+#define FS_REVAL_DOT           16384   /* Check the paths ".", ".." for staleness */
+#define FS_RENAME_DOES_D_MOVE  32768   /* FS will handle d_move() during rename() internally. */
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct dentry *(*mount) (struct file_system_type *, int,
 		       const char *, void *);
 	void (*kill_sb) (struct super_block *);
@@ -1910,7 +1959,11 @@ extern struct vfsmount *kern_mount_data(struct file_system_type *, void *data);
 extern void kern_unmount(struct vfsmount *mnt);
 extern int may_umount_tree(struct vfsmount *);
 extern int may_umount(struct vfsmount *);
+<<<<<<< HEAD
 extern long do_mount(const char *, const char *, const char *, unsigned long, void *);
+=======
+extern long do_mount(char *, char *, char *, unsigned long, void *);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 extern struct vfsmount *collect_mounts(struct path *);
 extern void drop_collected_mounts(struct vfsmount *);
 extern int iterate_mounts(int (*)(struct vfsmount *, void *), void *,
@@ -2451,6 +2504,10 @@ enum {
 void dio_end_io(struct bio *bio, int error);
 void inode_dio_wait(struct inode *inode);
 void inode_dio_done(struct inode *inode);
+<<<<<<< HEAD
+=======
+struct inode *dio_bio_get_inode(struct bio *bio);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 ssize_t __blockdev_direct_IO(int rw, struct kiocb *iocb, struct inode *inode,
 	struct block_device *bdev, const struct iovec *iov, loff_t offset,

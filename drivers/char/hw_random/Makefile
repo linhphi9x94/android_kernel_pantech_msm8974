@@ -22,4 +22,8 @@ obj-$(CONFIG_HW_RANDOM_OCTEON) += octeon-rng.o
 obj-$(CONFIG_HW_RANDOM_NOMADIK) += nomadik-rng.o
 obj-$(CONFIG_HW_RANDOM_PICOXCELL) += picoxcell-rng.o
 obj-$(CONFIG_HW_RANDOM_PPC4XX) += ppc4xx-rng.o
+<<<<<<< HEAD
 obj-$(CONFIG_HW_RANDOM_MSM) += msm_rng.o
+=======
+obj-$(CONFIG_HW_RANDOM_MSM) += msm_rng.o fips_drbg.o ctr_drbg.o msm_fips_selftest.o
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

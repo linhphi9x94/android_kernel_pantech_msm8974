@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -304,6 +308,11 @@ static void kgsl_snapshot_put_object(struct kgsl_device *device,
 	list_del(&obj->node);
 
 	obj->entry->memdesc.priv &= ~KGSL_MEMDESC_FROZEN;
+<<<<<<< HEAD
+=======
+
+	kgsl_memdesc_unmap(&obj->entry->memdesc);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	kgsl_mem_entry_put(obj->entry);
 
 	kfree(obj);
@@ -418,7 +427,11 @@ int kgsl_snapshot_get_object(struct kgsl_device *device, phys_addr_t ptbase,
 
 	if (obj == NULL) {
 		KGSL_DRV_ERR(device, "Unable to allocate memory\n");
+<<<<<<< HEAD
 		goto err_put;
+=======
+		goto err_unmap;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	obj->type = type;
@@ -444,6 +457,12 @@ int kgsl_snapshot_get_object(struct kgsl_device *device, phys_addr_t ptbase,
 	entry->memdesc.priv |= KGSL_MEMDESC_FROZEN;
 
 	return ret;
+<<<<<<< HEAD
+=======
+
+err_unmap:
+	kgsl_memdesc_unmap(&entry->memdesc);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 err_put:
 	kgsl_mem_entry_put(entry);
 	return ret;
@@ -660,7 +679,11 @@ static ssize_t snapshot_show(struct file *filep, struct kobject *kobj,
 		return 0;
 
 	/* Get the mutex to keep things from changing while we are dumping */
+<<<<<<< HEAD
 	mutex_lock(&device->mutex);
+=======
+	kgsl_mutex_lock(&device->mutex, &device->mutex_owner);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	obj_itr_init(&itr, buf, off, count);
 
@@ -699,7 +722,11 @@ static ssize_t snapshot_show(struct file *filep, struct kobject *kobj,
 	}
 
 done:
+<<<<<<< HEAD
 	mutex_unlock(&device->mutex);
+=======
+	kgsl_mutex_unlock(&device->mutex, &device->mutex_owner);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return itr.write;
 }
@@ -731,12 +758,20 @@ static ssize_t trigger_store(struct kgsl_device *device, const char *buf,
 	size_t count)
 {
 	if (device && count > 0) {
+<<<<<<< HEAD
 		mutex_lock(&device->mutex);
+=======
+		kgsl_mutex_lock(&device->mutex, &device->mutex_owner);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (!kgsl_active_count_get(device)) {
 				kgsl_device_snapshot(device, 0);
 				kgsl_active_count_put(device);
 		}
+<<<<<<< HEAD
 		mutex_unlock(&device->mutex);
+=======
+		kgsl_mutex_unlock(&device->mutex, &device->mutex_owner);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	return count;

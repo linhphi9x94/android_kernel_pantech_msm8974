@@ -843,6 +843,11 @@ static int encrypted_update(struct key *key, const void *data, size_t datalen)
 	const char *format = NULL;
 	int ret = 0;
 
+<<<<<<< HEAD
+=======
+	if (test_bit(KEY_FLAG_NEGATIVE, &key->flags))
+		return -ENOKEY;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (datalen <= 0 || datalen > 32767 || !data)
 		return -EINVAL;
 

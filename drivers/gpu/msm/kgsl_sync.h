@@ -25,19 +25,31 @@ struct kgsl_sync_timeline {
 
 struct kgsl_sync_pt {
 	struct sync_pt pt;
+<<<<<<< HEAD
+=======
+	struct kgsl_context *context;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	unsigned int timestamp;
 };
 
 struct kgsl_sync_fence_waiter {
 	struct sync_fence_waiter waiter;
 	struct sync_fence *fence;
+<<<<<<< HEAD
+=======
+	char name[32];
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	void (*func)(void *priv);
 	void *priv;
 };
 
 #if defined(CONFIG_SYNC)
 struct sync_pt *kgsl_sync_pt_create(struct sync_timeline *timeline,
+<<<<<<< HEAD
 	unsigned int timestamp);
+=======
+	struct kgsl_context *context, unsigned int timestamp);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 void kgsl_sync_pt_destroy(struct sync_pt *pt);
 int kgsl_add_fence_event(struct kgsl_device *device,
 	u32 context_id, u32 timestamp, void __user *data, int len,
@@ -49,9 +61,20 @@ void kgsl_sync_timeline_destroy(struct kgsl_context *context);
 struct kgsl_sync_fence_waiter *kgsl_sync_fence_async_wait(int fd,
 	void (*func)(void *priv), void *priv);
 int kgsl_sync_fence_async_cancel(struct kgsl_sync_fence_waiter *waiter);
+<<<<<<< HEAD
 #else
 static inline struct sync_pt
 *kgsl_sync_pt_create(struct sync_timeline *timeline, unsigned int timestamp)
+=======
+static inline void kgsl_sync_fence_log(struct sync_fence *fence)
+{
+	sync_fence_log(fence);
+}
+#else
+static inline struct sync_pt
+*kgsl_sync_pt_create(struct sync_timeline *timeline,
+	struct kgsl_context *context, unsigned int timestamp)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	return NULL;
 }
@@ -96,6 +119,13 @@ kgsl_sync_fence_async_cancel(struct kgsl_sync_fence_waiter *waiter)
 	return 1;
 }
 
+<<<<<<< HEAD
+=======
+static inline void kgsl_sync_fence_log(struct sync_fence *fence)
+{
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif
 
 #endif /* __KGSL_SYNC_H */

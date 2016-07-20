@@ -22,6 +22,16 @@ ip_no_pmtu_disc - BOOLEAN
 min_pmtu - INTEGER
 	default 552 - minimum discovered Path MTU
 
+<<<<<<< HEAD
+=======
+fwmark_reflect - BOOLEAN
+	Controls the fwmark of kernel-generated IPv4 reply packets that are not
+	associated with a socket for example, TCP RSTs or ICMP echo replies).
+	If unset, these packets have a fwmark of zero. If set, they have the
+	fwmark of the packet they are replying to.
+	Default: 0
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 route/max_size - INTEGER
 	Maximum number of routes allowed in the kernel.  Increase
 	this when using large numbers of interfaces and/or routes.
@@ -1048,6 +1058,16 @@ proxy_ndp - INTEGER
 		2 NDP packets are sent to userspace, where a userspace proxy
                   can be implemented
 
+<<<<<<< HEAD
+=======
+fwmark_reflect - BOOLEAN
+	Controls the fwmark of kernel-generated IPv6 reply packets that are not
+	associated with a socket for example, TCP RSTs or ICMPv6 echo replies).
+	If unset, these packets have a fwmark of zero. If set, they have the
+	fwmark of the packet they are replying to.
+	Default: 0
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 conf/interface/*:
 	Change special settings per interface.
 
@@ -1103,6 +1123,16 @@ accept_ra_prefix_route - BOOLEAN
 
 	Functional default: enabled
 
+<<<<<<< HEAD
+=======
+accept_ra_mtu - BOOLEAN
+	Apply the MTU value specified in RA option 5 (RFC4861). If
+	disabled, the MTU specified in the RA will be ignored.
+
+	Functional default: enabled if accept_ra is enabled.
+			    disabled if accept_ra is disabled.
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 accept_redirects - BOOLEAN
 	Accept Redirects.
 

@@ -588,6 +588,29 @@ spi_transfer_del(struct spi_transfer *t)
 	list_del(&t->transfer_list);
 }
 
+<<<<<<< HEAD
+=======
+/**
+ * spi_message_init_with_transfers - Initialize spi_message and append transfers
+ * @m: spi_message to be initialized
+ * @xfers: An array of spi transfers
+ * @num_xfers: Number of items in the xfer array
+ *
+ * This function initializes the given spi_message and adds each spi_transfer in
+ * the given array to the message.
+ */
+static inline void
+spi_message_init_with_transfers(struct spi_message *m,
+struct spi_transfer *xfers, unsigned int num_xfers)
+{
+	unsigned int i;
+
+	spi_message_init(m);
+	for (i = 0; i < num_xfers; ++i)
+		spi_message_add_tail(&xfers[i], m);
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* It's fine to embed message and transaction structures in other data
  * structures so long as you don't free them while they're in use.
  */
@@ -680,6 +703,33 @@ spi_read(struct spi_device *spi, void *buf, size_t len)
 	return spi_sync(spi, &m);
 }
 
+<<<<<<< HEAD
+=======
+/**
+ * spi_sync_transfer - synchronous SPI data transfer
+ * @spi: device with which data will be exchanged
+ * @xfers: An array of spi_transfers
+ * @num_xfers: Number of items in the xfer array
+ * Context: can sleep
+ *
+ * Does a synchronous SPI data transfer of the given spi_transfer array.
+ *
+ * For more specific semantics see spi_sync().
+ *
+ * It returns zero on success, else a negative error code.
+ */
+static inline int
+spi_sync_transfer(struct spi_device *spi, struct spi_transfer *xfers,
+	unsigned int num_xfers)
+{
+	struct spi_message msg;
+
+	spi_message_init_with_transfers(&msg, xfers, num_xfers);
+
+	return spi_sync(spi, &msg);
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* this copies txbuf and rxbuf data; for small transfers only! */
 extern int spi_write_then_read(struct spi_device *spi,
 		const void *txbuf, unsigned n_tx,

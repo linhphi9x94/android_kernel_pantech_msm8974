@@ -21,7 +21,13 @@
 #include <linux/init.h>
 #include <linux/slab.h>
 #include <net/x25.h>
+<<<<<<< HEAD
 
+=======
+#ifdef KW_TAINT_ANALYSIS
+   extern void * get_tainted_stuff();
+#endif
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 LIST_HEAD(x25_route_list);
 DEFINE_RWLOCK(x25_route_list_lock);
 
@@ -179,12 +185,24 @@ struct x25_route *x25_get_route(struct x25_address *addr)
 /*
  *	Handle the ioctls that control the routing functions.
  */
+<<<<<<< HEAD
 int x25_route_ioctl(unsigned int cmd, void __user *arg)
+=======
+int x25_route_ioctl(unsigned int cmd, void __user *arg_actual)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct x25_route_struct rt;
 	struct net_device *dev;
 	int rc = -EINVAL;
+<<<<<<< HEAD
 
+=======
+	#ifdef KW_TAINT_ANALYSIS
+	void __user *arg = (void __user *)get_tainted_stuff();
+	#else
+	void __user *arg = arg_actual;
+	#endif
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (cmd != SIOCADDRT && cmd != SIOCDELRT)
 		goto out;
 

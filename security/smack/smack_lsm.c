@@ -406,8 +406,13 @@ static int smack_sb_statfs(struct dentry *dentry)
  * Returns 0 if current can write the floor of the filesystem
  * being mounted on, an error code otherwise.
  */
+<<<<<<< HEAD
 static int smack_sb_mount(const char *dev_name, struct path *path,
 			  const char *type, unsigned long flags, void *data)
+=======
+static int smack_sb_mount(char *dev_name, struct path *path,
+			  char *type, unsigned long flags, void *data)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct superblock_smack *sbp = path->dentry->d_sb->s_security;
 	struct smk_audit_info ad;

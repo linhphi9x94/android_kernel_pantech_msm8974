@@ -141,6 +141,26 @@ static ssize_t fscaps_show(struct kobject *kobj,
 }
 KERNEL_ATTR_RO(fscaps);
 
+<<<<<<< HEAD
+=======
+int rcu_expedited;
+static ssize_t rcu_expedited_show(struct kobject *kobj,
+				  struct kobj_attribute *attr, char *buf)
+{
+	return sprintf(buf, "%d\n", rcu_expedited);
+}
+static ssize_t rcu_expedited_store(struct kobject *kobj,
+				   struct kobj_attribute *attr,
+				   const char *buf, size_t count)
+{
+	if (kstrtoint(buf, 0, &rcu_expedited))
+		return -EINVAL;
+
+	return count;
+}
+KERNEL_ATTR_RW(rcu_expedited);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*
  * Make /sys/kernel/notes give the raw contents of our kernel .notes section.
  */
@@ -182,6 +202,10 @@ static struct attribute * kernel_attrs[] = {
 	&kexec_crash_size_attr.attr,
 	&vmcoreinfo_attr.attr,
 #endif
+<<<<<<< HEAD
+=======
+	&rcu_expedited_attr.attr,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	NULL
 };
 

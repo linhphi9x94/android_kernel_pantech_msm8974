@@ -26,6 +26,10 @@
 #include <linux/of_device.h>
 #include <linux/radix-tree.h>
 #include <linux/qpnp/pwm.h>
+<<<<<<< HEAD
+=======
+#include <linux/delay.h>
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define QPNP_LPG_DRIVER_NAME	"qcom,qpnp-pwm"
 #define QPNP_LPG_CHANNEL_BASE	"qpnp-lpg-channel-base"
@@ -136,12 +140,15 @@ do { \
 	(value |= (BIT(id) >> QPNP_RAMP_CONTROL_SHIFT)); \
 } while (0)
 
+<<<<<<< HEAD
 #define QPNP_DISABLE_LUT_V1(value, id) \
 do { \
 	(id < 8) ? (value &= ~BIT(id)) : \
 	(value &= (~BIT(id) >> QPNP_RAMP_CONTROL_SHIFT)); \
 } while (0)
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* LPG Control for RAMP_STEP_DURATION_LSB */
 #define QPNP_RAMP_STEP_DURATION_LSB_MASK	0xFF
 
@@ -1018,7 +1025,10 @@ static int qpnp_lpg_configure_lut_state(struct pwm_device *pwm,
 			QPNP_ENABLE_LUT_V1(value1, pwm->pwm_config.channel_id);
 			value2 = QPNP_ENABLE_LPG_MODE;
 		} else {
+<<<<<<< HEAD
 			QPNP_DISABLE_LUT_V1(value1, pwm->pwm_config.channel_id);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			value2 = QPNP_DISABLE_LPG_MODE;
 		}
 		mask1 = value1;
@@ -1038,10 +1048,17 @@ static int qpnp_lpg_configure_lut_state(struct pwm_device *pwm,
 	if (rc)
 		return rc;
 
+<<<<<<< HEAD
     if(state == QPNP_LUT_ENABLE)
 	    return qpnp_lpg_save_and_write(value1, mask1, reg1, addr1, 1, chip);
     else
         return rc;
+=======
+	if (state == QPNP_LUT_ENABLE || chip->revision == QPNP_LPG_REVISION_0)
+		rc = qpnp_lpg_save_and_write(value1, mask1, reg1,
+					addr1, 1, chip);
+	return rc;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static inline int qpnp_enable_pwm_mode(struct qpnp_pwm_config *pwm_conf)

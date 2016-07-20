@@ -29,7 +29,11 @@ struct msm_audio_ion_private {
 	bool smmu_enabled;
 	bool audioheap_enabled;
 	struct iommu_group *group;
+<<<<<<< HEAD
 	u32 domain_id;
+=======
+	int32_t domain_id;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct iommu_domain *domain;
 };
 
@@ -344,7 +348,11 @@ int msm_audio_ion_import_legacy(const char *name, struct ion_client *client,
 		pr_err("%s: ion import dma buffer failed\n",
 			__func__);
 		rc = -EINVAL;
+<<<<<<< HEAD
 		goto err_destroy_client;
+=======
+		goto err;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	if (ionflag != NULL) {
@@ -380,10 +388,13 @@ int msm_audio_ion_import_legacy(const char *name, struct ion_client *client,
 
 err_ion_handle:
 	ion_free(client, *handle);
+<<<<<<< HEAD
 err_destroy_client:
 	msm_audio_ion_client_destroy(client);
 	client = NULL;
 	*handle = NULL;
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 err:
 	return rc;
 }

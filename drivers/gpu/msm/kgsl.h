@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2008-2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2008-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -72,6 +76,7 @@
    the statisic is greater then _max, set _max
 */
 
+<<<<<<< HEAD
 #define KGSL_STATS_ADD(_size, _stat, _max) \
 	do { _stat += (_size); if (_stat > _max) _max = _stat; } while (0)
 
@@ -94,6 +99,19 @@ struct kgsl_memfree_hist {
 };
 
 
+=======
+static inline void KGSL_STATS_ADD(uint32_t size, atomic_t *stat,
+		atomic_t *max)
+{
+	uint32_t ret = atomic_add_return(size, stat);
+
+	if (ret > atomic_read(max))
+		atomic_set(max, ret);
+}
+
+#define KGSL_MAX_NUMIBS 100000
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct kgsl_device;
 struct kgsl_context;
 
@@ -122,6 +140,7 @@ struct kgsl_driver {
 
 	void *ptpool;
 
+<<<<<<< HEAD
 	struct mutex memfree_hist_mutex;
 	struct kgsl_memfree_hist memfree_hist;
 
@@ -135,6 +154,17 @@ struct kgsl_driver {
 		unsigned int mapped;
 		unsigned int mapped_max;
 		unsigned int histogram[16];
+=======
+	struct {
+		atomic_t vmalloc;
+		atomic_t vmalloc_max;
+		atomic_t page_alloc;
+		atomic_t page_alloc_max;
+		atomic_t coherent;
+		atomic_t coherent_max;
+		atomic_t mapped;
+		atomic_t mapped_max;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	} stats;
 	unsigned int full_cache_threshold;
 };
@@ -150,7 +180,12 @@ struct kgsl_memdesc_ops {
 	int (*vmfault)(struct kgsl_memdesc *, struct vm_area_struct *,
 		       struct vm_fault *);
 	void (*free)(struct kgsl_memdesc *memdesc);
+<<<<<<< HEAD
 	int (*map_kernel_mem)(struct kgsl_memdesc *);
+=======
+	int (*map_kernel)(struct kgsl_memdesc *);
+	void (*unmap_kernel)(struct kgsl_memdesc *);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 /* Internal definitions for memdesc->priv */
@@ -166,6 +201,10 @@ struct kgsl_memdesc_ops {
 struct kgsl_memdesc {
 	struct kgsl_pagetable *pagetable;
 	void *hostptr; /* kernel virtual address */
+<<<<<<< HEAD
+=======
+	unsigned int hostptr_count; /* number of threads using hostptr */
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	unsigned long useraddr; /* userspace address */
 	unsigned int gpuaddr;
 	phys_addr_t physaddr;
@@ -209,6 +248,12 @@ struct kgsl_mem_entry {
 #define MMU_CONFIG 1
 #endif
 
+<<<<<<< HEAD
+=======
+int kgsl_cmdbatch_add_memobj(struct kgsl_cmdbatch *cmdbatch,
+			struct kgsl_ibdesc *ibdesc);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 void kgsl_mem_entry_destroy(struct kref *kref);
 int kgsl_postmortem_dump(struct kgsl_device *device, int manual);
 
@@ -221,6 +266,7 @@ struct kgsl_mem_entry *kgsl_sharedmem_find_region(
 
 void kgsl_get_memory_usage(char *str, size_t len, unsigned int memflags);
 
+<<<<<<< HEAD
 void kgsl_signal_event(struct kgsl_device *device,
 		struct kgsl_context *context, unsigned int timestamp,
 		unsigned int type);
@@ -231,6 +277,8 @@ void kgsl_signal_events(struct kgsl_device *device,
 void kgsl_cancel_events(struct kgsl_device *device,
 	void *owner);
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 extern const struct dev_pm_ops kgsl_pm_ops;
 
 int kgsl_suspend_driver(struct platform_device *pdev, pm_message_t state);
@@ -240,7 +288,11 @@ void kgsl_trace_regwrite(struct kgsl_device *device, unsigned int offset,
 		unsigned int value);
 
 void kgsl_trace_issueibcmds(struct kgsl_device *device, int id,
+<<<<<<< HEAD
 		struct kgsl_cmdbatch *cmdbatch,
+=======
+		struct kgsl_cmdbatch *cmdbatch, unsigned int numibs,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		unsigned int timestamp, unsigned int flags,
 		int result, unsigned int type);
 
@@ -282,13 +334,26 @@ static inline int kgsl_gpuaddr_in_memdesc(const struct kgsl_memdesc *memdesc,
 
 static inline void *kgsl_memdesc_map(struct kgsl_memdesc *memdesc)
 {
+<<<<<<< HEAD
 	if (memdesc->hostptr == NULL && memdesc->ops &&
 		memdesc->ops->map_kernel_mem)
 		memdesc->ops->map_kernel_mem(memdesc);
+=======
+	if (memdesc->ops && memdesc->ops->map_kernel)
+		memdesc->ops->map_kernel(memdesc);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return memdesc->hostptr;
 }
 
+<<<<<<< HEAD
+=======
+static inline void kgsl_memdesc_unmap(struct kgsl_memdesc *memdesc)
+{
+	if (memdesc->ops && memdesc->ops->unmap_kernel)
+		memdesc->ops->unmap_kernel(memdesc);
+}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static inline uint8_t *kgsl_gpuaddr_to_vaddr(struct kgsl_memdesc *memdesc,
 					     unsigned int gpuaddr)
 {

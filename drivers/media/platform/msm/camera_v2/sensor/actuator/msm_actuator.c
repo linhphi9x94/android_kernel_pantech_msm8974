@@ -863,7 +863,11 @@ static int32_t msm_actuator_init(struct msm_actuator_ctrl_t *a_ctrl,
 	a_ctrl->i2c_client.addr_type = set_info->actuator_params.i2c_addr_type;
 	if (set_info->actuator_params.reg_tbl_size <=
 		MAX_ACTUATOR_REG_TBL_SIZE) {
+<<<<<<< HEAD
 	a_ctrl->reg_tbl_size = set_info->actuator_params.reg_tbl_size;
+=======
+		a_ctrl->reg_tbl_size = set_info->actuator_params.reg_tbl_size;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	} else {
 		a_ctrl->reg_tbl_size = 0;
 		pr_err("MAX_ACTUATOR_REG_TBL_SIZE is exceeded.\n");

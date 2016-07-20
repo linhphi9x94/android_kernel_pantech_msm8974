@@ -418,7 +418,10 @@ void diag_send_diag_mode_update_by_smd(struct diag_smd_info *smd_info,
 		pr_err("diag: ch invalid, feature update on proc %d\n",
 				smd_info->peripheral);
 	}
+<<<<<<< HEAD
 	process_lock_enabling(&data->nrt_lock, real_time);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	mutex_unlock(&driver->diag_cntl_mutex);
 }

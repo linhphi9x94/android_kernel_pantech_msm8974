@@ -284,8 +284,37 @@ static int msm_lsm_close(struct snd_pcm_substream *substream)
 	unsigned long flags;
 	struct snd_pcm_runtime *runtime = substream->runtime;
 	struct lsm_priv *prtd = runtime->private_data;
+<<<<<<< HEAD
 
 	pr_debug("%s\n", __func__);
+=======
+	int ret = 0;
+
+	pr_debug("%s\n", __func__);
+	if (prtd->lsm_client->started) {
+		ret = q6lsm_stop(prtd->lsm_client, true);
+		if (ret)
+			pr_err("%s: session stop failed, err = %d\n",
+				__func__, ret);
+		else
+			pr_debug("%s: LSM client session stopped %d\n",
+				 __func__, ret);
+
+		/*
+		 * Go Ahead and try de-register sound model,
+		 * even if stop failed
+		 */
+		prtd->lsm_client->started = false;
+
+		ret = q6lsm_deregister_sound_model(prtd->lsm_client);
+		if (ret)
+			pr_err("%s: dereg_snd_model failed, err = %d\n",
+				__func__, ret);
+		else
+			pr_debug("%s: dereg_snd_model succesful\n",
+				 __func__);
+	}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	q6lsm_close(prtd->lsm_client);
 	q6lsm_client_free(prtd->lsm_client);

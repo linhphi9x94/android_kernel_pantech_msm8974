@@ -109,4 +109,9 @@ static inline bool __rcu_reclaim(char *rn, struct rcu_head *head)
 	}
 }
 
+<<<<<<< HEAD
+=======
+extern int rcu_expedited;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif /* __LINUX_RCU_H */

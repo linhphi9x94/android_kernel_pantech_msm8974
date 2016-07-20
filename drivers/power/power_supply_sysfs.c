@@ -153,6 +153,10 @@ static struct device_attribute power_supply_attrs[] = {
 	POWER_SUPPLY_ATTR(input_current_max),
 	POWER_SUPPLY_ATTR(input_current_trim),
 	POWER_SUPPLY_ATTR(input_current_settled),
+<<<<<<< HEAD
+=======
+	POWER_SUPPLY_ATTR(bypass_vchg_loop_debouncer),
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	POWER_SUPPLY_ATTR(current_now),
 	POWER_SUPPLY_ATTR(current_avg),
 	POWER_SUPPLY_ATTR(power_now),

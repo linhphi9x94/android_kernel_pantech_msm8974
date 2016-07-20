@@ -14,6 +14,7 @@
 #ifndef __MSM_THERMAL_H
 #define __MSM_THERMAL_H
 
+<<<<<<< HEAD
 #ifdef CONFIG_INTELLI_THERMAL
 struct msm_thermal_data {
 	uint32_t sensor_id;
@@ -27,6 +28,8 @@ struct msm_thermal_data {
 	uint32_t core_control_mask;
 };
 #else
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct msm_thermal_data {
 	uint32_t sensor_id;
 	uint32_t poll_ms;
@@ -49,12 +52,19 @@ struct msm_thermal_data {
 	int32_t psm_temp_hyst_degC;
 	int32_t ocr_temp_degC;
 	int32_t ocr_temp_hyst_degC;
+<<<<<<< HEAD
 };
 #endif
 
 #if defined(CONFIG_THERMAL_MONITOR) ||\
     defined(CONFIG_INTELLI_THERMAL) ||\
     defined(CONFIG_INTELLI_THERMAL_V2)
+=======
+	int32_t therm_reset_temp_degC;
+};
+
+#ifdef CONFIG_THERMAL_MONITOR
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 extern int msm_thermal_init(struct msm_thermal_data *pdata);
 extern int msm_thermal_device_init(void);
 extern int msm_thermal_set_frequency(uint32_t cpu, uint32_t freq,

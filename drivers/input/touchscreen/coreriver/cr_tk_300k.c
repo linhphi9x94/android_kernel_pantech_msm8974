@@ -51,9 +51,15 @@
 #include <asm/uaccess.h>
 #include <linux/input/cr_tk_300k.h>
 #include "cr_tk_fw.h"
+<<<<<<< HEAD
 #include <linux/powersuspend.h>
 
 static struct power_suspend tk_suspend;
+=======
+#ifdef CONFIG_POWERSUSPEND
+#include <linux/powersuspend.h>
+#endif
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /* -------------------------------------------------------------------- */
 /* debug option */
@@ -81,8 +87,20 @@ static  int __devexit   tkey_i2c_remove    (struct i2c_client *client);
 static  int __init      tkey_i2c_init      (void);
 static  void __exit     tkey_i2c_exit      (void);
 
+<<<<<<< HEAD
 static void tkey_suspend (struct power_suspend *h);
 static void tkey_resume (struct power_suspend *h);
+=======
+#ifdef CONFIG_HAS_EARLYSUSPEND_CR
+static void tkey_suspend (struct early_suspend *h);
+static void tkey_resume (struct early_suspend *h);
+#endif
+
+#ifdef CONFIG_POWERSUSPEND
+static void tkey_suspend (struct power_suspend *h);
+static void tkey_resume (struct power_suspend *h);
+#endif
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 int pan_tm_key_resume (void);
 int pan_tm_key_suspend (void);
@@ -101,6 +119,10 @@ void set_i2c_from_gpio_function(bool state);
 static void pan_tm_set_led_onoff(struct led_classdev *cdev,enum led_brightness brightness);
 #endif
 void pan_tm_set_mode(int mode);
+<<<<<<< HEAD
+=======
+void pan_tm_set_cover_state(int state);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 void init_gpio_cr(void); // p13106
 static int tm_fops_open(struct inode *inode, struct file *filp);
 static long tm_fops_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
@@ -429,6 +451,30 @@ void pan_tm_set_mode(int mode)
 }
 EXPORT_SYMBOL(pan_tm_set_mode);
 
+<<<<<<< HEAD
+=======
+void pan_tm_set_cover_state(int state) {
+    dbg_op("%s enter, state = %d\n",__func__, state);
+    
+    if(pan_tm == NULL)
+        return;
+
+    if(state == 0) { // opened
+        pan_tm->cover_state = 0;
+        pan_tm_key_resume();
+    }
+    else if(state == 1) { // closed
+        pan_tm->cover_state = 1;
+        pan_tm_key_suspend();
+    }
+    else {
+        dbg_cr("%s : unexpected argument = %d\n", __func__, state);
+		return;
+    }
+}
+EXPORT_SYMBOL(pan_tm_set_cover_state);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 //[*]------------------------------------------------------------------------[*]
 // Touch Key : Data Processing Function
 //[*]------------------------------------------------------------------------[*]
@@ -1239,7 +1285,11 @@ void set_i2c_from_gpio_function(bool state)
 }
 
 
+<<<<<<< HEAD
 struct tkey *tk_shared;
+=======
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int tkey_probe (struct i2c_client *client)
 {
     int rc = -1;
@@ -1315,8 +1365,26 @@ int tkey_probe (struct i2c_client *client)
     /* Linux - Display TKey Information */
     tkey_info_display(tk);
 
+<<<<<<< HEAD
     //if, is in USER_SLEEP status and no active auto expiring wake lock
     register_power_suspend(&tk_suspend);
+=======
+    /* Linux - Set Power Save Function */
+#if defined(CONFIG_HAS_EARLYSUSPEND_CR)
+    tk->power.resume    = tkey_resume;
+    tk->power.suspend   = tkey_suspend;
+    tk->power.level     = EARLY_SUSPEND_LEVEL_DISABLE_FB-1;
+
+    //if, is in USER_SLEEP status and no active auto expiring wake lock
+    register_early_suspend(&tk->power);
+#endif
+#ifdef CONFIG_POWERSUSPEND
+    tk->power.resume    = tkey_resume;
+    tk->power.suspend   = tkey_suspend;
+
+    register_power_suspend(&tk->power);
+#endif
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
     /* Linux - Register ISR for Interupt */
     tk->irq = gpio_to_irq(TK_GPIO_INT);
@@ -1364,8 +1432,11 @@ int tkey_probe (struct i2c_client *client)
     tk->state = APPMODE;
     tk->mode = 0;
     tk->cover_state = 0;
+<<<<<<< HEAD
 
     tk_shared = tk;
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
     
     return 0;
     
@@ -1410,6 +1481,7 @@ int tkey_remove	(struct device *dev)
 #ifdef PAN_TM_LED_OPERATION
   led_classdev_unregister(&tk->tm_led_cdev);
 #endif
+<<<<<<< HEAD
   kfree(tk);
 
 	unregister_power_suspend(&tk_suspend);
@@ -1430,6 +1502,47 @@ static struct power_suspend tk_suspend = {
 	.suspend = tkey_suspend,
 	.resume = tkey_resume,
 };
+=======
+#ifdef CONFIG_POWERSUSPEND
+  unregister_power_suspend(&tk->power);
+#endif
+  kfree(tk);
+
+	return 0;
+}
+
+#ifdef CONFIG_POWERSUSPEND
+static void tkey_resume (struct power_suspend *h)
+{
+    printk("SHTSPDBG: %s\n",__FUNCTION__);
+
+    // enable tm key irq.
+    tkey_enable(pan_tm);
+}
+static void tkey_suspend (struct power_suspend *h)
+{
+    dbg_cr("SHTSPDBG: %s\n",__FUNCTION__);
+
+    // disable tm key irq.
+    tkey_disable(pan_tm);
+}
+#endif
+
+#ifdef CONFIG_KEYBOARD_TC370_SLEEP
+#ifdef CONFIG_HAS_EARLYSUSPEND_CR
+static void tkey_resume (struct early_suspend *h)
+{
+    struct tkey *tk = container_of(h, struct tkey, power);
+    tkey_enable(tk);
+}
+static void tkey_suspend (struct early_suspend *h)
+{
+    struct tkey *tk = container_of(h, struct tkey, power);
+    tkey_disable(tk);
+}
+#endif
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #ifdef CONFIG_KEYBOARD_TC370
 static int tkey_i2c_resume (struct i2c_client *client)
@@ -1479,6 +1592,7 @@ static int tkey_i2c_suspend (struct i2c_client *client, pm_message_t message)
     return 0;
 }
 
+<<<<<<< HEAD
 #else
 // suspend & resume func of pan_tm_key driver is called for stmicro touch ic sus & resum func().
 int pan_tm_key_resume (void)
@@ -1525,6 +1639,43 @@ int pan_tm_key_resume (void)
     // set mode
     pan_tm_set_mode(pan_tm->mode);
     
+=======
+
+
+#elif CONFIG_PM
+static int tkey_i2c_resume (struct i2c_client *client)
+{
+    #ifndef CONFIG_HAS_EARLYSUSPEND_CR
+        struct tkey *tk = i2c_get_clientdata(client);
+
+        tkey_enable(tk);
+    #endif
+
+    return 0;
+}
+
+static int tkey_i2c_suspend (struct i2c_client *client, pm_message_t message)
+{
+    #ifndef CONFIG_HAS_EARLYSUSPEND_CR
+        struct tkey *tk = i2c_get_clientdata(client);
+
+        tkey_disable(tk);
+    #endif
+
+    return 0;
+}
+#else
+    #define tkey_i2c_resume    NULL
+    #define tkey_i2c_suspend   NULL
+#endif
+
+#else
+// suspend & resume func of pan_tm_key driver is called for stmicro touch ic sus & resum func().
+int pan_tm_key_resume (void)
+{
+    dbg_cr("%s\n",__FUNCTION__);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
     // enable tm key irq.
     tkey_enable(pan_tm);
     return 0;
@@ -1533,6 +1684,7 @@ EXPORT_SYMBOL(pan_tm_key_resume);
 
 int pan_tm_key_suspend (void)
 {
+<<<<<<< HEAD
     int rc = 0;
 
     dbg_cr("%s\n",__FUNCTION__);
@@ -1569,6 +1721,13 @@ int pan_tm_key_suspend (void)
     // power off
     cr_tk_fw_power_onoff(pan_tm, 0);
     pan_tm->state = SUSMODE;
+=======
+    dbg_cr("%s\n",__FUNCTION__);
+
+    // disable tm key irq.
+    tkey_disable(pan_tm);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
     return 0;
 }
 EXPORT_SYMBOL(pan_tm_key_suspend);

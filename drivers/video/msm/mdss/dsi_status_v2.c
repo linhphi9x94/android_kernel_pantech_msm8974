@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -10,6 +14,7 @@
  * GNU General Public License for more details.
  */
 
+<<<<<<< HEAD
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/init.h>
@@ -21,10 +26,15 @@
 #include <linux/slab.h>
 #include <linux/uaccess.h>
 #include <linux/iopoll.h>
+=======
+#include <linux/workqueue.h>
+#include <linux/delay.h>
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <linux/kobject.h>
 #include <linux/string.h>
 #include <linux/sysfs.h>
 
+<<<<<<< HEAD
 #include "mdss_fb.h"
 #include "mdss_dsi.h"
 #include "mdss_panel.h"
@@ -53,6 +63,22 @@ struct dsi_status_data *pstatus_data;
 static uint32_t interval = STATUS_CHECK_INTERVAL;
 
 void check_dsi_ctrl_status(struct work_struct *work)
+=======
+#include "mdss_dsi.h"
+#include "mdp3_ctrl.h"
+
+/*
+ * mdp3_check_dsi_ctrl_status() - Check MDP3 DSI controller status periodically.
+ * @work     : dsi controller status data
+ * @interval : duration in milliseconds to schedule work queue
+ *
+ * This function calls check_status API on DSI controller to send the BTA
+ * command. If DSI controller fails to acknowledge the BTA command, it sends
+ * the PANEL_ALIVE=0 status to HAL layer.
+ */
+void mdp3_check_dsi_ctrl_status(struct work_struct *work,
+				uint32_t interval)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct dsi_status_data *pdsi_status = NULL;
 	struct mdss_panel_data *pdata = NULL;
@@ -61,9 +87,16 @@ void check_dsi_ctrl_status(struct work_struct *work)
 	int ret = 0;
 
 	pdsi_status = container_of(to_delayed_work(work),
+<<<<<<< HEAD
 		struct dsi_status_data, check_status);
 	if (!pdsi_status) {
 		pr_err("%s: DSI status data not available\n", __func__);
+=======
+	struct dsi_status_data, check_status);
+
+	if (!pdsi_status || !(pdsi_status->mfd)) {
+		pr_err("%s: mfd not available\n", __func__);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return;
 	}
 
@@ -72,6 +105,7 @@ void check_dsi_ctrl_status(struct work_struct *work)
 		pr_err("%s: Panel data not available\n", __func__);
 		return;
 	}
+<<<<<<< HEAD
 	ctrl_pdata = container_of(pdata, struct mdss_dsi_ctrl_pdata,
 							panel_data);
 	if (!ctrl_pdata || !ctrl_pdata->check_status) {
@@ -84,24 +118,66 @@ void check_dsi_ctrl_status(struct work_struct *work)
 
 	ret = ctrl_pdata->check_status(ctrl_pdata);
 
+=======
+
+	ctrl_pdata = container_of(pdata, struct mdss_dsi_ctrl_pdata,
+							panel_data);
+
+	if (!ctrl_pdata || !ctrl_pdata->check_status) {
+		pr_err("%s: DSI ctrl or status_check callback not available\n",
+								__func__);
+		return;
+	}
+
+	mdp3_session = pdsi_status->mfd->mdp.private1;
+	if (!mdp3_session) {
+		pr_err("%s: Display is off\n", __func__);
+		return;
+	}
+
+	mutex_lock(&mdp3_session->lock);
+	if (!mdp3_session->status) {
+		pr_info("display off already\n");
+		mutex_unlock(&mdp3_session->lock);
+		return;
+	}
+
+	if (mdp3_session->wait_for_dma_done)
+		ret = mdp3_session->wait_for_dma_done(mdp3_session);
+
+	if (!ret)
+		ret = ctrl_pdata->check_status(ctrl_pdata);
+	else
+		pr_err("%s: wait_for_dma_done error\n", __func__);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mutex_unlock(&mdp3_session->lock);
 
 	if ((pdsi_status->mfd->panel_power_on)) {
 		if (ret > 0) {
 			schedule_delayed_work(&pdsi_status->check_status,
+<<<<<<< HEAD
 				msecs_to_jiffies(pdsi_status->check_interval));
+=======
+						msecs_to_jiffies(interval));
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		} else {
 			char *envp[2] = {"PANEL_ALIVE=0", NULL};
 			pdata->panel_info.panel_dead = true;
 			ret = kobject_uevent_env(
+<<<<<<< HEAD
 				&pdsi_status->mfd->fbi->dev->kobj,
 							KOBJ_CHANGE, envp);
+=======
+					&pdsi_status->mfd->fbi->dev->kobj,
+					KOBJ_CHANGE, envp);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			pr_err("%s: Panel has gone bad, sending uevent - %s\n",
 							__func__, envp[0]);
 		}
 	}
 }
 
+<<<<<<< HEAD
 /**
  * fb_notifier_callback() - Call back function for the fb_register_client()
  * notifying events
@@ -186,3 +262,5 @@ module_init(mdss_dsi_status_init);
 module_exit(mdss_dsi_status_exit);
 
 MODULE_LICENSE("GPL v2");
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

@@ -27,6 +27,10 @@ enum dump_client_type {
 	MSM_ETM3_REG,
 	MSM_TMC0_REG, /* TMC_ETR */
 	MSM_TMC1_REG, /* TMC_ETF */
+<<<<<<< HEAD
+=======
+	MSM_LOG_BUF,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	MAX_NUM_CLIENTS,
 };
 

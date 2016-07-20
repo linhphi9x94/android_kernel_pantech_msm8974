@@ -55,6 +55,10 @@ enum smem_cache_ops {
 
 void *msm_vidc_open(int core_id, int session_type);
 int msm_vidc_close(void *instance);
+<<<<<<< HEAD
+=======
+int msm_vidc_suspend(int core_id);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int msm_vidc_querycap(void *instance, struct v4l2_capability *cap);
 int msm_vidc_enum_fmt(void *instance, struct v4l2_fmtdesc *f);
 int msm_vidc_s_fmt(void *instance, struct v4l2_format *f);

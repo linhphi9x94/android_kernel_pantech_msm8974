@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -30,6 +34,7 @@
 #include "mdss_panel.h"
 #include "mdss_mdp.h"
 
+<<<<<<< HEAD
 #define STATUS_CHECK_INTERVAL 5000
 
 struct dsi_status_data {
@@ -48,10 +53,25 @@ static uint32_t interval = STATUS_CHECK_INTERVAL;
  * This function calls check_status API on DSI controller to send the BTA
  * command. If DSI controller fails to acknowledge the BTA command, it sends
  * the PANEL_ALIVE=0 status to HAL layer.
+=======
+#define STATUS_CHECK_INTERVAL_MS 5000
+#define STATUS_CHECK_INTERVAL_MIN_MS 200
+#define DSI_STATUS_CHECK_DISABLE 0
+
+static uint32_t interval = STATUS_CHECK_INTERVAL_MS;
+static uint32_t dsi_status_disable = DSI_STATUS_CHECK_DISABLE;
+struct dsi_status_data *pstatus_data;
+
+/*
+ * check_dsi_ctrl_status() - Reads MFD structure and
+ * calls platform specific DSI ctrl Status function.
+ * @work  : dsi controller status data
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  */
 static void check_dsi_ctrl_status(struct work_struct *work)
 {
 	struct dsi_status_data *pdsi_status = NULL;
+<<<<<<< HEAD
 	struct mdss_panel_data *pdata = NULL;
 	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
 	struct mdss_overlay_private *mdp5_data = NULL;
@@ -60,11 +80,18 @@ static void check_dsi_ctrl_status(struct work_struct *work)
 
 	pdsi_status = container_of(to_delayed_work(work),
 		struct dsi_status_data, check_status);
+=======
+
+	pdsi_status = container_of(to_delayed_work(work),
+		struct dsi_status_data, check_status);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!pdsi_status) {
 		pr_err("%s: DSI status data not available\n", __func__);
 		return;
 	}
 
+<<<<<<< HEAD
 	pdata = dev_get_platdata(&pdsi_status->mfd->pdev->dev);
 	if (!pdata) {
 		pr_err("%s: Panel data not available\n", __func__);
@@ -123,6 +150,14 @@ static void check_dsi_ctrl_status(struct work_struct *work)
 							__func__, envp[0]);
 		}
 	}
+=======
+	if (!pdsi_status->mfd) {
+		pr_err("%s: FB data not available\n", __func__);
+		return;
+	}
+
+	pdsi_status->mfd->mdp.check_dsi_status(work, interval);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 /*
@@ -142,6 +177,7 @@ static int fb_event_callback(struct notifier_block *self,
 	struct fb_event *evdata = data;
 	struct dsi_status_data *pdata = container_of(self,
 				struct dsi_status_data, fb_notifier);
+<<<<<<< HEAD
 	pdata->mfd = evdata->info->par;
 
 	if (event == FB_EVENT_BLANK && evdata) {
@@ -154,11 +190,101 @@ static int fb_event_callback(struct notifier_block *self,
 		case FB_BLANK_POWERDOWN:
 			cancel_delayed_work(&pdata->check_status);
 			break;
+=======
+	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
+	struct mdss_panel_info *pinfo;
+	struct msm_fb_data_type *mfd;
+
+	if (!evdata) {
+		pr_err("%s: event data not available\n", __func__);
+		return NOTIFY_BAD;
+	}
+
+	mfd = evdata->info->par;
+	ctrl_pdata = container_of(dev_get_platdata(&mfd->pdev->dev),
+				struct mdss_dsi_ctrl_pdata, panel_data);
+	if (!ctrl_pdata) {
+		pr_err("%s: DSI ctrl not available\n", __func__);
+		return NOTIFY_BAD;
+	}
+
+	pinfo = &ctrl_pdata->panel_data.panel_info;
+
+	if (!(pinfo->esd_check_enabled)) {
+		pr_debug("ESD check is not enaled in panel dtsi\n");
+		return NOTIFY_DONE;
+	}
+
+	if (dsi_status_disable) {
+		pr_debug("%s: DSI status disabled\n", __func__);
+		return NOTIFY_DONE;
+	}
+
+	pdata->mfd = evdata->info->par;
+	if (event == FB_EVENT_BLANK) {
+		int *blank = evdata->data;
+		struct dsi_status_data *pdata = container_of(self,
+				struct dsi_status_data, fb_notifier);
+		pdata->mfd = evdata->info->par;
+
+		switch (*blank) {
+		case FB_BLANK_UNBLANK:
+			schedule_delayed_work(&pdata->check_status,
+				msecs_to_jiffies(interval));
+			break;
+		case FB_BLANK_POWERDOWN:
+		case FB_BLANK_HSYNC_SUSPEND:
+		case FB_BLANK_VSYNC_SUSPEND:
+		case FB_BLANK_NORMAL:
+			cancel_delayed_work(&pdata->check_status);
+			break;
+		default:
+			pr_err("Unknown case in FB_EVENT_BLANK event\n");
+			break;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 	}
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static int param_dsi_status_disable(const char *val, struct kernel_param *kp)
+{
+	int ret = 0;
+	int int_val;
+
+	ret = kstrtos32(val, 0, &int_val);
+	if (ret)
+		return ret;
+
+	pr_info("%s: Set DSI status disable to %d\n",
+			__func__, int_val);
+	*((int *)kp->arg) = int_val;
+	return ret;
+}
+
+static int param_set_interval(const char *val, struct kernel_param *kp)
+{
+	int ret = 0;
+	int int_val;
+
+	ret = kstrtos32(val, 0, &int_val);
+	if (ret)
+		return ret;
+	if (int_val < STATUS_CHECK_INTERVAL_MIN_MS) {
+		pr_err("%s: Invalid value %d used, ignoring\n",
+						__func__, int_val);
+		ret = -EINVAL;
+	} else {
+		pr_info("%s: Set check interval to %d msecs\n",
+						__func__, int_val);
+		*((int *)kp->arg) = int_val;
+	}
+	return ret;
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int __init mdss_dsi_status_init(void)
 {
 	int rc = 0;
@@ -179,7 +305,10 @@ int __init mdss_dsi_status_init(void)
 		return -EPERM;
 	}
 
+<<<<<<< HEAD
 	pstatus_data->check_interval = interval;
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	pr_info("%s: DSI status check interval:%d\n", __func__,	interval);
 
 	INIT_DELAYED_WORK(&pstatus_data->check_status, check_dsi_ctrl_status);
@@ -197,11 +326,24 @@ void __exit mdss_dsi_status_exit(void)
 	pr_debug("%s: DSI ctrl status work queue removed\n", __func__);
 }
 
+<<<<<<< HEAD
 module_param(interval, uint, 0);
+=======
+module_param_call(interval, param_set_interval, param_get_uint,
+						&interval, 0644);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 MODULE_PARM_DESC(interval,
 		"Duration in milliseconds to send BTA command for checking"
 		"DSI status periodically");
 
+<<<<<<< HEAD
+=======
+module_param_call(dsi_status_disable, param_dsi_status_disable, param_get_uint,
+						&dsi_status_disable, 0644);
+MODULE_PARM_DESC(dsi_status_disable,
+		"Disable DSI status check");
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 module_init(mdss_dsi_status_init);
 module_exit(mdss_dsi_status_exit);
 

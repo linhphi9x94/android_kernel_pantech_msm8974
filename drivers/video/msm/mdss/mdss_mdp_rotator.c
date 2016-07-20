@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -23,6 +27,10 @@
 #include "mdss_mdp.h"
 #include "mdss_mdp_rotator.h"
 #include "mdss_fb.h"
+<<<<<<< HEAD
+=======
+#include "mdss_debug.h"
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define MAX_ROTATOR_SESSIONS 8
 
@@ -178,6 +186,10 @@ static int mdss_mdp_rotator_pipe_dequeue(struct mdss_mdp_rotator_session *rot)
 					       head);
 
 			rc = mdss_mdp_rotator_busy_wait(tmp);
+<<<<<<< HEAD
+=======
+			mdss_mdp_smp_release(tmp->pipe);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			list_del(&tmp->head);
 			if (rc) {
 				pr_err("no pipe attached to session=%d\n",
@@ -212,6 +224,16 @@ static int __mdss_mdp_rotator_to_pipe(struct mdss_mdp_rotator_session *rot,
 		struct mdss_mdp_pipe *pipe)
 {
 	int ret;
+<<<<<<< HEAD
+=======
+	struct mdss_mdp_pipe *rot_pipe = NULL;
+	struct mdss_mdp_ctl *orig_ctl;
+
+	rot_pipe = rot->pipe;
+	orig_ctl = rot_pipe->mixer->ctl;
+	if (orig_ctl->wb_lock)
+		mutex_lock(orig_ctl->wb_lock);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	pipe->flags = rot->flags;
 	pipe->src_fmt = mdss_mdp_get_format_params(rot->format);
@@ -225,12 +247,21 @@ static int __mdss_mdp_rotator_to_pipe(struct mdss_mdp_rotator_session *rot,
 	rot->params_changed = 0;
 
 	ret = mdss_mdp_smp_reserve(pipe);
+<<<<<<< HEAD
 	if (ret) {
 		pr_err("unable to mdss_mdp_smp_reserve rot data\n");
 		return ret;
 	}
 
 	return 0;
+=======
+	if (ret)
+		pr_debug("unable to mdss_mdp_smp_reserve rot data\n");
+
+	if (orig_ctl->wb_lock)
+		mutex_unlock(orig_ctl->wb_lock);
+	return ret;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static int mdss_mdp_rotator_queue_sub(struct mdss_mdp_rotator_session *rot,
@@ -281,8 +312,14 @@ static int mdss_mdp_rotator_queue_sub(struct mdss_mdp_rotator_session *rot,
 		pr_err("unable to queue rot data\n");
 		goto error;
 	}
+<<<<<<< HEAD
 
 	ret = mdss_mdp_rotator_kickoff(rot_ctl, rot, dst_data);
+=======
+	ATRACE_BEGIN("rotator_kickoff");
+	ret = mdss_mdp_rotator_kickoff(rot_ctl, rot, dst_data);
+	ATRACE_END("rotator_kickoff");
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return ret;
 error:
@@ -438,6 +475,10 @@ int mdss_mdp_rotator_setup(struct msm_fb_data_type *mfd,
 	struct mdss_mdp_rotator_session *rot = NULL;
 	struct mdss_mdp_format_params *fmt;
 	u32 bwc_enabled;
+<<<<<<< HEAD
+=======
+	bool format_changed = false;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int ret = 0;
 
 	mutex_lock(&rotator_lock);
@@ -471,6 +512,19 @@ int mdss_mdp_rotator_setup(struct msm_fb_data_type *mfd,
 			ret = -ENODEV;
 			goto rot_err;
 		}
+<<<<<<< HEAD
+=======
+
+		if (work_busy(&rot->commit_work)) {
+			mutex_unlock(&rotator_lock);
+			flush_work(&rot->commit_work);
+			mutex_lock(&rotator_lock);
+		}
+
+		if (rot->format != fmt->format)
+			format_changed = true;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	} else {
 		pr_err("invalid rotator session id=%x\n", req->id);
 		ret = -EINVAL;
@@ -590,6 +644,15 @@ int mdss_mdp_rotator_setup(struct msm_fb_data_type *mfd,
 
 	rot->params_changed++;
 
+<<<<<<< HEAD
+=======
+	/* If the format changed, release the smp alloc */
+	if (format_changed && rot->pipe) {
+		mdss_mdp_rotator_busy_wait(rot);
+		mdss_mdp_smp_release(rot->pipe);
+	}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ret = __mdss_mdp_rotator_pipe_reserve(rot);
 	if (!ret && rot->next)
 		ret = __mdss_mdp_rotator_pipe_reserve(rot->next);
@@ -605,6 +668,7 @@ int mdss_mdp_rotator_setup(struct msm_fb_data_type *mfd,
 		if (rot && (req->id == MSMFB_NEW_REQUEST))
 			mdss_mdp_rotator_finish(rot);
 	}
+<<<<<<< HEAD
 	/*
 	 * overwrite the src format for rotator to dst format
 	 * for use by the user. On subsequent set calls, the
@@ -613,6 +677,8 @@ int mdss_mdp_rotator_setup(struct msm_fb_data_type *mfd,
 	req->src.format = mdss_mdp_get_rotator_dst_format(req->src.format,
 		req->flags & MDP_ROT_90, req->flags & MDP_BWC_EN);
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mutex_unlock(&rotator_lock);
 	return ret;
 }
@@ -635,6 +701,15 @@ static int mdss_mdp_rotator_finish(struct mdss_mdp_rotator_session *rot)
 
 	rot_pipe = rot->pipe;
 	if (rot_pipe) {
+<<<<<<< HEAD
+=======
+		if (work_busy(&rot->commit_work)) {
+			mutex_unlock(&rotator_lock);
+			flush_work(&rot->commit_work);
+			mutex_lock(&rotator_lock);
+		}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		mdss_mdp_rotator_busy_wait(rot);
 		list_del(&rot->head);
 	}
@@ -650,7 +725,11 @@ static int mdss_mdp_rotator_finish(struct mdss_mdp_rotator_session *rot)
 
 	if (rot_pipe) {
 		struct mdss_mdp_mixer *mixer = rot_pipe->mixer;
+<<<<<<< HEAD
 		mdss_mdp_pipe_unmap(rot_pipe);
+=======
+		mdss_mdp_pipe_destroy(rot_pipe);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		tmp = mdss_mdp_ctl_mixer_switch(mixer->ctl,
 				MDSS_MDP_WB_CTL_TYPE_BLOCK);
 		if (!tmp)
@@ -698,7 +777,10 @@ int mdss_mdp_rotator_play(struct msm_fb_data_type *mfd,
 			    struct msmfb_overlay_data *req)
 {
 	struct mdss_mdp_rotator_session *rot;
+<<<<<<< HEAD
 	struct mdss_overlay_private *mdp5_data = mfd_to_mdp5_data(mfd);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int ret;
 	u32 flgs;
 
@@ -718,12 +800,15 @@ int mdss_mdp_rotator_play(struct msm_fb_data_type *mfd,
 		goto dst_buf_fail;
 	}
 
+<<<<<<< HEAD
 	if (!mfd->panel_info->cont_splash_enabled)
 		mdss_iommu_attach(mdp5_data->mdata);
 
 	if (!mfd->panel_info->cont_splash_enabled)
 		mdss_iommu_attach(mdp5_data->mdata);
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mdss_mdp_overlay_free_buf(&rot->src_buf);
 	ret = mdss_mdp_overlay_get_buf(mfd, &rot->src_buf, &req->data, 1, flgs);
 	if (ret) {

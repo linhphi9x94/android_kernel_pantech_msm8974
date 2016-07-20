@@ -30,8 +30,11 @@
  *
  */
 
+<<<<<<< HEAD
 #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/mm.h>
@@ -43,12 +46,15 @@
 #include <linux/delay.h>
 #include <linux/swap.h>
 #include <linux/fs.h>
+<<<<<<< HEAD
 #include <linux/cpuset.h>
 #include <linux/show_mem_notifier.h>
 #include <linux/vmpressure.h>
 
 #define CREATE_TRACE_POINTS
 #include <trace/events/almk.h>
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #ifdef CONFIG_HIGHMEM
 #define _ZONE ZONE_HIGHMEM
@@ -78,6 +84,7 @@ static unsigned long lowmem_deathpending_timeout;
 #define lowmem_print(level, x...)			\
 	do {						\
 		if (lowmem_debug_level >= (level))	\
+<<<<<<< HEAD
 			pr_info(x);			\
 	} while (0)
 
@@ -185,13 +192,27 @@ static int test_task_flag(struct task_struct *p, int flag)
 	struct task_struct *t;
 
 	for_each_thread(p, t) {
+=======
+			printk(x);			\
+	} while (0)
+
+static int test_task_flag(struct task_struct *p, int flag)
+{
+	struct task_struct *t = p;
+
+	do {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		task_lock(t);
 		if (test_tsk_thread_flag(t, flag)) {
 			task_unlock(t);
 			return 1;
 		}
 		task_unlock(t);
+<<<<<<< HEAD
 	}
+=======
+	} while_each_thread(p, t);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return 0;
 }
@@ -234,7 +255,11 @@ void tune_lmk_zone_param(struct zonelist *zonelist, int classzone_idx,
 	for_each_zone_zonelist(zone, zoneref, zonelist, MAX_NR_ZONES) {
 		zone_idx = zonelist_zone_idx(zoneref);
 		if (zone_idx == ZONE_MOVABLE) {
+<<<<<<< HEAD
 			if (!use_cma_pages && other_free)
+=======
+			if (!use_cma_pages)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				*other_free -=
 				    zone_page_state(zone, NR_FREE_CMA_PAGES);
 			continue;
@@ -247,11 +272,17 @@ void tune_lmk_zone_param(struct zonelist *zonelist, int classzone_idx,
 			if (other_file != NULL)
 				*other_file -= zone_page_state(zone,
 							       NR_FILE_PAGES)
+<<<<<<< HEAD
 					- zone_page_state(zone, NR_SHMEM)
 					- zone_page_state(zone, NR_SWAPCACHE);
 		} else if (zone_idx < classzone_idx) {
 			if (zone_watermark_ok(zone, 0, 0, classzone_idx, 0) &&
 			    other_free) {
+=======
+					      - zone_page_state(zone, NR_SHMEM);
+		} else if (zone_idx < classzone_idx) {
+			if (zone_watermark_ok(zone, 0, 0, classzone_idx, 0)) {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				if (!use_cma_pages) {
 					*other_free -= min(
 					  zone->lowmem_reserve[classzone_idx] +
@@ -264,14 +295,20 @@ void tune_lmk_zone_param(struct zonelist *zonelist, int classzone_idx,
 					  zone->lowmem_reserve[classzone_idx];
 				}
 			} else {
+<<<<<<< HEAD
 				if (other_free)
 					*other_free -=
 					  zone_page_state(zone, NR_FREE_PAGES);
+=======
+				*other_free -=
+					   zone_page_state(zone, NR_FREE_PAGES);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			}
 		}
 	}
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_HIGHMEM
 void adjust_gfp_mask(gfp_t *gfp_mask)
 {
@@ -301,6 +338,8 @@ void adjust_gfp_mask(gfp_t *unused)
 }
 #endif
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 void tune_lmk_param(int *other_free, int *other_file, struct shrink_control *sc)
 {
 	gfp_t gfp_mask;
@@ -311,8 +350,11 @@ void tune_lmk_param(int *other_free, int *other_file, struct shrink_control *sc)
 	int use_cma_pages;
 
 	gfp_mask = sc->gfp_mask;
+<<<<<<< HEAD
 	adjust_gfp_mask(&gfp_mask);
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	zonelist = node_zonelist(0, gfp_mask);
 	high_zoneidx = gfp_zone(gfp_mask);
 	first_zones_zonelist(zonelist, high_zoneidx, NULL, &preferred_zone);
@@ -374,9 +416,13 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 	int rem = 0;
 	int tasksize;
 	int i;
+<<<<<<< HEAD
 	int ret = 0;
 	short min_score_adj = OOM_SCORE_ADJ_MAX + 1;
 	int minfree = 0;
+=======
+	int min_score_adj = OOM_SCORE_ADJ_MAX + 1;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int selected_tasksize = 0;
 	int selected_oom_score_adj;
 	int array_size = ARRAY_SIZE(lowmem_adj);
@@ -406,12 +452,18 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 	if (lowmem_minfree_size < array_size)
 		array_size = lowmem_minfree_size;
 	for (i = 0; i < array_size; i++) {
+<<<<<<< HEAD
 		minfree = lowmem_minfree[i];
 		if (other_free < minfree && other_file < minfree) {
+=======
+		if (other_free < lowmem_minfree[i] &&
+		    other_file < lowmem_minfree[i]) {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			min_score_adj = lowmem_adj[i];
 			break;
 		}
 	}
+<<<<<<< HEAD
 	if (nr_to_scan > 0) {
 		ret = adjust_minadj(&min_score_adj);
 		lowmem_print(3, "lowmem_shrink %lu, %x, ofree %d %d, ma %hd\n",
@@ -419,6 +471,12 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 				other_file, min_score_adj);
 	}
 
+=======
+	if (nr_to_scan > 0)
+		lowmem_print(3, "lowmem_shrink %lu, %x, ofree %d %d, ma %d\n",
+				nr_to_scan, sc->gfp_mask, other_free,
+				other_file, min_score_adj);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	rem = global_page_state(NR_ACTIVE_ANON) +
 		global_page_state(NR_ACTIVE_FILE) +
 		global_page_state(NR_INACTIVE_ANON) +
@@ -430,10 +488,13 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 		if (nr_to_scan > 0)
 			mutex_unlock(&scan_mutex);
 
+<<<<<<< HEAD
 		if ((min_score_adj == OOM_SCORE_ADJ_MAX + 1) &&
 			(nr_to_scan > 0))
 			trace_almk_shrink(0, ret, other_free, other_file, 0);
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return rem;
 	}
 	selected_oom_score_adj = min_score_adj;
@@ -483,6 +544,7 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 		selected = p;
 		selected_tasksize = tasksize;
 		selected_oom_score_adj = oom_score_adj;
+<<<<<<< HEAD
 		lowmem_print(3, "select '%s' (%d), adj %hd, size %d, to kill\n",
 			     p->comm, p->pid, oom_score_adj, tasksize);
 	}
@@ -530,6 +592,15 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 			show_mem_call_notifiers();
 		}
 
+=======
+		lowmem_print(2, "select %d (%s), adj %d, size %d, to kill\n",
+			     p->pid, p->comm, oom_score_adj, tasksize);
+	}
+	if (selected) {
+		lowmem_print(1, "send sigkill to %d (%s), adj %d, size %d\n",
+			     selected->pid, selected->comm,
+			     selected_oom_score_adj, selected_tasksize);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		lowmem_deathpending_timeout = jiffies + HZ;
 		send_sig(SIGKILL, selected, 0);
 		set_tsk_thread_flag(selected, TIF_MEMDIE);
@@ -537,12 +608,17 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 		rcu_read_unlock();
 		/* give the system time to free up the memory */
 		msleep_interruptible(20);
+<<<<<<< HEAD
 		trace_almk_shrink(selected_tasksize, ret,
 			other_free, other_file, selected_oom_score_adj);
 	} else {
 		trace_almk_shrink(1, ret, other_free, other_file, 0);
 		rcu_read_unlock();
 	}
+=======
+	} else
+		rcu_read_unlock();
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	lowmem_print(4, "lowmem_shrink %lu, %x, return %d\n",
 		     nr_to_scan, sc->gfp_mask, rem);
@@ -558,7 +634,10 @@ static struct shrinker lowmem_shrinker = {
 static int __init lowmem_init(void)
 {
 	register_shrinker(&lowmem_shrinker);
+<<<<<<< HEAD
 	vmpressure_notifier_register(&lmk_vmpr_nb);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 }
 

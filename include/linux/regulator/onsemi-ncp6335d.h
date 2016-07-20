@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -26,4 +30,13 @@ struct ncp6335d_platform_data {
 	bool sleep_enable;
 };
 
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_REGULATOR_ONSEMI_NCP6335D
+int __init ncp6335d_regulator_init(void);
+#else
+static inline int __init ncp6335d_regulator_init(void) { return 0; }
+#endif
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif

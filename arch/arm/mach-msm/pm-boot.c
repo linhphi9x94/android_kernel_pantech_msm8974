@@ -343,4 +343,8 @@ static int __init msm_pm_boot_module_init(void)
 {
 	return platform_driver_register(&msm_pm_boot_driver);
 }
+<<<<<<< HEAD
 module_init(msm_pm_boot_module_init);
+=======
+postcore_initcall(msm_pm_boot_module_init);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

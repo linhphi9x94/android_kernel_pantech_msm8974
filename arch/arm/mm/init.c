@@ -739,7 +739,11 @@ static void __init free_highpages(void)
 #define MLK_ROUNDUP(b, t) b, t, DIV_ROUND_UP(((t) - (b)), SZ_1K)
 
 #ifdef CONFIG_ENABLE_VMALLOC_SAVING
+<<<<<<< HEAD
 void print_vmalloc_lowmem_info(void)
+=======
+static void print_vmalloc_lowmem_info(void)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	int i;
 	void *va_start, *va_end;
@@ -759,11 +763,28 @@ void print_vmalloc_lowmem_info(void)
 		}
 		if (i && ((meminfo.bank[i-1].start + meminfo.bank[i-1].size) !=
 			   meminfo.bank[i].start)) {
+<<<<<<< HEAD
+=======
+			phys_addr_t end_phys;
+
+			if((meminfo.bank[i-1].start + meminfo.bank[i-1].size) > arm_lowmem_limit)
+				continue;
+
+			if(meminfo.bank[i].start > arm_lowmem_limit)
+				end_phys = arm_lowmem_limit;
+			else
+				end_phys = meminfo.bank[i].start;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			if (meminfo.bank[i-1].start + meminfo.bank[i-1].size
 				   <= MAX_HOLE_ADDRESS) {
 				va_start = __va(meminfo.bank[i-1].start
 						+ meminfo.bank[i-1].size);
+<<<<<<< HEAD
 				va_end = __va(meminfo.bank[i].start);
+=======
+				va_end = __va(end_phys);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				printk(KERN_NOTICE
 				"	   vmalloc : 0x%08lx - 0x%08lx   (%4ld MB)\n",
 					   MLM((unsigned long)va_start,

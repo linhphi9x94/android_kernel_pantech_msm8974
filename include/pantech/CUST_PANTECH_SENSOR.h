@@ -458,6 +458,18 @@
 #define CONFIG_PANTECH_SNS_TMD277X_NEW_EQUATION
 
 /* -----------------------------------------------------------------
+<<<<<<< HEAD
+=======
+* CONFIG_PANTECH_SNS_TMD277X_ZERO_DATA_AFTER_RESET
+* -----------------------------------------------------------------
+*   .Brif          : fix bug that zero data is not reported as soon as reset
+*   .Applied Block : ADSP(DD)
+*   .Applied Files : adsp_proc/Sensors/dd/qcom/src/sns_dd_alsprx_tmd277x.c
+* ---------------------------------------------------------------*/
+#define CONFIG_PANTECH_SNS_TMD277X_ZERO_DATA_AFTER_RESET
+
+/* -----------------------------------------------------------------
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 * CONFIG_PANTECH_KITKAT_SENSOR_LIST
 * -----------------------------------------------------------------
 *   .Brif          : supported Sensor list on KITKAT
@@ -563,7 +575,11 @@
 *   .Applied Files : vendor/qcom/proprietary/sensors/dsps/libhalsensors/src/sensors_qcom_hal.c
 * ---------------------------------------------------------------*/
 #define CONFIG_PANTECH_FIX_BUG_UNCALIBRATED_MAGNETIC_FIELD
+<<<<<<< HEAD
 #if defined(H_EF56S) || defined(H_EF59S) || defined(H_EF59K) || defined(H_EF59L) || defined(H_EF60S) || defined(H_EF61K) || defined(H_EF62L)||defined(H_EF65S)
+=======
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* -----------------------------------------------------------------
 * CONFIG_PANTECH_QCAL_USE
 * -----------------------------------------------------------------
@@ -572,7 +588,11 @@
 *   .Applied Files : vendor/qcom/proprietary/sensors/dsps/sensordaemon/reg/src/sns_reg_conf_la.c
 * ---------------------------------------------------------------*/
 #define CONFIG_PANTECH_QCAL_USE
+<<<<<<< HEAD
 #endif
+=======
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* -----------------------------------------------------------------
 * CCONFIG_PANTECH_SNS_FIX_BUG_SAM
 * -----------------------------------------------------------------
@@ -593,6 +613,58 @@
 *                    adsp_proc/Sensors/dd/qcom/src/sns_dd_bmg160.c
 * ---------------------------------------------------------------*/
 #define CONFIG_PANTECH_SNS_BMG160_ODR
+<<<<<<< HEAD
+=======
+
+/* -----------------------------------------------------------------
+* CCONFIG_PANTECH_SNS_FIX_MAG_YAS_INIT
+* -----------------------------------------------------------------
+*   .Brif          : modify to fill output parameters even if reset is failed
+*   .Applied Block : DD
+*   .Applied Files : 
+*                    adsp_proc/Sensors/dd/qcom/src/sns_dd_mag_yas.c
+* ---------------------------------------------------------------*/
+#define CONFIG_PANTECH_SNS_FIX_MAG_YAS_INIT
+
+/* -----------------------------------------------------------------
+* CONFIG_PANTECH_SNS_FIX_TIMESTAMP_ROLLOVER_BUG
+* -----------------------------------------------------------------
+*   .Brif          : apply CR for timestamp rollover bug
+*   .Applied Block : ADSP
+*   .Applied Files : adsp_proc/Sensors/smgr/src/common/sns_smgr_task.c
+*                    adsp_proc/Sensors/smgr/src/common/sns_smgr_sol.c
+*                    adsp_proc/Sensors/smgr/src/common/sns_smgr_sensor.c
+* ---------------------------------------------------------------*/
+#define CONFIG_PANTECH_SNS_FIX_TIMESTAMP_ROLLOVER_BUG
+
+/* -----------------------------------------------------------------
+* CONFIG_PANTECH_SNS_FIX_BUG_SENSOR_LIST
+* -----------------------------------------------------------------
+*   .Brif          : initializing a value g_ss_responses
+*   .Applied Block : HAL
+*   .Applied Files : vendor/qcom/proprietary/sensors/dsps/libhalsensors/src/sensors_qcom_hal.c
+* ---------------------------------------------------------------*/
+#define CONFIG_PANTECH_SNS_FIX_BUG_SENSOR_LIST
+
+/* -----------------------------------------------------------------
+* CONFIG_PANTECH_SNS_WHEN_ACCEL_FAIL
+* -----------------------------------------------------------------
+*   .Brif          : no batch test when accel is not available
+*   .Applied Block : HAL
+*   .Applied Files : vendor/qcom/proprietary/sensors/dsps/libhalsensors/src/sensors_qcom_hal.c
+* ---------------------------------------------------------------*/
+#define CONFIG_PANTECH_SNS_WHEN_ACCEL_FAIL
+
+/* -----------------------------------------------------------------
+* CONFIG_PANTECH_SNS_WAKE_LOCK_PROXIMITY
+* -----------------------------------------------------------------
+*   .Brif          : acqurie wake lock when proximity data is arrived
+*   .Applied Block : sensordaemon
+*   .Applied Files : vendor/qcom/proprietary/sensors/dsps/sensordamon/apps/common/acm/src/sns_acm_mr.c
+* ---------------------------------------------------------------*/
+#define CONFIG_PANTECH_SNS_WAKE_LOCK_PROXIMITY
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #if defined(H_EF56S) || defined(H_EF59S) || defined(H_EF59K) || defined(H_EF59L) || defined(H_EF60S) || defined(H_EF61K) || defined(H_EF62L)
 /* -----------------------------------------------------------------
 * CONFIG_PANTECH_ACCEL_INT_USE
@@ -604,4 +676,25 @@
 #define CONFIG_PANTECH_ACCEL_INT_USE
 #endif
 
+<<<<<<< HEAD
+=======
+/* -----------------------------------------------------------------
+* CONFIG_PANCETH_SNS_APDS99xx_SUNLIGHT_CANCELATION
+* -----------------------------------------------------------------
+*   .Brif          : APDS99xx sunlight cancelation
+*   .Applied Block : ADSP(DD)
+*   .Applied Files : adsp_proc/Sensors/dd/qcom/src/Sns_dd_apds99xx.c
+* ---------------------------------------------------------------*/
+#define CONFIG_PANTECH_SNS_APDS99XX_SUNLIGHT_CANCELATION
+
+/* -----------------------------------------------------------------
+* CONFIG_PANTECH_FIX_APPS_SAM_BUG_WHEN_VENDOR_CAL
+* -----------------------------------------------------------------
+*   .Brif          : fix a bug for disabling virtual sensor, when vendor cal is used.
+*   .Applied Block : sensordaemon
+*   .Applied Files : vendor/qcom/proprietary/sensors/dsps/sensordaemon/common/sam/framework/src/sns_sam.c
+* ---------------------------------------------------------------*/
+#define CONFIG_PANTECH_FIX_APPS_SAM_BUG_WHEN_VENDOR_CAL
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif // _CUST_PANTECH_DSPS_H_

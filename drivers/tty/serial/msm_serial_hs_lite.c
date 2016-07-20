@@ -152,7 +152,11 @@ static const unsigned int regmap[][UARTDM_LAST] = {
 
 static struct of_device_id msm_hsl_match_table[] = {
 	{	.compatible = "qcom,msm-lsuart-v14",
+<<<<<<< HEAD
 		.data = (void *)UARTDM_VERSION_14
+=======
+		.data = (void *)UARTDM_VERSION_14,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	},
 	{}
 };

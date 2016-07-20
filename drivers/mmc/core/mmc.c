@@ -66,6 +66,24 @@ static const struct mmc_fixup mmc_fixups[] = {
 	MMC_FIXUP_EXT_CSD_REV(CID_NAME_ANY, CID_MANFID_HYNIX,
 			      0x014a, add_quirk, MMC_QUIRK_BROKEN_HPI, 5),
 
+<<<<<<< HEAD
+=======
+	/* Disable HPI feature for Kingstone card */
+	MMC_FIXUP_EXT_CSD_REV("MMC16G", CID_MANFID_KINGSTON, CID_OEMID_ANY,
+			add_quirk, MMC_QUIRK_BROKEN_HPI, 5),
+
+	/*
+	 * Some Hynix cards exhibit data corruption over reboots if cache is
+	 * enabled. Disable cache for all versions until a class of cards that
+	 * show this behavior is identified.
+	 */
+	MMC_FIXUP("H8G2d", CID_MANFID_HYNIX, CID_OEMID_ANY, add_quirk_mmc,
+		  MMC_QUIRK_CACHE_DISABLE),
+
+	MMC_FIXUP("MMC16G", CID_MANFID_KINGSTON, CID_OEMID_ANY, add_quirk_mmc,
+		  MMC_QUIRK_CACHE_DISABLE),
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	END_FIXUP
 };
 
@@ -341,6 +359,11 @@ static int mmc_read_ext_csd(struct mmc_card *card, u8 *ext_csd)
 	card->ext_csd.raw_card_type = ext_csd[EXT_CSD_CARD_TYPE];
 	mmc_select_card_type(card);
 
+<<<<<<< HEAD
+=======
+	card->ext_csd.raw_drive_strength = ext_csd[EXT_CSD_DRIVE_STRENGTH];
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	card->ext_csd.raw_s_a_timeout = ext_csd[EXT_CSD_S_A_TIMEOUT];
 	card->ext_csd.raw_erase_timeout_mult =
 		ext_csd[EXT_CSD_ERASE_TIMEOUT_MULT];
@@ -745,9 +768,13 @@ static int mmc_select_powerclass(struct mmc_card *card,
 				EXT_CSD_PWR_CL_52_195 :
 				EXT_CSD_PWR_CL_DDR_52_195;
 		else if (host->ios.clock <= 200000000)
+<<<<<<< HEAD
 			index = (bus_width <= EXT_CSD_BUS_WIDTH_8) ?
 				EXT_CSD_PWR_CL_200_195 :
 				EXT_CSD_PWR_CL_DDR_200_195;
+=======
+			index = EXT_CSD_PWR_CL_200_195;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		break;
 	case MMC_VDD_27_28:
 	case MMC_VDD_28_29:
@@ -765,9 +792,15 @@ static int mmc_select_powerclass(struct mmc_card *card,
 				EXT_CSD_PWR_CL_52_360 :
 				EXT_CSD_PWR_CL_DDR_52_360;
 		else if (host->ios.clock <= 200000000)
+<<<<<<< HEAD
 			index = (bus_width <= EXT_CSD_BUS_WIDTH_8) ?
 				EXT_CSD_PWR_CL_200_360 :
 				EXT_CSD_PWR_CL_DDR_200_360;
+=======
+			index = (bus_width == EXT_CSD_DDR_BUS_WIDTH_8) ?
+				EXT_CSD_PWR_CL_DDR_200_360 :
+				EXT_CSD_PWR_CL_200_360;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		break;
 	default:
 		pr_warning("%s: Voltage range not supported "
@@ -1248,8 +1281,12 @@ static int mmc_change_bus_speed(struct mmc_host *host, unsigned long *freq)
 		mmc_set_clock(host, (unsigned int) (*freq));
 	}
 
+<<<<<<< HEAD
 	if ((mmc_card_hs400(card) || mmc_card_hs200(card))
 		&& card->host->ops->execute_tuning) {
+=======
+	if (mmc_card_hs200(card) && card->host->ops->execute_tuning) {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/*
 		 * We try to probe host driver for tuning for any
 		 * frequency, it is host driver responsibility to
@@ -1278,10 +1315,14 @@ static int mmc_reboot_notify(struct notifier_block *notify_block,
 	struct mmc_card *card = container_of(
 			notify_block, struct mmc_card, reboot_notify);
 
+<<<<<<< HEAD
 	if (event != SYS_RESTART)
 		card->issue_long_pon = true;
 	else
 		card->issue_long_pon = false;
+=======
+	card->pon_type = (event != SYS_RESTART) ? MMC_LONG_PON : MMC_SHRT_PON;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return NOTIFY_OK;
 }
@@ -1579,11 +1620,14 @@ static int mmc_init_card(struct mmc_host *host, u32 ocr,
 			card->ext_csd.cache_ctrl = 1;
 		}
 	}
+<<<<<<< HEAD
 	if (card->quirks & MMC_QUIRK_CACHE_DISABLE) {
 		pr_warn("%s: This is Hynix card, cache disabled!\n",
 				mmc_hostname(card->host));
 		card->ext_csd.cache_ctrl = 0;
 	}
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if ((host->caps2 & MMC_CAP2_PACKED_WR &&
 			card->ext_csd.max_packed_writes > 0) ||
@@ -1682,11 +1726,16 @@ static int mmc_poweroff_notify(struct mmc_card *card, unsigned int notify_type)
 	return err;
 }
 
+<<<<<<< HEAD
 int mmc_send_long_pon(struct mmc_card *card)
+=======
+int mmc_send_pon(struct mmc_card *card)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	int err = 0;
 	struct mmc_host *host = card->host;
 
+<<<<<<< HEAD
 	mmc_claim_host(host);
 	if (card->issue_long_pon && mmc_can_poweroff_notify(card)) {
 		err = mmc_poweroff_notify(host->card, EXT_CSD_POWER_OFF_LONG);
@@ -1695,6 +1744,21 @@ int mmc_send_long_pon(struct mmc_card *card)
 					mmc_hostname(host), err);
 	}
 	mmc_release_host(host);
+=======
+	if (!mmc_can_poweroff_notify(card))
+		goto out;
+
+	mmc_claim_host(host);
+	if (card->pon_type & MMC_LONG_PON)
+		err = mmc_poweroff_notify(host->card, EXT_CSD_POWER_OFF_LONG);
+	else if (card->pon_type & MMC_SHRT_PON)
+		err = mmc_poweroff_notify(host->card, EXT_CSD_POWER_OFF_SHORT);
+	if (err)
+		pr_warn("%s: error %d sending PON type %u",
+			mmc_hostname(host), err, card->pon_type);
+	mmc_release_host(host);
+out:
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return err;
 }
 
@@ -1707,11 +1771,19 @@ static void mmc_remove(struct mmc_host *host)
 	BUG_ON(!host->card);
 
 	unregister_reboot_notifier(&host->card->reboot_notify);
+<<<<<<< HEAD
+=======
+
+	mmc_exit_clk_scaling(host);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mmc_remove_card(host->card);
 
 	mmc_claim_host(host);
 	host->card = NULL;
+<<<<<<< HEAD
 	mmc_exit_clk_scaling(host);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mmc_release_host(host);
 }
 

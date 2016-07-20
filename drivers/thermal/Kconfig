@@ -73,6 +73,7 @@ config THERMAL_PM8XXX
 	  shifting over temperature shutdown control of the PMIC from hardware
 	  to software.
 
+<<<<<<< HEAD
 choice
 	prompt "MSM Thermal Monitor Types"
 	default THERMAL_MONITOR
@@ -85,18 +86,27 @@ config INTELLI_THERMAL_V2
 	  This enables thermal monitoring capability in the kernel replacing
 	  userspace thermal monitoring altogether.
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 config THERMAL_MONITOR
 	bool "Monitor thermal state and limit CPU Frequency"
 	depends on THERMAL_TSENS8960 || THERMAL_TSENS8974
 	depends on CPU_FREQ_MSM
+<<<<<<< HEAD
+=======
+	default n
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	help
 	  This enables thermal monitoring capability in the kernel in the
 	  absence of a system wide thermal monitoring entity or until such an
 	  entity starts running in the userspace. Monitors TSENS temperature
 	  and limits the max frequency of the cores.
 
+<<<<<<< HEAD
 endchoice
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 config SPEAR_THERMAL
 	bool "SPEAr thermal sensor driver"
 	depends on THERMAL

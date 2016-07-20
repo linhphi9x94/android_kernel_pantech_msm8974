@@ -37,8 +37,13 @@ enum nf_ct_ext_id {
 /* Extensions: optional stuff which isn't permanently in struct. */
 struct nf_ct_ext {
 	struct rcu_head rcu;
+<<<<<<< HEAD
 	u8 offset[NF_CT_EXT_NUM];
 	u8 len;
+=======
+	u16 offset[NF_CT_EXT_NUM];
+	u16 len;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	char data[0];
 };
 

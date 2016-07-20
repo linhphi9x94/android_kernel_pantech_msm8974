@@ -24,6 +24,10 @@ extern unsigned int user_debug;
 extern void disable_hlt(void);
 extern void enable_hlt(void);
 extern int get_hlt(void);
+<<<<<<< HEAD
+=======
+extern char* (*arch_read_hardware_id)(void);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #endif /* !__ASSEMBLY__ */
 

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -35,7 +39,11 @@
 #define	WCD9XXX_CLSH_STATE_HPHL (0x01 << 1)
 #define	WCD9XXX_CLSH_STATE_HPHR (0x01 << 2)
 #define	WCD9XXX_CLSH_STATE_LO (0x01 << 3)
+<<<<<<< HEAD
 #define NUM_CLSH_STATES ((0x01 << 4) - 1)
+=======
+#define NUM_CLSH_STATES (0x01 << 4)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define WCD9XXX_DMIC_SAMPLE_RATE_DIV_2    0x0
 #define WCD9XXX_DMIC_SAMPLE_RATE_DIV_3    0x1
@@ -56,6 +64,37 @@
 #define WCD9XXX_CLSH_STATE_HPH_ST (WCD9XXX_CLSH_STATE_HPHL | \
 						WCD9XXX_CLSH_STATE_HPHR)
 
+<<<<<<< HEAD
+=======
+#define WCD9XXX_CLSH_STATE_HPHL_EAR (WCD9XXX_CLSH_STATE_HPHL | \
+						WCD9XXX_CLSH_STATE_EAR)
+#define WCD9XXX_CLSH_STATE_HPHR_EAR (WCD9XXX_CLSH_STATE_HPHR | \
+						WCD9XXX_CLSH_STATE_EAR)
+
+#define WCD9XXX_CLSH_STATE_HPH_ST_EAR (WCD9XXX_CLSH_STATE_HPH_ST | \
+						WCD9XXX_CLSH_STATE_EAR)
+
+#define WCD9XXX_CLSH_STATE_HPHL_LO (WCD9XXX_CLSH_STATE_HPHL | \
+						WCD9XXX_CLSH_STATE_LO)
+#define WCD9XXX_CLSH_STATE_HPHR_LO (WCD9XXX_CLSH_STATE_HPHR | \
+						WCD9XXX_CLSH_STATE_LO)
+
+#define WCD9XXX_CLSH_STATE_HPH_ST_LO (WCD9XXX_CLSH_STATE_HPH_ST | \
+						WCD9XXX_CLSH_STATE_LO)
+
+#define WCD9XXX_CLSH_STATE_EAR_LO (WCD9XXX_CLSH_STATE_EAR | \
+						WCD9XXX_CLSH_STATE_LO)
+
+#define WCD9XXX_CLSH_STATE_HPHL_EAR_LO (WCD9XXX_CLSH_STATE_HPHL | \
+						WCD9XXX_CLSH_STATE_EAR | \
+						WCD9XXX_CLSH_STATE_LO)
+#define WCD9XXX_CLSH_STATE_HPHR_EAR_LO (WCD9XXX_CLSH_STATE_HPHR | \
+						WCD9XXX_CLSH_STATE_EAR | \
+						WCD9XXX_CLSH_STATE_LO)
+#define WCD9XXX_CLSH_STATE_HPH_ST_EAR_LO (WCD9XXX_CLSH_STATE_HPH_ST | \
+						WCD9XXX_CLSH_STATE_EAR | \
+						WCD9XXX_CLSH_STATE_LO)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 struct wcd9xxx_reg_mask_val {
 	u16	reg;

@@ -35,12 +35,20 @@
 
 #define MIN_PLAYBACK_PERIOD_SIZE (128 * 2)
 #define MAX_PLAYBACK_PERIOD_SIZE (128 * 2 * 2 * 6)
+<<<<<<< HEAD
 #define MIN_PLAYBACK_NUM_PERIODS (64)
+=======
+#define MIN_PLAYBACK_NUM_PERIODS (4)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define MAX_PLAYBACK_NUM_PERIODS (768)
 
 #define MIN_CAPTURE_PERIOD_SIZE (128 * 2 * 4)
 #define MAX_CAPTURE_PERIOD_SIZE (128 * 2 * 2 * 6 * 4)
+<<<<<<< HEAD
 #define MIN_CAPTURE_NUM_PERIODS (32)
+=======
+#define MIN_CAPTURE_NUM_PERIODS (4)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define MAX_CAPTURE_NUM_PERIODS (384)
 
 static struct snd_pcm_hardware msm_afe_hardware_playback = {
@@ -58,7 +66,11 @@ static struct snd_pcm_hardware msm_afe_hardware_playback = {
 	.channels_min =         1,
 	.channels_max =         6,
 	.buffer_bytes_max =     MAX_PLAYBACK_PERIOD_SIZE *
+<<<<<<< HEAD
 				MIN_PLAYBACK_NUM_PERIODS,
+=======
+				MAX_PLAYBACK_NUM_PERIODS,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	.period_bytes_min =     MIN_PLAYBACK_PERIOD_SIZE,
 	.period_bytes_max =     MAX_PLAYBACK_PERIOD_SIZE,
 	.periods_min =          MIN_PLAYBACK_NUM_PERIODS,
@@ -81,7 +93,11 @@ static struct snd_pcm_hardware msm_afe_hardware_capture = {
 	.channels_min =         1,
 	.channels_max =         6,
 	.buffer_bytes_max =     MAX_CAPTURE_PERIOD_SIZE *
+<<<<<<< HEAD
 				MIN_CAPTURE_NUM_PERIODS,
+=======
+				MAX_CAPTURE_NUM_PERIODS,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	.period_bytes_min =     MIN_CAPTURE_PERIOD_SIZE,
 	.period_bytes_max =     MAX_CAPTURE_PERIOD_SIZE,
 	.periods_min =          MIN_CAPTURE_NUM_PERIODS,

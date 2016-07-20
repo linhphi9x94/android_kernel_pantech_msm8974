@@ -484,6 +484,7 @@ DECLARE_PER_CPU(struct rq, runqueues);
 #define cpu_curr(cpu)		(cpu_rq(cpu)->curr)
 #define raw_rq()		(&__raw_get_cpu_var(runqueues))
 
+<<<<<<< HEAD
 #ifdef CONFIG_INTELLI_PLUG
 struct nr_stats_s {
 	/* time-based average load */
@@ -500,6 +501,8 @@ struct nr_stats_s {
 DECLARE_PER_CPU(struct nr_stats_s, runqueue_stats);
 #endif
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_SMP
 
 #define rcu_dereference_check_sched_domain(p) \
@@ -894,7 +897,10 @@ extern void sysrq_sched_debug_show(void);
 extern void sched_init_granularity(void);
 extern void update_max_interval(void);
 extern void update_group_power(struct sched_domain *sd, int cpu);
+<<<<<<< HEAD
 extern int update_runtime(struct notifier_block *nfb, unsigned long action, void *hcpu);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 extern void init_sched_rt_class(void);
 extern void init_sched_fair_class(void);
 
@@ -942,6 +948,7 @@ extern void cpuacct_charge(struct task_struct *tsk, u64 cputime);
 static inline void cpuacct_charge(struct task_struct *tsk, u64 cputime) {}
 #endif
 
+<<<<<<< HEAD
 #ifdef CONFIG_INTELLI_PLUG
 static inline unsigned int do_avg_nr_running(struct rq *rq)
 {
@@ -979,10 +986,17 @@ static inline void inc_nr_running(struct rq *rq)
 #ifdef CONFIG_INTELLI_PLUG
 	write_seqcount_end(&nr_stats->ave_seqcnt);
 #endif
+=======
+static inline void inc_nr_running(struct rq *rq)
+{
+	sched_update_nr_prod(cpu_of(rq), rq->nr_running, true);
+	rq->nr_running++;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static inline void dec_nr_running(struct rq *rq)
 {
+<<<<<<< HEAD
 #ifdef CONFIG_INTELLI_PLUG
 	struct nr_stats_s *nr_stats = &per_cpu(runqueue_stats, rq->cpu);
 #endif
@@ -997,6 +1011,10 @@ static inline void dec_nr_running(struct rq *rq)
 #ifdef CONFIG_INTELLI_PLUG
 	write_seqcount_end(&nr_stats->ave_seqcnt);
 #endif
+=======
+	sched_update_nr_prod(cpu_of(rq), rq->nr_running, false);
+	rq->nr_running--;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 extern void update_rq_clock(struct rq *rq);

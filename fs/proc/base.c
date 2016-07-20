@@ -2370,11 +2370,27 @@ static const struct file_operations proc_map_files_operations = {
  */
 static int proc_fd_permission(struct inode *inode, int mask)
 {
+<<<<<<< HEAD
 	int rv = generic_permission(inode, mask);
 	if (rv == 0)
 		return 0;
 	if (task_pid(current) == proc_pid(inode))
 		rv = 0;
+=======
+	struct task_struct *p;
+	int rv;
+
+	rv = generic_permission(inode, mask);
+	if (rv == 0)
+		return rv;
+
+	rcu_read_lock();
+	p = pid_task(proc_pid(inode), PIDTYPE_PID);
+	if (p && same_thread_group(p, current))
+		rv = 0;
+	rcu_read_unlock();
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rv;
 }
 

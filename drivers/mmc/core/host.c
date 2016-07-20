@@ -77,16 +77,49 @@ static int mmc_host_suspend(struct device *dev)
 {
 	struct mmc_host *host = cls_dev_to_mmc_host(dev);
 	int ret = 0;
+<<<<<<< HEAD
+=======
+	unsigned long flags;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (!mmc_use_core_pm(host))
 		return 0;
 
+<<<<<<< HEAD
+=======
+	spin_lock_irqsave(&host->clk_lock, flags);
+	/*
+	 * let the driver know that suspend is in progress and must
+	 * be aborted on receiving a sdio card interrupt
+	 */
+	host->dev_status = DEV_SUSPENDING;
+	spin_unlock_irqrestore(&host->clk_lock, flags);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!pm_runtime_suspended(dev)) {
 		ret = mmc_suspend_host(host);
 		if (ret < 0)
 			pr_err("%s: %s: failed: ret: %d\n", mmc_hostname(host),
 			       __func__, ret);
 	}
+<<<<<<< HEAD
+=======
+	/*
+	 * If SDIO function driver doesn't want to power off the card,
+	 * atleast turn off clocks to allow deep sleep.
+	 */
+	if (!ret && host->card && mmc_card_sdio(host->card) &&
+	    host->ios.clock) {
+		spin_lock_irqsave(&host->clk_lock, flags);
+		host->clk_old = host->ios.clock;
+		host->ios.clock = 0;
+		host->clk_gated = true;
+		spin_unlock_irqrestore(&host->clk_lock, flags);
+		mmc_set_ios(host);
+	}
+	spin_lock_irqsave(&host->clk_lock, flags);
+	host->dev_status = DEV_SUSPENDED;
+	spin_unlock_irqrestore(&host->clk_lock, flags);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return ret;
 }
 
@@ -104,6 +137,10 @@ static int mmc_host_resume(struct device *dev)
 			pr_err("%s: %s: failed: ret: %d\n", mmc_hostname(host),
 			       __func__, ret);
 	}
+<<<<<<< HEAD
+=======
+	host->dev_status = DEV_RESUMED;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return ret;
 }
 
@@ -697,6 +734,10 @@ int mmc_add_host(struct mmc_host *host)
 	if (err)
 		return err;
 
+<<<<<<< HEAD
+=======
+	device_enable_async_suspend(&host->class_dev);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	led_trigger_register_simple(dev_name(&host->class_dev), &host->led);
 
 #ifdef CONFIG_DEBUG_FS

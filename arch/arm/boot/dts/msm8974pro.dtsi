@@ -27,6 +27,10 @@
 		compatible = "qcom,android-usb";
 		reg = <0xfe8050c8 0xc8>;
 		qcom,android-usb-swfi-latency = <1>;
+<<<<<<< HEAD
+=======
+		qcom,android-usb-uicc-nluns = /bits/ 8 <1>;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	};
 
 	qcom,msm-imem@fe805000 {
@@ -1593,12 +1597,21 @@
 		<26 512 0 3680000>, <89 604 0 6224000>,
 		/* Nominal / Nominal */
 		<26 512 0 4912000>, <89 604 0 6224000>,
+<<<<<<< HEAD
 		/* low Turbo / Nominal */
 		<26 512 0 6400000>, <89 604 0 6224000>,
 		/* Nominal / low Turbo */
 		<26 512 0 4912000>, <89 604 0 7398000>,
 		/* low Turbo / low Turbo */
 		<26 512 0 6400000>, <89 604 0 7398000>,
+=======
+		/* Turbo / Nominal */
+		<26 512 0 7464000>, <89 604 0 6224000>,
+		/* low Nominal / low Turbo */
+		<26 512 0 3680000>, <89 604 0 7398000>,
+		/* Nominal / low Turbo */
+		<26 512 0 4912000>, <89 604 0 7398000>,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/* Turbo / low Turbo */
 		<26 512 0 7464000>, <89 604 0 7398000>,
 		/* Nominal / Turbo */
@@ -1657,6 +1670,10 @@
 };
 
 &mdss_mdp {
+<<<<<<< HEAD
+=======
+	qcom,max-bandwidth-low-kbps = <2750000>;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	qcom,vbif-settings = <0x0004 0x00000001>;
 
 	qcom,mdss-wb-off = <0x00011100 0x00011500
@@ -1667,6 +1684,10 @@
 	qcom,mdss-has-bwc;
 	qcom,mdss-has-decimation;
 	qcom,mdss-ad-off = <0x0013100 0x00013300>;
+<<<<<<< HEAD
+=======
+	vdd-cx-supply = <&pm8841_s2_corner>;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 &mdss_hdmi_tx {
@@ -1722,6 +1743,13 @@
 		<3240000 1600000>,
 		<4048000 1600000>,
 		<4264000 1600000>;
+<<<<<<< HEAD
+=======
+    /*
+     * Performance is guaranteed only upto POR specification. Anything
+     * above that specification is best effort and might even be rejected.
+     */
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	qcom,max-hw-load = <1281600>; /* max(4k X 2304 @ 24, 4k X 2160 @ 30) + 1080p @ 30 */
 	qcom,buffer-type-tz-usage-table = <0x241 0x1>,
 					<0x106 0x2>,

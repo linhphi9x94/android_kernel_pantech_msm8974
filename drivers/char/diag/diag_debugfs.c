@@ -233,6 +233,7 @@ static ssize_t diag_dbgfs_read_dcistats(struct file *file,
 		bytes_in_buf += bytes_written;
 		bytes_remaining -= bytes_written;
 #endif
+<<<<<<< HEAD
 		if (driver->dci_device) {
 			bytes_written = scnprintf(buf+bytes_in_buf,
 						  bytes_remaining,
@@ -253,18 +254,41 @@ static ssize_t diag_dbgfs_read_dcistats(struct file *file,
 			bytes_in_buf += bytes_written;
 			bytes_remaining -= bytes_written;
 		}
+=======
+		bytes_written = scnprintf(buf+bytes_in_buf,
+					  bytes_remaining,
+					  "dci power: active, relax: %lu, %lu\n",
+					  driver->diag_dev->power.wakeup->
+						active_count,
+					  driver->diag_dev->
+						power.wakeup->relax_count);
+		bytes_in_buf += bytes_written;
+		bytes_remaining -= bytes_written;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	temp_data += diag_dbgfs_dci_data_index;
 	for (i = diag_dbgfs_dci_data_index; i < DIAG_DCI_DEBUG_CNT; i++) {
 		if (temp_data->iteration != 0) {
 			bytes_written = scnprintf(
 				buf + bytes_in_buf, bytes_remaining,
+<<<<<<< HEAD
 				"i %-10ld\t"
 				"s %-10d\t"
 				"c %-10d\t"
 				"t %-15s\n",
 				temp_data->iteration,
 				temp_data->data_size,
+=======
+				"i %-5ld\t"
+				"s %-5d\t"
+				"p %-5d\t"
+				"c %-5d\t"
+				"t %-15s\n",
+				temp_data->iteration,
+				temp_data->data_size,
+				temp_data->peripheral,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				temp_data->ch_type,
 				temp_data->time_stamp);
 			bytes_in_buf += bytes_written;
@@ -446,7 +470,12 @@ static ssize_t diag_dbgfs_read_mempool(struct file *file, char __user *ubuf,
 		"POOL_TYPE_COPY: [0x%p : 0x%p] count = %d\n"
 		"POOL_TYPE_HDLC: [0x%p : 0x%p] count = %d\n"
 		"POOL_TYPE_USER: [0x%p : 0x%p] count = %d\n"
+<<<<<<< HEAD
 		"POOL_TYPE_WRITE_STRUCT: [0x%p : 0x%p] count = %d\n",
+=======
+		"POOL_TYPE_WRITE_STRUCT: [0x%p : 0x%p] count = %d\n"
+		"POOL_TYPE_DCI: [0x%p : 0x%p] count = %d\n",
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		driver->diagpool,
 		diag_pools_array[POOL_COPY_IDX],
 		driver->count,
@@ -458,7 +487,14 @@ static ssize_t diag_dbgfs_read_mempool(struct file *file, char __user *ubuf,
 		driver->count_user_pool,
 		driver->diag_write_struct_pool,
 		diag_pools_array[POOL_WRITE_STRUCT_IDX],
+<<<<<<< HEAD
 		driver->count_write_struct_pool);
+=======
+		driver->count_write_struct_pool,
+		driver->diag_dci_pool,
+		diag_pools_array[POOL_DCI_IDX],
+		driver->count_dci_pool);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	for (i = 0; i < MAX_HSIC_CH; i++) {
 		if (!diag_hsic[i].hsic_inited)
@@ -506,7 +542,12 @@ static ssize_t diag_dbgfs_read_mempool(struct file *file, char __user *ubuf,
 		"POOL_TYPE_COPY: [0x%p : 0x%p] count = %d\n"
 		"POOL_TYPE_HDLC: [0x%p : 0x%p] count = %d\n"
 		"POOL_TYPE_USER: [0x%p : 0x%p] count = %d\n"
+<<<<<<< HEAD
 		"POOL_TYPE_WRITE_STRUCT: [0x%p : 0x%p] count = %d\n",
+=======
+		"POOL_TYPE_WRITE_STRUCT: [0x%p : 0x%p] count = %d\n"
+		"POOL_TYPE_DCI: [0x%p : 0x%p] count = %d\n",
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		driver->diagpool,
 		diag_pools_array[POOL_COPY_IDX],
 		driver->count,
@@ -518,7 +559,14 @@ static ssize_t diag_dbgfs_read_mempool(struct file *file, char __user *ubuf,
 		driver->count_user_pool,
 		driver->diag_write_struct_pool,
 		diag_pools_array[POOL_WRITE_STRUCT_IDX],
+<<<<<<< HEAD
 		driver->count_write_struct_pool);
+=======
+		driver->count_write_struct_pool,
+		driver->diag_dci_pool,
+		diag_pools_array[POOL_DCI_IDX],
+		driver->count_dci_pool);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	ret = simple_read_from_buffer(ubuf, count, ppos, buf, ret);
 
@@ -596,8 +644,13 @@ static ssize_t diag_dbgfs_read_bridge(struct file *file, char __user *ubuf,
 			"in_busy_hsic_write: %d\n"
 			"count_hsic_pool: %d\n"
 			"count_hsic_write_pool: %d\n"
+<<<<<<< HEAD
 			"diag_hsic_pool: %x\n"
 			"diag_hsic_write_pool: %x\n"
+=======
+			"diag_hsic_pool: %p\n"
+			"diag_hsic_write_pool: %p\n"
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			"HSIC write_len: %d\n"
 			"num_hsic_buf_tbl_entries: %d\n"
 			"HSIC usb_connected: %d\n"
@@ -614,8 +667,13 @@ static ssize_t diag_dbgfs_read_bridge(struct file *file, char __user *ubuf,
 			diag_hsic[i].in_busy_hsic_write,
 			diag_hsic[i].count_hsic_pool,
 			diag_hsic[i].count_hsic_write_pool,
+<<<<<<< HEAD
 			(unsigned int)diag_hsic[i].diag_hsic_pool,
 			(unsigned int)diag_hsic[i].diag_hsic_write_pool,
+=======
+			diag_hsic[i].diag_hsic_pool,
+			diag_hsic[i].diag_hsic_write_pool,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			diag_bridge[i].write_len,
 			diag_hsic[i].num_hsic_buf_tbl_entries,
 			diag_bridge[i].usb_connected,

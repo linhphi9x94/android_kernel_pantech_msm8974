@@ -109,6 +109,12 @@ struct frag_hdr {
 
 #define	IP6_MF	0x0001
 
+<<<<<<< HEAD
+=======
+#define IP6_REPLY_MARK(net, mark) \
+	((net)->ipv6.sysctl.fwmark_reflect ? (mark) : 0)
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <net/sock.h>
 
 /* sysctls */
@@ -253,8 +259,11 @@ static inline void fl6_sock_release(struct ip6_flowlabel *fl)
 }
 
 extern void icmpv6_notify(struct sk_buff *skb, u8 type, u8 code, __be32 info);
+<<<<<<< HEAD
 int icmpv6_push_pending_frames(struct sock *sk, struct flowi6 *fl6, struct icmp6hdr *thdr, int len);
 struct dst_entry *icmpv6_route_lookup(struct net *net, struct sk_buff *skb, struct sock *sk, struct flowi6 *fl6);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 int icmpv6_push_pending_frames(struct sock *sk, struct flowi6 *fl6,
 			       struct icmp6hdr *thdr, int len);
@@ -491,6 +500,7 @@ static inline int ipv6_addr_diff(const struct in6_addr *a1, const struct in6_add
 
 extern void ipv6_select_ident(struct frag_hdr *fhdr, struct rt6_info *rt);
 
+<<<<<<< HEAD
 #ifdef CONFIG_LGU_DS_IP6_FLOWINFO
 static inline __be32 ip6_flowinfo(const struct ipv6hdr *hdr)
 {
@@ -498,6 +508,8 @@ static inline __be32 ip6_flowinfo(const struct ipv6hdr *hdr)
 }
 #endif /* LGU_DS_IP6_FLOWINFO */
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*
  *	Prototypes exported by ipv6
  */

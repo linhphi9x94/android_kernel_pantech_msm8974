@@ -125,6 +125,24 @@ static int ipv4_ping_group_range(ctl_table *table, int write,
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+/* Validate changes from /proc interface. */
+static int proc_tcp_default_init_rwnd(ctl_table *ctl, int write,
+				      void __user *buffer,
+				      size_t *lenp, loff_t *ppos)
+{
+	int old_value = *(int *)ctl->data;
+	int ret = proc_dointvec(ctl, write, buffer, lenp, ppos);
+	int new_value = *(int *)ctl->data;
+
+	if (write && ret == 0 && (new_value < 3 || new_value > 100))
+		*(int *)ctl->data = old_value;
+
+	return ret;
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int proc_tcp_congestion_control(ctl_table *ctl, int write,
 				       void __user *buffer, size_t *lenp, loff_t *ppos)
 {
@@ -673,7 +691,11 @@ static struct ctl_table ipv4_table[] = {
 		.mode           = 0644,
 		.proc_handler   = proc_dointvec
 	},
+<<<<<<< HEAD
         {
+=======
+	{
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		.procname       = "tcp_thin_dupack",
 		.data           = &sysctl_tcp_thin_dupack,
 		.maxlen         = sizeof(int),
@@ -681,6 +703,16 @@ static struct ctl_table ipv4_table[] = {
 		.proc_handler   = proc_dointvec
 	},
 	{
+<<<<<<< HEAD
+=======
+		.procname       = "tcp_default_init_rwnd",
+		.data           = &sysctl_tcp_default_init_rwnd,
+		.maxlen         = sizeof(int),
+		.mode           = 0644,
+		.proc_handler   = proc_tcp_default_init_rwnd
+	},
+	{
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		.procname	= "udp_mem",
 		.data		= &sysctl_udp_mem,
 		.maxlen		= sizeof(sysctl_udp_mem),
@@ -788,6 +820,23 @@ static struct ctl_table ipv4_net_table[] = {
 		.mode		= 0644,
 		.proc_handler	= ipv4_tcp_mem,
 	},
+<<<<<<< HEAD
+=======
+	{
+		.procname	= "fwmark_reflect",
+		.data		= &init_net.ipv4.sysctl_fwmark_reflect,
+		.maxlen		= sizeof(int),
+		.mode		= 0644,
+		.proc_handler	= proc_dointvec,
+	},
+	{
+		.procname	= "tcp_fwmark_accept",
+		.data		= &init_net.ipv4.sysctl_tcp_fwmark_accept,
+		.maxlen		= sizeof(int),
+		.mode		= 0644,
+		.proc_handler	= proc_dointvec,
+	},
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	{ }
 };
 

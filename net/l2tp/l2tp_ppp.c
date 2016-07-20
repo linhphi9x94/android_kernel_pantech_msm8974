@@ -1348,11 +1348,15 @@ static int pppol2tp_setsockopt(struct socket *sock, int level, int optname,
 	int err;
 
 	if (level != SOL_PPPOL2TP)
+<<<<<<< HEAD
 #ifdef CONFIG_LGU_DS_SECURITY_PATCH_CVE_2014_4943
 		return -EINVAL;
 #else
 		return udp_prot.setsockopt(sk, level, optname, optval, optlen);
 #endif /* CONFIG_LGU_DS_SECURITY_PATCH_CVE_2014_4943 */
+=======
+		return -EINVAL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (optlen < sizeof(int))
 		return -EINVAL;
@@ -1478,11 +1482,15 @@ static int pppol2tp_getsockopt(struct socket *sock, int level,
 	struct pppol2tp_session *ps;
 
 	if (level != SOL_PPPOL2TP)
+<<<<<<< HEAD
 #ifdef CONFIG_LGU_DS_SECURITY_PATCH_CVE_2014_4943
 		return -EINVAL;
 #else
 		return udp_prot.getsockopt(sk, level, optname, optval, optlen);
 #endif /* CONFIG_LGU_DS_SECURITY_PATCH_CVE_2014_4943 */
+=======
+		return -EINVAL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (get_user(len, (int __user *) optlen))
 		return -EFAULT;

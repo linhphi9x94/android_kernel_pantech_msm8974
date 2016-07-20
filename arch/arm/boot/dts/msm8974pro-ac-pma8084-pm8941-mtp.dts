@@ -120,3 +120,11 @@
 		qcom,thermal-node;
 	};
 };
+<<<<<<< HEAD
+=======
+
+&ehci {
+	status = "ok";
+	qcom,usb2-enable-uicc;
+};
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

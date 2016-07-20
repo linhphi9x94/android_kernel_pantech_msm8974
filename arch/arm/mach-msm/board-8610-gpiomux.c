@@ -672,6 +672,16 @@ static struct gpiomux_setting interrupt_gpio_suspend_pulldown = {
 
 static struct msm_gpiomux_config msm_interrupt_configs[] __initdata = {
 	{
+<<<<<<< HEAD
+=======
+		.gpio = 75,	/* NFC_CLK_REQ_IRQ*/
+		.settings = {
+			[GPIOMUX_ACTIVE]    = &interrupt_gpio_active,
+			[GPIOMUX_SUSPENDED] = &interrupt_gpio_suspend_pullup,
+		},
+	},
+	{
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		.gpio = 77,	/* NFC_IRQ */
 		.settings = {
 			[GPIOMUX_ACTIVE]    = &interrupt_gpio_active,
@@ -723,6 +733,64 @@ static struct msm_gpiomux_config msm_cdc_dmic_configs[] __initdata = {
 	},
 };
 
+<<<<<<< HEAD
+=======
+static struct gpiomux_setting ice40_spi_cs_act_config = {
+	.func = GPIOMUX_FUNC_1,
+	.drv = GPIOMUX_DRV_6MA,
+	.pull = GPIOMUX_PULL_NONE,
+};
+
+static struct gpiomux_setting ice40_spi_cs_susp_config = {
+	.func = GPIOMUX_FUNC_GPIO,
+	.drv = GPIOMUX_DRV_6MA,
+	.pull = GPIOMUX_PULL_UP,
+};
+
+static struct gpiomux_setting ice40_act_config = {
+	.func = GPIOMUX_FUNC_GPIO,
+	.drv = GPIOMUX_DRV_8MA,
+	.pull = GPIOMUX_PULL_NONE,
+};
+
+static struct gpiomux_setting ice40_susp_config = {
+	.func = GPIOMUX_FUNC_GPIO,
+	.drv = GPIOMUX_DRV_2MA,
+	.pull = GPIOMUX_PULL_NONE,
+};
+
+static struct msm_gpiomux_config ice40_spi_usb_configs[] __initdata = {
+	{
+		.gpio = 85,
+		.settings = {
+			[GPIOMUX_ACTIVE] = &ice40_spi_cs_act_config,
+			[GPIOMUX_SUSPENDED] = &ice40_spi_cs_susp_config,
+		},
+	},
+	{
+		.gpio = 94,
+		.settings = {
+			[GPIOMUX_ACTIVE] = &ice40_act_config,
+			[GPIOMUX_SUSPENDED] = &ice40_susp_config,
+		},
+	},
+	{
+		.gpio = 95,
+		.settings = {
+			[GPIOMUX_ACTIVE] = &ice40_act_config,
+			[GPIOMUX_SUSPENDED] = &ice40_susp_config,
+		},
+	},
+	{
+		.gpio = 96,
+		.settings = {
+			[GPIOMUX_ACTIVE] = &ice40_act_config,
+			[GPIOMUX_SUSPENDED] = &ice40_susp_config,
+		},
+	},
+};
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 void __init msm8610_init_gpiomux(void)
 {
 	int rc;
@@ -763,6 +831,13 @@ void __init msm8610_init_gpiomux(void)
 	if (of_board_is_cdp())
 		msm_gpiomux_install(msm_cdc_dmic_configs,
 			ARRAY_SIZE(msm_cdc_dmic_configs));
+<<<<<<< HEAD
+=======
+
+	if (of_board_is_cdp())
+		msm_gpiomux_install(ice40_spi_usb_configs,
+			ARRAY_SIZE(ice40_spi_usb_configs));
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static void wcnss_switch_to_gpio(void)

@@ -6,6 +6,17 @@
 #include <linux/poison.h>
 #include <linux/ratelimit.h>
 
+<<<<<<< HEAD
+=======
+#ifndef mark_addr_rdonly
+#define mark_addr_rdonly(a)
+#endif
+
+#ifndef mark_addr_rdwrite
+#define mark_addr_rdwrite(a)
+#endif
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static inline void set_page_poison(struct page *page)
 {
 	__set_bit(PAGE_DEBUG_FLAG_POISON, &page->debug_flags);
@@ -27,6 +38,10 @@ static void poison_page(struct page *page)
 
 	set_page_poison(page);
 	memset(addr, PAGE_POISON, PAGE_SIZE);
+<<<<<<< HEAD
+=======
+	mark_addr_rdonly(addr);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	kunmap_atomic(addr);
 }
 
@@ -82,6 +97,10 @@ static void unpoison_page(struct page *page)
 
 	addr = kmap_atomic(page);
 	check_poison_mem(addr, PAGE_SIZE);
+<<<<<<< HEAD
+=======
+	mark_addr_rdwrite(addr);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	clear_page_poison(page);
 	kunmap_atomic(addr);
 }

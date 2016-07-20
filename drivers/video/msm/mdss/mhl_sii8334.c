@@ -398,19 +398,34 @@ static int mhl_sii_config(struct mhl_tx_ctrl *mhl_ctrl, bool on)
 
 	client = mhl_ctrl->i2c_handle;
 
+<<<<<<< HEAD
 	if (on) {
+=======
+	mutex_lock(&mhl_ctrl->sii_config_lock);
+	if (on && !mhl_ctrl->irq_req_done) {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		rc = mhl_vreg_config(mhl_ctrl, 1);
 		if (rc) {
 			pr_err("%s: vreg init failed [%d]\n",
 				__func__, rc);
+<<<<<<< HEAD
 			return -ENODEV;
+=======
+			rc = -ENODEV;
+			goto vreg_config_error;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 
 		rc = mhl_gpio_config(mhl_ctrl, 1);
 		if (rc) {
 			pr_err("%s: gpio init failed [%d]\n",
 				__func__, rc);
+<<<<<<< HEAD
 			return -ENODEV;
+=======
+			rc = -ENODEV;
+			goto vreg_config_error;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 
 		rc = request_threaded_irq(mhl_ctrl->i2c_handle->irq, NULL,
@@ -419,17 +434,33 @@ static int mhl_sii_config(struct mhl_tx_ctrl *mhl_ctrl, bool on)
 		if (rc) {
 			pr_err("%s: request_threaded_irq failed, status: %d\n",
 			       __func__, rc);
+<<<<<<< HEAD
 			return -ENODEV;
 		} else {
 			mhl_ctrl->irq_req_done = true;
 		}
 	} else {
+=======
+			rc = -ENODEV;
+			goto vreg_config_error;
+		} else {
+			mhl_ctrl->irq_req_done = true;
+			/* wait for i2c interrupt line to be activated */
+			msleep(100);
+		}
+	} else if (!on && mhl_ctrl->irq_req_done) {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		free_irq(mhl_ctrl->i2c_handle->irq, mhl_ctrl);
 		mhl_gpio_config(mhl_ctrl, 0);
 		mhl_vreg_config(mhl_ctrl, 0);
 		mhl_ctrl->irq_req_done = false;
 	}
 
+<<<<<<< HEAD
+=======
+vreg_config_error:
+	mutex_unlock(&mhl_ctrl->sii_config_lock);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rc;
 }
 
@@ -471,6 +502,7 @@ static int mhl_sii_device_discovery(void *data, int id,
 
 	flush_work(&mhl_ctrl->mhl_intr_work);
 
+<<<<<<< HEAD
 	if (!mhl_ctrl->irq_req_done) {
 		rc = mhl_sii_config(mhl_ctrl, true);
 		if (rc) {
@@ -480,6 +512,12 @@ static int mhl_sii_device_discovery(void *data, int id,
 
 		/* wait for i2c interrupt line to be activated */
 		msleep(100);
+=======
+	rc = mhl_sii_config(mhl_ctrl, true);
+	if (rc) {
+		pr_err("%s: Failed to config vreg/gpio\n", __func__);
+		return rc;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	if (!mhl_ctrl->disc_enabled) {
@@ -1532,6 +1570,7 @@ static int mhl_sii_reg_config(struct i2c_client *client, bool enable)
 	pr_debug("%s\n", __func__);
 
 	if (!enable) {
+<<<<<<< HEAD
 		regulator_disable(reg_8941_vdda);
 		regulator_put(reg_8941_vdda);
 		reg_8941_vdda = NULL;
@@ -1548,6 +1587,31 @@ static int mhl_sii_reg_config(struct i2c_client *client, bool enable)
 		regulator_put(reg_8941_l24);
 		reg_8941_l24 = NULL;
 
+=======
+		if (reg_8941_vdda) {
+			regulator_disable(reg_8941_vdda);
+			regulator_put(reg_8941_vdda);
+			reg_8941_vdda = NULL;
+		}
+
+		if (reg_8941_smps3a) {
+			regulator_disable(reg_8941_smps3a);
+			regulator_put(reg_8941_smps3a);
+			reg_8941_smps3a = NULL;
+		}
+
+		if (reg_8941_l02) {
+			regulator_disable(reg_8941_l02);
+			regulator_put(reg_8941_l02);
+			reg_8941_l02 = NULL;
+		}
+
+		if (reg_8941_l24) {
+			regulator_disable(reg_8941_l24);
+			regulator_put(reg_8941_l24);
+			reg_8941_l24 = NULL;
+		}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return 0;
 	}
 
@@ -1858,6 +1922,10 @@ static int mhl_i2c_probe(struct i2c_client *client,
 
 
 	init_completion(&mhl_ctrl->rgnd_done);
+<<<<<<< HEAD
+=======
+	mutex_init(&mhl_ctrl->sii_config_lock);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 
 	mhl_ctrl->mhl_psy.name = "ext-vbus";

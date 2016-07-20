@@ -65,15 +65,41 @@ struct alarm_queue {
 static struct rtc_device *alarm_rtc_dev;
 static DEFINE_SPINLOCK(alarm_slock);
 static DEFINE_MUTEX(alarm_setrtc_mutex);
+<<<<<<< HEAD
+=======
+static DEFINE_MUTEX(power_on_alarm_mutex);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static struct wake_lock alarm_rtc_wake_lock;
 static struct platform_device *alarm_platform_dev;
 struct alarm_queue alarms[ANDROID_ALARM_TYPE_COUNT];
 static bool suspended;
 static long power_on_alarm;
 
+<<<<<<< HEAD
 void set_power_on_alarm(long secs)
 {
 	power_on_alarm = secs;
+=======
+static int set_alarm_time_to_rtc(const long);
+
+void set_power_on_alarm(long secs, bool enable)
+{
+	mutex_lock(&power_on_alarm_mutex);
+	if (enable) {
+		power_on_alarm = secs;
+	} else {
+		if (power_on_alarm && power_on_alarm != secs) {
+			pr_alarm(FLOW, "power-off alarm mismatch: \
+				previous=%ld, now=%ld\n",
+				power_on_alarm, secs);
+		}
+		else
+			power_on_alarm = 0;
+	}
+
+	set_alarm_time_to_rtc(power_on_alarm);
+	mutex_unlock(&power_on_alarm_mutex);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 
@@ -506,14 +532,23 @@ static int alarm_resume(struct platform_device *pdev)
 									false);
 	spin_unlock_irqrestore(&alarm_slock, flags);
 
+<<<<<<< HEAD
 	return 0;
 }
 
 static void alarm_shutdown(struct platform_device *dev)
+=======
+	set_alarm_time_to_rtc(power_on_alarm);
+	return 0;
+}
+
+static int set_alarm_time_to_rtc(const long power_on_time)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct timespec wall_time;
 	struct rtc_time rtc_time;
 	struct rtc_wkalrm alarm;
+<<<<<<< HEAD
 	unsigned long flags;
 	long rtc_secs, alarm_delta, alarm_time;
 	int rc;
@@ -525,12 +560,24 @@ static void alarm_shutdown(struct platform_device *dev)
 		goto disable_alarm;
 	}
 	spin_unlock_irqrestore(&alarm_slock, flags);
+=======
+	long rtc_secs, alarm_delta, alarm_time;
+	int rc = -EINVAL;
+
+	if (power_on_time <= 0) {
+		goto disable_alarm;
+	}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	rtc_read_time(alarm_rtc_dev, &rtc_time);
 	getnstimeofday(&wall_time);
 	rtc_tm_to_time(&rtc_time, &rtc_secs);
 	alarm_delta = wall_time.tv_sec - rtc_secs;
+<<<<<<< HEAD
 	alarm_time = power_on_alarm - alarm_delta;
+=======
+	alarm_time = power_on_time - alarm_delta;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/*
 	 * Substract ALARM_DELTA from actual alarm time
@@ -546,16 +593,31 @@ static void alarm_shutdown(struct platform_device *dev)
 	rtc_time_to_tm(alarm_time, &alarm.time);
 	alarm.enabled = 1;
 	rc = rtc_set_alarm(alarm_rtc_dev, &alarm);
+<<<<<<< HEAD
 	if (rc)
 		pr_alarm(ERROR, "Unable to set power-on alarm\n");
+=======
+	if (rc){
+		pr_alarm(ERROR, "Unable to set power-on alarm\n");
+		goto disable_alarm;
+	}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	else
 		pr_alarm(FLOW, "Power-on alarm set to %lu\n",
 				alarm_time);
 
+<<<<<<< HEAD
 	return;
 
 disable_alarm:
 	rtc_alarm_irq_enable(alarm_rtc_dev, 0);
+=======
+	return 0;
+
+disable_alarm:
+	rtc_alarm_irq_enable(alarm_rtc_dev, 0);
+	return rc;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static struct rtc_task alarm_rtc_task = {
@@ -617,7 +679,10 @@ static struct class_interface rtc_alarm_interface = {
 static struct platform_driver alarm_driver = {
 	.suspend = alarm_suspend,
 	.resume = alarm_resume,
+<<<<<<< HEAD
 	.shutdown = alarm_shutdown,
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	.driver = {
 		.name = "alarm"
 	}

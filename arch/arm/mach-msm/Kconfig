@@ -339,7 +339,10 @@ config ARCH_FSM9900
 	select MSM_GPIOMUX
 	select MULTI_IRQ_HANDLER
 	select PM_DEVFREQ
+<<<<<<< HEAD
 	select MSM_DEVFREQ_CPUBW
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	select MSM_PIL
 	select MSM_NATIVE_RESTART
 	select MSM_RESTART_V2
@@ -1922,6 +1925,7 @@ config MSM_RPCSERVER_HANDSET
 	  Support for receiving handset events like headset detect,
 	  headset switch and clamshell state.
 
+<<<<<<< HEAD
 config MSM_RMT_STORAGE_CLIENT
 	depends on (ARCH_MSM && MSM_ONCRPCROUTER)
 	default n
@@ -1938,6 +1942,8 @@ config MSM_RMT_STORAGE_CLIENT_STATS
 	  Collects performance statistics and shows this information
 	  through a debugfs file rmt_storage_stats.
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 config MSM_DALRPC
 	bool "DAL RPC support"
 	default n
@@ -3090,6 +3096,16 @@ config MSM_UARTDM_Core_v14
 	help
 		Select if BLSP based UART Core v.14 or higher is present.
 
+<<<<<<< HEAD
+=======
+config MSM_COMMON_LOG
+	bool "Use to export symbols for parsing memory dump"
+	help
+	 Use this to export symbols to a memory dump table. This table
+	 can be used by post analysis tools to extract information from
+	 memory when device crashes.
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 config MSM_BOOT_STATS
 	bool "Use MSM boot stats reporting"
 	help
@@ -3138,3 +3154,14 @@ config KRAIT_REGULATOR
 	 regulators running in ganged mode inside the PMIC. Enable
 	 this option to support such configurations.
 endif
+<<<<<<< HEAD
+=======
+
+config KERNEL_TEXT_MPU_PROT
+        bool "Enable xpu protection of kernel r/o sections"
+        help
+          Enables xpu protection of kernel code and read-only data
+          sections early in boot. Read access is permitted to
+          all masters; Write access is only permited to the
+          secure world.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

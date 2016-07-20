@@ -25,6 +25,10 @@
 #include <linux/delay.h>
 #include <linux/init.h>
 #include <linux/sched.h>
+<<<<<<< HEAD
+=======
+#include <linux/bug.h>
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #include <linux/atomic.h>
 #include <asm/cacheflush.h>
@@ -790,6 +794,10 @@ void __pgd_error(const char *file, int line, pgd_t pgd)
 asmlinkage void __div0(void)
 {
 	printk("Division by zero in kernel.\n");
+<<<<<<< HEAD
+=======
+	BUG_ON(PANIC_CORRUPTION);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	dump_stack();
 }
 EXPORT_SYMBOL(__div0);

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -67,6 +71,11 @@ struct wcd9xxx_core_resource {
 				unsigned short, u8);
 	int (*codec_bulk_read) (struct wcd9xxx_core_resource *,
 				unsigned short, int, u8 *);
+<<<<<<< HEAD
+=======
+	int (*codec_bulk_write) (struct wcd9xxx_core_resource *,
+				unsigned short, int, u8 *);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/* Pointer to parent container data structure */
 	void *parent;
@@ -80,6 +89,11 @@ extern int wcd9xxx_core_res_init(
 	int (*codec_read)(struct wcd9xxx_core_resource *, unsigned short),
 	int (*codec_write)(struct wcd9xxx_core_resource *, unsigned short, u8),
 	int (*codec_bulk_read) (struct wcd9xxx_core_resource *, unsigned short,
+<<<<<<< HEAD
+=======
+							int, u8 *),
+	int (*codec_bulk_write) (struct wcd9xxx_core_resource *, unsigned short,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 							int, u8 *));
 
 extern void wcd9xxx_core_res_deinit(

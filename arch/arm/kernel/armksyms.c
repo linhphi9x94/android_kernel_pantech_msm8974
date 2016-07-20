@@ -35,8 +35,11 @@ extern void __ucmpdi2(void);
 extern void __udivsi3(void);
 extern void __umodsi3(void);
 extern void __do_div64(void);
+<<<<<<< HEAD
 extern void __bswapsi2(void);
 extern void __bswapdi2(void);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 extern void __aeabi_idiv(void);
 extern void __aeabi_idivmod(void);
@@ -88,6 +91,13 @@ EXPORT_SYMBOL(memmove);
 EXPORT_SYMBOL(memchr);
 EXPORT_SYMBOL(__memzero);
 
+<<<<<<< HEAD
+=======
+	/* user mem (segment) */
+EXPORT_SYMBOL(__strnlen_user);
+EXPORT_SYMBOL(__strncpy_from_user);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_MMU
 EXPORT_SYMBOL(copy_page);
 
@@ -116,8 +126,11 @@ EXPORT_SYMBOL(__ucmpdi2);
 EXPORT_SYMBOL(__udivsi3);
 EXPORT_SYMBOL(__umodsi3);
 EXPORT_SYMBOL(__do_div64);
+<<<<<<< HEAD
 EXPORT_SYMBOL(__bswapsi2);
 EXPORT_SYMBOL(__bswapdi2);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #ifdef CONFIG_AEABI
 EXPORT_SYMBOL(__aeabi_idiv);

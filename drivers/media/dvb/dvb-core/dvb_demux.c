@@ -5,7 +5,11 @@
  *		       & Marcus Metzler <marcus@convergence.de>
  *			 for convergence integrated media GmbH
  *
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -2574,7 +2578,11 @@ static int dvbdmx_release_ts_feed(struct dmx_demux *dmx,
 
 	feed->state = DMX_STATE_FREE;
 	feed->filter->state = DMX_STATE_FREE;
+<<<<<<< HEAD
 
+=======
+	ts_feed->priv = NULL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	dvb_demux_feed_del(feed);
 
 	feed->pid = 0xffff;
@@ -2836,6 +2844,10 @@ static int dmx_section_feed_release_filter(struct dmx_section_feed *feed,
 		f->next = f->next->next;
 	}
 
+<<<<<<< HEAD
+=======
+	filter->priv = NULL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	dvbdmxfilter->state = DMX_STATE_FREE;
 	spin_unlock_irq(&dvbdmx->lock);
 	mutex_unlock(&dvbdmx->mutex);
@@ -2975,7 +2987,11 @@ static int dvbdmx_release_section_feed(struct dmx_demux *demux,
 	dvbdmxfeed->buffer = NULL;
 #endif
 	dvbdmxfeed->state = DMX_STATE_FREE;
+<<<<<<< HEAD
 
+=======
+	feed->priv = NULL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	dvb_demux_feed_del(dvbdmxfeed);
 
 	dvbdmxfeed->pid = 0xffff;

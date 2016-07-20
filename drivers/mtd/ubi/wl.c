@@ -712,6 +712,12 @@ static int wear_leveling_worker(struct ubi_device *ubi, struct ubi_work *wrk,
 		if (!(e2->ec - e1->ec >= UBI_WL_THRESHOLD)) {
 			dbg_wl("no WL needed: min used EC %d, max free EC %d",
 			       e1->ec, e2->ec);
+<<<<<<< HEAD
+=======
+
+			/* Give the unused PEB back */
+			wl_tree_add(e2, &ubi->free);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			goto out_cancel;
 		}
 		paranoid_check_in_wl_tree(ubi, e1, &ubi->used);

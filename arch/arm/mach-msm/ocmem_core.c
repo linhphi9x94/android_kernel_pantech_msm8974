@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -51,6 +55,10 @@ struct ocmem_hw_region {
 static struct ocmem_hw_region *region_ctrl;
 static struct mutex region_ctrl_lock;
 static void *ocmem_base;
+<<<<<<< HEAD
+=======
+static void *ocmem_vbase;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define OCMEM_V1_MACROS 8
 #define OCMEM_V1_MACRO_SZ (SZ_64K)
@@ -562,6 +570,16 @@ static void ocmem_gfx_mpu_remove(void)
 	ocmem_write(0x0, ocmem_base + OC_GFX_MPU_END);
 }
 
+<<<<<<< HEAD
+=======
+int ocmem_clear(unsigned long start, unsigned long size)
+{
+	memset((ocmem_vbase + start), 0x4D4D434F, size);
+	mb();
+	return 0;
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int do_lock(enum ocmem_client id, unsigned long offset,
 			unsigned long len, enum region_mode mode)
 {
@@ -575,7 +593,11 @@ static int do_unlock(enum ocmem_client id, unsigned long offset,
 	return 0;
 }
 
+<<<<<<< HEAD
 int ocmem_enable_sec_program(int sec_id)
+=======
+int ocmem_restore_sec_program(int sec_id)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	return 0;
 }
@@ -694,7 +716,11 @@ int ocmem_disable_dump(enum ocmem_client id, unsigned long offset,
 	return rc;
 }
 
+<<<<<<< HEAD
 int ocmem_enable_sec_program(int sec_id)
+=======
+int ocmem_restore_sec_program(int sec_id)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	int rc, scm_ret = 0;
 	struct msm_scm_sec_cfg {
@@ -945,7 +971,10 @@ static int switch_power_state(int id, unsigned long offset, unsigned long len,
 	unsigned end_m = num_banks;
 	unsigned long region_offset = 0;
 	struct ocmem_hw_region *region;
+<<<<<<< HEAD
 	int rc = 0;
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (offset < 0)
 		return -EINVAL;
@@ -966,6 +995,7 @@ static int switch_power_state(int id, unsigned long offset, unsigned long len,
 		(region_end >= num_regions))
 			return -EINVAL;
 
+<<<<<<< HEAD
 	rc = ocmem_enable_core_clock();
 
 	if (rc < 0) {
@@ -974,6 +1004,8 @@ static int switch_power_state(int id, unsigned long offset, unsigned long len,
 		return rc;
 	}
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mutex_lock(&region_ctrl_lock);
 
 	for (i = region_start; i <= region_end; i++) {
@@ -1027,11 +1059,18 @@ static int switch_power_state(int id, unsigned long offset, unsigned long len,
 
 	}
 	mutex_unlock(&region_ctrl_lock);
+<<<<<<< HEAD
 	ocmem_disable_core_clock();
 	return 0;
 invalid_transition:
 	mutex_unlock(&region_ctrl_lock);
 	ocmem_disable_core_clock();
+=======
+
+	return 0;
+invalid_transition:
+	mutex_unlock(&region_ctrl_lock);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	pr_err("ocmem_core: Invalid state transition detected for %d\n", id);
 	pr_err("ocmem_core: Offset %lx Len %lx curr_state %x new_state %x\n",
 			offset, len, curr_state, new_state);
@@ -1114,9 +1153,43 @@ static int ocmem_power_show_hw_state(struct seq_file *f, void *dummy)
 
 static int ocmem_power_show(struct seq_file *f, void *dummy)
 {
+<<<<<<< HEAD
 	ocmem_power_show_sw_state(f, dummy);
 	ocmem_power_show_hw_state(f, dummy);
 	return 0;
+=======
+	int rc = 0;
+
+	rc = ocmem_enable_core_clock();
+
+	if (rc < 0)
+		goto core_clock_fail;
+
+	rc = ocmem_enable_iface_clock();
+
+	if (rc < 0)
+		goto iface_clock_fail;
+
+	rc = ocmem_restore_sec_program(OCMEM_SECURE_DEV_ID);
+	if (rc < 0) {
+		pr_err("ocmem: Failed to restore security programming\n");
+		goto restore_config_fail;
+	}
+	ocmem_power_show_sw_state(f, dummy);
+	ocmem_power_show_hw_state(f, dummy);
+
+	ocmem_disable_iface_clock();
+	ocmem_disable_core_clock();
+
+	return 0;
+
+restore_config_fail:
+	ocmem_disable_iface_clock();
+iface_clock_fail:
+	ocmem_disable_core_clock();
+core_clock_fail:
+	return -EINVAL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static int ocmem_power_open(struct inode *inode, struct file *file)
@@ -1144,6 +1217,10 @@ int ocmem_core_init(struct platform_device *pdev)
 
 	pdata = platform_get_drvdata(pdev);
 	ocmem_base = pdata->reg_base;
+<<<<<<< HEAD
+=======
+	ocmem_vbase = pdata->vbase;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	rc = ocmem_enable_core_clock();
 

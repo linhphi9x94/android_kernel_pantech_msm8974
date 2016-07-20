@@ -14,3 +14,8 @@ header-y += compress_params.h
 header-y += compress_offload.h
 header-y += lsm_params.h
 header-y += voice_params.h
+<<<<<<< HEAD
+=======
+header-y += voice_svc.h
+header-y += msmcal-hwdep.h
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

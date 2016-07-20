@@ -279,9 +279,15 @@ static int copy_log_mask_equip(int equip_id, uint8_t *buf)
 			 * equip_id (int) + size of num_items (int) + mask_size
 			 */
 			ret = (2 * sizeof(int)) + mask_size;
+<<<<<<< HEAD
 	}
 		break;
 }
+=======
+		}
+		break;
+	}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return ret;
 }
@@ -300,14 +306,22 @@ static void diag_update_log_mask(int equip_id, uint8_t *buf, int num_items)
 		       __func__, (unsigned int)buf, equip_id, num_items);
 		mutex_unlock(&driver->log_mask_mutex);
 		return;
+<<<<<<< HEAD
 		}
+=======
+	}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mask_size = LOG_ITEMS_TO_SIZE(num_items);
 	if (mask_size > MAX_ITEMS_PER_EQUIP_ID) {
 		pr_err("diag: In %s, Invalid mask_size %d\n", __func__,
 								mask_size);
 		mutex_unlock(&driver->log_mask_mutex);
 		return;
+<<<<<<< HEAD
 		}
+=======
+	}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	log_item = (struct diag_log_mask_t *)driver->log_masks;
 	for (i = 0; i < MAX_EQUIP_ID; i++, log_item++) {
@@ -394,7 +408,11 @@ void diag_send_log_mask_update(struct diag_smd_info *smd_info, int equip_id)
 			break;
 		default:
 			pr_err("diag: In %s, invalid status %d", __func__,
+<<<<<<< HEAD
 							driver->log_status);
+=======
+				 driver->log_status);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			mutex_unlock(&driver->diag_cntl_mutex);
 			return;
 		}
@@ -417,6 +435,7 @@ void diag_send_log_mask_update(struct diag_smd_info *smd_info, int equip_id)
 				break;
 			}
 			if (wr_size != header_size + log_mask_size)
+<<<<<<< HEAD
 					pr_err("diag: log mask update failed %d, tried %d",
 					wr_size, header_size + log_mask_size);
 				else
@@ -427,6 +446,18 @@ void diag_send_log_mask_update(struct diag_smd_info *smd_info, int equip_id)
 		if (send_once)
 			break;
 		}
+=======
+				pr_err("diag: log mask update failed %d, tried %d",
+					wr_size, header_size + log_mask_size);
+			else
+				pr_debug("diag: updated log equip ID %d,len %d\n",
+					 i, log_mask_size);
+		} else
+			pr_err("diag: ch not valid for log update\n");
+		if (send_once)
+			break;
+	}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	mutex_unlock(&driver->diag_cntl_mutex);
 }

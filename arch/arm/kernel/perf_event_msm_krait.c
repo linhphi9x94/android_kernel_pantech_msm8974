@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2011-2012, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2011-2012, 2014,2016 The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -219,9 +223,12 @@ static unsigned int get_krait_evtinfo(unsigned int krait_evt_type,
 	code = (krait_evt_type & 0x00FF0) >> 4;
 	group = krait_evt_type & 0x0000F;
 
+<<<<<<< HEAD
 	if ((group > 3) || (reg > krait_max_l1_reg))
 		return -EINVAL;
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (prefix != KRAIT_EVT_PREFIX && prefix != KRAIT_VENUMEVT_PREFIX)
 		return -EINVAL;
 
@@ -232,6 +239,12 @@ static unsigned int get_krait_evtinfo(unsigned int krait_evt_type,
 			reg += VENUM_BASE_OFFSET;
 	}
 
+<<<<<<< HEAD
+=======
+	if ((group > 3) || (reg > krait_max_l1_reg))
+		return -EINVAL;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	evtinfo->group_setval = 0x80000000 | (code << (group * 8));
 	evtinfo->groupcode = reg;
 	evtinfo->armv7_evt_type = evt_type_base[evt_index][reg] | group;
@@ -454,6 +467,7 @@ static void krait_pmu_enable_event(struct hw_perf_event *hwc, int idx, int cpu)
 	/* Disable counter */
 	armv7_pmnc_disable_counter(idx);
 
+<<<<<<< HEAD
 	/*
 	 * Set event (if destined for PMNx counters)
 	 * We don't need to set the event if it's a cycle count
@@ -485,6 +499,31 @@ static void krait_pmu_enable_event(struct hw_perf_event *hwc, int idx, int cpu)
 			gr = evtinfo.groupcode;
 			krait_evt_setup(gr, val, evtinfo.armv7_evt_type);
 		}
+=======
+	val = hwc->config_base;
+	val &= KRAIT_EVENT_MASK;
+
+	/* set event for ARM-architected events, and filter for CC */
+	if ((val < 0x40) || (idx == ARMV7_IDX_CYCLE_COUNTER)) {
+		armv7_pmnc_write_evtsel(idx, hwc->config_base);
+	} else {
+		event = get_krait_evtinfo(val, &evtinfo);
+
+		if (event == -EINVAL)
+			goto krait_out;
+
+		/* Restore Mode-exclusion bits */
+		event |= (hwc->config_base & KRAIT_MODE_EXCL_MASK);
+
+		/* Set event (if destined for PMNx counters) */
+		armv7_pmnc_write_evtsel(idx, event);
+		val = 0x0;
+		asm volatile("mcr p15, 0, %0, c9, c15, 0" : :
+			"r" (val));
+		val = evtinfo.group_setval;
+		gr = evtinfo.groupcode;
+		krait_evt_setup(gr, val, evtinfo.armv7_evt_type);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	/* Enable interrupt for this counter */

@@ -647,6 +647,11 @@ static void handle_stopped_endpoint(struct xhci_hcd *xhci,
 
 	struct xhci_dequeue_state deq_state;
 
+<<<<<<< HEAD
+=======
+	if (xhci->main_hcd->driver->set_autosuspend)
+		xhci->main_hcd->driver->set_autosuspend(xhci->main_hcd, 1);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (unlikely(TRB_TO_SUSPEND_PORT(
 			     le32_to_cpu(xhci->cmd_ring->dequeue->generic.field[3])))) {
 		slot_id = TRB_TO_SLOT_ID(
@@ -800,6 +805,11 @@ void xhci_stop_endpoint_command_watchdog(unsigned long arg)
 
 	spin_lock_irqsave(&xhci->lock, flags);
 
+<<<<<<< HEAD
+=======
+	if (xhci->main_hcd->driver->set_autosuspend)
+		xhci->main_hcd->driver->set_autosuspend(xhci->main_hcd, 1);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ep->stop_cmds_pending--;
 	if (xhci->xhc_state & XHCI_STATE_DYING) {
 		xhci_dbg(xhci, "Stop EP timer ran, but another timer marked "

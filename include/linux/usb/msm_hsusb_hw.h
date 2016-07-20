@@ -87,6 +87,11 @@
 #define PHY_RETEN               (1 << 1) /* PHY retention enable/disable */
 #define PHY_IDHV_INTEN          (1 << 8) /* PHY ID HV interrupt */
 #define PHY_OTGSESSVLDHV_INTEN  (1 << 9) /* PHY Session Valid HV int. */
+<<<<<<< HEAD
+=======
+#define PHY_DPSE_INTEN          (1 << 14) /* PHY DPSE HV interrupt*/
+#define PHY_DMSE_INTEN          (1 << 20) /* PHY DMSE HV interrupt*/
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define PHY_CLAMP_DPDMSE_EN	(1 << 21) /* PHY mpm DP DM clamp enable */
 #define PHY_POR_BIT_MASK	BIT(0)
 #define PHY_POR_ASSERT		(1 << 0) /* USB2 28nm PHY POR ASSERT */

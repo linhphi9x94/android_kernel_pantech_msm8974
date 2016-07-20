@@ -153,7 +153,13 @@ void ping_unhash(struct sock *sk)
 	if (sk_hashed(sk)) {
 		write_lock_bh(&ping_table.lock);
 		hlist_nulls_del(&sk->sk_nulls_node);
+<<<<<<< HEAD
 		sock_put(sk);
+=======
+		sk_nulls_node_init(&sk->sk_nulls_node);
+		sock_put(sk);
+		sk_nulls_node_init(&sk->sk_nulls_node);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		isk->inet_num = 0;
 		isk->inet_sport = 0;
 		sock_prot_inuse_add(sock_net(sk), sk->sk_prot, -1);
@@ -213,6 +219,11 @@ static struct sock *ping_lookup(struct net *net, struct sk_buff *skb, u16 ident)
 					     &ipv6_hdr(skb)->daddr))
 				continue;
 #endif
+<<<<<<< HEAD
+=======
+		} else {
+			continue;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 
 		if (sk->sk_bound_dev_if && sk->sk_bound_dev_if != dif)
@@ -248,6 +259,7 @@ int ping_init_sock(struct sock *sk)
 	struct net *net = sock_net(sk);
 	gid_t group = current_egid();
 	gid_t range[2];
+<<<<<<< HEAD
 #ifdef CONFIG_LGU_DS_SECURITY_PATCH_CVE_2014_2851
 	struct group_info *group_info;
 	int i, j, count;
@@ -256,40 +268,65 @@ int ping_init_sock(struct sock *sk)
 	struct group_info *group_info = get_current_groups();
 	int i, j, count = group_info->ngroups;
 #endif /* CONFIG_LGU_DS_SECURITY_PATCH_CVE_2014_2851 */
+=======
+	struct group_info *group_info;
+	int i, j, count  ;
+        int ret = 0;
+
+	if (sk->sk_family == AF_INET6)
+                inet6_sk(sk)->ipv6only = 1;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	inet_get_ping_group_range_net(net, range, range+1);
 	if (range[0] <= group && group <= range[1])
 		return 0;
 
+<<<<<<< HEAD
 #ifdef CONFIG_LGU_DS_SECURITY_PATCH_CVE_2014_2851
 	group_info = get_current_groups();
 	count = group_info->ngroups;
 #endif /* CONFIG_LGU_DS_SECURITY_PATCH_CVE_2014_2851 */
 
+=======
+	group_info = get_current_groups();
+	count = group_info->ngroups;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	for (i = 0; i < group_info->nblocks; i++) {
 		int cp_count = min_t(int, NGROUPS_PER_BLOCK, count);
 
 		for (j = 0; j < cp_count; j++) {
 			group = group_info->blocks[i][j];
 			if (range[0] <= group && group <= range[1])
+<<<<<<< HEAD
 #ifdef CONFIG_LGU_DS_SECURITY_PATCH_CVE_2014_2851
 				goto out_release_group;
 #else
 				return 0;
 #endif /* CONFIG_LGU_DS_SECURITY_PATCH_CVE_2014_2851 */			
+=======
+				goto out_release_group;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 
 		count -= cp_count;
 	}
+<<<<<<< HEAD
 	
 #ifdef CONFIG_LGU_DS_SECURITY_PATCH_CVE_2014_2851
+=======
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ret = -EACCES;
 
 out_release_group:
 	put_group_info(group_info);
 	return ret;
+<<<<<<< HEAD
 #else
 	return -EACCES;
 #endif /* CONFIG_LGU_DS_SECURITY_PATCH_CVE_2014_2851 */	
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 EXPORT_SYMBOL_GPL(ping_init_sock);
 
@@ -314,6 +351,14 @@ int ping_check_bind_addr(struct sock *sk, struct inet_sock *isk,
 		if (addr_len < sizeof(*addr))
 			return -EINVAL;
 
+<<<<<<< HEAD
+=======
+		if (addr->sin_family != AF_INET &&
+		    !(addr->sin_family == AF_UNSPEC &&
+		      addr->sin_addr.s_addr == htonl(INADDR_ANY)))
+			return -EAFNOSUPPORT;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		pr_debug("ping_check_bind_addr(sk=%p,addr=%pI4,port=%d)\n",
 			 sk, &addr->sin_addr.s_addr, ntohs(addr->sin_port));
 
@@ -338,6 +383,12 @@ int ping_check_bind_addr(struct sock *sk, struct inet_sock *isk,
 		if (addr_len < sizeof(*addr))
 			return -EINVAL;
 
+<<<<<<< HEAD
+=======
+		if (addr->sin6_family != AF_INET6)
+			return -EAFNOSUPPORT;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		pr_debug("ping_check_bind_addr(sk=%p,addr=%pI6c,port=%d)\n",
 			 sk, addr->sin6_addr.s6_addr, ntohs(addr->sin6_port));
 
@@ -724,7 +775,11 @@ int ping_v4_sendmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
 		if (msg->msg_namelen < sizeof(*usin))
 			return -EINVAL;
 		if (usin->sin_family != AF_INET)
+<<<<<<< HEAD
 			return -EINVAL;
+=======
+			return -EAFNOSUPPORT;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		daddr = usin->sin_addr.s_addr;
 		/* no remote port */
 	} else {
@@ -902,6 +957,7 @@ int ping_recvmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
 	/* Copy the address and add cmsg data. */
 	if (family == AF_INET) {
 		sin = (struct sockaddr_in *) msg->msg_name;
+<<<<<<< HEAD
 #ifndef CONFIG_LGU_DS_PREVENT_NULL_MSG_NAME
 		sin->sin_family = AF_INET;
 		sin->sin_port = 0 /* skb->h.uh->source */;
@@ -919,6 +975,14 @@ int ping_recvmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
       *addr_len = sizeof(*sin);
     }
 #endif /* CONFIG_LGU_DS_PREVENT_NULL_MSG_NAME */
+=======
+		if (sin) {
+			sin->sin_family = AF_INET;
+			sin->sin_port = 0 /* skb->h.uh->source */;
+			sin->sin_addr.s_addr = ip_hdr(skb)->saddr;
+			memset(sin->sin_zero, 0, sizeof(sin->sin_zero));
+		}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		if (isk->cmsg_flags)
 			ip_cmsg_recv(msg, skb);
@@ -928,6 +992,7 @@ int ping_recvmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
 		struct ipv6_pinfo *np = inet6_sk(sk);
 		struct ipv6hdr *ip6 = ipv6_hdr(skb);
 		sin6 = (struct sockaddr_in6 *) msg->msg_name;
+<<<<<<< HEAD
 #ifndef CONFIG_LGU_DS_PREVENT_NULL_MSG_NAME    
 		sin6->sin6_family = AF_INET6;
 		sin6->sin6_port = 0;
@@ -936,10 +1001,13 @@ int ping_recvmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
     //CONFIG_LGU_DS_PREVENT_NULL_MSG_NAME : add!!
     *addr_len = sizeof(*sin6);
 #else /* CONFIG_LGU_DS_PREVENT_NULL_MSG_NAME */
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (sin6) {
 			sin6->sin6_family = AF_INET6;
 			sin6->sin6_port = 0;
 			sin6->sin6_addr = ip6->saddr;
+<<<<<<< HEAD
 			sin6->sin6_flowinfo = 0;
 			if (np->sndflow)
 				sin6->sin6_flowinfo = ip6_flowinfo(ip6);
@@ -957,6 +1025,17 @@ int ping_recvmsg(struct kiocb *iocb, struct sock *sk, struct msghdr *msg,
 		if (__ipv6_addr_needs_scope_id(
 		    ipv6_addr_type(&sin6->sin6_addr)))
 			sin6->sin6_scope_id = IP6CB(skb)->iif;
+=======
+
+			sin6->sin6_flowinfo = 0;
+			if (np->sndflow)
+				sin6->sin6_flowinfo =
+					*(__be32 *)ip6 & IPV6_FLOWINFO_MASK;
+
+			sin6->sin6_scope_id = ipv6_iface_scope_id(&sin6->sin6_addr,
+								  IP6CB(skb)->iif);
+		}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		if (inet6_sk(sk)->rxopt.all)
 			pingv6_ops.datagram_recv_ctl(sk, msg, skb);
@@ -1121,7 +1200,11 @@ static void ping_seq_stop(struct seq_file *seq, void *v)
 }
 
 static void ping_format_sock(struct sock *sp, struct seq_file *f,
+<<<<<<< HEAD
 		int bucket, int *len)
+=======
+		int bucket)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct inet_sock *inet = inet_sk(sp);
 	__be32 dest = inet->inet_daddr;
@@ -1130,29 +1213,50 @@ static void ping_format_sock(struct sock *sp, struct seq_file *f,
 	__u16 srcp = ntohs(inet->inet_sport);
 
 	seq_printf(f, "%5d: %08X:%04X %08X:%04X"
+<<<<<<< HEAD
 		" %02X %08X:%08X %02X:%08lX %08X %5d %8d %lu %d %pK %d%n",
+=======
+		" %02X %08X:%08X %02X:%08lX %08X %5d %8d %lu %d %pK %d",
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		bucket, src, srcp, dest, destp, sp->sk_state,
 		sk_wmem_alloc_get(sp),
 		sk_rmem_alloc_get(sp),
 		0, 0L, 0, sock_i_uid(sp), 0, sock_i_ino(sp),
 		atomic_read(&sp->sk_refcnt), sp,
+<<<<<<< HEAD
 		atomic_read(&sp->sk_drops), len);
+=======
+		atomic_read(&sp->sk_drops));
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static int ping_seq_show(struct seq_file *seq, void *v)
 {
+<<<<<<< HEAD
 	if (v == SEQ_START_TOKEN)
 		seq_printf(seq, "%-127s\n",
 			   "  sl  local_address rem_address   st tx_queue "
+=======
+	seq_setwidth(seq, 127);
+	if (v == SEQ_START_TOKEN)
+		seq_puts(seq, "  sl  local_address rem_address   st tx_queue "
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			   "rx_queue tr tm->when retrnsmt   uid  timeout "
 			   "inode ref pointer drops");
 	else {
 		struct ping_iter_state *state = seq->private;
+<<<<<<< HEAD
 		int len;
 
 		ping_format_sock(v, seq, state->bucket, &len);
 		seq_printf(seq, "%*s\n", 127 - len, "");
 	}
+=======
+
+		ping_format_sock(v, seq, state->bucket);
+	}
+	seq_pad(seq, '\n');
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 }
 

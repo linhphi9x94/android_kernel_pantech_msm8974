@@ -2130,7 +2130,11 @@ struct wiphy_vendor_command {
 	struct nl80211_vendor_cmd_info info;
 	u32 flags;
 	int (*doit)(struct wiphy *wiphy, struct wireless_dev *wdev,
+<<<<<<< HEAD
 		    void *data, int data_len);
+=======
+		    const void *data, int data_len);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 /**
@@ -3293,8 +3297,13 @@ void __cfg80211_send_event_skb(struct sk_buff *skb, gfp_t gfp);
 static inline struct sk_buff *
 cfg80211_vendor_cmd_alloc_reply_skb(struct wiphy *wiphy, int approxlen)
 {
+<<<<<<< HEAD
 	return __cfg80211_alloc_reply_skb(wiphy, NL80211_CMD_TESTMODE,
 					  NL80211_ATTR_TESTDATA, approxlen);
+=======
+	return __cfg80211_alloc_reply_skb(wiphy, NL80211_CMD_VENDOR,
+					  NL80211_ATTR_VENDOR_DATA, approxlen);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 /**

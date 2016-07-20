@@ -6,6 +6,10 @@
 #include <linux/bio.h>
 #include <linux/blkdev.h>
 #include <linux/scatterlist.h>
+<<<<<<< HEAD
+=======
+#include <linux/security.h>
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #include "blk.h"
 
@@ -509,6 +513,13 @@ bool blk_rq_merge_ok(struct request *rq, struct bio *bio)
 	if (bio_integrity(bio) != blk_integrity_rq(rq))
 		return false;
 
+<<<<<<< HEAD
+=======
+	/* Don't merge bios of files with different encryption */
+	if (!security_allow_merge_bio(rq->bio, bio))
+		return false;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return true;
 }
 

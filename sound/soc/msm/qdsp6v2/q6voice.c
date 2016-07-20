@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /*  Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+/*  Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -29,7 +33,11 @@
 #include "q6voice.h"
 
 
+<<<<<<< HEAD
 #define TIMEOUT_MS 300
+=======
+#define TIMEOUT_MS 500
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 
 #define CMD_STATUS_SUCCESS 0
@@ -94,6 +102,11 @@ static int voice_free_oob_shared_mem(void);
 static int voice_alloc_oob_mem_table(void);
 static int voice_alloc_and_map_cal_mem(struct voice_data *v);
 static int voice_alloc_and_map_oob_mem(struct voice_data *v);
+<<<<<<< HEAD
+=======
+static int voc_disable_cvp(uint32_t session_id);
+static int voc_enable_cvp(uint32_t session_id);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static struct voice_data *voice_get_session_by_idx(int idx);
 
@@ -141,6 +154,10 @@ static bool voice_is_valid_session_id(uint32_t session_id)
 	case VOLTE_SESSION_VSID:
 	case VOIP_SESSION_VSID:
 	case QCHAT_SESSION_VSID:
+<<<<<<< HEAD
+=======
+	case VOWLAN_SESSION_VSID:
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	case ALL_SESSION_VSID:
 		ret = true;
 		break;
@@ -234,6 +251,12 @@ char *voc_get_session_name(u32 session_id)
 	} else if (session_id ==
 			common.voice[VOC_PATH_QCHAT_PASSIVE].session_id) {
 		session_name = QCHAT_SESSION_NAME;
+<<<<<<< HEAD
+=======
+	} else if (session_id ==
+			common.voice[VOC_PATH_VOWLAN_PASSIVE].session_id) {
+		session_name = VOWLAN_SESSION_NAME;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	} else if (session_id == common.voice[VOC_PATH_FULL].session_id) {
 		session_name = VOIP_SESSION_NAME;
 	}
@@ -256,6 +279,12 @@ uint32_t voc_get_session_id(char *name)
 		else if (!strncmp(name, "QCHAT session", 13))
 			session_id =
 			common.voice[VOC_PATH_QCHAT_PASSIVE].session_id;
+<<<<<<< HEAD
+=======
+		else if (!strncmp(name, "VoWLAN session", 14))
+			session_id =
+			common.voice[VOC_PATH_VOWLAN_PASSIVE].session_id;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		else
 			session_id = common.voice[VOC_PATH_FULL].session_id;
 
@@ -291,6 +320,13 @@ static struct voice_data *voice_get_session(u32 session_id)
 		v = &common.voice[VOC_PATH_QCHAT_PASSIVE];
 		break;
 
+<<<<<<< HEAD
+=======
+	case VOWLAN_SESSION_VSID:
+		v = &common.voice[VOC_PATH_VOWLAN_PASSIVE];
+		break;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	case ALL_SESSION_VSID:
 		break;
 
@@ -331,6 +367,13 @@ int voice_get_idx_for_session(u32 session_id)
 		idx = VOC_PATH_QCHAT_PASSIVE;
 		break;
 
+<<<<<<< HEAD
+=======
+	case VOWLAN_SESSION_VSID:
+		idx = VOC_PATH_VOWLAN_PASSIVE;
+		break;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	case ALL_SESSION_VSID:
 		idx = MAX_VOC_SESSIONS - 1;
 		break;
@@ -375,6 +418,14 @@ static bool is_qchat_session(u32 session_id)
 	return (session_id == common.voice[VOC_PATH_QCHAT_PASSIVE].session_id);
 }
 
+<<<<<<< HEAD
+=======
+static bool is_vowlan_session(u32 session_id)
+{
+	return (session_id == common.voice[VOC_PATH_VOWLAN_PASSIVE].session_id);
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static bool is_voc_state_active(int voc_state)
 {
 	if ((voc_state == VOC_RUN) ||
@@ -433,6 +484,10 @@ static void init_session_id(void)
 	common.voice[VOC_PATH_VOICE2_PASSIVE].session_id = VOICE2_SESSION_VSID;
 	common.voice[VOC_PATH_FULL].session_id = VOIP_SESSION_VSID;
 	common.voice[VOC_PATH_QCHAT_PASSIVE].session_id = QCHAT_SESSION_VSID;
+<<<<<<< HEAD
+=======
+	common.voice[VOC_PATH_VOWLAN_PASSIVE].session_id = VOWLAN_SESSION_VSID;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static int voice_apr_register(void)
@@ -632,6 +687,11 @@ static int voice_create_mvm_cvs_session(struct voice_data *v)
 	/* send cmd to create mvm session and wait for response */
 
 	if (!mvm_handle) {
+<<<<<<< HEAD
+=======
+		memset(mvm_session_cmd.mvm_session.name, 0,
+			sizeof(mvm_session_cmd.mvm_session.name));
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (!is_voip_session(v->session_id)) {
 			mvm_session_cmd.hdr.hdr_field = APR_HDR_FIELD(
 						APR_MSG_TYPE_SEQ_CMD,
@@ -652,6 +712,7 @@ static int voice_create_mvm_cvs_session(struct voice_data *v)
 			if (is_volte_session(v->session_id)) {
 				strlcpy(mvm_session_cmd.mvm_session.name,
 				"default volte voice",
+<<<<<<< HEAD
 				sizeof(mvm_session_cmd.mvm_session.name));
 			} else if (is_voice2_session(v->session_id)) {
 				strlcpy(mvm_session_cmd.mvm_session.name,
@@ -665,6 +726,25 @@ static int voice_create_mvm_cvs_session(struct voice_data *v)
 				strlcpy(mvm_session_cmd.mvm_session.name,
 				"default modem voice",
 				sizeof(mvm_session_cmd.mvm_session.name));
+=======
+				strlen("default volte voice")+1);
+			} else if (is_voice2_session(v->session_id)) {
+				strlcpy(mvm_session_cmd.mvm_session.name,
+				VOICE2_SESSION_VSID_STR,
+				strlen(VOICE2_SESSION_VSID_STR)+1);
+			} else if (is_qchat_session(v->session_id)) {
+				strlcpy(mvm_session_cmd.mvm_session.name,
+				QCHAT_SESSION_VSID_STR,
+				strlen(QCHAT_SESSION_VSID_STR)+1);
+			} else if (is_vowlan_session(v->session_id)) {
+				strlcpy(mvm_session_cmd.mvm_session.name,
+				VOWLAN_SESSION_VSID_STR,
+				strlen(VOWLAN_SESSION_VSID_STR)+1);
+			} else {
+				strlcpy(mvm_session_cmd.mvm_session.name,
+				"default modem voice",
+				strlen("default modem voice")+1);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			}
 
 			v->mvm_state = CMD_STATUS_FAIL;
@@ -700,7 +780,11 @@ static int voice_create_mvm_cvs_session(struct voice_data *v)
 				VSS_IMVM_CMD_CREATE_FULL_CONTROL_SESSION;
 			strlcpy(mvm_session_cmd.mvm_session.name,
 				"default voip",
+<<<<<<< HEAD
 				sizeof(mvm_session_cmd.mvm_session.name));
+=======
+				strlen("default voip")+1);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 			v->mvm_state = CMD_STATUS_FAIL;
 
@@ -723,6 +807,11 @@ static int voice_create_mvm_cvs_session(struct voice_data *v)
 	}
 	/* send cmd to create cvs session */
 	if (!cvs_handle) {
+<<<<<<< HEAD
+=======
+		memset(cvs_session_cmd.cvs_session.name, 0,
+			sizeof(cvs_session_cmd.cvs_session.name));
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (!is_voip_session(v->session_id)) {
 			pr_debug("%s: creating CVS passive session\n",
 				 __func__);
@@ -744,6 +833,7 @@ static int voice_create_mvm_cvs_session(struct voice_data *v)
 			if (is_volte_session(v->session_id)) {
 				strlcpy(cvs_session_cmd.cvs_session.name,
 				"default volte voice",
+<<<<<<< HEAD
 				sizeof(cvs_session_cmd.cvs_session.name));
 			} else if (is_voice2_session(v->session_id)) {
 				strlcpy(cvs_session_cmd.cvs_session.name,
@@ -757,6 +847,25 @@ static int voice_create_mvm_cvs_session(struct voice_data *v)
 			strlcpy(cvs_session_cmd.cvs_session.name,
 				"default modem voice",
 				sizeof(cvs_session_cmd.cvs_session.name));
+=======
+				strlen("default volte voice")+1);
+			} else if (is_voice2_session(v->session_id)) {
+				strlcpy(cvs_session_cmd.cvs_session.name,
+				VOICE2_SESSION_VSID_STR,
+				strlen(VOICE2_SESSION_VSID_STR)+1);
+			} else if (is_qchat_session(v->session_id)) {
+				strlcpy(cvs_session_cmd.cvs_session.name,
+				QCHAT_SESSION_VSID_STR,
+				strlen(QCHAT_SESSION_VSID_STR)+1);
+			} else if (is_vowlan_session(v->session_id)) {
+				strlcpy(cvs_session_cmd.cvs_session.name,
+				VOWLAN_SESSION_VSID_STR,
+				strlen(VOWLAN_SESSION_VSID_STR)+1);
+			} else {
+			strlcpy(cvs_session_cmd.cvs_session.name,
+				"default modem voice",
+				strlen("default modem voice")+1);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			}
 			v->cvs_state = CMD_STATUS_FAIL;
 
@@ -804,7 +913,11 @@ static int voice_create_mvm_cvs_session(struct voice_data *v)
 					       common.mvs_info.network_type;
 			strlcpy(cvs_full_ctl_cmd.cvs_session.name,
 				"default q6 voice",
+<<<<<<< HEAD
 				sizeof(cvs_full_ctl_cmd.cvs_session.name));
+=======
+				strlen("default q6 voice")+1);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 			v->cvs_state = CMD_STATUS_FAIL;
 
@@ -1052,6 +1165,7 @@ static int voice_send_tty_mode_cmd(struct voice_data *v)
 	}
 	mvm_handle = voice_get_mvm_handle(v);
 
+<<<<<<< HEAD
 	if (v->tty_mode) {
 		/* send tty mode cmd to mvm */
 		mvm_tty_mode_cmd.hdr.hdr_field = APR_HDR_FIELD(
@@ -1085,6 +1199,39 @@ static int voice_send_tty_mode_cmd(struct voice_data *v)
 			pr_err("%s: wait_event timeout\n", __func__);
 			goto fail;
 		}
+=======
+	/* send tty mode cmd to mvm */
+	mvm_tty_mode_cmd.hdr.hdr_field = APR_HDR_FIELD(
+					APR_MSG_TYPE_SEQ_CMD,
+					APR_HDR_LEN(APR_HDR_SIZE),
+					APR_PKT_VER);
+	mvm_tty_mode_cmd.hdr.pkt_size = APR_PKT_SIZE(APR_HDR_SIZE,
+					sizeof(mvm_tty_mode_cmd) -
+					APR_HDR_SIZE);
+	pr_debug("%s: pkt size = %d\n",
+		 __func__, mvm_tty_mode_cmd.hdr.pkt_size);
+	mvm_tty_mode_cmd.hdr.src_port =
+			voice_get_idx_for_session(v->session_id);
+	mvm_tty_mode_cmd.hdr.dest_port = mvm_handle;
+	mvm_tty_mode_cmd.hdr.token = 0;
+	mvm_tty_mode_cmd.hdr.opcode = VSS_ISTREAM_CMD_SET_TTY_MODE;
+	mvm_tty_mode_cmd.tty_mode.mode = v->tty_mode;
+	pr_debug("tty mode =%d\n", mvm_tty_mode_cmd.tty_mode.mode);
+
+	v->mvm_state = CMD_STATUS_FAIL;
+	ret = apr_send_pkt(apr_mvm, (uint32_t *) &mvm_tty_mode_cmd);
+	if (ret < 0) {
+		pr_err("%s: Error %d sending SET_TTY_MODE\n",
+		       __func__, ret);
+		goto fail;
+	}
+	ret = wait_event_timeout(v->mvm_wait,
+				 (v->mvm_state == CMD_STATUS_SUCCESS),
+				 msecs_to_jiffies(TIMEOUT_MS));
+	if (!ret) {
+		pr_err("%s: wait_event timeout\n", __func__);
+		goto fail;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	return 0;
 fail:
@@ -1494,6 +1641,80 @@ done:
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+static int voice_config_cvs_vocoder_amr_rate(struct voice_data *v)
+{
+	int ret = 0;
+	void *apr_cvs;
+	u16 cvs_handle;
+	struct cvs_set_amr_enc_rate_cmd cvs_set_amr_rate;
+
+	if (v == NULL) {
+		pr_err("%s: v is NULL\n", __func__);
+
+		ret = -EINVAL;
+		goto done;
+	}
+	apr_cvs = common.apr_q6_cvs;
+
+	if (!apr_cvs) {
+		pr_err("%s: apr_cvs is NULL.\n", __func__);
+
+		ret = -EINVAL;
+		goto done;
+	}
+
+	cvs_handle = voice_get_cvs_handle(v);
+
+	pr_debug("%s: Setting AMR rate. Media Type: %d\n", __func__,
+		 common.mvs_info.media_type);
+
+	cvs_set_amr_rate.hdr.hdr_field =
+			APR_HDR_FIELD(APR_MSG_TYPE_SEQ_CMD,
+			APR_HDR_LEN(APR_HDR_SIZE),
+			APR_PKT_VER);
+	cvs_set_amr_rate.hdr.pkt_size = APR_PKT_SIZE(APR_HDR_SIZE,
+			       sizeof(cvs_set_amr_rate) - APR_HDR_SIZE);
+	cvs_set_amr_rate.hdr.src_port =
+			voice_get_idx_for_session(v->session_id);
+	cvs_set_amr_rate.hdr.dest_port = cvs_handle;
+	cvs_set_amr_rate.hdr.token = 0;
+
+	if (common.mvs_info.media_type == VSS_MEDIA_ID_AMR_NB_MODEM)
+		cvs_set_amr_rate.hdr.opcode =
+				VSS_ISTREAM_CMD_VOC_AMR_SET_ENC_RATE;
+	else if (common.mvs_info.media_type == VSS_MEDIA_ID_AMR_WB_MODEM)
+		cvs_set_amr_rate.hdr.opcode =
+				VSS_ISTREAM_CMD_VOC_AMRWB_SET_ENC_RATE;
+
+	cvs_set_amr_rate.amr_rate.mode = common.mvs_info.rate;
+
+	v->cvs_state = CMD_STATUS_FAIL;
+
+	ret = apr_send_pkt(apr_cvs, (uint32_t *) &cvs_set_amr_rate);
+	if (ret < 0) {
+		pr_err("%s: Error %d sending SET_AMR_RATE\n",
+		       __func__, ret);
+
+		goto done;
+	}
+	ret = wait_event_timeout(v->cvs_wait,
+				 (v->cvs_state == CMD_STATUS_SUCCESS),
+				 msecs_to_jiffies(TIMEOUT_MS));
+	if (!ret) {
+		pr_err("%s: wait_event timeout\n", __func__);
+
+		ret = -EINVAL;
+		goto done;
+	}
+
+	return 0;
+done:
+	return ret;
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int voice_config_cvs_vocoder(struct voice_data *v)
 {
 	int ret = 0;
@@ -1598,6 +1819,7 @@ static int voice_config_cvs_vocoder(struct voice_data *v)
 
 		break;
 	}
+<<<<<<< HEAD
 	case VSS_MEDIA_ID_AMR_NB_MODEM: {
 		struct cvs_set_amr_enc_rate_cmd cvs_set_amr_rate;
 
@@ -1672,6 +1894,15 @@ static int voice_config_cvs_vocoder(struct voice_data *v)
 					 msecs_to_jiffies(TIMEOUT_MS));
 		if (!ret) {
 			pr_err("%s: wait_event timeout\n", __func__);
+=======
+	case VSS_MEDIA_ID_AMR_NB_MODEM:
+	case VSS_MEDIA_ID_AMR_WB_MODEM: {
+		ret = voice_config_cvs_vocoder_amr_rate(v);
+		if (ret) {
+			pr_err("%s: Failed to update vocoder rate. %d\n",
+			       __func__, ret);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			goto fail;
 		}
 
@@ -1698,6 +1929,34 @@ fail:
 	return -EINVAL;
 }
 
+<<<<<<< HEAD
+=======
+int voc_update_amr_vocoder_rate(uint32_t session_id)
+{
+	int ret = 0;
+	struct voice_data *v;
+
+	pr_debug("%s: session_id:%d", __func__, session_id);
+
+	v = voice_get_session(session_id);
+
+	if (v == NULL) {
+		pr_err("%s: v is NULL, session_id:%d\n", __func__,
+		       session_id);
+
+		ret = -EINVAL;
+		goto done;
+	}
+
+	mutex_lock(&v->lock);
+	ret = voice_config_cvs_vocoder_amr_rate(v);
+	mutex_unlock(&v->lock);
+
+done:
+	return ret;
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int voice_send_start_voice_cmd(struct voice_data *v)
 {
 	struct apr_hdr mvm_start_voice_cmd;
@@ -3108,8 +3367,12 @@ static int voice_setup_vocproc(struct voice_data *v)
 		voice_send_netid_timing_cmd(v);
 	}
 
+<<<<<<< HEAD
 	/* enable slowtalk if st_enable is set */
 	if (v->st_enable)
+=======
+	if (v->st_enable && !v->tty_mode)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		voice_send_set_pp_enable_cmd(v,
 					     MODULE_ID_VOICE_MODULE_ST,
 					     v->st_enable);
@@ -4336,7 +4599,11 @@ int voc_start_playback(uint32_t set, uint16_t port_id)
 	return ret;
 }
 
+<<<<<<< HEAD
 int voc_disable_cvp(uint32_t session_id)
+=======
+static int voc_disable_cvp(uint32_t session_id)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct voice_data *v = voice_get_session(session_id);
 	int ret = 0;
@@ -4371,7 +4638,11 @@ fail:	mutex_unlock(&v->lock);
 	return ret;
 }
 
+<<<<<<< HEAD
 int voc_enable_cvp(uint32_t session_id)
+=======
+static int voc_enable_cvp(uint32_t session_id)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct voice_data *v = voice_get_session(session_id);
 	int ret = 0;
@@ -4443,10 +4714,15 @@ int voc_enable_cvp(uint32_t session_id)
 			goto fail;
 		}
 
+<<<<<<< HEAD
 		/* Send tty mode if tty device is used */
 		voice_send_tty_mode_cmd(v);
 		/* enable slowtalk */
 		if (v->st_enable)
+=======
+		voice_send_tty_mode_cmd(v);
+		if (v->st_enable && !v->tty_mode)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			voice_send_set_pp_enable_cmd(v,
 					     MODULE_ID_VOICE_MODULE_ST,
 					     v->st_enable);
@@ -4527,8 +4803,13 @@ int voc_set_tx_mute(uint32_t session_id, uint32_t dir, uint32_t mute,
 	return ret;
 }
 
+<<<<<<< HEAD
 int voc_set_rx_device_mute(uint32_t session_id, uint32_t mute,
 					uint32_t ramp_duration)
+=======
+int voc_set_device_mute(uint32_t session_id, uint32_t dir, uint32_t mute,
+			uint32_t ramp_duration)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct voice_data *v = NULL;
 	int ret = 0;
@@ -4538,16 +4819,35 @@ int voc_set_rx_device_mute(uint32_t session_id, uint32_t mute,
 	while (voice_itr_get_next_session(&itr, &v)) {
 		if (v != NULL) {
 			mutex_lock(&v->lock);
+<<<<<<< HEAD
 			v->dev_rx.dev_mute = mute;
 			v->dev_rx.dev_mute_ramp_duration_ms =
 							ramp_duration;
+=======
+			if (dir == VSS_IVOLUME_DIRECTION_TX) {
+				v->dev_tx.dev_mute = mute;
+				v->dev_tx.dev_mute_ramp_duration_ms =
+							ramp_duration;
+			} else {
+				v->dev_rx.dev_mute = mute;
+				v->dev_rx.dev_mute_ramp_duration_ms =
+							ramp_duration;
+			}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			if (((v->voc_state == VOC_RUN) ||
 				(v->voc_state == VOC_STANDBY)) &&
 				(v->lch_mode == 0))
 				ret = voice_send_device_mute_cmd(v,
+<<<<<<< HEAD
 						VSS_IVOLUME_DIRECTION_RX,
 						v->dev_rx.dev_mute,
 						ramp_duration);
+=======
+							dir,
+							mute,
+							ramp_duration);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			mutex_unlock(&v->lock);
 		} else {
 			pr_err("%s: invalid session_id 0x%x\n", __func__,
@@ -4639,8 +4939,13 @@ int voc_set_pp_enable(uint32_t session_id, uint32_t module_id, uint32_t enable)
 				v->st_enable = enable;
 
 			if (v->voc_state == VOC_RUN) {
+<<<<<<< HEAD
 				if (module_id ==
 				    MODULE_ID_VOICE_MODULE_ST)
+=======
+				if ((module_id == MODULE_ID_VOICE_MODULE_ST) &&
+				    (!v->tty_mode))
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 					ret = voice_send_set_pp_enable_cmd(v,
 						MODULE_ID_VOICE_MODULE_ST,
 						enable);
@@ -4863,6 +5168,113 @@ fail:
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+int voc_disable_device(uint32_t session_id)
+{
+	struct voice_data *v = voice_get_session(session_id);
+	int ret = 0;
+
+	pr_debug("%s: voc state=%d\n", __func__, v->voc_state);
+	if (v == NULL) {
+		pr_err("%s: v is NULL\n", __func__);
+		return -EINVAL;
+	}
+
+	mutex_lock(&v->lock);
+	if (v->voc_state == VOC_RUN) {
+		ret = voice_pause_voice_call(v);
+		if (ret < 0) {
+			pr_err("%s: Pause Voice Call failed for session 0x%x, err %d!\n",
+			       __func__, v->session_id, ret);
+			goto done;
+		}
+		rtac_remove_voice(voice_get_cvs_handle(v));
+		voice_send_cvp_deregister_vol_cal_cmd(v);
+		voice_send_cvp_deregister_cal_cmd(v);
+		voice_send_cvp_deregister_dev_cfg_cmd(v);
+
+		v->voc_state = VOC_CHANGE;
+	} else {
+		pr_debug("%s: called in voc state=%d, No_OP\n",
+			 __func__, v->voc_state);
+	}
+
+	if (common.ec_ref_ext)
+		voc_set_ext_ec_ref(AFE_PORT_INVALID, false);
+done:
+	mutex_unlock(&v->lock);
+
+	return ret;
+}
+
+int voc_enable_device(uint32_t session_id)
+{
+	struct voice_data *v = voice_get_session(session_id);
+	int ret = 0;
+
+	pr_debug("%s: voc state=%d\n", __func__, v->voc_state);
+	if (v == NULL) {
+		pr_err("%s: v is NULL\n", __func__);
+		return -EINVAL;
+	}
+
+	mutex_lock(&v->lock);
+	if (v->voc_state == VOC_CHANGE) {
+		ret = voice_send_tty_mode_cmd(v);
+		if (ret < 0) {
+			pr_err("%s: Sending TTY mode failed, ret=%d\n",
+			       __func__, ret);
+			/* Not a critical error, allow voice call to continue */
+		}
+
+		if (v->tty_mode) {
+			/* disable slowtalk */
+			voice_send_set_pp_enable_cmd(v,
+						     MODULE_ID_VOICE_MODULE_ST,
+						     0);
+		} else {
+			/* restore slowtalk */
+			voice_send_set_pp_enable_cmd(v,
+						     MODULE_ID_VOICE_MODULE_ST,
+						     v->st_enable);
+		}
+
+		ret = voice_send_set_device_cmd(v);
+		if (ret < 0) {
+			pr_err("%s: Set device failed, ret=%d\n",
+			       __func__, ret);
+			goto done;
+		}
+
+		voice_send_cvp_register_dev_cfg_cmd(v);
+		voice_send_cvp_register_cal_cmd(v);
+		voice_send_cvp_register_vol_cal_cmd(v);
+
+		rtac_add_voice(voice_get_cvs_handle(v),
+			       voice_get_cvp_handle(v),
+			       v->dev_rx.port_id, v->dev_tx.port_id,
+			       v->session_id);
+
+		ret = voice_send_start_voice_cmd(v);
+		if (ret < 0) {
+			pr_err("%s: Fail in sending START_VOICE, ret=%d\n",
+			       __func__, ret);
+			goto done;
+		}
+		v->voc_state = VOC_RUN;
+	} else {
+		pr_debug("%s: called in voc state=%d, No_OP\n",
+			 __func__, v->voc_state);
+	}
+
+done:
+	mutex_unlock(&v->lock);
+
+	return ret;
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int voc_set_lch(uint32_t session_id, enum voice_lch_mode lch_mode)
 {
 	struct voice_data *v = voice_get_session(session_id);
@@ -5051,10 +5463,18 @@ exit:
 
 void voc_register_mvs_cb(ul_cb_fn ul_cb,
 			   dl_cb_fn dl_cb,
+<<<<<<< HEAD
+=======
+			   voip_ssr_cb ssr_cb,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			   void *private_data)
 {
 	common.mvs_info.ul_cb = ul_cb;
 	common.mvs_info.dl_cb = dl_cb;
+<<<<<<< HEAD
+=======
+	common.mvs_info.ssr_cb = ssr_cb;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	common.mvs_info.private_data = private_data;
 }
 
@@ -5105,6 +5525,17 @@ static int32_t qdsp_mvm_callback(struct apr_client_data *data, void *priv)
 		} else {
 			pr_debug("%s: Reset event received in Voice service\n",
 				__func__);
+<<<<<<< HEAD
+=======
+
+			if (common.mvs_info.ssr_cb) {
+				pr_debug("%s: Informing reset event to VoIP\n",
+					__func__);
+				common.mvs_info.ssr_cb(data->opcode,
+						common.mvs_info.private_data);
+			}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			apr_reset(c->apr_q6_mvm);
 			c->apr_q6_mvm = NULL;
 

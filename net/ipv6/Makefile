@@ -4,8 +4,11 @@
 
 obj-$(CONFIG_IPV6) += ipv6.o
 
+<<<<<<< HEAD
 #CONFIG_LGU_DS_CTS_IPV6_PING_TEST_FAIL_FIX add ping.o
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 ipv6-objs :=	af_inet6.o anycast.o ip6_output.o ip6_input.o addrconf.o \
 		addrlabel.o \
 		route.o ip6_fib.o ipv6_sockglue.o ndisc.o udp.o udplite.o \

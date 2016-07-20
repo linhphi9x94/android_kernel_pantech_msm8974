@@ -665,7 +665,12 @@ adreno_ringbuffer_addcmds(struct adreno_ringbuffer *rb,
 	total_sizedwords += (flags & KGSL_CMD_FLAGS_INTERNAL_ISSUE) ? 2 : 0;
 
 	/* Add two dwords for the CP_INTERRUPT */
+<<<<<<< HEAD
 	total_sizedwords += drawctxt ? 2 : 0;
+=======
+	total_sizedwords +=
+		(drawctxt || (flags & KGSL_CMD_FLAGS_INTERNAL_ISSUE)) ?  2 : 0;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (adreno_is_a3xx(adreno_dev))
 		total_sizedwords += 7;
@@ -695,11 +700,15 @@ adreno_ringbuffer_addcmds(struct adreno_ringbuffer *rb,
 
 	/* Add space for the power on shader fixup if we need it */
 	if (flags & KGSL_CMD_FLAGS_PWRON_FIXUP)
+<<<<<<< HEAD
 #ifdef CONFIG_F_QUALCOMM_GPU_PATCH_FOR_PAGE_FAULT
 		total_sizedwords += 9;
 #else
 		total_sizedwords += 5;
 #endif
+=======
+		total_sizedwords += 9;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	ringcmds = adreno_ringbuffer_allocspace(rb, drawctxt, total_sizedwords);
 
@@ -721,12 +730,19 @@ adreno_ringbuffer_addcmds(struct adreno_ringbuffer *rb,
 	}
 
 	if (flags & KGSL_CMD_FLAGS_PWRON_FIXUP) {
+<<<<<<< HEAD
 #ifdef CONFIG_F_QUALCOMM_GPU_PATCH_FOR_PAGE_FAULT
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/* Disable protected mode for the fixup */
 		GSL_RB_WRITE(rb->device, ringcmds, rcmd_gpu,
 			cp_type3_packet(CP_SET_PROTECTED_MODE, 1));
 		GSL_RB_WRITE(rb->device, ringcmds, rcmd_gpu, 0);
+<<<<<<< HEAD
 #endif
+=======
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		GSL_RB_WRITE(rb->device, ringcmds, rcmd_gpu, cp_nop_packet(1));
 		GSL_RB_WRITE(rb->device, ringcmds, rcmd_gpu,
 				KGSL_PWRON_FIXUP_IDENTIFIER);
@@ -736,12 +752,19 @@ adreno_ringbuffer_addcmds(struct adreno_ringbuffer *rb,
 			adreno_dev->pwron_fixup.gpuaddr);
 		GSL_RB_WRITE(rb->device, ringcmds, rcmd_gpu,
 			adreno_dev->pwron_fixup_dwords);
+<<<<<<< HEAD
 #ifdef CONFIG_F_QUALCOMM_GPU_PATCH_FOR_PAGE_FAULT
+=======
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/* Re-enable protected mode */
 		GSL_RB_WRITE(rb->device, ringcmds, rcmd_gpu,
 			cp_type3_packet(CP_SET_PROTECTED_MODE, 1));
 		GSL_RB_WRITE(rb->device, ringcmds, rcmd_gpu, 1);
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	/* Add any IB required for profiling if it is enabled */
@@ -1077,20 +1100,34 @@ done:
  * core does
  */
 static inline bool _ringbuffer_verify_ib(struct kgsl_device_private *dev_priv,
+<<<<<<< HEAD
 		struct kgsl_ibdesc *ibdesc)
+=======
+		struct kgsl_memobj_node *ib)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct kgsl_device *device = dev_priv->device;
 	struct adreno_device *adreno_dev = ADRENO_DEVICE(device);
 
 	/* Check that the size of the IBs is under the allowable limit */
+<<<<<<< HEAD
 	if (ibdesc->sizedwords == 0 || ibdesc->sizedwords > 0xFFFFF) {
 		KGSL_DRV_ERR(device, "Invalid IB size 0x%X\n",
 				ibdesc->sizedwords);
+=======
+	if (ib->sizedwords == 0 || ib->sizedwords > 0xFFFFF) {
+		KGSL_DRV_ERR(device, "Invalid IB size 0x%X\n",
+				ib->sizedwords);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return false;
 	}
 
 	if (unlikely(adreno_dev->ib_check_level >= 1) &&
+<<<<<<< HEAD
 		!_parse_ibs(dev_priv, ibdesc->gpuaddr, ibdesc->sizedwords)) {
+=======
+		!_parse_ibs(dev_priv, ib->gpuaddr, ib->sizedwords)) {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		KGSL_DRV_ERR(device, "Could not verify the IBs\n");
 		return false;
 	}
@@ -1107,17 +1144,28 @@ adreno_ringbuffer_issueibcmds(struct kgsl_device_private *dev_priv,
 	struct kgsl_device *device = dev_priv->device;
 	struct adreno_device *adreno_dev = ADRENO_DEVICE(device);
 	struct adreno_context *drawctxt = ADRENO_CONTEXT(context);
+<<<<<<< HEAD
 	int i, ret;
+=======
+	struct kgsl_memobj_node *ib;
+	int ret;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (drawctxt->state == ADRENO_CONTEXT_STATE_INVALID)
 		return -EDEADLK;
 
 	/* Verify the IBs before they get queued */
+<<<<<<< HEAD
 
 	for (i = 0; i < cmdbatch->ibcount; i++) {
 		if (!_ringbuffer_verify_ib(dev_priv, &cmdbatch->ibdesc[i]))
 			return -EINVAL;
 	}
+=======
+	list_for_each_entry(ib, &cmdbatch->cmdlist, node)
+		if (!_ringbuffer_verify_ib(dev_priv, ib))
+			return -EINVAL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/* wait for the suspend gate */
 	wait_for_completion(&device->cmdbatch_gate);
@@ -1183,7 +1231,11 @@ void adreno_ringbuffer_set_constraint(struct kgsl_device *device,
 	 */
 	if (context->pwr_constraint.type &&
 		((context->flags & KGSL_CONTEXT_PWR_CONSTRAINT) ||
+<<<<<<< HEAD
 			(cmdbatch->flags & KGSL_CONTEXT_PWR_CONSTRAINT))) {
+=======
+			(cmdbatch->flags & KGSL_CMDBATCH_PWR_CONSTRAINT))) {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		constraint = adreno_ringbuffer_get_constraint(device, context);
 
@@ -1213,6 +1265,7 @@ int adreno_ringbuffer_submitcmd(struct adreno_device *adreno_dev,
 		struct kgsl_cmdbatch *cmdbatch)
 {
 	struct kgsl_device *device = &adreno_dev->dev;
+<<<<<<< HEAD
 	struct kgsl_ibdesc *ibdesc;
 	unsigned int numibs;
 	unsigned int *link;
@@ -1221,18 +1274,59 @@ int adreno_ringbuffer_submitcmd(struct adreno_device *adreno_dev,
 	struct kgsl_context *context;
 	struct adreno_context *drawctxt;
 	unsigned int start_index = 0;
+=======
+	struct kgsl_memobj_node *ib;
+	unsigned int numibs = 0;
+	unsigned int *link;
+	unsigned int *cmds;
+	struct kgsl_context *context;
+	struct adreno_context *drawctxt;
+	bool use_preamble = true;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int flags = KGSL_CMD_FLAGS_NONE;
 	int ret;
 
 	context = cmdbatch->context;
 	drawctxt = ADRENO_CONTEXT(context);
 
+<<<<<<< HEAD
 	ibdesc = cmdbatch->ibdesc;
 	numibs = cmdbatch->ibcount;
+=======
+	/* Get the total IBs in the list */
+	list_for_each_entry(ib, &cmdbatch->cmdlist, node)
+		numibs++;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/* process any profiling results that are available into the log_buf */
 	adreno_profile_process_results(device);
 
+<<<<<<< HEAD
+=======
+	/*
+	 * If SKIP CMD flag is set for current context
+	 * a) set SKIPCMD as fault_recovery for current commandbatch
+	 * b) store context's commandbatch fault_policy in current
+	 *    commandbatch fault_policy and clear context's commandbatch
+	 *    fault_policy
+	 * c) force preamble for commandbatch
+	 */
+	if (test_bit(ADRENO_CONTEXT_SKIP_CMD, &drawctxt->priv) &&
+		(!test_bit(CMDBATCH_FLAG_SKIP, &cmdbatch->priv))) {
+
+		set_bit(KGSL_FT_SKIPCMD, &cmdbatch->fault_recovery);
+		cmdbatch->fault_policy = drawctxt->fault_policy;
+		set_bit(CMDBATCH_FLAG_FORCE_PREAMBLE, &cmdbatch->priv);
+
+		/* if context is detached print fault recovery */
+		adreno_fault_skipcmd_detached(device, drawctxt, cmdbatch);
+
+		/* clear the drawctxt flags */
+		clear_bit(ADRENO_CONTEXT_SKIP_CMD, &drawctxt->priv);
+		drawctxt->fault_policy = 0;
+	}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/*When preamble is enabled, the preamble buffer with state restoration
 	commands are stored in the first node of the IB chain. We can skip that
 	if a context switch hasn't occured */
@@ -1240,7 +1334,11 @@ int adreno_ringbuffer_submitcmd(struct adreno_device *adreno_dev,
 	if ((drawctxt->base.flags & KGSL_CONTEXT_PREAMBLE) &&
 		!test_bit(CMDBATCH_FLAG_FORCE_PREAMBLE, &cmdbatch->priv) &&
 		(adreno_dev->drawctxt_active == drawctxt))
+<<<<<<< HEAD
 		start_index = 1;
+=======
+		use_preamble = false;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/*
 	 * In skip mode don't issue the draw IBs but keep all the other
@@ -1248,6 +1346,7 @@ int adreno_ringbuffer_submitcmd(struct adreno_device *adreno_dev,
 	 * the accounting sane. Set start_index and numibs to 0 to just
 	 * generate the start and end markers and skip everything else
 	 */
+<<<<<<< HEAD
 
 	if (test_bit(CMDBATCH_FLAG_SKIP, &cmdbatch->priv)) {
 		start_index = 0;
@@ -1255,12 +1354,28 @@ int adreno_ringbuffer_submitcmd(struct adreno_device *adreno_dev,
 	}
 
 	cmds = link = kzalloc(sizeof(unsigned int) * (numibs * 3 + 4),
+=======
+	if (test_bit(CMDBATCH_FLAG_SKIP, &cmdbatch->priv)) {
+		use_preamble = false;
+		numibs = 0;
+	}
+
+	/*
+	 * Worst case size:
+	 * 2 - start of IB identifier
+	 * 1 - skip preamble
+	 * 3 * numibs - 3 per IB
+	 * 2 - end of IB identifier
+	 */
+	cmds = link = kzalloc(sizeof(unsigned int) * (numibs * 3 + 5),
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				GFP_KERNEL);
 	if (!link) {
 		ret = -ENOMEM;
 		goto done;
 	}
 
+<<<<<<< HEAD
 	if (!start_index) {
 		*cmds++ = cp_nop_packet(1);
 		*cmds++ = KGSL_START_OF_IB_IDENTIFIER;
@@ -1285,6 +1400,30 @@ int adreno_ringbuffer_submitcmd(struct adreno_device *adreno_dev,
 
 		*cmds++ = ibdesc[i].gpuaddr;
 		*cmds++ = ibdesc[i].sizedwords;
+=======
+	*cmds++ = cp_nop_packet(1);
+	*cmds++ = KGSL_START_OF_IB_IDENTIFIER;
+
+	if (numibs) {
+		list_for_each_entry(ib, &cmdbatch->cmdlist, node) {
+			/* use the preamble? */
+			if ((ib->priv & MEMOBJ_PREAMBLE) &&
+					(use_preamble == false))
+				*cmds++ = cp_nop_packet(3);
+			/*
+			 * Skip 0 sized IBs - these are presumed to have been
+			 * removed from consideration by the FT policy
+			 */
+
+			if (ib->priv & MEMOBJ_SKIP)
+				*cmds++ = cp_nop_packet(2);
+			else
+				*cmds++ = CP_HDR_INDIRECT_BUFFER_PFD;
+
+			*cmds++ = ib->gpuaddr;
+			*cmds++ = ib->sizedwords;
+		}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	*cmds++ = cp_nop_packet(1);
@@ -1321,6 +1460,12 @@ int adreno_ringbuffer_submitcmd(struct adreno_device *adreno_dev,
 	/* Set the constraints before adding to ringbuffer */
 	adreno_ringbuffer_set_constraint(device, cmdbatch);
 
+<<<<<<< HEAD
+=======
+	/* CFF stuff executed only if CFF is enabled */
+	kgsl_cffdump_capture_ib_desc(device, context, cmdbatch);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ret = adreno_ringbuffer_addcmds(&adreno_dev->ringbuffer,
 					drawctxt,
 					flags,
@@ -1341,7 +1486,11 @@ int adreno_ringbuffer_submitcmd(struct adreno_device *adreno_dev,
 done:
 	device->pwrctrl.irq_last = 0;
 	kgsl_trace_issueibcmds(device, context->id, cmdbatch,
+<<<<<<< HEAD
 		cmdbatch->timestamp, cmdbatch->flags, ret,
+=======
+		numibs, cmdbatch->timestamp, cmdbatch->flags, ret,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		drawctxt->type);
 
 	kfree(link);

@@ -780,11 +780,14 @@ DEFINE_LOGGER_DEVICE(log_wifi, LOGGER_LOG_WIFI, CONFIG_WIFI_LOGCAT_SIZE*1024)
 DEFINE_LOGGER_DEVICE(log_wqe, LOGGER_LOG_WQE, CONFIG_WQE_LOGCAT_SIZE*1024)
 #endif
 
+<<<<<<< HEAD
 
 #ifdef FEATURE_SKY_CP_ADB_LOG_FOR_VITAMIN
 DEFINE_LOGGER_DEVICE(log_vitamin, LOGGER_LOG_VITAMIN, 256*1024)
 #endif
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static struct logger_log *get_log_from_minor(int minor)
 {
 	if (log_main.misc.minor == minor)
@@ -803,6 +806,7 @@ static struct logger_log *get_log_from_minor(int minor)
 	if (log_wqe.misc.minor == minor)
 		return &log_wqe;
 #endif	
+<<<<<<< HEAD
 	
 	
 
@@ -811,6 +815,8 @@ static struct logger_log *get_log_from_minor(int minor)
 		return &log_vitamin;
 #endif
 		
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return NULL;
 }
 
@@ -884,12 +890,15 @@ static int __init logger_init(void)
 		goto out;
 #endif
 
+<<<<<<< HEAD
 #ifdef FEATURE_SKY_CP_ADB_LOG_FOR_VITAMIN
   ret = init_log(&log_vitamin);
 	if (unlikely(ret))
 		goto out;  
 #endif		
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 out:
 	return ret;
 }

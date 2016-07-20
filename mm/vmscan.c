@@ -475,8 +475,23 @@ static pageout_t pageout(struct page *page, struct address_space *mapping,
 		if (!PageWriteback(page)) {
 			/* synchronous write or broken a_ops? */
 			ClearPageReclaim(page);
+<<<<<<< HEAD
 			if (PageError(page))
 				return PAGE_ACTIVATE;
+=======
+			if (PageError(page) && PageSwapCache(page)) {
+				ClearPageError(page);
+				/*
+				 * We lock the page here because it is required
+				 * to free the swp space later in
+				 * shrink_page_list. But the page may be
+				 * unclocked by functions like
+				 * handle_write_error.
+				 */
+				__set_page_locked(page);
+				return PAGE_ACTIVATE;
+			}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 		trace_mm_vmscan_writepage(page, trace_reclaim_flags(page));
 		inc_zone_page_state(page, NR_VMSCAN_WRITE);
@@ -1186,20 +1201,67 @@ int isolate_lru_page(struct page *page)
 	return ret;
 }
 
+<<<<<<< HEAD
+=======
+static int __too_many_isolated(struct zone *zone, int file,
+	struct scan_control *sc, int safe)
+{
+	unsigned long inactive, isolated;
+
+	if (file) {
+		if (safe) {
+			inactive = zone_page_state_snapshot(zone,
+					NR_INACTIVE_FILE);
+			isolated = zone_page_state_snapshot(zone,
+					NR_ISOLATED_FILE);
+		} else {
+			inactive = zone_page_state(zone, NR_INACTIVE_FILE);
+			isolated = zone_page_state(zone, NR_ISOLATED_FILE);
+		}
+	} else {
+		if (safe) {
+			inactive = zone_page_state_snapshot(zone,
+					NR_INACTIVE_ANON);
+			isolated = zone_page_state_snapshot(zone,
+					NR_ISOLATED_ANON);
+		} else {
+			inactive = zone_page_state(zone, NR_INACTIVE_ANON);
+			isolated = zone_page_state(zone, NR_ISOLATED_ANON);
+		}
+	}
+
+	/*
+	 * GFP_NOIO/GFP_NOFS callers are allowed to isolate more pages, so they
+	 * won't get blocked by normal direct-reclaimers, forming a circular
+	 * deadlock.
+	 */
+	if ((sc->gfp_mask & GFP_IOFS) == GFP_IOFS)
+		inactive >>= 3;
+
+	return isolated > inactive;
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*
  * Are there way too many processes in the direct reclaim path already?
  */
 static int too_many_isolated(struct zone *zone, int file,
+<<<<<<< HEAD
 		struct scan_control *sc)
 {
 	unsigned long inactive, isolated;
 
+=======
+		struct scan_control *sc, int safe)
+{
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (current_is_kswapd())
 		return 0;
 
 	if (!global_reclaim(sc))
 		return 0;
 
+<<<<<<< HEAD
 	if (file) {
 		inactive = zone_page_state(zone, NR_INACTIVE_FILE);
 		isolated = zone_page_state(zone, NR_ISOLATED_FILE);
@@ -1209,6 +1271,16 @@ static int too_many_isolated(struct zone *zone, int file,
 	}
 
 	return isolated > inactive;
+=======
+	if (unlikely(__too_many_isolated(zone, file, sc, 0))) {
+		if (safe)
+			return __too_many_isolated(zone, file, sc, safe);
+		else
+			return 1;
+	}
+
+	return 0;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static noinline_for_stack void
@@ -1278,16 +1350,29 @@ shrink_inactive_list(unsigned long nr_to_scan, struct mem_cgroup_zone *mz,
 	unsigned long nr_writeback = 0;
 	isolate_mode_t isolate_mode = 0;
 	int file = is_file_lru(lru);
+<<<<<<< HEAD
+=======
+	int safe = 0;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct zone *zone = mz->zone;
 	struct zone_reclaim_stat *reclaim_stat = get_reclaim_stat(mz);
 	struct lruvec *lruvec = mem_cgroup_zone_lruvec(zone, mz->mem_cgroup);
 
+<<<<<<< HEAD
 	while (unlikely(too_many_isolated(zone, file, sc))) {
+=======
+	while (unlikely(too_many_isolated(zone, file, sc, safe))) {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		congestion_wait(BLK_RW_ASYNC, HZ/10);
 
 		/* We are about to die and free our memory. Return now. */
 		if (fatal_signal_pending(current))
 			return SWAP_CLUSTER_MAX;
+<<<<<<< HEAD
+=======
+
+		safe = 1;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	lru_add_drain();

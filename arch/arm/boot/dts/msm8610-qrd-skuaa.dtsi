@@ -38,11 +38,20 @@
 			compatible = "qcom,nfc-nci";
 			reg = <0x0e>;
 			qcom,irq-gpio = <&msmgpio 77 0x00>;
+<<<<<<< HEAD
 			qcom,dis-gpio = <&msmgpio 93 0x00>;
 			qcom,clk-en-gpio = <&msmgpio 78 0x00>;
 			qcom,clk-src = "GPCLK2";
 			interrupt-parent = <&msmgpio>;
 			interrupts = <77 0>;
+=======
+			qcom,clk-req-gpio = <&msmgpio 75 0x00>;
+			qcom,dis-gpio = <&msmgpio 93 0x00>;
+			qcom,clk-src-gpio = <&msmgpio 78 0x00>;
+			qcom,clk-src = "GPCLK2";
+			interrupt-parent = <&msmgpio>;
+			interrupts = <77 75 0>;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			qcom,clk-gpio = <&msmgpio 75 0x00>;
 		};
 	};
@@ -95,3 +104,17 @@
 		qcom,master-en = <1>;
 	};
 };
+<<<<<<< HEAD
+=======
+
+&sdhc_2 {
+        qcom,nonremovable;
+
+        interrupts = <0 1>;
+        interrupt-map = <0 &intc 0 125 0
+                        1 &intc 0 221 0>;
+        interrupt-names = "hc_irq", "pwr_irq";
+        /delete-property/ cd-gpios;
+};
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

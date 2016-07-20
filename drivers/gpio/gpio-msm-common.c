@@ -112,16 +112,22 @@ struct irq_chip msm_gpio_irq_extn = {
  * @wake_irqs: a bitmap for tracking which interrupt lines are enabled
  * as wakeup sources.  When the device is suspended, interrupts which are
  * not wakeup sources are disabled.
+<<<<<<< HEAD
  *
  * @dual_edge_irqs: a bitmap used to track which irqs are configured
  * as dual-edge, as this is not supported by the hardware and requires
  * some special handling in the driver.
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  */
 struct msm_gpio_dev {
 	struct gpio_chip gpio_chip;
 	unsigned long *enabled_irqs;
 	unsigned long *wake_irqs;
+<<<<<<< HEAD
 	unsigned long *dual_edge_irqs;
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct irq_domain *domain;
 };
 
@@ -219,6 +225,7 @@ static struct msm_gpio_dev msm_gpio = {
 	},
 };
 
+<<<<<<< HEAD
 static void switch_mpm_config(struct irq_data *d, unsigned val)
 {
 	/* switch the configuration in the mpm as well */
@@ -270,13 +277,18 @@ static void msm_gpio_update_dual_edge_pos(struct irq_data *d, unsigned gpio)
 	       __func__, val, val2);
 }
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static void msm_gpio_irq_ack(struct irq_data *d)
 {
 	int gpio = msm_irq_to_gpio(&msm_gpio.gpio_chip, d->irq);
 
 	__msm_gpio_set_intr_status(gpio);
+<<<<<<< HEAD
 	if (test_bit(gpio, msm_gpio.dual_edge_irqs))
 		msm_gpio_update_dual_edge_pos(d, gpio);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mb();
 }
 
@@ -327,6 +339,7 @@ static int msm_gpio_irq_set_type(struct irq_data *d, unsigned int flow_type)
 
 	spin_lock_irqsave(&tlmm_lock, irq_flags);
 
+<<<<<<< HEAD
 	if (flow_type & IRQ_TYPE_EDGE_BOTH) {
 		__irq_set_handler_locked(d->irq, handle_edge_irq);
 		if ((flow_type & IRQ_TYPE_EDGE_BOTH) == IRQ_TYPE_EDGE_BOTH)
@@ -350,6 +363,20 @@ static int msm_gpio_irq_set_type(struct irq_data *d, unsigned int flow_type)
 		if (msm_gpio_irq_extn.irq_set_type)
 			msm_gpio_irq_extn.irq_set_type(d, flow_type);
 	}
+=======
+	if (flow_type & IRQ_TYPE_EDGE_BOTH)
+		__irq_set_handler_locked(d->irq, handle_edge_irq);
+	else
+		__irq_set_handler_locked(d->irq, handle_level_irq);
+
+	__msm_gpio_set_intr_cfg_type(gpio, flow_type);
+
+	mb();
+	spin_unlock_irqrestore(&tlmm_lock, irq_flags);
+
+	if (msm_gpio_irq_extn.irq_set_type)
+		msm_gpio_irq_extn.irq_set_type(d, flow_type);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return 0;
 }
@@ -609,6 +636,7 @@ static int __devinit msm_gpio_probe(struct platform_device *pdev)
 				, __func__);
 		return -ENOMEM;
 	}
+<<<<<<< HEAD
 	msm_gpio.dual_edge_irqs = devm_kzalloc(&pdev->dev, sizeof(unsigned long)
 					* BITS_TO_LONGS(ngpio), GFP_KERNEL);
 	if (!msm_gpio.dual_edge_irqs) {
@@ -620,6 +648,11 @@ static int __devinit msm_gpio_probe(struct platform_device *pdev)
 	bitmap_zero(msm_gpio.enabled_irqs, ngpio);
 	bitmap_zero(msm_gpio.wake_irqs, ngpio);
 	bitmap_zero(msm_gpio.dual_edge_irqs, ngpio);
+=======
+
+	bitmap_zero(msm_gpio.enabled_irqs, ngpio);
+	bitmap_zero(msm_gpio.wake_irqs, ngpio);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ret = gpiochip_add(&msm_gpio.gpio_chip);
 	if (ret < 0)
 		return ret;

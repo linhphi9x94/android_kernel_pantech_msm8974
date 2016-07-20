@@ -3,7 +3,11 @@
  * FocalTech ft5x06 TouchScreen driver.
  *
  * Copyright (c) 2010  Focal tech Ltd.
+<<<<<<< HEAD
  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
@@ -69,7 +73,10 @@
 #define FT_REG_THGROUP		0x80
 #define FT_REG_ECC		0xCC
 #define FT_REG_RESET_FW		0x07
+<<<<<<< HEAD
 #define FT_REG_FW_MAJ_VER	0xB1
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define FT_REG_FW_MIN_VER	0xB2
 #define FT_REG_FW_SUB_MIN_VER	0xB3
 
@@ -289,7 +296,11 @@ static void ft5x06_update_fw_ver(struct ft5x06_ts_data *data)
 	u8 reg_addr;
 	int err;
 
+<<<<<<< HEAD
 	reg_addr = FT_REG_FW_MAJ_VER;
+=======
+	reg_addr = FT_REG_FW_VER;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	err = ft5x06_i2c_read(client, &reg_addr, 1, &data->fw_ver[0], 1);
 	if (err < 0)
 		dev_err(&client->dev, "fw major version read failed");
@@ -877,6 +888,14 @@ static int ft5x06_fw_upgrade(struct device *dev, bool force)
 	u8 fw_file_maj, fw_file_min, fw_file_sub_min;
 	bool fw_upgrade = false;
 
+<<<<<<< HEAD
+=======
+	if (data->suspended) {
+		dev_info(dev, "Device is in suspend state: Exit FW upgrade\n");
+		return -EBUSY;
+	}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	rc = request_firmware(&fw, data->fw_name, dev);
 	if (rc < 0) {
 		dev_err(dev, "Request firmware failed - %s (%d)\n",
@@ -899,6 +918,7 @@ static int ft5x06_fw_upgrade(struct device *dev, bool force)
 	dev_info(dev, "New firmware: %d.%d.%d", fw_file_maj,
 				fw_file_min, fw_file_sub_min);
 
+<<<<<<< HEAD
 	if (force) {
 		fw_upgrade = true;
 	} else if (data->fw_ver[0] == fw_file_maj) {
@@ -910,6 +930,12 @@ static int ft5x06_fw_upgrade(struct device *dev, bool force)
 				dev_info(dev, "No need to upgrade\n");
 	} else
 		dev_info(dev, "Firmware versions do not match\n");
+=======
+	if (force)
+		fw_upgrade = true;
+	else if (data->fw_ver[0] < fw_file_maj)
+		fw_upgrade = true;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (!fw_upgrade) {
 		dev_info(dev, "Exiting fw upgrade...\n");

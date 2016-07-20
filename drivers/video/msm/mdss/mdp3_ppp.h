@@ -391,7 +391,11 @@ struct ppp_edge_rep {
 uint32_t ppp_bpp(uint32_t type);
 uint32_t ppp_src_config(uint32_t type);
 uint32_t ppp_out_config(uint32_t type);
+<<<<<<< HEAD
 uint32_t ppp_pack_pattern(uint32_t type);
+=======
+uint32_t ppp_pack_pattern(uint32_t type, uint32_t yuv2rgb);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 uint32_t ppp_dst_op_reg(uint32_t type);
 uint32_t ppp_src_op_reg(uint32_t type);
 bool ppp_per_p_alpha(uint32_t type);

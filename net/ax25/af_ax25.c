@@ -811,6 +811,12 @@ static int ax25_create(struct net *net, struct socket *sock, int protocol,
 	struct sock *sk;
 	ax25_cb *ax25;
 
+<<<<<<< HEAD
+=======
+	if (protocol < 0 || protocol > SK_PROTOCOL_MAX)
+		return -EINVAL;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!net_eq(net, &init_net))
 		return -EAFNOSUPPORT;
 

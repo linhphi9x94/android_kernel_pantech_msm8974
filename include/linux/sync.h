@@ -84,6 +84,12 @@ struct sync_timeline_ops {
 
 	/* optional */
 	void (*pt_value_str)(struct sync_pt *pt, char *str, int size);
+<<<<<<< HEAD
+=======
+
+	/* optional */
+	void (*pt_log)(struct sync_pt *pt);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 /**
@@ -342,6 +348,18 @@ int sync_fence_cancel_async(struct sync_fence *fence,
  */
 int sync_fence_wait(struct sync_fence *fence, long timeout);
 
+<<<<<<< HEAD
+=======
+/**
+ * sync_fence_log() - log the details of the fence in the kernel log
+ * @fence:	fence to log
+ *
+ * Log the details of the fence and the associated sync points in the kernel
+ * log.
+ */
+void sync_fence_log(struct sync_fence *fence);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif /* __KERNEL__ */
 
 /**

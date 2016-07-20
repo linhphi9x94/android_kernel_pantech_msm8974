@@ -30,7 +30,10 @@
 #include <linux/kernel_stat.h>
 #include <linux/tick.h>
 #include <asm/smp_plat.h>
+<<<<<<< HEAD
 #include "acpuclock.h"
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <linux/suspend.h>
 
 #define MAX_LONG_SIZE 24
@@ -199,7 +202,11 @@ static int cpu_hotplug_handler(struct notifier_block *nb,
 	switch (val) {
 	case CPU_ONLINE:
 		if (!this_cpu->cur_freq)
+<<<<<<< HEAD
 			this_cpu->cur_freq = acpuclk_get_rate(cpu);
+=======
+			this_cpu->cur_freq = cpufreq_quick_get(cpu);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	case CPU_ONLINE_FROZEN:
 		this_cpu->avg_load_maxfreq = 0;
 	}
@@ -402,7 +409,11 @@ static int __init msm_rq_stats_init(void)
 		cpufreq_get_policy(&cpu_policy, i);
 		pcpu->policy_max = cpu_policy.cpuinfo.max_freq;
 		if (cpu_online(i))
+<<<<<<< HEAD
 			pcpu->cur_freq = acpuclk_get_rate(i);
+=======
+			pcpu->cur_freq = cpufreq_quick_get(i);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		cpumask_copy(pcpu->related_cpus, cpu_policy.cpus);
 	}
 	freq_transition.notifier_call = cpufreq_transition_handler;

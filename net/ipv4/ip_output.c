@@ -1500,7 +1500,12 @@ void ip_send_reply(struct sock *sk, struct sk_buff *skb, __be32 daddr,
 			daddr = replyopts.opt.opt.faddr;
 	}
 
+<<<<<<< HEAD
 	flowi4_init_output(&fl4, arg->bound_dev_if, 0,
+=======
+	flowi4_init_output(&fl4, arg->bound_dev_if,
+			   IP4_REPLY_MARK(sock_net(sk), skb->mark),
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			   RT_TOS(arg->tos),
 			   RT_SCOPE_UNIVERSE, sk->sk_protocol,
 			   ip_reply_arg_flowi_flags(arg),

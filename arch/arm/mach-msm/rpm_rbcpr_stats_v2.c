@@ -42,9 +42,18 @@
 
 enum {
 	CORNER_OFF,
+<<<<<<< HEAD
 	CORNER_SVS,
 	CORNER_NOMINAL,
 	CORNER_TURBO,
+=======
+	CORNER_RETENTION,
+	CORNER_SVS_KRAIT,
+	CORNER_SVS_SOC,
+	CORNER_NOMINAL,
+	CORNER_TURBO,
+	CORNER_SUPER_TURBO,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	CORNER_MAX,
 };
 
@@ -54,7 +63,11 @@ struct rbcpr_recmnd_data_type {
 };
 
 struct rbcpr_corners_data_type {
+<<<<<<< HEAD
 	uint32_t efuse_adjustment;
+=======
+	int32_t efuse_adjustment;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	uint32_t programmed_voltage;
 	uint32_t isr_count;
 	uint32_t min_count;
@@ -62,10 +75,19 @@ struct rbcpr_corners_data_type {
 	struct rbcpr_recmnd_data_type rbcpr_recmnd[RBCPR_NUM_RECMNDS];
 };
 
+<<<<<<< HEAD
 struct rbcpr_rail_stats_type {
 	uint32_t num_corners;
 	uint32_t num_latest_recommends;
 	struct rbcpr_corners_data_type rbcpr_corners[RBCPR_NUM_CORNERS];
+=======
+struct rbcpr_rail_stats_header_type {
+	uint32_t num_corners;
+	uint32_t num_latest_recommends;
+};
+
+struct rbcpr_rail_stats_footer_type {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	uint32_t current_corner;
 	uint32_t railway_voltage;
 	uint32_t off_corner;
@@ -75,7 +97,10 @@ struct rbcpr_rail_stats_type {
 struct rbcpr_stats_type {
 	uint32_t num_rails;
 	uint32_t status;
+<<<<<<< HEAD
 	struct rbcpr_rail_stats_type *rbcpr_rail;
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 struct rbcpr_data_type {
@@ -91,14 +116,26 @@ static char *rbcpr_rail_labels[] = {
 
 static char *rbcpr_corner_string[] = {
 	[CORNER_OFF] = "CORNERS_OFF",
+<<<<<<< HEAD
 	[CORNER_SVS] = "SVS",
 	[CORNER_NOMINAL] = "NOMINAL",
 	[CORNER_TURBO] = "TURBO",
 };
+=======
+	[CORNER_RETENTION] = "RETENTION",
+	[CORNER_SVS_KRAIT] = "SVS",
+	[CORNER_SVS_SOC] = "SVS_SOC",
+	[CORNER_NOMINAL] = "NOMINAL",
+	[CORNER_TURBO] = "TURBO",
+	[CORNER_SUPER_TURBO] = "SUPER_TURBO",
+};
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define CORNER_STRING(a)	\
 	((a >= CORNER_MAX) ? "INVALID Corner" : rbcpr_corner_string[a])
 
 static struct rbcpr_data_type *rbcpr_data;
+<<<<<<< HEAD
 static struct rbcpr_stats_type *rbcpr_stats;
 
 static void msm_rpmrbcpr_read_rpm_data(void)
@@ -191,6 +228,148 @@ static int msm_rpmrbcpr_file_read(struct file *file, char __user *bufu,
 	struct rbcpr_data_type *pdata = file->private_data;
 	int ret = 0;
 	int status_counter;
+=======
+
+static void msm_rpmrbcpr_print_stats_header(
+		struct rbcpr_stats_type *rbcpr_stats, char *buf,
+						uint32_t *pos)
+{
+	*pos += PRINT(buf, *pos, "\n:RBCPR STATS  ");
+	*pos += PRINT(buf, *pos, "(%s: %d)", FIELD(rbcpr_stats->num_rails),
+				rbcpr_stats->num_rails);
+	*pos += PRINT(buf, *pos, "(%s: %d)", FIELD(rbcpr_stats->status),
+				rbcpr_stats->status);
+}
+
+static void msm_rpmrbcpr_print_rail_header(
+		struct rbcpr_rail_stats_header_type *rail_header, char *buf,
+							uint32_t *pos)
+{
+	*pos += PRINT(buf, *pos, "(%s: %d)", FIELD(rail_header->num_corners),
+				rail_header->num_corners);
+	*pos += PRINT(buf, *pos, "(%s: %d)",
+			FIELD(rail_header->num_latest_recommends),
+			rail_header->num_latest_recommends);
+}
+
+static void msm_rpmrbcpr_print_corner_recmnds(
+		struct rbcpr_recmnd_data_type *rbcpr_recmnd, char *buf,
+							uint32_t *pos)
+{
+	*pos += PRINT(buf, *pos, "\n\t\t\t :(%s: %d) ",
+						FIELD(rbcpr_recmd->microvolts),
+						rbcpr_recmnd->microvolts);
+	*pos += PRINT(buf, *pos, " (%s: %lld)", FIELD(rbcpr_recmd->timestamp),
+						rbcpr_recmnd->timestamp);
+}
+
+static void msm_rpmrbcpr_print_corner_data(
+		struct rbcpr_corners_data_type *corner, char *buf,
+			uint32_t num_corners, uint32_t *pos)
+{
+	int i;
+
+	*pos += PRINT(buf, *pos, "(%s: %d)",
+			FIELD(corner->efuse_adjustment),
+					corner->efuse_adjustment);
+	*pos += PRINT(buf, *pos, "(%s: %d)",
+			FIELD(corner->programmed_voltage),
+					corner->programmed_voltage);
+	*pos += PRINT(buf, *pos, "(%s: %d)",
+			FIELD(corner->isr_count), corner->isr_count);
+	*pos += PRINT(buf, *pos, "(%s: %d)",
+			FIELD(corner->min_count), corner->min_count);
+	*pos += PRINT(buf, *pos, "(%s: %d)\n",
+			FIELD(corner->max_count), corner->max_count);
+	*pos += PRINT(buf, *pos, "\t\t\t:Latest Recommends");
+	for (i = 0; i < num_corners; i++)
+		msm_rpmrbcpr_print_corner_recmnds(&corner->rbcpr_recmnd[i], buf,
+						pos);
+}
+
+static void msm_rpmrbcpr_print_rail_footer(
+		struct rbcpr_rail_stats_footer_type *rail, char *buf,
+							uint32_t *pos)
+{
+	*pos += PRINT(buf, *pos, "(%s: %s)", FIELD(rail->current_corner),
+			CORNER_STRING(rail->current_corner));
+	*pos += PRINT(buf, *pos, "(%s: %d)",
+			FIELD(rail->railway_voltage), rail->railway_voltage);
+	*pos += PRINT(buf, *pos, "(%s: %d)",
+			FIELD(rail->off_corner), rail->off_corner);
+	*pos += PRINT(buf, *pos, "(%s: %d)\n",
+			FIELD(rail->margin), rail->margin);
+}
+
+static uint32_t msm_rpmrbcpr_read_rpm_data(void)
+{
+	uint32_t read_offset = 0;
+	static struct rbcpr_stats_type rbcpr_stats_header;
+	uint32_t buffer_offset = 0;
+	char *buf = rbcpr_data->buf;
+	int i, j;
+
+	memcpy_fromio(&rbcpr_stats_header, rbcpr_data->start,
+					sizeof(rbcpr_stats_header));
+	read_offset += sizeof(rbcpr_stats_header);
+	msm_rpmrbcpr_print_stats_header(&rbcpr_stats_header, buf,
+							&buffer_offset);
+
+	for (i = 0; i < rbcpr_stats_header.num_rails; i++) {
+		static struct rbcpr_rail_stats_header_type rail_header;
+		static struct rbcpr_rail_stats_footer_type rail_footer;
+
+		memcpy_fromio(&rail_header, (rbcpr_data->start + read_offset),
+					sizeof(rail_header));
+		read_offset += sizeof(rail_header);
+		buffer_offset += PRINT(buf, buffer_offset, "\n:%s Rail Data ",
+							rbcpr_rail_labels[i]);
+		msm_rpmrbcpr_print_rail_header(&rail_header, buf,
+							&buffer_offset);
+
+		for (j = 0; j < rail_header.num_corners; j++) {
+			static struct rbcpr_corners_data_type corner;
+			uint32_t corner_index;
+
+			memcpy_fromio(&corner,
+					(rbcpr_data->start + read_offset),
+					sizeof(corner));
+			read_offset += sizeof(corner);
+
+			/*
+			 * RPM doesn't include corner type in the data for the
+			 * corner. For now add this hack to know which corners
+			 * are used based on number of corners for the rail.
+			 */
+			corner_index = j + 3;
+			if (rail_header.num_corners == 3 && j == 2)
+				corner_index++;
+
+			buffer_offset += PRINT(buf, buffer_offset,
+				"\n\t\t:Corner Data: %s ",
+					CORNER_STRING(corner_index));
+			msm_rpmrbcpr_print_corner_data(&corner, buf,
+				rail_header.num_latest_recommends,
+				&buffer_offset);
+		}
+		buffer_offset += PRINT(buf, buffer_offset,
+				"\n\t\t");
+		memcpy_fromio(&rail_footer, (rbcpr_data->start + read_offset),
+					sizeof(rail_footer));
+		read_offset += sizeof(rail_footer);
+		msm_rpmrbcpr_print_rail_footer(&rail_footer, buf,
+							&buffer_offset);
+	}
+	return buffer_offset;
+}
+
+static int msm_rpmrbcpr_file_read(struct seq_file *m, void *data)
+{
+	struct rbcpr_data_type *pdata = m->private;
+	int ret = 0;
+	int curr_status_counter;
+	static int prev_status_counter;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	static DEFINE_MUTEX(rbcpr_lock);
 
 	mutex_lock(&rbcpr_lock);
@@ -200,6 +379,7 @@ static int msm_rpmrbcpr_file_read(struct file *file, char __user *bufu,
 		goto exit_rpmrbcpr_file_read;
 	}
 
+<<<<<<< HEAD
 	if (!bufu || count < 0) {
 		pr_err("%s count %d ", __func__, count);
 		ret = -EINVAL;
@@ -221,6 +401,19 @@ static int msm_rpmrbcpr_file_read(struct file *file, char __user *bufu,
 	/* copy to user data*/
 	ret = simple_read_from_buffer(bufu, count, ppos, pdata->buf,
 					pdata->len);
+=======
+	/* Read RPM stats */
+	curr_status_counter = readl_relaxed(pdata->start +
+		offsetof(struct rbcpr_stats_type, status));
+	if (curr_status_counter != prev_status_counter) {
+		pdata->len = msm_rpmrbcpr_read_rpm_data();
+		pdata->len = 0;
+		prev_status_counter = curr_status_counter;
+	}
+
+	seq_printf(m, "%s", pdata->buf);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 exit_rpmrbcpr_file_read:
 	mutex_unlock(&rbcpr_lock);
 	return ret;
@@ -228,6 +421,7 @@ exit_rpmrbcpr_file_read:
 
 static int msm_rpmrbcpr_file_open(struct inode *inode, struct file *file)
 {
+<<<<<<< HEAD
 	file->private_data = rbcpr_data;
 
 	if (!rbcpr_data->start)
@@ -299,6 +493,33 @@ static int msm_rpmrbcpr_memalloc(struct platform_device *pdev)
 	}
 
 rbcpr_memalloc_fail:
+=======
+	if (!rbcpr_data->start)
+		return -ENODEV;
+	return single_open(file, msm_rpmrbcpr_file_read, inode->i_private);
+}
+
+static const struct file_operations msm_rpmrbcpr_fops = {
+	.open		= msm_rpmrbcpr_file_open,
+	.read		= seq_read,
+	.llseek		= seq_lseek,
+	.release	= single_release,
+};
+
+static int msm_rpmrbcpr_validate(struct platform_device *pdev)
+{
+	int ret = 0;
+	uint32_t num_rails;
+
+	num_rails = readl_relaxed(rbcpr_data->start);
+
+	if (num_rails > RBCPR_MAX_RAILS) {
+		pr_err("%s: Invalid number of RPM RBCPR rails %d",
+				__func__, num_rails);
+		ret = -EFAULT;
+	}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return ret;
 }
 
@@ -318,6 +539,7 @@ static  int __devinit msm_rpmrbcpr_probe(struct platform_device *pdev)
 	if (!rbcpr_data)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 	rbcpr_stats = devm_kzalloc(&pdev->dev,
 				sizeof(struct rbcpr_stats_type), GFP_KERNEL);
 
@@ -327,6 +549,8 @@ static  int __devinit msm_rpmrbcpr_probe(struct platform_device *pdev)
 		return -ENOMEM;
 	}
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
 
 	if (!res) {
@@ -371,13 +595,21 @@ static  int __devinit msm_rpmrbcpr_probe(struct platform_device *pdev)
 		goto rbcpr_probe_fail;
 	}
 
+<<<<<<< HEAD
 	ret = msm_rpmrbcpr_memalloc(pdev);
+=======
+	ret = msm_rpmrbcpr_validate(pdev);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (ret)
 		goto rbcpr_probe_fail;
 
 	dent = debugfs_create_file("rpm_rbcpr", S_IRUGO, NULL,
+<<<<<<< HEAD
 			pdev->dev.platform_data, &msm_rpmrbcpr_fops);
+=======
+			rbcpr_data, &msm_rpmrbcpr_fops);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (!dent) {
 		pr_err("%s: error debugfs_create_file failed\n", __func__);

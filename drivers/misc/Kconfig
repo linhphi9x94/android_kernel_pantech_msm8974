@@ -654,9 +654,12 @@ config USB_HSIC_SMSC_HUB
 	  This adds support for connecting devices like mouse in HSIC
 	  Host mode.
 
+<<<<<<< HEAD
 config DRV2603
 	bool "TI DRV2603"
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 config TI_DRV2667
 	tristate "TI's DRV2667 haptic controller support"
 	depends on I2C
@@ -668,6 +671,18 @@ config TI_DRV2667
 	  To compile this driver as a module, choose M here: the
 	  module will be called ti_drv2667.
 
+<<<<<<< HEAD
+=======
+config UID_CPUTIME
+	tristate "Per-UID cpu time statistics"
+	depends on PROFILING
+	help
+	  Per UID based cpu time statistics exported to /proc/uid_cputime
+
+config DRV2603
+	bool "TI DRV2603"
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 config PN544
 	bool "NXP PN544 NFC Controller Driver"
 	depends on I2C && ( MACH_MSM8974_EF56S || MACH_MSM8974_EF57K || MACH_MSM8974_EF58L)
@@ -681,6 +696,7 @@ config PN547
 	default y
 	help
 	  NXP PN547 Near Field Communication controller support.
+<<<<<<< HEAD
 	  
 
 config UID_CPUTIME
@@ -688,6 +704,8 @@ config UID_CPUTIME
 	depends on PROFILING
 	help
 	  Per UID based cpu time statistics exported to /proc/uid_cputime
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 source "drivers/misc/c2port/Kconfig"
 source "drivers/misc/eeprom/Kconfig"

@@ -60,6 +60,21 @@ int ipa_register_intf(const char *name, const struct ipa_tx_intf *tx,
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
+=======
+	if (tx && tx->num_props > IPA_NUM_PROPS_MAX) {
+		IPAERR("invalid tx num_props=%d max=%d\n", tx->num_props,
+				IPA_NUM_PROPS_MAX);
+		return -EINVAL;
+	}
+
+	if (rx && rx->num_props > IPA_NUM_PROPS_MAX) {
+		IPAERR("invalid rx num_props=%d max=%d\n", rx->num_props,
+				IPA_NUM_PROPS_MAX);
+		return -EINVAL;
+	}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	len = sizeof(struct ipa_intf);
 	intf = kzalloc(len, GFP_KERNEL);
 	if (intf == NULL) {

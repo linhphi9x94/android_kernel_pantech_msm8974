@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2013, Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2013-2014, Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -47,6 +51,11 @@ struct lsm_client {
 	uint16_t	user_sensitivity;
 	uint16_t	kw_sensitivity;
 	bool		started;
+<<<<<<< HEAD
+=======
+	dma_addr_t	lsm_cal_phy_addr;
+	uint32_t	lsm_cal_size;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 struct lsm_stream_cmd_open_tx {
@@ -123,10 +132,16 @@ void q6lsm_client_free(struct lsm_client *client);
 int q6lsm_open(struct lsm_client *client);
 int q6lsm_start(struct lsm_client *client, bool wait);
 int q6lsm_stop(struct lsm_client *client, bool wait);
+<<<<<<< HEAD
 int q6lsm_snd_model_buf_alloc(struct lsm_client *client, uint32_t len);
 int q6lsm_snd_model_buf_free(struct lsm_client *client);
 int q6lsm_close(struct lsm_client *client);
 int q6lsm_unmap_cal_blocks(void);
+=======
+int q6lsm_snd_model_buf_alloc(struct lsm_client *client, size_t len);
+int q6lsm_snd_model_buf_free(struct lsm_client *client);
+int q6lsm_close(struct lsm_client *client);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int q6lsm_register_sound_model(struct lsm_client *client,
 			       enum lsm_detection_mode mode, u16 minkeyword,
 			       u16 minuser, bool detectfailure);

@@ -195,17 +195,33 @@ static int usb_stor_msg_common(struct us_data *us, int timeout)
 			usb_unlink_urb(us->current_urb);
 		}
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #if defined(CONFIG_ANDROID_PANTECH_USB_OTG_INTENT)
  p_current_usb_us_data = us;
  is_urb_waiting = true;
 #endif
+<<<<<<< HEAD
 	/* wait for the completion of the URB */
 	timeleft = wait_for_completion_interruptible_timeout(
 			&urb_done, timeout ? : MAX_SCHEDULE_TIMEOUT);
+=======
+ 
+	/* wait for the completion of the URB */
+	timeleft = wait_for_completion_interruptible_timeout(
+			&urb_done, timeout ? : MAX_SCHEDULE_TIMEOUT);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #if defined(CONFIG_ANDROID_PANTECH_USB_OTG_INTENT)
  is_urb_waiting = false;
  p_current_usb_us_data = NULL;
 #endif
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	clear_bit(US_FLIDX_URB_ACTIVE, &us->dflags);
 
 	if (timeleft <= 0) {

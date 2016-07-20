@@ -25,7 +25,10 @@ ENTRY(do_vfp)
 	add	r11, r4, #1		@ increment it
 	str	r11, [r10, #TI_PREEMPT]
 #endif
+<<<<<<< HEAD
 	enable_irq
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	str	r2, [sp, #S_PC]		@ update regs->ARM_pc for Thumb 2 case
  	ldr	r4, .LCvfp
 	ldr	r11, [r10, #TI_CPU]	@ CPU number

@@ -214,8 +214,13 @@ int saa7134_vbi_init1(struct saa7134_dev *dev)
 
 	if (vbibufs < 2)
 		vbibufs = 2;
+<<<<<<< HEAD
 	if (vbibufs > VIDEO_MAX_FRAME)
 		vbibufs = VIDEO_MAX_FRAME;
+=======
+	if (vbibufs > VB2_MAX_FRAME)
+		vbibufs = VB2_MAX_FRAME;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 }
 

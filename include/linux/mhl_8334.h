@@ -164,6 +164,14 @@ struct mhl_tx_ctrl {
 	int wr_burst_pending;
 	struct completion req_write_done;
 	spinlock_t lock;
+<<<<<<< HEAD
+=======
+	/*
+	* Lock between mhl_sii_config and
+	* mhl_sii_device_discovery functions
+	*/
+	struct mutex sii_config_lock;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	bool tx_powered_off;
 	uint8_t dwnstream_hpd;
 	bool mhl_det_discon;

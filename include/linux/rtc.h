@@ -90,6 +90,10 @@ struct rtc_pll_info {
 
 #define RTC_PLL_GET	_IOR('p', 0x11, struct rtc_pll_info)  /* Get PLL correction */
 #define RTC_PLL_SET	_IOW('p', 0x12, struct rtc_pll_info)  /* Set PLL correction */
+<<<<<<< HEAD
+=======
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_PANTECH_PMIC_RTC_ALM_OFF
 #define RTC_F_ALM_OFF	_IOW('p', 0x13, unsigned long)	 
 #endif /* CONFIG_PANTECH_PMIC_RTC_ALM_OFF */

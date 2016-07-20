@@ -302,6 +302,14 @@ static bool is_user_regdom_saved(void)
 	return true;
 }
 
+<<<<<<< HEAD
+=======
+static bool is_cfg80211_regdom_intersected(void)
+{
+	return is_intersected_alpha2(cfg80211_regdomain->alpha2);
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int reg_copy_regd(const struct ieee80211_regdomain **dst_regd,
 			 const struct ieee80211_regdomain *src_regd)
 {
@@ -340,6 +348,12 @@ static void reg_regdb_search(struct work_struct *work)
 	struct reg_regdb_search_request *request;
 	const struct ieee80211_regdomain *curdom, *regdom;
 	int i, r;
+<<<<<<< HEAD
+=======
+	bool set_reg = false;
+
+	mutex_lock(&cfg80211_mutex);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	mutex_lock(&reg_regdb_search_mutex);
 	while (!list_empty(&reg_regdb_search_list)) {
@@ -355,9 +369,13 @@ static void reg_regdb_search(struct work_struct *work)
 				r = reg_copy_regd(&regdom, curdom);
 				if (r)
 					break;
+<<<<<<< HEAD
 				mutex_lock(&cfg80211_mutex);
 				set_regdom(regdom);
 				mutex_unlock(&cfg80211_mutex);
+=======
+				set_reg = true;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				break;
 			}
 		}
@@ -365,6 +383,14 @@ static void reg_regdb_search(struct work_struct *work)
 		kfree(request);
 	}
 	mutex_unlock(&reg_regdb_search_mutex);
+<<<<<<< HEAD
+=======
+
+	if (set_reg)
+		set_regdom(regdom);
+
+	mutex_unlock(&cfg80211_mutex);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static DECLARE_WORK(reg_regdb_work, reg_regdb_search);
@@ -1381,11 +1407,23 @@ static int ignore_request(struct wiphy *wiphy,
 		 * Process user requests only after previous user/driver/core
 		 * requests have been processed
 		 */
+<<<<<<< HEAD
 		if (last_request->initiator == NL80211_REGDOM_SET_BY_CORE ||
 		    last_request->initiator == NL80211_REGDOM_SET_BY_DRIVER ||
 		    last_request->initiator == NL80211_REGDOM_SET_BY_USER) {
 			if (regdom_changes(last_request->alpha2))
 				return -EAGAIN;
+=======
+		if ((last_request->initiator == NL80211_REGDOM_SET_BY_CORE ||
+		     last_request->initiator == NL80211_REGDOM_SET_BY_DRIVER ||
+		     last_request->initiator == NL80211_REGDOM_SET_BY_USER)) {
+			if (last_request->intersect) {
+				if (!is_cfg80211_regdom_intersected())
+					return -EAGAIN;
+			} else if (regdom_changes(last_request->alpha2)) {
+				return -EAGAIN;
+			}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 
 		if (!regdom_changes(pending_request->alpha2))

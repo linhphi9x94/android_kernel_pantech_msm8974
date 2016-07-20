@@ -1876,8 +1876,11 @@ __acquires(&gcwq->lock)
 	lock_map_acquire_read(&cwq->wq->lockdep_map);
 	lock_map_acquire(&lockdep_map);
 	trace_workqueue_execute_start(work);
+<<<<<<< HEAD
 
     
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	f(work);
 	/*
 	 * While we must be careful to not use "work" after this, the trace

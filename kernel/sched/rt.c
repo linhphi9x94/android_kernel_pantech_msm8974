@@ -560,7 +560,11 @@ static inline struct rt_bandwidth *sched_rt_bandwidth(struct rt_rq *rt_rq)
 static int do_balance_runtime(struct rt_rq *rt_rq)
 {
 	struct rt_bandwidth *rt_b = sched_rt_bandwidth(rt_rq);
+<<<<<<< HEAD
 	struct root_domain *rd = cpu_rq(smp_processor_id())->rd;
+=======
+	struct root_domain *rd = rq_of_rt_rq(rt_rq)->rd;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int i, weight, more = 0;
 	u64 rt_period;
 
@@ -691,6 +695,7 @@ balanced:
 	}
 }
 
+<<<<<<< HEAD
 static void disable_runtime(struct rq *rq)
 {
 	unsigned long flags;
@@ -700,6 +705,8 @@ static void disable_runtime(struct rq *rq)
 	raw_spin_unlock_irqrestore(&rq->lock, flags);
 }
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static void __enable_runtime(struct rq *rq)
 {
 	rt_rq_iter_t iter;
@@ -724,6 +731,7 @@ static void __enable_runtime(struct rq *rq)
 	}
 }
 
+<<<<<<< HEAD
 static void enable_runtime(struct rq *rq)
 {
 	unsigned long flags;
@@ -755,6 +763,8 @@ int update_runtime(struct notifier_block *nfb, unsigned long action, void *hcpu)
 	}
 }
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int balance_runtime(struct rt_rq *rt_rq)
 {
 	int more = 0;

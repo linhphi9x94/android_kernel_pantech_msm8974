@@ -699,6 +699,10 @@ void handle_IPI(int ipinr, struct pt_regs *regs)
 
 void smp_send_reschedule(int cpu)
 {
+<<<<<<< HEAD
+=======
+	BUG_ON(cpu_is_offline(cpu));
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	smp_cross_call(cpumask_of(cpu), IPI_RESCHEDULE);
 }
 

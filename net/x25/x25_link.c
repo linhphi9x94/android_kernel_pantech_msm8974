@@ -31,6 +31,12 @@
 #include <linux/init.h>
 #include <net/x25.h>
 
+<<<<<<< HEAD
+=======
+#ifdef KW_TAINT_ANALYSIS
+   extern void * get_tainted_stuff();
+#endif
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 LIST_HEAD(x25_neigh_list);
 DEFINE_RWLOCK(x25_neigh_list_lock);
 
@@ -338,13 +344,25 @@ struct x25_neigh *x25_get_neigh(struct net_device *dev)
 /*
  *	Handle the ioctls that control the subscription functions.
  */
+<<<<<<< HEAD
 int x25_subscr_ioctl(unsigned int cmd, void __user *arg)
+=======
+int x25_subscr_ioctl(unsigned int cmd, void __user *arg_actual)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct x25_subscrip_struct x25_subscr;
 	struct x25_neigh *nb;
 	struct net_device *dev;
 	int rc = -EINVAL;
+<<<<<<< HEAD
 
+=======
+	#ifdef KW_TAINT_ANALYSIS
+	void __user *arg = (void __user *)get_tainted_stuff();
+	#else
+	void __user *arg = arg_actual;
+	#endif
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (cmd != SIOCX25GSUBSCRIP && cmd != SIOCX25SSUBSCRIP)
 		goto out;
 

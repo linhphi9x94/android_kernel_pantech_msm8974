@@ -45,7 +45,13 @@ static char *node_name[2] = {"", "_sec"};
 
 #define INFO(x...) printk(KERN_INFO x)
 #define ERR(x...) printk(KERN_ERR x)
+<<<<<<< HEAD
 
+=======
+#ifdef KW_TAINT_ANALYSIS
+	extern void * get_tainted_stuff();
+#endif
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static struct vid_enc_dev *vid_enc_device_p;
 static dev_t vid_enc_dev_num;
 static struct class *vid_enc_class;
@@ -840,7 +846,15 @@ static long vid_enc_ioctl(struct file *file,
 {
 	struct video_client_ctx *client_ctx = NULL;
 	struct venc_ioctl_msg venc_msg;
+<<<<<<< HEAD
 	void __user *arg = (void __user *)u_arg;
+=======
+	#ifdef KW_TAINT_ANALYSIS
+	void __user *arg = (void __user *)get_tainted_stuff();;
+	#else
+	void __user *arg = (void __user *)u_arg;
+	#endif
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	u32 result = true;
 	int result_read = -1;
 

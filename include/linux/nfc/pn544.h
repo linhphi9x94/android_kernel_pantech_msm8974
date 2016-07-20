@@ -24,7 +24,10 @@
 #define _PN544_H_
 
 #include <linux/i2c.h>
+<<<<<<< HEAD
 #include <linux/pn544.h>
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define PN544_DRIVER_NAME	"pn544"
 #define PN544_MAXWINDOW_SIZE	7

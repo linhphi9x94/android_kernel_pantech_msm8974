@@ -352,6 +352,10 @@ struct hc_driver {
 	void	(*dump_regs)(struct usb_hcd *);
 	void	(*set_autosuspend_delay)(struct usb_device *);
 	void	(*reset_sof_bug_handler)(struct usb_hcd *hcd, u32 val);
+<<<<<<< HEAD
+=======
+	void	(*set_autosuspend)(struct usb_hcd *hcd, int enable_autosuspend);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 extern int usb_hcd_link_urb_to_ep(struct usb_hcd *hcd, struct urb *urb);

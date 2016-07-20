@@ -8,12 +8,20 @@ lib-y		:= backtrace.o changebit.o csumipv6.o csumpartial.o   \
 		   csumpartialcopy.o csumpartialcopyuser.o clearbit.o \
 		   delay.o delay-loop.o findbit.o memchr.o memcpy.o   \
 		   memmove.o memset.o memzero.o setbit.o              \
+<<<<<<< HEAD
+=======
+		   strncpy_from_user.o strnlen_user.o                 \
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		   strchr.o strrchr.o                                 \
 		   testchangebit.o testclearbit.o testsetbit.o        \
 		   ashldi3.o ashrdi3.o lshrdi3.o muldi3.o             \
 		   ucmpdi2.o lib1funcs.o div64.o                      \
 		   io-readsb.o io-writesb.o io-readsl.o io-writesl.o  \
+<<<<<<< HEAD
 		   call_with_stack.o bswapsdi2.o
+=======
+		   call_with_stack.o
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 mmu-y	:= clear_user.o copy_page.o getuser.o putuser.o
 

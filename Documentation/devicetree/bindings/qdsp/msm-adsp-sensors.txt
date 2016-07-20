@@ -3,17 +3,23 @@
 Required properties:
 
  - compatible:	"qcom,msm-adsp-sensors"
+<<<<<<< HEAD
  - qcom,src-id:	Master port id
  - qcom,dst-id:	Slave port id
  - qcom,ab:	Arbitrated bandwidth in bytes/s
  - qcom,ib:	Instantaneous bandwidth in bytes/s
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 Example:
 
 	qcom,msm-adsp-sensors {
 		compatible = "qcom,msm-adsp-sensors";
+<<<<<<< HEAD
 		qcom,src-id = <11>;
 		qcom,dst-id = <604>;
 		qcom,ab = <209715200>;
 		qcom,ib = <471859200>;
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	};

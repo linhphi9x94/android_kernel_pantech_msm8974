@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -117,12 +121,20 @@ static ssize_t coresight_read_reg(struct kgsl_device *device,
 {
 	unsigned int regval = 0;
 
+<<<<<<< HEAD
 	mutex_lock(&device->mutex);
+=======
+	kgsl_mutex_lock(&device->mutex, &device->mutex_owner);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!kgsl_active_count_get(device)) {
 		kgsl_regread(device, offset, &regval);
 		kgsl_active_count_put(device);
 	}
+<<<<<<< HEAD
 	mutex_unlock(&device->mutex);
+=======
+	kgsl_mutex_unlock(&device->mutex, &device->mutex_owner);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return snprintf(buf, PAGE_SIZE, "0x%X", regval);
 }
 

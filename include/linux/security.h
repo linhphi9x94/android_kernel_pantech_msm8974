@@ -26,6 +26,10 @@
 #include <linux/capability.h>
 #include <linux/slab.h>
 #include <linux/err.h>
+<<<<<<< HEAD
+=======
+#include <linux/bio.h>
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 struct linux_binprm;
 struct cred;
@@ -1417,8 +1421,13 @@ struct security_operations {
 	int (*sb_kern_mount) (struct super_block *sb, int flags, void *data);
 	int (*sb_show_options) (struct seq_file *m, struct super_block *sb);
 	int (*sb_statfs) (struct dentry *dentry);
+<<<<<<< HEAD
 	int (*sb_mount) (const char *dev_name, struct path *path,
 			 const char *type, unsigned long flags, void *data);
+=======
+	int (*sb_mount) (char *dev_name, struct path *path,
+			 char *type, unsigned long flags, void *data);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int (*sb_umount) (struct vfsmount *mnt, int flags);
 	int (*sb_pivotroot) (struct path *old_path,
 			     struct path *new_path);
@@ -1453,6 +1462,11 @@ struct security_operations {
 				    void **value, size_t *len);
 	int (*inode_create) (struct inode *dir,
 			     struct dentry *dentry, umode_t mode);
+<<<<<<< HEAD
+=======
+	int (*inode_post_create) (struct inode *dir,
+				  struct dentry *dentry, umode_t mode);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int (*inode_link) (struct dentry *old_dentry,
 			   struct inode *dir, struct dentry *new_dentry);
 	int (*inode_unlink) (struct inode *dir, struct dentry *dentry);
@@ -1503,6 +1517,11 @@ struct security_operations {
 				    struct fown_struct *fown, int sig);
 	int (*file_receive) (struct file *file);
 	int (*dentry_open) (struct file *file, const struct cred *cred);
+<<<<<<< HEAD
+=======
+	int (*file_close) (struct file *file);
+	bool (*allow_merge_bio)(struct bio *bio1, struct bio *bio2);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	int (*task_create) (unsigned long clone_flags);
 	void (*task_free) (struct task_struct *task);
@@ -1704,8 +1723,13 @@ int security_sb_remount(struct super_block *sb, void *data);
 int security_sb_kern_mount(struct super_block *sb, int flags, void *data);
 int security_sb_show_options(struct seq_file *m, struct super_block *sb);
 int security_sb_statfs(struct dentry *dentry);
+<<<<<<< HEAD
 int security_sb_mount(const char *dev_name, struct path *path,
 		      const char *type, unsigned long flags, void *data);
+=======
+int security_sb_mount(char *dev_name, struct path *path,
+		      char *type, unsigned long flags, void *data);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int security_sb_umount(struct vfsmount *mnt, int flags);
 int security_sb_pivotroot(struct path *old_path, struct path *new_path);
 int security_sb_set_mnt_opts(struct super_block *sb, struct security_mnt_opts *opts);
@@ -1722,6 +1746,12 @@ int security_old_inode_init_security(struct inode *inode, struct inode *dir,
 				     const struct qstr *qstr, char **name,
 				     void **value, size_t *len);
 int security_inode_create(struct inode *dir, struct dentry *dentry, umode_t mode);
+<<<<<<< HEAD
+=======
+int security_inode_post_create(struct inode *dir, struct dentry *dentry,
+			       umode_t mode);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int security_inode_link(struct dentry *old_dentry, struct inode *dir,
 			 struct dentry *new_dentry);
 int security_inode_unlink(struct inode *dir, struct dentry *dentry);
@@ -1766,6 +1796,12 @@ int security_file_send_sigiotask(struct task_struct *tsk,
 				 struct fown_struct *fown, int sig);
 int security_file_receive(struct file *file);
 int security_dentry_open(struct file *file, const struct cred *cred);
+<<<<<<< HEAD
+=======
+int security_file_close(struct file *file);
+bool security_allow_merge_bio(struct bio *bio1, struct bio *bio2);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int security_task_create(unsigned long clone_flags);
 void security_task_free(struct task_struct *task);
 int security_cred_alloc_blank(struct cred *cred, gfp_t gfp);
@@ -1994,8 +2030,13 @@ static inline int security_sb_statfs(struct dentry *dentry)
 	return 0;
 }
 
+<<<<<<< HEAD
 static inline int security_sb_mount(const char *dev_name, struct path *path,
 				    const char *type, unsigned long flags,
+=======
+static inline int security_sb_mount(char *dev_name, struct path *path,
+				    char *type, unsigned long flags,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				    void *data)
 {
 	return 0;
@@ -2060,6 +2101,16 @@ static inline int security_inode_create(struct inode *dir,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static inline int security_inode_post_create(struct inode *dir,
+					     struct dentry *dentry,
+					     umode_t mode)
+{
+	return 0;
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static inline int security_inode_link(struct dentry *old_dentry,
 				       struct inode *dir,
 				       struct dentry *new_dentry)
@@ -2262,6 +2313,19 @@ static inline int security_dentry_open(struct file *file,
 	return 0;
 }
 
+<<<<<<< HEAD
+=======
+static inline int security_file_close(struct file *file)
+{
+	return 0;
+}
+
+static inline bool security_allow_merge_bio(struct bio *bio1, struct bio *bio2)
+{
+	return true; /* The default is to allow it for performance */
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static inline int security_task_create(unsigned long clone_flags)
 {
 	return 0;

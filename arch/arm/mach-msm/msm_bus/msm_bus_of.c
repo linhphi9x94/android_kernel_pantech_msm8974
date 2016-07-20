@@ -173,7 +173,11 @@ struct msm_bus_scale_pdata *msm_bus_cl_get_pdata(struct platform_device *pdev)
 	of_node = pdev->dev.of_node;
 	pdata = get_pdata(pdev, of_node);
 	if (!pdata) {
+<<<<<<< HEAD
 		pr_err("Error getting bus pdata!\n");
+=======
+		pr_err("client has to provide missing entry for successful registration\n");
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return NULL;
 	}
 
@@ -214,7 +218,11 @@ struct msm_bus_scale_pdata *msm_bus_pdata_from_node(
 
 	pdata = get_pdata(pdev, of_node);
 	if (!pdata) {
+<<<<<<< HEAD
 		pr_err("Error getting bus pdata!\n");
+=======
+		pr_err("client has to provide missing entry for successful registration\n");
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return NULL;
 	}
 
@@ -271,6 +279,57 @@ err:
 	return NULL;
 }
 
+<<<<<<< HEAD
+=======
+static u64 *get_th_params(struct platform_device *pdev,
+		const struct device_node *node, const char *prop,
+		int *nports)
+{
+	int size = 0, ret;
+	u64 *ret_arr = NULL;
+	int *arr = NULL;
+	int i;
+
+	if (of_get_property(node, prop, &size)) {
+		*nports = size / sizeof(int);
+	} else {
+		pr_debug("Property %s not available\n", prop);
+		*nports = 0;
+		return NULL;
+	}
+
+	ret_arr = devm_kzalloc(&pdev->dev, (*nports * sizeof(u64)),
+							GFP_KERNEL);
+	arr = kzalloc(size, GFP_KERNEL);
+	if ((size > 0) && (ZERO_OR_NULL_PTR(arr)
+				|| ZERO_OR_NULL_PTR(ret_arr))) {
+		pr_err("Error: Failed to alloc mem for %s\n", prop);
+		return NULL;
+	}
+
+	ret = of_property_read_u32_array(node, prop, (u32 *)arr, *nports);
+	if (ret) {
+		pr_err("Error in reading property: %s\n", prop);
+		goto err;
+	}
+
+	for (i = 0; i < *nports; i++)
+		ret_arr[i] = (uint64_t)KBTOB(arr[i]);
+
+	MSM_BUS_DBG("%s: num entries %d prop %s", __func__, *nports, prop);
+
+	for (i = 0; i < *nports; i++)
+		MSM_BUS_DBG("Th %d val %llu", i, ret_arr[i]);
+
+	kfree(arr);
+	return ret_arr;
+err:
+	devm_kfree(&pdev->dev, arr);
+	devm_kfree(&pdev->dev, ret_arr);
+	return NULL;
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static struct msm_bus_node_info *get_nodes(struct device_node *of_node,
 	struct platform_device *pdev,
 	struct msm_bus_fabric_registration *pdata)
@@ -278,7 +337,11 @@ static struct msm_bus_node_info *get_nodes(struct device_node *of_node,
 	struct msm_bus_node_info *info;
 	struct device_node *child_node = NULL;
 	int i = 0, ret;
+<<<<<<< HEAD
 	u32 temp;
+=======
+	int num_bw = 0;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	for_each_child_of_node(of_node, child_node) {
 		i++;
@@ -353,6 +416,7 @@ static struct msm_bus_node_info *get_nodes(struct device_node *of_node,
 		of_property_read_u32(child_node, "qcom,buswidth",
 			&info[i].buswidth);
 		of_property_read_u32(child_node, "qcom,ws", &info[i].ws);
+<<<<<<< HEAD
 		ret = of_property_read_u32(child_node, "qcom,thresh",
 			&temp);
 		if (!ret)
@@ -362,15 +426,43 @@ static struct msm_bus_node_info *get_nodes(struct device_node *of_node,
 			&temp);
 		if (!ret)
 			info[i].bimc_bw = (uint64_t)KBTOB(temp);
+=======
+
+		info[i].dual_conf =
+			of_property_read_bool(child_node, "qcom,dual-conf");
+
+
+		info[i].th = get_th_params(pdev, child_node, "qcom,thresh",
+						&info[i].num_thresh);
+
+		info[i].bimc_bw = get_th_params(pdev, child_node,
+						"qcom,bimc,bw", &num_bw);
+
+		if (num_bw != info[i].num_thresh) {
+			pr_err("%s:num_bw %d must equal num_thresh %d",
+				__func__, num_bw, info[i].num_thresh);
+			pr_err("%s:Err setting up dual conf for %s",
+				__func__, info[i].name);
+			goto err;
+		}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		of_property_read_u32(child_node, "qcom,bimc,gp",
 			&info[i].bimc_gp);
 		of_property_read_u32(child_node, "qcom,bimc,thmp",
 			&info[i].bimc_thmp);
+<<<<<<< HEAD
 		ret = of_property_read_string(child_node, "qcom,mode",
 			&sel_str);
 		if (ret)
 			info[i].mode = 0;
+=======
+
+		ret = of_property_read_string(child_node, "qcom,mode-thresh",
+			&sel_str);
+		if (ret)
+			info[i].mode_thresh = 0;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		else {
 			ret = get_num(mode_sel_name, sel_str);
 			if (ret < 0) {
@@ -378,6 +470,7 @@ static struct msm_bus_node_info *get_nodes(struct device_node *of_node,
 				goto err;
 			}
 
+<<<<<<< HEAD
 			info[i].mode = ret;
 		}
 
@@ -388,6 +481,17 @@ static struct msm_bus_node_info *get_nodes(struct device_node *of_node,
 			&sel_str);
 		if (ret)
 			info[i].mode_thresh = 0;
+=======
+			info[i].mode_thresh = ret;
+			MSM_BUS_DBG("AXI: THreshold mode set: %d\n",
+					info[i].mode_thresh);
+		}
+
+		ret = of_property_read_string(child_node, "qcom,mode",
+				&sel_str);
+		if (ret)
+			info[i].mode = 0;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		else {
 			ret = get_num(mode_sel_name, sel_str);
 			if (ret < 0) {
@@ -395,9 +499,13 @@ static struct msm_bus_node_info *get_nodes(struct device_node *of_node,
 				goto err;
 			}
 
+<<<<<<< HEAD
 			info[i].mode_thresh = ret;
 			MSM_BUS_DBG("AXI: THreshold mode set: %d\n",
 				info[i].mode_thresh);
+=======
+			info[i].mode = ret;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 
 		ret = of_property_read_string(child_node, "qcom,perm-mode",

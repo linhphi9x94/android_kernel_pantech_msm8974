@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2008-2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2008-2015, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -13,6 +17,7 @@
 #ifndef DIAGCHAR_SHARED
 #define DIAGCHAR_SHARED
 
+<<<<<<< HEAD
 #define MSG_MASKS_TYPE			1
 #define LOG_MASKS_TYPE			2
 #define EVENT_MASKS_TYPE		4
@@ -21,6 +26,20 @@
 #define USER_SPACE_DATA_TYPE		32
 #define DCI_DATA_TYPE			64
 #define CALLBACK_DATA_TYPE		128
+=======
+#define MSG_MASKS_TYPE		0x00000001
+#define LOG_MASKS_TYPE		0x00000002
+#define EVENT_MASKS_TYPE	0x00000004
+#define PKT_TYPE		0x00000008
+#define DEINIT_TYPE		0x00000010
+#define USER_SPACE_DATA_TYPE	0x00000020
+#define DCI_DATA_TYPE		0x00000040
+#define CALLBACK_DATA_TYPE	0x00000080
+#define DCI_LOG_MASKS_TYPE	0x00000100
+#define DCI_EVENT_MASKS_TYPE	0x00000200
+#define DCI_PKT_TYPE		0x00000400
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define USB_MODE			1
 #define MEMORY_DEVICE_MODE		2
 #define NO_LOGGING_MODE			3
@@ -32,6 +51,11 @@
 #define DATA_TYPE_F3            	1
 #define DATA_TYPE_LOG           	2
 #define DATA_TYPE_RESPONSE      	3
+<<<<<<< HEAD
+=======
+#define DATA_TYPE_DCI_LOG		0x00000100
+#define DATA_TYPE_DCI_EVENT		0x00000200
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /* Different IOCTL values */
 #define DIAG_IOCTL_COMMAND_REG  	0
@@ -118,11 +142,19 @@ the appropriate macros. */
 
 /* This needs to be modified manually now, when we add
  a new RANGE of SSIDs to the msg_mask_tbl */
+<<<<<<< HEAD
 #define MSG_MASK_TBL_CNT		24
 #define EVENT_LAST_ID			0x09CB
 
 #define MSG_SSID_0			0
 #define MSG_SSID_0_LAST			97
+=======
+#define MSG_MASK_TBL_CNT		25
+#define EVENT_LAST_ID		0x0AA2
+
+#define MSG_SSID_0			0
+#define MSG_SSID_0_LAST			116
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define MSG_SSID_1			500
 #define MSG_SSID_1_LAST			506
 #define MSG_SSID_2			1000
@@ -136,6 +168,7 @@ the appropriate macros. */
 #define MSG_SSID_6			4500
 #define MSG_SSID_6_LAST			4526
 #define MSG_SSID_7			4600
+<<<<<<< HEAD
 #define MSG_SSID_7_LAST			4614
 #define MSG_SSID_8			5000
 #define MSG_SSID_8_LAST			5030
@@ -143,6 +176,15 @@ the appropriate macros. */
 #define MSG_SSID_9_LAST			5516
 #define MSG_SSID_10			6000
 #define MSG_SSID_10_LAST		6080
+=======
+#define MSG_SSID_7_LAST			4615
+#define MSG_SSID_8			5000
+#define MSG_SSID_8_LAST			5031
+#define MSG_SSID_9			5500
+#define MSG_SSID_9_LAST			5516
+#define MSG_SSID_10			6000
+#define MSG_SSID_10_LAST		6081
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define MSG_SSID_11			6500
 #define MSG_SSID_11_LAST		6521
 #define MSG_SSID_12			7000
@@ -154,11 +196,19 @@ the appropriate macros. */
 #define MSG_SSID_15			8000
 #define MSG_SSID_15_LAST		8000
 #define MSG_SSID_16			8500
+<<<<<<< HEAD
 #define MSG_SSID_16_LAST		8523
 #define MSG_SSID_17			9000
 #define MSG_SSID_17_LAST		9008
 #define MSG_SSID_18			9500
 #define MSG_SSID_18_LAST		9509
+=======
+#define MSG_SSID_16_LAST		8529
+#define MSG_SSID_17			9000
+#define MSG_SSID_17_LAST		9008
+#define MSG_SSID_18			9500
+#define MSG_SSID_18_LAST		9510
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define MSG_SSID_19			10200
 #define MSG_SSID_19_LAST		10210
 #define MSG_SSID_20			10251
@@ -166,9 +216,17 @@ the appropriate macros. */
 #define MSG_SSID_21			10300
 #define MSG_SSID_21_LAST		10300
 #define MSG_SSID_22			10350
+<<<<<<< HEAD
 #define MSG_SSID_22_LAST		10374
 #define MSG_SSID_23			0xC000
 #define MSG_SSID_23_LAST		0xC063
+=======
+#define MSG_SSID_22_LAST		10377
+#define MSG_SSID_23			10400
+#define MSG_SSID_23_LAST		10415
+#define MSG_SSID_24			0xC000
+#define MSG_SSID_24_LAST		0xC063
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 struct diagpkt_delay_params {
 	void *rsp_ptr;
@@ -182,7 +240,11 @@ static const uint32_t msg_bld_masks_0[] = {
 	MSG_LVL_LOW,
 	MSG_LVL_ERROR,
 	MSG_LVL_LOW,
+<<<<<<< HEAD
 	MSG_LVL_MED,
+=======
+	MSG_LVL_LOW,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	MSG_LVL_MED,
 	MSG_LVL_HIGH,
 	MSG_LVL_ERROR,
@@ -194,7 +256,11 @@ static const uint32_t msg_bld_masks_0[] = {
 	MSG_LVL_MED,
 	MSG_LVL_HIGH,
 	MSG_LVL_HIGH,
+<<<<<<< HEAD
 	MSG_LVL_LOW,
+=======
+	MSG_LVL_LOW|MSG_MASK_5|MSG_MASK_6|MSG_MASK_7|MSG_MASK_8,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	MSG_LVL_LOW,
 	MSG_LVL_ERROR,
 	MSG_LVL_LOW,
@@ -280,7 +346,11 @@ static const uint32_t msg_bld_masks_0[] = {
 	MSG_LVL_LOW,
 	MSG_LVL_LOW,
 	MSG_LVL_LOW|MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR|MSG_LVL_FATAL,
+<<<<<<< HEAD
 	MSG_LVL_MED,
+=======
+	MSG_LVL_LOW,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	MSG_LVL_LOW|MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR|MSG_LVL_FATAL,
 	MSG_LVL_LOW,
 	MSG_LVL_MED,
@@ -292,6 +362,31 @@ static const uint32_t msg_bld_masks_0[] = {
 	MSG_LVL_LOW,
 	MSG_LVL_LOW|MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR|MSG_LVL_FATAL,
 	MSG_LVL_MED,
+<<<<<<< HEAD
+=======
+	MSG_LVL_HIGH,
+	MSG_LVL_LOW,
+	MSG_LVL_HIGH,
+	MSG_LVL_LOW|MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR|MSG_LVL_FATAL,
+	MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR,
+	MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR,
+	MSG_LVL_MED|MSG_LVL_HIGH,
+	MSG_LVL_MED|MSG_LVL_HIGH,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW|MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR|MSG_LVL_FATAL,
+	MSG_LVL_HIGH,
+	MSG_LVL_LOW|MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR|MSG_LVL_FATAL,
+	MSG_LVL_LOW|MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR|MSG_LVL_FATAL,
+	MSG_LVL_LOW|MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR|MSG_LVL_FATAL,
+	MSG_LVL_LOW,
+	MSG_LVL_MED,
+	MSG_LVL_LOW|MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR|MSG_LVL_FATAL,
+	MSG_LVL_LOW|MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR|MSG_LVL_FATAL,
+	MSG_LVL_MED,
+	MSG_LVL_LOW|MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR|MSG_LVL_FATAL,
+	MSG_LVL_LOW|MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR|MSG_LVL_FATAL,
+	MSG_LVL_MED
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static const uint32_t msg_bld_masks_1[] = {
@@ -321,7 +416,12 @@ static const uint32_t msg_bld_masks_3[] = {
 	MSG_LVL_MED,
 	MSG_LVL_MED,
 	MSG_LVL_MED,
+<<<<<<< HEAD
 	MSG_LVL_MED,
+=======
+	MSG_LVL_MED|MSG_MASK_5|MSG_MASK_6|MSG_MASK_7|
+			MSG_MASK_8|MSG_MASK_9|MSG_MASK_10,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	MSG_LVL_MED,
 	MSG_LVL_MED,
 	MSG_LVL_MED
@@ -361,6 +461,7 @@ static const uint32_t msg_bld_masks_5[] = {
 };
 
 static const uint32_t msg_bld_masks_6[] = {
+<<<<<<< HEAD
 	MSG_LVL_MED,
 	MSG_LVL_MED,
 	MSG_LVL_MED,
@@ -368,6 +469,15 @@ static const uint32_t msg_bld_masks_6[] = {
 	MSG_LVL_MED,
 	MSG_LVL_MED,
 	MSG_LVL_MED,
+=======
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	MSG_LVL_LOW,
 	MSG_LVL_LOW,
 	MSG_LVL_LOW,
@@ -405,7 +515,12 @@ static const uint32_t msg_bld_masks_7[] = {
 	MSG_LVL_MED,
 	MSG_LVL_LOW,
 	MSG_LVL_LOW,
+<<<<<<< HEAD
 	MSG_LVL_LOW
+=======
+	MSG_LVL_LOW,
+	MSG_LVL_LOW|MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR|MSG_LVL_FATAL
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static const uint32_t msg_bld_masks_8[] = {
@@ -439,6 +554,10 @@ static const uint32_t msg_bld_masks_8[] = {
 	MSG_LVL_MED,
 	MSG_LVL_MED,
 	MSG_LVL_MED,
+<<<<<<< HEAD
+=======
+	MSG_LVL_MED,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	MSG_LVL_MED
 };
 
@@ -548,7 +667,12 @@ static const uint32_t msg_bld_masks_10[] =  {
 	MSG_LVL_LOW,
 	MSG_LVL_LOW,
 	MSG_LVL_LOW,
+<<<<<<< HEAD
 	MSG_LVL_LOW
+=======
+	MSG_LVL_LOW,
+	MSG_LVL_MED
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static const uint32_t msg_bld_masks_11[] = {
@@ -632,6 +756,15 @@ static const uint32_t msg_bld_masks_16[] = {
 	MSG_LVL_LOW,
 	MSG_LVL_LOW,
 	MSG_LVL_LOW,
+<<<<<<< HEAD
+=======
+	MSG_LVL_LOW,
+	MSG_LVL_LOW|MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR|MSG_LVL_FATAL,
+	MSG_LVL_LOW|MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR|MSG_LVL_FATAL,
+	MSG_LVL_LOW|MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR|MSG_LVL_FATAL,
+	MSG_LVL_LOW|MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR|MSG_LVL_FATAL,
+	MSG_LVL_LOW|MSG_LVL_MED|MSG_LVL_HIGH|MSG_LVL_ERROR|MSG_LVL_FATAL
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static const uint32_t msg_bld_masks_17[] =  {
@@ -668,6 +801,10 @@ static const uint32_t msg_bld_masks_18[] = {
 		MSG_MASK_6 | MSG_MASK_7 | MSG_MASK_8 | MSG_MASK_9,
 	MSG_LVL_LOW,
 	MSG_LVL_LOW,
+<<<<<<< HEAD
+=======
+	MSG_LVL_LOW,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	MSG_LVL_LOW
 };
 
@@ -722,13 +859,42 @@ static const uint32_t msg_bld_masks_22[] = {
 	MSG_LVL_LOW,
 	MSG_LVL_LOW,
 	MSG_LVL_LOW,
+<<<<<<< HEAD
+=======
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW
+};
+
+static const uint32_t msg_bld_masks_23[] = {
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+	MSG_LVL_LOW,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	MSG_LVL_LOW
 };
 
 /* LOG CODES */
 static const uint32_t log_code_last_tbl[] = {
 	0x0,	/* EQUIP ID 0 */
+<<<<<<< HEAD
 	0x182F,	/* EQUIP ID 1 */
+=======
+	0x18DE,	/* EQUIP ID 1 */
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	0x0,	/* EQUIP ID 2 */
 	0x0,	/* EQUIP ID 3 */
 	0x4910,	/* EQUIP ID 4 */
@@ -740,7 +906,11 @@ static const uint32_t log_code_last_tbl[] = {
 	0xA38A,	/* EQUIP ID 10 */
 	0xB201,	/* EQUIP ID 11 */
 	0x0,	/* EQUIP ID 12 */
+<<<<<<< HEAD
 	0x0,	/* EQUIP ID 13 */
+=======
+	0xD1FF,	/* EQUIP ID 13 */
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	0x0,	/* EQUIP ID 14 */
 	0x0,	/* EQUIP ID 15 */
 };

@@ -54,8 +54,14 @@
 #define ENABLE_SEPARATE_CMDRSP	1
 #define DISABLE_SEPARATE_CMDRSP	0
 
+<<<<<<< HEAD
 #define ENABLE_STM	1
 #define DISABLE_STM	0
+=======
+#define DISABLE_STM	0
+#define ENABLE_STM	1
+#define STATUS_STM	2
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define UPDATE_PERIPHERAL_STM_STATE	1
 #define CLEAR_PERIPHERAL_STM_STATE	2

@@ -1,8 +1,11 @@
 #ifndef _ASM_WORD_AT_A_TIME_H
 #define _ASM_WORD_AT_A_TIME_H
 
+<<<<<<< HEAD
 #include <linux/kernel.h>
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*
  * This is largely generic for little-endian machines, but the
  * optimal byte mask counting is probably going to be something
@@ -10,11 +13,14 @@
  * bit count instruction, that might be better than the multiply
  * and shift, for example.
  */
+<<<<<<< HEAD
 struct word_at_a_time {
 	const unsigned long one_bits, high_bits;
 };
 
 #define WORD_AT_A_TIME_CONSTANTS { REPEAT_BYTE(0x01), REPEAT_BYTE(0x80) }
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #ifdef CONFIG_64BIT
 
@@ -42,6 +48,7 @@ static inline long count_masked_bytes(long mask)
 
 #endif
 
+<<<<<<< HEAD
 /* Return nonzero if it has a zero */
 static inline unsigned long has_zero(unsigned long a, unsigned long *bits, const struct word_at_a_time *c)
 {
@@ -67,6 +74,14 @@ static inline unsigned long create_zero_mask(unsigned long bits)
 static inline unsigned long find_zero(unsigned long mask)
 {
 	return count_masked_bytes(mask);
+=======
+#define REPEAT_BYTE(x)	((~0ul / 0xff) * (x))
+
+/* Return the high bit set in the first byte that is a zero */
+static inline unsigned long has_zero(unsigned long a)
+{
+	return ((a - REPEAT_BYTE(0x01)) & ~a) & REPEAT_BYTE(0x80);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 /*

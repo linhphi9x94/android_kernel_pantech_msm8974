@@ -1,6 +1,10 @@
 /* Copyright (C) 2008 Google, Inc.
  * Copyright (C) 2008 HTC Corporation
+<<<<<<< HEAD
  * Copyright (c) 2009-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2009-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and

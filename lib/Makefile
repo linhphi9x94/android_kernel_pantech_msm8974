@@ -125,9 +125,12 @@ obj-$(CONFIG_CLZ_TAB) += clz_tab.o
 
 obj-$(CONFIG_QMI_ENCDEC) += qmi_encdec.o
 
+<<<<<<< HEAD
 obj-$(CONFIG_GENERIC_STRNCPY_FROM_USER) += strncpy_from_user.o
 obj-$(CONFIG_GENERIC_STRNLEN_USER) += strnlen_user.o
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 hostprogs-y	:= gen_crc32table
 clean-files	:= crc32table.h
 

@@ -21,3 +21,7 @@ obj-$(CONFIG_TRACEPOINTS) += net-traces.o
 obj-$(CONFIG_NET_DROP_MONITOR) += drop_monitor.o
 obj-$(CONFIG_NETWORK_PHY_TIMESTAMPING) += timestamping.o
 obj-$(CONFIG_NETPRIO_CGROUP) += netprio_cgroup.o
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_SOCKEV_NLMCAST) += sockev_nlmcast.o
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

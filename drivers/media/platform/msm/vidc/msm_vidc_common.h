@@ -40,6 +40,10 @@ int msm_comm_release_scratch_buffers(struct msm_vidc_inst *inst);
 int msm_comm_release_persist_buffers(struct msm_vidc_inst *inst);
 int msm_comm_release_output_buffers(struct msm_vidc_inst *inst);
 int msm_comm_force_cleanup(struct msm_vidc_inst *inst);
+<<<<<<< HEAD
+=======
+int msm_comm_suspend(int core_id);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 enum hal_extradata_id msm_comm_get_hal_extradata_index(
 	enum v4l2_mpeg_vidc_extradata index);
 int msm_comm_get_domain_partition(struct msm_vidc_inst *inst, u32 flags,
@@ -51,6 +55,10 @@ struct hal_buffer_requirements *get_buff_req_buffer(
 		V4L2_CTRL_DRIVER_PRIV(idx))
 
 int msm_comm_check_scaling_supported(struct msm_vidc_inst *inst);
+<<<<<<< HEAD
+=======
+void msm_comm_session_clean(struct msm_vidc_inst *inst);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int msm_comm_kill_session(struct msm_vidc_inst *inst);
 enum multi_stream msm_comm_get_stream_output_mode(struct msm_vidc_inst *inst);
 enum hal_buffer msm_comm_get_hal_output_buffer(struct msm_vidc_inst *inst);

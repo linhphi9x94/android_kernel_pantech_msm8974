@@ -7,7 +7,10 @@ config ARM
 	select HAVE_DMA_CONTIGUOUS if (CPU_V6 || CPU_V6K || CPU_V7)
 	select HAVE_DMA_ATTRS
 	select HAVE_MEMBLOCK
+<<<<<<< HEAD
 	select ARCH_USE_BUILTIN_BSWAP
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	select RTC_LIB
 	select SYS_SUPPORTS_APM_EMULATION
 	select GENERIC_ATOMIC64 if (CPU_V6 || !CPU_32v6K || !AEABI)
@@ -21,7 +24,10 @@ config ARM
 	select HAVE_DYNAMIC_FTRACE if (!XIP_KERNEL)
 	select HAVE_FUNCTION_GRAPH_TRACER if (!THUMB2_KERNEL)
 	select ARCH_BINFMT_ELF_RANDOMIZE_PIE
+<<<<<<< HEAD
 	select HAVE_EFFICIENT_UNALIGNED_ACCESS
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	select HAVE_GENERIC_DMA_COHERENT
 	select HAVE_KERNEL_GZIP
 	select HAVE_KERNEL_LZO
@@ -36,11 +42,16 @@ config ARM
 	select HAVE_GENERIC_HARDIRQS
 	select GENERIC_IRQ_SHOW
 	select CPU_PM if (SUSPEND || CPU_IDLE)
+<<<<<<< HEAD
 	select DCACHE_WORD_ACCESS if (CPU_V6 || CPU_V6K || CPU_V7) && !CPU_BIG_ENDIAN && MMU
 	select GENERIC_PCI_IOMAP
 	select HAVE_BPF_JIT if NET
 	select GENERIC_STRNCPY_FROM_USER
 	select GENERIC_STRNLEN_USER
+=======
+	select GENERIC_PCI_IOMAP
+	select HAVE_BPF_JIT if NET
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	help
 	  The ARM series is a line of low-power-consumption RISC chip designs
 	  licensed by ARM Ltd and targeted at embedded applications and
@@ -1497,7 +1508,10 @@ config KSAPI
 endmenu
 
 source "arch/arm/common/Kconfig"
+<<<<<<< HEAD
 source "arch/arm/hotplug/Kconfig"
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 menu "Bus support"
 
@@ -2442,6 +2456,16 @@ config NEON
 	  Say Y to include support code for NEON, the ARMv7 Advanced SIMD
 	  Extension.
 
+<<<<<<< HEAD
+=======
+config KERNEL_MODE_NEON
+	bool "Support for NEON in kernel mode"
+	default n
+	depends on NEON
+	help
+	  Say Y to include support for NEON in kernel mode.
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 endmenu
 
 menu "Userspace binary formats"
@@ -2475,6 +2499,7 @@ config ARM_CPU_SUSPEND
 
 endmenu
 
+<<<<<<< HEAD
 source "net/Kconfig"
 
 source "drivers/Kconfig"
@@ -2516,10 +2541,39 @@ config LGU_DS_TETHER_MSS
 config LGU_DS_VPN
 	bool "VPN"
 	depends on LGU_DS_K_CONFIG
+=======
+#ifdef FEATURE_SKY_DS_KERNEL_CONFIG
+menu "SKY Data Kernel Configuration"
+
+config SKY_DS_DEFAULT_CONGESTION_CONTROL
+	bool "default congestion control setting"
+	default y
+	select TCP_CONG_ADVANCED
+	select DEFAULT_BIC
+	select TCP_CONG_BIC
+	help
+
+config DEFAULT_TCP_CONG
+	string
+	depends on SKY_DS_DEFAULT_CONGESTION_CONTROL
+	default "bic"
+	help
+
+config SKY_DS_TETHEER_MSS
+	bool "enable CONFIG_NETFILTER about TCP MSS"
+	default y	
+	select NETFILTER_XT_TARGET_TCPMSS
+	select NETFILTER_XT_MATCH_TCPMSS	
+	help
+
+config SKY_DS_VPN
+	bool "VPN"
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	default y
 	select NET_KEY
 	select INET_ESP
 	select INET_IPCOMP
+<<<<<<< HEAD
 #select XFRM
 	select XFRM_USER
 	select INET_XFRM_MODE_TRANSPORT
@@ -2535,6 +2589,23 @@ config LGU_DS_VPN
 #select CRYPTO_DEFLATE
 	select IP_ADVANCED_ROUTER
 #select IP_MULTIPLE_TABLES
+=======
+	select XFRM
+	select XFRM_USER
+	select INET_XFRM_MODE_TRANSPORT
+	select INET_XFRM_MODE_TUNNEL
+	select CRYPTO
+	select CRYPTO_HMAC
+	select CRYPTO_XCBC
+	select CRYPTO_NULL
+	select CRYPTO_MD5
+	select CRYPTO_SHA1
+	select CRYPTO_DES
+	select CRYPTO_AES
+	select CRYPTO_DEFLATE
+	select IP_ADVANCED_ROUTER
+	select IP_MULTIPLE_TABLES
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	select PPP
 	select PPP_ASYNC
 	select PPP_SYNC_TTY
@@ -2551,6 +2622,7 @@ config LGU_DS_VPN
 	select PPPOPNS
 	help
 	
+<<<<<<< HEAD
 config LGU_DS_IPSEC
 	bool "enable INET CONFIG for IP SEC"
 	depends on LGU_DS_K_CONFIG
@@ -2576,10 +2648,40 @@ config LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX
 config LGU_DS_BAM_ADAPTIVE_TIMER_OFF
 	bool "BAN ADAPTIVE TIMER DISABLE"	
 	depends on LGU_DS_K_CONFIG
+=======
+config SKY_DS_IPSEC
+	bool "enable INET CONFIG for IP SEC"
+	default y
+	select INET_AH	
+	select INET_XFRM_TUNNEL
+	help
+	
+config SKY_DS_SUPPORT_TUN
+	bool "support for tun driver"
+	default y
+	select TUN
+	help
+	
+config SKY_DS_SUPPORT_BACKGROUND_TRFFIC_CONTROL_AGENT
+	bool "support for advanced netfilter"
+	default y
+	select NETFILTER_ADVANCED
+	help
+		
+config SKY_DS_CTS_LOCALHOST
+	bool "support for traffic statistic each uid"
+	default y
+	select UID_STAT
+	help
+
+config SKY_DS_BAM_ADAPTIVE_TIMER_OFF
+	bool "BAN ADAPTIVE TIMER DISABLE"	
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	default y
 	help
 	  DL Throughput
 	
+<<<<<<< HEAD
 config LGU_DS_TCP_DROP_OVER_MTU_PORT_5060
 	bool "SIP packet with over MTU using TCP dropped"
 	depends on LGU_DS_K_CONFIG
@@ -2629,3 +2731,71 @@ config LGU_DS_SECURITY_PATCH_CVE_2014_4943
 	  never actually worked, since the l2tp socket isn't an inet socket.
 	  https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=3cf521f7dc87c031617fd47e4b7aa2593c2f3daf
 #CONFIG_LGU_DS_K_CONFIG
+=======
+config SKY_DS_CHANGE_RNDIS_MTU
+	bool "changed rndis mtu size to 1440"
+	default y
+	help
+	
+config SKY_DS_ACCEPT_SIP_LAGRE_PACKET
+	bool "accept SIP packet over MTU size"
+	default y
+	help
+	
+config SKY_DS_TCP_INIFINITE_LOOP_BUG_FIX
+	bool "avoid infinite loop on recvmsg by tcp"
+	default y
+	help	
+
+config SKY_DS_KERNEL_CRASH_DUT_TO_NULL_POINTER
+	bool "kernel crash due to null pointer dereference security patch 2013-6432"
+	default y
+	help		
+
+config SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT
+	bool "IPv6 Address Asignment"
+	default y
+	help
+	
+config SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX
+	bool "Prevent device from crashing"
+	depends on SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT
+	default y
+	help
+	  Device crashed when optimizing IPv6 address assignment which means reducing assignment duration.
+	  It's crashed because 'ifa->idev' is null at 'if6_get_first' function.
+
+config SKY_DS_ANDROID_SECURITY_PATCH_CVE_2014_2851
+	bool "net: ipv4: current group_info should be put after using."
+	default y
+	help
+	  Plug a group_info refcount leak in ping_init. 
+	  group_info is only needed during initialization and 
+	  the code failed to release the reference on exit. 
+	  While here move grabbing the reference to a place 
+	  where it is actually needed.
+	  
+config SKY_DS_ANDROID_SECURITY_PATCH_CVE_2014_4943
+	bool "Arbitrary kernel code execution via PPPOL2TP -ID: CVE-2014-4943"
+	default y
+	help
+	  Since this can never have worked so nobody could possibly have depended 
+	  on that functionality, just remove the broken code and return -EINVAL.	  
+
+endmenu
+#endif /* FEATURE_SKY_DS_KERNEL_CONFIG */
+
+source "net/Kconfig"
+
+source "drivers/Kconfig"
+
+source "fs/Kconfig"
+
+source "arch/arm/Kconfig.debug"
+
+source "security/Kconfig"
+
+source "crypto/Kconfig"
+
+source "lib/Kconfig"
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

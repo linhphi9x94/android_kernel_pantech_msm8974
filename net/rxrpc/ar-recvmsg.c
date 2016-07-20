@@ -182,7 +182,12 @@ int rxrpc_recvmsg(struct kiocb *iocb, struct socket *sock,
 						      msg->msg_iov, copy);
 		} else {
 			ret = skb_copy_and_csum_datagram_iovec(skb, offset,
+<<<<<<< HEAD
 							       msg->msg_iov);
+=======
+							       msg->msg_iov,
+							       copy);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			if (ret == -EINVAL)
 				goto csum_copy_error;
 		}

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -24,6 +28,14 @@
 #define QCRYPTO_CTX_XTS_DU_SIZE_512B	0x00000100
 #define QCRYPTO_CTX_XTS_DU_SIZE_1KB	0x00000200
 
+<<<<<<< HEAD
+=======
+
+int qcrypto_cipher_set_device(struct ablkcipher_request *req, unsigned int dev);
+int qcrypto_ahash_set_device(struct ahash_request *req, unsigned int dev);
+int qcrypto_aead_set_device(struct aead_request *req, unsigned int dev);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int qcrypto_cipher_set_flag(struct ablkcipher_request *req, unsigned int flags);
 int qcrypto_ahash_set_flag(struct ahash_request *req, unsigned int flags);
 int qcrypto_aead_set_flag(struct aead_request *req, unsigned int flags);

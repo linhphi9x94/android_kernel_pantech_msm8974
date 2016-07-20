@@ -59,6 +59,15 @@ ssize_t led_trigger_store(struct device *dev, struct device_attribute *attr,
 			up_write(&led_cdev->trigger_lock);
 
 			up_read(&triggers_list_lock);
+<<<<<<< HEAD
+=======
+
+//++ p11309 - 2013.12.01 for LED Trigger Debug
+			LED_TRIG_DBG("%s, led device= %s, level= %d\n", __func__, 
+				trig->name, led_cdev->brightness);
+//-- p11309
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			return count;
 		}
 	}
@@ -102,12 +111,15 @@ EXPORT_SYMBOL_GPL(led_trigger_show);
 void led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trigger)
 {
 	unsigned long flags;
+<<<<<<< HEAD
 	char *event = NULL;
 	char *envp[2];
 	const char *name;
 
 	name = trigger ? trigger->name : "none";
 	event = kasprintf(GFP_KERNEL, "TRIGGER=%s", name);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/* Remove any existing trigger */
 	if (led_cdev->trigger) {
@@ -128,6 +140,7 @@ void led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trigger)
 		if (trigger->activate)
 			trigger->activate(led_cdev);
 	}
+<<<<<<< HEAD
 
 	if (event) {
 		envp[0] = event;
@@ -135,6 +148,8 @@ void led_trigger_set(struct led_classdev *led_cdev, struct led_trigger *trigger)
 		kobject_uevent_env(&led_cdev->dev->kobj, KOBJ_CHANGE, envp);
 		kfree(event);
 	}
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 EXPORT_SYMBOL_GPL(led_trigger_set);
 
@@ -197,6 +212,14 @@ int led_trigger_register(struct led_trigger *trigger)
 	}
 	up_read(&leds_list_lock);
 
+<<<<<<< HEAD
+=======
+//++ p11309 - 2013.12.01 for LED Trigger Debug
+	printk("[+++ LED trigger] Registered trigger name: %s\n",
+		trigger->name);
+//-- p11309
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 }
 EXPORT_SYMBOL_GPL(led_trigger_register);
@@ -240,6 +263,14 @@ void led_trigger_event(struct led_trigger *trigger,
 		led_set_brightness(led_cdev, brightness);
 	}
 	read_unlock(&trigger->leddev_list_lock);
+<<<<<<< HEAD
+=======
+
+//++ p11309 - 2013.12.01 for LED Trigger Debug
+	LED_TRIG_DBG("%s, led device= %s, level= %d\n", __func__, 
+		trigger->name, brightness);
+//-- p11309
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 EXPORT_SYMBOL_GPL(led_trigger_event);
 

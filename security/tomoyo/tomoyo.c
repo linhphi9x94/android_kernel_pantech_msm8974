@@ -406,8 +406,13 @@ static int tomoyo_path_chroot(struct path *path)
  *
  * Returns 0 on success, negative value otherwise.
  */
+<<<<<<< HEAD
 static int tomoyo_sb_mount(const char *dev_name, struct path *path,
 			   const char *type, unsigned long flags, void *data)
+=======
+static int tomoyo_sb_mount(char *dev_name, struct path *path,
+			   char *type, unsigned long flags, void *data)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	return tomoyo_mount_permission(dev_name, path, type, flags, data);
 }

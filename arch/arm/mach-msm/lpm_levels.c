@@ -82,6 +82,10 @@ struct lpm_system_state {
 
 static struct lpm_system_state sys_state;
 static bool suspend_in_progress;
+<<<<<<< HEAD
+=======
+static int64_t suspend_time;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 struct lpm_lookup_table {
 	uint32_t modes;
@@ -98,7 +102,11 @@ static struct notifier_block __refdata lpm_cpu_nblk = {
 };
 
 static uint32_t allowed_l2_mode;
+<<<<<<< HEAD
 static uint32_t sysfs_dbg_l2_mode = MSM_SPM_L2_MODE_POWER_COLLAPSE;
+=======
+static uint32_t sysfs_dbg_l2_mode __refdata = MSM_SPM_L2_MODE_POWER_COLLAPSE;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static uint32_t default_l2_mode;
 
 
@@ -212,7 +220,10 @@ static int lpm_set_l2_mode(struct lpm_system_state *system_state,
 
 	switch (sleep_mode) {
 	case MSM_SPM_L2_MODE_POWER_COLLAPSE:
+<<<<<<< HEAD
 		/*pr_info("Configuring for L2 power collapse\n");*/
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		msm_pm_set_l2_flush_flag(MSM_SCM_L2_OFF);
 		break;
 	case MSM_SPM_L2_MODE_GDHS:
@@ -272,7 +283,11 @@ static int lpm_system_mode_select(
 {
 	int best_level = -1;
 	int i;
+<<<<<<< HEAD
 	uint32_t best_level_pwr = ~0UL;
+=======
+	uint32_t best_level_pwr = ~0U;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	uint32_t pwr;
 	uint32_t latency_us = pm_qos_request(PM_QOS_CPU_DMA_LATENCY);
 
@@ -493,7 +508,11 @@ static void msm_pm_set_timer(uint32_t modified_time_us)
 static noinline int lpm_cpu_power_select(struct cpuidle_device *dev, int *index)
 {
 	int best_level = -1;
+<<<<<<< HEAD
 	uint32_t best_level_pwr = ~0UL;
+=======
+	uint32_t best_level_pwr = ~0U;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	uint32_t latency_us = pm_qos_request(PM_QOS_CPU_DMA_LATENCY);
 	uint32_t sleep_us =
 		(uint32_t)(ktime_to_us(tick_nohz_get_sleep_length()));
@@ -527,7 +546,11 @@ static noinline int lpm_cpu_power_select(struct cpuidle_device *dev, int *index)
 		if (latency_us < pwr->latency_us)
 			continue;
 
+<<<<<<< HEAD
 		if (next_event_us)
+=======
+		if (next_event_us) {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			if (next_event_us < pwr->latency_us)
 				continue;
 
@@ -536,6 +559,10 @@ static noinline int lpm_cpu_power_select(struct cpuidle_device *dev, int *index)
 				next_wakeup_us = next_event_us
 					- pwr->latency_us;
 			}
+<<<<<<< HEAD
+=======
+		}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		if (next_wakeup_us <= pwr->time_overhead_us)
 			continue;
@@ -545,11 +572,19 @@ static noinline int lpm_cpu_power_select(struct cpuidle_device *dev, int *index)
 			if (!dev->cpu && msm_rpm_waiting_for_ack())
 					break;
 
+<<<<<<< HEAD
 		if ((next_wakeup_us >> 10) > pwr->latency_us) {
 			power = pwr->ss_power;
 		} else {
 			power = pwr->ss_power;
 			power -= (pwr->latency_us * pwr->ss_power)
+=======
+		if ((next_wakeup_us >> 10) > pwr->time_overhead_us) {
+			power = pwr->ss_power;
+		} else {
+			power = pwr->ss_power;
+			power -= (pwr->time_overhead_us * pwr->ss_power)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 					/ next_wakeup_us;
 			power += pwr->energy_overhead / next_wakeup_us;
 		}
@@ -723,8 +758,11 @@ static void lpm_enter_low_power(struct lpm_system_state *system_state,
 	int idx;
 	struct lpm_cpu_level *cpu_level = &system_state->cpu_level[cpu_index];
 
+<<<<<<< HEAD
 	cpu_level = &system_state->cpu_level[cpu_index];
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	lpm_cpu_prepare(system_state, cpu_index, from_idle);
 
 	idx = lpm_system_select(system_state, cpu_index, from_idle);
@@ -781,6 +819,14 @@ static int lpm_suspend_enter(suspend_state_t state)
 
 static int lpm_suspend_prepare(void)
 {
+<<<<<<< HEAD
+=======
+	struct timespec ts;
+
+	getnstimeofday(&ts);
+	suspend_time = timespec_to_ns(&ts);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	suspend_in_progress = true;
 	msm_mpm_suspend_prepare();
 	return 0;
@@ -788,6 +834,15 @@ static int lpm_suspend_prepare(void)
 
 static void lpm_suspend_wake(void)
 {
+<<<<<<< HEAD
+=======
+	struct timespec ts;
+
+	getnstimeofday(&ts);
+	suspend_time = timespec_to_ns(&ts) - suspend_time;
+	msm_pm_add_stat(MSM_PM_STAT_SUSPEND, suspend_time);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	msm_mpm_suspend_wake();
 	suspend_in_progress = false;
 }
@@ -971,9 +1026,14 @@ static int lpm_system_probe(struct platform_device *pdev)
 			goto fail;
 		}
 
+<<<<<<< HEAD
 		if (l->l2_mode == MSM_SPM_L2_MODE_GDHS ||
 				l->l2_mode == MSM_SPM_L2_MODE_POWER_COLLAPSE)
 			l->notify_rpm = true;
+=======
+		key = "qcom,send-rpm-sleep-set";
+		l->notify_rpm = of_property_read_bool(node, key);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		if (l->l2_mode >= MSM_SPM_L2_MODE_GDHS)
 			l->sync = true;
@@ -1091,7 +1151,11 @@ fail:
 	return -EFAULT;
 }
 
+<<<<<<< HEAD
 static struct of_device_id cpu_modes_mtch_tbl[] = {
+=======
+static struct of_device_id cpu_modes_mtch_tbl[] __initdata = {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	{.compatible = "qcom,cpu-modes"},
 	{},
 };
@@ -1105,7 +1169,11 @@ static struct platform_driver cpu_modes_driver = {
 	},
 };
 
+<<<<<<< HEAD
 static struct of_device_id system_modes_mtch_tbl[] = {
+=======
+static struct of_device_id system_modes_mtch_tbl[] __initdata = {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	{.compatible = "qcom,system-modes"},
 	{},
 };
@@ -1119,7 +1187,11 @@ static struct platform_driver system_modes_driver = {
 	},
 };
 
+<<<<<<< HEAD
 static struct of_device_id lpm_levels_match_table[] = {
+=======
+static struct of_device_id lpm_levels_match_table[] __initdata = {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	{.compatible = "qcom,lpm-levels"},
 	{},
 };

@@ -29,6 +29,10 @@ struct android_usb_platform_data {
 	bool internal_ums;
 	char streaming_func[MAX_STREAMING_FUNCS][FUNC_NAME_LEN];
 	int  streaming_func_count;
+<<<<<<< HEAD
+=======
+	u32 uicc_nluns;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 #ifndef CONFIG_TARGET_CORE

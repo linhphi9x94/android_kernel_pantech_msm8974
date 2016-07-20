@@ -1033,6 +1033,14 @@ static int q6_hfi_session_set_property(void *sess,
 		dprintk(VIDC_ERR, "Invalid Params");
 		return -EINVAL;
 	}
+<<<<<<< HEAD
+=======
+	if (ptype == HAL_PARAM_VDEC_CONTINUE_DATA_TRANSFER) {
+		dprintk(VIDC_WARN, "Smoothstreaming is not supported\n");
+		return -ENOTSUPP;
+	}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	dev = session->device;
 	dprintk(VIDC_DBG, "in set_prop,with prop id: 0x%x", ptype);
 
@@ -1310,6 +1318,7 @@ fail_subsystem_get:
 	return rc;
 }
 
+<<<<<<< HEAD
 int q6_hfi_capability_check(u32 fourcc, u32 width,
 				u32 *max_width, u32 *max_height)
 {
@@ -1328,6 +1337,8 @@ int q6_hfi_capability_check(u32 fourcc, u32 width,
 	return rc;
 }
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static void q6_hfi_unload_fw(void *hfi_device_data)
 {
 	struct q6_hfi_device *device = hfi_device_data;
@@ -1381,7 +1392,10 @@ static void q6_init_hfi_callbacks(struct hfi_device *hdev)
 	hdev->session_get_property = q6_hfi_session_get_property;
 	hdev->iommu_get_domain_partition = q6_hfi_iommu_get_domain_partition;
 	hdev->load_fw = q6_hfi_load_fw;
+<<<<<<< HEAD
 	hdev->capability_check = q6_hfi_capability_check;
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	hdev->unload_fw = q6_hfi_unload_fw;
 	hdev->get_stride_scanline = q6_hfi_get_stride_scanline;
 }

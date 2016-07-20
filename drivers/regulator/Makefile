@@ -20,6 +20,10 @@ obj-$(CONFIG_REGULATOR_DA903X)	+= da903x.o
 obj-$(CONFIG_REGULATOR_DA9052)	+= da9052-regulator.o
 obj-$(CONFIG_REGULATOR_DBX500_PRCMU) += dbx500-prcmu.o
 obj-$(CONFIG_REGULATOR_DB8500_PRCMU) += db8500-prcmu.o
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_REGULATOR_FAN53555) += fan53555.o
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 obj-$(CONFIG_REGULATOR_ISL6271A) += isl6271a-regulator.o
 obj-$(CONFIG_REGULATOR_LP3971) += lp3971.o
 obj-$(CONFIG_REGULATOR_LP3972) += lp3972.o
@@ -33,6 +37,10 @@ obj-$(CONFIG_REGULATOR_MAX8998) += max8998.o
 obj-$(CONFIG_REGULATOR_MC13783) += mc13783-regulator.o
 obj-$(CONFIG_REGULATOR_MC13892) += mc13892-regulator.o
 obj-$(CONFIG_REGULATOR_MC13XXX_CORE) +=  mc13xxx-regulator-core.o
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_REGULATOR_MEM_ACC) += mem-acc-regulator.o
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 obj-$(CONFIG_REGULATOR_ONSEMI_NCP6335D) += onsemi-ncp6335d.o
 obj-$(CONFIG_REGULATOR_PCAP) += pcap-regulator.o
 obj-$(CONFIG_REGULATOR_PCF50633) += pcf50633-regulator.o

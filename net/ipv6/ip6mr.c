@@ -690,7 +690,11 @@ static netdev_tx_t reg_vif_xmit(struct sk_buff *skb,
 	struct mr6_table *mrt;
 	struct flowi6 fl6 = {
 		.flowi6_oif	= dev->ifindex,
+<<<<<<< HEAD
 		.flowi6_iif	= skb->skb_iif,
+=======
+		.flowi6_iif	= skb->skb_iif ? : LOOPBACK_IFINDEX,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		.flowi6_mark	= skb->mark,
 	};
 	int err;

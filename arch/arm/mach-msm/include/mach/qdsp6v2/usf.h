@@ -39,6 +39,18 @@
 #define US_GET_VERSION  _IOWR(USF_IOCTL_MAGIC, 9, \
 				struct us_version_info_type)
 
+<<<<<<< HEAD
+=======
+#define US_SET_TX_STREAM_PARAM   _IOW(USF_IOCTL_MAGIC, 10, \
+				struct us_stream_param_type)
+#define US_GET_TX_STREAM_PARAM  _IOWR(USF_IOCTL_MAGIC, 11, \
+				struct us_stream_param_type)
+#define US_SET_RX_STREAM_PARAM   _IOW(USF_IOCTL_MAGIC, 12, \
+				struct us_stream_param_type)
+#define US_GET_RX_STREAM_PARAM  _IOWR(USF_IOCTL_MAGIC, 13, \
+				struct us_stream_param_type)
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* Special timeout values */
 #define USF_NO_WAIT_TIMEOUT	0x00000000
 /* Infinitive */
@@ -130,6 +142,11 @@ struct us_xx_info_type {
 	uint16_t params_data_size;
 /* Pointer to the parameters */
 	uint8_t *params_data;
+<<<<<<< HEAD
+=======
+/* Max size of buffer for get and set parameter */
+	uint32_t max_get_set_param_buf_size;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 struct us_input_info_type {
@@ -273,4 +290,18 @@ struct us_version_info_type {
 	char *pbuf;
 };
 
+<<<<<<< HEAD
+=======
+struct us_stream_param_type {
+/* Id of module */
+	uint32_t module_id;
+/* Id of parameter */
+	uint32_t param_id;
+/* Size of memory of the parameter buffer */
+	uint32_t buf_size;
+/* Pointer to the memory of the parameter buffer */
+	uint8_t __user *pbuf;
+};
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif /* __USF_H__ */

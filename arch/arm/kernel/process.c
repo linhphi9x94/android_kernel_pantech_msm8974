@@ -14,6 +14,10 @@
 #include <linux/sched.h>
 #include <linux/kernel.h>
 #include <linux/mm.h>
+<<<<<<< HEAD
+=======
+#include <linux/vmalloc.h>
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <linux/stddef.h>
 #include <linux/unistd.h>
 #include <linux/user.h>
@@ -382,7 +386,16 @@ static void show_data(unsigned long addr, int nbytes, const char *name)
 		printk("%04lx ", (unsigned long)p & 0xffff);
 		for (j = 0; j < 8; j++) {
 			u32	data;
+<<<<<<< HEAD
 			if (probe_kernel_address(p, data)) {
+=======
+			/*
+			 * vmalloc addresses may point to
+			 * memory-mapped peripherals
+			 */
+			if (is_vmalloc_addr(p) ||
+			    probe_kernel_address(p, data)) {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				printk(" ********");
 			} else {
 				printk(" %08x", data);

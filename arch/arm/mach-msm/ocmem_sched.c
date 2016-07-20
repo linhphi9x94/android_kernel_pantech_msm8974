@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -634,6 +638,7 @@ static int process_map(struct ocmem_req *req, unsigned long start,
 {
 	int rc = 0;
 
+<<<<<<< HEAD
 	rc = ocmem_enable_core_clock();
 
 	if (rc < 0)
@@ -645,6 +650,13 @@ static int process_map(struct ocmem_req *req, unsigned long start,
 
 		if (rc < 0)
 			goto iface_clock_fail;
+=======
+	rc = ocmem_restore_sec_program(OCMEM_SECURE_DEV_ID);
+
+	if (rc < 0) {
+		pr_err("ocmem: Failed to restore security programming\n");
+		goto lock_failed;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	rc = ocmem_lock(req->owner, phys_to_offset(req->req_start), req->req_sz,
@@ -670,11 +682,14 @@ static int process_map(struct ocmem_req *req, unsigned long start,
 process_map_fail:
 	ocmem_unlock(req->owner, phys_to_offset(req->req_start), req->req_sz);
 lock_failed:
+<<<<<<< HEAD
 	if (is_iface_access(req->owner))
 		ocmem_disable_iface_clock();
 iface_clock_fail:
 	ocmem_disable_core_clock();
 core_clock_fail:
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	pr_err("ocmem: Failed to map ocmem request\n");
 	return rc;
 }
@@ -698,9 +713,12 @@ static int process_unmap(struct ocmem_req *req, unsigned long start,
 		goto unlock_failed;
 	}
 
+<<<<<<< HEAD
 	if (is_iface_access(req->owner))
 		ocmem_disable_iface_clock();
 	ocmem_disable_core_clock();
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	pr_debug("ocmem: Unmapped request %p\n", req);
 	return 0;
 
@@ -1345,9 +1363,27 @@ static int process_grow(struct ocmem_req *req)
 	if (rc < 0)
 		return -EINVAL;
 
+<<<<<<< HEAD
 	rc = process_map(req, req->req_start, req->req_end);
 	if (rc < 0)
 		return -EINVAL;
+=======
+	rc = ocmem_enable_core_clock();
+
+	if (rc < 0)
+		goto core_clock_fail;
+
+	if (is_iface_access(req->owner)) {
+		rc = ocmem_enable_iface_clock();
+
+		if (rc < 0)
+			goto iface_clock_fail;
+	}
+
+	rc = process_map(req, req->req_start, req->req_end);
+	if (rc < 0)
+		goto map_error;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	offset = phys_to_offset(req->req_start);
 
@@ -1366,7 +1402,18 @@ static int process_grow(struct ocmem_req *req)
 		BUG();
 	}
 	return 0;
+<<<<<<< HEAD
 power_ctl_error:
+=======
+
+power_ctl_error:
+map_error:
+if (is_iface_access(req->owner))
+	ocmem_disable_iface_clock();
+iface_clock_fail:
+	ocmem_disable_core_clock();
+core_clock_fail:
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return -EINVAL;
 }
 
@@ -1536,6 +1583,13 @@ int process_free(int id, struct ocmem_handle *handle)
 				}
 			}
 
+<<<<<<< HEAD
+=======
+			if (is_iface_access(req->owner))
+				ocmem_disable_iface_clock();
+			ocmem_disable_core_clock();
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			rc = do_free(req);
 			if (rc < 0) {
 				pr_err("ocmem: Failed to free %p\n", req);
@@ -1556,6 +1610,12 @@ int process_free(int id, struct ocmem_handle *handle)
 				pr_err("Failed to switch OFF memory macros\n");
 				goto free_fail;
 			}
+<<<<<<< HEAD
+=======
+			if (is_iface_access(req->owner))
+				ocmem_disable_iface_clock();
+			ocmem_disable_core_clock();
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 
 		/* free the allocation */
@@ -1658,6 +1718,13 @@ int process_drop(int id, struct ocmem_handle *handle,
 		rc = process_unmap(req, req->req_start, req->req_end);
 		if (rc < 0)
 			return -EINVAL;
+<<<<<<< HEAD
+=======
+
+		if (is_iface_access(req->owner))
+			ocmem_disable_iface_clock();
+		ocmem_disable_core_clock();
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	} else
 		return -EINVAL;
 
@@ -1768,6 +1835,12 @@ int process_shrink(int id, struct ocmem_handle *handle, unsigned long size)
 			rc = process_unmap(req, req->req_start, req->req_end);
 			if (rc < 0)
 				goto shrink_fail;
+<<<<<<< HEAD
+=======
+			if (is_iface_access(req->owner))
+				ocmem_disable_iface_clock();
+			ocmem_disable_core_clock();
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 		rc = do_free(req);
 		if (rc < 0)
@@ -2104,7 +2177,10 @@ static int do_allocate(struct ocmem_req *req, bool can_block, bool can_wait)
 
 	down_write(&req->rw_sem);
 
+<<<<<<< HEAD
 	mutex_lock(&allocation_mutex);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 retry_allocate:
 
 	/* Take the scheduler mutex */
@@ -2114,12 +2190,20 @@ retry_allocate:
 
 	if (rc == OP_EVICT) {
 
+<<<<<<< HEAD
+=======
+		mutex_lock(&allocation_mutex);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		ret = run_evict(req);
 
 		if (ret == 0) {
 			rc = sched_restore(req);
 			if (rc < 0) {
 				pr_err("Failed to restore for req %p\n", req);
+<<<<<<< HEAD
+=======
+				mutex_unlock(&allocation_mutex);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				goto err_allocate_fail;
 			}
 			req->edata = NULL;
@@ -2127,14 +2211,24 @@ retry_allocate:
 			pr_debug("Attempting to re-allocate req %p\n", req);
 			req->req_start = 0x0;
 			req->req_end = 0x0;
+<<<<<<< HEAD
 			goto retry_allocate;
 		} else {
+=======
+			mutex_unlock(&allocation_mutex);
+			goto retry_allocate;
+		} else {
+			mutex_unlock(&allocation_mutex);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			goto err_allocate_fail;
 		}
 	}
 
+<<<<<<< HEAD
 	mutex_unlock(&allocation_mutex);
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (rc == OP_FAIL) {
 		inc_ocmem_stat(zone_of(req), NR_ALLOCATION_FAILS);
 		goto err_allocate_fail;
@@ -2159,7 +2253,10 @@ retry_allocate:
 	up_write(&req->rw_sem);
 	return 0;
 err_allocate_fail:
+<<<<<<< HEAD
 	mutex_unlock(&allocation_mutex);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	up_write(&req->rw_sem);
 	return -EINVAL;
 }
@@ -2254,6 +2351,20 @@ int process_allocate(int id, struct ocmem_handle *handle,
 
 	if (req->req_sz != 0) {
 
+<<<<<<< HEAD
+=======
+		rc = ocmem_enable_core_clock();
+
+		if (rc < 0)
+			goto core_clock_fail;
+
+		if (is_iface_access(req->owner)) {
+			rc = ocmem_enable_iface_clock();
+
+			if (rc < 0)
+				goto iface_clock_fail;
+		}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		rc = process_map(req, req->req_start, req->req_end);
 		if (rc < 0)
 			goto map_error;
@@ -2275,6 +2386,14 @@ power_ctl_error:
 map_error:
 	handle->req = NULL;
 	do_free(req);
+<<<<<<< HEAD
+=======
+	if (is_iface_access(req->owner))
+		ocmem_disable_iface_clock();
+iface_clock_fail:
+	ocmem_disable_core_clock();
+core_clock_fail:
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 do_allocate_error:
 	ocmem_destroy_req(req);
 	return -EINVAL;
@@ -2303,6 +2422,20 @@ int process_delayed_allocate(struct ocmem_req *req)
 	inc_ocmem_stat(zone_of(req), NR_ASYNC_ALLOCATIONS);
 
 	if (req->req_sz != 0) {
+<<<<<<< HEAD
+=======
+		rc = ocmem_enable_core_clock();
+
+		if (rc < 0)
+			goto core_clock_fail;
+
+		if (is_iface_access(req->owner)) {
+			rc = ocmem_enable_iface_clock();
+
+			if (rc < 0)
+				goto iface_clock_fail;
+		}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		rc = process_map(req, req->req_start, req->req_end);
 		if (rc < 0)
@@ -2333,6 +2466,14 @@ power_ctl_error:
 map_error:
 	handle->req = NULL;
 	do_free(req);
+<<<<<<< HEAD
+=======
+	if (is_iface_access(req->owner))
+		ocmem_disable_iface_clock();
+iface_clock_fail:
+	ocmem_disable_core_clock();
+core_clock_fail:
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 do_allocate_error:
 	ocmem_destroy_req(req);
 	return -EINVAL;

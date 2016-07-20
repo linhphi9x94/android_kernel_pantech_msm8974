@@ -16,12 +16,15 @@ config BITREVERSE
 config RATIONAL
 	boolean
 
+<<<<<<< HEAD
 config GENERIC_STRNCPY_FROM_USER
 	bool
 
 config GENERIC_STRNLEN_USER
 	bool
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 config GENERIC_FIND_FIRST_BIT
 	bool
 
@@ -385,7 +388,11 @@ config SIGNATURE
 	  Implementation is done using GnuPG MPI library
 
 config QMI_ENCDEC
+<<<<<<< HEAD
 	bool
+=======
+	bool "QMI Encode/Decode Library"
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	help
 	  Library to encode & decode QMI messages from within
 	  the kernel. The kernel drivers encode the C structure into
@@ -394,7 +401,11 @@ config QMI_ENCDEC
 	  and then decode it into a C structure.
 
 config QMI_ENCDEC_DEBUG
+<<<<<<< HEAD
 	bool
+=======
+	bool "QMI Encode/Decode Library Debug"
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	help
 	  Kernel config option to enable debugging QMI Encode/Decode
 	  library. This will log the information regarding the element

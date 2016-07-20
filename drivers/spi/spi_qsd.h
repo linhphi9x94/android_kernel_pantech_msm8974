@@ -291,6 +291,13 @@ struct msm_spi_bam {
 	struct msm_spi_bam_pipe  prod;
 	struct msm_spi_bam_pipe  cons;
 	bool                     deregister_required;
+<<<<<<< HEAD
+=======
+	u32			 curr_rx_bytes_recvd;
+	u32			 curr_tx_bytes_sent;
+	u32			 bam_rx_len;
+	u32			 bam_tx_len;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 struct msm_spi {
@@ -388,6 +395,11 @@ struct msm_spi {
 	struct spi_cs_gpio       cs_gpios[ARRAY_SIZE(spi_cs_rsrcs)];
 	enum msm_spi_qup_version qup_ver;
 	int			 max_trfr_len;
+<<<<<<< HEAD
+=======
+	int			 num_xfrs_grped;
+	u16			 xfrs_delay_usec;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 /* Forward declaration */

@@ -648,10 +648,19 @@ void set_cpu_present(unsigned int cpu, bool present)
 
 void set_cpu_online(unsigned int cpu, bool online)
 {
+<<<<<<< HEAD
 	if (online)
 		cpumask_set_cpu(cpu, to_cpumask(cpu_online_bits));
 	else
 		cpumask_clear_cpu(cpu, to_cpumask(cpu_online_bits));
+=======
+	if (online) {
+		cpumask_set_cpu(cpu, to_cpumask(cpu_online_bits));
+		cpumask_set_cpu(cpu, to_cpumask(cpu_active_bits));
+	} else {
+		cpumask_clear_cpu(cpu, to_cpumask(cpu_online_bits));
+	}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 void set_cpu_active(unsigned int cpu, bool active)

@@ -330,19 +330,32 @@ static void cpufreq_stats_free_sysfs(unsigned int cpu)
 
 static void cpufreq_allstats_free(void)
 {
+<<<<<<< HEAD
 	int i;
+=======
+	int cpu;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct all_cpufreq_stats *all_stat;
 
 	sysfs_remove_file(cpufreq_global_kobject,
 						&_attr_all_time_in_state.attr);
 
+<<<<<<< HEAD
 	for (i = 0; i < total_cpus; i++) {
 		all_stat = per_cpu(all_cpufreq_stats, i);
+=======
+	for_each_possible_cpu(cpu) {
+		all_stat = per_cpu(all_cpufreq_stats, cpu);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (!all_stat)
 			continue;
 		kfree(all_stat->time_in_state);
 		kfree(all_stat);
+<<<<<<< HEAD
 		per_cpu(all_cpufreq_stats, i) = NULL;
+=======
+		per_cpu(all_cpufreq_stats, cpu) = NULL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	if (all_freq_table) {
 		kfree(all_freq_table->freq_table);
@@ -509,6 +522,21 @@ static void create_all_freq_table(void)
 	return;
 }
 
+<<<<<<< HEAD
+=======
+static void free_all_freq_table(void)
+{
+	if (all_freq_table) {
+		if (all_freq_table->freq_table) {
+			kfree(all_freq_table->freq_table);
+			all_freq_table->freq_table = NULL;
+		}
+		kfree(all_freq_table);
+		all_freq_table = NULL;
+	}
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static void add_all_freq_table(unsigned int freq)
 {
 	unsigned int size;
@@ -725,11 +753,20 @@ static int __init cpufreq_stats_init(void)
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
+=======
+	create_all_freq_table();
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ret = cpufreq_register_notifier(&notifier_trans_block,
 				CPUFREQ_TRANSITION_NOTIFIER);
 	if (ret) {
 		cpufreq_unregister_notifier(&notifier_policy_block,
 				CPUFREQ_POLICY_NOTIFIER);
+<<<<<<< HEAD
+=======
+		free_all_freq_table();
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return ret;
 	}
 
@@ -738,7 +775,10 @@ static int __init cpufreq_stats_init(void)
 		cpufreq_update_policy(cpu);
 	}
 
+<<<<<<< HEAD
 	create_all_freq_table();
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ret = sysfs_create_file(cpufreq_global_kobject,
 			&_attr_all_time_in_state.attr);
 	if (ret)

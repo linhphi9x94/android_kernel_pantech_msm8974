@@ -470,6 +470,10 @@ struct transaction_s
 		T_COMMIT,
 		T_COMMIT_DFLUSH,
 		T_COMMIT_JFLUSH,
+<<<<<<< HEAD
+=======
+		T_COMMIT_CALLBACK,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		T_FINISHED
 	}			t_state;
 

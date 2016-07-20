@@ -70,6 +70,10 @@ obj-$(CONFIG_QSEECOM) += qseecom.o
 obj-$(CONFIG_QFP_FUSE) += qfp_fuse.o
 obj-$(CONFIG_TI_DRV2667) += ti_drv2667.o
 obj-$(CONFIG_QPNP_MISC) += qpnp-misc.o
+<<<<<<< HEAD
+=======
+obj-$(CONFIG_UID_CPUTIME) 	+= uid_cputime.o
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 obj-$(CONFIG_DRV2603) += drv2603.o
 # 20130725 lcj@LS3
 obj-$(CONFIG_PANTECH_WLAN_DEBUG) += wlan_debug.o
@@ -79,4 +83,7 @@ obj-$(CONFIG_PN544) 		+= pn544.o
 obj-$(CONFIG_PN547) 		+= pn547.o
 #CONFIG_PANTECH_PS_WIFI_COM_PREF_LOGGING
 obj-$(CONFIG_PANTECH_PS_WIFI_COM_PREF_LOGGING) += wifi_log.o
+<<<<<<< HEAD
 obj-$(CONFIG_UID_CPUTIME) += uid_cputime.o
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

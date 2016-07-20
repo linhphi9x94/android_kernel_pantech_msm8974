@@ -402,12 +402,21 @@ static struct sk_buff *rndis_add_header(struct gether *port,
 	} else {
 		skb2 = skb_realloc_headroom(skb,
 				sizeof(struct rndis_packet_msg_type));
+<<<<<<< HEAD
 	if (skb2)
 		rndis_add_hdr(skb2);
 
 	dev_kfree_skb_any(skb);
 	return skb2;
 }
+=======
+		if (skb2)
+			rndis_add_hdr(skb2);
+
+		dev_kfree_skb_any(skb);
+		return skb2;
+	}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static void rndis_response_available(void *_rndis)
@@ -421,6 +430,11 @@ static void rndis_response_available(void *_rndis)
 	if (atomic_inc_return(&rndis->notify_count) != 1)
 		return;
 
+<<<<<<< HEAD
+=======
+	if (!rndis->notify->driver_data)
+		return;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* Send RNDIS RESPONSE_AVAILABLE notification; a
 	 * USB_CDC_NOTIFY_RESPONSE_AVAILABLE "should" work too
 	 *

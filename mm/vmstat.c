@@ -726,7 +726,10 @@ const char * const vmstat_text[] = {
 #endif
 	"nr_anon_transparent_hugepages",
 	"nr_free_cma",
+<<<<<<< HEAD
 	"nr_swapcache",
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	"nr_dirty_threshold",
 	"nr_dirty_background_threshold",
 

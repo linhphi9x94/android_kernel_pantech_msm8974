@@ -48,6 +48,16 @@ static ctl_table ipv6_table_template[] = {
 		.mode		= 0644,
 		.proc_handler	= proc_dointvec
 	},
+<<<<<<< HEAD
+=======
+	{
+		.procname	= "fwmark_reflect",
+		.data		= &init_net.ipv6.sysctl.fwmark_reflect,
+		.maxlen		= sizeof(int),
+		.mode		= 0644,
+		.proc_handler	= proc_dointvec
+	},
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	{ }
 };
 

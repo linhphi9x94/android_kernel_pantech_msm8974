@@ -1,6 +1,14 @@
 #Android makefile to build kernel as a part of Android Build
 PERL		= perl
 
+<<<<<<< HEAD
+=======
+KERNEL_TARGET := $(strip $(INSTALLED_KERNEL_TARGET))
+ifeq ($(KERNEL_TARGET),)
+INSTALLED_KERNEL_TARGET := $(PRODUCT_OUT)/kernel
+endif
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 
 KERNEL_OUT := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ
@@ -121,25 +129,39 @@ $(KERNEL_OUT):
 
 ifeq ($(PANTECH_PERF_BUILD),true)	
 $(KERNEL_CONFIG): $(KERNEL_OUT)
+<<<<<<< HEAD
 	$(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-eabi- $(KERNEL_DEFCONFIG) PERF_DEFCONFIG=msm8974_pantech_perf_defconfig
 else	
 $(KERNEL_CONFIG): $(KERNEL_OUT)
 	$(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-eabi- $(KERNEL_DEFCONFIG)
+=======
+	$(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-linux-androideabi- $(KERNEL_DEFCONFIG) PERF_DEFCONFIG=msm8974_pantech_perf_defconfig
+else
+$(KERNEL_CONFIG): $(KERNEL_OUT)
+	$(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-linux-androideabi- $(KERNEL_DEFCONFIG)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 endif	
 
 $(KERNEL_OUT)/piggy : $(TARGET_PREBUILT_INT_KERNEL)
 	$(hide) gunzip -c $(KERNEL_OUT)/arch/arm/boot/compressed/piggy.gzip > $(KERNEL_OUT)/piggy
 
 $(TARGET_PREBUILT_INT_KERNEL): $(KERNEL_OUT) $(KERNEL_CONFIG) $(KERNEL_HEADERS_INSTALL)
+<<<<<<< HEAD
 	$(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-eabi-
 	$(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-eabi- modules
 	$(MAKE) -C kernel O=../$(KERNEL_OUT) INSTALL_MOD_PATH=../../$(KERNEL_MODULES_INSTALL) INSTALL_MOD_STRIP=1 ARCH=arm CROSS_COMPILE=arm-eabi- modules_install
+=======
+	$(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-linux-androideabi-
+	$(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-linux-androideabi- modules
+	$(MAKE) -C kernel O=../$(KERNEL_OUT) INSTALL_MOD_PATH=../../$(KERNEL_MODULES_INSTALL) INSTALL_MOD_STRIP=1 ARCH=arm CROSS_COMPILE=arm-linux-androideabi- modules_install
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	$(mv-modules)
 	$(clean-module-folder)
 	$(append-dtb)
 	$(exfat-module)
 
 $(KERNEL_HEADERS_INSTALL): $(KERNEL_OUT) $(KERNEL_CONFIG)
+<<<<<<< HEAD
 	$(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-eabi- headers_install
 
 kerneltags: $(KERNEL_OUT) $(KERNEL_CONFIG)
@@ -152,6 +174,20 @@ kernelconfig: $(KERNEL_OUT) $(KERNEL_CONFIG)
 #	     $(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-eabi- menuconfig
 	env KCONFIG_NOTIMESTAMP=true \
 	     $(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-eabi- savedefconfig
+=======
+	$(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-linux-androideabi- headers_install
+
+kerneltags: $(KERNEL_OUT) $(KERNEL_CONFIG)
+	$(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-linux-androideabi- tags
+
+kernelconfig: $(KERNEL_OUT) $(KERNEL_CONFIG)
+	env KCONFIG_NOTIMESTAMP=true \
+	     $(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-linux-androideabi- xconfig
+#	env KCONFIG_NOTIMESTAMP=true \ #20130225 jylee modify menuconfig -> xconfig
+#	     $(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-linux-androideabi- menuconfig
+	env KCONFIG_NOTIMESTAMP=true \
+	     $(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=arm CROSS_COMPILE=arm-linux-androideabi- savedefconfig
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	cp $(KERNEL_OUT)/defconfig kernel/arch/arm/configs/$(KERNEL_DEFCONFIG)
 
 endif

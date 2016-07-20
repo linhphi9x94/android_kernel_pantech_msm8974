@@ -1266,6 +1266,10 @@ static void hfi_process_sys_get_prop_image_version(
 }
 
 static void hfi_process_sys_property_info(
+<<<<<<< HEAD
+=======
+		msm_vidc_callback callback, u32 device_id,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		struct hfi_msg_sys_property_info_packet *pkt)
 {
 	if (!pkt) {
@@ -1301,8 +1305,13 @@ u32 hfi_process_msg_packet(
 {
 	u32 rc = 0;
 	struct hal_session *sess = NULL;
+<<<<<<< HEAD
 	if (!callback || !msg_hdr || msg_hdr->size <
 		VIDC_IFACEQ_MIN_PKT_SIZE) {
+=======
+	if (!callback || !session_lock || !msg_hdr ||
+			msg_hdr->size <	VIDC_IFACEQ_MIN_PKT_SIZE) {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		dprintk(VIDC_ERR, "hal_process_msg_packet:bad"
 			"packet/packet size: %d", msg_hdr->size);
 		rc = -EINVAL;
@@ -1335,7 +1344,11 @@ u32 hfi_process_msg_packet(
 						msg_hdr);
 		break;
 	case HFI_MSG_SYS_PROPERTY_INFO:
+<<<<<<< HEAD
 		hfi_process_sys_property_info(
+=======
+		hfi_process_sys_property_info(callback, device_id,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		   (struct hfi_msg_sys_property_info_packet *)
 			msg_hdr);
 		break;

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -149,6 +153,7 @@ static irqreturn_t ocmem_dm_irq_handler(int irq, void *dev_id)
 	return IRQ_HANDLED;
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_MSM_OCMEM_NONSECURE
 int ocmem_clear(unsigned long start, unsigned long size)
 {
@@ -181,6 +186,8 @@ int ocmem_clear(unsigned long start, unsigned long size)
 }
 #endif
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* Lock during transfers */
 int ocmem_rdm_transfer(int id, struct ocmem_map_list *clist,
 			unsigned long start, int direction)

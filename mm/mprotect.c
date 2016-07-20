@@ -179,7 +179,12 @@ mprotect_fixup(struct vm_area_struct *vma, struct vm_area_struct **pprev,
 	 */
 	pgoff = vma->vm_pgoff + ((start - vma->vm_start) >> PAGE_SHIFT);
 	*pprev = vma_merge(mm, *pprev, start, end, newflags,
+<<<<<<< HEAD
 			vma->anon_vma, vma->vm_file, pgoff, vma_policy(vma));
+=======
+			vma->anon_vma, vma->vm_file, pgoff, vma_policy(vma),
+			vma_get_anon_name(vma));
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (*pprev) {
 		vma = *pprev;
 		goto success;

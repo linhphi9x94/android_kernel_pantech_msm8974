@@ -841,9 +841,12 @@ static int hw_usb_reset(void)
 	/* ESS flushes only at end?!? */
 	hw_cwrite(CAP_ENDPTFLUSH,    ~0, ~0);   /* flush all EPs */
 
+<<<<<<< HEAD
 	/* clear setup token semaphores */
 	hw_cwrite(CAP_ENDPTSETUPSTAT, 0,  0);   /* writes its content */
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* clear complete status */
 	hw_cwrite(CAP_ENDPTCOMPLETE,  0,  0);   /* writes its content */
 
@@ -2298,6 +2301,10 @@ static int _gadget_stop_activity(struct usb_gadget *gadget)
 	udc->configured = 0;
 	spin_unlock_irqrestore(udc->lock, flags);
 
+<<<<<<< HEAD
+=======
+	gadget->xfer_isr_count = 0;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	gadget->b_hnp_enable = 0;
 	gadget->a_hnp_support = 0;
 	gadget->host_request = 0;
@@ -3691,6 +3698,10 @@ static irqreturn_t udc_irq(void)
 			isr_statistics.uei++;
 		if (USBi_UI  & intr) {
 			isr_statistics.ui++;
+<<<<<<< HEAD
+=======
+			udc->gadget.xfer_isr_count++;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			isr_tr_complete_handler(udc);
 		}
 		if (USBi_SLI & intr) {

@@ -1266,7 +1266,18 @@ static void ndisc_router_discovery(struct sk_buff *skb)
 	if (rt)
 		rt6_set_expires(rt, jiffies + (HZ * lifetime));
 	if (ra_msg->icmph.icmp6_hop_limit) {
+<<<<<<< HEAD
 		in6_dev->cnf.hop_limit = ra_msg->icmph.icmp6_hop_limit;
+=======
+		/* Only set hop_limit on the interface if it is higher than
+		 * the current hop_limit.
+		 */
+		if (in6_dev->cnf.hop_limit < ra_msg->icmph.icmp6_hop_limit) {
+			in6_dev->cnf.hop_limit = ra_msg->icmph.icmp6_hop_limit;
+		} else {
+			ND_PRINTK2(KERN_WARNING, "RA: Got route advertisement with lower hop_limit than current\n");
+		}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (rt)
 			dst_metric_set(&rt->dst, RTAX_HOPLIMIT,
 				       ra_msg->icmph.icmp6_hop_limit);
@@ -1379,7 +1390,11 @@ skip_routeinfo:
 		}
 	}
 
+<<<<<<< HEAD
 	if (ndopts.nd_opts_mtu) {
+=======
+	if (ndopts.nd_opts_mtu && in6_dev->cnf.accept_ra_mtu) {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		__be32 n;
 		u32 mtu;
 

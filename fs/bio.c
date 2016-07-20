@@ -458,6 +458,10 @@ void __bio_clone(struct bio *bio, struct bio *bio_src)
 	bio->bi_vcnt = bio_src->bi_vcnt;
 	bio->bi_size = bio_src->bi_size;
 	bio->bi_idx = bio_src->bi_idx;
+<<<<<<< HEAD
+=======
+	bio->bi_dio_inode = bio_src->bi_dio_inode;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 EXPORT_SYMBOL(__bio_clone);
 

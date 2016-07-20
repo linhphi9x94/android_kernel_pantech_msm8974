@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -37,6 +41,10 @@ static struct kgsl_snapshot_obj {
 	phys_addr_t ptbase;
 	void *ptr;
 	int dwords;
+<<<<<<< HEAD
+=======
+	struct kgsl_mem_entry *entry;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 } objbuf[SNAPSHOT_OBJ_BUFSIZE];
 
 /* Pointer to the next open entry in the object list */
@@ -49,6 +57,10 @@ static void push_object(struct kgsl_device *device, int type,
 {
 	int index;
 	void *ptr;
+<<<<<<< HEAD
+=======
+	struct kgsl_mem_entry *entry = NULL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/*
 	 * Sometimes IBs can be reused in the same dump.  Because we parse from
@@ -74,7 +86,11 @@ static void push_object(struct kgsl_device *device, int type,
 	 * adreno_convertaddr verifies that the IB size is valid - at least in
 	 * the context of it being smaller then the allocated memory space
 	 */
+<<<<<<< HEAD
 	ptr = adreno_convertaddr(device, ptbase, gpuaddr, dwords << 2);
+=======
+	ptr = adreno_convertaddr(device, ptbase, gpuaddr, dwords << 2, &entry);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (ptr == NULL) {
 		KGSL_DRV_ERR(device,
@@ -87,6 +103,10 @@ static void push_object(struct kgsl_device *device, int type,
 	objbuf[objbufptr].gpuaddr = gpuaddr;
 	objbuf[objbufptr].ptbase = ptbase;
 	objbuf[objbufptr].dwords = dwords;
+<<<<<<< HEAD
+=======
+	objbuf[objbufptr].entry = entry;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	objbuf[objbufptr++].ptr = ptr;
 }
 
@@ -562,6 +582,10 @@ static int ib_add_gpu_object(struct kgsl_device *device, phys_addr_t ptbase,
 {
 	int i, ret, rem = dwords;
 	unsigned int *src;
+<<<<<<< HEAD
+=======
+	struct kgsl_mem_entry *entry = NULL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/*
 	 * If the object is already in the list, we don't need to parse it again
@@ -571,7 +595,11 @@ static int ib_add_gpu_object(struct kgsl_device *device, phys_addr_t ptbase,
 		return 0;
 
 	src = (unsigned int *) adreno_convertaddr(device, ptbase, gpuaddr,
+<<<<<<< HEAD
 		dwords << 2);
+=======
+		dwords << 2, &entry);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (src == NULL)
 		return -EINVAL;
@@ -595,11 +623,16 @@ static int ib_add_gpu_object(struct kgsl_device *device, phys_addr_t ptbase,
 				unsigned int gpuaddr = src[i + 1];
 				unsigned int size = src[i + 2];
 
+<<<<<<< HEAD
 				ret = parse_ib(device, ptbase, gpuaddr, size);
 
 				/* If adding the IB failed then stop parsing */
 				if (ret < 0)
 					goto done;
+=======
+				parse_ib(device, ptbase, gpuaddr, size);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			} else {
 				ret = ib_parse_type3(device, &src[i], ptbase);
 				/*
@@ -626,6 +659,14 @@ done:
 	if (ret >= 0)
 		snapshot_frozen_objsize += ret;
 
+<<<<<<< HEAD
+=======
+	if (entry) {
+		kgsl_memdesc_unmap(&entry->memdesc);
+		kgsl_mem_entry_put(entry);
+	}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return ret;
 }
 
@@ -920,6 +961,7 @@ static int snapshot_ib(struct kgsl_device *device, void *snapshot,
 			if ((obj->dwords - i) < type3_pkt_size(*src) + 1)
 				continue;
 
+<<<<<<< HEAD
 			if (adreno_cmd_is_ib(*src))
 				ret = parse_ib(device, obj->ptbase, src[1],
 					src[2]);
@@ -929,6 +971,18 @@ static int snapshot_ib(struct kgsl_device *device, void *snapshot,
 			/* Stop parsing if the type3 decode fails */
 			if (ret < 0)
 				break;
+=======
+			if (adreno_cmd_is_ib(*src)) {
+				parse_ib(device, obj->ptbase, src[1],
+					src[2]);
+			} else {
+				ret = ib_parse_type3(device, src, obj->ptbase);
+
+				/* Stop parsing if the type3 decode fails */
+				if (ret < 0)
+					break;
+			}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 	}
 
@@ -944,6 +998,13 @@ static void *dump_object(struct kgsl_device *device, int obj, void *snapshot,
 		snapshot = kgsl_snapshot_add_section(device,
 			KGSL_SNAPSHOT_SECTION_IB, snapshot, remain,
 			snapshot_ib, &objbuf[obj]);
+<<<<<<< HEAD
+=======
+		if (objbuf[obj].entry) {
+			kgsl_memdesc_unmap(&(objbuf[obj].entry->memdesc));
+			kgsl_mem_entry_put(objbuf[obj].entry);
+		}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		break;
 	default:
 		KGSL_DRV_ERR(device,

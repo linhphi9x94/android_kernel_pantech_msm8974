@@ -1368,7 +1368,11 @@ static int slim_tx_mixer_put(struct snd_kcontrol *kcontrol,
 			if (wcd9xxx_tx_vport_validation(
 						vport_check_table[dai_id],
 						port_id,
+<<<<<<< HEAD
 						sitar_p->dai)) {
+=======
+						sitar_p->dai, NUM_CODEC_DAIS)) {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				dev_dbg(codec->dev, "%s: TX%u is used by other virtual port\n",
 					__func__, port_id + 1);
 				mutex_unlock(&codec->mutex);

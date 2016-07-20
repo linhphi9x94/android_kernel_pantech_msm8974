@@ -22,12 +22,15 @@
 
 #include <mach/scm.h>
 
+<<<<<<< HEAD
 #if defined(CONFIG_PANTECH_DEBUG)
 #ifdef CONFIG_PANTECH_DEBUG_SCHED_LOG  //p14291_pantech_dbg
 #include <mach/pantech_debug.h>
 #endif
 #endif
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define SCM_ENOMEM		-5
 #define SCM_EOPNOTSUPP		-4
 #define SCM_EINVAL_ADDR		-3
@@ -233,6 +236,7 @@ static int scm_call_common(u32 svc_id, u32 cmd_id, const void *cmd_buf,
 		memcpy(scm_get_command_buffer(scm_buf), cmd_buf, cmd_len);
 
 	mutex_lock(&scm_lock);
+<<<<<<< HEAD
 
 #if 0
 #if defined(CONFIG_PANTECH_DEBUG)
@@ -243,6 +247,8 @@ static int scm_call_common(u32 svc_id, u32 cmd_id, const void *cmd_buf,
 #endif
 #endif
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ret = __scm_call(scm_buf);
 	mutex_unlock(&scm_lock);
 	if (ret)
@@ -325,7 +331,10 @@ int scm_call(u32 svc_id, u32 cmd_id, const void *cmd_buf, size_t cmd_len,
 	if (!cmd)
 		return -ENOMEM;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ret = scm_call_common(svc_id, cmd_id, cmd_buf, cmd_len, resp_buf,
 				resp_len, cmd, len);
 	kfree(cmd);

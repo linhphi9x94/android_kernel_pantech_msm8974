@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2013, 2015 The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -10,6 +14,7 @@
  * GNU General Public License for more details.
  */
 
+<<<<<<< HEAD
 #include <linux/workqueue.h>
 #include <linux/types.h>
 #include <linux/delay.h>
@@ -83,11 +88,30 @@ struct sns_adsp_control_s {
 	uint32_t sns_ocmem_bus_client;
 	struct platform_device *pdev;
 	void *pil;
+=======
+#include <linux/msm_dsps.h>
+#include <linux/module.h>
+#include <linux/init.h>
+#include <linux/slab.h>
+#include <linux/platform_device.h>
+#include <linux/cdev.h>
+#include <linux/fs.h>
+#include <linux/of_device.h>
+#include <asm/arch_timer.h>
+#include <linux/uaccess.h>
+
+#define CLASS_NAME	"ssc"
+#define DRV_NAME	"sensors"
+#define DRV_VERSION	"2.00"
+
+struct sns_adsp_control_s {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct class *dev_class;
 	dev_t dev_num;
 	struct device *dev;
 	struct cdev *cdev;
 };
+<<<<<<< HEAD
 
 static struct sns_adsp_control_s sns_ctl;
 
@@ -1023,6 +1047,11 @@ static int sensors_adsp_release(struct inode *inode, struct file *file)
 }
 
 /*
+=======
+static struct sns_adsp_control_s sns_ctl;
+
+/*
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  * Read QTimer clock ticks and scale down to 32KHz clock as used
  * in DSPS
  */
@@ -1044,9 +1073,22 @@ static u32 sns_read_qtimer(void)
 	return (u32)val;
 }
 
+<<<<<<< HEAD
 /*
  * IO Control - handle commands from client.
  */
+=======
+static int sensors_adsp_open(struct inode *ip, struct file *fp)
+{
+	return 0;
+}
+
+static int sensors_adsp_release(struct inode *inode, struct file *file)
+{
+	return 0;
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static long sensors_adsp_ioctl(struct file *file,
 			unsigned int cmd, unsigned long arg)
 {
@@ -1067,19 +1109,30 @@ static long sensors_adsp_ioctl(struct file *file,
 	return ret;
 }
 
+<<<<<<< HEAD
 /*
  * platform driver
  */
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 const struct file_operations sensors_adsp_fops = {
 	.owner = THIS_MODULE,
 	.open = sensors_adsp_open,
 	.release = sensors_adsp_release,
+<<<<<<< HEAD
 	.unlocked_ioctl = sensors_adsp_ioctl,
+=======
+	.unlocked_ioctl = sensors_adsp_ioctl
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static int sensors_adsp_probe(struct platform_device *pdev)
 {
 	int ret = 0;
+<<<<<<< HEAD
+=======
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	sns_ctl.dev_class = class_create(THIS_MODULE, CLASS_NAME);
 	if (sns_ctl.dev_class == NULL) {
 		pr_err("%s: class_create fail.\n", __func__);
@@ -1114,6 +1167,7 @@ static int sensors_adsp_probe(struct platform_device *pdev)
 		goto cdev_add_err;
 	}
 
+<<<<<<< HEAD
 	sns_ctl.sns_workqueue =
 			alloc_workqueue("sns_ocmem", WQ_NON_REENTRANT, 0);
 	if (!sns_ctl.sns_workqueue) {
@@ -1146,6 +1200,8 @@ static int sensors_adsp_probe(struct platform_device *pdev)
 
 	queue_work(sns_ctl.sns_workqueue, &sns_ctl.sns_work);
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 
 cdev_add_err:
@@ -1162,6 +1218,7 @@ res_err:
 
 static int sensors_adsp_remove(struct platform_device *pdev)
 {
+<<<<<<< HEAD
 	struct msm_bus_scale_pdata *sns_ocmem_bus_scale_pdata = NULL;
 
 	sns_ocmem_bus_scale_pdata = (struct msm_bus_scale_pdata *)
@@ -1176,6 +1233,8 @@ static int sensors_adsp_remove(struct platform_device *pdev)
 	destroy_workqueue(sns_ctl.sns_workqueue);
 	destroy_workqueue(sns_ctl.smd_wq);
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	cdev_del(sns_ctl.cdev);
 	kfree(sns_ctl.cdev);
 	sns_ctl.cdev = NULL;
@@ -1187,12 +1246,19 @@ static int sensors_adsp_remove(struct platform_device *pdev)
 }
 
 static const struct of_device_id msm_adsp_sensors_dt_match[] = {
+<<<<<<< HEAD
 	{.compatible = "qcom,msm-adsp-sensors"},
 	{}
 };
 MODULE_DEVICE_TABLE(of, msm_adsp_sensors_dt_match);
 
 
+=======
+	{.compatible = "qcom,msm-adsp-sensors"}
+};
+MODULE_DEVICE_TABLE(of, msm_adsp_sensors_dt_match);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static struct platform_driver sensors_adsp_driver = {
 	.driver = {
 		.name = "sensors-adsp",
@@ -1203,6 +1269,7 @@ static struct platform_driver sensors_adsp_driver = {
 	.remove = sensors_adsp_remove,
 };
 
+<<<<<<< HEAD
 /*
  * Module Init.
  */
@@ -1213,6 +1280,14 @@ static int sensors_adsp_init(void)
 
 	rc = platform_driver_register(&sensors_adsp_driver);
 
+=======
+static int __init sensors_adsp_init(void)
+{
+	int rc;
+
+	pr_debug("%s driver version %s.\n", DRV_NAME, DRV_VERSION);
+	rc = platform_driver_register(&sensors_adsp_driver);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (rc) {
 		pr_err("%s: Failed to register sensors adsp driver\n",
 			__func__);
@@ -1222,16 +1297,23 @@ static int sensors_adsp_init(void)
 	return 0;
 }
 
+<<<<<<< HEAD
 /*
  * Module Exit.
  */
 static void sensors_adsp_exit(void)
+=======
+static void __exit sensors_adsp_exit(void)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	platform_driver_unregister(&sensors_adsp_driver);
 }
 
 module_init(sensors_adsp_init);
 module_exit(sensors_adsp_exit);
+<<<<<<< HEAD
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 MODULE_LICENSE("GPL v2");
 MODULE_DESCRIPTION("Sensors ADSP driver");

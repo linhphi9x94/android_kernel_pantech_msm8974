@@ -1,6 +1,10 @@
 /* include/asm-arm/arch-msm/usbdiag.h
  *
+<<<<<<< HEAD
  * Copyright (c) 2008-2010, 2012, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2008-2010, 2012-2013,The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * All source code in this file is licensed under the following license except
  * where indicated.
@@ -54,7 +58,10 @@ struct usb_diag_ch *usb_diag_open(const char *name, void *priv,
 		void (*notify)(void *, unsigned, struct diag_request *));
 void usb_diag_close(struct usb_diag_ch *ch);
 int usb_diag_alloc_req(struct usb_diag_ch *ch, int n_write, int n_read);
+<<<<<<< HEAD
 void usb_diag_free_req(struct usb_diag_ch *ch);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int usb_diag_read(struct usb_diag_ch *ch, struct diag_request *d_req);
 int usb_diag_write(struct usb_diag_ch *ch, struct diag_request *d_req);
 #else
@@ -71,9 +78,12 @@ int usb_diag_alloc_req(struct usb_diag_ch *ch, int n_write, int n_read)
 {
 	return -ENODEV;
 }
+<<<<<<< HEAD
 static inline void usb_diag_free_req(struct usb_diag_ch *ch)
 {
 }
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static inline
 int usb_diag_read(struct usb_diag_ch *ch, struct diag_request *d_req)
 {

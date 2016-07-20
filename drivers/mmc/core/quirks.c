@@ -50,6 +50,17 @@
 #define SDIO_DEVICE_ID_MSM_QCA_AR6003_2	0x301
 #endif
 
+<<<<<<< HEAD
+=======
+#ifndef SDIO_DEVICE_ID_MSM_QCA_AR6004_1
+#define SDIO_DEVICE_ID_MSM_QCA_AR6004_1	0x400
+#endif
+
+#ifndef SDIO_DEVICE_ID_MSM_QCA_AR6004_2
+#define SDIO_DEVICE_ID_MSM_QCA_AR6004_2	0x401
+#endif
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*
  * This hook just adds a quirk for all sdio devices
  */
@@ -78,6 +89,15 @@ static const struct mmc_fixup mmc_fixup_methods[] = {
 	SDIO_FIXUP(SDIO_VENDOR_ID_MSM_QCA, SDIO_DEVICE_ID_MSM_QCA_AR6003_2,
 		   remove_quirk, MMC_QUIRK_BROKEN_CLK_GATING),
 
+<<<<<<< HEAD
+=======
+	SDIO_FIXUP(SDIO_VENDOR_ID_MSM_QCA, SDIO_DEVICE_ID_MSM_QCA_AR6004_1,
+		   remove_quirk, MMC_QUIRK_BROKEN_CLK_GATING),
+
+	SDIO_FIXUP(SDIO_VENDOR_ID_MSM_QCA, SDIO_DEVICE_ID_MSM_QCA_AR6004_2,
+		   remove_quirk, MMC_QUIRK_BROKEN_CLK_GATING),
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	SDIO_FIXUP(SDIO_VENDOR_ID_TI, SDIO_DEVICE_ID_TI_WL1271,
 		   add_quirk, MMC_QUIRK_NONSTD_FUNC_IF),
 

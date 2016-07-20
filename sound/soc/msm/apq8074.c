@@ -26,13 +26,20 @@
 #include <sound/pcm.h>
 #include <sound/jack.h>
 #include <sound/q6afe-v2.h>
+<<<<<<< HEAD
+=======
+#include <sound/q6core.h>
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <sound/pcm_params.h>
 #include <asm/mach-types.h>
 #include <mach/subsystem_notif.h>
 #include <mach/socinfo.h>
 
 #include "qdsp6v2/msm-pcm-routing-v2.h"
+<<<<<<< HEAD
 #include "qdsp6v2/q6core.h"
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include "../codecs/wcd9xxx-common.h"
 #include "../codecs/wcd9320.h"
 
@@ -1913,9 +1920,36 @@ static struct snd_soc_dai_link apq8074_common_dai_links[] = {
 	},
 	/* LSM FE */
 	{
+<<<<<<< HEAD
 		.name = "Listen Audio Service",
 		.stream_name = "Listen Audio Service",
 		.cpu_dai_name = "LSM",
+		.platform_name = "msm-lsm-client",
+		.dynamic = 1,
+		.trigger = { SND_SOC_DPCM_TRIGGER_POST,
+			     SND_SOC_DPCM_TRIGGER_POST },
+=======
+		.name = "Listen 1 Audio Service",
+		.stream_name = "Listen 1 Audio Service",
+		.cpu_dai_name = "LSM1",
+		.platform_name = "msm-lsm-client",
+		.dynamic = 1,
+		.trigger = { SND_SOC_DPCM_TRIGGER_POST,
+				 SND_SOC_DPCM_TRIGGER_POST },
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
+		.no_host_mode = SND_SOC_DAI_LINK_NO_HOST,
+		.ignore_suspend = 1,
+		.ignore_pmdown_time = 1,
+		.codec_dai_name = "snd-soc-dummy-dai",
+		.codec_name = "snd-soc-dummy",
+		.be_id = MSM_FRONTEND_DAI_LSM1,
+	},
+<<<<<<< HEAD
+=======
+	{
+		.name = "Listen 2 Audio Service",
+		.stream_name = "Listen 2 Audio Service",
+		.cpu_dai_name = "LSM2",
 		.platform_name = "msm-lsm-client",
 		.dynamic = 1,
 		.trigger = { SND_SOC_DPCM_TRIGGER_POST,
@@ -1925,8 +1959,99 @@ static struct snd_soc_dai_link apq8074_common_dai_links[] = {
 		.ignore_pmdown_time = 1,
 		.codec_dai_name = "snd-soc-dummy-dai",
 		.codec_name = "snd-soc-dummy",
-		.be_id = MSM_FRONTEND_DAI_LSM1,
+		.be_id = MSM_FRONTEND_DAI_LSM2,
 	},
+	{
+		.name = "Listen 3 Audio Service",
+		.stream_name = "Listen 3 Audio Service",
+		.cpu_dai_name = "LSM3",
+		.platform_name = "msm-lsm-client",
+		.dynamic = 1,
+		.trigger = { SND_SOC_DPCM_TRIGGER_POST,
+			     SND_SOC_DPCM_TRIGGER_POST },
+		.no_host_mode = SND_SOC_DAI_LINK_NO_HOST,
+		.ignore_suspend = 1,
+		.ignore_pmdown_time = 1,
+		.codec_dai_name = "snd-soc-dummy-dai",
+		.codec_name = "snd-soc-dummy",
+		.be_id = MSM_FRONTEND_DAI_LSM3,
+	},
+	{
+		.name = "Listen 4 Audio Service",
+		.stream_name = "Listen 4 Audio Service",
+		.cpu_dai_name = "LSM4",
+		.platform_name = "msm-lsm-client",
+		.dynamic = 1,
+		.trigger = { SND_SOC_DPCM_TRIGGER_POST,
+			     SND_SOC_DPCM_TRIGGER_POST },
+		.no_host_mode = SND_SOC_DAI_LINK_NO_HOST,
+		.ignore_suspend = 1,
+		.ignore_pmdown_time = 1,
+		.codec_dai_name = "snd-soc-dummy-dai",
+		.codec_name = "snd-soc-dummy",
+		.be_id = MSM_FRONTEND_DAI_LSM4,
+	},
+	{
+		.name = "Listen 5 Audio Service",
+		.stream_name = "Listen 5 Audio Service",
+		.cpu_dai_name = "LSM5",
+		.platform_name = "msm-lsm-client",
+		.dynamic = 1,
+		.trigger = { SND_SOC_DPCM_TRIGGER_POST,
+			     SND_SOC_DPCM_TRIGGER_POST },
+		.no_host_mode = SND_SOC_DAI_LINK_NO_HOST,
+		.ignore_suspend = 1,
+		.ignore_pmdown_time = 1,
+		.codec_dai_name = "snd-soc-dummy-dai",
+		.codec_name = "snd-soc-dummy",
+		.be_id = MSM_FRONTEND_DAI_LSM5,
+	},
+	{
+		.name = "Listen 6 Audio Service",
+		.stream_name = "Listen 6 Audio Service",
+		.cpu_dai_name = "LSM6",
+		.platform_name = "msm-lsm-client",
+		.dynamic = 1,
+		.trigger = { SND_SOC_DPCM_TRIGGER_POST,
+			     SND_SOC_DPCM_TRIGGER_POST },
+		.no_host_mode = SND_SOC_DAI_LINK_NO_HOST,
+		.ignore_suspend = 1,
+		.ignore_pmdown_time = 1,
+		.codec_dai_name = "snd-soc-dummy-dai",
+		.codec_name = "snd-soc-dummy",
+		.be_id = MSM_FRONTEND_DAI_LSM6,
+	},
+	{
+		.name = "Listen 7 Audio Service",
+		.stream_name = "Listen 7 Audio Service",
+		.cpu_dai_name = "LSM7",
+		.platform_name = "msm-lsm-client",
+		.dynamic = 1,
+		.trigger = { SND_SOC_DPCM_TRIGGER_POST,
+			     SND_SOC_DPCM_TRIGGER_POST },
+		.no_host_mode = SND_SOC_DAI_LINK_NO_HOST,
+		.ignore_suspend = 1,
+		.ignore_pmdown_time = 1,
+		.codec_dai_name = "snd-soc-dummy-dai",
+		.codec_name = "snd-soc-dummy",
+		.be_id = MSM_FRONTEND_DAI_LSM7,
+	},
+	{
+		.name = "Listen 8 Audio Service",
+		.stream_name = "Listen 8 Audio Service",
+		.cpu_dai_name = "LSM8",
+		.platform_name = "msm-lsm-client",
+		.dynamic = 1,
+		.trigger = { SND_SOC_DPCM_TRIGGER_POST,
+			     SND_SOC_DPCM_TRIGGER_POST },
+		.no_host_mode = SND_SOC_DAI_LINK_NO_HOST,
+		.ignore_suspend = 1,
+		.ignore_pmdown_time = 1,
+		.codec_dai_name = "snd-soc-dummy-dai",
+		.codec_name = "snd-soc-dummy",
+		.be_id = MSM_FRONTEND_DAI_LSM8,
+	},
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* Backend BT/FM DAI Links */
 	{
 		.name = LPASS_BE_INT_BT_SCO_RX,

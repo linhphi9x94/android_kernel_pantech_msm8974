@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2012, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2012, 2014 The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -25,6 +29,12 @@ enum logk_event_type {
 	LOGK_HOTPLUG = 4,
 	LOGK_CTXID = 5,
 	LOGK_TIMESTAMP = 6,
+<<<<<<< HEAD
+=======
+	LOGK_L2CPREAD = 7,
+	LOGK_L2CPWRITE = 8,
+	LOGK_IRQ = 9,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 #define LOGTYPE_NOPC 0x80

@@ -461,7 +461,11 @@ static void rmidev_device_cleanup(struct rmidev_data *dev_data)
 	return;
 }
 
+<<<<<<< HEAD
 static char *rmi_char_devnode(struct device *dev, mode_t *mode)
+=======
+static char *rmi_char_devnode(struct device *dev, umode_t *mode)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	if (!mode)
 		return NULL;

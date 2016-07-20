@@ -1773,6 +1773,15 @@ int ufshcd_init(struct device *dev, struct ufs_hba **hba_handle,
 
 	*hba_handle = hba;
 
+<<<<<<< HEAD
+=======
+	/*
+	 * The device-initialize-sequence hasn't been invoked yet.
+	 * Set the device to power-off state
+	 */
+	ufshcd_set_ufs_dev_poweroff(hba);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	async_schedule(ufshcd_async_scan, hba);
 
 	return 0;

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -31,7 +35,11 @@
 #include <mach/subsystem_restart.h>
 #include <mach/msm_memtypes.h>
 #include <mach/ramdump.h>
+<<<<<<< HEAD
 #include "q6core.h"
+=======
+#include <sound/q6core.h>
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include "audio_ocmem.h"
 
 
@@ -79,7 +87,11 @@
 #define clear_bit_pos(x, y)  (atomic_set(&x, (atomic_read(&x) & (~(1 << y)))))
 #define test_bit_pos(x, y) ((atomic_read(&x)) & (1 << y))
 
+<<<<<<< HEAD
 static int enable_ocmem_audio_voice;
+=======
+static int enable_ocmem_audio_voice = 1;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 module_param(enable_ocmem_audio_voice, int,
 			S_IRUGO | S_IWUSR | S_IWGRP);
 MODULE_PARM_DESC(enable_ocmem_audio_voice, "control OCMEM usage for audio/voice");
@@ -362,6 +374,7 @@ int audio_ocmem_enable(int cid)
 		case OCMEM_STATE_SHRINK:
 			pr_debug("%s: ocmem shrink request process\n",
 							__func__);
+<<<<<<< HEAD
 			atomic_set(&audio_ocmem_lcl.audio_cond, 1);
 			clear_bit_pos(audio_ocmem_lcl.audio_state,
 					OCMEM_STATE_MAP_COMPL);
@@ -390,11 +403,45 @@ int audio_ocmem_enable(int cid)
 			atomic_set(&audio_ocmem_lcl.audio_cond, 1);
 			clear_bit_pos(audio_ocmem_lcl.audio_state,
 					OCMEM_STATE_SHRINK);
+=======
+			if (test_bit_pos(audio_ocmem_lcl.audio_state,
+						OCMEM_STATE_MAP_COMPL)) {
+				atomic_set(&audio_ocmem_lcl.audio_cond, 1);
+				clear_bit_pos(audio_ocmem_lcl.audio_state,
+						OCMEM_STATE_MAP_COMPL);
+				set_bit_pos(audio_ocmem_lcl.audio_state,
+						OCMEM_STATE_UNMAP_TRANSITION);
+				ret = ocmem_unmap(cid, audio_ocmem_lcl.buf,
+						&audio_ocmem_lcl.mlist);
+				if (ret) {
+					pr_err("%s: ocmem_unmap failed, state[%d]\n",
+					__func__,
+					atomic_read(&audio_ocmem_lcl.audio_state));
+					goto fail_cmd1;
+				}
+
+				wait_event_interruptible(audio_ocmem_lcl.audio_wait,
+					(atomic_read(&audio_ocmem_lcl.audio_state) &
+						     _UNMAP_RESPONSE_BIT_MASK_)
+						     != 0);
+				ret = ocmem_shrink(cid, audio_ocmem_lcl.buf, 0);
+				if (ret) {
+					pr_err("%s: ocmem_shrink failed, state[%d]\n",
+					__func__,
+					atomic_read(&audio_ocmem_lcl.audio_state));
+					goto fail_cmd1;
+				}
+				atomic_set(&audio_ocmem_lcl.audio_cond, 1);
+				clear_bit_pos(audio_ocmem_lcl.audio_state,
+					OCMEM_STATE_SHRINK);
+                        }
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			pr_debug("%s:shrink process complete\n", __func__);
 			break;
 		case OCMEM_STATE_GROW:
 			pr_debug("%s: ocmem grow request process\n",
 							__func__);
+<<<<<<< HEAD
 			atomic_set(&audio_ocmem_lcl.audio_cond, 1);
 			clear_bit_pos(audio_ocmem_lcl.audio_state,
 					OCMEM_STATE_UNMAP_COMPL);
@@ -415,6 +462,31 @@ int audio_ocmem_enable(int cid)
 			clear_bit_pos(audio_ocmem_lcl.audio_state,
 					OCMEM_STATE_GROW);
 			atomic_set(&audio_ocmem_lcl.audio_cond, 1);
+=======
+			if (test_bit_pos(audio_ocmem_lcl.audio_state,
+						OCMEM_STATE_UNMAP_COMPL)) {
+				atomic_set(&audio_ocmem_lcl.audio_cond, 1);
+				clear_bit_pos(audio_ocmem_lcl.audio_state,
+						OCMEM_STATE_UNMAP_COMPL);
+				set_bit_pos(audio_ocmem_lcl.audio_state,
+						OCMEM_STATE_MAP_TRANSITION);
+				ret = ocmem_map(cid, audio_ocmem_lcl.buf,
+						&audio_ocmem_lcl.mlist);
+				if (ret) {
+					pr_err("%s: ocmem_map failed, state[%d]\n",
+					__func__,
+					atomic_read(&audio_ocmem_lcl.audio_state));
+					goto fail_cmd1;
+				}
+				wait_event_interruptible(audio_ocmem_lcl.audio_wait,
+					(atomic_read(&audio_ocmem_lcl.audio_state) &
+							_MAP_RESPONSE_BIT_MASK_) != 0);
+
+				clear_bit_pos(audio_ocmem_lcl.audio_state,
+						OCMEM_STATE_GROW);
+				atomic_set(&audio_ocmem_lcl.audio_cond, 1);
+			}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			break;
 		case OCMEM_STATE_EXIT:
 			if (test_bit_pos(audio_ocmem_lcl.audio_state,

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2011-2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2011-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -133,6 +137,10 @@ struct wcd9xxx_codec_dai_data {
 	u16 grph;				/* slimbus group handle */
 	unsigned long ch_mask;
 	wait_queue_head_t dai_wait;
+<<<<<<< HEAD
+=======
+	bool bus_down_in_recovery;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 #define WCD9XXX_CH(xport, xshift) \

@@ -65,7 +65,10 @@ extern int apparmor_initialized __initdata;
 char *aa_split_fqname(char *args, char **ns_name);
 void aa_info_message(const char *str);
 void *kvmalloc(size_t size);
+<<<<<<< HEAD
 void kvfree(void *buffer);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 
 /**

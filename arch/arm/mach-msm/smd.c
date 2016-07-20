@@ -1,7 +1,11 @@
 /* arch/arm/mach-msm/smd.c
  *
  * Copyright (C) 2007 Google, Inc.
+<<<<<<< HEAD
  * Copyright (c) 2008-2013, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2008-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  * Author: Brian Swetland <swetland@google.com>
  *
  * This software is licensed under the terms of the GNU General Public
@@ -1035,12 +1039,28 @@ static unsigned ch_read_buffer(struct smd_channel *ch, void **ptr)
 {
 	unsigned head = ch->half_ch->get_head(ch->recv);
 	unsigned tail = ch->half_ch->get_tail(ch->recv);
+<<<<<<< HEAD
 	*ptr = (void *) (ch->recv_data + tail);
 
 	if (tail <= head)
 		return head - tail;
 	else
 		return ch->fifo_size - tail;
+=======
+	unsigned fifo_size = ch->fifo_size;
+
+	BUG_ON(fifo_size >= SZ_1M);
+	BUG_ON(head >= fifo_size);
+	BUG_ON(tail >= fifo_size);
+	BUG_ON(OVERFLOW_ADD_UNSIGNED(uintptr_t, (uintptr_t)ch->recv_data,
+								 tail));
+
+	*ptr = (void *) (ch->recv_data + tail);
+	if (tail <= head)
+		return head - tail;
+	else
+		return fifo_size - tail;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static int read_intr_blocked(struct smd_channel *ch)
@@ -1140,16 +1160,35 @@ static unsigned ch_write_buffer(struct smd_channel *ch, void **ptr)
 {
 	unsigned head = ch->half_ch->get_head(ch->send);
 	unsigned tail = ch->half_ch->get_tail(ch->send);
+<<<<<<< HEAD
 	*ptr = (void *) (ch->send_data + head);
 
+=======
+	unsigned fifo_size = ch->fifo_size;
+
+	BUG_ON(fifo_size >= SZ_1M);
+	BUG_ON(head >= fifo_size);
+	BUG_ON(tail >= fifo_size);
+	BUG_ON(OVERFLOW_ADD_UNSIGNED(uintptr_t, (uintptr_t)ch->send_data,
+								head));
+
+	*ptr = (void *) (ch->send_data + head);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (head < tail) {
 		return tail - head - SMD_FIFO_FULL_RESERVE;
 	} else {
 		if (tail < SMD_FIFO_FULL_RESERVE)
+<<<<<<< HEAD
 			return ch->fifo_size + tail - head
 					- SMD_FIFO_FULL_RESERVE;
 		else
 			return ch->fifo_size - head;
+=======
+			return fifo_size + tail - head
+					- SMD_FIFO_FULL_RESERVE;
+		else
+			return fifo_size - head;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 }
 
@@ -2694,7 +2733,10 @@ static irqreturn_t smsm_irq_handler(int irq, void *data)
 				flush_cache_all();
 				outer_flush_all();
 			}
+<<<<<<< HEAD
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			modem_queue_start_reset_notify();
 
 		} else if (modm & SMSM_INIT) {
@@ -3327,13 +3369,21 @@ int __init msm_smd_init(void)
 	if (registered)
 		return 0;
 
+<<<<<<< HEAD
 	smd_log_ctx = ipc_log_context_create(NUM_LOG_PAGES, "smd");
+=======
+	smd_log_ctx = ipc_log_context_create(NUM_LOG_PAGES, "smd", 0);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!smd_log_ctx) {
 		pr_err("%s: unable to create SMD logging context\n", __func__);
 		msm_smd_debug_mask = 0;
 	}
 
+<<<<<<< HEAD
 	smsm_log_ctx = ipc_log_context_create(NUM_LOG_PAGES, "smsm");
+=======
+	smsm_log_ctx = ipc_log_context_create(NUM_LOG_PAGES, "smsm", 0);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!smsm_log_ctx) {
 		pr_err("%s: unable to create SMSM logging context\n", __func__);
 		msm_smd_debug_mask = 0;

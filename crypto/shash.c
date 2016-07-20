@@ -629,6 +629,45 @@ int crypto_unregister_shash(struct shash_alg *alg)
 }
 EXPORT_SYMBOL_GPL(crypto_unregister_shash);
 
+<<<<<<< HEAD
+=======
+int crypto_register_shashes(struct shash_alg *algs, int count)
+{
+	int i, ret;
+
+	for (i = 0; i < count; i++) {
+		ret = crypto_register_shash(&algs[i]);
+		if (ret)
+			goto err;
+	}
+
+	return 0;
+
+err:
+	for (--i; i >= 0; --i)
+		crypto_unregister_shash(&algs[i]);
+
+	return ret;
+}
+EXPORT_SYMBOL_GPL(crypto_register_shashes);
+
+int crypto_unregister_shashes(struct shash_alg *algs, int count)
+{
+	int i, ret;
+
+	for (i = count - 1; i >= 0; --i) {
+		ret = crypto_unregister_shash(&algs[i]);
+		if (ret)
+			pr_err("Failed to unregister %s %s: %d\n",
+			       algs[i].base.cra_driver_name,
+			       algs[i].base.cra_name, ret);
+	}
+
+	return 0;
+}
+EXPORT_SYMBOL_GPL(crypto_unregister_shashes);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int shash_register_instance(struct crypto_template *tmpl,
 			    struct shash_instance *inst)
 {

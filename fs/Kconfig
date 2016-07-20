@@ -39,6 +39,10 @@ source "fs/gfs2/Kconfig"
 source "fs/ocfs2/Kconfig"
 source "fs/btrfs/Kconfig"
 source "fs/nilfs2/Kconfig"
+<<<<<<< HEAD
+=======
+source "fs/f2fs/Kconfig"
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 endif # BLOCK
 
@@ -61,6 +65,11 @@ config FILE_LOCKING
           for filesystems like NFS and for the flock() system
           call. Disabling this option saves about 11k.
 
+<<<<<<< HEAD
+=======
+source "fs/crypto/Kconfig"
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 source "fs/notify/Kconfig"
 
 source "fs/quota/Kconfig"

@@ -127,6 +127,10 @@ struct qseecom_send_svc_cmd_req {
 
 enum qseecom_key_management_usage_type {
 	QSEOS_KM_USAGE_DISK_ENCRYPTION = 0x01,
+<<<<<<< HEAD
+=======
+	QSEOS_KM_USAGE_FILE_ENCRYPTION = 0x02,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	QSEOS_KM_USAGE_MAX
 };
 
@@ -137,6 +141,11 @@ struct qseecom_create_key_req {
 
 struct qseecom_wipe_key_req {
 	enum qseecom_key_management_usage_type usage;
+<<<<<<< HEAD
+=======
+	int wipe_key_flag;/* 1->remove key from storage(alone with clear key) */
+			  /* 0->do not remove from storage (clear key) */
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 struct qseecom_update_key_userinfo_req {

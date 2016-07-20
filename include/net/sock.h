@@ -328,6 +328,10 @@ struct sock {
 				sk_no_check  : 2,
 				sk_userlocks : 4,
 				sk_protocol  : 8,
+<<<<<<< HEAD
+=======
+#define SK_PROTOCOL_MAX U8_MAX
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				sk_type      : 16;
 	kmemcheck_bitfield_end(flags);
 	int			sk_wmem_queued;

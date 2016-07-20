@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -133,6 +137,23 @@
 		};
 	};
 
+<<<<<<< HEAD
+=======
+	i2c@f9928000 { /* BLSP1 QUP6 */
+		nfc-nci@e {
+			compatible = "qcom,nfc-nci";
+			reg = <0x0e>;
+			qcom,irq-gpio = <&msmgpio 59 0x00>;
+			qcom,dis-gpio = <&msmgpio 13 0x00>;
+			qcom,clk-src = "BBCLK2";
+			qcom,clk-en-gpio = <&msmgpio 0 0x00>;
+			interrupt-parent = <&msmgpio>;
+			interrupts = <59 0>;
+			qcom,clk-gpio = <&pm8941_gpios 32 0>;
+		};
+	};
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	i2c@f9967000 {
 		sii8334@72 {
 			compatible = "qcom,mhl-sii8334";
@@ -229,6 +250,10 @@
 	sound {
 		qcom,model = "msm8974-taiko-fluid-snd-card";
 		qcom,audio-routing =
+<<<<<<< HEAD
+=======
+			"AIF4 VI", "MCLK",
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			"RX_BIAS", "MCLK",
 			"LDO_H", "MCLK",
 			"AMIC1", "MIC BIAS1 Internal1",
@@ -257,6 +282,10 @@
 		qcom,hdmi-audio-rx;
 		qcom,ext-ult-lo-amp-gpio = <&pm8941_gpios 6 0>;
 		qcom,cdc-micbias2-headset-only;
+<<<<<<< HEAD
+=======
+		qcom,mbhc-audio-jack-type = "6-pole-jack";
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	};
 };
 
@@ -606,6 +635,14 @@
 	};
 
 	gpio@df00 { /* GPIO 32 */
+<<<<<<< HEAD
+=======
+		qcom,mode = <0>;		/* QPNP_PIN_MODE_DIG_IN */
+		qcom,pull = <5>;		/* QPNP_PIN_PULL_NO */
+		qcom,vin-sel = <2>;		/* QPNP_PIN_VIN2 */
+		qcom,src-sel = <2>;		/* QPNP_PIN_SEL_FUNC_1 */
+		qcom,master-en = <1>;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	};
 
 	gpio@e000 { /* GPIO 33 */

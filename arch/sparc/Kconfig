@@ -30,7 +30,10 @@ config SPARC
 	select USE_GENERIC_SMP_HELPERS if SMP
 	select GENERIC_PCI_IOMAP
 	select HAVE_NMI_WATCHDOG if SPARC64
+<<<<<<< HEAD
 	select GENERIC_STRNCPY_FROM_USER
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 config SPARC32
 	def_bool !64BIT

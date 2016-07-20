@@ -38,8 +38,11 @@
 
 #define STACK_MAGIC	0xdeadbeef
 
+<<<<<<< HEAD
 #define REPEAT_BYTE(x)	((~0ul / 0xff) * (x))
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define ALIGN(x, a)		__ALIGN_KERNEL((x), (a))
 #define __ALIGN_MASK(x, mask)	__ALIGN_KERNEL_MASK((x), (mask))
 #define PTR_ALIGN(p, a)		((typeof(p))ALIGN((unsigned long)(p), (a)))

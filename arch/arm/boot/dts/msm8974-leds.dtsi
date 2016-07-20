@@ -138,10 +138,20 @@
 			qcom,row-id = <0>;
 			qcom,row-src-en;
 			qcom,always-on;
+<<<<<<< HEAD
+=======
+			qcom,start-idx = <1>;
+			qcom,ramp-step-ms = <120>;
+			qcom,duty-pcts = [00 00 00 00 64
+					64 00 00 00 00];
+			qcom,use-blink;
+			qcom,in-order-command-processing;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		};
 
 		qcom,kpdbl2 {
 			label = "kpdbl";
+<<<<<<< HEAD
 			linux,name = "kpdbl-lut-2";
 			qcom,mode = "lpg";
 			qcom,pwm-channel = <9>;
@@ -149,10 +159,26 @@
 			qcom,start-idx = <1>;
 			qcom,duty-pcts = [00 00 00 00 64
 					64 00 00 00 00];
+=======
+			linux,name = "kpdbl-pwm-2";
+			qcom,mode = "pwm";
+			qcom,pwm-channel = <9>;
+			qcom,pwm-us = <1000>;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			qcom,id = <7>;
 			qcom,max-current = <20>;
 			qcom,row-id = <1>;
 			qcom,row-src-en;
+<<<<<<< HEAD
+=======
+                        qcom,start-idx = <1>;
+                        qcom,ramp-step-ms = <120>;
+                        qcom,duty-pcts = [00 00 00 00 64
+                                        64 00 00 00 00];
+                        qcom,use-blink;
+                        qcom,in-order-command-processing;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		};
 
 		qcom,kpdbl3 {
@@ -165,6 +191,16 @@
 			qcom,max-current = <20>;
 			qcom,row-id = <2>;
 			qcom,row-src-en;
+<<<<<<< HEAD
+=======
+                        qcom,start-idx = <1>;
+                        qcom,ramp-step-ms = <120>;
+                        qcom,duty-pcts = [00 00 00 00 64
+                                        64 00 00 00 00];
+                        qcom,use-blink;
+                        qcom,in-order-command-processing;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		};
 
 		qcom,kpdbl4 {
@@ -177,6 +213,16 @@
 			qcom,max-current = <20>;
 			qcom,row-id = <3>;
 			qcom,row-src-en;
+<<<<<<< HEAD
+=======
+                        qcom,start-idx = <1>;
+                        qcom,ramp-step-ms = <120>;
+                        qcom,duty-pcts = [00 00 00 00 64
+                                        64 00 00 00 00];
+                        qcom,use-blink;
+                        qcom,in-order-command-processing;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		};
 	};
 };

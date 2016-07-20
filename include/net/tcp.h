@@ -98,12 +98,17 @@ extern void tcp_time_wait(struct sock *sk, int state, int timeo);
 				 * 15 is ~13-30min depending on RTO.
 				 */
 
+<<<<<<< HEAD
 #ifdef CONFIG_LGU_DS_TCP_SYN_RETRANSMIT
 #define TCP_SYN_RETRIES	 4
 #else
 #define TCP_SYN_RETRIES	 5	/* number of times to retry active opening a
 				 * connection: ~180sec is RFC minimum	*/
 #endif /* CONFIG_LGU_DS_TCP_SYN_RETRANSMIT */	
+=======
+#define TCP_SYN_RETRIES	 5	/* number of times to retry active opening a
+				 * connection: ~180sec is RFC minimum	*/
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define TCP_SYNACK_RETRIES 5	/* number of times to retry passive opening a
 				 * connection: ~180sec is RFC minimum	*/
@@ -258,6 +263,10 @@ extern int sysctl_tcp_max_ssthresh;
 extern int sysctl_tcp_cookie_size;
 extern int sysctl_tcp_thin_linear_timeouts;
 extern int sysctl_tcp_thin_dupack;
+<<<<<<< HEAD
+=======
+extern int sysctl_tcp_default_init_rwnd;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /* sysctl variables for controlling various tcp parameters */
 extern int sysctl_tcp_delack_seg;

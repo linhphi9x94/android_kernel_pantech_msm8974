@@ -28,6 +28,10 @@ config MACH_MSM8974_LCD_COMMON
 	select F_QUALCOMM_BUGFIX_KGSL_SPINLOCK_BUG
 	select F_QUALCOMM_MOVIE_PLAYER_MDP_UNDERRUN
 	select F_QUALCOMM_WORKAROUND_FOR_GDSC_OXILI_FAIL
+<<<<<<< HEAD
+=======
+	select F_SKYDISP_FIX_PINGPONG_TIMEOUT_BY_CLOCK
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 ###################################################
 # * Defined LCD board feature                     # 
 ###################################################
@@ -487,5 +491,18 @@ config F_QUALCOMM_BUGFIX_KGSL_SPINLOCK_BUG
 config F_QUALCOMM_BWC_VIDEO_DISPLAY_HALT
     bool	
     
+<<<<<<< HEAD
+=======
+###################################################################
+# owner  : p14974
+# date    : 2014.10.16
+# PLM    : Market Issue
+# Case  : 01753421
+# Description : force mdp clock on when display kickoff is started
+###################################################################
+config F_SKYDISP_FIX_PINGPONG_TIMEOUT_BY_CLOCK
+	bool
+	
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 endif
 

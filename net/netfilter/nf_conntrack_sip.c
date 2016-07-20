@@ -1467,6 +1467,7 @@ static int sip_help_tcp(struct sk_buff *skb, unsigned int protoff,
 		end += strlen("\r\n\r\n") + clen;
 
 		msglen = origlen = end - dptr;
+<<<<<<< HEAD
 #ifdef CONFIG_LGU_DS_TCP_DROP_OVER_MTU_PORT_5060 
        if (msglen > datalen)
             return NF_ACCEPT;
@@ -1474,6 +1475,17 @@ static int sip_help_tcp(struct sk_buff *skb, unsigned int protoff,
 		if (msglen > datalen)
 			return NF_DROP;
 #endif
+=======
+    
+#ifdef CONFIG_SKY_DS_ACCEPT_SIP_LAGRE_PACKET
+		if (msglen > datalen)
+			return NF_ACCEPT;
+#else
+		if (msglen > datalen)
+			return NF_DROP;
+#endif /* CONFIG_SKY_DS_ACCEPT_SIP_LAGRE_PACKET */
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		ret = process_sip_msg(skb, ct, dataoff, &dptr, &msglen);
 		if (ret != NF_ACCEPT)
 			break;

@@ -65,6 +65,7 @@ config CFQ_GROUP_IOSCHED
 	---help---
 	  Enable group IO scheduling in CFQ.
 
+<<<<<<< HEAD
 config IOSCHED_BFQ
 	tristate "BFQ I/O scheduler"
 	depends on EXPERIMENTAL
@@ -95,6 +96,8 @@ config IOSCHED_FIOPS
           IOPS equally among all processes in the system. It's mainly for
           Flash based storage.
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 choice
 	prompt "Default I/O scheduler"
 	default DEFAULT_CFQ
@@ -118,6 +121,7 @@ choice
 	config DEFAULT_CFQ
 		bool "CFQ" if IOSCHED_CFQ=y
 
+<<<<<<< HEAD
 	config DEFAULT_BFQ
 		bool "BFQ" if IOSCHED_BFQ=y
 		help
@@ -131,6 +135,8 @@ choice
 	config DEFAULT_FIOPS
 		bool "FIOPS" if IOSCHED_FIOPS=y
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	config DEFAULT_NOOP
 		bool "No-op"
 
@@ -141,8 +147,11 @@ config DEFAULT_IOSCHED
 	default "deadline" if DEFAULT_DEADLINE
 	default "row" if DEFAULT_ROW
 	default "cfq" if DEFAULT_CFQ
+<<<<<<< HEAD
 	default "fiops" if DEFAULT_FIOPS
 	default "bfq" if DEFAULT_BFQ
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	default "noop" if DEFAULT_NOOP
 
 endmenu

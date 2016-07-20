@@ -20,3 +20,12 @@
 	qcom,board-id = <0x2000b 2>;
 };
 
+<<<<<<< HEAD
+=======
+&slim_msm {
+	tapan_codec {
+		qcom,cdc-micbias1-ext-cap;
+		qcom,cdc-micbias3-ext-cap;
+	};
+};
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

@@ -26,4 +26,8 @@
 /include/ "dsi-panel-ams529-1080p-cmd-ef63-ws10.dtsi"
 /include/ "dsi-panel-ams529-1080p-cmd-ef63-ws20.dtsi"
 /include/ "dsi-panel-ams529-1080p-cmd-ef63-tp10.dtsi"
+<<<<<<< HEAD
 /include/ "dsi-panel-ams529-1080p-cmd-ef63-tp20.dtsi"
+=======
+/include/ "dsi-panel-ams529-1080p-cmd-ef63-tp20.dtsi"
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

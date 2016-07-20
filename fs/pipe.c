@@ -36,6 +36,15 @@ unsigned int pipe_max_size = 1048576;
  */
 unsigned int pipe_min_size = PAGE_SIZE;
 
+<<<<<<< HEAD
+=======
+/* Maximum allocatable pages per user. Hard limit is unset by default, soft
+ * matches default values.
+ */
+unsigned long pipe_user_pages_hard;
+unsigned long pipe_user_pages_soft = PIPE_DEF_BUFFERS * INR_OPEN_CUR;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*
  * We use a start+len construction, which provides full use of the 
  * allocated memory.
@@ -104,6 +113,7 @@ void pipe_wait(struct pipe_inode_info *pipe)
 }
 
 static int
+<<<<<<< HEAD
 pipe_iov_copy_from_user(void *to, struct iovec *iov, unsigned long len,
 			int atomic)
 {
@@ -123,6 +133,29 @@ pipe_iov_copy_from_user(void *to, struct iovec *iov, unsigned long len,
 		}
 		to += copy;
 		len -= copy;
+=======
+pipe_iov_copy_from_user(void *addr, int *offset, struct iovec *iov,
+			size_t *remaining, int atomic)
+{
+	unsigned long copy;
+
+	while (*remaining > 0) {
+		while (!iov->iov_len)
+			iov++;
+		copy = min_t(unsigned long, *remaining, iov->iov_len);
+
+		if (atomic) {
+			if (__copy_from_user_inatomic(addr + *offset,
+						      iov->iov_base, copy))
+				return -EFAULT;
+		} else {
+			if (copy_from_user(addr + *offset,
+					   iov->iov_base, copy))
+				return -EFAULT;
+		}
+		*offset += copy;
+		*remaining -= copy;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		iov->iov_base += copy;
 		iov->iov_len -= copy;
 	}
@@ -130,6 +163,7 @@ pipe_iov_copy_from_user(void *to, struct iovec *iov, unsigned long len,
 }
 
 static int
+<<<<<<< HEAD
 pipe_iov_copy_to_user(struct iovec *iov, const void *from, unsigned long len,
 		      int atomic)
 {
@@ -149,6 +183,29 @@ pipe_iov_copy_to_user(struct iovec *iov, const void *from, unsigned long len,
 		}
 		from += copy;
 		len -= copy;
+=======
+pipe_iov_copy_to_user(struct iovec *iov, void *addr, int *offset,
+		      size_t *remaining, int atomic)
+{
+	unsigned long copy;
+
+	while (*remaining > 0) {
+		while (!iov->iov_len)
+			iov++;
+		copy = min_t(unsigned long, *remaining, iov->iov_len);
+
+		if (atomic) {
+			if (__copy_to_user_inatomic(iov->iov_base,
+						    addr + *offset, copy))
+				return -EFAULT;
+		} else {
+			if (copy_to_user(iov->iov_base,
+					 addr + *offset, copy))
+				return -EFAULT;
+		}
+		*offset += copy;
+		*remaining -= copy;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		iov->iov_base += copy;
 		iov->iov_len -= copy;
 	}
@@ -384,8 +441,14 @@ pipe_read(struct kiocb *iocb, const struct iovec *_iov,
 			struct pipe_buffer *buf = pipe->bufs + curbuf;
 			const struct pipe_buf_operations *ops = buf->ops;
 			void *addr;
+<<<<<<< HEAD
 			size_t chars = buf->len;
 			int error, atomic;
+=======
+			size_t chars = buf->len, remaining;
+			int error, atomic;
+			int offset;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 			if (chars > total_len)
 				chars = total_len;
@@ -398,9 +461,18 @@ pipe_read(struct kiocb *iocb, const struct iovec *_iov,
 			}
 
 			atomic = !iov_fault_in_pages_write(iov, chars);
+<<<<<<< HEAD
 redo:
 			addr = ops->map(pipe, buf, atomic);
 			error = pipe_iov_copy_to_user(iov, addr + buf->offset, chars, atomic);
+=======
+			remaining = chars;
+			offset = buf->offset;
+redo:
+			addr = ops->map(pipe, buf, atomic);
+			error = pipe_iov_copy_to_user(iov, addr, &offset,
+						      &remaining, atomic);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			ops->unmap(pipe, buf, addr);
 			if (unlikely(error)) {
 				/*
@@ -522,6 +594,10 @@ pipe_write(struct kiocb *iocb, const struct iovec *_iov,
 		if (ops->can_merge && offset + chars <= PAGE_SIZE) {
 			int error, atomic = 1;
 			void *addr;
+<<<<<<< HEAD
+=======
+			size_t remaining = chars;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 			error = ops->confirm(pipe, buf);
 			if (error)
@@ -530,8 +606,13 @@ pipe_write(struct kiocb *iocb, const struct iovec *_iov,
 			iov_fault_in_pages_read(iov, chars);
 redo1:
 			addr = ops->map(pipe, buf, atomic);
+<<<<<<< HEAD
 			error = pipe_iov_copy_from_user(offset + addr, iov,
 							chars, atomic);
+=======
+			error = pipe_iov_copy_from_user(addr, &offset, iov,
+							&remaining, atomic);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			ops->unmap(pipe, buf, addr);
 			ret = error;
 			do_wakeup = 1;
@@ -566,6 +647,11 @@ redo1:
 			struct page *page = pipe->tmp_page;
 			char *src;
 			int error, atomic = 1;
+<<<<<<< HEAD
+=======
+			int offset = 0;
+			size_t remaining;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 			if (!page) {
 				page = alloc_page(GFP_HIGHUSER);
@@ -586,14 +672,23 @@ redo1:
 				chars = total_len;
 
 			iov_fault_in_pages_read(iov, chars);
+<<<<<<< HEAD
+=======
+			remaining = chars;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 redo2:
 			if (atomic)
 				src = kmap_atomic(page);
 			else
 				src = kmap(page);
 
+<<<<<<< HEAD
 			error = pipe_iov_copy_from_user(src, iov, chars,
 							atomic);
+=======
+			error = pipe_iov_copy_from_user(src, &offset, iov,
+							&remaining, atomic);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			if (atomic)
 				kunmap_atomic(src);
 			else
@@ -921,20 +1016,62 @@ const struct file_operations rdwr_pipefifo_fops = {
 	.fasync		= pipe_rdwr_fasync,
 };
 
+<<<<<<< HEAD
+=======
+static void account_pipe_buffers(struct pipe_inode_info *pipe,
+                                 unsigned long old, unsigned long new)
+{
+	atomic_long_add(new - old, &pipe->user->pipe_bufs);
+}
+
+static bool too_many_pipe_buffers_soft(struct user_struct *user)
+{
+	return pipe_user_pages_soft &&
+	       atomic_long_read(&user->pipe_bufs) >= pipe_user_pages_soft;
+}
+
+static bool too_many_pipe_buffers_hard(struct user_struct *user)
+{
+	return pipe_user_pages_hard &&
+	       atomic_long_read(&user->pipe_bufs) >= pipe_user_pages_hard;
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct pipe_inode_info * alloc_pipe_info(struct inode *inode)
 {
 	struct pipe_inode_info *pipe;
 
 	pipe = kzalloc(sizeof(struct pipe_inode_info), GFP_KERNEL);
 	if (pipe) {
+<<<<<<< HEAD
 		pipe->bufs = kzalloc(sizeof(struct pipe_buffer) * PIPE_DEF_BUFFERS, GFP_KERNEL);
+=======
+		unsigned long pipe_bufs = PIPE_DEF_BUFFERS;
+		struct user_struct *user = get_current_user();
+
+		if (!too_many_pipe_buffers_hard(user)) {
+			if (too_many_pipe_buffers_soft(user))
+				pipe_bufs = 1;
+			pipe->bufs = kzalloc(sizeof(struct pipe_buffer) * pipe_bufs, GFP_KERNEL);
+		}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (pipe->bufs) {
 			init_waitqueue_head(&pipe->wait);
 			pipe->r_counter = pipe->w_counter = 1;
 			pipe->inode = inode;
+<<<<<<< HEAD
 			pipe->buffers = PIPE_DEF_BUFFERS;
 			return pipe;
 		}
+=======
+			pipe->buffers = pipe_bufs;
+			pipe->user = user;
+			account_pipe_buffers(pipe, 0, pipe_bufs);
+			return pipe;
+		}
+		free_uid(user);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		kfree(pipe);
 	}
 
@@ -945,6 +1082,11 @@ void __free_pipe_info(struct pipe_inode_info *pipe)
 {
 	int i;
 
+<<<<<<< HEAD
+=======
+	account_pipe_buffers(pipe, pipe->buffers, 0);
+	free_uid(pipe->user);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	for (i = 0; i < pipe->buffers; i++) {
 		struct pipe_buffer *buf = pipe->bufs + i;
 		if (buf->ops)
@@ -1193,6 +1335,10 @@ static long pipe_set_size(struct pipe_inode_info *pipe, unsigned long nr_pages)
 			memcpy(bufs + head, pipe->bufs, tail * sizeof(struct pipe_buffer));
 	}
 
+<<<<<<< HEAD
+=======
+	account_pipe_buffers(pipe, pipe->buffers, nr_pages);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	pipe->curbuf = 0;
 	kfree(pipe->bufs);
 	pipe->bufs = bufs;
@@ -1266,6 +1412,14 @@ long pipe_fcntl(struct file *file, unsigned int cmd, unsigned long arg)
 		if (!capable(CAP_SYS_RESOURCE) && size > pipe_max_size) {
 			ret = -EPERM;
 			goto out;
+<<<<<<< HEAD
+=======
+		} else if ((too_many_pipe_buffers_hard(pipe->user) ||
+			    too_many_pipe_buffers_soft(pipe->user)) &&
+		           !capable(CAP_SYS_RESOURCE) && !capable(CAP_SYS_ADMIN)) {
+			ret = -EPERM;
+			goto out;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 		ret = pipe_set_size(pipe, nr_pages);
 		break;

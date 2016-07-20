@@ -722,6 +722,7 @@ static struct mount *clone_mnt(struct mount *old, struct dentry *root,
 					int flag)
 {
 	struct super_block *sb = old->mnt.mnt_sb;
+<<<<<<< HEAD
 	struct mount *mnt;
 	int err;
 
@@ -772,11 +773,63 @@ static struct mount *clone_mnt(struct mount *old, struct dentry *root,
 			list_add(&mnt->mnt_expire, &old->mnt_expire);
 	}
 
+=======
+	struct mount *mnt = alloc_vfsmnt(old->mnt_devname);
+
+	if (mnt) {
+		 if (flag & (CL_SLAVE | CL_PRIVATE | CL_SHARED_TO_SLAVE))
+			mnt->mnt_group_id = 0; /* not a peer of original */
+		else
+			mnt->mnt_group_id = old->mnt_group_id;
+
+		if ((flag & CL_MAKE_SHARED) && !mnt->mnt_group_id) {
+			int err = mnt_alloc_group_id(mnt);
+			if (err)
+				goto out_free;
+		}
+
+		mnt->mnt.mnt_flags = old->mnt.mnt_flags & ~MNT_WRITE_HOLD;
+		atomic_inc(&sb->s_active);
+		mnt->mnt.mnt_sb = sb;
+		mnt->mnt.mnt_root = dget(root);
+		mnt->mnt_mountpoint = mnt->mnt.mnt_root;
+		mnt->mnt_parent = mnt;
+		br_write_lock(&vfsmount_lock);
+		list_add_tail(&mnt->mnt_instance, &sb->s_mounts);
+		br_write_unlock(&vfsmount_lock);
+
+		if ((flag & CL_SLAVE) ||
+		    ((flag & CL_SHARED_TO_SLAVE) && IS_MNT_SHARED(old))) {
+			list_add(&mnt->mnt_slave, &old->mnt_slave_list);
+			mnt->mnt_master = old;
+			CLEAR_MNT_SHARED(mnt);
+		} else if (!(flag & CL_PRIVATE)) {
+			if ((flag & CL_MAKE_SHARED) || IS_MNT_SHARED(old))
+				list_add(&mnt->mnt_share, &old->mnt_share);
+			if (IS_MNT_SLAVE(old))
+				list_add(&mnt->mnt_slave, &old->mnt_slave);
+			mnt->mnt_master = old->mnt_master;
+		}
+		if (flag & CL_MAKE_SHARED)
+			set_mnt_shared(mnt);
+
+		/* stick the duplicate mount on the same expiry list
+		 * as the original if that was on one */
+		if (flag & CL_EXPIRE) {
+			if (!list_empty(&old->mnt_expire))
+				list_add(&mnt->mnt_expire, &old->mnt_expire);
+		}
+	}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return mnt;
 
  out_free:
 	free_vfsmnt(mnt);
+<<<<<<< HEAD
 	return ERR_PTR(err);
+=======
+	return NULL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static inline void mntfree(struct mount *mnt)
@@ -1281,12 +1334,20 @@ struct mount *copy_tree(struct mount *mnt, struct dentry *dentry,
 	struct path path;
 
 	if (!(flag & CL_COPY_ALL) && IS_MNT_UNBINDABLE(mnt))
+<<<<<<< HEAD
 		return ERR_PTR(-EINVAL);
 
 	res = q = clone_mnt(mnt, dentry, flag);
 	if (IS_ERR(q))
 		return q;
 
+=======
+		return NULL;
+
+	res = q = clone_mnt(mnt, dentry, flag);
+	if (!q)
+		goto Enomem;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	q->mnt_mountpoint = mnt->mnt_mountpoint;
 
 	p = mnt;
@@ -1308,8 +1369,13 @@ struct mount *copy_tree(struct mount *mnt, struct dentry *dentry,
 			path.mnt = &q->mnt;
 			path.dentry = p->mnt_mountpoint;
 			q = clone_mnt(p, p->mnt.mnt_root, flag);
+<<<<<<< HEAD
 			if (IS_ERR(q))
 				goto out;
+=======
+			if (!q)
+				goto Enomem;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			br_write_lock(&vfsmount_lock);
 			list_add_tail(&q->mnt_list, &res->mnt_list);
 			attach_mnt(q, &path);
@@ -1317,7 +1383,11 @@ struct mount *copy_tree(struct mount *mnt, struct dentry *dentry,
 		}
 	}
 	return res;
+<<<<<<< HEAD
 out:
+=======
+Enomem:
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (res) {
 		LIST_HEAD(umount_list);
 		br_write_lock(&vfsmount_lock);
@@ -1325,11 +1395,17 @@ out:
 		br_write_unlock(&vfsmount_lock);
 		release_mounts(&umount_list);
 	}
+<<<<<<< HEAD
 	return q;
 }
 
 /* Caller should check returned pointer for errors */
 
+=======
+	return NULL;
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct vfsmount *collect_mounts(struct path *path)
 {
 	struct mount *tree;
@@ -1337,9 +1413,13 @@ struct vfsmount *collect_mounts(struct path *path)
 	tree = copy_tree(real_mount(path->mnt), path->dentry,
 			 CL_COPY_ALL | CL_PRIVATE);
 	up_write(&namespace_sem);
+<<<<<<< HEAD
 	if (IS_ERR(tree))
 		return NULL;
 	return &tree->mnt;
+=======
+	return tree ? &tree->mnt : NULL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 void drop_collected_mounts(struct vfsmount *mnt)
@@ -1606,7 +1686,11 @@ static int do_change_type(struct path *path, int flag)
 /*
  * do loopback mount.
  */
+<<<<<<< HEAD
 static int do_loopback(struct path *path, const char *old_name,
+=======
+static int do_loopback(struct path *path, char *old_name,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				int recurse)
 {
 	LIST_HEAD(umount_list);
@@ -1638,15 +1722,24 @@ static int do_loopback(struct path *path, const char *old_name,
 	if (!check_mnt(real_mount(path->mnt)) || !check_mnt(old))
 		goto out2;
 
+<<<<<<< HEAD
+=======
+	err = -ENOMEM;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (recurse)
 		mnt = copy_tree(old, old_path.dentry, 0);
 	else
 		mnt = clone_mnt(old, old_path.dentry, 0);
 
+<<<<<<< HEAD
 	if (IS_ERR(mnt)) {
 		err = PTR_ERR(mnt);
 		goto out;
 	}
+=======
+	if (!mnt)
+		goto out2;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	err = graft_tree(mnt, path);
 	if (err) {
@@ -1711,7 +1804,11 @@ static int do_remount(struct path *path, int flags, int mnt_flags,
 		err = do_remount_sb(sb, flags, data, 0);
 	if (!err) {
 		br_write_lock(&vfsmount_lock);
+<<<<<<< HEAD
 		mnt_flags |= mnt->mnt.mnt_flags & MNT_PROPAGATION_MASK;
+=======
+		mnt_flags |= mnt->mnt.mnt_flags & ~MNT_USER_SETTABLE_MASK;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		mnt->mnt.mnt_flags = mnt_flags;
 		br_write_unlock(&vfsmount_lock);
 	}
@@ -1734,7 +1831,11 @@ static inline int tree_contains_unbindable(struct mount *mnt)
 	return 0;
 }
 
+<<<<<<< HEAD
 static int do_move_mount(struct path *path, const char *old_name)
+=======
+static int do_move_mount(struct path *path, char *old_name)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct path old_path, parent_path;
 	struct mount *p;
@@ -1873,7 +1974,11 @@ unlock:
  * namespace's tree
  */
 static int do_new_mount(struct path *path, const char *fstype, int flags,
+<<<<<<< HEAD
 			int mnt_flags, const char *name, void *data)
+=======
+			int mnt_flags, char *name, void *data)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct file_system_type *type;
 	struct user_namespace *user_ns;
@@ -2172,8 +2277,13 @@ int copy_mount_string(const void __user *data, char **where)
  * Therefore, if this magic number is present, it carries no information
  * and must be discarded.
  */
+<<<<<<< HEAD
 long do_mount(const char *dev_name, const char *dir_name,
 		const char *type_page, unsigned long flags, void *data_page)
+=======
+long do_mount(char *dev_name, char *dir_name, char *type_page,
+		  unsigned long flags, void *data_page)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct path path;
 	int retval = 0;
@@ -2201,11 +2311,17 @@ long do_mount(const char *dev_name, const char *dir_name,
 	if (retval)
 		goto dput_out;
 
+<<<<<<< HEAD
 	/* Default to noatime/nodiratime unless overriden */
 	if (!(flags & MS_RELATIME)) {
 		mnt_flags |= MNT_NOATIME;
 		mnt_flags |= MNT_NODIRATIME;
 	}
+=======
+	/* Default to relatime unless overriden */
+	if (!(flags & MS_NOATIME))
+		mnt_flags |= MNT_RELATIME;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/* Separate the per-mountpoint flags */
 	if (flags & MS_NOSUID)
@@ -2244,6 +2360,10 @@ dput_out:
 	return retval;
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static void free_mnt_ns(struct mnt_namespace *ns)
 {
 	proc_free_inum(ns->proc_inum);
@@ -2307,10 +2427,17 @@ static struct mnt_namespace *dup_mnt_ns(struct mnt_namespace *mnt_ns,
 	if (user_ns != mnt_ns->user_ns)
 		copy_flags |= CL_SHARED_TO_SLAVE;
 	new = copy_tree(old, old->mnt.mnt_root, copy_flags);
+<<<<<<< HEAD
 	if (IS_ERR(new)) {
 		up_write(&namespace_sem);
 		free_mnt_ns(new_ns);
 		return ERR_CAST(new);
+=======
+	if (!new) {
+		up_write(&namespace_sem);
+		free_mnt_ns(new_ns);
+		return ERR_PTR(-ENOMEM);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	new_ns->root = new;
 	br_write_lock(&vfsmount_lock);
@@ -2350,7 +2477,11 @@ static struct mnt_namespace *dup_mnt_ns(struct mnt_namespace *mnt_ns,
 }
 
 struct mnt_namespace *copy_mnt_ns(unsigned long flags, struct mnt_namespace *ns,
+<<<<<<< HEAD
 		struct user_namespace *user_ns, struct fs_struct *new_fs)
+=======
+		 struct user_namespace *user_ns, struct fs_struct *new_fs)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct mnt_namespace *new_ns;
 
@@ -2729,7 +2860,11 @@ static int mntns_install(struct nsproxy *nsproxy, void *ns)
 	struct path root;
 
 	if (!ns_capable(mnt_ns->user_ns, CAP_SYS_ADMIN) ||
+<<<<<<< HEAD
 	    !nsown_capable(CAP_SYS_CHROOT))
+=======
+		!nsown_capable(CAP_SYS_CHROOT))
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -EINVAL;
 
 	if (fs->users != 1)

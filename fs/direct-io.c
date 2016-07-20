@@ -423,6 +423,11 @@ static inline void dio_bio_submit(struct dio *dio, struct dio_submit *sdio)
 	if (dio->is_async && dio->rw == READ)
 		bio_set_pages_dirty(bio);
 
+<<<<<<< HEAD
+=======
+	bio->bi_dio_inode = dio->inode;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (sdio->submit_io)
 		sdio->submit_io(dio->rw, bio, dio->inode,
 			       sdio->logical_offset_in_bio);
@@ -434,6 +439,22 @@ static inline void dio_bio_submit(struct dio *dio, struct dio_submit *sdio)
 	sdio->logical_offset_in_bio = 0;
 }
 
+<<<<<<< HEAD
+=======
+struct inode *dio_bio_get_inode(struct bio *bio)
+{
+	struct inode *inode = NULL;
+
+	if (bio == NULL)
+		return NULL;
+
+	inode = bio->bi_dio_inode;
+
+	return inode;
+}
+EXPORT_SYMBOL(dio_bio_get_inode);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*
  * Release any resources in case of a failure
  */

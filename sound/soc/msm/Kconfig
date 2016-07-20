@@ -183,6 +183,10 @@ config SND_SOC_MSM8974
 	select SND_DYNAMIC_MINORS
 	select AUDIO_OCMEM
 	#select DOLBY_DAP #20140210 SND@LS3 : if not using Dolby sound effect, disable dolby feature
+<<<<<<< HEAD
+=======
+	select SND_HWDEP
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	help
 	 To add support for SoC audio on MSM8974.
 	 This will enable sound soc drivers which

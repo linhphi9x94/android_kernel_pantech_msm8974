@@ -20,6 +20,13 @@ static int msm_vb2_queue_setup(struct vb2_queue *q,
 	int i;
 	struct msm_v4l2_format_data *data = q->drv_priv;
 
+<<<<<<< HEAD
+=======
+	if (!data) {
+		pr_err("%s: drv_priv NULL\n", __func__);
+		return -EINVAL;
+	}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (data->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
 		if (WARN_ON(data->num_planes > VIDEO_MAX_PLANES))
 			return -EINVAL;

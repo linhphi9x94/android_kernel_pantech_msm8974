@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-13, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -106,6 +110,10 @@ qpnp_rtc_set_time(struct device *dev, struct rtc_time *tm)
 	int rc;
 	unsigned long secs, irq_flags;
 	u8 value[4], reg = 0, alarm_enabled = 0, ctrl_reg;
+<<<<<<< HEAD
+=======
+	u8 rtc_disabled = 0, rtc_ctrl_reg;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct qpnp_rtc *rtc_dd = dev_get_drvdata(dev);
 
 	rtc_tm_to_time(tm, &secs);
@@ -156,6 +164,25 @@ qpnp_rtc_set_time(struct device *dev, struct rtc_time *tm)
 	 * write operation
 	 */
 
+<<<<<<< HEAD
+=======
+	/* Disable RTC H/w before writing on RTC register*/
+	rtc_ctrl_reg = rtc_dd->rtc_ctrl_reg;
+	if (rtc_ctrl_reg & BIT_RTC_ENABLE) {
+		rtc_disabled = 1;
+		rtc_ctrl_reg &= ~BIT_RTC_ENABLE;
+		rc = qpnp_write_wrapper(rtc_dd, &rtc_ctrl_reg,
+				rtc_dd->rtc_base + REG_OFFSET_RTC_CTRL, 1);
+		if (rc) {
+			dev_err(dev,
+				"Disabling of RTC control reg failed"
+					" with error:%d\n", rc);
+			goto rtc_rw_fail;
+		}
+		rtc_dd->rtc_ctrl_reg = rtc_ctrl_reg;
+	}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* Clear WDATA[0] */
 	reg = 0x0;
 	rc = qpnp_write_wrapper(rtc_dd, &reg,
@@ -181,6 +208,23 @@ qpnp_rtc_set_time(struct device *dev, struct rtc_time *tm)
 		goto rtc_rw_fail;
 	}
 
+<<<<<<< HEAD
+=======
+	/* Enable RTC H/w after writing on RTC register*/
+	if (rtc_disabled) {
+		rtc_ctrl_reg |= BIT_RTC_ENABLE;
+		rc = qpnp_write_wrapper(rtc_dd, &rtc_ctrl_reg,
+				rtc_dd->rtc_base + REG_OFFSET_RTC_CTRL, 1);
+		if (rc) {
+			dev_err(dev,
+				"Enabling of RTC control reg failed"
+					" with error:%d\n", rc);
+			goto rtc_rw_fail;
+		}
+		rtc_dd->rtc_ctrl_reg = rtc_ctrl_reg;
+	}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (alarm_enabled) {
 		ctrl_reg |= BIT_RTC_ALARM_ENABLE;
 		rc = qpnp_write_wrapper(rtc_dd, &ctrl_reg,
@@ -359,6 +403,10 @@ qpnp_rtc_alarm_irq_enable(struct device *dev, unsigned int enabled)
 	unsigned long irq_flags;
 	struct qpnp_rtc *rtc_dd = dev_get_drvdata(dev);
 	u8 ctrl_reg;
+<<<<<<< HEAD
+=======
+	u8 value[4] = {0};
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	spin_lock_irqsave(&rtc_dd->alarm_ctrl_lock, irq_flags);
 	ctrl_reg = rtc_dd->alarm_ctrl_reg1;
@@ -374,6 +422,18 @@ qpnp_rtc_alarm_irq_enable(struct device *dev, unsigned int enabled)
 
 	rtc_dd->alarm_ctrl_reg1 = ctrl_reg;
 
+<<<<<<< HEAD
+=======
+	/* Clear Alarm register */
+	if (!enabled) {
+		rc = qpnp_write_wrapper(rtc_dd, value,
+			rtc_dd->alarm_base + REG_OFFSET_ALARM_RW,
+			NUM_8_BIT_RTC_REGS);
+		if (rc)
+			dev_err(dev, "Clear ALARM value reg failed\n");
+	}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 rtc_rw_fail:
 	spin_unlock_irqrestore(&rtc_dd->alarm_ctrl_lock, irq_flags);
 	return rc;
@@ -526,8 +586,20 @@ static int __devinit qpnp_rtc_probe(struct spmi_device *spmi)
 		goto fail_rtc_enable;
 	}
 
+<<<<<<< HEAD
 	/* Enable abort enable feature */
 	rtc_dd->alarm_ctrl_reg1 = BIT_RTC_ABORT_ENABLE;
+=======
+	rc = qpnp_read_wrapper(rtc_dd, &rtc_dd->alarm_ctrl_reg1,
+				rtc_dd->alarm_base + REG_OFFSET_ALARM_CTRL1, 1);
+	if (rc) {
+		dev_err(&spmi->dev,
+			"Read from  Alarm control reg failed\n");
+		goto fail_rtc_enable;
+	}
+	/* Enable abort enable feature */
+	rtc_dd->alarm_ctrl_reg1 |= BIT_RTC_ABORT_ENABLE;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	rc = qpnp_write_wrapper(rtc_dd, &rtc_dd->alarm_ctrl_reg1,
 			rtc_dd->alarm_base + REG_OFFSET_ALARM_CTRL1, 1);
 	if (rc) {

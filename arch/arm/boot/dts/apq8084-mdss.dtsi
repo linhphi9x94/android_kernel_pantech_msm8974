@@ -33,6 +33,14 @@
 			<22 512 0 6400000>, <23 512 0 6400000>,
 			<22 512 0 6400000>, <23 512 0 6400000>;
 
+<<<<<<< HEAD
+=======
+		/* Fudge factors */
+		qcom,mdss-ab-factor = <2 1>;		/* 2 times    */
+		qcom,mdss-ib-factor = <6 5>;		/* 1.2 times  */
+		qcom,mdss-clk-factor = <105 100>;	/* 1.05 times */
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		qcom,max-clk-rate = <320000000>;
 
 		qcom,mdss-pipe-vig-off = <0x00001200 0x00001600
@@ -49,6 +57,20 @@
 		qcom,mdss-pipe-rgb-xin-id = <1 5 9 13>;
 		qcom,mdss-pipe-dma-xin-id = <2 10>;
 
+<<<<<<< HEAD
+=======
+		qcom,mdss-pipe-vig-clk-ctrl-offsets = <0x3AC 0 0>,
+						      <0x3B4 0 0>,
+						      <0x3BC 0 0>,
+						      <0x3C4 0 0>;
+		qcom,mdss-pipe-rgb-clk-ctrl-offsets = <0x3AC 4 8>,
+						      <0x3B4 4 8>,
+						      <0x3BC 4 8>,
+						      <0x3C4 4 8>;
+		qcom,mdss-pipe-dma-clk-ctrl-offsets = <0x3AC 8 12>,
+						      <0x3B4 8 12>;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		qcom,mdss-smp-data = <44 8192>;
 
 		qcom,mdss-ctl-off = <0x00000600 0x00000700 0x00000800
@@ -69,6 +91,18 @@
 		qcom,mdss-has-bwc;
 		qcom,mdss-has-decimation;
 
+<<<<<<< HEAD
+=======
+		/* buffer parameters to calculate prefill bandwidth */
+		qcom,mdss-prefill-outstanding-buffer-bytes = <1024>;
+		qcom,mdss-prefill-y-buffer-bytes = <4096>;
+		qcom,mdss-prefill-scaler-buffer-lines-bilinear = <2>;
+		qcom,mdss-prefill-scaler-buffer-lines-caf = <4>;
+		qcom,mdss-prefill-post-scaler-buffer-pixels = <2048>;
+		qcom,mdss-prefill-pingpong-buffer-pixels = <5120>;
+		qcom,mdss-prefill-fbc-lines = <2>;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		mdss_fb0: qcom,mdss_fb_primary {
 			cell-index = <0>;
 			compatible = "qcom,mdss-fb";

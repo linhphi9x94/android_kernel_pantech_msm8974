@@ -2,7 +2,10 @@
  * drivers/cpufreq/cpufreq_interactive.c
  *
  * Copyright (C) 2010 Google, Inc.
+<<<<<<< HEAD
  * Copyright (C) 2014 Paul Reioux
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
@@ -14,7 +17,11 @@
  * GNU General Public License for more details.
  *
  * Author: Mike Chan (mike@android.com)
+<<<<<<< HEAD
  * Author: Paul Reioux (reioux@gmail.com) Modified for intelliactive
+=======
+ *
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  */
 
 #include <linux/cpu.h>
@@ -33,6 +40,12 @@
 #include <linux/kernel_stat.h>
 #include <asm/cputime.h>
 
+<<<<<<< HEAD
+=======
+#define CREATE_TRACE_POINTS
+#include <trace/events/cpufreq_interactive.h>
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int active_count;
 
 struct cpufreq_interactive_cpuinfo {
@@ -45,16 +58,24 @@ struct cpufreq_interactive_cpuinfo {
 	u64 cputime_speedadj_timestamp;
 	struct cpufreq_policy *policy;
 	struct cpufreq_frequency_table *freq_table;
+<<<<<<< HEAD
 	spinlock_t target_freq_lock; /*protects target freq */
 	unsigned int target_freq;
 	unsigned int floor_freq;
 	unsigned int max_freq;
+=======
+	unsigned int target_freq;
+	unsigned int floor_freq;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	u64 floor_validate_time;
 	u64 hispeed_validate_time;
 	struct rw_semaphore enable_sem;
 	int governor_enabled;
 	int prev_load;
+<<<<<<< HEAD
 	unsigned int two_phase_freq;
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static DEFINE_PER_CPU(struct cpufreq_interactive_cpuinfo, cpuinfo);
@@ -122,7 +143,11 @@ static u64 boostpulse_endtime;
 #define DEFAULT_TIMER_SLACK (4 * DEFAULT_TIMER_RATE)
 static int timer_slack_val = DEFAULT_TIMER_SLACK;
 
+<<<<<<< HEAD
 static bool io_is_busy = 1;
+=======
+static bool io_is_busy;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /*
  * If the max load among other CPUs is higher than up_threshold_any_cpu_load
@@ -130,11 +155,17 @@ static bool io_is_busy = 1;
  * up_threshold_any_cpu_freq then do not let the frequency to drop below
  * sync_freq
  */
+<<<<<<< HEAD
 static unsigned int up_threshold_any_cpu_load = 95;
 static unsigned int sync_freq = 729600;
 static unsigned int up_threshold_any_cpu_freq = 960000;
 
 static int two_phase_freq_array[NR_CPUS] = {[0 ... NR_CPUS-1] = 1728000} ;
+=======
+static unsigned int up_threshold_any_cpu_load;
+static unsigned int sync_freq;
+static unsigned int up_threshold_any_cpu_freq;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static int cpufreq_governor_interactive(struct cpufreq_policy *policy,
 		unsigned int event);
@@ -219,6 +250,7 @@ static void cpufreq_interactive_timer_start(int cpu)
 	unsigned long flags;
 
 	pcpu->cpu_timer.expires = expires;
+<<<<<<< HEAD
 	if (cpu_online(cpu)) {
 		add_timer_on(&pcpu->cpu_timer, cpu);
 		if (timer_slack_val >= 0 && pcpu->target_freq >
@@ -227,6 +259,13 @@ static void cpufreq_interactive_timer_start(int cpu)
 			pcpu->cpu_slack_timer.expires = expires;
 			add_timer_on(&pcpu->cpu_slack_timer, cpu);
 		}
+=======
+	add_timer_on(&pcpu->cpu_timer, cpu);
+	if (timer_slack_val >= 0 && pcpu->target_freq > pcpu->policy->min) {
+		expires += usecs_to_jiffies(timer_slack_val);
+		pcpu->cpu_slack_timer.expires = expires;
+		add_timer_on(&pcpu->cpu_slack_timer, cpu);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	spin_lock_irqsave(&pcpu->load_lock, flags);
@@ -405,18 +444,24 @@ static void cpufreq_interactive_timer(unsigned long data)
 	int i, max_load;
 	unsigned int max_freq;
 	struct cpufreq_interactive_cpuinfo *picpu;
+<<<<<<< HEAD
 	static unsigned int phase = 0;
 	static unsigned int counter = 0;
 	unsigned int nr_cpus;
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (!down_read_trylock(&pcpu->enable_sem))
 		return;
 	if (!pcpu->governor_enabled)
 		goto exit;
 
+<<<<<<< HEAD
 	if (cpu_is_offline(data))
 		goto exit;
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	spin_lock_irqsave(&pcpu->load_lock, flags);
 	now = update_load(data);
 	delta_time = (unsigned int)(now - pcpu->cputime_speedadj_timestamp);
@@ -426,13 +471,17 @@ static void cpufreq_interactive_timer(unsigned long data)
 	if (WARN_ON_ONCE(!delta_time))
 		goto rearm;
 
+<<<<<<< HEAD
 	spin_lock_irqsave(&pcpu->target_freq_lock, flags);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	do_div(cputime_speedadj, delta_time);
 	loadadjfreq = (unsigned int)cputime_speedadj * 100;
 	cpu_load = loadadjfreq / pcpu->target_freq;
 	pcpu->prev_load = cpu_load;
 	boosted = boost_val || now < boostpulse_endtime;
 
+<<<<<<< HEAD
 	if (counter < 5) {
 		counter++;
 		if (counter > 2) {
@@ -451,6 +500,11 @@ static void cpufreq_interactive_timer(unsigned long data)
 				new_freq = pcpu->two_phase_freq;
 			} else
 				new_freq = hispeed_freq;
+=======
+	if (cpu_load >= go_hispeed_load || boosted) {
+		if (pcpu->target_freq < hispeed_freq) {
+			new_freq = hispeed_freq;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		} else {
 			new_freq = choose_freq(pcpu, loadadjfreq);
 
@@ -482,6 +536,7 @@ static void cpufreq_interactive_timer(unsigned long data)
 		}
 	}
 
+<<<<<<< HEAD
 	if (counter > 0) {
 		counter--;
 		if (counter == 0) {
@@ -489,11 +544,19 @@ static void cpufreq_interactive_timer(unsigned long data)
 		}
 	}
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (pcpu->target_freq >= hispeed_freq &&
 	    new_freq > pcpu->target_freq &&
 	    now - pcpu->hispeed_validate_time <
 	    freq_to_above_hispeed_delay(pcpu->target_freq)) {
+<<<<<<< HEAD
 		spin_unlock_irqrestore(&pcpu->target_freq_lock, flags);
+=======
+		trace_cpufreq_interactive_notyet(
+			data, cpu_load, pcpu->target_freq,
+			pcpu->policy->cur, new_freq);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		goto rearm;
 	}
 
@@ -501,10 +564,15 @@ static void cpufreq_interactive_timer(unsigned long data)
 
 	if (cpufreq_frequency_table_target(pcpu->policy, pcpu->freq_table,
 					   new_freq, CPUFREQ_RELATION_L,
+<<<<<<< HEAD
 					   &index)) {
 		spin_unlock_irqrestore(&pcpu->target_freq_lock, flags);
 		goto rearm;
 	}
+=======
+					   &index))
+		goto rearm;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	new_freq = pcpu->freq_table[index].frequency;
 
@@ -519,7 +587,13 @@ static void cpufreq_interactive_timer(unsigned long data)
 
 	if (new_freq < pcpu->floor_freq) {
 		if (now - pcpu->floor_validate_time < mod_min_sample_time) {
+<<<<<<< HEAD
 			spin_unlock_irqrestore(&pcpu->target_freq_lock, flags);
+=======
+			trace_cpufreq_interactive_notyet(
+				data, cpu_load, pcpu->target_freq,
+				pcpu->policy->cur, new_freq);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			goto rearm;
 		}
 	}
@@ -538,12 +612,25 @@ static void cpufreq_interactive_timer(unsigned long data)
 	}
 
 	if (pcpu->target_freq == new_freq) {
+<<<<<<< HEAD
 		spin_unlock_irqrestore(&pcpu->target_freq_lock, flags);
 		goto rearm_if_notmax;
 	}
 
 	pcpu->target_freq = new_freq;
 	spin_unlock_irqrestore(&pcpu->target_freq_lock, flags);
+=======
+		trace_cpufreq_interactive_already(
+			data, cpu_load, pcpu->target_freq,
+			pcpu->policy->cur, new_freq);
+		goto rearm_if_notmax;
+	}
+
+	trace_cpufreq_interactive_target(data, cpu_load, pcpu->target_freq,
+					 pcpu->policy->cur, new_freq);
+
+	pcpu->target_freq = new_freq;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	spin_lock_irqsave(&speedchange_cpumask_lock, flags);
 	cpumask_set_cpu(data, &speedchange_cpumask);
 	spin_unlock_irqrestore(&speedchange_cpumask_lock, flags);
@@ -568,7 +655,10 @@ exit:
 
 static void cpufreq_interactive_idle_start(void)
 {
+<<<<<<< HEAD
 	int cpu = smp_processor_id();
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct cpufreq_interactive_cpuinfo *pcpu =
 		&per_cpu(cpuinfo, smp_processor_id());
 	int pending;
@@ -576,6 +666,7 @@ static void cpufreq_interactive_idle_start(void)
 
 	if (!down_read_trylock(&pcpu->enable_sem))
 		return;
+<<<<<<< HEAD
 	if (!pcpu->governor_enabled)
 		goto exit;
 
@@ -584,6 +675,11 @@ static void cpufreq_interactive_idle_start(void)
 		del_timer(&pcpu->cpu_timer);
 		del_timer(&pcpu->cpu_slack_timer);
 		goto exit;
+=======
+	if (!pcpu->governor_enabled) {
+		up_read(&pcpu->enable_sem);
+		return;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	pending = timer_pending(&pcpu->cpu_timer);
@@ -609,7 +705,11 @@ static void cpufreq_interactive_idle_start(void)
 
 		}
 	}
+<<<<<<< HEAD
 exit:
+=======
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	up_read(&pcpu->enable_sem);
 }
 
@@ -688,6 +788,12 @@ static int cpufreq_interactive_speedchange_task(void *data)
 				__cpufreq_driver_target(pcpu->policy,
 							max_freq,
 							CPUFREQ_RELATION_H);
+<<<<<<< HEAD
+=======
+			trace_cpufreq_interactive_setspeed(cpu,
+						     pcpu->target_freq,
+						     pcpu->policy->cur);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 			up_read(&pcpu->enable_sem);
 		}
@@ -700,6 +806,7 @@ static void cpufreq_interactive_boost(void)
 {
 	int i;
 	int anyboost = 0;
+<<<<<<< HEAD
 	unsigned long flags[2];
 	struct cpufreq_interactive_cpuinfo *pcpu;
 
@@ -708,6 +815,16 @@ static void cpufreq_interactive_boost(void)
 	for_each_online_cpu(i) {
 		pcpu = &per_cpu(cpuinfo, i);
 		spin_lock_irqsave(&pcpu->target_freq_lock, flags[1]);
+=======
+	unsigned long flags;
+	struct cpufreq_interactive_cpuinfo *pcpu;
+
+	spin_lock_irqsave(&speedchange_cpumask_lock, flags);
+
+	for_each_online_cpu(i) {
+		pcpu = &per_cpu(cpuinfo, i);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (pcpu->target_freq < hispeed_freq) {
 			pcpu->target_freq = hispeed_freq;
 			cpumask_set_cpu(i, &speedchange_cpumask);
@@ -723,10 +840,16 @@ static void cpufreq_interactive_boost(void)
 
 		pcpu->floor_freq = hispeed_freq;
 		pcpu->floor_validate_time = ktime_to_us(ktime_get());
+<<<<<<< HEAD
 		spin_unlock_irqrestore(&pcpu->target_freq_lock, flags[1]);
 	}
 
 	spin_unlock_irqrestore(&speedchange_cpumask_lock, flags[0]);
+=======
+	}
+
+	spin_unlock_irqrestore(&speedchange_cpumask_lock, flags);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (anyboost)
 		wake_up_process(speedchange_task);
@@ -821,6 +944,7 @@ err:
 	return ERR_PTR(err);
 }
 
+<<<<<<< HEAD
 static ssize_t show_two_phase_freq
 (struct kobject *kobj, struct attribute *attr, char *buf)
 {
@@ -860,6 +984,8 @@ static struct global_attr two_phase_freq_attr =
 	__ATTR(two_phase_freq, S_IRUGO | S_IWUSR,
 		show_two_phase_freq, store_two_phase_freq);
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static ssize_t show_target_loads(
 	struct kobject *kobj, struct attribute *attr, char *buf)
 {
@@ -873,7 +999,11 @@ static ssize_t show_target_loads(
 		ret += sprintf(buf + ret, "%u%s", target_loads[i],
 			       i & 0x1 ? ":" : " ");
 
+<<<<<<< HEAD
 	sprintf(buf + ret - 1, "\n");
+=======
+	ret += sprintf(buf + --ret, "\n");
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	spin_unlock_irqrestore(&target_loads_lock, flags);
 	return ret;
 }
@@ -916,7 +1046,11 @@ static ssize_t show_above_hispeed_delay(
 		ret += sprintf(buf + ret, "%u%s", above_hispeed_delay[i],
 			       i & 0x1 ? ":" : " ");
 
+<<<<<<< HEAD
 	sprintf(buf + ret - 1, "\n");
+=======
+	ret += sprintf(buf + --ret, "\n");
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	spin_unlock_irqrestore(&above_hispeed_delay_lock, flags);
 	return ret;
 }
@@ -1102,9 +1236,16 @@ static ssize_t store_boost(struct kobject *kobj, struct attribute *attr,
 	boost_val = val;
 
 	if (boost_val) {
+<<<<<<< HEAD
 		cpufreq_interactive_boost();
 	} else {
 		boostpulse_endtime = ktime_to_us(ktime_get());
+=======
+		trace_cpufreq_interactive_boost("on");
+		cpufreq_interactive_boost();
+	} else {
+		trace_cpufreq_interactive_unboost("off");
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	return count;
@@ -1123,6 +1264,10 @@ static ssize_t store_boostpulse(struct kobject *kobj, struct attribute *attr,
 		return ret;
 
 	boostpulse_endtime = ktime_to_us(ktime_get()) + boostpulse_duration_val;
+<<<<<<< HEAD
+=======
+	trace_cpufreq_interactive_boost("pulse");
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	cpufreq_interactive_boost();
 	return count;
 }
@@ -1261,7 +1406,10 @@ static struct attribute *interactive_attributes[] = {
 	&sync_freq_attr.attr,
 	&up_threshold_any_cpu_load_attr.attr,
 	&up_threshold_any_cpu_freq_attr.attr,
+<<<<<<< HEAD
 	&two_phase_freq_attr.attr,
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	NULL,
 };
 
@@ -1297,7 +1445,10 @@ static int cpufreq_governor_interactive(struct cpufreq_policy *policy,
 	unsigned int j;
 	struct cpufreq_interactive_cpuinfo *pcpu;
 	struct cpufreq_frequency_table *freq_table;
+<<<<<<< HEAD
 	unsigned long flags;
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	switch (event) {
 	case CPUFREQ_GOV_START:
@@ -1321,7 +1472,10 @@ static int cpufreq_governor_interactive(struct cpufreq_policy *policy,
 				ktime_to_us(ktime_get());
 			pcpu->hispeed_validate_time =
 				pcpu->floor_validate_time;
+<<<<<<< HEAD
 			pcpu->max_freq = policy->max;
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			down_write(&pcpu->enable_sem);
 			del_timer_sync(&pcpu->cpu_timer);
 			del_timer_sync(&pcpu->cpu_slack_timer);
@@ -1388,6 +1542,7 @@ static int cpufreq_governor_interactive(struct cpufreq_policy *policy,
 		for_each_cpu(j, policy->cpus) {
 			pcpu = &per_cpu(cpuinfo, j);
 
+<<<<<<< HEAD
 			down_read(&pcpu->enable_sem);
 			if (pcpu->governor_enabled == 0) {
 				up_read(&pcpu->enable_sem);
@@ -1395,20 +1550,35 @@ static int cpufreq_governor_interactive(struct cpufreq_policy *policy,
 			}
 
 			spin_lock_irqsave(&pcpu->target_freq_lock, flags);
+=======
+			/* hold write semaphore to avoid race */
+			down_write(&pcpu->enable_sem);
+			if (pcpu->governor_enabled == 0) {
+				up_write(&pcpu->enable_sem);
+				continue;
+			}
+
+			/* update target_freq firstly */
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			if (policy->max < pcpu->target_freq)
 				pcpu->target_freq = policy->max;
 			else if (policy->min > pcpu->target_freq)
 				pcpu->target_freq = policy->min;
 
+<<<<<<< HEAD
 			spin_unlock_irqrestore(&pcpu->target_freq_lock, flags);
 			up_read(&pcpu->enable_sem);
 
 			/* Reschedule timer only if policy->max is raised.
+=======
+			/* Reschedule timer.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			 * Delete the timers, else the timer callback may
 			 * return without re-arm the timer when failed
 			 * acquire the semaphore. This race may cause timer
 			 * stopped unexpectedly.
 			 */
+<<<<<<< HEAD
 
 			if (policy->max > pcpu->max_freq) {
 				down_write(&pcpu->enable_sem);
@@ -1419,6 +1589,12 @@ static int cpufreq_governor_interactive(struct cpufreq_policy *policy,
 			}
 
 			pcpu->max_freq = policy->max;
+=======
+			del_timer_sync(&pcpu->cpu_timer);
+			del_timer_sync(&pcpu->cpu_slack_timer);
+			cpufreq_interactive_timer_start(j);
+			up_write(&pcpu->enable_sem);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 		break;
 	}
@@ -1431,7 +1607,11 @@ static void cpufreq_interactive_nop_timer(unsigned long data)
 
 static int __init cpufreq_interactive_init(void)
 {
+<<<<<<< HEAD
 	unsigned int i, rc;
+=======
+	unsigned int i;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct cpufreq_interactive_cpuinfo *pcpu;
 	struct sched_param param = { .sched_priority = MAX_RT_PRIO-1 };
 
@@ -1444,7 +1624,10 @@ static int __init cpufreq_interactive_init(void)
 		init_timer(&pcpu->cpu_slack_timer);
 		pcpu->cpu_slack_timer.function = cpufreq_interactive_nop_timer;
 		spin_lock_init(&pcpu->load_lock);
+<<<<<<< HEAD
 		spin_lock_init(&pcpu->target_freq_lock);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		init_rwsem(&pcpu->enable_sem);
 	}
 
@@ -1475,8 +1658,11 @@ module_init(cpufreq_interactive_init);
 
 static void __exit cpufreq_interactive_exit(void)
 {
+<<<<<<< HEAD
 	unsigned int cpu;
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	cpufreq_unregister_governor(&cpufreq_gov_interactive);
 	kthread_stop(speedchange_task);
 	put_task_struct(speedchange_task);
@@ -1485,7 +1671,12 @@ static void __exit cpufreq_interactive_exit(void)
 module_exit(cpufreq_interactive_exit);
 
 MODULE_AUTHOR("Mike Chan <mike@android.com>");
+<<<<<<< HEAD
 MODULE_AUTHOR("Paul Reioux <reioux@gmail.com>");
 MODULE_DESCRIPTION("'cpufreq_interactive' - A cpufreq governor for "
 	"Latency sensitive workloads based on Google's Interactive");
+=======
+MODULE_DESCRIPTION("'cpufreq_interactive' - A cpufreq governor for "
+	"Latency sensitive workloads");
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 MODULE_LICENSE("GPL");

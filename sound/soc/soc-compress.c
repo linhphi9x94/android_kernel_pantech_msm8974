@@ -475,7 +475,10 @@ static int soc_compr_set_params_fe(struct snd_compr_stream *cstream,
 	struct snd_soc_pcm_runtime *fe = cstream->private_data;
 	struct snd_pcm_substream *fe_substream = fe->pcm->streams[0].substream;
 	struct snd_soc_platform *platform = fe->platform;
+<<<<<<< HEAD
 	struct snd_pcm_hw_params *hw_params;
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int ret = 0, stream;
 
 	if (cstream->direction == SND_COMPRESS_PLAYBACK)
@@ -483,10 +486,13 @@ static int soc_compr_set_params_fe(struct snd_compr_stream *cstream,
 	else
 		stream = SNDRV_PCM_STREAM_CAPTURE;
 
+<<<<<<< HEAD
 	hw_params = kzalloc(sizeof(*hw_params), GFP_KERNEL);
 	if (hw_params == NULL)
 		return -ENOMEM;
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mutex_lock(&fe->card->dpcm_mutex);
 	/* first we call set_params for the platform driver
 	 * this should configure the soc side
@@ -604,14 +610,25 @@ static int soc_compr_pointer(struct snd_compr_stream *cstream,
 {
 	struct snd_soc_pcm_runtime *rtd = cstream->private_data;
 	struct snd_soc_platform *platform = rtd->platform;
+<<<<<<< HEAD
+=======
+	int ret = 0;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	mutex_lock_nested(&rtd->pcm_mutex, rtd->pcm_subclass);
 
 	if (platform->driver->compr_ops && platform->driver->compr_ops->pointer)
+<<<<<<< HEAD
 		 platform->driver->compr_ops->pointer(cstream, tstamp);
 
 	mutex_unlock(&rtd->pcm_mutex);
 	return 0;
+=======
+		ret = platform->driver->compr_ops->pointer(cstream, tstamp);
+
+	mutex_unlock(&rtd->pcm_mutex);
+	return ret;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static int soc_compr_copy(struct snd_compr_stream *cstream,

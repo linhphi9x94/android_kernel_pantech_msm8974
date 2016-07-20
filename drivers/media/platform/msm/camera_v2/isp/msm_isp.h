@@ -19,7 +19,11 @@
 #include <linux/io.h>
 #include <linux/list.h>
 #include <linux/delay.h>
+<<<<<<< HEAD
 #include <linux/avtimer.h>
+=======
+#include <linux/avtimer_kernel.h>
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <media/v4l2-subdev.h>
 #include <media/msmb_isp.h>
 #include <mach/msm_bus.h>

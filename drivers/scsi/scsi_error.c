@@ -653,6 +653,10 @@ static int scsi_try_to_abort_cmd(struct scsi_host_template *hostt, struct scsi_c
 
 	return hostt->eh_abort_handler(scmd);
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_ANDROID_PANTECH_USB_OTG_INTENT
 void scsi_abort_eh_cmnd(struct scsi_cmnd *scmd)
 #else

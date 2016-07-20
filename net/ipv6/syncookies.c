@@ -215,6 +215,11 @@ struct sock *cookie_v6_check(struct sock *sk, struct sk_buff *skb)
 	    ipv6_addr_type(&ireq6->rmt_addr) & IPV6_ADDR_LINKLOCAL)
 		ireq6->iif = inet6_iif(skb);
 
+<<<<<<< HEAD
+=======
+	ireq->ir_mark = inet_request_mark(sk, skb);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	req->expires = 0UL;
 	req->retrans = 0;
 	ireq->ecn_ok		= ecn_ok;
@@ -241,7 +246,11 @@ struct sock *cookie_v6_check(struct sock *sk, struct sk_buff *skb)
 		final_p = fl6_update_dst(&fl6, np->opt, &final);
 		fl6.saddr = ireq6->loc_addr;
 		fl6.flowi6_oif = sk->sk_bound_dev_if;
+<<<<<<< HEAD
 		fl6.flowi6_mark = sk->sk_mark;
+=======
+		fl6.flowi6_mark = inet_rsk(req)->ir_mark;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		fl6.fl6_dport = inet_rsk(req)->rmt_port;
 		fl6.fl6_sport = inet_sk(sk)->inet_sport;
 		fl6.flowi6_uid = sock_i_uid(sk);

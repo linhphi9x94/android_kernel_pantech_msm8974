@@ -538,7 +538,11 @@ static void tx_complete(struct usb_ep *ep, struct usb_request *req)
 	spin_lock(&dev->req_lock);
 	list_add_tail(&req->list, &dev->tx_reqs);
 
+<<<<<<< HEAD
 	if (dev->port_usb->multi_pkt_xfer) {
+=======
+	if (dev->port_usb->multi_pkt_xfer && !req->context) {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		dev->no_tx_req_used--;
 		req->length = 0;
 		in = dev->port_usb->in_ep;
@@ -604,6 +608,17 @@ static void tx_complete(struct usb_ep *ep, struct usb_request *req)
 		}
 	} else {
 		skb = req->context;
+<<<<<<< HEAD
+=======
+		/* Is aggregation already enabled and buffers allocated ? */
+		if (dev->port_usb->multi_pkt_xfer && dev->tx_req_bufsize) {
+			req->buf = kzalloc(dev->tx_req_bufsize, GFP_ATOMIC);
+			req->context = NULL;
+		} else {
+			req->buf = NULL;
+		}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		spin_unlock(&dev->req_lock);
 		dev_kfree_skb_any(skb);
 	}
@@ -631,11 +646,21 @@ static int alloc_tx_buffer(struct eth_dev *dev)
 
 	list_for_each(act, &dev->tx_reqs) {
 		req = container_of(act, struct usb_request, list);
+<<<<<<< HEAD
 		if (!req->buf)
+=======
+		if (!req->buf) {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			req->buf = kzalloc(dev->tx_req_bufsize,
 						GFP_ATOMIC);
 			if (!req->buf)
 				goto free_buf;
+<<<<<<< HEAD
+=======
+		}
+		/* req->context is not used for multi_pkt_xfers */
+		req->context = NULL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	return 0;
 
@@ -679,11 +704,23 @@ static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
 	}
 
 	/* Allocate memory for tx_reqs to support multi packet transfer */
+<<<<<<< HEAD
 	if (multi_pkt_xfer && !dev->tx_req_bufsize) {
 		retval = alloc_tx_buffer(dev);
 		if (retval < 0)
 			return -ENOMEM;
 	}
+=======
+	spin_lock_irqsave(&dev->req_lock, flags);
+	if (multi_pkt_xfer && !dev->tx_req_bufsize) {
+		retval = alloc_tx_buffer(dev);
+		if (retval < 0) {
+			spin_unlock_irqrestore(&dev->req_lock, flags);
+			return -ENOMEM;
+		}
+	}
+	spin_unlock_irqrestore(&dev->req_lock, flags);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/* apply outgoing CDC or RNDIS filters */
 	if (!is_promisc(cdc_filter)) {
@@ -730,14 +767,24 @@ static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
 	 * or the hardware can't use skb buffers.
 	 * or there's not enough space for extra headers we need
 	 */
+<<<<<<< HEAD
 		spin_lock_irqsave(&dev->lock, flags);
+=======
+	spin_lock_irqsave(&dev->lock, flags);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (dev->wrap) {
 		if (dev->port_usb)
 			skb = dev->wrap(dev->port_usb, skb);
 		if (!skb) {
+<<<<<<< HEAD
 		spin_unlock_irqrestore(&dev->lock, flags);
 			goto drop;
 	}
+=======
+			spin_unlock_irqrestore(&dev->lock, flags);
+			goto drop;
+		}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	if (multi_pkt_xfer) {

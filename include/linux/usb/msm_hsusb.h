@@ -191,6 +191,23 @@ enum usb_vdd_value {
 };
 
 /**
+<<<<<<< HEAD
+=======
+ * Maintain state for hvdcp external charger status
+ * DEFAULT	This is used when DCP is detected
+ * ACTIVE	This is used when ioctl is called to block LPM
+ * INACTIVE	This is used when ioctl is called to unblock LPM
+ */
+
+enum usb_ext_chg_status {
+	DEFAULT = 1,
+	ACTIVE,
+	INACTIVE,
+};
+
+
+/**
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  * struct msm_otg_platform_data - platform device data
  *              for msm_otg driver.
  * @phy_init_seq: PHY configuration sequence. val, reg pairs
@@ -322,8 +339,18 @@ struct msm_otg_platform_data {
  * @sleep_clk: clock struct of sleep_clk for USB PHY.
  * @core_clk_rate: core clk max frequency
  * @regs: ioremapped register base address.
+<<<<<<< HEAD
  * @inputs: OTG state machine inputs(Id, SessValid etc).
  * @sm_work: OTG state machine work.
+=======
+ * @usb_phy_ctrl_reg: relevant PHY_CTRL_REG register base address.
+ * @inputs: OTG state machine inputs(Id, SessValid etc).
+ * @sm_work: OTG state machine work.
+ * @pm_suspended: OTG device is system(PM) suspended.
+ * @pm_notify: Notifier to receive system wide PM transition events.
+		It is used to defer wakeup events processing until
+		system is RESUMED.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  * @in_lpm: indicates low power mode (LPM) state.
  * @async_int: IRQ line on which ASYNC interrupt arrived in LPM.
  * @cur_power: The amount of mA available from downstream port.
@@ -346,7 +373,14 @@ struct msm_otg_platform_data {
  * @chg_check_timer: The timer used to implement the workaround to detect
  *               very slow plug in of wall charger.
  * @ui_enabled: USB Intterupt is enabled or disabled.
+<<<<<<< HEAD
  * @pm_done: Indicates whether USB is PM resumed
+=======
+ * @pm_done: It is used to increment the pm counter using pm_runtime_get_sync.
+	     This handles the race case when PM resume thread returns before
+	     the charger detection starts. When USB is disconnected pm_done
+	     is set to true.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  */
 struct msm_otg {
 	struct usb_phy phy;
@@ -361,6 +395,10 @@ struct msm_otg {
 	long core_clk_rate;
 	struct resource *io_res;
 	void __iomem *regs;
+<<<<<<< HEAD
+=======
+	void __iomem *usb_phy_ctrl_reg;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define ID		0
 #define B_SESS_VLD	1
 #define ID_A		2
@@ -384,6 +422,10 @@ struct msm_otg {
 	struct work_struct sm_work;
 	bool sm_work_pending;
 	atomic_t pm_suspended;
+<<<<<<< HEAD
+=======
+	struct notifier_block pm_notify;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	atomic_t in_lpm;
 	int async_int;
 	unsigned cur_power;
@@ -460,7 +502,11 @@ struct msm_otg {
 	struct class *ext_chg_class;
 	struct device *ext_chg_device;
 	bool ext_chg_opened;
+<<<<<<< HEAD
 	bool ext_chg_active;
+=======
+	enum usb_ext_chg_status ext_chg_active;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct completion ext_chg_wait;
 	int ui_enabled;
 	bool pm_done;
@@ -523,6 +569,10 @@ struct msm_usb_host_platform_data {
 	bool use_sec_phy;
 	bool no_selective_suspend;
 	int resume_gpio;
+<<<<<<< HEAD
+=======
+	bool is_uicc;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 /**

@@ -17,6 +17,11 @@
 #include <linux/poll.h>
 #include <linux/videodev2.h>
 
+<<<<<<< HEAD
+=======
+#define VB2_MAX_FRAME  64
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct vb2_alloc_ctx;
 struct vb2_fileio_data;
 
@@ -281,7 +286,11 @@ struct vb2_queue {
 
 /* private: internal use only */
 	enum v4l2_memory		memory;
+<<<<<<< HEAD
 	struct vb2_buffer		*bufs[VIDEO_MAX_FRAME];
+=======
+	struct vb2_buffer		*bufs[VB2_MAX_FRAME];
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	unsigned int			num_buffers;
 
 	struct list_head		queued_list;

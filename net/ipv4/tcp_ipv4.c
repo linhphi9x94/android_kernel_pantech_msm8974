@@ -1350,6 +1350,10 @@ int tcp_v4_conn_request(struct sock *sk, struct sk_buff *skb)
 	ireq->rmt_addr = saddr;
 	ireq->no_srccheck = inet_sk(sk)->transparent;
 	ireq->opt = tcp_v4_save_options(sk, skb);
+<<<<<<< HEAD
+=======
+	ireq->ir_mark = inet_request_mark(sk, skb);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (security_inet_conn_request(sk, skb, req))
 		goto drop_and_free;
@@ -2398,13 +2402,21 @@ void tcp_proc_unregister(struct net *net, struct tcp_seq_afinfo *afinfo)
 EXPORT_SYMBOL(tcp_proc_unregister);
 
 static void get_openreq4(const struct sock *sk, const struct request_sock *req,
+<<<<<<< HEAD
 			 struct seq_file *f, int i, int uid, int *len)
+=======
+			 struct seq_file *f, int i, int uid)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	const struct inet_request_sock *ireq = inet_rsk(req);
 	int ttd = req->expires - jiffies;
 
 	seq_printf(f, "%4d: %08X:%04X %08X:%04X"
+<<<<<<< HEAD
 		" %02X %08X:%08X %02X:%08lX %08X %5d %8d %u %d %pK%n",
+=======
+		" %02X %08X:%08X %02X:%08lX %08X %5d %8d %u %d %pK",
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		i,
 		ireq->loc_addr,
 		ntohs(inet_sk(sk)->inet_sport),
@@ -2419,11 +2431,18 @@ static void get_openreq4(const struct sock *sk, const struct request_sock *req,
 		0,  /* non standard timer */
 		0, /* open_requests have no inode */
 		atomic_read(&sk->sk_refcnt),
+<<<<<<< HEAD
 		req,
 		len);
 }
 
 static void get_tcp4_sock(struct sock *sk, struct seq_file *f, int i, int *len)
+=======
+		req);
+}
+
+static void get_tcp4_sock(struct sock *sk, struct seq_file *f, int i)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	int timer_active;
 	unsigned long timer_expires;
@@ -2459,7 +2478,11 @@ static void get_tcp4_sock(struct sock *sk, struct seq_file *f, int i, int *len)
 		rx_queue = max_t(int, tp->rcv_nxt - tp->copied_seq, 0);
 
 	seq_printf(f, "%4d: %08X:%04X %08X:%04X %02X %08X:%08X %02X:%08lX "
+<<<<<<< HEAD
 			"%08X %5d %8d %lu %d %pK %lu %lu %u %u %d%n",
+=======
+			"%08X %5d %8d %lu %d %pK %lu %lu %u %u %d",
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		i, src, srcp, dest, destp, sk->sk_state,
 		tp->write_seq - tp->snd_una,
 		rx_queue,
@@ -2474,12 +2497,21 @@ static void get_tcp4_sock(struct sock *sk, struct seq_file *f, int i, int *len)
 		jiffies_to_clock_t(icsk->icsk_ack.ato),
 		(icsk->icsk_ack.quick << 1) | icsk->icsk_ack.pingpong,
 		tp->snd_cwnd,
+<<<<<<< HEAD
 		tcp_in_initial_slowstart(tp) ? -1 : tp->snd_ssthresh,
 		len);
 }
 
 static void get_timewait4_sock(const struct inet_timewait_sock *tw,
 			       struct seq_file *f, int i, int *len)
+=======
+		tcp_in_initial_slowstart(tp) ? -1 : tp->snd_ssthresh);
+
+}
+
+static void get_timewait4_sock(const struct inet_timewait_sock *tw,
+			       struct seq_file *f, int i)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	__be32 dest, src;
 	__u16 destp, srcp;
@@ -2494,10 +2526,17 @@ static void get_timewait4_sock(const struct inet_timewait_sock *tw,
 	srcp  = ntohs(tw->tw_sport);
 
 	seq_printf(f, "%4d: %08X:%04X %08X:%04X"
+<<<<<<< HEAD
 		" %02X %08X:%08X %02X:%08lX %08X %5d %8d %d %d %pK%n",
 		i, src, srcp, dest, destp, tw->tw_substate, 0, 0,
 		3, jiffies_to_clock_t(ttd), 0, 0, 0, 0,
 		atomic_read(&tw->tw_refcnt), tw, len);
+=======
+		" %02X %08X:%08X %02X:%08lX %08X %5d %8d %d %d %pK",
+		i, src, srcp, dest, destp, tw->tw_substate, 0, 0,
+		3, jiffies_to_clock_t(ttd), 0, 0, 0, 0,
+		atomic_read(&tw->tw_refcnt), tw);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 #define TMPSZ 150
@@ -2505,11 +2544,18 @@ static void get_timewait4_sock(const struct inet_timewait_sock *tw,
 static int tcp4_seq_show(struct seq_file *seq, void *v)
 {
 	struct tcp_iter_state *st;
+<<<<<<< HEAD
 	int len;
 
 	if (v == SEQ_START_TOKEN) {
 		seq_printf(seq, "%-*s\n", TMPSZ - 1,
 			   "  sl  local_address rem_address   st tx_queue "
+=======
+
+	seq_setwidth(seq, TMPSZ - 1);
+	if (v == SEQ_START_TOKEN) {
+		seq_puts(seq, "  sl  local_address rem_address   st tx_queue "
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			   "rx_queue tr tm->when retrnsmt   uid  timeout "
 			   "inode");
 		goto out;
@@ -2519,6 +2565,7 @@ static int tcp4_seq_show(struct seq_file *seq, void *v)
 	switch (st->state) {
 	case TCP_SEQ_STATE_LISTENING:
 	case TCP_SEQ_STATE_ESTABLISHED:
+<<<<<<< HEAD
 		get_tcp4_sock(v, seq, st->num, &len);
 		break;
 	case TCP_SEQ_STATE_OPENREQ:
@@ -2530,6 +2577,19 @@ static int tcp4_seq_show(struct seq_file *seq, void *v)
 	}
 	seq_printf(seq, "%*s\n", TMPSZ - 1 - len, "");
 out:
+=======
+		get_tcp4_sock(v, seq, st->num);
+		break;
+	case TCP_SEQ_STATE_OPENREQ:
+		get_openreq4(st->syn_wait_sk, v, seq, st->num, st->uid);
+		break;
+	case TCP_SEQ_STATE_TIME_WAIT:
+		get_timewait4_sock(v, seq, st->num);
+		break;
+	}
+out:
+	seq_pad(seq, '\n');
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 }
 

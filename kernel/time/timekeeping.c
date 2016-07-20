@@ -1186,7 +1186,11 @@ void get_monotonic_boottime(struct timespec *ts)
 	} while (read_seqretry(&timekeeper.lock, seq));
 
 	set_normalized_timespec(ts, ts->tv_sec + tomono.tv_sec + sleep.tv_sec,
+<<<<<<< HEAD
 			ts->tv_nsec + tomono.tv_nsec + sleep.tv_nsec + nsecs);
+=======
+		(s64)ts->tv_nsec + tomono.tv_nsec + sleep.tv_nsec + nsecs);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 EXPORT_SYMBOL_GPL(get_monotonic_boottime);
 

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -64,6 +68,20 @@ int mdss_dsi_clk_init(struct platform_device *pdev,
 		goto mdss_dsi_clk_err;
 	}
 
+<<<<<<< HEAD
+=======
+	if ((ctrl_pdata->panel_data.panel_info.type == MIPI_CMD_PANEL) ||
+		ctrl_pdata->panel_data.panel_info.mipi.dynamic_switch_enabled) {
+		ctrl_pdata->mmss_misc_ahb_clk = clk_get(dev, "core_mmss_clk");
+		if (IS_ERR(ctrl_pdata->mmss_misc_ahb_clk)) {
+			rc = PTR_ERR(ctrl_pdata->mmss_misc_ahb_clk);
+			pr_err("%s: Unable to get mmss misc ahb clk. rc=%d\n",
+				__func__, rc);
+			goto mdss_dsi_clk_err;
+		}
+	}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ctrl_pdata->byte_clk = clk_get(dev, "byte_clk");
 	if (IS_ERR(ctrl_pdata->byte_clk)) {
 		rc = PTR_ERR(ctrl_pdata->byte_clk);
@@ -105,6 +123,11 @@ void mdss_dsi_clk_deinit(struct mdss_dsi_ctrl_pdata  *ctrl_pdata)
 		clk_put(ctrl_pdata->esc_clk);
 	if (ctrl_pdata->pixel_clk)
 		clk_put(ctrl_pdata->pixel_clk);
+<<<<<<< HEAD
+=======
+	if (ctrl_pdata->mmss_misc_ahb_clk)
+		clk_put(ctrl_pdata->mmss_misc_ahb_clk);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (ctrl_pdata->axi_clk)
 		clk_put(ctrl_pdata->axi_clk);
 	if (ctrl_pdata->ahb_clk)
@@ -204,7 +227,11 @@ int mdss_dsi_clk_div_config(struct mdss_panel_info *panel_info,
 	}
 
 	/* find the mnd settings from mnd_table entry */
+<<<<<<< HEAD
 	for (; mnd_entry != mnd_table + ARRAY_SIZE(mnd_table); ++mnd_entry) {
+=======
+	for (; mnd_entry < mnd_table + ARRAY_SIZE(mnd_table); ++mnd_entry) {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (((mnd_entry->lanes) == lanes) &&
 			((mnd_entry->bpp) == bpp))
 			break;
@@ -247,7 +274,11 @@ int mdss_dsi_clk_div_config(struct mdss_panel_info *panel_info,
 	return 0;
 }
 
+<<<<<<< HEAD
 int mdss_dsi_bus_clk_start(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
+=======
+static int mdss_dsi_bus_clk_start(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	int rc = 0;
 
@@ -275,17 +306,40 @@ int mdss_dsi_bus_clk_start(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 		goto error;
 	}
 
+<<<<<<< HEAD
+=======
+	if (ctrl_pdata->mmss_misc_ahb_clk) {
+		rc = clk_prepare_enable(ctrl_pdata->mmss_misc_ahb_clk);
+		if (rc) {
+			pr_err("%s: failed to enable mmss misc ahb clk.rc=%d\n",
+				__func__, rc);
+			clk_disable_unprepare(ctrl_pdata->axi_clk);
+			clk_disable_unprepare(ctrl_pdata->ahb_clk);
+			clk_disable_unprepare(ctrl_pdata->mdp_core_clk);
+			goto error;
+		}
+	}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 error:
 	return rc;
 }
 
+<<<<<<< HEAD
 void mdss_dsi_bus_clk_stop(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
+=======
+static void mdss_dsi_bus_clk_stop(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
+{
+	if (ctrl_pdata->mmss_misc_ahb_clk)
+		clk_disable_unprepare(ctrl_pdata->mmss_misc_ahb_clk);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	clk_disable_unprepare(ctrl_pdata->axi_clk);
 	clk_disable_unprepare(ctrl_pdata->ahb_clk);
 	clk_disable_unprepare(ctrl_pdata->mdp_core_clk);
 }
 
+<<<<<<< HEAD
 static int mdss_dsi_link_clk_prepare(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
 	int rc = 0;
@@ -330,6 +384,8 @@ static void mdss_dsi_link_clk_unprepare(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 	clk_unprepare(ctrl_pdata->esc_clk);
 }
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int mdss_dsi_link_clk_set_rate(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
 	u32 esc_clk_rate = 19200000;
@@ -371,6 +427,7 @@ error:
 	return rc;
 }
 
+<<<<<<< HEAD
 static int mdss_dsi_link_clk_enable(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
 	int rc = 0;
@@ -388,23 +445,46 @@ static int mdss_dsi_link_clk_enable(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 	}
 
 	rc = clk_enable(ctrl_pdata->esc_clk);
+=======
+static int mdss_dsi_link_clk_start(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
+{
+	int rc = 0;
+
+	rc = mdss_dsi_link_clk_set_rate(ctrl_pdata);
+	if (rc) {
+		pr_err("%s: failed to set clk rates. rc=%d\n",
+			__func__, rc);
+		goto error;
+	}
+
+	rc = clk_prepare_enable(ctrl_pdata->esc_clk);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (rc) {
 		pr_err("%s: Failed to enable dsi esc clk\n", __func__);
 		goto esc_clk_err;
 	}
 
+<<<<<<< HEAD
 	rc = clk_enable(ctrl_pdata->byte_clk);
+=======
+	rc = clk_prepare_enable(ctrl_pdata->byte_clk);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (rc) {
 		pr_err("%s: Failed to enable dsi byte clk\n", __func__);
 		goto byte_clk_err;
 	}
 
+<<<<<<< HEAD
 	rc = clk_enable(ctrl_pdata->pixel_clk);
+=======
+	rc = clk_prepare_enable(ctrl_pdata->pixel_clk);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (rc) {
 		pr_err("%s: Failed to enable dsi pixel clk\n", __func__);
 		goto pixel_clk_err;
 	}
 
+<<<<<<< HEAD
 	ctrl_pdata->mdss_dsi_clk_on = 1;
 
 	return rc;
@@ -418,11 +498,26 @@ esc_clk_err:
 }
 
 static void mdss_dsi_link_clk_disable(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
+=======
+	return rc;
+
+pixel_clk_err:
+	clk_disable_unprepare(ctrl_pdata->byte_clk);
+byte_clk_err:
+	clk_disable_unprepare(ctrl_pdata->esc_clk);
+esc_clk_err:
+error:
+	return rc;
+}
+
+static void mdss_dsi_link_clk_stop(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	if (!ctrl_pdata) {
 		pr_err("%s: Invalid input data\n", __func__);
 		return;
 	}
+<<<<<<< HEAD
 
 	pr_debug("%s: ndx=%d\n", __func__, ctrl_pdata->ndx);
 
@@ -462,12 +557,80 @@ int mdss_dsi_link_clk_start(struct mdss_dsi_ctrl_pdata *ctrl)
 			__func__, rc);
 		mdss_dsi_link_clk_unprepare(ctrl);
 		goto error;
+=======
+	pr_debug("%s: ndx=%d\n", __func__, ctrl_pdata->ndx);
+
+	clk_disable_unprepare(ctrl_pdata->esc_clk);
+	clk_disable_unprepare(ctrl_pdata->pixel_clk);
+	clk_disable_unprepare(ctrl_pdata->byte_clk);
+}
+
+static int __mdss_dsi_update_clk_cnt(u32 *clk_cnt, int enable)
+{
+	int changed = 0;
+
+	if (enable) {
+		if (*clk_cnt == 0)
+			changed++;
+		(*clk_cnt)++;
+	} else {
+		if (*clk_cnt != 0) {
+			(*clk_cnt)--;
+			if (*clk_cnt == 0)
+				changed++;
+		} else {
+			pr_debug("%s: clk cnt already zero\n", __func__);
+		}
+	}
+
+	return changed;
+}
+
+static int mdss_dsi_clk_ctrl_sub(struct mdss_dsi_ctrl_pdata *ctrl,
+	u8 clk_type, int enable)
+{
+	int rc = 0;
+
+	if (!ctrl) {
+		pr_err("%s: Invalid arg\n", __func__);
+		return -EINVAL;
+	}
+
+	pr_debug("%s: ndx=%d clk_type=%08x enable=%d\n", __func__,
+		ctrl->ndx, clk_type, enable);
+
+	if (enable) {
+		if (clk_type & DSI_BUS_CLKS) {
+			rc = mdss_dsi_bus_clk_start(ctrl);
+			if (rc) {
+				pr_err("Failed to start bus clocks. rc=%d\n",
+					rc);
+				goto error;
+			}
+		}
+		if (clk_type & DSI_LINK_CLKS) {
+			rc = mdss_dsi_link_clk_start(ctrl);
+			if (rc) {
+				pr_err("Failed to start link clocks. rc=%d\n",
+					rc);
+				if (clk_type & DSI_BUS_CLKS)
+					mdss_dsi_bus_clk_stop(ctrl);
+				goto error;
+			}
+		}
+	} else {
+		if (clk_type & DSI_LINK_CLKS)
+			mdss_dsi_link_clk_stop(ctrl);
+		if (clk_type & DSI_BUS_CLKS)
+			mdss_dsi_bus_clk_stop(ctrl);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 error:
 	return rc;
 }
 
+<<<<<<< HEAD
 void mdss_dsi_link_clk_stop(struct mdss_dsi_ctrl_pdata *ctrl)
 {
 	mdss_dsi_link_clk_disable(ctrl);
@@ -542,6 +705,129 @@ void mdss_dsi_clk_ctrl(struct mdss_dsi_ctrl_pdata *ctrl, int enable)
 			mdss_dsi_clk_ctrl_sub(sctrl, enable);
 	}
 	mutex_unlock(&dsi_clk_lock);
+=======
+static DEFINE_MUTEX(dsi_clk_lock); /* per system */
+
+bool __mdss_dsi_clk_enabled(struct mdss_dsi_ctrl_pdata *ctrl, u8 clk_type)
+{
+	bool bus_enabled = true;
+	bool link_enabled = true;
+
+	mutex_lock(&dsi_clk_lock);
+	if (clk_type & DSI_BUS_CLKS)
+		bus_enabled = ctrl->bus_clk_cnt ? true : false;
+	if (clk_type & DSI_LINK_CLKS)
+		link_enabled = ctrl->link_clk_cnt ? true : false;
+	mutex_unlock(&dsi_clk_lock);
+
+	return bus_enabled && link_enabled;
+}
+
+int mdss_dsi_clk_ctrl(struct mdss_dsi_ctrl_pdata *ctrl,
+	u8 clk_type, int enable)
+{
+	int rc = 0;
+	int changed = 0, m_changed = 0;
+	struct mdss_dsi_ctrl_pdata *mctrl = NULL;
+
+	if (!ctrl) {
+		pr_err("%s: Invalid arg\n", __func__);
+		return -EINVAL;
+	}
+
+	/*
+	 * In broadcast mode, we need to enable clocks for the
+	 * master controller as well when enabling clocks for the
+	 * slave controller
+	 */
+	if (mdss_dsi_is_slave_ctrl(ctrl)) {
+		mctrl = mdss_dsi_get_master_ctrl();
+		if (!mctrl)
+			pr_warn("%s: Unable to get master control\n", __func__);
+	}
+
+	pr_debug("%s++: ndx=%d clk_type=%d bus_clk_cnt=%d link_clk_cnt=%d",
+		__func__, ctrl->ndx, clk_type, ctrl->bus_clk_cnt,
+		ctrl->link_clk_cnt);
+	pr_debug("%s++: mctrl=%s m_bus_clk_cnt=%d m_link_clk_cnt=%d\n, enable=%d\n",
+		__func__, mctrl ? "yes" : "no", mctrl ? mctrl->bus_clk_cnt : -1,
+		mctrl ? mctrl->link_clk_cnt : -1, enable);
+
+	mutex_lock(&dsi_clk_lock);
+	if (clk_type & DSI_BUS_CLKS) {
+		changed = __mdss_dsi_update_clk_cnt(&ctrl->bus_clk_cnt,
+			enable);
+		if (changed && mctrl)
+			m_changed = __mdss_dsi_update_clk_cnt(
+				&mctrl->bus_clk_cnt, enable);
+	}
+
+	if (clk_type & DSI_LINK_CLKS) {
+		changed += __mdss_dsi_update_clk_cnt(&ctrl->link_clk_cnt,
+			enable);
+		if (changed && mctrl)
+			m_changed += __mdss_dsi_update_clk_cnt(
+				&mctrl->link_clk_cnt, enable);
+	}
+
+	if (changed) {
+		if (enable && m_changed) {
+			rc = mdss_dsi_clk_ctrl_sub(mctrl, clk_type, enable);
+			if (rc) {
+				pr_err("Failed to start mctrl clocks. rc=%d\n",
+					rc);
+				goto error_mctrl_start;
+			}
+		}
+
+		rc = mdss_dsi_clk_ctrl_sub(ctrl, clk_type, enable);
+		if (rc) {
+			pr_err("Failed to %s ctrl clocks. rc=%d\n",
+				(enable ? "start" : "stop"), rc);
+			goto error_ctrl;
+		}
+
+		if (!enable && m_changed) {
+			rc = mdss_dsi_clk_ctrl_sub(mctrl, clk_type, enable);
+			if (rc) {
+				pr_err("Failed to stop mctrl clocks. rc=%d\n",
+					rc);
+				goto error_mctrl_stop;
+			}
+		}
+	}
+	goto no_error;
+
+error_mctrl_stop:
+	mdss_dsi_clk_ctrl_sub(ctrl, clk_type, enable ? 0 : 1);
+error_ctrl:
+	if (enable && m_changed)
+		mdss_dsi_clk_ctrl_sub(mctrl, clk_type, 0);
+error_mctrl_start:
+	if (clk_type & DSI_BUS_CLKS) {
+		if (mctrl)
+			__mdss_dsi_update_clk_cnt(&mctrl->bus_clk_cnt,
+				enable ? 0 : 1);
+		__mdss_dsi_update_clk_cnt(&ctrl->bus_clk_cnt, enable ? 0 : 1);
+	}
+	if (clk_type & DSI_LINK_CLKS) {
+		if (mctrl)
+			__mdss_dsi_update_clk_cnt(&mctrl->link_clk_cnt,
+				enable ? 0 : 1);
+		__mdss_dsi_update_clk_cnt(&ctrl->link_clk_cnt, enable ? 0 : 1);
+	}
+
+no_error:
+	mutex_unlock(&dsi_clk_lock);
+	pr_debug("%s++: ndx=%d clk_type=%d bus_clk_cnt=%d link_clk_cnt=%d changed=%d",
+		__func__, ctrl->ndx, clk_type, ctrl->bus_clk_cnt,
+		ctrl->link_clk_cnt, changed);
+	pr_debug("%s++: mctrl=%s m_bus_clk_cnt=%d m_link_clk_cnt=%d\n, m_changed=%d, enable=%d\n",
+		__func__, mctrl ? "yes" : "no", mctrl ? mctrl->bus_clk_cnt : -1,
+		mctrl ? mctrl->link_clk_cnt : -1, m_changed, enable);
+
+	return rc;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 void mdss_dsi_phy_sw_reset(unsigned char *ctrl_base)
@@ -558,13 +844,18 @@ void mdss_dsi_phy_sw_reset(unsigned char *ctrl_base)
 
 void mdss_dsi_phy_disable(struct mdss_dsi_ctrl_pdata *ctrl)
 {
+<<<<<<< HEAD
 	static struct mdss_dsi_ctrl_pdata *left_ctrl;
+=======
+	struct mdss_dsi_ctrl_pdata *ctrl0 = NULL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (ctrl == NULL) {
 		pr_err("%s: Invalid input data\n", __func__);
 		return;
 	}
 
+<<<<<<< HEAD
 	if (left_ctrl &&
 			(ctrl->panel_data.panel_info.pdest == DISPLAY_1))
 		return;
@@ -581,6 +872,34 @@ void mdss_dsi_phy_disable(struct mdss_dsi_ctrl_pdata *ctrl)
 
 	MIPI_OUTP(ctrl->ctrl_base + 0x0470, 0x000);
 	MIPI_OUTP(ctrl->ctrl_base + 0x0598, 0x000);
+=======
+	/*
+	 * In dual-dsi configuration, the phy should be disabled for the
+	 * first controller only when the second controller is disabled.
+	 * This is true regardless of whether broadcast mode is enabled
+	 * or not.
+	 */
+	if ((ctrl->ndx == DSI_CTRL_0) &&
+		mdss_dsi_get_ctrl_by_index(DSI_CTRL_1)) {
+		pr_debug("%s: Dual dsi detected. skipping config for ctrl%d\n",
+			__func__, ctrl->ndx);
+		return;
+	}
+
+	if (ctrl->ndx == DSI_CTRL_1) {
+		ctrl0 = mdss_dsi_get_ctrl_by_index(DSI_CTRL_0);
+		if (ctrl0) {
+			MIPI_OUTP(ctrl0->phy_io.base + 0x0170, 0x000);
+			MIPI_OUTP(ctrl0->phy_io.base + 0x0298, 0x000);
+		} else {
+			pr_warn("%s: Unable to get control%d\n",
+				__func__, DSI_CTRL_0);
+		}
+	}
+
+	MIPI_OUTP(ctrl->phy_io.base + 0x0170, 0x000);
+	MIPI_OUTP(ctrl->phy_io.base + 0x0298, 0x000);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/*
 	 * Wait for the registers writes to complete in order to
@@ -593,7 +912,11 @@ void mdss_dsi_phy_init(struct mdss_panel_data *pdata)
 {
 	struct mdss_dsi_phy_ctrl *pd;
 	int i, off, ln, offset;
+<<<<<<< HEAD
 	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
+=======
+	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL, *temp_ctrl = NULL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	ctrl_pdata = container_of(pdata, struct mdss_dsi_ctrl_pdata,
 				panel_data);
@@ -601,10 +924,15 @@ void mdss_dsi_phy_init(struct mdss_panel_data *pdata)
 		pr_err("%s: Invalid input data\n", __func__);
 		return;
 	}
+<<<<<<< HEAD
+=======
+	temp_ctrl = ctrl_pdata;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	pd = &(((ctrl_pdata->panel_data).panel_info.mipi).dsi_phy_db);
 
 	/* Strength ctrl 0 */
+<<<<<<< HEAD
 	MIPI_OUTP((ctrl_pdata->ctrl_base) + 0x0484, pd->strength[0]);
 
 	/* phy regulator ctrl settings. Both the DSI controller
@@ -641,11 +969,57 @@ void mdss_dsi_phy_init(struct mdss_panel_data *pdata)
 	off = 0x0440;	/* phy timing ctrl 0 - 11 */
 	for (i = 0; i < 12; i++) {
 		MIPI_OUTP((ctrl_pdata->ctrl_base) + off, pd->timing[i]);
+=======
+	MIPI_OUTP((ctrl_pdata->phy_io.base) + 0x0184, pd->strength[0]);
+
+	/*
+	 * Phy regulator ctrl settings.
+	 * In dual dsi configuration, the second controller also uses
+	 * the regulators of the first controller, irrespective of whether
+	 * broadcast mode is enabled or not.
+	 */
+	if (ctrl_pdata->ndx == DSI_CTRL_1) {
+		temp_ctrl = mdss_dsi_get_ctrl_by_index(DSI_CTRL_0);
+		if (!temp_ctrl) {
+			pr_err("%s: Unable to get master ctrl\n", __func__);
+			return;
+		}
+	}
+
+	/* Regulator ctrl 0 */
+	MIPI_OUTP((temp_ctrl->phy_io.base) + 0x280, 0x0);
+	/* Regulator ctrl - CAL_PWR_CFG */
+	MIPI_OUTP((temp_ctrl->phy_io.base) + 0x298, pd->regulator[6]);
+
+	/* Regulator ctrl - TEST */
+	MIPI_OUTP((temp_ctrl->phy_io.base) + 0x294, pd->regulator[5]);
+	/* Regulator ctrl 3 */
+	MIPI_OUTP((temp_ctrl->phy_io.base) + 0x28c, pd->regulator[3]);
+	/* Regulator ctrl 2 */
+	MIPI_OUTP((temp_ctrl->phy_io.base) + 0x288, pd->regulator[2]);
+	/* Regulator ctrl 1 */
+	MIPI_OUTP((temp_ctrl->phy_io.base) + 0x284, pd->regulator[1]);
+	/* Regulator ctrl 0 */
+	MIPI_OUTP((temp_ctrl->phy_io.base) + 0x280, pd->regulator[0]);
+	/* Regulator ctrl 4 */
+	MIPI_OUTP((temp_ctrl->phy_io.base) + 0x290, pd->regulator[4]);
+
+	/* LDO ctrl 0 */
+	if ((ctrl_pdata->panel_data).panel_info.pdest == DISPLAY_1)
+		MIPI_OUTP((ctrl_pdata->phy_io.base) + 0x1dc, 0x00);
+	else
+		MIPI_OUTP((ctrl_pdata->phy_io.base) + 0x1dc, 0x00);
+
+	off = 0x0140;	/* phy timing ctrl 0 - 11 */
+	for (i = 0; i < 12; i++) {
+		MIPI_OUTP((ctrl_pdata->phy_io.base) + off, pd->timing[i]);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		wmb();
 		off += 4;
 	}
 
 	/* MMSS_DSI_0_PHY_DSIPHY_CTRL_1 */
+<<<<<<< HEAD
 	MIPI_OUTP((ctrl_pdata->ctrl_base) + 0x0474, 0x00);
 	/* MMSS_DSI_0_PHY_DSIPHY_CTRL_0 */
 	MIPI_OUTP((ctrl_pdata->ctrl_base) + 0x0470, 0x5f);
@@ -653,15 +1027,31 @@ void mdss_dsi_phy_init(struct mdss_panel_data *pdata)
 
 	/* Strength ctrl 1 */
 	MIPI_OUTP((ctrl_pdata->ctrl_base) + 0x0488, pd->strength[1]);
+=======
+	MIPI_OUTP((ctrl_pdata->phy_io.base) + 0x0174, 0x00);
+	/* MMSS_DSI_0_PHY_DSIPHY_CTRL_0 */
+	MIPI_OUTP((ctrl_pdata->phy_io.base) + 0x0170, 0x5f);
+	wmb();
+
+	/* Strength ctrl 1 */
+	MIPI_OUTP((ctrl_pdata->phy_io.base) + 0x0188, pd->strength[1]);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	wmb();
 
 	/* 4 lanes + clk lane configuration */
 	/* lane config n * (0 - 4) & DataPath setup */
 	for (ln = 0; ln < 5; ln++) {
+<<<<<<< HEAD
 		off = 0x0300 + (ln * 0x40);
 		for (i = 0; i < 9; i++) {
 			offset = i + (ln * 9);
 			MIPI_OUTP((ctrl_pdata->ctrl_base) + off,
+=======
+		off = (ln * 0x40);
+		for (i = 0; i < 9; i++) {
+			offset = i + (ln * 9);
+			MIPI_OUTP((ctrl_pdata->phy_io.base) + off,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 							pd->lanecfg[offset]);
 			wmb();
 			off += 4;
@@ -669,11 +1059,16 @@ void mdss_dsi_phy_init(struct mdss_panel_data *pdata)
 	}
 
 	/* MMSS_DSI_0_PHY_DSIPHY_CTRL_0 */
+<<<<<<< HEAD
 	MIPI_OUTP((ctrl_pdata->ctrl_base) + 0x0470, 0x5f);
+=======
+	MIPI_OUTP((ctrl_pdata->phy_io.base) + 0x0170, 0x5f);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	wmb();
 
 	/* DSI_0_PHY_DSIPHY_GLBL_TEST_CTRL */
 	if ((ctrl_pdata->panel_data).panel_info.pdest == DISPLAY_1)
+<<<<<<< HEAD
 		MIPI_OUTP((ctrl_pdata->ctrl_base) + 0x04d4, 0x01);
 	else
 		MIPI_OUTP((ctrl_pdata->ctrl_base) + 0x04d4, 0x00);
@@ -682,6 +1077,16 @@ void mdss_dsi_phy_init(struct mdss_panel_data *pdata)
 	off = 0x04b4;	/* phy BIST ctrl 0 - 5 */
 	for (i = 0; i < 6; i++) {
 		MIPI_OUTP((ctrl_pdata->ctrl_base) + off, pd->bistctrl[i]);
+=======
+		MIPI_OUTP((ctrl_pdata->phy_io.base) + 0x01d4, 0x01);
+	else
+		MIPI_OUTP((ctrl_pdata->phy_io.base) + 0x01d4, 0x00);
+	wmb();
+
+	off = 0x01b4;	/* phy BIST ctrl 0 - 5 */
+	for (i = 0; i < 6; i++) {
+		MIPI_OUTP((ctrl_pdata->phy_io.base) + off, pd->bistctrl[i]);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		wmb();
 		off += 4;
 	}

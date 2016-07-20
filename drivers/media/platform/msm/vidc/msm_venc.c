@@ -157,7 +157,11 @@ static struct msm_vidc_ctrl msm_venc_ctrls[] = {
 		.name = "IDR Period",
 		.type = V4L2_CTRL_TYPE_INTEGER,
 		.minimum = 1,
+<<<<<<< HEAD
 		.maximum = 10*MAX_FRAME_RATE,
+=======
+		.maximum = INT_MAX,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		.default_value = DEFAULT_FRAME_RATE,
 		.step = 1,
 		.menu_skip_mask = 0,
@@ -168,7 +172,11 @@ static struct msm_vidc_ctrl msm_venc_ctrls[] = {
 		.name = "Intra Period",
 		.type = V4L2_CTRL_TYPE_INTEGER,
 		.minimum = 1,
+<<<<<<< HEAD
 		.maximum = 10*MAX_FRAME_RATE,
+=======
+		.maximum = INT_MAX,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		.default_value = DEFAULT_FRAME_RATE,
 		.step = 1,
 		.menu_skip_mask = 0,
@@ -723,7 +731,11 @@ static struct msm_vidc_ctrl msm_venc_ctrls[] = {
 	{
 		.id = V4L2_CID_MPEG_VIDC_VIDEO_USELTRFRAME,
 		.name = "H264 Use LTR",
+<<<<<<< HEAD
 		.type = V4L2_CTRL_TYPE_BUTTON,
+=======
+		.type = V4L2_CTRL_TYPE_INTEGER,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		.minimum = 0,
 		.maximum = (MAX_LTR_FRAME_COUNT - 1),
 		.default_value = 0,
@@ -753,7 +765,11 @@ static struct msm_vidc_ctrl msm_venc_ctrls[] = {
 	{
 		.id = V4L2_CID_MPEG_VIDC_VIDEO_MARKLTRFRAME,
 		.name = "H264 Mark LTR",
+<<<<<<< HEAD
 		.type = V4L2_CTRL_TYPE_BUTTON,
+=======
+		.type = V4L2_CTRL_TYPE_INTEGER,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		.minimum = 0,
 		.maximum = (MAX_LTR_FRAME_COUNT - 1),
 		.default_value = 0,
@@ -928,9 +944,30 @@ static int msm_venc_queue_setup(struct vb2_queue *q,
 	}
 	hdev = inst->core->device;
 
+<<<<<<< HEAD
 	switch (q->type) {
 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
 		*num_planes = 1;
+=======
+	rc = msm_comm_try_state(inst, MSM_VIDC_OPEN_DONE);
+	if (rc) {
+		dprintk(VIDC_ERR, "Failed to open instance\n");
+		msm_comm_session_clean(inst);
+		return rc;
+	}
+
+	rc = msm_comm_try_get_bufreqs(inst);
+	if (rc) {
+		dprintk(VIDC_ERR,
+				"Failed to get buffer requirements: %d\n", rc);
+		return rc;
+	}
+
+	switch (q->type) {
+	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+		*num_planes = 1;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		buff_req = get_buff_req_buffer(inst, HAL_BUFFER_OUTPUT);
 		if (buff_req) {
 			*num_buffers = buff_req->buffer_count_actual =
@@ -938,12 +975,20 @@ static int msm_venc_queue_setup(struct vb2_queue *q,
 		}
 
 		if (*num_buffers < MIN_NUM_CAPTURE_BUFFERS ||
+<<<<<<< HEAD
 				*num_buffers > VIDEO_MAX_FRAME) {
+=======
+				*num_buffers > VB2_MAX_FRAME) {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			int temp = *num_buffers;
 
 			*num_buffers = clamp_val(*num_buffers,
 					MIN_NUM_CAPTURE_BUFFERS,
+<<<<<<< HEAD
 					VIDEO_MAX_FRAME);
+=======
+					VB2_MAX_FRAME);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			dprintk(VIDC_INFO,
 				"Changing buffer count on CAPTURE_MPLANE from %d to %d for best effort encoding\n",
 				temp, *num_buffers);
@@ -958,9 +1003,24 @@ static int msm_venc_queue_setup(struct vb2_queue *q,
 		inst->fmts[CAPTURE_PORT]->num_planes = *num_planes;
 
 		for (i = 0; i < *num_planes; i++) {
+<<<<<<< HEAD
 			sizes[i] = inst->fmts[CAPTURE_PORT]->get_frame_size(
 					i, inst->prop.height[CAPTURE_PORT],
 					inst->prop.width[CAPTURE_PORT]);
+=======
+			int extra_idx = EXTRADATA_IDX(*num_planes);
+
+			sizes[i] = inst->fmts[CAPTURE_PORT]->get_frame_size(
+					i, inst->prop.height[CAPTURE_PORT],
+					inst->prop.width[CAPTURE_PORT]);
+
+			if (extra_idx && i == extra_idx &&
+					extra_idx < VIDEO_MAX_PLANES) {
+				buff_req = get_buff_req_buffer(inst,
+						HAL_BUFFER_EXTRADATA_OUTPUT);
+				sizes[i] = buff_req->buffer_size;
+			}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 
 		property_id = HAL_PARAM_BUFFER_COUNT_ACTUAL;
@@ -970,6 +1030,7 @@ static int msm_venc_queue_setup(struct vb2_queue *q,
 			property_id, &new_buf_count);
 		break;
 	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+<<<<<<< HEAD
 		rc = msm_comm_try_state(inst, MSM_VIDC_OPEN_DONE);
 		if (rc) {
 			dprintk(VIDC_ERR, "Failed to open instance\n");
@@ -982,14 +1043,26 @@ static int msm_venc_queue_setup(struct vb2_queue *q,
 			break;
 		}
 		*num_planes = 1;
+=======
+		*num_planes = 1;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		mutex_lock(&inst->lock);
 		*num_buffers = inst->buff_req.buffer[0].buffer_count_actual =
 			max(*num_buffers, inst->buff_req.buffer[0].
 				buffer_count_actual);
 		mutex_unlock(&inst->lock);
+<<<<<<< HEAD
 		property_id = HAL_PARAM_BUFFER_COUNT_ACTUAL;
 		new_buf_count.buffer_type = HAL_BUFFER_INPUT;
 		new_buf_count.buffer_count_actual = *num_buffers;
+=======
+
+		property_id = HAL_PARAM_BUFFER_COUNT_ACTUAL;
+		new_buf_count.buffer_type = HAL_BUFFER_INPUT;
+		new_buf_count.buffer_count_actual = *num_buffers;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		rc = call_hfi_op(hdev, session_set_property, inst->session,
 					property_id, &new_buf_count);
 		dprintk(VIDC_DBG, "size = %d, alignment = %d, count = %d\n",
@@ -1001,6 +1074,10 @@ static int msm_venc_queue_setup(struct vb2_queue *q,
 					i, inst->prop.height[OUTPUT_PORT],
 					inst->prop.width[OUTPUT_PORT]);
 		}
+<<<<<<< HEAD
+=======
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		break;
 	default:
 		dprintk(VIDC_ERR, "Invalid q type = %d\n", q->type);
@@ -1010,7 +1087,11 @@ static int msm_venc_queue_setup(struct vb2_queue *q,
 	return rc;
 }
 
+<<<<<<< HEAD
 static int msm_venc_enable_hier_p(struct msm_vidc_inst *inst)
+=======
+static int msm_venc_toggle_hier_p(struct msm_vidc_inst *inst, bool enable)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	int num_enh_layers = 0;
 	u32 property_id = 0;
@@ -1025,9 +1106,16 @@ static int msm_venc_enable_hier_p(struct msm_vidc_inst *inst)
 	if (inst->fmts[CAPTURE_PORT]->fourcc != V4L2_PIX_FMT_VP8)
 		return 0;
 
+<<<<<<< HEAD
 	num_enh_layers = inst->capability.hier_p.max - 1;
 	if (!num_enh_layers)
 		return 0;
+=======
+	num_enh_layers = enable ? inst->capability.hier_p.max - 1 : 0;
+
+	dprintk(VIDC_DBG, "%s Hier-P in firmware\n",
+			num_enh_layers ? "Enable" : "Disable");
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	hdev = inst->core->device;
 	property_id = HAL_PARAM_VENC_HIER_P_MAX_ENH_LAYERS;
@@ -1053,10 +1141,13 @@ static inline int start_streaming(struct msm_vidc_inst *inst)
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
 	rc = msm_venc_enable_hier_p(inst);
 	if (rc)
 		return rc;
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (inst->capability.pixelprocess_capabilities &
 		HAL_VIDEO_ENCODER_SCALING_CAPABILITY)
 		rc = msm_comm_check_scaling_supported(inst);
@@ -1089,6 +1180,7 @@ static inline int start_streaming(struct msm_vidc_inst *inst)
 			"Failed to move inst: %p to start done state\n", inst);
 		goto fail_start;
 	}
+<<<<<<< HEAD
 	mutex_lock(&inst->sync_lock);
 	if (!list_empty(&inst->pendingq)) {
 		list_for_each_safe(ptr, next, &inst->pendingq) {
@@ -1104,6 +1196,22 @@ static inline int start_streaming(struct msm_vidc_inst *inst)
 		}
 	}
 	mutex_unlock(&inst->sync_lock);
+=======
+
+	mutex_lock(&inst->pendingq.lock);
+	list_for_each_safe(ptr, next, &inst->pendingq.list) {
+		temp = list_entry(ptr, struct vb2_buf_entry, list);
+		rc = msm_comm_qbuf(temp->vb);
+		if (rc) {
+			dprintk(VIDC_ERR,
+					"Failed to qbuf to hardware\n");
+			break;
+		}
+		list_del(&temp->list);
+		kfree(temp);
+	}
+	mutex_unlock(&inst->pendingq.lock);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rc;
 fail_start:
 	return rc;
@@ -2184,7 +2292,11 @@ static int try_set_ctrl(struct msm_vidc_inst *inst, struct v4l2_ctrl *ctrl)
 	}
 	case V4L2_CID_MPEG_VIDC_VIDEO_USELTRFRAME:
 		property_id = HAL_CONFIG_VENC_USELTRFRAME;
+<<<<<<< HEAD
 		useltr.refltr = ctrl->val;
+=======
+		useltr.refltr = (1 << ctrl->val);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		useltr.useconstrnt = false;
 		useltr.frames = 0;
 		pdata = &useltr;
@@ -2197,6 +2309,12 @@ static int try_set_ctrl(struct msm_vidc_inst *inst, struct v4l2_ctrl *ctrl)
 	case V4L2_CID_MPEG_VIDC_VIDEO_HIER_P_NUM_LAYERS:
 		property_id = HAL_CONFIG_VENC_HIER_P_NUM_FRAMES;
 		hier_p_layers = ctrl->val;
+<<<<<<< HEAD
+=======
+		rc = msm_venc_toggle_hier_p(inst, hier_p_layers ? true : false);
+		if (rc)
+			break;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (hier_p_layers > (inst->capability.hier_p.max - 1)) {
 			dprintk(VIDC_ERR,
 				"Error setting hier p num layers = %d max supported by f/w = %d\n",
@@ -2257,6 +2375,15 @@ static int try_set_ext_ctrl(struct msm_vidc_inst *inst,
 	for (i = 0; i < ctrl->count; i++) {
 		switch (control[i].id) {
 		case V4L2_CID_MPEG_VIDC_VIDEO_LTRMODE:
+<<<<<<< HEAD
+=======
+			if (control[i].value !=
+				V4L2_MPEG_VIDC_VIDEO_LTR_MODE_DISABLE) {
+				rc = msm_venc_toggle_hier_p(inst, false);
+				if (rc)
+					break;
+			}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			ltrmode.ltrmode = control[i].value;
 			ltrmode.trustmode = 1;
 			property_id = HAL_PARAM_VENC_LTRMODE;
@@ -2315,7 +2442,10 @@ static int try_set_ext_ctrl(struct msm_vidc_inst *inst,
 		rc = call_hfi_op(hdev, session_set_property,
 				(void *)inst->session, property_id, pdata);
 	}
+<<<<<<< HEAD
 	pr_err("Returning from %s\n", __func__);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rc;
 }
 
@@ -2550,7 +2680,11 @@ int msm_venc_s_parm(struct msm_vidc_inst *inst, struct v4l2_streamparm *a)
 
 	if ((fps % 15 == 14) || (fps % 24 == 23))
 		fps = fps + 1;
+<<<<<<< HEAD
 	else if ((fps % 24 == 1) || (fps % 15 == 1))
+=======
+	else if ((fps > 1) && ((fps % 24 == 1) || (fps % 15 == 1)))
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		fps = fps - 1;
 
 	if (inst->prop.fps != fps) {
@@ -2682,6 +2816,10 @@ int msm_venc_s_fmt(struct msm_vidc_inst *inst, struct v4l2_format *f)
 			rc = msm_comm_try_state(inst, MSM_VIDC_OPEN_DONE);
 			if (rc) {
 				dprintk(VIDC_ERR, "Failed to open instance\n");
+<<<<<<< HEAD
+=======
+                                msm_comm_session_clean(inst);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				goto exit;
 			}
 			frame_sz.width = inst->prop.width[CAPTURE_PORT];
@@ -2794,7 +2932,11 @@ int msm_venc_reqbufs(struct msm_vidc_inst *inst, struct v4l2_requestbuffers *b)
 	rc = vb2_reqbufs(&q->vb2_bufq, b);
 	mutex_unlock(&q->lock);
 	if (rc)
+<<<<<<< HEAD
 		dprintk(VIDC_ERR, "Failed to get reqbufs, %d\n", rc);
+=======
+		dprintk(VIDC_DBG, "Failed to get reqbufs, %d\n", rc);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rc;
 }
 

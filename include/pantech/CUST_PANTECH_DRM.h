@@ -1,8 +1,16 @@
 #ifndef __CUST_PANTECH_DRM_H__
 #define __CUST_PANTECH_DRM_H__
 
+<<<<<<< HEAD
 // p13040 ++ [DS4] for DRM
 #define FEATURE_PANTECH_MUSIC_LG_DRM
 // p13040 -- [DS4] for DRM
+=======
+// p12455 - FEATURE_PANTECH_HOPPIN_DRM
+#define FEATURE_PANTECH_HOPPIN_DRM
+
+// p12455 - FEATURE_PANTECH_MUSIC_DRM
+#define FEATURE_PANTECH_MUSIC_DRM
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #endif

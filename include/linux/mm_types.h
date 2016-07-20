@@ -222,6 +222,13 @@ struct vm_area_struct {
 	 * linkage into the address_space->i_mmap prio tree, or
 	 * linkage to the list of like vmas hanging off its node, or
 	 * linkage of vma in the address_space->i_mmap_nonlinear list.
+<<<<<<< HEAD
+=======
+	 *
+	 * For private anonymous mappings, a pointer to a null terminated string
+	 * in the user process containing the name given to the vma, or NULL
+	 * if unnamed.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	 */
 	union {
 		struct {
@@ -231,6 +238,10 @@ struct vm_area_struct {
 		} vm_set;
 
 		struct raw_prio_tree_node prio_tree_node;
+<<<<<<< HEAD
+=======
+		const char __user *anon_name;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	} shared;
 
 	/*
@@ -398,4 +409,17 @@ static inline cpumask_t *mm_cpumask(struct mm_struct *mm)
 	return mm->cpu_vm_mask_var;
 }
 
+<<<<<<< HEAD
+=======
+
+/* Return the name for an anonymous mapping or NULL for a file-backed mapping */
+static inline const char __user *vma_get_anon_name(struct vm_area_struct *vma)
+{
+	if (vma->vm_file)
+		return NULL;
+
+	return vma->shared.anon_name;
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif /* _LINUX_MM_TYPES_H */

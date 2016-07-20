@@ -149,6 +149,12 @@ struct usb_phy {
 	int	(*set_suspend)(struct usb_phy *x,
 				int suspend);
 
+<<<<<<< HEAD
+=======
+	/* To enable/disable phy autosuspend feature */
+	int	(*set_phy_autosuspend)(struct usb_phy *x,
+					int enable_autosuspend);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 
@@ -288,6 +294,18 @@ usb_phy_set_suspend(struct usb_phy *x, int suspend)
 }
 
 static inline int
+<<<<<<< HEAD
+=======
+usb_phy_set_autosuspend(struct usb_phy *x, int enable_autosuspend)
+{
+	if (x && x->set_phy_autosuspend != NULL)
+		return x->set_phy_autosuspend(x, enable_autosuspend);
+	else
+		return 0;
+}
+
+static inline int
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 otg_start_srp(struct usb_otg *otg)
 {
 	if (otg && otg->start_srp)

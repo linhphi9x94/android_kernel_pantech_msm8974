@@ -36,4 +36,10 @@ struct msm_usb_chg_info {
 /* To tell kernel about voltage request result */
 #define MSM_USB_EXT_CHG_RESULT _IOW('M', 3, int)
 
+<<<<<<< HEAD
+=======
+/* To tell kernel whether charger connected is external charger or not */
+#define MSM_USB_EXT_CHG_TYPE _IOW('M', 4, int)
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif /* __LINUX_USB_MSM_EXT_CHG_H */

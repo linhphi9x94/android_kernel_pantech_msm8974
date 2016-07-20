@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2011-2012, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2011-2012, 2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -13,11 +17,16 @@
 
 #include <linux/spinlock.h>
 #include <linux/module.h>
+<<<<<<< HEAD
+=======
+#include <mach/msm_rtb.h>
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <asm/mach-types.h>
 #include <asm/cputype.h>
 
 DEFINE_RAW_SPINLOCK(l2_access_lock);
 
+<<<<<<< HEAD
 u32 set_get_l2_indirect_reg(u32 reg_addr, u32 val)
 {
 	unsigned long flags;
@@ -39,12 +48,18 @@ u32 set_get_l2_indirect_reg(u32 reg_addr, u32 val)
 }
 EXPORT_SYMBOL(set_get_l2_indirect_reg);
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 void set_l2_indirect_reg(u32 reg_addr, u32 val)
 {
 	unsigned long flags;
 
 	raw_spin_lock_irqsave(&l2_access_lock, flags);
 	mb();
+<<<<<<< HEAD
+=======
+	uncached_logk(LOGK_L2CPWRITE, (void *)reg_addr);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	asm volatile ("mcr     p15, 3, %[l2cpselr], c15, c0, 6\n\t"
 		      "isb\n\t"
 		      "mcr     p15, 3, %[l2cpdr],   c15, c0, 7\n\t"
@@ -62,6 +77,10 @@ u32 get_l2_indirect_reg(u32 reg_addr)
 	unsigned long flags;
 
 	raw_spin_lock_irqsave(&l2_access_lock, flags);
+<<<<<<< HEAD
+=======
+	uncached_logk(LOGK_L2CPREAD, (void *)reg_addr);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	asm volatile ("mcr     p15, 3, %[l2cpselr], c15, c0, 6\n\t"
 		      "isb\n\t"
 		      "mrc     p15, 3, %[l2cpdr],   c15, c0, 7\n\t"

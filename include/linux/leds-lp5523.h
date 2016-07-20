@@ -178,6 +178,10 @@ struct lp5523_platform_data {
 	u8	clock_mode;
 	const	char *label;
 };
+<<<<<<< HEAD
+=======
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct lp5523_engine {
 	int		id;
 	u8		mode;
@@ -246,7 +250,10 @@ typedef enum {
 	DIMMING_RED_CHARGING = 200, // 2013.12.4 p13106 red dimming in charging.
 }PAN_LED_LP5523_BLINK_CMD;
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif /* __LINUX_LP5523_H */

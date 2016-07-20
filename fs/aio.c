@@ -1682,6 +1682,10 @@ long do_io_submit(aio_context_t ctx_id, long nr,
 	struct kioctx *ctx;
 	long ret = 0;
 	int i = 0;
+<<<<<<< HEAD
+=======
+	struct blk_plug plug;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct kiocb_batch batch;
 
 	if (unlikely(nr < 0))
@@ -1701,6 +1705,11 @@ long do_io_submit(aio_context_t ctx_id, long nr,
 
 	kiocb_batch_init(&batch, nr);
 
+<<<<<<< HEAD
+=======
+	blk_start_plug(&plug);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/*
 	 * AKPM: should this return a partial result if some of the IOs were
 	 * successfully submitted?
@@ -1723,6 +1732,10 @@ long do_io_submit(aio_context_t ctx_id, long nr,
 		if (ret)
 			break;
 	}
+<<<<<<< HEAD
+=======
+	blk_finish_plug(&plug);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	kiocb_batch_free(ctx, &batch);
 	put_ioctx(ctx);

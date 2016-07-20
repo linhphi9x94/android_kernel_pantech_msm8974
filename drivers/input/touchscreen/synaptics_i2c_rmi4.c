@@ -113,16 +113,27 @@ static int synaptics_rmi4_reset_device(struct synaptics_rmi4_data *rmi4_data);
 
 static void synaptics_rmi4_sensor_wake(struct synaptics_rmi4_data *rmi4_data);
 
+<<<<<<< HEAD
 static void synaptics_rmi4_sensor_sleep(struct synaptics_rmi4_data *rmi4_data);
 
 static int synaptics_rmi4_check_configuration(struct synaptics_rmi4_data
 		*rmi4_data);
 
 #ifdef CONFIG_PM
+=======
+static int synaptics_rmi4_check_configuration(struct synaptics_rmi4_data
+		*rmi4_data);
+
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int synaptics_rmi4_suspend(struct device *dev);
 
 static int synaptics_rmi4_resume(struct device *dev);
 
+<<<<<<< HEAD
+=======
+#ifdef CONFIG_PM
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static ssize_t synaptics_rmi4_full_pm_cycle_show(struct device *dev,
 		struct device_attribute *attr, char *buf);
 
@@ -425,6 +436,63 @@ static struct device_attribute attrs[] = {
 static bool exp_fn_inited;
 static struct mutex exp_fn_list_mutex;
 static struct list_head exp_fn_list;
+<<<<<<< HEAD
+#ifdef CONFIG_PM
+static ssize_t synaptics_rmi4_full_pm_cycle_show(struct device *dev,
+		struct device_attribute *attr, char *buf)
+{
+	struct synaptics_rmi4_data *rmi4_data = dev_get_drvdata(dev);
+
+	return snprintf(buf, PAGE_SIZE, "%u\n",
+			rmi4_data->full_pm_cycle);
+}
+
+static ssize_t synaptics_rmi4_full_pm_cycle_store(struct device *dev,
+		struct device_attribute *attr, const char *buf, size_t count)
+{
+	unsigned int input;
+	struct synaptics_rmi4_data *rmi4_data = dev_get_drvdata(dev);
+
+	if (sscanf(buf, "%u", &input) != 1)
+		return -EINVAL;
+
+	rmi4_data->full_pm_cycle = input > 0 ? 1 : 0;
+
+	return count;
+}
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
+
+static int synaptics_rmi4_debug_suspend_set(void *_data, u64 val)
+{
+	struct synaptics_rmi4_data *rmi4_data = _data;
+
+	if (val)
+		synaptics_rmi4_suspend(&rmi4_data->input_dev->dev);
+	else
+		synaptics_rmi4_resume(&rmi4_data->input_dev->dev);
+
+	return 0;
+}
+
+<<<<<<< HEAD
+static ssize_t synaptics_rmi4_debug_suspend_get(void *_data, u64 *val)
+=======
+static int synaptics_rmi4_debug_suspend_get(void *_data, u64 *val)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
+{
+	struct synaptics_rmi4_data *rmi4_data = _data;
+
+	*val = rmi4_data->suspended;
+
+	return 0;
+}
+
+DEFINE_SIMPLE_ATTRIBUTE(debug_suspend_fops, synaptics_rmi4_debug_suspend_get,
+			synaptics_rmi4_debug_suspend_set, "%lld\n");
+
+<<<<<<< HEAD
+=======
 #ifdef CONFIG_PM
 static ssize_t synaptics_rmi4_full_pm_cycle_show(struct device *dev,
 		struct device_attribute *attr, char *buf)
@@ -449,30 +517,7 @@ static ssize_t synaptics_rmi4_full_pm_cycle_store(struct device *dev,
 	return count;
 }
 
-static int synaptics_rmi4_debug_suspend_set(void *_data, u64 val)
-{
-	struct synaptics_rmi4_data *rmi4_data = _data;
-
-	if (val)
-		synaptics_rmi4_suspend(&rmi4_data->input_dev->dev);
-	else
-		synaptics_rmi4_resume(&rmi4_data->input_dev->dev);
-
-	return 0;
-}
-
-static ssize_t synaptics_rmi4_debug_suspend_get(void *_data, u64 *val)
-{
-	struct synaptics_rmi4_data *rmi4_data = _data;
-
-	*val = rmi4_data->suspended;
-
-	return 0;
-}
-
-DEFINE_SIMPLE_ATTRIBUTE(debug_suspend_fops, synaptics_rmi4_debug_suspend_get,
-			synaptics_rmi4_debug_suspend_set, "%lld\n");
-
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_FB
 static void configure_sleep(struct synaptics_rmi4_data *rmi4_data)
 {
@@ -502,6 +547,14 @@ static void configure_sleep(struct synaptics_rmi4_data *rmi4_data)
 	return;
 }
 #endif
+<<<<<<< HEAD
+=======
+#else
+static void configure_sleep(struct synaptics_rmi4_data *rmi4_data)
+{
+	return;
+}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif
 
 static ssize_t synaptics_rmi4_f01_reset_store(struct device *dev,
@@ -3665,6 +3718,17 @@ static int synaptics_rmi4_check_configuration(struct synaptics_rmi4_data
 {
 	return 0;
 };
+<<<<<<< HEAD
+=======
+static int synaptics_rmi4_suspend(struct device *dev);
+{
+	return 0;
+}
+static int synaptics_rmi4_resume(struct device *dev);
+{
+	return 0;
+}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif
 
 static const struct i2c_device_id synaptics_rmi4_id_table[] = {

@@ -61,11 +61,20 @@ struct mdss_mdp_wb_data {
 	struct msmfb_data buf_info;
 	struct mdss_mdp_data buf_data;
 	int state;
+<<<<<<< HEAD
+=======
+	bool user_alloc;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static DEFINE_MUTEX(mdss_mdp_wb_buf_lock);
 static struct mdss_mdp_wb mdss_mdp_wb_info;
 
+<<<<<<< HEAD
+=======
+static void mdss_mdp_wb_free_node(struct mdss_mdp_wb_data *node);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef DEBUG_WRITEBACK
 /* for debugging: writeback output buffer to allocated memory */
 static inline
@@ -285,6 +294,10 @@ static int mdss_mdp_wb_terminate(struct msm_fb_data_type *mfd)
 		struct mdss_mdp_wb_data *node, *temp;
 		list_for_each_entry_safe(node, temp, &wb->register_queue,
 					 registered_entry) {
+<<<<<<< HEAD
+=======
+			mdss_mdp_wb_free_node(node);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			list_del(&node->registered_entry);
 			kfree(node);
 		}
@@ -339,12 +352,20 @@ static int mdss_mdp_wb_stop(struct msm_fb_data_type *mfd)
 static int mdss_mdp_wb_register_node(struct mdss_mdp_wb *wb,
 				     struct mdss_mdp_wb_data *node)
 {
+<<<<<<< HEAD
 	node->state = REGISTERED;
 	list_add_tail(&node->registered_entry, &wb->register_queue);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!node) {
 		pr_err("Invalid wb node\n");
 		return -EINVAL;
 	}
+<<<<<<< HEAD
+=======
+	node->state = REGISTERED;
+	list_add_tail(&node->registered_entry, &wb->register_queue);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return 0;
 }
@@ -401,21 +422,73 @@ static struct mdss_mdp_wb_data *get_user_node(struct msm_fb_data_type *mfd,
 	struct mdss_mdp_img_data *buf;
 	int ret;
 
+<<<<<<< HEAD
+=======
+	if (!list_empty(&wb->register_queue)) {
+		struct ion_client *iclient = mdss_get_ionclient();
+		struct ion_handle *ihdl;
+
+		if (!iclient) {
+			pr_err("iclient is NULL\n");
+			return NULL;
+		}
+
+		ihdl = ion_import_dma_buf(iclient, data->memory_id);
+		if (IS_ERR_OR_NULL(ihdl)) {
+			pr_err("unable to import fd %d\n", data->memory_id);
+			return NULL;
+		}
+		/* only interested in ptr address, so we can free handle */
+		ion_free(iclient, ihdl);
+
+		list_for_each_entry(node, &wb->register_queue, registered_entry)
+			if ((node->buf_data.p[0].srcp_ihdl == ihdl) &&
+				    (node->buf_info.offset == data->offset)) {
+				pr_debug("found fd=%d hdl=%p off=%x addr=%x\n",
+						data->memory_id, ihdl,
+						data->offset,
+						node->buf_data.p[0].addr);
+				return node;
+			}
+	}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	node = kzalloc(sizeof(struct mdss_mdp_wb_data), GFP_KERNEL);
 	if (node == NULL) {
 		pr_err("out of memory\n");
 		return NULL;
 	}
 
+<<<<<<< HEAD
+=======
+	node->user_alloc = true;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	node->buf_data.num_planes = 1;
 	buf = &node->buf_data.p[0];
 	if (wb->is_secure)
 		buf->flags |= MDP_SECURE_OVERLAY_SESSION;
+<<<<<<< HEAD
 	ret = mdss_mdp_get_img(data, buf);
 	if (IS_ERR_VALUE(ret)) {
 		pr_err("error getting buffer info\n");
 		goto register_fail;
 	}
+=======
+
+	ret = mdss_iommu_ctrl(1);
+	if (IS_ERR_VALUE(ret)) {
+		pr_err("IOMMU attach failed\n");
+		goto register_fail;
+	}
+	ret = mdss_mdp_get_img(data, buf);
+	if (IS_ERR_VALUE(ret)) {
+		pr_err("error getting buffer info\n");
+		mdss_iommu_ctrl(0);
+		goto register_fail;
+	}
+	mdss_iommu_ctrl(0);
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	memcpy(&node->buf_info, data, sizeof(*data));
 
 	ret = mdss_mdp_wb_register_node(wb, node);
@@ -434,12 +507,35 @@ register_fail:
 	return NULL;
 }
 
+<<<<<<< HEAD
+=======
+static void mdss_mdp_wb_free_node(struct mdss_mdp_wb_data *node)
+{
+	struct mdss_mdp_img_data *buf;
+
+	if (node->user_alloc) {
+		buf = &node->buf_data.p[0];
+		pr_debug("free user mem_id=%d ihdl=%p, offset=%u addr=0x%x\n",
+				node->buf_info.memory_id,
+				buf->srcp_ihdl,
+				node->buf_info.offset,
+				buf->addr);
+
+		mdss_mdp_put_img(&node->buf_data.p[0]);
+		node->user_alloc = false;
+	}
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int mdss_mdp_wb_queue(struct msm_fb_data_type *mfd,
 				struct msmfb_data *data, int local)
 {
 	struct mdss_mdp_wb *wb = mfd_to_wb(mfd);
 	struct mdss_mdp_wb_data *node = NULL;
+<<<<<<< HEAD
 	struct mdss_overlay_private *mdp5_data = mfd_to_mdp5_data(mfd);
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int ret = 0;
 
 	if (!wb) {
@@ -449,9 +545,12 @@ static int mdss_mdp_wb_queue(struct msm_fb_data_type *mfd,
 
 	pr_debug("fb%d queue\n", wb->fb_ndx);
 
+<<<<<<< HEAD
 	if (!mfd->panel_info->cont_splash_enabled)
 		mdss_iommu_attach(mdp5_data->mdata);
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mutex_lock(&wb->lock);
 	if (local)
 		node = get_local_node(wb, data);
@@ -510,6 +609,10 @@ static int mdss_mdp_wb_dequeue(struct msm_fb_data_type *mfd,
 {
 	struct mdss_mdp_wb *wb = mfd_to_wb(mfd);
 	struct mdss_mdp_wb_data *node = NULL;
+<<<<<<< HEAD
+=======
+	struct mdss_mdp_ctl *ctl = mfd_to_ctl(mfd);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int ret;
 
 	if (!wb) {
@@ -517,6 +620,14 @@ static int mdss_mdp_wb_dequeue(struct msm_fb_data_type *mfd,
 		return -ENODEV;
 	}
 
+<<<<<<< HEAD
+=======
+	if (!ctl) {
+		pr_err("unable to dequeue, ctl is not initialized\n");
+		return -ENODEV;
+	}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ret = wait_event_interruptible(wb->wait_q, is_buffer_ready(wb));
 	if (ret) {
 		pr_err("failed to get dequeued buffer\n");
@@ -526,6 +637,10 @@ static int mdss_mdp_wb_dequeue(struct msm_fb_data_type *mfd,
 	mutex_lock(&wb->lock);
 	if (wb->state == WB_STOPING) {
 		pr_debug("wfd stopped\n");
+<<<<<<< HEAD
+=======
+		mdss_mdp_display_wait4comp(ctl);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		wb->state = WB_STOP;
 		ret = -ENOBUFS;
 	} else if (!list_empty(&wb->busy_queue)) {
@@ -639,12 +754,16 @@ int mdss_mdp_wb_set_mirr_hint(struct msm_fb_data_type *mfd, int hint)
 int mdss_mdp_wb_get_format(struct msm_fb_data_type *mfd,
 					struct mdp_mixer_cfg *mixer_cfg)
 {
+<<<<<<< HEAD
 	int dst_format;
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct mdss_mdp_ctl *ctl = mfd_to_ctl(mfd);
 
 	if (!ctl) {
 		pr_err("No panel data!\n");
 		return -EINVAL;
+<<<<<<< HEAD
 	}
 
 	switch (ctl->dst_format) {
@@ -677,12 +796,23 @@ int mdss_mdp_wb_get_format(struct msm_fb_data_type *mfd,
 }
 
 int mdss_mdp_wb_set_format(struct msm_fb_data_type *mfd, int dst_format)
+=======
+	} else {
+		mixer_cfg->writeback_format = ctl->dst_format;
+	}
+
+	return 0;
+}
+
+int mdss_mdp_wb_set_format(struct msm_fb_data_type *mfd, u32 dst_format)
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct mdss_mdp_ctl *ctl = mfd_to_ctl(mfd);
 
 	if (!ctl) {
 		pr_err("No panel data!\n");
 		return -EINVAL;
+<<<<<<< HEAD
 	}
 
 	switch (dst_format) {
@@ -710,6 +840,13 @@ int mdss_mdp_wb_set_format(struct msm_fb_data_type *mfd, int dst_format)
 	default:
 		pr_err("wfd format not supported\n");
 		return -EINVAL;
+=======
+	} else if (dst_format >= MDP_IMGTYPE_LIMIT2) {
+		pr_err("Invalid dst format=%u\n", dst_format);
+		return -EINVAL;
+	} else {
+		ctl->dst_format = dst_format;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	pr_debug("wfd format %d\n", ctl->dst_format);
@@ -751,7 +888,17 @@ int mdss_mdp_wb_ioctl_handler(struct msm_fb_data_type *mfd, u32 cmd,
 		}
 		break;
 	case MSMFB_WRITEBACK_TERMINATE:
+<<<<<<< HEAD
 		ret = mdss_mdp_wb_terminate(mfd);
+=======
+		ret = mdss_iommu_ctrl(1);
+		if (IS_ERR_VALUE(ret)) {
+			pr_err("IOMMU attach failed\n");
+			return ret;
+		}
+		ret = mdss_mdp_wb_terminate(mfd);
+		mdss_iommu_ctrl(0);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		break;
 	case MSMFB_WRITEBACK_SET_MIRRORING_HINT:
 		if (!copy_from_user(&hint, arg, sizeof(hint))) {
@@ -864,6 +1011,7 @@ int msm_fb_writeback_set_secure(struct fb_info *info, int enable)
 EXPORT_SYMBOL(msm_fb_writeback_set_secure);
 
 /**
+<<<<<<< HEAD
  * msm_fb_writeback_iommu_ref() - Power ON/OFF mdp clock
  * @enable - true/false to Power ON/OFF mdp clock
  *
@@ -877,6 +1025,27 @@ int msm_fb_writeback_iommu_ref(struct fb_info *info, int enable)
 		mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_ON, false);
 	else
 		mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_OFF, false);
+=======
+ * msm_fb_writeback_iommu_ref() - Add/Remove vote on MDSS IOMMU being attached.
+ * @enable - true adds vote on MDSS IOMMU, false removes the vote.
+ *
+ * Call to vote on MDSS IOMMU being enabled. To ensure buffers are properly
+ * mapped to IOMMU context bank.
+ */
+int msm_fb_writeback_iommu_ref(struct fb_info *info, int enable)
+{
+	int ret;
+
+	if (enable) {
+		ret = mdss_iommu_ctrl(1);
+		if (IS_ERR_VALUE(ret)) {
+			pr_err("IOMMU attach failed\n");
+			return ret;
+		}
+	} else {
+		mdss_iommu_ctrl(0);
+	}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return 0;
 }

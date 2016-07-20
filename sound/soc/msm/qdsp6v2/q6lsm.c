@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2013, Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2013-2014, Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -26,15 +30,26 @@
 #include <linux/atomic.h>
 #include <sound/apr_audio-v2.h>
 #include <sound/lsm_params.h>
+<<<<<<< HEAD
+=======
+#include <sound/q6core.h>
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <sound/q6lsm.h>
 #include <asm/ioctls.h>
 #include <mach/memory.h>
 #include <mach/debug_mm.h>
 #include "audio_acdb.h"
+<<<<<<< HEAD
 #include "q6core.h"
 
 #define APR_TIMEOUT	(5 * HZ)
 #define LSM_CAL_SIZE	4096
+=======
+
+#define APR_TIMEOUT	(5 * HZ)
+#define LSM_CAL_SIZE	4096
+#define LSM_ALIGN_BOUNDARY 512
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 enum {
 	CMD_STATE_CLEARED = 0,
@@ -48,6 +63,7 @@ enum {
 	LSM_CONTROL_SESSION = 0x0F,
 };
 
+<<<<<<< HEAD
 struct lsm_common {
 	void *apr;
 	atomic_t apr_users;
@@ -55,6 +71,13 @@ struct lsm_common {
 	uint32_t lsm_cal_size;
 	uint32_t mmap_handle_for_cal;
 	struct lsm_client	common_client;
+=======
+#define CHECK_SESSION(x) (x < LSM_MIN_SESSION_ID || x > LSM_MAX_SESSION_ID)
+struct lsm_common {
+	void *apr;
+	atomic_t apr_users;
+	struct lsm_client	common_client[LSM_MAX_SESSION_ID + 1];
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct mutex apr_lock;
 };
 
@@ -93,9 +116,15 @@ static int q6lsm_callback(struct apr_client_data *data, void *priv)
 	}
 
 	payload = data->payload;
+<<<<<<< HEAD
 	pr_debug("%s: Session %d opcode 0x%x token 0x%x payload size %d\n",
 		__func__, client->session,
 		data->opcode, data->token, data->payload_size);
+=======
+	pr_debug("%s: Session %d opcode 0x%x token 0x%x payload size %d\n"
+			 "payload [0] = %x\n", __func__, client->session,
+		data->opcode, data->token, data->payload_size, payload[0]);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (data->opcode == APR_BASIC_RSP_RESULT) {
 		token = data->token;
@@ -150,13 +179,20 @@ static int q6lsm_session_alloc(struct lsm_client *client)
 		}
 	}
 	spin_unlock_irqrestore(&lsm_session_lock, flags);
+<<<<<<< HEAD
+=======
+	pr_debug("%s: Alloc Session %d", __func__, n);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return ret;
 }
 
 static void q6lsm_session_free(struct lsm_client *client)
 {
 	unsigned long flags;
+<<<<<<< HEAD
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	pr_debug("%s: Freeing session ID %d\n", __func__, client->session);
 	spin_lock_irqsave(&lsm_session_lock, flags);
 	lsm_session[client->session] = LSM_INVALID_SESSION_ID;
@@ -207,6 +243,7 @@ struct lsm_client *q6lsm_client_alloc(lsm_app_cb cb, void *priv)
 		kfree(client);
 		return NULL;
 	}
+<<<<<<< HEAD
 
 	pr_debug("%s: New client session %d\n", __func__, client->session);
 	client->session = n;
@@ -214,6 +251,20 @@ struct lsm_client *q6lsm_client_alloc(lsm_app_cb cb, void *priv)
 	client->priv = priv;
 	client->apr = apr_register("ADSP", "LSM", q6lsm_callback,
 				   ((client->session) << 8 | 0x0001), client);
+=======
+	client->session = n;
+	client->cb = cb;
+	client->priv = priv;
+	pr_debug("%s:Client session %d\n", __func__, client->session);
+	if (CHECK_SESSION(client->session)) {
+		kfree(client);
+		return NULL;
+	}
+	pr_debug("%s:Client Session %d\n", __func__, client->session);
+	client->apr = apr_register("ADSP", "LSM", q6lsm_callback,
+				   ((client->session) << 8 | client->session),
+				   client);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (client->apr == NULL) {
 		pr_err("%s: Registration with APR failed\n", __func__);
@@ -239,9 +290,18 @@ fail:
 
 void q6lsm_client_free(struct lsm_client *client)
 {
+<<<<<<< HEAD
 	if (!client || !client->session)
 		return;
 
+=======
+	if (!client)
+		return;
+	if (CHECK_SESSION(client->session)) {
+		pr_err("%s: Invalid Session %d", __func__, client->session);
+		return;
+	}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	apr_deregister(client->apr);
 	client->mmap_apr = NULL;
 	q6lsm_session_free(client);
@@ -308,8 +368,13 @@ static void q6lsm_add_hdr(struct lsm_client *client, struct apr_hdr *hdr,
 	hdr->src_domain = APR_DOMAIN_APPS;
 	hdr->dest_svc = APR_SVC_LSM;
 	hdr->dest_domain = APR_DOMAIN_ADSP;
+<<<<<<< HEAD
 	hdr->src_port = ((client->session << 8) & 0xFF00) | 0x01;
 	hdr->dest_port = ((client->session << 8) & 0xFF00) | 0x01;
+=======
+	hdr->src_port = ((client->session << 8) & 0xFF00) | client->session;
+	hdr->dest_port = ((client->session << 8) & 0xFF00) | client->session;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	hdr->pkt_size = pkt_size;
 	if (cmd_flg)
 		hdr->token = client->session;
@@ -331,7 +396,11 @@ int q6lsm_open(struct lsm_client *client)
 	if (rc)
 		pr_err("%s: Open failed opcode 0x%x, rc %d\n",
 		       __func__, open.hdr.opcode, rc);
+<<<<<<< HEAD
 
+=======
+	pr_debug("%s: leave %d\n", __func__, rc);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rc;
 }
 
@@ -429,15 +498,25 @@ int q6lsm_register_sound_model(struct lsm_client *client,
 
 	q6lsm_add_hdr(client, &cmd.hdr, sizeof(cmd), true);
 	cmd.hdr.opcode = LSM_SESSION_CMD_REGISTER_SOUND_MODEL;
+<<<<<<< HEAD
 	cmd.model_addr_lsw = client->sound_model.phys;
 	cmd.model_addr_msw = 0;
+=======
+	cmd.model_addr_lsw = lower_32_bits(client->sound_model.phys);
+	cmd.model_addr_msw = upper_32_bits(client->sound_model.phys);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	cmd.model_size = client->sound_model.size;
 	/* read updated mem_map_handle by q6lsm_mmapcallback */
 	rmb();
 	cmd.mem_map_handle = client->sound_model.mem_map_handle;
 
+<<<<<<< HEAD
 	pr_debug("%s: lsw %x, size %d, handle %x\n", __func__,
 		 cmd.model_addr_lsw, cmd.model_size, cmd.mem_map_handle);
+=======
+	pr_debug("%s: addr %pa, size %d, handle %x\n", __func__,
+		&client->sound_model.phys, cmd.model_size, cmd.mem_map_handle);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	rc = q6lsm_apr_send_pkt(client, client->apr, &cmd, true, NULL);
 	if (rc)
 		pr_err("%s: Failed cmd op[0x%x]rc[%d]\n", __func__,
@@ -458,6 +537,11 @@ int q6lsm_deregister_sound_model(struct lsm_client *client)
 		return -EINVAL;
 	}
 	pr_debug("%s: session[%d]", __func__, client->session);
+<<<<<<< HEAD
+=======
+	if (CHECK_SESSION(client->session))
+		return -EINVAL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	memset(&cmd, 0, sizeof(cmd));
 	q6lsm_add_hdr(client, &cmd.hdr, sizeof(cmd.hdr), false);
@@ -492,7 +576,11 @@ static void q6lsm_add_mmaphdr(struct lsm_client *client, struct apr_hdr *hdr,
 }
 
 static int q6lsm_memory_map_regions(struct lsm_client *client,
+<<<<<<< HEAD
 				    uint32_t dma_addr_p, uint32_t dma_buf_sz,
+=======
+				    dma_addr_t dma_addr_p, uint32_t dma_buf_sz,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				    uint32_t *mmap_p)
 {
 	struct avs_cmd_shared_mem_map_regions *mmap_regions = NULL;
@@ -502,9 +590,17 @@ static int q6lsm_memory_map_regions(struct lsm_client *client,
 	int rc;
 	int cmd_size = 0;
 
+<<<<<<< HEAD
 	pr_debug("%s: dma_addr_p 0x%x, dma_buf_sz %d, mmap_p 0x%p, session %d\n",
 		 __func__, dma_addr_p, dma_buf_sz, mmap_p, client->session);
 
+=======
+	pr_debug("%s: dma_addr_p 0x%pa, dma_buf_sz %d, mmap_p 0x%p, session %d\n",
+		__func__, &dma_addr_p, dma_buf_sz, mmap_p,
+		client->session);
+	if (CHECK_SESSION(client->session))
+		return -EINVAL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	cmd_size = sizeof(struct avs_cmd_shared_mem_map_regions) +
 		   sizeof(struct avs_shared_map_region_payload);
 
@@ -524,8 +620,13 @@ static int q6lsm_memory_map_regions(struct lsm_client *client,
 		   sizeof(struct avs_cmd_shared_mem_map_regions));
 	mregions = (struct avs_shared_map_region_payload *)payload;
 
+<<<<<<< HEAD
 	mregions->shm_addr_lsw = dma_addr_p;
 	mregions->shm_addr_msw = 0;
+=======
+	mregions->shm_addr_lsw = lower_32_bits(dma_addr_p);
+	mregions->shm_addr_msw = upper_32_bits(dma_addr_p);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mregions->mem_size_bytes = dma_buf_sz;
 
 	rc = q6lsm_apr_send_pkt(client, client->mmap_apr, mmap_region_cmd,
@@ -545,7 +646,12 @@ static int q6lsm_memory_unmap_regions(struct lsm_client *client,
 	struct avs_cmd_shared_mem_unmap_regions unmap;
 	int rc = 0;
 	int cmd_size = 0;
+<<<<<<< HEAD
 
+=======
+	if (CHECK_SESSION(client->session))
+		return -EINVAL;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	cmd_size = sizeof(struct avs_cmd_shared_mem_unmap_regions);
 	q6lsm_add_mmaphdr(client, &unmap.hdr, cmd_size,
 			  true, (client->session << 8));
@@ -569,6 +675,7 @@ static int q6lsm_send_cal(struct lsm_client *client)
 	struct lsm_cmd_set_params params;
 	struct acdb_cal_block lsm_cal;
 
+<<<<<<< HEAD
 	pr_debug("%s: enter\n", __func__);
 
 	memset(&lsm_cal, 0, sizeof(lsm_cal));
@@ -612,10 +719,27 @@ static int q6lsm_send_cal(struct lsm_client *client)
 	params.mem_map_handle = lsm_common.mmap_handle_for_cal;
 	params.data_payload_size = lsm_cal.cal_size;
 
+=======
+	pr_debug("%s: Session %d\n", __func__, client->session);
+	if (CHECK_SESSION(client->session))
+		return -EINVAL;
+	memset(&lsm_cal, 0, sizeof(lsm_cal));
+	get_lsm_cal(&lsm_cal);
+	/* Cache mmap address, only map once or if new addr */
+	lsm_common.common_client[client->session].session = client->session;
+	q6lsm_add_hdr(client, &params.hdr, sizeof(params), true);
+	params.hdr.opcode = LSM_SESSION_CMD_SET_PARAMS;
+	params.data_payload_addr_lsw = lower_32_bits(client->lsm_cal_phy_addr);
+	params.data_payload_addr_msw = upper_32_bits(client->lsm_cal_phy_addr);
+	params.mem_map_handle = client->sound_model.mem_map_handle;
+	params.data_payload_size = lsm_cal.cal_size;
+	pr_debug("%s: Cal Size = %x", __func__, client->lsm_cal_size);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	rc = q6lsm_apr_send_pkt(client, client->apr, &params, true, NULL);
 	if (rc)
 		pr_err("%s: Failed set_params opcode 0x%x, rc %d\n",
 		       __func__, params.hdr.opcode, rc);
+<<<<<<< HEAD
 bail:
 	return rc;
 }
@@ -665,11 +789,22 @@ done:
 	return result;
 }
 
+=======
+	return rc;
+}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int q6lsm_snd_model_buf_free(struct lsm_client *client)
 {
 	int rc;
 
 	pr_debug("%s: Session id %d\n", __func__, client->session);
+<<<<<<< HEAD
+=======
+	if (CHECK_SESSION(client->session))
+		return -EINVAL;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mutex_lock(&client->cmd_lock);
 	rc = q6lsm_memory_unmap_regions(client,
 					client->sound_model.mem_map_handle);
@@ -678,12 +813,25 @@ int q6lsm_snd_model_buf_free(struct lsm_client *client)
 
 	if (client->sound_model.data) {
 		ion_unmap_kernel(client->sound_model.client,
+<<<<<<< HEAD
 				 client->sound_model.handle);
 		ion_free(client->sound_model.client,
 			 client->sound_model.handle);
 		ion_client_destroy(client->sound_model.client);
 		client->sound_model.data = NULL;
 		client->sound_model.phys = 0;
+=======
+						 client->sound_model.handle);
+		ion_free(client->sound_model.client,
+				 client->sound_model.handle);
+		ion_client_destroy(client->sound_model.client);
+		client->sound_model.client = NULL;
+		client->sound_model.handle = NULL;
+		client->sound_model.data = NULL;
+		client->sound_model.phys = 0;
+		client->lsm_cal_phy_addr = 0;
+		client->lsm_cal_size = 0;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	mutex_unlock(&client->cmd_lock);
 	return rc;
@@ -695,7 +843,11 @@ static struct lsm_client *q6lsm_get_lsm_client(int session_id)
 	struct lsm_client *client = NULL;
 
 	if (session_id == LSM_CONTROL_SESSION) {
+<<<<<<< HEAD
 		client = &lsm_common.common_client;
+=======
+		client = &lsm_common.common_client[session_id];
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		goto done;
 	}
 
@@ -724,19 +876,33 @@ static int q6lsm_mmapcallback(struct apr_client_data *data, void *priv)
 	struct lsm_client *client = NULL;
 
 	if (data->opcode == RESET_EVENTS) {
+<<<<<<< HEAD
 		pr_debug("%s: SSR event received 0x%x, event 0x%x, proc 0x%x\n",
 			 __func__, data->opcode, data->reset_event,
 			 data->reset_proc);
 		lsm_common.lsm_cal_addr = 0;
+=======
+		sid = (data->token >> 8) & 0x0F;
+		pr_debug("%s: SSR event received 0x%x, event 0x%x,\n"
+			 "proc 0x%x SID 0x%x\n", __func__, data->opcode,
+			 data->reset_event, data->reset_proc, sid);
+		lsm_common.common_client[sid].lsm_cal_phy_addr = 0;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return 0;
 	}
 
 	command = payload[0];
 	retcode = payload[1];
+<<<<<<< HEAD
 	pr_debug("%s: opcode 0x%x command 0x%x return code 0x%x\n", __func__,
 		 data->opcode, command, retcode);
 
 	sid = (data->token >> 8) & 0x0F;
+=======
+	sid = (data->token >> 8) & 0x0F;
+	pr_debug("%s: opcode 0x%x command 0x%x return code 0x%x SID 0x%x\n",
+		 __func__, data->opcode, command, retcode, sid);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	client = q6lsm_get_lsm_client(sid);
 	if (!client) {
 		pr_debug("%s: Session %d already freed\n", __func__, sid);
@@ -774,6 +940,7 @@ static int q6lsm_mmapcallback(struct apr_client_data *data, void *priv)
 	return 0;
 }
 
+<<<<<<< HEAD
 int q6lsm_snd_model_buf_alloc(struct lsm_client *client, uint32_t len)
 {
 	int rc = -EINVAL;
@@ -783,6 +950,33 @@ int q6lsm_snd_model_buf_alloc(struct lsm_client *client, uint32_t len)
 
 	mutex_lock(&client->cmd_lock);
 	if (!client->sound_model.data) {
+=======
+int q6lsm_snd_model_buf_alloc(struct lsm_client *client, size_t len)
+{
+	int rc = -EINVAL;
+	struct acdb_cal_block lsm_cal;
+	size_t pad_zero = 0, total_mem = 0;
+
+	if (!client || len <= LSM_ALIGN_BOUNDARY)
+		return rc;
+	memset(&lsm_cal, 0, sizeof(lsm_cal));
+	mutex_lock(&client->cmd_lock);
+	get_lsm_cal(&lsm_cal);
+	pr_debug("%s:Snd Model len = %d cal size %d", __func__,
+			 len, lsm_cal.cal_size);
+	if (!lsm_cal.cal_paddr) {
+		pr_err("%s: No LSM calibration set for session", __func__);
+		mutex_unlock(&client->cmd_lock);
+		return -EINVAL;
+	}
+	if (!client->sound_model.data) {
+		client->sound_model.size = len;
+		pad_zero = (LSM_ALIGN_BOUNDARY -
+			   (len % LSM_ALIGN_BOUNDARY));
+		total_mem = pad_zero + len + lsm_cal.cal_size;
+		pr_debug("%s: Pad zeros sound model %d Total mem %d\n",
+				 __func__, pad_zero, total_mem);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		client->sound_model.client =
 		    msm_ion_client_create(UINT_MAX, "lsm_client");
 		if (IS_ERR_OR_NULL(client->sound_model.client)) {
@@ -791,8 +985,13 @@ int q6lsm_snd_model_buf_alloc(struct lsm_client *client, uint32_t len)
 			goto fail;
 		}
 		client->sound_model.handle =
+<<<<<<< HEAD
 			ion_alloc(client->sound_model.client,
 				  len, SZ_4K, (0x1 << ION_AUDIO_HEAP_ID), 0);
+=======
+		ion_alloc(client->sound_model.client,
+			  total_mem, SZ_4K, (0x1 << ION_AUDIO_HEAP_ID), 0);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (IS_ERR_OR_NULL(client->sound_model.handle)) {
 			pr_err("%s: ION memory allocation for AUDIO failed\n",
 			       __func__);
@@ -817,7 +1016,17 @@ int q6lsm_snd_model_buf_alloc(struct lsm_client *client, uint32_t len)
 			goto fail;
 		}
 		memset(client->sound_model.data, 0, len);
+<<<<<<< HEAD
 		client->sound_model.size = len;
+=======
+		client->lsm_cal_phy_addr = (pad_zero +
+					    client->sound_model.phys +
+					    client->sound_model.size);
+		client->lsm_cal_size = lsm_cal.cal_size;
+		memcpy((client->sound_model.data + pad_zero +
+			client->sound_model.size),
+			(uint32_t *)lsm_cal.cal_kvaddr, lsm_cal.cal_size);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	} else {
 		rc = -EBUSY;
 		goto fail;
@@ -825,7 +1034,11 @@ int q6lsm_snd_model_buf_alloc(struct lsm_client *client, uint32_t len)
 	mutex_unlock(&client->cmd_lock);
 
 	rc = q6lsm_memory_map_regions(client, client->sound_model.phys,
+<<<<<<< HEAD
 				      client->sound_model.size,
+=======
+				      len,
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				      &client->sound_model.mem_map_handle);
 	if (rc < 0) {
 		pr_err("%s:CMD Memory_map_regions failed\n", __func__);
@@ -882,16 +1095,30 @@ int q6lsm_close(struct lsm_client *client)
 
 static int __init q6lsm_init(void)
 {
+<<<<<<< HEAD
+=======
+	int i = 0;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	pr_debug("%s\n", __func__);
 	spin_lock_init(&lsm_session_lock);
 	spin_lock_init(&mmap_lock);
 	mutex_init(&lsm_common.apr_lock);
+<<<<<<< HEAD
 
 	lsm_common.common_client.session = LSM_CONTROL_SESSION;
 	init_waitqueue_head(&lsm_common.common_client.cmd_wait);
 	mutex_init(&lsm_common.common_client.cmd_lock);
 	atomic_set(&lsm_common.common_client.cmd_state, CMD_STATE_CLEARED);
 
+=======
+	for (; i <= LSM_MAX_SESSION_ID; i++) {
+		lsm_common.common_client[i].session = LSM_CONTROL_SESSION;
+		init_waitqueue_head(&lsm_common.common_client[i].cmd_wait);
+		mutex_init(&lsm_common.common_client[i].cmd_lock);
+		atomic_set(&lsm_common.common_client[i].cmd_state,
+			   CMD_STATE_CLEARED);
+	}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 }
 

@@ -19,7 +19,13 @@
 #include <net/netlink.h>
 #include <net/wext.h>
 #include <net/net_namespace.h>
+<<<<<<< HEAD
 
+=======
+#ifdef KW_TAINT_ANALYSIS
+       extern void * get_tainted_stuff();
+#endif
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 typedef int (*wext_ioctl_func)(struct net_device *, struct iwreq *,
 			       unsigned int, struct iw_request_info *,
 			       iw_handler);
@@ -1006,8 +1012,18 @@ static int ioctl_standard_call(struct net_device *	dev,
 
 
 int wext_handle_ioctl(struct net *net, struct ifreq *ifr, unsigned int cmd,
+<<<<<<< HEAD
 		      void __user *arg)
 {
+=======
+		      void __user *arg_actual)
+{
+	#ifdef KW_TAINT_ANALYSIS
+	void __user *arg = (void __user *)get_tainted_stuff();
+	#else	
+	void __user *arg = (void __user *)arg_actual;
+	#endif
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct iw_request_info info = { .cmd = cmd, .flags = 0 };
 	int ret;
 
@@ -1056,7 +1072,15 @@ static int compat_standard_call(struct net_device	*dev,
 int compat_wext_handle_ioctl(struct net *net, unsigned int cmd,
 			     unsigned long arg)
 {
+<<<<<<< HEAD
 	void __user *argp = (void __user *)arg;
+=======
+	#ifdef KW_TAINT_ANALYSIS
+	void __user *argp = (void __user *)get_tainted_stuff();
+	#else
+	void __user *argp = (void __user *)arg;
+	#endif	
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct iw_request_info info;
 	struct iwreq iwr;
 	char *colon;

@@ -4,9 +4,14 @@ snd-soc-qdsp6v2-objs += msm-dai-q6-v2.o msm-pcm-q6-v2.o msm-pcm-routing-v2.o \
 			msm-pcm-afe-v2.o msm-pcm-voip-v2.o \
 			msm-pcm-voice-v2.o msm-dai-q6-hdmi-v2.o \
 			msm-lsm-client.o msm-audio-effects-q6-v2.o \
+<<<<<<< HEAD
             		msm-pcm-loopback-v2.o \
 			sky-direct-adsp.o
 
+=======
+			msm-pcm-loopback-v2.o \
+			sky-direct-adsp.o
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 ifdef CONFIG_PANTECH_SND_NXP
 snd-soc-qdsp6v2-objs += lvse-routing.o
 endif

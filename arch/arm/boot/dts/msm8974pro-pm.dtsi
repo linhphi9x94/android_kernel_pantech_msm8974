@@ -26,7 +26,11 @@
 		qcom,saw2-spm-dly= <0x3C102800>;
 		qcom,saw2-spm-ctl = <0x1>;
 		qcom,saw2-spm-cmd-wfi = [03 0b 0f];
+<<<<<<< HEAD
 		qcom,saw2-spm-cmd-ret = [42 1b 00 d8 5B 03 d8 5b 0b 00 42 1b 0f];
+=======
+		qcom,saw2-spm-cmd-ret = [42 1b 00 d8 5B 03 3B d8 5b 0b 00 42 1b 0f];
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		qcom,saw2-spm-cmd-spc = [00 20 80 10 E8 5B 03 3B E8 5B 82 10 0B
 			30 06 26 30 0F];
 		qcom,saw2-spm-cmd-pc = [00 20 80 10 E8 5B 03 3B E8 5B 82 10 0B
@@ -48,7 +52,11 @@
 		qcom,saw2-spm-dly= <0x3C102800>;
 		qcom,saw2-spm-ctl = <0x1>;
 		qcom,saw2-spm-cmd-wfi = [03 0b 0f];
+<<<<<<< HEAD
 		qcom,saw2-spm-cmd-ret = [42 1b 00 d8 5B 03 d8 5b 0b 00 42 1b 0f];
+=======
+		qcom,saw2-spm-cmd-ret = [42 1b 00 d8 5B 03 3B d8 5b 0b 00 42 1b 0f];
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		qcom,saw2-spm-cmd-spc = [00 20 80 10 E8 5B 03 3B E8 5B 82 10 0B
 			30 06 26 30 0F];
 		qcom,saw2-spm-cmd-pc = [00 20 80 10 E8 5B 03 3B E8 5B 82 10 0B
@@ -70,7 +78,11 @@
 		qcom,saw2-spm-dly= <0x3C102800>;
 		qcom,saw2-spm-ctl = <0x1>;
 		qcom,saw2-spm-cmd-wfi = [03 0b 0f];
+<<<<<<< HEAD
 		qcom,saw2-spm-cmd-ret = [42 1b 00 d8 5B 03 d8 5b 0b 00 42 1b 0f];
+=======
+		qcom,saw2-spm-cmd-ret = [42 1b 00 d8 5B 03 3B d8 5b 0b 00 42 1b 0f];
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		qcom,saw2-spm-cmd-spc = [00 20 80 10 E8 5B 03 3B E8 5B 82 10 0B
 			30 06 26 30 0F];
 		qcom,saw2-spm-cmd-pc = [00 20 80 10 E8 5B 03 3B E8 5B 82 10 0B
@@ -92,7 +104,11 @@
 		qcom,saw2-spm-dly= <0x3C102800>;
 		qcom,saw2-spm-ctl = <0x1>;
 		qcom,saw2-spm-cmd-wfi = [03 0b 0f];
+<<<<<<< HEAD
 		qcom,saw2-spm-cmd-ret = [42 1b 00 d8 5B 03 d8 5b 0b 00 42 1b 0f];
+=======
+		qcom,saw2-spm-cmd-ret = [42 1b 00 d8 5B 03 3B d8 5b 0b 00 42 1b 0f];
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		qcom,saw2-spm-cmd-spc = [00 20 80 10 E8 5B 03 3B E8 5B 82 10 0B
 			30 06 26 30 0F];
 		qcom,saw2-spm-cmd-pc = [00 20 80 10 E8 5B 03 3B E8 5B 82 10 0B
@@ -174,11 +190,19 @@
 
 			qcom,system-mode@0 {
 				qcom,l2 = "l2_cache_gdhs";
+<<<<<<< HEAD
 				qcom,latency-us = <20000>;
 				qcom,ss-power = <163>;
 				qcom,energy-overhead = <1577736>;
 				qcom,time-overhead = <5067>;
 				qcom,min-cpu-mode= "pc";
+=======
+				qcom,latency-us = <500>;
+				qcom,ss-power = <163>;
+				qcom,energy-overhead = <577736>;
+				qcom,time-overhead = <1000>;
+				qcom,min-cpu-mode= "standalone_pc";
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				qcom,sync-cpus;
 			};
 
@@ -190,6 +214,10 @@
 				qcom,time-overhead = <6605>;
 				qcom,min-cpu-mode = "pc";
 				qcom,sync-cpus;
+<<<<<<< HEAD
+=======
+				qcom,send-rpm-sleep-set;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			};
 		};
 	};
@@ -377,4 +405,15 @@
 		reg = <0xfc000000 0x1a0000>;
 		qcom,start-offset = <0x190010>;
 	};
+<<<<<<< HEAD
+=======
+
+	qcom,rpm-master-stats@fc428150 {
+		compatible = "qcom,rpm-master-stats";
+		reg = <0xfc428150 0x3200>;
+		qcom,masters = "APSS", "MPSS", "LPSS", "PRONTO";
+		qcom,master-stats-version = <2>;
+		qcom,master-offset = <2560>;
+	};
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };

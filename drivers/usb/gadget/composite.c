@@ -614,6 +614,19 @@ static int set_config(struct usb_composite_dev *cdev,
 	unsigned		power = gadget_is_otg(gadget) ? 8 : 100;
 	int			tmp;
 
+<<<<<<< HEAD
+=======
+	/*
+	 * ignore 2nd time SET_CONFIGURATION
+	 * only for same config value twice.
+	 */
+	if (cdev->config && (cdev->config->bConfigurationValue == number)) {
+		DBG(cdev, "already in the same config with value %d\n",
+				number);
+		return 0;
+	}
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (number) {
 		list_for_each_entry(c, &cdev->configs, list) {
 			if (c->bConfigurationValue == number) {
@@ -661,6 +674,14 @@ static int set_config(struct usb_composite_dev *cdev,
 		 */
 		switch (gadget->speed) {
 		case USB_SPEED_SUPER:
+<<<<<<< HEAD
+=======
+			if (!f->ss_descriptors) {
+				pr_err("%s(): No SS desc for function:%s\n",
+							__func__, f->name);
+				return -EINVAL;
+			}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			descriptors = f->ss_descriptors;
 			break;
 		case USB_SPEED_HIGH:
@@ -701,6 +722,10 @@ static int set_config(struct usb_composite_dev *cdev,
 					cdev->delayed_status);
 		}
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef FEATURE_PANTECH_SSUSB_MAXPOWER_SET
 	if(cdev->vbus_draw_units == 8) //SSUSB
 		power = 900;
@@ -1251,7 +1276,11 @@ composite_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
 		 * upon set config#1. Call set_alt for non-zero
 		 * alternate setting.
 		 */
+<<<<<<< HEAD
 		if (!w_value && cdev->config) {
+=======
+		if (!w_value && cdev->config && !f->get_alt) {
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			value = 0;
 			break;
 		}

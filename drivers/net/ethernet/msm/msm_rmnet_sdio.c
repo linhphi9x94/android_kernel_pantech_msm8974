@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* Copyright (c) 2010-2012, The Linux Foundation. All rights reserved.
+=======
+/* Copyright (c) 2010-2012, 2014, The Linux Foundation. All rights reserved.
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -109,7 +113,12 @@ static ssize_t timeout_suspend_show(struct device *d,
 				    struct device_attribute *attr,
 				    char *buf)
 {
+<<<<<<< HEAD
 	return sprintf(buf, "%lu\n", (unsigned long) timeout_suspend_us);
+=======
+	return snprintf(buf, PAGE_SIZE, "%lu\n",
+			(unsigned long) timeout_suspend_us);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static DEVICE_ATTR(timeout_suspend, 0664, timeout_suspend_show,
@@ -168,7 +177,11 @@ static ssize_t wakeups_xmit_show(struct device *d,
 				 char *buf)
 {
 	struct rmnet_private *p = netdev_priv(to_net_dev(d));
+<<<<<<< HEAD
 	return sprintf(buf, "%lu\n", p->wakeups_xmit);
+=======
+	return snprintf(buf, PAGE_SIZE, "%lu\n", p->wakeups_xmit);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 DEVICE_ATTR(wakeups_xmit, 0444, wakeups_xmit_show, NULL);
@@ -177,7 +190,11 @@ static ssize_t wakeups_rcv_show(struct device *d, struct device_attribute *attr,
 				char *buf)
 {
 	struct rmnet_private *p = netdev_priv(to_net_dev(d));
+<<<<<<< HEAD
 	return sprintf(buf, "%lu\n", p->wakeups_rcv);
+=======
+	return snprintf(buf, PAGE_SIZE, "%lu\n", p->wakeups_rcv);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 DEVICE_ATTR(wakeups_rcv, 0444, wakeups_rcv_show, NULL);
@@ -201,7 +218,11 @@ static ssize_t timeout_show(struct device *d, struct device_attribute *attr,
 {
 	struct rmnet_private *p = netdev_priv(to_net_dev(d));
 	p = netdev_priv(to_net_dev(d));
+<<<<<<< HEAD
 	return sprintf(buf, "%lu\n", timeout_us);
+=======
+	return snprintf(buf, PAGE_SIZE, "%lu\n", timeout_us);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 DEVICE_ATTR(timeout, 0664, timeout_show, timeout_store);

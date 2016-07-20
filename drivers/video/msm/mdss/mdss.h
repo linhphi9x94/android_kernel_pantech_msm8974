@@ -79,6 +79,33 @@ struct mdss_intr {
 	spinlock_t lock;
 };
 
+<<<<<<< HEAD
+=======
+struct mdss_fudge_factor {
+	u32 numer;
+	u32 denom;
+};
+
+struct mdss_prefill_data {
+	u32 ot_bytes;
+	u32 y_buf_bytes;
+	u32 y_scaler_lines_bilinear;
+	u32 y_scaler_lines_caf;
+	u32 post_scaler_pixels;
+	u32 pp_pixels;
+	u32 fbc_lines;
+};
+
+enum mdss_hw_index {
+	MDSS_HW_MDP,
+	MDSS_HW_DSI0,
+	MDSS_HW_DSI1,
+	MDSS_HW_HDMI,
+	MDSS_HW_EDP,
+	MDSS_MAX_HW_BLK
+};
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct mdss_data_type {
 	u32 mdp_rev;
 	struct clk *mdp_clk[MDSS_MAX_CLK];
@@ -102,8 +129,16 @@ struct mdss_data_type {
 	u32 has_bwc;
 	u32 has_decimation;
 	u8 has_wfd_blk;
+<<<<<<< HEAD
 	u8 has_wb_ad;
 
+=======
+	u32 has_no_lut_read;
+	atomic_t sd_client_count;
+	u8 has_wb_ad;
+
+	u32 rotator_ot_limit;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	u32 mdp_irq_mask;
 	u32 mdp_hist_irq_mask;
 
@@ -115,6 +150,10 @@ struct mdss_data_type {
 
 	u32 res_init;
 
+<<<<<<< HEAD
+=======
+	u32 highest_bank_bit;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	u32 smp_mb_cnt;
 	u32 smp_mb_size;
 	u32 smp_mb_per_pipe;
@@ -129,6 +168,17 @@ struct mdss_data_type {
 	u32 bus_hdl;
 	struct msm_bus_scale_pdata *bus_scale_table;
 
+<<<<<<< HEAD
+=======
+	struct mdss_fudge_factor ab_factor;
+	struct mdss_fudge_factor ib_factor;
+	struct mdss_fudge_factor ib_factor_overlap;
+	struct mdss_fudge_factor clk_factor;
+
+	u32 *clock_levels;
+	u32 nclk_lvl;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct mdss_hw_settings *hw_settings;
 
 	struct mdss_mdp_pipe *vig_pipes;
@@ -170,6 +220,7 @@ struct mdss_data_type {
 	struct mdss_panel_cfg pan_cfg;
 
 	int handoff_pending;
+<<<<<<< HEAD
 };
 extern struct mdss_data_type *mdss_res;
 
@@ -181,6 +232,16 @@ enum mdss_hw_index {
 	MDSS_HW_EDP,
 	MDSS_MAX_HW_BLK
 };
+=======
+	struct mdss_prefill_data prefill_data;
+	bool ulps;
+	int iommu_ref_cnt;
+
+	u64 ab[MDSS_MAX_HW_BLK];
+	u64 ib[MDSS_MAX_HW_BLK];
+};
+extern struct mdss_data_type *mdss_res;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 struct mdss_hw {
 	u32 hw_ndx;
@@ -193,6 +254,11 @@ void mdss_enable_irq(struct mdss_hw *hw);
 void mdss_disable_irq(struct mdss_hw *hw);
 void mdss_disable_irq_nosync(struct mdss_hw *hw);
 void mdss_bus_bandwidth_ctrl(int enable);
+<<<<<<< HEAD
+=======
+int mdss_iommu_ctrl(int enable);
+int mdss_bus_scale_set_quota(int client, u64 ab_quota, u64 ib_quota);
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static inline struct ion_client *mdss_get_ionclient(void)
 {
@@ -218,4 +284,15 @@ static inline int mdss_get_iommu_domain(u32 type)
 
 	return mdss_res->iommu_map[type].domain_idx;
 }
+<<<<<<< HEAD
+=======
+
+static inline int mdss_get_sd_client_cnt(void)
+{
+	if (!mdss_res)
+		return 0;
+	else
+		return atomic_read(&mdss_res->sd_client_count);
+}
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif /* MDSS_H */

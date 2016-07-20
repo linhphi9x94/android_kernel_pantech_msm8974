@@ -9,6 +9,10 @@
 #include <linux/list.h>
 #include <linux/sysctl.h>
 
+<<<<<<< HEAD
+=======
+#include <net/flow.h>
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <net/netns/core.h>
 #include <net/netns/mib.h>
 #include <net/netns/unix.h>
@@ -105,7 +109,10 @@ struct net {
 	struct netns_ipvs	*ipvs;
 };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <linux/seq_file_net.h>
 
 /* Init's network namespace */

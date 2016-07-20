@@ -499,6 +499,12 @@ static int sco_sock_bind(struct socket *sock, struct sockaddr *addr, int alen)
 	if (!addr || addr->sa_family != AF_BLUETOOTH)
 		return -EINVAL;
 
+<<<<<<< HEAD
+=======
+	if (alen < sizeof(struct sockaddr_sco))
+		return -EINVAL;
+
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	memset(&sa, 0, sizeof(sa));
 	len = min_t(unsigned int, sizeof(sa), alen);
 	memcpy(&sa, addr, len);

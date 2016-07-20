@@ -1224,7 +1224,15 @@ static int __init ubi_init(void)
 		mtd = open_mtd_device(p->name);
 		if (IS_ERR(mtd)) {
 			err = PTR_ERR(mtd);
+<<<<<<< HEAD
 			goto out_detach;
+=======
+			ubi_err("cannot open mtd %s, error %d", p->name, err);
+			/* See comment below re-ubi_is_module(). */
+			if (ubi_is_module())
+				goto out_detach;
+			continue;
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 
 		mutex_lock(&ubi_devices_mutex);

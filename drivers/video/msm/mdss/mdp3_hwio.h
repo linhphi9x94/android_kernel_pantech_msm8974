@@ -120,6 +120,10 @@
 
 /*DMA MASK*/
 #define MDP3_DMA_IBUF_FORMAT_MASK 0x06000000
+<<<<<<< HEAD
+=======
+#define MDP3_DMA_PACK_PATTERN_MASK 0x00003f00
+>>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /*MISR*/
 #define MDP3_REG_MODE_CLK				0x000D0000
