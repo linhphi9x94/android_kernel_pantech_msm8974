@@ -1611,21 +1611,12 @@ static void binder_transaction(struct binder_proc *proc,
 		if (*offp > t->buffer->data_size - sizeof(*fp) ||
 		    *offp < off_min ||
 		    t->buffer->data_size < sizeof(*fp) ||
-<<<<<<< HEAD
-		    !IS_ALIGNED(*offp, sizeof(void *))) {
-			binder_user_error("binder: %d:%d got transaction with invalid offset, %zd (min %zd, max %zd)\n",
-					  proc->pid, thread->pid, *offp,
-					  off_min,
-					  t->buffer->data_size -
-					  sizeof(*fp));
-=======
 		    !IS_ALIGNED(*offp, sizeof(u32))) {
 			binder_user_error("%d:%d got transaction with invalid offset, %lld (min %lld, max %lld)\n",
 					  proc->pid, thread->pid, (u64)*offp,
 					  (u64)off_min,
 					  (u64)(t->buffer->data_size -
 					  sizeof(*fp)));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			return_error = BR_FAILED_REPLY;
 			goto err_bad_offset;
 		}
@@ -2862,11 +2853,6 @@ static void binder_vma_close(struct vm_area_struct *vma)
 	binder_defer_work(proc, BINDER_DEFERRED_PUT_FILES);
 }
 
-<<<<<<< HEAD
-static struct vm_operations_struct binder_vm_ops = {
-	.open = binder_vma_open,
-	.close = binder_vma_close,
-=======
 static int binder_vm_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
 {
 	return VM_FAULT_SIGBUS;
@@ -2876,7 +2862,6 @@ static struct vm_operations_struct binder_vm_ops = {
 	.open = binder_vma_open,
 	.close = binder_vma_close,
 	.fault = binder_vm_fault,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static int binder_mmap(struct file *filp, struct vm_area_struct *vma)
@@ -3605,15 +3590,6 @@ static int binder_transactions_show(struct seq_file *m, void *unused)
 
 static int binder_proc_show(struct seq_file *m, void *unused)
 {
-<<<<<<< HEAD
-	struct binder_proc *proc = m->private;
-	int do_lock = !binder_debug_no_lock;
-
-	if (do_lock)
-		mutex_lock(&binder_lock);
-	seq_puts(m, "binder proc state:\n");
-	print_binder_proc(m, proc, 1);
-=======
 	struct binder_proc *itr;
 	struct binder_proc *proc = m->private;
 	struct hlist_node *pos;
@@ -3633,7 +3609,6 @@ static int binder_proc_show(struct seq_file *m, void *unused)
 		seq_puts(m, "binder proc state:\n");
 		print_binder_proc(m, proc, 1);
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (do_lock)
 		mutex_unlock(&binder_lock);
 	return 0;

@@ -82,10 +82,7 @@
 #include <linux/export.h>
 #include <linux/msg.h>
 #include <linux/shm.h>
-<<<<<<< HEAD
-=======
 #include <linux/pft.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #include "avc.h"
 #include "objsec.h"
@@ -221,17 +218,6 @@ static int inode_alloc_security(struct inode *inode)
 	return 0;
 }
 
-<<<<<<< HEAD
-static void inode_free_rcu(struct rcu_head *head)
-{
-	struct inode_security_struct *isec;
-
-	isec = container_of(head, struct inode_security_struct, rcu);
-	kmem_cache_free(sel_inode_cache, isec);
-}
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static void inode_free_security(struct inode *inode)
 {
 	struct inode_security_struct *isec = inode->i_security;
@@ -242,21 +228,8 @@ static void inode_free_security(struct inode *inode)
 		list_del_init(&isec->list);
 	spin_unlock(&sbsec->isec_lock);
 
-<<<<<<< HEAD
-	/*
-	 * The inode may still be referenced in a path walk and
-	 * a call to selinux_inode_permission() can be made
-	 * after inode_free_security() is called. Ideally, the VFS
-	 * wouldn't do this, but fixing that is a much harder
-	 * job. For now, simply free the i_security via RCU, and
-	 * leave the current inode->i_security pointer intact.
-	 * The inode will be freed after the RCU grace period too.
-	 */
-	call_rcu(&isec->rcu, inode_free_rcu);
-=======
 	inode->i_security = NULL;
 	kmem_cache_free(sel_inode_cache, isec);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static int file_alloc_security(struct file *file)
@@ -436,8 +409,6 @@ static int sb_finish_set_opts(struct super_block *sb)
 	    !strcmp(sb->s_type->name, "rootfs"))
 		sbsec->flags |= SE_SBLABELSUPP;
 
-<<<<<<< HEAD
-=======
 	/*
 	 * Special handling for rootfs. Is genfs but supports
 	 * setting SELinux context on in-core inodes.
@@ -445,7 +416,6 @@ static int sb_finish_set_opts(struct super_block *sb)
 	if (strncmp(sb->s_type->name, "rootfs", sizeof("rootfs")) == 0)
 		sbsec->flags |= SE_SBLABELSUPP;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* Initialize the root inode. */
 	rc = inode_doinit_with_dentry(root_inode, root);
 
@@ -1353,17 +1323,6 @@ static int inode_doinit_with_dentry(struct inode *inode, struct dentry *opt_dent
 		isec->sid = sbsec->sid;
 
 		if ((sbsec->flags & SE_SBPROC) && !S_ISLNK(inode->i_mode)) {
-<<<<<<< HEAD
-			if (opt_dentry) {
-				isec->sclass = inode_mode_to_security_class(inode->i_mode);
-				rc = selinux_proc_get_sid(opt_dentry,
-							  isec->sclass,
-							  &sid);
-				if (rc)
-					goto out_unlock;
-				isec->sid = sid;
-			}
-=======
 			/* We must have a dentry to determine the label on
 			 * procfs inodes */
 			if (opt_dentry)
@@ -1391,7 +1350,6 @@ static int inode_doinit_with_dentry(struct inode *inode, struct dentry *opt_dent
 			if (rc)
 				goto out_unlock;
 			isec->sid = sid;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 		break;
 	}
@@ -1688,11 +1646,6 @@ static int may_create(struct inode *dir,
 	if (rc)
 		return rc;
 
-<<<<<<< HEAD
-	return avc_has_perm(newsid, sbsec->sid,
-			    SECCLASS_FILESYSTEM,
-			    FILESYSTEM__ASSOCIATE, &ad);
-=======
 	rc = avc_has_perm(newsid, sbsec->sid,
 			  SECCLASS_FILESYSTEM,
 			  FILESYSTEM__ASSOCIATE, &ad);
@@ -1702,7 +1655,6 @@ static int may_create(struct inode *dir,
 	rc = pft_inode_mknod(dir, dentry, 0, 0);
 
 	return rc;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 /* Check whether a task can create a key. */
@@ -1761,15 +1713,12 @@ static int may_link(struct inode *dir,
 	}
 
 	rc = avc_has_perm(sid, isec->sid, isec->sclass, av, &ad);
-<<<<<<< HEAD
-=======
 	if (rc)
 		return rc;
 
 	if (kind == MAY_UNLINK)
 		rc = pft_inode_unlink(dir, dentry);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rc;
 }
 
@@ -2674,15 +2623,9 @@ static int selinux_sb_statfs(struct dentry *dentry)
 	return superblock_has_perm(cred, dentry->d_sb, FILESYSTEM__GETATTR, &ad);
 }
 
-<<<<<<< HEAD
-static int selinux_mount(const char *dev_name,
-			 struct path *path,
-			 const char *type,
-=======
 static int selinux_mount(char *dev_name,
 			 struct path *path,
 			 char *type,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			 unsigned long flags,
 			 void *data)
 {
@@ -2782,11 +2725,6 @@ static int selinux_inode_init_security(struct inode *inode, struct inode *dir,
 
 static int selinux_inode_create(struct inode *dir, struct dentry *dentry, umode_t mode)
 {
-<<<<<<< HEAD
-	return may_create(dir, dentry, SECCLASS_FILE);
-}
-
-=======
 	int ret;
 
 	ret = pft_inode_create(dir, dentry, mode);
@@ -2806,7 +2744,6 @@ static int selinux_inode_post_create(struct inode *dir, struct dentry *dentry,
 	return ret;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int selinux_inode_link(struct dentry *old_dentry, struct inode *dir, struct dentry *new_dentry)
 {
 	return may_link(dir, old_dentry, MAY_LINK);
@@ -2840,15 +2777,12 @@ static int selinux_inode_mknod(struct inode *dir, struct dentry *dentry, umode_t
 static int selinux_inode_rename(struct inode *old_inode, struct dentry *old_dentry,
 				struct inode *new_inode, struct dentry *new_dentry)
 {
-<<<<<<< HEAD
-=======
 	int rc;
 
 	rc = pft_inode_rename(old_inode, old_dentry, new_inode, new_dentry);
 	if (rc)
 		return rc;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return may_rename(old_inode, old_dentry, new_inode, new_dentry);
 }
 
@@ -2929,13 +2863,10 @@ static int selinux_inode_setotherxattr(struct dentry *dentry, const char *name)
 {
 	const struct cred *cred = current_cred();
 
-<<<<<<< HEAD
-=======
 	if (pft_inode_set_xattr(dentry, name) < 0)
 		return -EACCES;
 
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!strncmp(name, XATTR_SECURITY_PREFIX,
 		     sizeof XATTR_SECURITY_PREFIX - 1)) {
 		if (!strcmp(name, XATTR_NAME_CAPS)) {
@@ -3159,22 +3090,16 @@ static int selinux_file_permission(struct file *file, int mask)
 	struct file_security_struct *fsec = file->f_security;
 	struct inode_security_struct *isec = inode->i_security;
 	u32 sid = current_sid();
-<<<<<<< HEAD
-=======
 	int ret;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (!mask)
 		/* No permission to check.  Existence test. */
 		return 0;
 
-<<<<<<< HEAD
-=======
 	ret = pft_file_permission(file, mask);
 	if (ret < 0)
 		return ret;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (sid == fsec->sid && fsec->isid == isec->sid &&
 	    fsec->pseqno == avc_policy_seqno())
 		/* No change since dentry_open check. */
@@ -3481,14 +3406,11 @@ static int selinux_dentry_open(struct file *file, const struct cred *cred)
 	struct file_security_struct *fsec;
 	struct inode *inode;
 	struct inode_security_struct *isec;
-<<<<<<< HEAD
-=======
 	int ret;
 
 	ret = pft_file_open(file, cred);
 	if (ret < 0)
 		return ret;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	inode = file->f_path.dentry->d_inode;
 	fsec = file->f_security;
@@ -3513,8 +3435,6 @@ static int selinux_dentry_open(struct file *file, const struct cred *cred)
 	return inode_has_perm_noadp(cred, inode, open_file_to_av(file), 0);
 }
 
-<<<<<<< HEAD
-=======
 static int selinux_file_close(struct file *file)
 {
 	return pft_file_close(file);
@@ -3525,7 +3445,6 @@ static bool selinux_allow_merge_bio(struct bio *bio1, struct bio *bio2)
 	return pft_allow_merge_bio(bio1, bio2);
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* task security operations */
 
 static int selinux_task_create(unsigned long clone_flags)
@@ -4024,14 +3943,11 @@ static int sock_has_perm(struct task_struct *task, struct sock *sk, u32 perms)
 	struct lsm_network_audit net = {0,};
 	u32 tsid = task_sid(task);
 
-<<<<<<< HEAD
-=======
 	if (unlikely(!sksec)) {
 		pr_warn("SELinux: sksec is NULL, socket is already freed\n");
 		return -EINVAL;
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (sksec->sid == SECINITSID_KERNEL)
 		return 0;
 
@@ -5840,10 +5756,7 @@ static struct security_operations selinux_ops = {
 	.inode_free_security =		selinux_inode_free_security,
 	.inode_init_security =		selinux_inode_init_security,
 	.inode_create =			selinux_inode_create,
-<<<<<<< HEAD
-=======
 	.inode_post_create =		selinux_inode_post_create,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	.inode_link =			selinux_inode_link,
 	.inode_unlink =			selinux_inode_unlink,
 	.inode_symlink =		selinux_inode_symlink,
@@ -5879,11 +5792,8 @@ static struct security_operations selinux_ops = {
 	.file_receive =			selinux_file_receive,
 
 	.dentry_open =			selinux_dentry_open,
-<<<<<<< HEAD
-=======
 	.file_close =			selinux_file_close,
 	.allow_merge_bio =		selinux_allow_merge_bio,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	.task_create =			selinux_task_create,
 	.cred_alloc_blank =		selinux_cred_alloc_blank,

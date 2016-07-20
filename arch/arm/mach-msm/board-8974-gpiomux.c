@@ -1261,10 +1261,7 @@ static struct gpiomux_setting gpio_sc_i2c_scl_susp_cfg = {	// GPIO_84
 	.dir = GPIOMUX_OUT_HIGH,
 };
 #endif
-<<<<<<< HEAD
-=======
 #if defined(CONFIG_KS8851) || defined(CONFIG_KS8851_MODULE)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #if defined(CONFIG_MACH_MSM8974_EF63S) || defined(CONFIG_MACH_MSM8974_EF63K) || defined(CONFIG_MACH_MSM8974_EF63L)
 static struct gpiomux_setting pan_tm_key_active_config = {
 	.func = GPIOMUX_FUNC_GPIO,
@@ -1279,10 +1276,7 @@ static struct gpiomux_setting pan_tm_key_sus_config = {
 };
 
 #endif
-<<<<<<< HEAD
-=======
 #endif
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static struct msm_gpiomux_config msm_blsp_configs[] __initdata = {
 #if defined(CONFIG_KS8851) || defined(CONFIG_KS8851_MODULE)

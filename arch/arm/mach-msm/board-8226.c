@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -19,10 +15,7 @@
 #include <linux/errno.h>
 #include <linux/platform_device.h>
 #include <linux/io.h>
-<<<<<<< HEAD
-=======
 #include <linux/i2c/i2c-qup.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <linux/gpio.h>
 #include <linux/irq.h>
 #include <linux/irqdomain.h>
@@ -32,12 +25,9 @@
 #include <linux/of_fdt.h>
 #include <linux/of_irq.h>
 #include <linux/memory.h>
-<<<<<<< HEAD
-=======
 #include <linux/regulator/cpr-regulator.h>
 #include <linux/regulator/fan53555.h>
 #include <linux/regulator/onsemi-ncp6335d.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <linux/regulator/qpnp-regulator.h>
 #include <linux/msm_tsens.h>
 #include <asm/mach/map.h>
@@ -45,10 +35,7 @@
 #include <asm/mach/arch.h>
 #include <asm/mach/time.h>
 #include <mach/board.h>
-<<<<<<< HEAD
-=======
 #include <mach/msm_bus.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <mach/gpiomux.h>
 #include <mach/msm_iomap.h>
 #include <mach/restart.h>
@@ -70,10 +57,7 @@
 #include "spm.h"
 #include "pm.h"
 #include "modem_notifier.h"
-<<<<<<< HEAD
-=======
 #include "spm-regulator.h"
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static struct memtype_reserve msm8226_reserve_table[] __initdata = {
 	[MEMTYPE_SMI] = {
@@ -91,14 +75,11 @@ static int msm8226_paddr_to_memtype(unsigned int paddr)
 	return MEMTYPE_EBI1;
 }
 
-<<<<<<< HEAD
-=======
 static struct of_dev_auxdata msm_hsic_host_adata[] = {
 	OF_DEV_AUXDATA("qcom,hsic-host", 0xF9A00000, "msm_hsic_host", NULL),
 	{}
 };
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static struct of_dev_auxdata msm8226_auxdata_lookup[] __initdata = {
 	OF_DEV_AUXDATA("qcom,msm-sdcc", 0xF9824000, \
 			"msm_sdcc.1", NULL),
@@ -113,11 +94,8 @@ static struct of_dev_auxdata msm8226_auxdata_lookup[] __initdata = {
 	OF_DEV_AUXDATA("qcom,sdhci-msm", 0xF9864900, \
 			"msm_sdcc.3", NULL),
 	OF_DEV_AUXDATA("qcom,hsic-host", 0xF9A00000, "msm_hsic_host", NULL),
-<<<<<<< HEAD
-=======
 	OF_DEV_AUXDATA("qcom,hsic-smsc-hub", 0, "msm_smsc_hub",
 			msm_hsic_host_adata),
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	{}
 };
@@ -156,22 +134,16 @@ void __init msm8226_add_drivers(void)
 	msm_pm_sleep_status_init();
 	rpm_regulator_smd_driver_init();
 	qpnp_regulator_init();
-<<<<<<< HEAD
-=======
 	spm_regulator_init();
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (of_board_is_rumi())
 		msm_clock_init(&msm8226_rumi_clock_init_data);
 	else
 		msm_clock_init(&msm8226_clock_init_data);
-<<<<<<< HEAD
-=======
 	msm_bus_fabric_init_driver();
 	qup_i2c_init_driver();
 	ncp6335d_regulator_init();
 	fan53555_regulator_init();
 	cpr_regulator_init();
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	tsens_tm_init_driver();
 	msm_thermal_device_init();
 }
@@ -195,11 +167,7 @@ static const char *msm8226_dt_match[] __initconst = {
 	NULL
 };
 
-<<<<<<< HEAD
-DT_MACHINE_START(MSM8226_DT, "Qualcomm MSM 8226 (Flattened Device Tree)")
-=======
 DT_MACHINE_START(MSM8226_DT, "Qualcomm MSM 8x26 / MSM 8x28 (Flattened Device Tree)")
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	.map_io = msm_map_msm8226_io,
 	.init_irq = msm_dt_init_irq,
 	.init_machine = msm8226_init,

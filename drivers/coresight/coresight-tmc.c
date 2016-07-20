@@ -177,10 +177,7 @@ struct tmc_drvdata {
 	bool			byte_cntr_read_active;
 	wait_queue_head_t	wq;
 	char			*byte_cntr_node;
-<<<<<<< HEAD
-=======
 	uint32_t		mem_size;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static void tmc_wait_for_flush(struct tmc_drvdata *drvdata)
@@ -643,10 +640,6 @@ static void __tmc_etb_dump(struct tmc_drvdata *drvdata)
 	char *hdr;
 	char *bufp;
 	uint32_t read_data;
-<<<<<<< HEAD
-	int i;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	memwidth = BMVAL(tmc_readl(drvdata, CORESIGHT_DEVID), 8, 10);
 	if (memwidth == TMC_MEM_INTF_WIDTH_32BITS)
@@ -660,18 +653,6 @@ static void __tmc_etb_dump(struct tmc_drvdata *drvdata)
 
 	bufp = drvdata->buf;
 	while (1) {
-<<<<<<< HEAD
-		for (i = 0; i < memwords; i++) {
-			read_data = tmc_readl_no_log(drvdata, TMC_RRD);
-			if (read_data == 0xFFFFFFFF)
-				goto out;
-			memcpy(bufp, &read_data, BYTES_PER_WORD);
-			bufp += BYTES_PER_WORD;
-		}
-	}
-
-out:
-=======
 		read_data = tmc_readl_no_log(drvdata, TMC_RRD);
 		if (read_data == 0xFFFFFFFF)
 			goto out;
@@ -688,7 +669,6 @@ out:
 		dev_dbg(drvdata->dev, "ETF-ETB data is not %lx bytes aligned\n",
 			(unsigned long) memwords * BYTES_PER_WORD);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (drvdata->aborting) {
 		hdr = drvdata->buf - PAGE_SIZE;
 		*(uint32_t *)(hdr + TMC_ETFETB_DUMP_MAGIC_OFF) =
@@ -1336,8 +1316,6 @@ static ssize_t tmc_etr_store_byte_cntr_value(struct device *dev,
 static DEVICE_ATTR(byte_cntr_value, S_IRUGO | S_IWUSR,
 		   tmc_etr_show_byte_cntr_value, tmc_etr_store_byte_cntr_value);
 
-<<<<<<< HEAD
-=======
 static ssize_t tmc_etr_show_mem_size(struct device *dev,
 				     struct device_attribute *attr,
 				     char *buf)
@@ -1364,7 +1342,6 @@ static ssize_t tmc_etr_store_mem_size(struct device *dev,
 static DEVICE_ATTR(mem_size, S_IRUGO | S_IWUSR,
 		   tmc_etr_show_mem_size, tmc_etr_store_mem_size);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static struct attribute *tmc_attrs[] = {
 	&dev_attr_trigger_cntr.attr,
 	NULL,
@@ -1377,10 +1354,7 @@ static struct attribute_group tmc_attr_grp = {
 static struct attribute *tmc_etr_attrs[] = {
 	&dev_attr_out_mode.attr,
 	&dev_attr_byte_cntr_value.attr,
-<<<<<<< HEAD
-=======
 	&dev_attr_mem_size.attr,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	NULL,
 };
 

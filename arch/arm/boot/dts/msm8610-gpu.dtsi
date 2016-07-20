@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -42,11 +38,7 @@
 			<26 512 0 0>,
 			<26 512 0 800000>,
 			<26 512 0 1600000>,
-<<<<<<< HEAD
-			<26 512 0 2128000>;
-=======
 			<26 512 0 2664000>;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		/* GDSC oxili regulators */
 		vdd-supply = <&gdsc_oxili_cx>;
@@ -54,12 +46,9 @@
 		/* IOMMU Data */
 		iommu = <&gfx_iommu>;
 
-<<<<<<< HEAD
-=======
 		/* CPU latency parameter */
 		qcom,pm-qos-latency = <701>;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/* Power levels */
 		qcom,gpu-pwrlevels {
 			#address-cells = <1>;

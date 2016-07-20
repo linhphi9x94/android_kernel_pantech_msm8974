@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2013-2015, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -150,11 +146,7 @@ static void _build_pre_ib_cmds(struct adreno_profile *profile,
 				entry->offset, data_offset);
 		IB_CMD(ibcmds, CP_REG_TO_MEM, entry->offset,
 				gpuaddr + data_offset, data_offset);
-<<<<<<< HEAD
-		IB_CMD(ibcmds, CP_REG_TO_MEM, entry->offset + 1,
-=======
 		IB_CMD(ibcmds, CP_REG_TO_MEM, entry->offset_hi,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				gpuaddr + data_offset, data_offset);
 
 		/* skip over post_ib counter data */
@@ -193,11 +185,7 @@ static void _build_post_ib_cmds(struct adreno_profile *profile,
 
 		IB_CMD(ibcmds, CP_REG_TO_MEM, entry->offset,
 				gpuaddr + data_offset, data_offset);
-<<<<<<< HEAD
-		IB_CMD(ibcmds, CP_REG_TO_MEM, entry->offset + 1,
-=======
 		IB_CMD(ibcmds, CP_REG_TO_MEM, entry->offset_hi,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				gpuaddr + data_offset, data_offset);
 	}
 
@@ -293,11 +281,7 @@ static bool _in_assignments_list(struct adreno_profile *profile,
 
 static bool _add_to_assignments_list(struct adreno_profile *profile,
 		const char *str, unsigned int groupid, unsigned int countable,
-<<<<<<< HEAD
-		unsigned int offset)
-=======
 		unsigned int offset, unsigned int offset_hi)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct adreno_profile_assigns_list *entry;
 
@@ -311,10 +295,7 @@ static bool _add_to_assignments_list(struct adreno_profile *profile,
 	entry->countable = countable;
 	entry->groupid = groupid;
 	entry->offset = offset;
-<<<<<<< HEAD
-=======
 	entry->offset_hi = offset_hi;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	strlcpy(entry->name, str, sizeof(entry->name));
 
@@ -325,11 +306,7 @@ static bool _add_to_assignments_list(struct adreno_profile *profile,
 
 static void check_close_profile(struct adreno_profile *profile)
 {
-<<<<<<< HEAD
-	if (profile->log_buffer == NULL)
-=======
 	if (profile == NULL || profile->log_buffer == NULL)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return;
 
 	if (!adreno_profile_enabled(profile) && shared_buf_empty(profile)) {
@@ -503,15 +480,9 @@ static int profile_enable_get(void *data, u64 *val)
 	struct kgsl_device *device = data;
 	struct adreno_device *adreno_dev = ADRENO_DEVICE(device);
 
-<<<<<<< HEAD
-	mutex_lock(&device->mutex);
-	*val = adreno_profile_enabled(&adreno_dev->profile);
-	mutex_unlock(&device->mutex);
-=======
 	kgsl_mutex_lock(&device->mutex, &device->mutex_owner);
 	*val = adreno_profile_enabled(&adreno_dev->profile);
 	kgsl_mutex_unlock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return 0;
 }
@@ -522,17 +493,10 @@ static int profile_enable_set(void *data, u64 val)
 	struct adreno_device *adreno_dev = ADRENO_DEVICE(device);
 	struct adreno_profile *profile = &adreno_dev->profile;
 
-<<<<<<< HEAD
-	mutex_lock(&device->mutex);
-
-	if (adreno_is_a2xx(adreno_dev)) {
-		mutex_unlock(&device->mutex);
-=======
 	kgsl_mutex_lock(&device->mutex, &device->mutex_owner);
 
 	if (adreno_is_a2xx(adreno_dev)) {
 		kgsl_mutex_unlock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return 0;
 	}
 
@@ -540,11 +504,7 @@ static int profile_enable_set(void *data, u64 val)
 
 	check_close_profile(profile);
 
-<<<<<<< HEAD
-	mutex_unlock(&device->mutex);
-=======
 	kgsl_mutex_unlock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return 0;
 }
@@ -563,19 +523,11 @@ static ssize_t profile_assignments_read(struct file *filep,
 	if (adreno_is_a2xx(adreno_dev))
 		return -EINVAL;
 
-<<<<<<< HEAD
-	mutex_lock(&device->mutex);
-
-	buf = kmalloc(max_size, GFP_KERNEL);
-	if (!buf) {
-		mutex_unlock(&device->mutex);
-=======
 	kgsl_mutex_lock(&device->mutex, &device->mutex_owner);
 
 	buf = kmalloc(max_size, GFP_KERNEL);
 	if (!buf) {
 		kgsl_mutex_unlock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -ENOMEM;
 	}
 
@@ -595,11 +547,7 @@ static ssize_t profile_assignments_read(struct file *filep,
 
 	kfree(buf);
 
-<<<<<<< HEAD
-	mutex_unlock(&device->mutex);
-=======
 	kgsl_mutex_unlock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return size;
 }
 
@@ -629,11 +577,7 @@ static void _add_assignment(struct adreno_device *adreno_dev,
 		unsigned int groupid, unsigned int countable)
 {
 	struct adreno_profile *profile = &adreno_dev->profile;
-<<<<<<< HEAD
-	unsigned int offset;
-=======
 	unsigned int offset, offset_hi;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	const char *name = NULL;
 
 	name = adreno_perfcounter_get_name(adreno_dev, groupid);
@@ -645,22 +589,13 @@ static void _add_assignment(struct adreno_device *adreno_dev,
 		return;
 
 	/* add to perf counter allocation, if fail skip it */
-<<<<<<< HEAD
-	if (adreno_perfcounter_get(adreno_dev, groupid,
-				countable, &offset, PERFCOUNTER_FLAG_NONE))
-=======
 	if (adreno_perfcounter_get(adreno_dev, groupid, countable,
 				&offset, &offset_hi, PERFCOUNTER_FLAG_NONE))
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return;
 
 	/* add to assignments list, put counter back if error */
 	if (!_add_to_assignments_list(profile, name, groupid,
-<<<<<<< HEAD
-				countable, offset))
-=======
 				countable, offset, offset_hi))
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		adreno_perfcounter_put(adreno_dev, groupid,
 				countable, PERFCOUNTER_FLAG_KERNEL);
 }
@@ -745,9 +680,6 @@ static ssize_t profile_assignments_write(struct file *filep,
 	if (adreno_is_a2xx(adreno_dev))
 		return -ENOSPC;
 
-<<<<<<< HEAD
-	mutex_lock(&device->mutex);
-=======
 	buf = kmalloc(len + 1, GFP_KERNEL);
 	if (buf == NULL)
 		return -ENOMEM;
@@ -758,7 +690,6 @@ static ssize_t profile_assignments_write(struct file *filep,
 	}
 
 	kgsl_mutex_lock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (adreno_profile_enabled(profile)) {
 		size = -EINVAL;
@@ -766,15 +697,10 @@ static ssize_t profile_assignments_write(struct file *filep,
 	}
 
 	ret = kgsl_active_count_get(device);
-<<<<<<< HEAD
-	if (ret)
-		return -EINVAL;
-=======
 	if (ret) {
 		size = ret;
 		goto error_unlock;
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/*
 	 * When adding/removing assignments, ensure that the GPU is done with
@@ -782,26 +708,13 @@ static ssize_t profile_assignments_write(struct file *filep,
 	 * GPU and avoid racey conditions.
 	 */
 	if (adreno_idle(device)) {
-<<<<<<< HEAD
-		size = -EINVAL;
-=======
 		size = -ETIMEDOUT;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		goto error_put;
 	}
 
 	/* clear all shared buffer results */
 	adreno_profile_process_results(device);
 
-<<<<<<< HEAD
-	buf = kmalloc(len + 1, GFP_KERNEL);
-	if (!buf) {
-		size = -EINVAL;
-		goto error_put;
-	}
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	pbuf = buf;
 
 	/* clear the log buffer */
@@ -810,13 +723,6 @@ static ssize_t profile_assignments_write(struct file *filep,
 		profile->log_tail = profile->log_buffer;
 	}
 
-<<<<<<< HEAD
-	if (copy_from_user(buf, user_buf, len)) {
-		size = -EFAULT;
-		goto error_free;
-	}
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/* for sanity and parsing, ensure it is null terminated */
 	buf[len] = '\0';
@@ -836,21 +742,12 @@ static ssize_t profile_assignments_write(struct file *filep,
 
 	size = len;
 
-<<<<<<< HEAD
-error_free:
-	kfree(buf);
-error_put:
-	kgsl_active_count_put(device);
-error_unlock:
-	mutex_unlock(&device->mutex);
-=======
 error_put:
 	kgsl_active_count_put(device);
 error_unlock:
 	kgsl_mutex_unlock(&device->mutex, &device->mutex_owner);
 error_free:
 	kfree(buf);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return size;
 }
 
@@ -988,11 +885,7 @@ static int profile_pipe_print(struct file *filep, char __user *ubuf,
 	 * for each perf counter <cntr_reg_off> <start hi & lo> <end hi & low>
 	 */
 
-<<<<<<< HEAD
-	mutex_lock(&device->mutex);
-=======
 	kgsl_mutex_lock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	while (1) {
 		/* process any results that are available into the log_buffer */
@@ -1014,17 +907,10 @@ static int profile_pipe_print(struct file *filep, char __user *ubuf,
 			}
 		}
 
-<<<<<<< HEAD
-		mutex_unlock(&device->mutex);
-		set_current_state(TASK_INTERRUPTIBLE);
-		schedule_timeout(HZ / 10);
-		mutex_lock(&device->mutex);
-=======
 		kgsl_mutex_unlock(&device->mutex, &device->mutex_owner);
 		set_current_state(TASK_INTERRUPTIBLE);
 		schedule_timeout(HZ / 10);
 		kgsl_mutex_lock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		if (signal_pending(current)) {
 			status = 0;
@@ -1033,11 +919,7 @@ static int profile_pipe_print(struct file *filep, char __user *ubuf,
 	}
 
 	check_close_profile(profile);
-<<<<<<< HEAD
-	mutex_unlock(&device->mutex);
-=======
 	kgsl_mutex_unlock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return status;
 }
@@ -1054,11 +936,7 @@ static int profile_groups_print(struct seq_file *s, void *unused)
 	if (adreno_is_a2xx(adreno_dev))
 		return -EINVAL;
 
-<<<<<<< HEAD
-	mutex_lock(&device->mutex);
-=======
 	kgsl_mutex_lock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	for (i = 0; i < counters->group_count; ++i) {
 		group = &(counters->groups[i]);
@@ -1074,11 +952,7 @@ static int profile_groups_print(struct seq_file *s, void *unused)
 			group->reg_count, used);
 	}
 
-<<<<<<< HEAD
-	mutex_unlock(&device->mutex);
-=======
 	kgsl_mutex_unlock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return 0;
 }
@@ -1202,14 +1076,6 @@ int adreno_profile_process_results(struct kgsl_device *device)
 	 */
 	transfer_results(device, shared_buf_tail);
 
-<<<<<<< HEAD
-#ifndef CONFIG_F_QUALCOMM_GPU_PATCH_FOR_PAGE_FAULT
-	/* check for any cleanup */
-	check_close_profile(profile);
-#endif
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 1;
 }
 

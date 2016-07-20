@@ -211,8 +211,6 @@ const struct dolby_dap_endp_params_s
 		 DOLBY_ENDDEP_PARAM_VMB_OFFSET},
 		{-320, -320, 144}
 	},
-<<<<<<< HEAD
-=======
 	{PROXY,	6, DOLBY_ENDP_EXT_SPEAKERS,
 		{DOLBY_PARAM_ID_DVLO, DOLBY_PARAM_ID_DVLI, DOLBY_PARAM_ID_VMB},
 		{DOLBY_ENDDEP_PARAM_DVLO_LENGTH, DOLBY_ENDDEP_PARAM_DVLI_LENGTH,
@@ -221,7 +219,6 @@ const struct dolby_dap_endp_params_s
 		 DOLBY_ENDDEP_PARAM_VMB_OFFSET},
 		{-320, -320, 144}
 	},
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	{FM, 2, DOLBY_ENDP_HDMI,
 		{DOLBY_PARAM_ID_DVLO, DOLBY_PARAM_ID_DVLI, DOLBY_PARAM_ID_VMB},
 		{DOLBY_ENDDEP_PARAM_DVLO_LENGTH, DOLBY_ENDDEP_PARAM_DVLI_LENGTH,
@@ -420,12 +417,8 @@ static int dolby_dap_send_enddep_params(int port_id, int device_channels)
 	for (idx = 0; idx < NUM_DOLBY_ENDP_DEVICE; idx++) {
 		if (dolby_dap_endp_params[idx].device ==
 			dolby_dap_params_states.device) {
-<<<<<<< HEAD
-			if (dolby_dap_params_states.device == AUX_DIGITAL) {
-=======
 			if (dolby_dap_params_states.device == AUX_DIGITAL ||
 			    dolby_dap_params_states.device == PROXY) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				if (dolby_dap_endp_params[idx].device_ch_caps ==
 					device_channels)
 					break;

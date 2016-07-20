@@ -689,23 +689,6 @@ static struct snd_soc_dai_driver msm_fe_dais[] = {
 		.name = "DTMF_RX_HOSTLESS",
 	},
 	{
-<<<<<<< HEAD
-		.capture = {
-			.stream_name = "Listen Audio Service Capture",
-			.aif_name = "LSM_UL_HL",
-			.rates = SNDRV_PCM_RATE_16000,
-			.formats = SNDRV_PCM_FMTBIT_S16_LE,
-			.channels_min = 1,
-			.channels_max = 1,
-			.rate_min = 16000,
-			.rate_max = 16000,
-		},
-		.ops = &msm_fe_dai_ops,
-		.name = "LSM",
-	},
-	{
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		.playback = {
 			.stream_name = "VoLTE Stub Playback",
 			.aif_name = "VOLTE_STUB_DL",
@@ -804,8 +787,6 @@ static struct snd_soc_dai_driver msm_fe_dais[] = {
 		.ops = &msm_fe_dai_ops,
 		.name = "QCHAT",
 	},
-<<<<<<< HEAD
-=======
 	{
 		.capture = {
 			.stream_name = "Listen 1 Audio Service Capture",
@@ -942,7 +923,6 @@ static struct snd_soc_dai_driver msm_fe_dais[] = {
 		.ops = &msm_fe_dai_ops,
 		.name = "VoWLAN",
 	},
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static __devinit int msm_fe_dai_dev_probe(struct platform_device *pdev)

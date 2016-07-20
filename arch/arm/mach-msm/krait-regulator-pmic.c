@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -62,12 +58,8 @@
 #define REG_GANG_CTL2		0xC1
 #define GANG_EN_BIT		BIT(7)
 
-<<<<<<< HEAD
-#define REG_PWM_CL			0x60
-=======
 #define REG_PWM_CL		0x60
 #define REG_SEC_ACCESS		0xD0
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 struct krait_vreg_pmic_chip {
 	struct spmi_device	*spmi;
@@ -80,11 +72,7 @@ struct krait_vreg_pmic_chip {
 
 static struct krait_vreg_pmic_chip *the_chip;
 
-<<<<<<< HEAD
-static struct of_device_id krait_vreg_pmic_match_table[] = {
-=======
 static struct of_device_id krait_vreg_pmic_match_table[] __initdata = {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	{ .compatible = KRAIT_REG_PMIC_DEV_NAME },
 	{}
 };
@@ -102,13 +90,6 @@ static int read_byte(struct spmi_device *spmi, u16 addr, u8 *val)
 	return 0;
 }
 
-<<<<<<< HEAD
-static int write_byte(struct spmi_device *spmi, u16 addr, u8 *val)
-{
-	int rc;
-
-	rc = spmi_ext_register_writel(spmi->ctrl, spmi->sid, addr, val, 1);
-=======
 static int write_secure_byte(struct spmi_device *spmi, u16 base,
 							u16 addr, u8 *val)
 {
@@ -124,7 +105,6 @@ static int write_secure_byte(struct spmi_device *spmi, u16 base,
 	}
 	rc = spmi_ext_register_writel(spmi->ctrl, spmi->sid,
 					base + addr, val, 1);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (rc) {
 		pr_err("SPMI write failed [%d,0x%04x] val = 0x%02x rc=%d\n",
 						spmi->sid, addr, *val, rc);
@@ -158,11 +138,7 @@ static bool v_overshoot_fixed(void)
 bool krait_pmic_is_ready(void)
 {
 	if (the_chip == NULL) {
-<<<<<<< HEAD
-		pr_debug("kait_regulator_pmic not ready yet\n");
-=======
 		pr_debug("krait_regulator_pmic not ready yet\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return false;
 	}
 	return true;
@@ -184,11 +160,7 @@ int krait_pmic_post_pfm_entry(void)
 	int rc;
 
 	if (the_chip == NULL) {
-<<<<<<< HEAD
-		pr_debug("kait_regulator_pmic not ready yet\n");
-=======
 		pr_debug("krait_regulator_pmic not ready yet\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -ENXIO;
 	}
 
@@ -196,13 +168,8 @@ int krait_pmic_post_pfm_entry(void)
 		return 0;
 
 	setpoint = (I_PFM_MA - IOFFSET_MA) / ISTEP_MA;
-<<<<<<< HEAD
-	rc = write_byte(the_chip->spmi,
-			the_chip->ps_base + REG_PWM_CL, &setpoint);
-=======
 	rc = write_secure_byte(the_chip->spmi,
 			the_chip->ps_base, REG_PWM_CL, &setpoint);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	pr_debug("wrote 0x%02x->[%d 0x%04x] rc = %d\n", setpoint,
 			the_chip->spmi->sid,
 			the_chip->ps_base + REG_PWM_CL, rc);
@@ -224,11 +191,7 @@ int krait_pmic_post_pwm_entry(void)
 	int rc;
 
 	if (the_chip == NULL) {
-<<<<<<< HEAD
-		pr_debug("kait_regulator_pmic not ready yet\n");
-=======
 		pr_debug("krait_regulator_pmic not ready yet\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -ENXIO;
 	}
 
@@ -238,13 +201,8 @@ int krait_pmic_post_pwm_entry(void)
 	udelay(50);
 	setpoint = (I_PWM_MA - IOFFSET_MA) / ISTEP_MA;
 
-<<<<<<< HEAD
-	rc = write_byte(the_chip->spmi,
-			the_chip->ps_base + REG_PWM_CL, &setpoint);
-=======
 	rc = write_secure_byte(the_chip->spmi,
 			the_chip->ps_base, REG_PWM_CL, &setpoint);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	pr_debug("wrote 0x%02x->[%d 0x%04x] rc = %d\n", setpoint,
 			the_chip->spmi->sid,
 			the_chip->ps_base + REG_PWM_CL, rc);

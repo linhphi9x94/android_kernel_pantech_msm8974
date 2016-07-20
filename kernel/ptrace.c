@@ -194,11 +194,7 @@ int __ptrace_may_access(struct task_struct *task, unsigned int mode)
 	 */
 	int dumpable = 0;
 	/* Don't let security modules deny introspection */
-<<<<<<< HEAD
-	if (task == current)
-=======
 	if (same_thread_group(task, current))
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return 0;
 	rcu_read_lock();
 	tcred = __task_cred(task);

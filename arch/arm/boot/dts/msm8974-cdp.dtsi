@@ -220,10 +220,7 @@
 		qcom,hdmi-audio-rx;
 		qcom,us-euro-gpios = <&pm8941_gpios 20 0>;
 		qcom,cdc-micbias2-headset-only;
-<<<<<<< HEAD
-=======
 		qcom,mbhc-audio-jack-type = "6-pole-jack";
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	};
 
 	usb2_otg_sw: regulator-tpd4s214 {

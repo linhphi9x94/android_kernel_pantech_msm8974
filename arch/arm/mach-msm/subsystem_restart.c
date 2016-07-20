@@ -49,12 +49,6 @@
 #include <linux/syscalls.h>
 #include <linux/kmod.h>
 #include <linux/workqueue.h>
-<<<<<<< HEAD
-#include "sky_rawdata.h"
-#include "pantech_ssrsystem.h"
-#endif
-
-=======
 //#include "../../../../vendor/pantech/frameworks/testmenu_server/inc/pantech_ssrsystem.h"
 #endif
 
@@ -82,7 +76,6 @@ typedef struct {
 #define SSR_SET_MODEM_DUMP_ENABLE(b)    (b->ssr_set_modem_dump_enable = (unsigned int)1)
 #define SSR_SET_MODEM_DUMP_DISABLE(b)   (b->ssr_set_modem_dump_enable = (unsigned int)0)
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 // p15060
 #ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
 extern int pantech_is_usbdump_enabled(void);
@@ -561,16 +554,11 @@ static int subsys_start(struct subsys_device *subsys)
 
 	init_completion(&subsys->err_ready);
 	ret = subsys->desc->start(subsys->desc);
-<<<<<<< HEAD
-	if (ret)
-		return ret;
-=======
 	if (ret){
 		notify_each_subsys_device(&subsys, 1, SUBSYS_POWERUP_FAILURE,
 									NULL);
 		return ret;
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (subsys->desc->is_not_loadable) {
 		subsys_set_state(subsys, SUBSYS_ONLINE);
@@ -578,14 +566,6 @@ static int subsys_start(struct subsys_device *subsys)
 	}
 
 	ret = wait_for_err_ready(subsys);
-<<<<<<< HEAD
-	if (ret)
-		/* pil-boot succeeded but we need to shutdown
-		 * the device because error ready timed out.
-		 */
-		subsys->desc->stop(subsys->desc);
-	else
-=======
 	if (ret) {
 		/* pil-boot succeeded but we need to shutdown
 		 * the device because error ready timed out.
@@ -594,7 +574,6 @@ static int subsys_start(struct subsys_device *subsys)
 									NULL);
 		subsys->desc->stop(subsys->desc);
 	} else
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		subsys_set_state(subsys, SUBSYS_ONLINE);
 
 	return ret;
@@ -929,19 +908,11 @@ int rawdata_read_func(unsigned int offset, unsigned int read_size, char* read_bu
 
 void check_ssr_setting_func( void )
 {
-<<<<<<< HEAD
-    unsigned char backup_buffer[SECTOR_SIZE];
-    sky_ssr_info_type *ssrinfo = NULL;
-    
-    memset( backup_buffer, 0, sizeof(backup_buffer) );
-    if( rawdata_read_func(SSR_SETTING_BACKUP_START, sizeof(backup_buffer), backup_buffer) >= 0 )
-=======
     unsigned char backup_buffer[512];
     sky_ssr_info_type *ssrinfo = NULL;
     
     memset( backup_buffer, 0, sizeof(backup_buffer) );
     if( rawdata_read_func(402432, sizeof(backup_buffer), backup_buffer) >= 0 )
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
     {
         ssrinfo = (sky_ssr_info_type *)backup_buffer;
 

@@ -115,17 +115,11 @@ config IPA
 	  to configure IPA core.
 config MSM_AVTIMER
 	tristate "Avtimer Driver"
-<<<<<<< HEAD
-	depends on ARCH_MSM8960
-=======
 	depends on MSM_QDSP6_APRV2
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	help
 		This driver gets the Q6 out of power collapsed state and
 		exposes ioctl control to read avtimer tick.
 
-<<<<<<< HEAD
-=======
 config PFT
 	bool "Per-File-Tagger driver"
 	default n
@@ -136,7 +130,6 @@ config PFT
 		registered application.
 		Tagged files are encrypted using the dm-req-crypt driver.
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 config SSM
 	tristate "Qualcomm Secure Service Module"
 	depends on QSEECOM

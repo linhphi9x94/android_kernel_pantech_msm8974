@@ -100,13 +100,10 @@ config CRYPTO_MANAGER2
 	select CRYPTO_BLKCIPHER2
 	select CRYPTO_PCOMP2
 
-<<<<<<< HEAD
-=======
 config CRYPTO_ABLK_HELPER
 	tristate
 	select CRYPTO_CRYPTD
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 config CRYPTO_USER
 	tristate "Userspace cryptographic algorithm configuration"
 	depends on NET
@@ -430,8 +427,6 @@ config CRYPTO_SHA1_SSSE3
 	  using Supplemental SSE3 (SSSE3) instructions or Advanced Vector
 	  Extensions (AVX), when available.
 
-<<<<<<< HEAD
-=======
 config CRYPTO_SHA1_ARM
 	tristate "SHA1 digest algorithm (ARM-asm)"
 	depends on ARM
@@ -452,7 +447,6 @@ config CRYPTO_SHA1_ARM_NEON
 	  using optimized ARM NEON assembly, when NEON instructions are
 	  available.
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 config CRYPTO_SHA256
 	tristate "SHA224 and SHA256 digest algorithm"
 	select CRYPTO_HASH
@@ -477,8 +471,6 @@ config CRYPTO_SHA512
 	  This code also includes SHA-384, a 384 bit hash with 192 bits
 	  of security against collision attacks.
 
-<<<<<<< HEAD
-=======
 config CRYPTO_SHA512_ARM_NEON
 	tristate "SHA384 and SHA512 digest algorithm (ARM NEON)"
 	depends on ARM && KERNEL_MODE_NEON && !CPU_BIG_ENDIAN
@@ -494,7 +486,6 @@ config CRYPTO_SHA512_ARM_NEON
 	  This code also includes SHA-384, a 384 bit hash with 192 bits
 	  of security against collision attacks.
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 config CRYPTO_TGR192
 	tristate "Tiger digest algorithms"
 	select CRYPTO_HASH
@@ -625,8 +616,6 @@ config CRYPTO_AES_NI_INTEL
 	  ECB, CBC, LRW, PCBC, XTS. The 64 bit version has additional
 	  acceleration for CTR.
 
-<<<<<<< HEAD
-=======
 config CRYPTO_AES_ARM
 	tristate "AES cipher algorithms (ARM-asm)"
 	depends on ARM
@@ -667,7 +656,6 @@ config CRYPTO_AES_ARM_BS
 	  This implementation does not rely on any lookup tables so it is
 	  believed to be invulnerable to cache timing attacks.
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 config CRYPTO_ANUBIS
 	tristate "Anubis cipher algorithm"
 	select CRYPTO_ALGAPI

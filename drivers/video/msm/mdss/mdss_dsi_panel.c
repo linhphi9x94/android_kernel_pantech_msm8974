@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -44,12 +40,9 @@ extern struct msm_fb_data_type * mfdmsm_fb_get_mfd(void);
 #define DT_CMD_HDR 6
 #define NEW_REV	1
 #define OLD_REV	0
-<<<<<<< HEAD
-=======
 
 #define MIN_REFRESH_RATE 30
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 DEFINE_LED_TRIGGER(bl_led_trigger);
 
 #ifdef F_LSI_VDDM_OFFSET_RD_WR 
@@ -83,10 +76,7 @@ static void mdss_dsi_panel_bklt_pwm(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 {
 	int ret;
 	u32 duty;
-<<<<<<< HEAD
-=======
 	u32 period_ns;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (ctrl->pwm_bl == NULL) {
 		pr_err("%s: no PWM\n", __func__);
@@ -115,12 +105,6 @@ static void mdss_dsi_panel_bklt_pwm(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 		ctrl->pwm_enabled = 0;
 	}
 
-<<<<<<< HEAD
-	ret = pwm_config_us(ctrl->pwm_bl, duty, ctrl->pwm_period);
-	if (ret) {
-		pr_err("%s: pwm_config_us() failed err=%d.\n", __func__, ret);
-		return;
-=======
 	if (ctrl->pwm_period >= USEC_PER_SEC) {
 		ret = pwm_config_us(ctrl->pwm_bl, duty, ctrl->pwm_period);
 		if (ret) {
@@ -138,7 +122,6 @@ static void mdss_dsi_panel_bklt_pwm(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 					__func__, ret);
 			return;
 		}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	ret = pwm_enable(ctrl->pwm_bl);
@@ -152,10 +135,7 @@ static struct dsi_cmd_desc dcs_read_cmd = {
 	{DTYPE_DCS_READ, 1, 0, 1, 5, sizeof(dcs_cmd)},
 	dcs_cmd
 };
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_F_SKYDISP_SMARTDIMMING
 u32 mdss_dsi_panel_cmd_read(struct mdss_dsi_ctrl_pdata *ctrl, char cmd0,
 		char cmd1, void (*fxn)(int,char *), char *rbuf, int len)
@@ -200,13 +180,8 @@ u32 mdss_dsi_panel_cmd_read(struct mdss_dsi_ctrl_pdata *ctrl, char cmd0,
 
 	return 0;
 }
-<<<<<<< HEAD
-
-#endif
-=======
 #endif
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static void mdss_dsi_panel_cmds_send(struct mdss_dsi_ctrl_pdata *ctrl,
 			struct dsi_panel_cmds *pcmds)
 {
@@ -226,10 +201,7 @@ static void mdss_dsi_panel_cmds_send(struct mdss_dsi_ctrl_pdata *ctrl,
 
 	mdss_dsi_cmdlist_put(ctrl, &cmdreq);
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #if defined (CONFIG_F_SKYDISP_EF56_SS) || defined (CONFIG_F_SKYDISP_EF59_SS) || defined (CONFIG_F_SKYDISP_EF60_SS)
 static char led_pwm1[3] = {0x51, 0x00, 0x00};	/* DTYPE_DCS_LWRITE */
 static struct dsi_cmd_desc backlight_cmd = {
@@ -366,11 +338,7 @@ void mdss_dsi_panel_bklt_dcs(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 #endif
 	}
 	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_ON, false);
-<<<<<<< HEAD
-	mdss_set_tx_power_mode(0 , &ctrl->panel_data );
-=======
 	mdss_dsi_set_tx_power_mode(0 , &ctrl->panel_data );
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
         msleep(2);
 
 	//if(ctrl->manufacture_id == SAMSUNG_DRIVER_IC)
@@ -379,15 +347,7 @@ void mdss_dsi_panel_bklt_dcs(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 	mdss_dsi_cmds_send(ctrl,&cmdreq,&backlight_cmd);
 	mdss_dsi_cmds_send(ctrl,&cmdreq,&aor_cmd);
 	mdss_dsi_cmds_send(ctrl,&cmdreq,&elvss_cmd);
-<<<<<<< HEAD
-
-	// display & brightness fix by sktjdgns1189 & arter97
-	//mdss_dsi_cmds_send(ctrl,&cmdreq,&locking_cmd); // VEGA DEFAULT
-	mdss_dsi_cmds_send(ctrl,&cmdreq,&locking_fix_cmd); // 0x02
-
-=======
 	mdss_dsi_cmds_send(ctrl,&cmdreq,&locking_cmd);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #if (1) // no-feature because urgency-issue
 /*
 * 20140422, kkcho, Bug-Fix : Sometimes.. backlight_set fail
@@ -415,11 +375,7 @@ void mdss_dsi_panel_bklt_dcs(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 #endif  
 
 	msleep(1);
-<<<<<<< HEAD
-	mdss_set_tx_power_mode(1 ,&ctrl->panel_data);
-=======
 	mdss_dsi_set_tx_power_mode(1 ,&ctrl->panel_data);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
         mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_OFF, false);
 
 	pr_err(" %d backlight level = %d AOR = 0x%x ELVSS = 0x%x TEMP = 0x%x lock = 0x%x ctrl->onflag = %d\n",
@@ -455,28 +411,17 @@ static void mdss_dsi_panel_bklt_dcs(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 	mdss_dsi_cmdlist_put(ctrl, &cmdreq);
 }
 #endif
-<<<<<<< HEAD
-void mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
-=======
 
 int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 #if defined (CONFIG_F_SKYDISP_EF56_SS) || defined (CONFIG_F_SKYDISP_EF59_SS) ||defined (CONFIG_F_SKYDISP_EF60_SS) ||(defined (CONFIG_F_SKYDISP_EF63_SS) && (CONFIG_BOARD_VER <= CONFIG_PT20)) 
 	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
 	struct mdss_panel_info *pinfo = NULL;
-<<<<<<< HEAD
-
-	if (pdata == NULL) {
-		pr_err("%s: Invalid input data\n", __func__);
-		return;
-=======
 	int rc = 0;
 
 	if (pdata == NULL) {
 		pr_err("%s: Invalid input data\n", __func__);
 		return -EINVAL;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	ctrl_pdata = container_of(pdata, struct mdss_dsi_ctrl_pdata,
@@ -490,20 +435,12 @@ int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 	if (!gpio_is_valid(ctrl_pdata->rst_gpio)) {
 		pr_debug("%s:%d, reset line not configured\n",
 			   __func__, __LINE__);
-<<<<<<< HEAD
-		return;
-=======
 		return rc;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	if (!gpio_is_valid(ctrl_pdata->lcd_vcip_reg_en_gpio)) {
 		pr_debug("%s:%d, lcd vcip line not configured\n",
 			   __func__, __LINE__);
-<<<<<<< HEAD
-		return;
-=======
 		return rc;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	pr_debug("%s: enable = %d\n", __func__, enable);
 	pinfo = &(ctrl_pdata->panel_data.panel_info);
@@ -544,18 +481,11 @@ int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 #elif (defined (CONFIG_F_SKYDISP_EF63_SS) && (CONFIG_BOARD_VER >= CONFIG_WS10))
 	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
 	struct mdss_panel_info *pinfo = NULL;
-<<<<<<< HEAD
-
-	if (pdata == NULL) {
-		pr_err("%s: Invalid input data\n", __func__);
-		return;
-=======
 	int rc = 0;
 
 	if (pdata == NULL) {
 		pr_err("%s: Invalid input data\n", __func__);
 		return -EINVAL;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	ctrl_pdata = container_of(pdata, struct mdss_dsi_ctrl_pdata,
@@ -564,11 +494,7 @@ int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 	if (!gpio_is_valid(ctrl_pdata->octa_rst_gpio)) {
 		pr_debug("%s:%d, reset line not configured\n",
 			   __func__, __LINE__);
-<<<<<<< HEAD
-		return;
-=======
 		return rc;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	pr_debug("%s: enable = %d\n", __func__, enable);
@@ -595,19 +521,11 @@ int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 #else  //QUALCOMM default
 	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
 	struct mdss_panel_info *pinfo = NULL;
-<<<<<<< HEAD
-	int i;
-
-	if (pdata == NULL) {
-		pr_err("%s: Invalid input data\n", __func__);
-		return;
-=======
 	int i, rc = 0;
 
 	if (pdata == NULL) {
 		pr_err("%s: Invalid input data\n", __func__);
 		return -EINVAL;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	ctrl_pdata = container_of(pdata, struct mdss_dsi_ctrl_pdata,
@@ -621,27 +539,13 @@ int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 	if (!gpio_is_valid(ctrl_pdata->rst_gpio)) {
 		pr_debug("%s:%d, reset line not configured\n",
 			   __func__, __LINE__);
-<<<<<<< HEAD
-		return;
-=======
 		return rc;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	pr_debug("%s: enable = %d\n", __func__, enable);
 	pinfo = &(ctrl_pdata->panel_data.panel_info);
 
 	if (enable) {
-<<<<<<< HEAD
-		if (gpio_is_valid(ctrl_pdata->disp_en_gpio))
-			gpio_set_value((ctrl_pdata->disp_en_gpio), 1);
-
-		for (i = 0; i < pdata->panel_info.rst_seq_len; ++i) {
-			gpio_set_value((ctrl_pdata->rst_gpio),
-				pdata->panel_info.rst_seq[i]);
-			if (pdata->panel_info.rst_seq[++i])
-				usleep(pdata->panel_info.rst_seq[i] * 1000);
-=======
 		rc = mdss_dsi_request_gpios(ctrl_pdata);
 		if (rc) {
 			pr_err("gpio request failed\n");
@@ -657,7 +561,6 @@ int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 				if (pdata->panel_info.rst_seq[++i])
 					usleep(pinfo->rst_seq[i] * 1000);
 			}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 
 		if (gpio_is_valid(ctrl_pdata->mode_gpio)) {
@@ -673,13 +576,6 @@ int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 			pr_debug("%s: Reset panel done\n", __func__);
 		}
 	} else {
-<<<<<<< HEAD
-		gpio_set_value((ctrl_pdata->rst_gpio), 0);
-		if (gpio_is_valid(ctrl_pdata->disp_en_gpio))
-			gpio_set_value((ctrl_pdata->disp_en_gpio), 0);
-	}
-#endif	
-=======
 		if (gpio_is_valid(ctrl_pdata->disp_en_gpio)) {
 			gpio_set_value((ctrl_pdata->disp_en_gpio), 0);
 			gpio_free(ctrl_pdata->disp_en_gpio);
@@ -691,7 +587,6 @@ int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 	}
 #endif
 	return rc;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static char caset[] = {0x2a, 0x00, 0x00, 0x03, 0x00};	/* DTYPE_DCS_LWRITE */
@@ -748,8 +643,6 @@ static int mdss_dsi_panel_partial_update(struct mdss_panel_data *pdata)
 
 	return rc;
 }
-<<<<<<< HEAD
-=======
 
 static void mdss_dsi_panel_switch_mode(struct mdss_panel_data *pdata,
 							int mode)
@@ -781,7 +674,6 @@ static void mdss_dsi_panel_switch_mode(struct mdss_panel_data *pdata,
 	return;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_F_SKYDISP_CABC_CONTROL
 void cabc_control(struct mdss_panel_data *pdata, int state)
 {
@@ -949,19 +841,11 @@ void acl_control(struct mdss_panel_data *pdata, int state)
 		acl_data[1] = 0x03;
 	}
 	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_ON, false);
-<<<<<<< HEAD
-	mdss_set_tx_power_mode(0 , pdata );
-	
-	mdss_dsi_cmds_send(ctrl_pdata,&cmdreq,&acl_data_cmd);
-	
-	mdss_set_tx_power_mode(1 , pdata );
-=======
 	mdss_dsi_set_tx_power_mode(0 , pdata );
 	
 	mdss_dsi_cmds_send(ctrl_pdata,&cmdreq,&acl_data_cmd);
 	
 	mdss_dsi_set_tx_power_mode(1 , pdata );
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_OFF, false);	
 	pr_info("Oled acl  = %d \n",state );
 }
@@ -1015,22 +899,14 @@ void hbm_control_magna(struct mdss_panel_data *pdata, int state)
 	cmdreq.cb = NULL;
 
 	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_ON, false);
-<<<<<<< HEAD
-	mdss_set_tx_power_mode(0 , pdata );
-=======
 	mdss_dsi_set_tx_power_mode(0 , pdata );
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	
 	mdss_dsi_cmdlist_put(ctrl_pdata, &cmdreq);
 	
 	cmdreq.cmds = &acl_data_cmd;
 	mdss_dsi_cmdlist_put(ctrl_pdata, &cmdreq);
 	
-<<<<<<< HEAD
-	mdss_set_tx_power_mode(1 , pdata );
-=======
 	mdss_dsi_set_tx_power_mode(1 , pdata );
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_OFF, false);
 	//pdata->hbm_flag = state;
 	pr_info("Oled hbm %s \n",state ? "on" : "off" );
@@ -1077,11 +953,7 @@ void hbm_control_ddi(struct mdss_panel_data *pdata, int state)
 	
 	
 	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_ON, false);
-<<<<<<< HEAD
-	mdss_set_tx_power_mode(0 , &ctrl_pdata->panel_data );
-=======
 	mdss_dsi_set_tx_power_mode(0 , &ctrl_pdata->panel_data );
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	
 	if(state == 1){
 		//mdss_dsi_cmds_send(ctrl_pdata,&cmdreq,&mtp_unlock_cmd);
@@ -1110,11 +982,7 @@ void hbm_control_ddi(struct mdss_panel_data *pdata, int state)
 		ctrl_pdata->hbm_onoff = false;
 	}	
 	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_ON, true);
-<<<<<<< HEAD
-	mdss_set_tx_power_mode(1 , &ctrl_pdata->panel_data );
-=======
 	mdss_dsi_set_tx_power_mode(1 , &ctrl_pdata->panel_data );
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	//pdata->hbm_flag = state;
 	pr_info("Oled hbm %s \n",state ? "on" : "off" );
 }
@@ -1123,43 +991,6 @@ void hbm_control_ddi(struct mdss_panel_data *pdata, int state)
 #ifdef CONFIG_F_SKYDISP_SMARTDIMMING
 void panel_gamma_sort(struct mdss_dsi_ctrl_pdata *pdata)
 {
-<<<<<<< HEAD
-	int i;
-	int index;
-	int cnt = 27;
-	int temp_data = 0;
-	if(pdata == NULL)
-		return;
-
-	
-	for(index = 0; index < GAMMA_TABLE_SIZE; index++){
-		for(i = 0; i < 15;){
-			temp_data = pdata->gamma_set.gamma_table[index][i];
-			pdata->gamma_set.gamma_table[index][i] = pdata->gamma_set.gamma_table[index][cnt];
-			pdata->gamma_set.gamma_table[index][cnt] = temp_data;
-
-			temp_data= pdata->gamma_set.gamma_table[index][i+1];
-			pdata->gamma_set.gamma_table[index][i+1] = pdata->gamma_set.gamma_table[index][cnt+1];
-			pdata->gamma_set.gamma_table[index][cnt+1] = temp_data;
-
-			temp_data= pdata->gamma_set.gamma_table[index][i+2];
-			pdata->gamma_set.gamma_table[index][i+2] = pdata->gamma_set.gamma_table[index][cnt+2];
-			pdata->gamma_set.gamma_table[index][cnt+2] = temp_data;
-			i += 3; 
-			cnt -= 3;
-		}
-		cnt =27;
-	}
-#if 0
-	for( i = 0; i < 32;i++){
-		printk("-----------%d gamma----------------\n",gamma_level[i]);
-		for( index = 0; index< 30;){
-			printk("R : 0x%x  G :0x%x B : 0x%x\n",pdata->gamma_set.gamma_table[i][index],pdata->gamma_set.gamma_table[i][index+1],pdata->gamma_set.gamma_table[i][index+2]);
-		index+=3;
-		}
-	}
-#endif
-=======
 	if(pdata == NULL)
 		return;
 
@@ -2128,7 +1959,6 @@ void panel_gamma_sort(struct mdss_dsi_ctrl_pdata *pdata)
 	pdata->gamma_set.gamma_table[31][27] = 0x0;
 	pdata->gamma_set.gamma_table[31][28] = 0x0;
 	pdata->gamma_set.gamma_table[31][29] = 0x0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 void mtp_read(int data,char * read_buf)
 {
@@ -2249,12 +2079,9 @@ static void ef63_octa_driver_ic_check(struct mdss_dsi_ctrl_pdata *ctrl)
 	}
 	else
 		ctrl->manufacture_id = NO_CONNECT;		
-<<<<<<< HEAD
-=======
 
 	/* Set EF63 OLED Panel Gamma */
 	panel_gamma_sort(ctrl);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 #endif
 
@@ -2347,19 +2174,11 @@ void mtp_read_work(struct work_struct *work)
 				panel_data);
 
 	mdss_dsi_sw_reset(pdata);
-<<<<<<< HEAD
-	mdss_dsi_host_init(&panel_info->mipi, pdata);
-	mdss_dsi_op_mode_config(panel_info->mipi.mode, pdata);
-
-	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_ON, false);
-	mdss_set_tx_power_mode(0 , pdata );
-=======
 	mdss_dsi_host_init(pdata);
 	mdss_dsi_op_mode_config(panel_info->mipi.mode, pdata);
 
 	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_ON, false);
 	mdss_dsi_set_tx_power_mode(0 , pdata );
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #ifdef CONFIG_F_SKYDISP_EF63_DRIVER_IC_CHECK
 	ef63_octa_driver_ic_check(ctrl_pdata);	
@@ -2387,11 +2206,7 @@ void mtp_read_work(struct work_struct *work)
 	else
 		pr_err("not connected");
 	
-<<<<<<< HEAD
-	mdss_set_tx_power_mode(1 , pdata );
-=======
 	mdss_dsi_set_tx_power_mode(1 , pdata );
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_OFF, false);
 
 	if(ctrl_pdata->manufacture_id == SAMSUNG_DRIVER_IC)
@@ -2476,20 +2291,12 @@ static void mdss_dsi_panel_bl_ctrl(struct mdss_panel_data *pdata,
 		break;
 	case BL_DCS_CMD:
 #if defined (CONFIG_F_SKYDISP_EF56_SS) || defined (CONFIG_F_SKYDISP_EF59_SS) || defined (CONFIG_F_SKYDISP_EF60_SS)
-<<<<<<< HEAD
-		mdss_set_tx_power_mode(0 , pdata );
-=======
 		mdss_dsi_set_tx_power_mode(0 , pdata );
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		msleep(2);
 #endif
 		mdss_dsi_panel_bklt_dcs(ctrl_pdata, bl_level);
 #if defined (CONFIG_F_SKYDISP_EF56_SS) || defined (CONFIG_F_SKYDISP_EF59_SS) || defined (CONFIG_F_SKYDISP_EF60_SS)
 		msleep(1);
-<<<<<<< HEAD
-		mdss_set_tx_power_mode(1 , pdata);
-#endif
-=======
 		mdss_dsi_set_tx_power_mode(1 , pdata);
 #endif
 		if (mdss_dsi_is_master_ctrl(ctrl_pdata)) {
@@ -2502,7 +2309,6 @@ static void mdss_dsi_panel_bl_ctrl(struct mdss_panel_data *pdata,
 			}
 			mdss_dsi_panel_bklt_dcs(sctrl, bl_level);
 		}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		break;
 	default:
 		pr_err("%s: Unknown bl_ctrl configuration\n",
@@ -2730,17 +2536,6 @@ static int mdss_dsi_parse_dcs_cmds(struct device_node *np,
 		len -= dchdr->dlen;
 	}
 
-<<<<<<< HEAD
-	data = of_get_property(np, link_key, NULL);
-	if (data && !strcmp(data, "dsi_hs_mode"))
-		pcmds->link_state = DSI_HS_MODE;
-	else
-		pcmds->link_state = DSI_LP_MODE;
-
-	pr_err("%s: dcs_cmd=%x len=%d, cmd_cnt=%d link_state=%d\n", __func__,
-		pcmds->buf[0], pcmds->blen, pcmds->cmd_cnt, pcmds->link_state);
-
-=======
 	/*Set default link state to LP Mode*/
 	pcmds->link_state = DSI_LP_MODE;
 
@@ -2754,7 +2549,6 @@ static int mdss_dsi_parse_dcs_cmds(struct device_node *np,
 
 	pr_debug("%s: dcs_cmd=%x len=%d, cmd_cnt=%d link_state=%d\n", __func__,
 		pcmds->buf[0], pcmds->blen, pcmds->cmd_cnt, pcmds->link_state);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return 0;
 
@@ -2764,11 +2558,7 @@ exit_free:
 }
 
 
-<<<<<<< HEAD
-static int mdss_panel_dt_get_dst_fmt(u32 bpp, char mipi_mode, u32 pixel_packing,
-=======
 int mdss_panel_get_dst_fmt(u32 bpp, char mipi_mode, u32 pixel_packing,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				char *dst_format)
 {
 	int rc = 0;
@@ -2891,8 +2681,6 @@ static int mdss_dsi_parse_fbc_params(struct device_node *np,
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
 static void mdss_panel_parse_te_params(struct device_node *np,
 				       struct mdss_panel_info *panel_info)
 {
@@ -2928,7 +2716,6 @@ static void mdss_panel_parse_te_params(struct device_node *np,
 	panel_info->te.refx100 = (!rc ? tmp : 6000);
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static int mdss_dsi_parse_reset_seq(struct device_node *np,
 		u32 rst_seq[MDSS_DSI_RST_SEQ_LEN], u32 *rst_len,
@@ -2958,8 +2745,6 @@ static int mdss_dsi_parse_reset_seq(struct device_node *np,
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
 static void mdss_dsi_parse_roi_alignment(struct device_node *np,
 		struct mdss_panel_info *pinfo)
 {
@@ -3122,7 +2907,6 @@ static void mdss_dsi_parse_dfps_config(struct device_node *pan_node,
 
 	return;
 }
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static int mdss_panel_parse_dt(struct device_node *np,
 			struct mdss_dsi_ctrl_pdata *ctrl_pdata)
@@ -3178,17 +2962,11 @@ static int mdss_panel_parse_dt(struct device_node *np,
 	tmp = 0;
 	data = of_get_property(np, "qcom,mdss-dsi-pixel-packing", NULL);
 	if (data && !strcmp(data, "loose"))
-<<<<<<< HEAD
-		tmp = 1;
-	rc = mdss_panel_dt_get_dst_fmt(pinfo->bpp,
-		pinfo->mipi.mode, tmp,
-=======
 		pinfo->mipi.pixel_packing = 1;
 	else
 		pinfo->mipi.pixel_packing = 0;
 	rc = mdss_panel_get_dst_fmt(pinfo->bpp,
 		pinfo->mipi.mode, pinfo->mipi.pixel_packing,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		&(pinfo->mipi.dst_format));
 	if (rc) {
 		pr_debug("%s: problem determining dst format. Set Default\n",
@@ -3209,15 +2987,6 @@ static int mdss_panel_parse_dt(struct device_node *np,
 		else if (!strcmp(pdest, "display_2"))
 			pinfo->pdest = DISPLAY_2;
 		else {
-<<<<<<< HEAD
-			pr_debug("%s: pdest not specified. Set Default\n",
-								__func__);
-			pinfo->pdest = DISPLAY_1;
-		}
-	} else {
-		pr_err("%s: pdest not specified\n", __func__);
-		return -EINVAL;
-=======
 			pr_debug("%s: incorrect pdest. Set Default\n",
 				__func__);
 			pinfo->pdest = DISPLAY_1;
@@ -3226,7 +2995,6 @@ static int mdss_panel_parse_dt(struct device_node *np,
 		pr_debug("%s: pdest not specified. Set Default\n",
 				__func__);
 		pinfo->pdest = DISPLAY_1;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	rc = of_property_read_u32(np, "qcom,mdss-dsi-h-front-porch", &tmp);
 	pinfo->lcdc.h_front_porch = (!rc ? tmp : 6);
@@ -3308,11 +3076,8 @@ static int mdss_panel_parse_dt(struct device_node *np,
 		"qcom,mdss-dsi-hsa-power-mode");
 	pinfo->mipi.hbp_power_stop = of_property_read_bool(np,
 		"qcom,mdss-dsi-hbp-power-mode");
-<<<<<<< HEAD
-=======
 	pinfo->mipi.last_line_interleave_en = of_property_read_bool(np,
 		"qcom,mdss-dsi-last-line-interleave");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	pinfo->mipi.bllp_power_stop = of_property_read_bool(np,
 		"qcom,mdss-dsi-bllp-power-mode");
 	pinfo->mipi.eof_bllp_power_stop = of_property_read_bool(
@@ -3408,10 +3173,7 @@ static int mdss_panel_parse_dt(struct device_node *np,
 	pinfo->mipi.init_delay = (!rc ? tmp : 0);
 
 	mdss_dsi_parse_fbc_params(np, pinfo);
-<<<<<<< HEAD
-=======
 	mdss_dsi_parse_roi_alignment(np, pinfo);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	mdss_dsi_parse_trigger(np, &(pinfo->mipi.mdp_trigger),
 		"qcom,mdss-dsi-mdp-trigger");
@@ -3423,10 +3185,7 @@ static int mdss_panel_parse_dt(struct device_node *np,
 
 	mdss_dsi_parse_reset_seq(np, pinfo->rst_seq, &(pinfo->rst_seq_len),
 		"qcom,mdss-dsi-reset-sequence");
-<<<<<<< HEAD
-=======
 	mdss_panel_parse_te_params(np, pinfo);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->on_cmds,
 		"qcom,mdss-dsi-on-command", "qcom,mdss-dsi-on-command-state");
@@ -3452,8 +3211,6 @@ static int mdss_panel_parse_dt(struct device_node *np,
 	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->vddm_offset_write_cmds,
 		"qcom,mdss-dsi-panel-ldi-vddm-offset-write-cmds", "qcom,mdss-dsi-on-command-state");
 #endif
-<<<<<<< HEAD
-=======
 
 	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->status_cmds,
 			"qcom,mdss-dsi-panel-status-command",
@@ -3480,7 +3237,6 @@ static int mdss_panel_parse_dt(struct device_node *np,
 
 	mdss_dsi_parse_dfps_config(np, ctrl_pdata);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 
 error:
@@ -3493,19 +3249,6 @@ int mdss_dsi_panel_init(struct device_node *node,
 {
 	int rc = 0;
 	static const char *panel_name;
-<<<<<<< HEAD
-	bool cont_splash_enabled;
-	bool partial_update_enabled;
-#ifdef CONFIG_F_SKYDISP_SMARTDIMMING
-	int i = 0;
-	oem_pm_smem_vendor1_data_type *smem_id_vendor1_ptr;
-#endif 
-	if (!node) {
-		pr_err("%s: no panel node\n", __func__);
-		return -ENODEV;
-	}
-
-=======
 	struct mdss_panel_info *pinfo;
 #ifdef CONFIG_F_SKYDISP_SMARTDIMMING
 	int i = 0;
@@ -3519,7 +3262,6 @@ int mdss_dsi_panel_init(struct device_node *node,
 
 	pinfo = &ctrl_pdata->panel_data.panel_info;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	pr_debug("%s:%d\n", __func__, __LINE__);
 	panel_name = of_get_property(node, "qcom,mdss-dsi-panel-name", NULL);
 	if (!panel_name)
@@ -3534,35 +3276,6 @@ int mdss_dsi_panel_init(struct device_node *node,
 		return rc;
 	}
 
-<<<<<<< HEAD
-	if (cmd_cfg_cont_splash)
-		cont_splash_enabled = of_property_read_bool(node,
-				"qcom,cont-splash-enabled");
-	else
-		cont_splash_enabled = false;
-	if (!cont_splash_enabled) {
-		pr_info("%s:%d Continuous splash flag not found.\n",
-				__func__, __LINE__);
-		ctrl_pdata->panel_data.panel_info.cont_splash_enabled = 0;
-	} else {
-		pr_info("%s:%d Continuous splash flag enabled.\n",
-				__func__, __LINE__);
-
-		ctrl_pdata->panel_data.panel_info.cont_splash_enabled = 1;
-	}
-
-	partial_update_enabled = of_property_read_bool(node,
-						"qcom,partial-update-enabled");
-	if (partial_update_enabled) {
-		pr_info("%s:%d Partial update enabled.\n", __func__, __LINE__);
-		ctrl_pdata->panel_data.panel_info.partial_update_enabled = 1;
-		ctrl_pdata->partial_update_fnc = mdss_dsi_panel_partial_update;
-	} else {
-		pr_info("%s:%d Partial update disabled.\n", __func__, __LINE__);
-		ctrl_pdata->panel_data.panel_info.partial_update_enabled = 0;
-		ctrl_pdata->partial_update_fnc = NULL;
-	}
-=======
 	if (!cmd_cfg_cont_splash)
 		pinfo->cont_splash_enabled = false;
 	pr_info("%s: Continuous splash %s", __func__,
@@ -3570,15 +3283,11 @@ int mdss_dsi_panel_init(struct device_node *node,
 
 	pinfo->dynamic_switch_pending = false;
 	pinfo->is_lpm_mode = false;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	ctrl_pdata->on = mdss_dsi_panel_on;
 	ctrl_pdata->off = mdss_dsi_panel_off;
 	ctrl_pdata->panel_data.set_backlight = mdss_dsi_panel_bl_ctrl;
-<<<<<<< HEAD
-=======
 	ctrl_pdata->switch_mode = mdss_dsi_panel_switch_mode;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #ifdef CONFIG_F_SKYDISP_AMOLED_READ_DATA
 	ctrl_pdata->panel_data.panel_read = pannel_read;

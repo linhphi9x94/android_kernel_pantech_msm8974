@@ -1354,12 +1354,8 @@ static int netlink_sendmsg(struct kiocb *kiocb, struct socket *sock,
 		dst_pid = addr->nl_pid;
 		dst_group = ffs(addr->nl_groups);
 		err =  -EPERM;
-<<<<<<< HEAD
-		if (dst_group && !netlink_capable(sock, NL_NONROOT_SEND))
-=======
 		if ((dst_group || dst_pid) &&
 		    !netlink_capable(sock, NL_NONROOT_SEND))
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			goto out;
 	} else {
 		dst_pid = nlk->dst_pid;
@@ -1547,21 +1543,12 @@ netlink_kernel_create(struct net *net, int unit, unsigned int groups,
 	if (input)
 		nlk_sk(sk)->netlink_rcv = input;
 
-<<<<<<< HEAD
-	if (netlink_insert(sk, net, 0))
-		goto out_sock_release;
-
-	nlk = nlk_sk(sk);
-	nlk->flags |= NETLINK_KERNEL_SOCKET;
-
-=======
 	nlk = nlk_sk(sk);
 	nlk->flags |= NETLINK_KERNEL_SOCKET;
 
 	if (netlink_insert(sk, net, 0))
 		goto out_sock_release;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	netlink_table_grab();
 	if (!nl_table[unit].registered) {
 		nl_table[unit].groups = groups;
@@ -2143,10 +2130,7 @@ static void __init netlink_add_usersock_entry(void)
 	rcu_assign_pointer(nl_table[NETLINK_USERSOCK].listeners, listeners);
 	nl_table[NETLINK_USERSOCK].module = THIS_MODULE;
 	nl_table[NETLINK_USERSOCK].registered = 1;
-<<<<<<< HEAD
-=======
 	nl_table[NETLINK_USERSOCK].nl_nonroot = NL_NONROOT_SEND;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	netlink_table_ungrab();
 }

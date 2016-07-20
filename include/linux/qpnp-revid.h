@@ -13,8 +13,6 @@
 #ifndef __QPNP_REVID
 #define __QPNP_REVID
 
-<<<<<<< HEAD
-=======
 #define PM8226_V2P2_REV1	0x00
 #define PM8226_V2P2_REV2	0x00
 #define PM8226_V2P2_REV3	0x02
@@ -22,7 +20,6 @@
 #define PM8226_V2P2_TYPE	0x51
 #define PM8226_V2P2_SUBTYPE	0x04
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define PM8226_V2P1_REV1	0x00
 #define PM8226_V2P1_REV2	0x00
 #define PM8226_V2P1_REV3	0x01

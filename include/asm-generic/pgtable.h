@@ -471,18 +471,10 @@ static inline int pmd_none_or_trans_huge_or_clear_bad(pmd_t *pmd)
 #ifdef CONFIG_TRANSPARENT_HUGEPAGE
 	barrier();
 #endif
-<<<<<<< HEAD
-	if (pmd_none(pmdval))
-		return 1;
-	if (unlikely(pmd_bad(pmdval))) {
-		if (!pmd_trans_huge(pmdval))
-			pmd_clear_bad(pmd);
-=======
 	if (pmd_none(pmdval) || pmd_trans_huge(pmdval))
 		return 1;
 	if (unlikely(pmd_bad(pmdval))) {
 		pmd_clear_bad(pmd);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return 1;
 	}
 	return 0;

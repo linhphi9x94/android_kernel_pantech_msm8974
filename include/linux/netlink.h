@@ -26,10 +26,7 @@
 #define NETLINK_ECRYPTFS	19
 #define NETLINK_RDMA		20
 #define NETLINK_CRYPTO		21	/* Crypto layer */
-<<<<<<< HEAD
-=======
 #define NETLINK_SOCKEV		22	/* Socket Administrative Events */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define NETLINK_INET_DIAG	NETLINK_SOCK_DIAG
 

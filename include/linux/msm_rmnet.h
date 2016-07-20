@@ -29,11 +29,6 @@ enum rmnet_ioctl_cmds_e {
 	RMNET_IOCTL_CLOSE            = 0x000089F9, /* Close transport port   */
 	RMNET_IOCTL_FLOW_ENABLE	     = 0x000089FA, /* Flow enable	     */
 	RMNET_IOCTL_FLOW_DISABLE     = 0x000089FB, /* Flow disable	     */
-<<<<<<< HEAD
-	RMNET_IOCTL_MAX
-};
-
-=======
         RMNET_IOCTL_FLOW_SET_HNDL    = 0x000089FC, /* Set flow handle        */
         RMNET_IOCTL_EXTENDED         = 0x000089FD, /* Extended IOCTLs        */
 	RMNET_IOCTL_MAX
@@ -143,7 +138,6 @@ struct rmnet_ioctl_data_s {
 #define RMNET_IOCTL_QOS_MODE_6   (1<<0)
 #define RMNET_IOCTL_QOS_MODE_8   (1<<1)
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* QMI QoS header definition */
 #define QMI_QOS_HDR_S  __attribute((__packed__)) qmi_qos_hdr_s
 struct QMI_QOS_HDR_S {
@@ -152,13 +146,10 @@ struct QMI_QOS_HDR_S {
 	unsigned long    flow_id;
 };
 
-<<<<<<< HEAD
-=======
 /* QMI QoS 8-byte header. */
 struct qmi_qos_hdr8_s {
         struct QMI_QOS_HDR_S   hdr;
         uint8_t                reserved[2];
 } __attribute((__packed__));
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif /* _MSM_RMNET_H_ */

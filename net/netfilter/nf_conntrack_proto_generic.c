@@ -14,8 +14,6 @@
 
 static unsigned int nf_ct_generic_timeout __read_mostly = 600*HZ;
 
-<<<<<<< HEAD
-=======
 static bool nf_generic_should_process(u8 proto)
 {
 	switch (proto) {
@@ -40,7 +38,6 @@ static bool nf_generic_should_process(u8 proto)
 	}
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static bool generic_pkt_to_tuple(const struct sk_buff *skb,
 				 unsigned int dataoff,
 				 struct nf_conntrack_tuple *tuple)
@@ -89,11 +86,7 @@ static int generic_packet(struct nf_conn *ct,
 static bool generic_new(struct nf_conn *ct, const struct sk_buff *skb,
 			unsigned int dataoff, unsigned int *timeouts)
 {
-<<<<<<< HEAD
-	return true;
-=======
 	return nf_generic_should_process(nf_ct_protonum(ct));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 #if IS_ENABLED(CONFIG_NF_CT_NETLINK_TIMEOUT)

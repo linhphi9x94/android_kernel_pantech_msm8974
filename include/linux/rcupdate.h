@@ -190,10 +190,7 @@ extern void rcu_idle_enter(void);
 extern void rcu_idle_exit(void);
 extern void rcu_irq_enter(void);
 extern void rcu_irq_exit(void);
-<<<<<<< HEAD
-=======
 extern void exit_rcu(void);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /**
  * RCU_NONIDLE - Indicate idle-loop code that needs RCU readers

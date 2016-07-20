@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -45,13 +41,7 @@ TRACE_EVENT(adreno_cmdbatch_queued,
 		"ctx=%u ts=%u queued=%u flags=%s",
 			__entry->id, __entry->timestamp, __entry->queued,
 			__entry->flags ? __print_flags(__entry->flags, "|",
-<<<<<<< HEAD
-				{ KGSL_CONTEXT_SYNC, "SYNC" },
-				{ KGSL_CONTEXT_END_OF_FRAME, "EOF" })
-				: "none"
-=======
 				ADRENO_CMDBATCH_FLAGS) : "none"
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	)
 );
 
@@ -61,24 +51,13 @@ DECLARE_EVENT_CLASS(adreno_cmdbatch_template,
 	TP_STRUCT__entry(
 		__field(unsigned int, id)
 		__field(unsigned int, timestamp)
-<<<<<<< HEAD
-		__field(unsigned int, inflight)
-=======
 		__field(int, inflight)
 		__field(unsigned int, flags)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	),
 	TP_fast_assign(
 		__entry->id = cmdbatch->context->id;
 		__entry->timestamp = cmdbatch->timestamp;
 		__entry->inflight = inflight;
-<<<<<<< HEAD
-	),
-	TP_printk(
-		"ctx=%u ts=%u inflight=%u",
-			__entry->id, __entry->timestamp,
-			__entry->inflight
-=======
 		__entry->flags = cmdbatch->flags;
 	),
 	TP_printk(
@@ -87,7 +66,6 @@ DECLARE_EVENT_CLASS(adreno_cmdbatch_template,
 			__entry->inflight,
 			__entry->flags ? __print_flags(__entry->flags, "|",
 							{ KGSL_CMDBATCH_MARKER, "MARKER" }) : "none"
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	)
 );
 
@@ -102,41 +80,26 @@ TRACE_EVENT(adreno_cmdbatch_retired,
 	TP_STRUCT__entry(
 		__field(unsigned int, id)
 		__field(unsigned int, timestamp)
-<<<<<<< HEAD
-		__field(unsigned int, inflight)
-		__field(unsigned int, recovery)
-=======
 		__field(int, inflight)
 		__field(unsigned int, recovery)
 		__field(unsigned int, flags)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	),
 	TP_fast_assign(
 		__entry->id = cmdbatch->context->id;
 		__entry->timestamp = cmdbatch->timestamp;
 		__entry->inflight = inflight;
 		__entry->recovery = cmdbatch->fault_recovery;
-<<<<<<< HEAD
-	),
-	TP_printk(
-		"ctx=%u ts=%u inflight=%u recovery=%s",
-=======
 		__entry->flags = cmdbatch->flags;
 	),
 	TP_printk(
 		"ctx=%u ts=%u inflight=%d recovery=%s flags=%s",
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			__entry->id, __entry->timestamp,
 			__entry->inflight,
 			__entry->recovery ?
 				__print_flags(__entry->recovery, "|",
-<<<<<<< HEAD
-				ADRENO_FT_TYPES) : "none"
-=======
 				ADRENO_FT_TYPES) : "none",
 			__entry->flags ? __print_flags(__entry->flags, "|",
 				{ KGSL_CMDBATCH_MARKER, "MARKER" }) : "none"
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	)
 );
 

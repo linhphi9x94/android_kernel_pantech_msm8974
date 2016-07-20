@@ -126,11 +126,7 @@ static int msm_smsm_probe(struct platform_device *pdev)
 
 	ret = request_irq(irq_line,
 				private_irq->irq_handler,
-<<<<<<< HEAD
-				IRQF_TRIGGER_RISING,
-=======
 				IRQF_TRIGGER_RISING | IRQF_NO_SUSPEND,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				"smsm_dev",
 				NULL);
 	if (ret < 0) {
@@ -164,10 +160,6 @@ static int msm_smd_probe(struct platform_device *pdev)
 	uint32_t irq_offset;
 	uint32_t irq_bitmask;
 	uint32_t irq_line;
-<<<<<<< HEAD
-	unsigned long irq_flags = IRQF_TRIGGER_RISING;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	const char *pilstr;
 	struct interrupt_config_item *private_irq;
 	struct device_node *node;
@@ -229,14 +221,6 @@ static int msm_smd_probe(struct platform_device *pdev)
 	if (pilstr)
 		SMD_DBG("%s: %s = %s", __func__, key, pilstr);
 
-<<<<<<< HEAD
-	key = "qcom,irq-no-suspend";
-	ret = of_property_read_bool(node, key);
-	if (ret)
-		irq_flags |= IRQF_NO_SUSPEND;
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	private_intr_config = smd_get_intr_config(edge);
 	if (!private_intr_config) {
 		pr_err("%s: invalid edge\n", __func__);
@@ -252,11 +236,7 @@ static int msm_smd_probe(struct platform_device *pdev)
 
 	ret = request_irq(irq_line,
 				private_irq->irq_handler,
-<<<<<<< HEAD
-				irq_flags,
-=======
 				IRQF_TRIGGER_RISING | IRQF_NO_SUSPEND,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				"smd_dev",
 				NULL);
 	if (ret < 0) {

@@ -193,11 +193,7 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/i386/ -e s/sun4u/sparc64/ \
 # Note: Some architectures assign CROSS_COMPILE in their arch/*/Makefile
 export KBUILD_BUILDHOST := $(SUBARCH)
 ARCH		?= arm
-<<<<<<< HEAD
-CROSS_COMPILE	?= /opt/toolchains/arm-eabi-4.7/bin/arm-eabi-
-=======
-CROSS_COMPILE	?= /home/sunghun/cm13/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin/arm-linux-androideabi-
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
+CROSS_COMPILE	?= /home/xdavn/bluros/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin/arm-linux-androideabi-
 
 # Architecture as present in compile.h
 UTS_MACHINE 	:= $(ARCH)
@@ -334,11 +330,7 @@ include $(srctree)/scripts/Kbuild.include
 
 AS		= $(CROSS_COMPILE)as
 LD		= $(CROSS_COMPILE)ld
-<<<<<<< HEAD
-CC		= $(CROSS_COMPILE)gcc
-=======
 REAL_CC		= $(CROSS_COMPILE)gcc
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 CPP		= $(CC) -E
 AR		= $(CROSS_COMPILE)ar
 NM		= $(CROSS_COMPILE)nm
@@ -353,13 +345,10 @@ KALLSYMS	= scripts/kallsyms
 PERL		= perl
 CHECK		= sparse
 
-<<<<<<< HEAD
-=======
 # Use the wrapper for the compiler.  This wrapper scans for new
 # warnings and causes the build to stop upon encountering them.
 CC		= $(srctree)/scripts/gcc-wrapper.py $(REAL_CC)
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
 CFLAGS_MODULE   =
@@ -384,45 +373,26 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
 		   -fno-delete-null-pointer-checks
-<<<<<<< HEAD
-#// 20120105, albatros, imei 
-#ifeq ($(OEM_PRODUCT_MANUFACTURER),PANTECH)
-LINUXINCLUDE += -I$(srctree)/include/pantech
-#endif
-=======
-#// 20120105, albatros, imei 주소값의 공용으로 사용을 위해서
+#// 20120105, albatros, imei \C1玲柰\AA\C0\C7 \B0\F8\BF\EB\C0\B8\B7\CE \BB\E7\BF\EB\C0\BB \C0\A7\C7漫\AD
 
 LINUXINCLUDE += -I$(srctree)/include/pantech
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
 KBUILD_AFLAGS   := -D__ASSEMBLY__
 KBUILD_AFLAGS_MODULE  := -DMODULE
-<<<<<<< HEAD
-KBUILD_CFLAGS_MODULE  := -DMODULE
-=======
 KBUILD_CFLAGS_MODULE  := -DMODULE -fno-pic
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 KBUILD_LDFLAGS_MODULE := -T $(srctree)/scripts/module-common.lds
 
 
 ######################################################################
 # PANTECH_KERNEL_FLAGS
 ######################################################################
-<<<<<<< HEAD
-#ifeq ($(OEM_PRODUCT_MANUFACTURER),PANTECH)
-PANTECH_BUILD_SYSTEM := $(srctree)/include/pantech
-include $(PANTECH_BUILD_SYSTEM)/pantech_config.mk
-KBUILD_CFLAGS += $(PANTECH_KERNEL_FLAGS)
-#endif
-=======
 
 PANTECH_BUILD_SYSTEM := $(srctree)/include/pantech
 include $(PANTECH_BUILD_SYSTEM)/pantech_config.mk
 KBUILD_CFLAGS += $(PANTECH_KERNEL_FLAGS)
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 # Read KERNELRELEASE from include/config/kernel.release (if it exists)
 KERNELRELEASE = $(shell cat include/config/kernel.release 2> /dev/null)
 KERNELVERSION = $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)

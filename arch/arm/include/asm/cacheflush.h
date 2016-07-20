@@ -385,8 +385,6 @@ int set_memory_rw(unsigned long addr, int numpages);
 int set_memory_x(unsigned long addr, int numpages);
 int set_memory_nx(unsigned long addr, int numpages);
 
-<<<<<<< HEAD
-=======
 #ifdef CONFIG_FREE_PAGES_RDONLY
 #define mark_addr_rdonly(a)	set_memory_ro((unsigned long)a, 1);
 #define mark_addr_rdwrite(a)	set_memory_rw((unsigned long)a, 1);
@@ -395,5 +393,4 @@ int set_memory_nx(unsigned long addr, int numpages);
 #define mark_addr_rdwrite(a)
 #endif
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif

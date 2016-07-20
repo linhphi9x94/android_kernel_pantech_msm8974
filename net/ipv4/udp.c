@@ -1213,11 +1213,7 @@ try_again:
 	else {
 		err = skb_copy_and_csum_datagram_iovec(skb,
 						       sizeof(struct udphdr),
-<<<<<<< HEAD
-						       msg->msg_iov);
-=======
 						       msg->msg_iov, copied);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		if (err == -EINVAL)
 			goto csum_copy_err;
@@ -1257,15 +1253,8 @@ csum_copy_err:
 		UDP_INC_STATS_USER(sock_net(sk), UDP_MIB_INERRORS, is_udplite);
 	unlock_sock_fast(sk, slow);
 
-<<<<<<< HEAD
-	if (noblock)
-		return -EAGAIN;
-
-	/* starting over for a new packet */
-=======
 	/* starting over for a new packet, but check if we need to yield */
         cond_resched();
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	msg->msg_flags &= ~MSG_TRUNC;
 	goto try_again;
 }
@@ -2090,26 +2079,14 @@ EXPORT_SYMBOL(udp_proc_unregister);
 
 /* ------------------------------------------------------------------------ */
 static void udp4_format_sock(struct sock *sp, struct seq_file *f,
-<<<<<<< HEAD
-		int bucket, int *len)
-{
-	struct inet_sock *inet = inet_sk(sp);
-=======
 		int bucket)
 {
 	struct inet_sock *inet = inet_sk(sp);
 	struct udp_sock *up = udp_sk(sp);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	__be32 dest = inet->inet_daddr;
 	__be32 src  = inet->inet_rcv_saddr;
 	__u16 destp	  = ntohs(inet->inet_dport);
 	__u16 srcp	  = ntohs(inet->inet_sport);
-<<<<<<< HEAD
-
-	seq_printf(f, "%5d: %08X:%04X %08X:%04X"
-		" %02X %08X:%08X %02X:%08lX %08X %5d %8d %lu %d %pK %d%n",
-		bucket, src, srcp, dest, destp, sp->sk_state,
-=======
 	__u8 state = sp->sk_state;
 	if (up->encap_rcv)
 		state |= 0xF0;
@@ -2117,45 +2094,26 @@ static void udp4_format_sock(struct sock *sp, struct seq_file *f,
 	seq_printf(f, "%5d: %08X:%04X %08X:%04X"
 		" %02X %08X:%08X %02X:%08lX %08X %5u %8d %lu %d %pK %d",
 		bucket, src, srcp, dest, destp, state,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		sk_wmem_alloc_get(sp),
 		sk_rmem_alloc_get(sp),
 		0, 0L, 0, sock_i_uid(sp), 0, sock_i_ino(sp),
 		atomic_read(&sp->sk_refcnt), sp,
-<<<<<<< HEAD
-		atomic_read(&sp->sk_drops), len);
-=======
 		atomic_read(&sp->sk_drops));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 int udp4_seq_show(struct seq_file *seq, void *v)
 {
-<<<<<<< HEAD
-	if (v == SEQ_START_TOKEN)
-		seq_printf(seq, "%-127s\n",
-			   "  sl  local_address rem_address   st tx_queue "
-=======
 	seq_setwidth(seq, 127);
 	if (v == SEQ_START_TOKEN)
 		seq_puts(seq, "  sl  local_address rem_address   st tx_queue "
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			   "rx_queue tr tm->when retrnsmt   uid  timeout "
 			   "inode ref pointer drops");
 	else {
 		struct udp_iter_state *state = seq->private;
-<<<<<<< HEAD
-		int len;
-
-		udp4_format_sock(v, seq, state->bucket, &len);
-		seq_printf(seq, "%*s\n", 127 - len, "");
-	}
-=======
 
 		udp4_format_sock(v, seq, state->bucket);
 	}
 	seq_pad(seq, '\n');
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 }
 

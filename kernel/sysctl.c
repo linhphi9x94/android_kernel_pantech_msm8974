@@ -1562,8 +1562,6 @@ static struct ctl_table fs_table[] = {
 		.proc_handler	= &pipe_proc_fn,
 		.extra1		= &pipe_min_size,
 	},
-<<<<<<< HEAD
-=======
 	{
 		.procname	= "pipe-user-pages-hard",
 		.data		= &pipe_user_pages_hard,
@@ -1578,7 +1576,6 @@ static struct ctl_table fs_table[] = {
 		.mode		= 0644,
 		.proc_handler	= proc_doulongvec_minmax,
 	},
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	{ }
 };
 

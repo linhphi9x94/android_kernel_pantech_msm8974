@@ -12,10 +12,6 @@
 #include <asm/thread_notify.h>
 #include <linux/uaccess.h>
 #include <linux/debugfs.h>
-<<<<<<< HEAD
-#include <linux/cpu.h>
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define CREATE_TRACE_POINTS
 #include "perf_trace_counters.h"
 
@@ -25,32 +21,17 @@ DEFINE_PER_CPU(u32, previous_ccnt);
 DEFINE_PER_CPU(u32[NUM_L1_CTRS], previous_l1_cnts);
 DEFINE_PER_CPU(u32[NUM_L2_PERCPU], previous_l2_cnts);
 DEFINE_PER_CPU(u32, old_pid);
-<<<<<<< HEAD
-=======
 DEFINE_PER_CPU(u32, hotplug_flag);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* Reset per_cpu variables that store counter values uppn CPU hotplug */
 static int tracectr_cpu_hotplug_notifier(struct notifier_block *self,
 				    unsigned long action, void *hcpu)
 {
 	int ret = NOTIFY_OK;
 	int cpu = (int)hcpu;
-<<<<<<< HEAD
-	int i;
-
-	if ((action & (~CPU_TASKS_FROZEN)) == CPU_UP_PREPARE) {
-		per_cpu(previous_ccnt, cpu) = 0;
-		for (i = 0; i < NUM_L1_CTRS; i++)
-			per_cpu(previous_l1_cnts[i], cpu) = 0;
-		for (i = 0; i < NUM_L2_PERCPU; i++)
-			per_cpu(previous_l2_cnts[i], cpu) = 0;
-	}
-=======
 
 	if ((action & (~CPU_TASKS_FROZEN)) == CPU_STARTING)
 		per_cpu(hotplug_flag, cpu) = 1;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return ret;
 }
 
@@ -58,8 +39,6 @@ static struct notifier_block tracectr_cpu_hotplug_notifier_block = {
 	.notifier_call = tracectr_cpu_hotplug_notifier,
 };
 
-<<<<<<< HEAD
-=======
 static void setup_prev_cnts(u32 cpu)
 {
 	int i;
@@ -89,7 +68,6 @@ static void setup_prev_cnts(u32 cpu)
 	asm volatile("mcr p15, 0, %0, c9, c12, 1" : : "r"(cnten_val));
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int tracectr_notifier(struct notifier_block *self, unsigned long cmd,
 		void *v)
 {
@@ -101,11 +79,6 @@ static int tracectr_notifier(struct notifier_block *self, unsigned long cmd,
 		return -EFAULT;
 
 	current_pid = thread->task->pid;
-<<<<<<< HEAD
-	if (per_cpu(old_pid, cpu) != -1)
-		trace_sched_switch_with_ctrs(per_cpu(old_pid, cpu),
-						current_pid);
-=======
 	if (per_cpu(old_pid, cpu) != -1) {
 		if (per_cpu(hotplug_flag, cpu) == 1) {
 			per_cpu(hotplug_flag, cpu) = 0;
@@ -114,7 +87,6 @@ static int tracectr_notifier(struct notifier_block *self, unsigned long cmd,
 			trace_sched_switch_with_ctrs(per_cpu(old_pid, cpu),
 				current_pid);
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	per_cpu(old_pid, cpu) = current_pid;
 	return NOTIFY_OK;
 }

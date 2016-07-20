@@ -2509,11 +2509,7 @@ struct video_device saa7134_radio_template = {
 int saa7134_video_init1(struct saa7134_dev *dev)
 {
 	/* sanitycheck insmod options */
-<<<<<<< HEAD
-	if (gbuffers < 2 || gbuffers > VIDEO_MAX_FRAME)
-=======
 	if (gbuffers < 2 || gbuffers > VB2_MAX_FRAME)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		gbuffers = 2;
 	if (gbufsize < 0 || gbufsize > gbufsize_max)
 		gbufsize = gbufsize_max;

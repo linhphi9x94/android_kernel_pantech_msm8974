@@ -2105,12 +2105,8 @@ extern int	       skb_copy_datagram_iovec(const struct sk_buff *from,
 					       int size);
 extern int	       skb_copy_and_csum_datagram_iovec(struct sk_buff *skb,
 							int hlen,
-<<<<<<< HEAD
-							struct iovec *iov);
-=======
 							struct iovec *iov,
 							int len);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 extern int	       skb_copy_datagram_from_iovec(struct sk_buff *skb,
 						    int offset,
 						    const struct iovec *from,

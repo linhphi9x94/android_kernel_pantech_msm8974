@@ -42,13 +42,9 @@
 #define ERR(x...) pr_err(x)
 
 #define VID_DEC_NAME "msm_vidc_dec"
-<<<<<<< HEAD
-
-=======
 #ifdef KW_TAINT_ANALYSIS	51
 	extern void * get_tainted_stuff();
 #endif
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static char *node_name[2] = {"", "_sec"};
 static struct vid_dec_dev *vid_dec_device_p;
 static dev_t vid_dec_dev_num;
@@ -903,15 +899,12 @@ static u32 vid_dec_set_meta_buffers(struct video_client_ctx *client_ctx,
 	vcd_meta_buffer->offset = meta_buffers->offset;
 	vcd_meta_buffer->pmem_fd_iommu = meta_buffers->pmem_fd_iommu;
 
-<<<<<<< HEAD
-=======
 	if (meta_buffers->count > MAX_META_BUFFERS) {
 		ERR("meta buffers maximum count reached, count = %d",
 			meta_buffers->count);
 		return false;
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!vcd_get_ion_status()) {
 		pr_err("PMEM Not available\n");
 		return false;
@@ -1117,15 +1110,12 @@ static u32 vid_dec_set_h264_mv_buffers(struct video_client_ctx *client_ctx,
 	vcd_h264_mv_buffer->pmem_fd = mv_data->pmem_fd;
 	vcd_h264_mv_buffer->offset = mv_data->offset;
 
-<<<<<<< HEAD
-=======
 	if (mv_data->count > MAX_MV_BUFFERS) {
 		ERR("MV buffers maximum count reached, count = %d",
 			mv_data->count);
 		return false;
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!vcd_get_ion_status()) {
 		pr_err("PMEM not available\n");
 		return false;
@@ -1760,15 +1750,11 @@ static long vid_dec_ioctl(struct file *file,
 	unsigned long kernel_vaddr, phy_addr, len;
 	unsigned long ker_vaddr;
 	u32 result = true;
-<<<<<<< HEAD
-	void __user *arg = (void __user *)u_arg;
-=======
 	#ifdef KW_TAINT_ANALYSIS
     void __user *arg = (void __user *) get_tainted_stuff();
 	#else
 	void __user *arg = (void __user *)u_arg;
 	#endif
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int rc = 0;
 	size_t ion_len;
 

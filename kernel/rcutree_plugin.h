@@ -737,14 +737,10 @@ void synchronize_rcu(void)
 			   "Illegal synchronize_rcu() in RCU read-side critical section");
 	if (!rcu_scheduler_active)
 		return;
-<<<<<<< HEAD
-	wait_rcu_gp(call_rcu);
-=======
 	if (rcu_expedited)
 		synchronize_rcu_expedited();
 	else
 		wait_rcu_gp(call_rcu);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 EXPORT_SYMBOL_GPL(synchronize_rcu);
 
@@ -976,25 +972,6 @@ static void __init __rcu_init_preempt(void)
 	rcu_init_one(&rcu_preempt_state, &rcu_preempt_data);
 }
 
-<<<<<<< HEAD
-/*
- * Check for a task exiting while in a preemptible-RCU read-side
- * critical section, clean up if so.  No need to issue warnings,
- * as debug_check_no_locks_held() already does this if lockdep
- * is enabled.
- */
-void exit_rcu(void)
-{
-	struct task_struct *t = current;
-
-	if (t->rcu_read_lock_nesting == 0)
-		return;
-	t->rcu_read_lock_nesting = 1;
-	__rcu_read_unlock();
-}
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #else /* #ifdef CONFIG_TREE_PREEMPT_RCU */
 
 static struct rcu_state *rcu_state = &rcu_sched_state;
@@ -1920,14 +1897,9 @@ static void __cpuinit rcu_prepare_kthreads(int cpu)
  * Because we not have RCU_FAST_NO_HZ, just check whether this CPU needs
  * any flavor of RCU.
  */
-<<<<<<< HEAD
-int rcu_needs_cpu(int cpu)
-{
-=======
 int rcu_needs_cpu(int cpu, unsigned long *delta_jiffies)
 {
 	*delta_jiffies = ULONG_MAX;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rcu_cpu_has_callbacks(cpu);
 }
 
@@ -1954,8 +1926,6 @@ static void rcu_prepare_for_idle(int cpu)
 {
 }
 
-<<<<<<< HEAD
-=======
 /*
  * Don't bother keeping a running count of the number of RCU callbacks
  * posted because CONFIG_RCU_FAST_NO_HZ=n.
@@ -1964,7 +1934,6 @@ static void rcu_idle_count_callbacks_posted(void)
 {
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #else /* #if !defined(CONFIG_RCU_FAST_NO_HZ) */
 
 /*
@@ -2005,33 +1974,6 @@ static void rcu_idle_count_callbacks_posted(void)
 #define RCU_IDLE_GP_DELAY 6		/* Roughly one grace period. */
 #define RCU_IDLE_LAZY_GP_DELAY (6 * HZ)	/* Roughly six seconds. */
 
-<<<<<<< HEAD
-static DEFINE_PER_CPU(int, rcu_dyntick_drain);
-static DEFINE_PER_CPU(unsigned long, rcu_dyntick_holdoff);
-static DEFINE_PER_CPU(struct hrtimer, rcu_idle_gp_timer);
-static ktime_t rcu_idle_gp_wait;	/* If some non-lazy callbacks. */
-static ktime_t rcu_idle_lazy_gp_wait;	/* If only lazy callbacks. */
-
-/*
- * Allow the CPU to enter dyntick-idle mode if either: (1) There are no
- * callbacks on this CPU, (2) this CPU has not yet attempted to enter
- * dyntick-idle mode, or (3) this CPU is in the process of attempting to
- * enter dyntick-idle mode.  Otherwise, if we have recently tried and failed
- * to enter dyntick-idle mode, we refuse to try to enter it.  After all,
- * it is better to incur scheduling-clock interrupts than to spin
- * continuously for the same time duration!
- */
-int rcu_needs_cpu(int cpu)
-{
-	/* If no callbacks, RCU doesn't need the CPU. */
-	if (!rcu_cpu_has_callbacks(cpu))
-		return 0;
-	/* Otherwise, RCU needs the CPU only if it recently tried and failed. */
-	return per_cpu(rcu_dyntick_holdoff, cpu) == jiffies;
-}
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*
  * Does the specified flavor of RCU have non-lazy callbacks pending on
  * the specified CPU?  Both RCU flavor and CPU are specified by the
@@ -2075,8 +2017,6 @@ static bool rcu_cpu_has_nonlazy_callbacks(int cpu)
 }
 
 /*
-<<<<<<< HEAD
-=======
  * Allow the CPU to enter dyntick-idle mode if either: (1) There are no
  * callbacks on this CPU, (2) this CPU has not yet attempted to enter
  * dyntick-idle mode, or (3) this CPU is in the process of attempting to
@@ -2127,19 +2067,11 @@ void rcu_idle_demigrate(void *unused)
 }
 
 /*
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  * Timer handler used to force CPU to start pushing its remaining RCU
  * callbacks in the case where it entered dyntick-idle mode with callbacks
  * pending.  The hander doesn't really need to do anything because the
  * real work is done upon re-entry to idle, or by the next scheduling-clock
  * interrupt should idle not be re-entered.
-<<<<<<< HEAD
- */
-static enum hrtimer_restart rcu_idle_gp_timer_func(struct hrtimer *hrtp)
-{
-	trace_rcu_prep_idle("Timer");
-	return HRTIMER_NORESTART;
-=======
  *
  * One special case: the timer gets migrated without awakening the CPU
  * on which the timer was scheduled on.  In this case, we must wake up
@@ -2154,7 +2086,6 @@ static void rcu_idle_gp_timer_func(unsigned long cpu_in)
 		smp_call_function_single(cpu, rcu_idle_demigrate, NULL, 0);
 	else
 		WARN_ON_ONCE(1); /* Getting here can hang the system... */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 /*
@@ -2162,49 +2093,25 @@ static void rcu_idle_gp_timer_func(unsigned long cpu_in)
  */
 static void rcu_prepare_for_idle_init(int cpu)
 {
-<<<<<<< HEAD
-	static int firsttime = 1;
-	struct hrtimer *hrtp = &per_cpu(rcu_idle_gp_timer, cpu);
-
-	hrtimer_init(hrtp, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-	hrtp->function = rcu_idle_gp_timer_func;
-	if (firsttime) {
-		unsigned int upj = jiffies_to_usecs(RCU_IDLE_GP_DELAY);
-
-		rcu_idle_gp_wait = ns_to_ktime(upj * (u64)1000);
-		upj = jiffies_to_usecs(RCU_IDLE_LAZY_GP_DELAY);
-		rcu_idle_lazy_gp_wait = ns_to_ktime(upj * (u64)1000);
-		firsttime = 0;
-	}
-=======
 	struct rcu_dynticks *rdtp = &per_cpu(rcu_dynticks, cpu);
 
 	rdtp->dyntick_holdoff = jiffies - 1;
 	setup_timer(&rdtp->idle_gp_timer, rcu_idle_gp_timer_func, cpu);
 	rdtp->idle_gp_timer_expires = jiffies - 1;
 	rdtp->idle_first_pass = 1;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 /*
  * Clean up for exit from idle.  Because we are exiting from idle, there
-<<<<<<< HEAD
- * is no longer any point to rcu_idle_gp_timer, so cancel it.  This will
-=======
  * is no longer any point to ->idle_gp_timer, so cancel it.  This will
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  * do nothing if this timer is not active, so just cancel it unconditionally.
  */
 static void rcu_cleanup_after_idle(int cpu)
 {
-<<<<<<< HEAD
-	hrtimer_cancel(&per_cpu(rcu_idle_gp_timer, cpu));
-=======
 	struct rcu_dynticks *rdtp = &per_cpu(rcu_dynticks, cpu);
 
 	del_timer(&rdtp->idle_gp_timer);
 	trace_rcu_prep_idle("Cleanup after idle");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 /*
@@ -2222,18 +2129,12 @@ static void rcu_cleanup_after_idle(int cpu)
  * Because it is not legal to invoke rcu_process_callbacks() with irqs
  * disabled, we do one pass of force_quiescent_state(), then do a
  * invoke_rcu_core() to cause rcu_process_callbacks() to be invoked
-<<<<<<< HEAD
- * later.  The per-cpu rcu_dyntick_drain variable controls the sequencing.
-=======
  * later.  The ->dyntick_drain field controls the sequencing.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * The caller must have disabled interrupts.
  */
 static void rcu_prepare_for_idle(int cpu)
 {
-<<<<<<< HEAD
-=======
 	struct timer_list *tp;
 	struct rcu_dynticks *rdtp = &per_cpu(rcu_dynticks, cpu);
 
@@ -2256,19 +2157,13 @@ static void rcu_prepare_for_idle(int cpu)
 	rdtp->idle_first_pass = 0;
 	rdtp->nonlazy_posted_snap = rdtp->nonlazy_posted - 1;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/*
 	 * If there are no callbacks on this CPU, enter dyntick-idle mode.
 	 * Also reset state to avoid prejudicing later attempts.
 	 */
 	if (!rcu_cpu_has_callbacks(cpu)) {
-<<<<<<< HEAD
-		per_cpu(rcu_dyntick_holdoff, cpu) = jiffies - 1;
-		per_cpu(rcu_dyntick_drain, cpu) = 0;
-=======
 		rdtp->dyntick_holdoff = jiffies - 1;
 		rdtp->dyntick_drain = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		trace_rcu_prep_idle("No callbacks");
 		return;
 	}
@@ -2277,38 +2172,11 @@ static void rcu_prepare_for_idle(int cpu)
 	 * If in holdoff mode, just return.  We will presumably have
 	 * refrained from disabling the scheduling-clock tick.
 	 */
-<<<<<<< HEAD
-	if (per_cpu(rcu_dyntick_holdoff, cpu) == jiffies) {
-=======
 	if (rdtp->dyntick_holdoff == jiffies) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		trace_rcu_prep_idle("In holdoff");
 		return;
 	}
 
-<<<<<<< HEAD
-	/* Check and update the rcu_dyntick_drain sequencing. */
-	if (per_cpu(rcu_dyntick_drain, cpu) <= 0) {
-		/* First time through, initialize the counter. */
-		per_cpu(rcu_dyntick_drain, cpu) = RCU_IDLE_FLUSHES;
-	} else if (per_cpu(rcu_dyntick_drain, cpu) <= RCU_IDLE_OPT_FLUSHES &&
-		   !rcu_pending(cpu) &&
-		   !local_softirq_pending()) {
-		/* Can we go dyntick-idle despite still having callbacks? */
-		trace_rcu_prep_idle("Dyntick with callbacks");
-		per_cpu(rcu_dyntick_drain, cpu) = 0;
-		per_cpu(rcu_dyntick_holdoff, cpu) = jiffies;
-		if (rcu_cpu_has_nonlazy_callbacks(cpu))
-			hrtimer_start(&per_cpu(rcu_idle_gp_timer, cpu),
-				      rcu_idle_gp_wait, HRTIMER_MODE_REL);
-		else
-			hrtimer_start(&per_cpu(rcu_idle_gp_timer, cpu),
-				      rcu_idle_lazy_gp_wait, HRTIMER_MODE_REL);
-		return; /* Nothing more to do immediately. */
-	} else if (--per_cpu(rcu_dyntick_drain, cpu) <= 0) {
-		/* We have hit the limit, so time to give up. */
-		per_cpu(rcu_dyntick_holdoff, cpu) = jiffies;
-=======
 	/* Check and update the ->dyntick_drain sequencing. */
 	if (rdtp->dyntick_drain <= 0) {
 		/* First time through, initialize the counter. */
@@ -2335,7 +2203,6 @@ static void rcu_prepare_for_idle(int cpu)
 	} else if (--(rdtp->dyntick_drain) <= 0) {
 		/* We have hit the limit, so time to give up. */
 		rdtp->dyntick_holdoff = jiffies;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		trace_rcu_prep_idle("Begin holdoff");
 		invoke_rcu_core();  /* Force the CPU out of dyntick-idle. */
 		return;
@@ -2371,8 +2238,6 @@ static void rcu_prepare_for_idle(int cpu)
 		trace_rcu_prep_idle("Callbacks drained");
 }
 
-<<<<<<< HEAD
-=======
 /*
  * Keep a running count of the number of non-lazy callbacks posted
  * on this CPU.  This running counter (which is never decremented) allows
@@ -2386,7 +2251,6 @@ static void rcu_idle_count_callbacks_posted(void)
 	__this_cpu_add(rcu_dynticks.nonlazy_posted, 1);
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif /* #else #if !defined(CONFIG_RCU_FAST_NO_HZ) */
 
 #ifdef CONFIG_RCU_CPU_STALL_INFO
@@ -2395,16 +2259,6 @@ static void rcu_idle_count_callbacks_posted(void)
 
 static void print_cpu_stall_fast_no_hz(char *cp, int cpu)
 {
-<<<<<<< HEAD
-	struct hrtimer *hrtp = &per_cpu(rcu_idle_gp_timer, cpu);
-
-	sprintf(cp, "drain=%d %c timer=%lld",
-		per_cpu(rcu_dyntick_drain, cpu),
-		per_cpu(rcu_dyntick_holdoff, cpu) == jiffies ? 'H' : '.',
-		hrtimer_active(hrtp)
-			? ktime_to_us(hrtimer_get_remaining(hrtp))
-			: -1);
-=======
 	struct rcu_dynticks *rdtp = &per_cpu(rcu_dynticks, cpu);
 	struct timer_list *tltp = &rdtp->idle_gp_timer;
 
@@ -2412,7 +2266,6 @@ static void print_cpu_stall_fast_no_hz(char *cp, int cpu)
 		rdtp->dyntick_drain,
 		rdtp->dyntick_holdoff == jiffies ? 'H' : '.',
 		timer_pending(tltp) ? tltp->expires - jiffies : -1);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 #else /* #ifdef CONFIG_RCU_FAST_NO_HZ */

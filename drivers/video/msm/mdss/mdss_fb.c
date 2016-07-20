@@ -2,11 +2,7 @@
  * Core MDSS framebuffer driver.
  *
  * Copyright (C) 2007 Google Incorporated
-<<<<<<< HEAD
- * Copyright (c) 2008-2014, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2008-2015, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
@@ -48,10 +44,7 @@
 #include <linux/file.h>
 #include <linux/memory_alloc.h>
 #include <linux/kthread.h>
-<<<<<<< HEAD
-=======
 #include <linux/of_address.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #include <mach/board.h>
 #include <mach/memory.h>
@@ -60,10 +53,7 @@
 #include <mach/msm_memtypes.h>
 
 #include "mdss_fb.h"
-<<<<<<< HEAD
-=======
 #include "mdss_mdp_splash_logo.h"
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include "mdss_dsi.h"
 
 #ifdef CONFIG_FB_MSM_TRIPLE_BUFFER
@@ -99,14 +89,10 @@ static int mdss_fb_blank_sub(int blank_mode, struct fb_info *info,
 static int mdss_fb_suspend_sub(struct msm_fb_data_type *mfd);
 static int mdss_fb_ioctl(struct fb_info *info, unsigned int cmd,
 			 unsigned long arg);
-<<<<<<< HEAD
-static int mdss_fb_mmap(struct fb_info *info, struct vm_area_struct *vma);
-=======
 static int mdss_fb_fbmem_ion_mmap(struct fb_info *info,
 		struct vm_area_struct *vma);
 static int mdss_fb_alloc_fb_ion_memory(struct msm_fb_data_type *mfd,
 		size_t size);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static void mdss_fb_release_fences(struct msm_fb_data_type *mfd);
 static int __mdss_fb_sync_buf_done_callback(struct notifier_block *p,
 		unsigned long val, void *data);
@@ -115,10 +101,7 @@ static int __mdss_fb_display_thread(void *data);
 static int mdss_fb_pan_idle(struct msm_fb_data_type *mfd);
 static int mdss_fb_send_panel_event(struct msm_fb_data_type *mfd,
 					int event, void *arg);
-<<<<<<< HEAD
-=======
 static void mdss_fb_set_mdp_sync_pt_threshold(struct msm_fb_data_type *mfd);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 void mdss_fb_no_update_notify_timer_cb(unsigned long data)
 {
 	struct msm_fb_data_type *mfd = (struct msm_fb_data_type *)data;
@@ -130,8 +113,6 @@ void mdss_fb_no_update_notify_timer_cb(unsigned long data)
 	complete(&mfd->no_update.comp);
 }
 
-<<<<<<< HEAD
-=======
 void mdss_fb_bl_update_notify(struct msm_fb_data_type *mfd)
 {
 	if (!mfd) {
@@ -157,7 +138,6 @@ void mdss_fb_bl_update_notify(struct msm_fb_data_type *mfd)
 	mutex_unlock(&mfd->no_update.lock);
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int mdss_fb_notify_update(struct msm_fb_data_type *mfd,
 							unsigned long *argp)
 {
@@ -173,9 +153,6 @@ static int mdss_fb_notify_update(struct msm_fb_data_type *mfd,
 	if (notify > NOTIFY_UPDATE_POWER_OFF)
 		return -EINVAL;
 
-<<<<<<< HEAD
-	if (mfd->update.is_suspend) {
-=======
 	if (notify == NOTIFY_UPDATE_INIT) {
 		mutex_lock(&mfd->update.lock);
 		mfd->update.init_done = true;
@@ -189,16 +166,10 @@ static int mdss_fb_notify_update(struct msm_fb_data_type *mfd,
 		complete(&mfd->no_update.comp);
 		ret = 1;
 	} else if (mfd->update.is_suspend) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		to_user = NOTIFY_TYPE_SUSPEND;
 		mfd->update.is_suspend = 0;
 		ret = 1;
 	} else if (notify == NOTIFY_UPDATE_START) {
-<<<<<<< HEAD
-		INIT_COMPLETION(mfd->update.comp);
-		ret = wait_for_completion_timeout(
-						&mfd->update.comp, 4 * HZ);
-=======
 		mutex_lock(&mfd->update.lock);
 		if (mfd->update.init_done)
 			INIT_COMPLETION(mfd->update.comp);
@@ -214,18 +185,12 @@ static int mdss_fb_notify_update(struct msm_fb_data_type *mfd,
 		mutex_lock(&mfd->update.lock);
 		mfd->update.ref_count--;
 		mutex_unlock(&mfd->update.lock);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		to_user = (unsigned int)mfd->update.value;
 		if (mfd->update.type == NOTIFY_TYPE_SUSPEND) {
 			to_user = (unsigned int)mfd->update.type;
 			ret = 1;
 		}
 	} else if (notify == NOTIFY_UPDATE_STOP) {
-<<<<<<< HEAD
-		INIT_COMPLETION(mfd->no_update.comp);
-		ret = wait_for_completion_timeout(
-						&mfd->no_update.comp, 4 * HZ);
-=======
 		mutex_lock(&mfd->update.lock);
 		if (mfd->update.init_done)
 			INIT_COMPLETION(mfd->no_update.comp);
@@ -243,16 +208,11 @@ static int mdss_fb_notify_update(struct msm_fb_data_type *mfd,
 		mutex_lock(&mfd->no_update.lock);
 		mfd->no_update.ref_count--;
 		mutex_unlock(&mfd->no_update.lock);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		to_user = (unsigned int)mfd->no_update.value;
 	} else {
 		if (mfd->panel_power_on) {
 			INIT_COMPLETION(mfd->power_off_comp);
-<<<<<<< HEAD
-			ret = wait_for_completion_timeout(
-=======
 			ret = wait_for_completion_interruptible_timeout(
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 						&mfd->power_off_comp, 1 * HZ);
 		}
 	}
@@ -264,50 +224,6 @@ static int mdss_fb_notify_update(struct msm_fb_data_type *mfd,
 	return ret;
 }
 
-<<<<<<< HEAD
-static int mdss_fb_splash_thread(void *data)
-{
-	struct msm_fb_data_type *mfd = data;
-	int ret = -EINVAL;
-	struct fb_info *fbi = NULL;
-	int ov_index[2];
-
-	if (!mfd || !mfd->fbi || !mfd->mdp.splash_fnc) {
-		pr_err("Invalid input parameter\n");
-		goto end;
-	}
-
-	fbi = mfd->fbi;
-
-	ret = mdss_fb_open(fbi, current->tgid);
-	if (ret) {
-		pr_err("fb_open failed\n");
-		goto end;
-	}
-
-	mfd->bl_updated = true;
-	//mdss_fb_set_backlight(mfd, mfd->panel_info->bl_max >> 1);
-
-	ret = mfd->mdp.splash_fnc(mfd, ov_index, MDP_CREATE_SPLASH_OV);
-	if (ret) {
-		pr_err("Splash image failed\n");
-		goto splash_err;
-	}
-
-	do {
-		schedule_timeout_interruptible(SPLASH_THREAD_WAIT_TIMEOUT * HZ);
-	} while (!kthread_should_stop());
-
-	mfd->mdp.splash_fnc(mfd, ov_index, MDP_REMOVE_SPLASH_OV);
-
-splash_err:
-	mdss_fb_release(fbi, current->tgid);
-end:
-	return ret;
-}
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int lcd_backlight_registered;
 
 static void mdss_fb_set_bl_brightness(struct led_classdev *led_cdev,
@@ -383,27 +299,6 @@ static ssize_t mdss_fb_get_type(struct device *dev,
 
 static void mdss_fb_parse_dt(struct msm_fb_data_type *mfd)
 {
-<<<<<<< HEAD
-	u32 data[2];
-	struct platform_device *pdev = mfd->pdev;
-
-	mfd->splash_logo_enabled = of_property_read_bool(pdev->dev.of_node,
-				"qcom,mdss-fb-splash-logo-enabled");
-
-	if (of_property_read_u32_array(pdev->dev.of_node, "qcom,mdss-fb-split",
-				       data, 2))
-		return;
-	if (data[0] && data[1] &&
-	    (mfd->panel_info->xres == (data[0] + data[1]))) {
-		mfd->split_fb_left = data[0];
-		mfd->split_fb_right = data[1];
-		pr_info("split framebuffer left=%d right=%d\n",
-			mfd->split_fb_left, mfd->split_fb_right);
-	} else {
-		mfd->split_fb_left = 0;
-		mfd->split_fb_right = 0;
-	}
-=======
 	u32 data[2] = {0};
 	u32 panel_xres;
 	struct platform_device *pdev = mfd->pdev;
@@ -428,7 +323,6 @@ static void mdss_fb_parse_dt(struct msm_fb_data_type *mfd)
 	}
 	pr_info("split framebuffer left=%d right=%d\n",
 		mfd->split_fb_left, mfd->split_fb_right);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static ssize_t mdss_fb_get_split(struct device *dev,
@@ -455,8 +349,6 @@ static ssize_t mdss_mdp_show_blank_event(struct device *dev,
 
 	return ret;
 }
-<<<<<<< HEAD
-=======
 
 static void __mdss_fb_idle_notify_work(struct work_struct *work)
 {
@@ -620,7 +512,6 @@ static int mdss_fb_lpm_enable(struct msm_fb_data_type *mfd, int mode)
 	return 0;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_F_SKYDISP_FACTORY_SLEEP_ENABLE
 static ssize_t msm_fb_panel_show(struct device *dev,
 					  struct device_attribute *attr, char *buf)
@@ -1024,76 +915,13 @@ static DEVICE_ATTR(back_ctl, S_IRUGO | S_IWUSR, NULL, msm_fb_back_ctl_store);
 
 #endif
 
-<<<<<<< HEAD
-static void __mdss_fb_idle_notify_work(struct work_struct *work)
-{
-	struct delayed_work *dw = to_delayed_work(work);
-	struct msm_fb_data_type *mfd = container_of(dw, struct msm_fb_data_type,
-		idle_notify_work);
-
-	/* Notify idle-ness here */
-	pr_debug("Idle timeout %dms expired!\n", mfd->idle_time);
-	sysfs_notify(&mfd->fbi->dev->kobj, NULL, "idle_notify");
-}
-
-static ssize_t mdss_fb_get_idle_time(struct device *dev,
-		struct device_attribute *attr, char *buf)
-{
-	struct fb_info *fbi = dev_get_drvdata(dev);
-	struct msm_fb_data_type *mfd = fbi->par;
-	int ret;
-
-	ret = scnprintf(buf, PAGE_SIZE, "%d", mfd->idle_time);
-
-	return ret;
-}
-
-static ssize_t mdss_fb_set_idle_time(struct device *dev,
-	struct device_attribute *attr, const char *buf, size_t count)
-{
-	struct fb_info *fbi = dev_get_drvdata(dev);
-	struct msm_fb_data_type *mfd = fbi->par;
-	int rc = 0;
-	int idle_time = 0;
-
-	rc = kstrtoint(buf, 10, &idle_time);
-	if (rc) {
-		pr_err("kstrtoint failed. rc=%d\n", rc);
-		return rc;
-	}
-
-	pr_debug("Idle time = %d\n", idle_time);
-	mfd->idle_time = idle_time;
-
-	return count;
-}
-
-static ssize_t mdss_fb_get_idle_notify(struct device *dev,
-		struct device_attribute *attr, char *buf)
-{
-	struct fb_info *fbi = dev_get_drvdata(dev);
-	struct msm_fb_data_type *mfd = fbi->par;
-	int ret;
-
-	ret = scnprintf(buf, PAGE_SIZE, "%s",
-		work_busy(&mfd->idle_notify_work.work) ? "no" : "yes");
-
-	return ret;
-}
-
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static DEVICE_ATTR(msm_fb_type, S_IRUGO, mdss_fb_get_type, NULL);
 static DEVICE_ATTR(msm_fb_split, S_IRUGO, mdss_fb_get_split, NULL);
 static DEVICE_ATTR(show_blank_event, S_IRUGO, mdss_mdp_show_blank_event, NULL);
 static DEVICE_ATTR(idle_time, S_IRUGO | S_IWUSR | S_IWGRP,
 	mdss_fb_get_idle_time, mdss_fb_set_idle_time);
 static DEVICE_ATTR(idle_notify, S_IRUGO, mdss_fb_get_idle_notify, NULL);
-<<<<<<< HEAD
-=======
 static DEVICE_ATTR(msm_fb_panel_info, S_IRUGO, mdss_fb_get_panel_info, NULL);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static struct attribute *mdss_fb_attrs[] = {
 	&dev_attr_msm_fb_type.attr,
@@ -1101,10 +929,7 @@ static struct attribute *mdss_fb_attrs[] = {
 	&dev_attr_show_blank_event.attr,
 	&dev_attr_idle_time.attr,
 	&dev_attr_idle_notify.attr,
-<<<<<<< HEAD
-=======
 	&dev_attr_msm_fb_panel_info.attr,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_F_SKYDISP_CABC_CONTROL
 	&dev_attr_cabc_ctl.attr,
 #endif
@@ -1153,12 +978,8 @@ static void mdss_fb_remove_sysfs(struct msm_fb_data_type *mfd)
 {
 	sysfs_remove_group(&mfd->fbi->dev->kobj, &mdss_fb_attr_group);
 }
-<<<<<<< HEAD
-#ifdef  CONFIG_F_SKYDISP_SHUTDOWN_BUGFIX
-=======
 
 #ifdef CONFIG_F_SKYDISP_SHUTDOWN_BUGFIX
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static void mdss_fb_shutdown(struct platform_device *pdev)
 {
 	struct msm_fb_data_type *mfd = platform_get_drvdata(pdev);
@@ -1169,10 +990,7 @@ static void mdss_fb_shutdown(struct platform_device *pdev)
 	unlock_fb_info(mfd->fbi);
 }
 #endif
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int mdss_fb_probe(struct platform_device *pdev)
 {
 	struct msm_fb_data_type *mfd = NULL;
@@ -1208,15 +1026,10 @@ static int mdss_fb_probe(struct platform_device *pdev)
 
 	mfd->ext_ad_ctrl = -1;
 	mfd->bl_level = 0;
-<<<<<<< HEAD
-	mfd->bl_scale = 1024;
-	mfd->bl_min_lvl = 30;
-=======
 	mfd->bl_level_prev_scaled = 0;
 	mfd->bl_scale = 1024;
 	mfd->bl_min_lvl = 30;
 	mfd->ad_bl_level = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mfd->fb_imgType = MDP_RGBA_8888;
 
 	mfd->pdev = pdev;
@@ -1225,10 +1038,6 @@ static int mdss_fb_probe(struct platform_device *pdev)
 	mfd->mdp = *mdp_instance;
 	INIT_LIST_HEAD(&mfd->proc_list);
 
-<<<<<<< HEAD
-	mutex_init(&mfd->lock);
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mutex_init(&mfd->bl_lock);
 
 	fbi_list[fbi_list_index++] = fbi;
@@ -1281,8 +1090,6 @@ static int mdss_fb_probe(struct platform_device *pdev)
 			__mdss_fb_sync_buf_done_callback;
 	}
 
-<<<<<<< HEAD
-=======
 	mdss_fb_set_mdp_sync_pt_threshold(mfd);
 
 	if (mfd->mdp.splash_init_fnc)
@@ -1298,7 +1105,6 @@ static void mdss_fb_set_mdp_sync_pt_threshold(struct msm_fb_data_type *mfd)
 	if (!mfd)
 		return;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	switch (mfd->panel.type) {
 	case WRITEBACK_PANEL:
 		mfd->mdp_sync_pt_data.threshold = 1;
@@ -1313,48 +1119,20 @@ static void mdss_fb_set_mdp_sync_pt_threshold(struct msm_fb_data_type *mfd)
 		mfd->mdp_sync_pt_data.retire_threshold = 0;
 		break;
 	}
-<<<<<<< HEAD
-
-	if (mfd->splash_logo_enabled) {
-		mfd->splash_thread = kthread_run(mdss_fb_splash_thread, mfd,
-				"mdss_fb_splash");
-		if (IS_ERR(mfd->splash_thread)) {
-			pr_err("unable to start splash thread %d\n",
-				mfd->index);
-			mfd->splash_thread = NULL;
-		}
-	}
-
-	INIT_DELAYED_WORK(&mfd->idle_notify_work, __mdss_fb_idle_notify_work);
-
-	return rc;
 }
-
-=======
-}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int mdss_fb_remove(struct platform_device *pdev)
 {
 	struct msm_fb_data_type *mfd;
 
 	mfd = (struct msm_fb_data_type *)platform_get_drvdata(pdev);
 
-<<<<<<< HEAD
-=======
 	if (!mfd)
 		return -ENODEV;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mdss_fb_remove_sysfs(mfd);
 
 	pm_runtime_disable(mfd->fbi->dev);
 
-<<<<<<< HEAD
-	if (!mfd)
-		return -ENODEV;
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (mfd->key != MFD_KEY)
 		return -EINVAL;
 
@@ -1560,16 +1338,10 @@ static void mdss_fb_scale_bl(struct msm_fb_data_type *mfd, u32 *bl_lvl)
 #ifndef CONFIG_MACH_MSM8974_EF63S
 		temp = (temp * mfd->bl_scale) / 1024;
 #endif
-<<<<<<< HEAD
-	/*if less than minimum level, use min level*/
-		if (temp < mfd->bl_min_lvl)
-		temp = mfd->bl_min_lvl;
-=======
 
 		/*if less than minimum level, use min level*/
 		if (temp < mfd->bl_min_lvl)
 			temp = mfd->bl_min_lvl;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	pr_debug("output = %d", temp);
 
@@ -1580,24 +1352,6 @@ static void mdss_fb_scale_bl(struct msm_fb_data_type *mfd, u32 *bl_lvl)
 void mdss_fb_set_backlight(struct msm_fb_data_type *mfd, u32 bkl_lvl)
 {
 	struct mdss_panel_data *pdata;
-<<<<<<< HEAD
-	int (*update_ad_input)(struct msm_fb_data_type *mfd);
-	u32 temp = bkl_lvl;
-
-	if (((!mfd->panel_power_on && mfd->dcm_state != DCM_ENTER)
-		|| !mfd->bl_updated) && !IS_CALIB_MODE_BL(mfd)) {
-				mfd->unset_bl_level = bkl_lvl;
-#if defined(CONFIG_MACH_MSM8974_EF63S) || defined(CONFIG_MACH_MSM8974_EF63K) || defined(CONFIG_MACH_MSM8974_EF63L)				
-            if(mfd->bl_level_old != temp) {
-	            ;
-	        }
-		    else {
-		        return;
-		    }
-#else
-			return;
-#endif			
-=======
 	u32 temp = bkl_lvl;
 	bool bl_notify_needed = false;
 
@@ -1614,7 +1368,6 @@ void mdss_fb_set_backlight(struct msm_fb_data_type *mfd, u32 bkl_lvl)
 #else
 		return;
 #endif
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	} else {
 		mfd->unset_bl_level = 0;
 	}
@@ -1622,8 +1375,6 @@ void mdss_fb_set_backlight(struct msm_fb_data_type *mfd, u32 bkl_lvl)
 	pdata = dev_get_platdata(&mfd->pdev->dev);
 
 	if ((pdata) && (pdata->set_backlight)) {
-<<<<<<< HEAD
-=======
 		if (mfd->mdp.ad_calc_bl)
 			(*mfd->mdp.ad_calc_bl)(mfd, temp, &temp,
 					&bl_notify_needed);
@@ -1631,7 +1382,6 @@ void mdss_fb_set_backlight(struct msm_fb_data_type *mfd, u32 bkl_lvl)
 			mdss_fb_bl_update_notify(mfd);
 
 		mfd->bl_level_prev_scaled = mfd->bl_level_scaled;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (!IS_CALIB_MODE_BL(mfd))
 			mdss_fb_scale_bl(mfd, &temp);
 		/*
@@ -1642,22 +1392,6 @@ void mdss_fb_set_backlight(struct msm_fb_data_type *mfd, u32 bkl_lvl)
 		 * as well as setting bl_level to bkl_lvl even though the
 		 * backlight has been set to the scaled value.
 		 */
-<<<<<<< HEAD
-		if (mfd->bl_level_old == temp) {
-			mfd->bl_level = bkl_lvl;
-			return;
-		}
-		pdata->set_backlight(pdata, temp);
-		mfd->bl_level = bkl_lvl;
-		mfd->bl_level_old = temp;
-
-		if (mfd->mdp.update_ad_input) {
-			update_ad_input = mfd->mdp.update_ad_input;
-			mutex_unlock(&mfd->bl_lock);
-			/* Will trigger ad_setup which will grab bl_lock */
-			update_ad_input(mfd);
-			mutex_lock(&mfd->bl_lock);
-=======
 		if (mfd->bl_level_scaled == temp) {
 			mfd->bl_level = bkl_lvl;
 		} else {
@@ -1665,7 +1399,6 @@ void mdss_fb_set_backlight(struct msm_fb_data_type *mfd, u32 bkl_lvl)
 			pdata->set_backlight(pdata, temp);
 			mfd->bl_level = bkl_lvl;
 			mfd->bl_level_scaled = temp;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 	}
 }
@@ -1673,19 +1406,6 @@ void mdss_fb_set_backlight(struct msm_fb_data_type *mfd, u32 bkl_lvl)
 void mdss_fb_update_backlight(struct msm_fb_data_type *mfd)
 {
 	struct mdss_panel_data *pdata;
-<<<<<<< HEAD
-
-	if (mfd->unset_bl_level && !mfd->bl_updated) {
-		pdata = dev_get_platdata(&mfd->pdev->dev);
-		if ((pdata) && (pdata->set_backlight)) {
-			mutex_lock(&mfd->bl_lock);
-			mfd->bl_level = mfd->unset_bl_level;
-			pdata->set_backlight(pdata, mfd->bl_level);
-			mfd->bl_level_old = mfd->unset_bl_level;
-			mutex_unlock(&mfd->bl_lock);
-			mfd->bl_updated = 1;
-		}
-=======
 	u32 temp;
 	bool bl_notify = false;
 
@@ -1707,7 +1427,6 @@ void mdss_fb_update_backlight(struct msm_fb_data_type *mfd)
 			}
 		}
 		mutex_unlock(&mfd->bl_lock);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 }
 
@@ -1743,8 +1462,6 @@ static int mdss_fb_blank_sub(int blank_mode, struct fb_info *info,
 				schedule_delayed_work(&mfd->idle_notify_work,
 					msecs_to_jiffies(mfd->idle_time));
 		}
-<<<<<<< HEAD
-=======
 
 		mutex_lock(&mfd->bl_lock);
 		if (!mfd->bl_updated) {
@@ -1752,7 +1469,6 @@ static int mdss_fb_blank_sub(int blank_mode, struct fb_info *info,
 			mdss_fb_set_backlight(mfd, mfd->bl_level_prev_scaled);
 		}
 		mutex_unlock(&mfd->bl_lock);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		break;
 
 	case FB_BLANK_VSYNC_SUSPEND:
@@ -1774,16 +1490,11 @@ static int mdss_fb_blank_sub(int blank_mode, struct fb_info *info,
 
 			mfd->op_enable = false;
 			curr_pwr_state = mfd->panel_power_on;
-<<<<<<< HEAD
-			mfd->panel_power_on = false;
-			mfd->bl_updated = 0;
-=======
 			mutex_lock(&mfd->bl_lock);
 			mdss_fb_set_backlight(mfd, 0);
 			mfd->panel_power_on = false;
 			mfd->bl_updated = 0;
 			mutex_unlock(&mfd->bl_lock);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 			ret = mfd->mdp.off_fnc(mfd);
 			if (ret)
@@ -1798,10 +1509,6 @@ static int mdss_fb_blank_sub(int blank_mode, struct fb_info *info,
 		}
 		break;
 	}
-<<<<<<< HEAD
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* Notify listeners */
 	sysfs_notify(&mfd->fbi->dev->kobj, NULL, "show_blank_event");
 
@@ -1810,10 +1517,7 @@ static int mdss_fb_blank_sub(int blank_mode, struct fb_info *info,
 
 static int mdss_fb_blank(int blank_mode, struct fb_info *info)
 {
-<<<<<<< HEAD
-=======
 	struct mdss_panel_data *pdata;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct msm_fb_data_type *mfd = (struct msm_fb_data_type *)info->par;
 
 	mdss_fb_pan_idle(mfd);
@@ -1824,17 +1528,6 @@ static int mdss_fb_blank(int blank_mode, struct fb_info *info)
 			mfd->suspend.panel_power_on = false;
 		return 0;
 	}
-<<<<<<< HEAD
-	return mdss_fb_blank_sub(blank_mode, info, mfd->op_enable);
-}
-
-/*
- * Custom Framebuffer mmap() function for MSM driver.
- * Differs from standard mmap() function by allowing for customized
- * page-protection.
- */
-static int mdss_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
-=======
 	pr_debug("mode: %d\n", blank_mode);
 
 	pdata = dev_get_platdata(&mfd->pdev->dev);
@@ -2074,33 +1767,12 @@ static int mdss_fb_fbmem_ion_mmap(struct fb_info *info,
  */
 static int mdss_fb_physical_mmap(struct fb_info *info,
 		struct vm_area_struct *vma)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	/* Get frame buffer memory range. */
 	unsigned long start = info->fix.smem_start;
 	u32 len = PAGE_ALIGN((start & ~PAGE_MASK) + info->fix.smem_len);
 	unsigned long off = vma->vm_pgoff << PAGE_SHIFT;
 	struct msm_fb_data_type *mfd = (struct msm_fb_data_type *)info->par;
-<<<<<<< HEAD
-	int ret = 0;
-
-	if (!start) {
-		pr_warn("No framebuffer memory is allocated.\n");
-		return -ENOMEM;
-	}
-
-	ret = mdss_fb_pan_idle(mfd);
-	if (ret) {
-		pr_err("Shutdown pending. Aborting operation\n");
-		return ret;
-	}
-
-	/* Set VM flags. */
-	start &= PAGE_MASK;
-	if ((vma->vm_end <= vma->vm_start) ||
-	    (off >= len) ||
-	    ((vma->vm_end - vma->vm_start) > (len - off)))
-=======
 
 	if (!start) {
 		pr_warn("No framebuffer memory is allocated\n");
@@ -2112,36 +1784,12 @@ static int mdss_fb_physical_mmap(struct fb_info *info,
 	if ((vma->vm_end <= vma->vm_start) ||
 			(off >= len) ||
 			((vma->vm_end - vma->vm_start) > (len - off)))
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -EINVAL;
 	off += start;
 	if (off < start)
 		return -EINVAL;
 	vma->vm_pgoff = off >> PAGE_SHIFT;
 	/* This is an IO map - tell maydump to skip this VMA */
-<<<<<<< HEAD
-	vma->vm_flags |= VM_IO | VM_RESERVED;
-
-	/* Set VM page protection */
-	if (mfd->mdp_fb_page_protection == MDP_FB_PAGE_PROTECTION_WRITECOMBINE)
-		vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
-	else if (mfd->mdp_fb_page_protection ==
-		 MDP_FB_PAGE_PROTECTION_WRITETHROUGHCACHE)
-		vma->vm_page_prot = pgprot_writethroughcache(vma->vm_page_prot);
-	else if (mfd->mdp_fb_page_protection ==
-		 MDP_FB_PAGE_PROTECTION_WRITEBACKCACHE)
-		vma->vm_page_prot = pgprot_writebackcache(vma->vm_page_prot);
-	else if (mfd->mdp_fb_page_protection ==
-		 MDP_FB_PAGE_PROTECTION_WRITEBACKWACACHE)
-		vma->vm_page_prot = pgprot_writebackwacache(vma->vm_page_prot);
-	else
-		vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
-
-	/* Remap the frame buffer I/O range */
-	if (io_remap_pfn_range(vma, vma->vm_start, off >> PAGE_SHIFT,
-			       vma->vm_end - vma->vm_start,
-			       vma->vm_page_prot))
-=======
 	vma->vm_flags |= VM_IO;
 
 	if (mfd->mdp_fb_page_protection == MDP_FB_PAGE_PROTECTION_WRITECOMBINE)
@@ -2151,14 +1799,11 @@ static int mdss_fb_physical_mmap(struct fb_info *info,
 	if (io_remap_pfn_range(vma, vma->vm_start, off >> PAGE_SHIFT,
 				vma->vm_end - vma->vm_start,
 				vma->vm_page_prot))
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -EAGAIN;
 
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
 static int mdss_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
 {
 	struct msm_fb_data_type *mfd = (struct msm_fb_data_type *)info->par;
@@ -2175,7 +1820,6 @@ static int mdss_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
 	return rc;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static struct fb_ops mdss_fb_ops = {
 	.owner = THIS_MODULE,
 	.fb_open = mdss_fb_open,
@@ -2185,47 +1829,26 @@ static struct fb_ops mdss_fb_ops = {
 	.fb_blank = mdss_fb_blank,	/* blank display */
 	.fb_pan_display = mdss_fb_pan_display,	/* pan display */
 	.fb_ioctl = mdss_fb_ioctl,	/* perform fb specific ioctl */
-<<<<<<< HEAD
-=======
 #ifdef CONFIG_COMPAT
 	.fb_compat_ioctl = mdss_fb_compat_ioctl,
 #endif
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	.fb_mmap = mdss_fb_mmap,
 };
 
 static int mdss_fb_alloc_fbmem_iommu(struct msm_fb_data_type *mfd, int dom)
 {
 	void *virt = NULL;
-<<<<<<< HEAD
-	unsigned long phys = 0;
-	size_t size = 0;
-	struct platform_device *pdev = mfd->pdev;
-=======
 	phys_addr_t phys = 0;
 	size_t size = 0;
 	struct platform_device *pdev = mfd->pdev;
 	int rc = 0;
 	struct device_node *fbmem_pnode = NULL;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (!pdev || !pdev->dev.of_node) {
 		pr_err("Invalid device node\n");
 		return -ENODEV;
 	}
 
-<<<<<<< HEAD
-	if (of_property_read_u32(pdev->dev.of_node,
-				 "qcom,memory-reservation-size",
-				 &size) || !size) {
-		mfd->fbi->screen_base = NULL;
-		mfd->fbi->fix.smem_start = 0;
-		mfd->fbi->fix.smem_len = 0;
-		return 0;
-	}
-
-	pr_info("%s frame buffer reserve_size=0x%x\n", __func__, size);
-=======
 	fbmem_pnode = of_parse_phandle(pdev->dev.of_node,
 		"linux,contiguous-region", 0);
 	if (!fbmem_pnode) {
@@ -2248,26 +1871,11 @@ static int mdss_fb_alloc_fbmem_iommu(struct msm_fb_data_type *mfd, int dom)
 	}
 
 	pr_debug("%s frame buffer reserve_size=0x%zx\n", __func__, size);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (size < PAGE_ALIGN(mfd->fbi->fix.line_length *
 			      mfd->fbi->var.yres_virtual))
 		pr_warn("reserve size is smaller than framebuffer size\n");
 
-<<<<<<< HEAD
-	virt = allocate_contiguous_memory(size, MEMTYPE_EBI1, SZ_1M, 0);
-	if (!virt) {
-		pr_err("unable to alloc fbmem size=%u\n", size);
-		return -ENOMEM;
-	}
-
-	phys = memory_pool_node_paddr(virt);
-
-	msm_iommu_map_contig_buffer(phys, dom, 0, size, SZ_4K, 0,
-					    &mfd->iova);
-	pr_info("allocating %u bytes at %p (%lx phys) for fb %d\n",
-		 size, virt, phys, mfd->index);
-=======
 	virt = dma_alloc_coherent(&pdev->dev, size, &phys, GFP_KERNEL);
 	if (!virt) {
 		pr_err("unable to alloc fbmem size=%zx\n", size);
@@ -2281,7 +1889,6 @@ static int mdss_fb_alloc_fbmem_iommu(struct msm_fb_data_type *mfd, int dom)
 
 	pr_debug("alloc 0x%zxB @ (%pa phys) (0x%p virt) (%pa iova) for fb%d\n",
 		 size, &phys, virt, &mfd->iova, mfd->index);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	mfd->fbi->screen_base = virt;
 	mfd->fbi->fix.smem_start = phys;
@@ -2293,15 +1900,9 @@ static int mdss_fb_alloc_fbmem_iommu(struct msm_fb_data_type *mfd, int dom)
 static int mdss_fb_alloc_fbmem(struct msm_fb_data_type *mfd)
 {
 
-<<<<<<< HEAD
-	if (mfd->mdp.fb_mem_alloc_fnc)
-		return mfd->mdp.fb_mem_alloc_fnc(mfd);
-	else if (mfd->mdp.fb_mem_get_iommu_domain) {
-=======
 	if (mfd->mdp.fb_mem_alloc_fnc) {
 		return mfd->mdp.fb_mem_alloc_fnc(mfd);
 	} else if (mfd->mdp.fb_mem_get_iommu_domain) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		int dom = mfd->mdp.fb_mem_get_iommu_domain();
 		if (dom >= 0)
 			return mdss_fb_alloc_fbmem_iommu(mfd, dom);
@@ -2353,11 +1954,7 @@ static int mdss_fb_register(struct msm_fb_data_type *mfd)
 #else
 	var->height = -1,	/* height of picture in mm */
 	var->width = -1,	/* width of picture in mm */
-<<<<<<< HEAD
-#endif	
-=======
 #endif
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	var->accel_flags = 0,	/* acceleration flags */
 	var->sync = 0,	/* see FB_SYNC_* */
 	var->rotate = 0,	/* angle we rotate counter clockwise */
@@ -2494,10 +2091,6 @@ static int mdss_fb_register(struct msm_fb_data_type *mfd)
 	var->hsync_len = panel_info->lcdc.h_pulse_width;
 	var->pixclock = panel_info->clk_rate / 1000;
 
-<<<<<<< HEAD
-	/* id field for fb app  */
-
-=======
 	/*
 	 * Populate smem length here for uspace to get the
 	 * Framebuffer size when FBIO_FSCREENINFO ioctl is
@@ -2506,7 +2099,6 @@ static int mdss_fb_register(struct msm_fb_data_type *mfd)
 	fix->smem_len = PAGE_ALIGN(fix->line_length * var->yres) * mfd->fb_page;
 
 	/* id field for fb app  */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	id = (int *)&mfd->panel;
 
 	snprintf(fix->id, sizeof(fix->id), "mdssfb_%x", (u32) *id);
@@ -2521,15 +2113,8 @@ static int mdss_fb_register(struct msm_fb_data_type *mfd)
 
 	mdss_fb_parse_dt(mfd);
 
-<<<<<<< HEAD
-	if (mdss_fb_alloc_fbmem(mfd)) {
-		pr_err("unable to allocate framebuffer memory\n");
-		return -ENOMEM;
-	}
-=======
 	if (mdss_fb_alloc_fbmem(mfd))
 		pr_warn("unable to allocate fb memory in fb register\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	mfd->op_enable = true;
 
@@ -2538,32 +2123,23 @@ static int mdss_fb_register(struct msm_fb_data_type *mfd)
 	mutex_init(&mfd->mdp_sync_pt_data.sync_mutex);
 	atomic_set(&mfd->mdp_sync_pt_data.commit_cnt, 0);
 	atomic_set(&mfd->commits_pending, 0);
-<<<<<<< HEAD
-=======
 	atomic_set(&mfd->ioctl_ref_cnt, 0);
 	atomic_set(&mfd->kickoff_pending, 0);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	init_timer(&mfd->no_update.timer);
 	mfd->no_update.timer.function = mdss_fb_no_update_notify_timer_cb;
 	mfd->no_update.timer.data = (unsigned long)mfd;
-<<<<<<< HEAD
-=======
 	mfd->update.ref_count = 0;
 	mfd->no_update.ref_count = 0;
 	mfd->update.init_done = false;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	init_completion(&mfd->update.comp);
 	init_completion(&mfd->no_update.comp);
 	init_completion(&mfd->power_off_comp);
 	init_completion(&mfd->power_set_comp);
 	init_waitqueue_head(&mfd->commit_wait_q);
 	init_waitqueue_head(&mfd->idle_wait_q);
-<<<<<<< HEAD
-=======
 	init_waitqueue_head(&mfd->ioctl_q);
 	init_waitqueue_head(&mfd->kickoff_wait_q);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	ret = fb_alloc_cmap(&fbi->cmap, 256, 0);
 	if (ret)
@@ -2576,14 +2152,8 @@ static int mdss_fb_register(struct msm_fb_data_type *mfd)
 		return -EPERM;
 	}
 
-<<<<<<< HEAD
-	pr_info("FrameBuffer[%d] %dx%d size=%d registered successfully!\n",
-		     mfd->index, fbi->var.xres, fbi->var.yres,
-		     fbi->fix.smem_len);
-=======
 	pr_info("FrameBuffer[%d] %dx%d registered successfully!\n", mfd->index,
 					fbi->var.xres, fbi->var.yres);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return 0;
 }
@@ -2594,17 +2164,11 @@ static int mdss_fb_open(struct fb_info *info, int user)
 	struct mdss_fb_proc_info *pinfo = NULL;
 	int result;
 	int pid = current->tgid;
-<<<<<<< HEAD
-
-	if (mfd->shutdown_pending) {
-		pr_err("Shutdown pending. Aborting operation\n");
-=======
 	struct task_struct *task = current->group_leader;
 
 	if (mfd->shutdown_pending) {
 		pr_err("Shutdown pending. Aborting operation. Request from pid:%d name=%s\n",
 				pid, task->comm);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -EPERM;
 	}
 
@@ -2655,15 +2219,6 @@ static int mdss_fb_open(struct fb_info *info, int user)
 	pinfo->ref_cnt++;
 	mfd->ref_cnt++;
 
-<<<<<<< HEAD
-	/* Stop the splash thread once userspace open the fb node */
-	if (mfd->splash_thread && mfd->ref_cnt > 1) {
-		kthread_stop(mfd->splash_thread);
-		mfd->splash_thread = NULL;
-	}
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 
 blank_error:
@@ -2685,11 +2240,7 @@ static int mdss_fb_release_all(struct fb_info *info, bool release_all)
 {
 	struct msm_fb_data_type *mfd = (struct msm_fb_data_type *)info->par;
 	struct mdss_fb_proc_info *pinfo = NULL, *temp_pinfo = NULL;
-<<<<<<< HEAD
-	int ret = 0;
-=======
 	int ret = 0, ad_ret = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int pid = current->tgid;
 	bool unknown_pid = true, release_needed = false;
 	struct task_struct *task = current->group_leader;
@@ -2700,15 +2251,12 @@ static int mdss_fb_release_all(struct fb_info *info, bool release_all)
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
-=======
 	if (!wait_event_timeout(mfd->ioctl_q,
 		!atomic_read(&mfd->ioctl_ref_cnt) || !release_all,
 		msecs_to_jiffies(1000)))
 		pr_warn("fb%d ioctl could not finish. waited 1 sec.\n",
 			mfd->index);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mdss_fb_pan_idle(mfd);
 
 	pr_debug("release_all = %s\n", release_all ? "true" : "false");
@@ -2729,11 +2277,7 @@ static int mdss_fb_release_all(struct fb_info *info, bool release_all)
 			else
 				mfd->ref_cnt--;
 
-<<<<<<< HEAD
-		pinfo->ref_cnt--;
-=======
 			pinfo->ref_cnt--;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			pm_runtime_put(info->dev);
 		} while (release_all && pinfo->ref_cnt);
 
@@ -2783,10 +2327,6 @@ static int mdss_fb_release_all(struct fb_info *info, bool release_all)
 			mfd->disp_thread = NULL;
 		}
 
-<<<<<<< HEAD
-		ret = mdss_fb_blank_sub(FB_BLANK_POWERDOWN, info,
-				       mfd->op_enable);
-=======
 		if (mfd->mdp.release_fnc) {
 			ret = mfd->mdp.release_fnc(mfd, true);
 			if (ret)
@@ -2806,16 +2346,12 @@ static int mdss_fb_release_all(struct fb_info *info, bool release_all)
 
 		ret = mdss_fb_blank_sub(FB_BLANK_POWERDOWN, info,
 			mfd->op_enable);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (ret) {
 			pr_err("can't turn off fb%d! rc=%d process %s pid=%d\n",
 				mfd->index, ret, task->comm, pid);
 			return ret;
 		}
-<<<<<<< HEAD
-=======
 		atomic_set(&mfd->ioctl_ref_cnt, 0);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	return ret;
@@ -2879,24 +2415,15 @@ void mdss_fb_wait_for_fence(struct msm_sync_pt_data *sync_pt_data)
 					WAIT_FENCE_FINAL_TIMEOUT);
 		}
 		sync_fence_put(fences[i]);
-<<<<<<< HEAD
-		}
-=======
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (ret < 0) {
 		pr_err("%s: sync_fence_wait failed! ret = %x\n",
 				sync_pt_data->fence_name, ret);
 		for (; i < fence_cnt; i++)
 			sync_fence_put(fences[i]);
-<<<<<<< HEAD
-		}
-	}
-=======
 	}
 }
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /**
  * mdss_fb_signal_timeline() - signal a single release fence
@@ -3025,8 +2552,6 @@ static int mdss_fb_pan_idle(struct msm_fb_data_type *mfd)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
 static int mdss_fb_wait_for_kickoff(struct msm_fb_data_type *mfd)
 {
 	int ret = 0;
@@ -3046,7 +2571,6 @@ static int mdss_fb_wait_for_kickoff(struct msm_fb_data_type *mfd)
 
 	return 0;
 }
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static int mdss_fb_pan_display_ex(struct fb_info *info,
 		struct mdp_display_commit *disp_commit)
@@ -3056,15 +2580,11 @@ static int mdss_fb_pan_display_ex(struct fb_info *info,
 	u32 wait_for_finish = disp_commit->wait_for_finish;
 	int ret = 0;
 
-<<<<<<< HEAD
-	if (!mfd || (!mfd->op_enable) || (!mfd->panel_power_on))
-=======
 	if (!mfd || (!mfd->op_enable))
 		return -EPERM;
 
 	if ((!mfd->panel_power_on) && !((mfd->dcm_state == DCM_ENTER) &&
 				(mfd->panel.type == MIPI_CMD_PANEL)))
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -EPERM;
 
 	if (var->xoffset > (info->var.xres_virtual - info->var.xres))
@@ -3093,10 +2613,7 @@ static int mdss_fb_pan_display_ex(struct fb_info *info,
 
 	atomic_inc(&mfd->mdp_sync_pt_data.commit_cnt);
 	atomic_inc(&mfd->commits_pending);
-<<<<<<< HEAD
-=======
 	atomic_inc(&mfd->kickoff_pending);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	wake_up_all(&mfd->commit_wait_q);
 	mutex_unlock(&mfd->mdp_sync_pt_data.sync_mutex);
 	if (wait_for_finish)
@@ -3119,15 +2636,11 @@ static int mdss_fb_pan_display_sub(struct fb_var_screeninfo *var,
 {
 	struct msm_fb_data_type *mfd = (struct msm_fb_data_type *)info->par;
 
-<<<<<<< HEAD
-	if ((!mfd->op_enable) || (!mfd->panel_power_on))
-=======
 	if (!mfd->op_enable)
 		return -EPERM;
 
 	if ((!mfd->panel_power_on) && !((mfd->dcm_state == DCM_ENTER) &&
 				(mfd->panel.type == MIPI_CMD_PANEL)))
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -EPERM;
 
 	if (var->xoffset > (info->var.xres_virtual - info->var.xres))
@@ -3145,11 +2658,7 @@ static int mdss_fb_pan_display_sub(struct fb_var_screeninfo *var,
 		(var->yoffset / info->fix.ypanstep) * info->fix.ypanstep;
 
 	if (mfd->mdp.dma_fnc)
-<<<<<<< HEAD
-		mfd->mdp.dma_fnc(mfd, NULL, 0, NULL);
-=======
 		mfd->mdp.dma_fnc(mfd);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	else
 		pr_warn("dma function not set for panel type=%d\n",
 				mfd->panel.type);
@@ -3201,17 +2710,11 @@ static int __mdss_fb_perform_commit(struct msm_fb_data_type *mfd)
 		if (ret)
 			pr_err("pan display failed %x on fb%d\n", ret,
 					mfd->index);
-<<<<<<< HEAD
-	}
-		if (!ret)
-			mdss_fb_update_backlight(mfd);
-=======
 		atomic_set(&mfd->kickoff_pending, 0);
 		wake_up_all(&mfd->kickoff_wait_q);
 	}
 	if (!ret)
 		mdss_fb_update_backlight(mfd);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (IS_ERR_VALUE(ret) || !sync_pt_data->flushed)
 		mdss_fb_signal_timeline(sync_pt_data);
@@ -3227,11 +2730,7 @@ static int __mdss_fb_display_thread(void *data)
 
 	param.sched_priority = 16;
 	ret = sched_setscheduler(current, SCHED_FIFO, &param);
-<<<<<<< HEAD
-		if (ret)
-=======
 	if (ret)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		pr_warn("set priority failed for fb%d display thread\n",
 				mfd->index);
 
@@ -3249,10 +2748,7 @@ static int __mdss_fb_display_thread(void *data)
 	}
 
 	atomic_set(&mfd->commits_pending, 0);
-<<<<<<< HEAD
-=======
 	atomic_set(&mfd->kickoff_pending, 0);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	wake_up_all(&mfd->idle_wait_q);
 
 	return ret;
@@ -3423,11 +2919,8 @@ static int mdss_fb_set_par(struct fb_info *info)
 	else
 		mfd->fbi->fix.line_length = var->xres * var->bits_per_pixel / 8;
 
-<<<<<<< HEAD
-=======
 	mfd->fbi->fix.smem_len = mfd->fbi->fix.line_length *
 					mfd->fbi->var.yres_virtual;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (mfd->panel_reconfig || (mfd->fb_imgType != old_imgType)) {
 		mdss_fb_blank_sub(FB_BLANK_POWERDOWN, info, mfd->op_enable);
@@ -3602,11 +3095,7 @@ static int mdss_fb_handle_buf_sync_ioctl(struct msm_sync_pt_data *sync_pt_data,
 		if (fence == NULL) {
 			pr_err("%s: null fence! i=%d fd=%d\n",
 					sync_pt_data->fence_name, i,
-<<<<<<< HEAD
-				acq_fen_fd[i]);
-=======
 					acq_fen_fd[i]);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			ret = -EINVAL;
 			break;
 		}
@@ -3721,8 +3210,6 @@ static int mdss_fb_display_commit(struct fb_info *info,
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
 static int __ioctl_wait_idle(struct msm_fb_data_type *mfd, u32 cmd)
 {
 	int ret = 0;
@@ -3745,7 +3232,6 @@ static int __ioctl_wait_idle(struct msm_fb_data_type *mfd, u32 cmd)
 		pr_debug("Shutdown pending. Aborting operation %x\n", cmd);
 	return ret;
 }
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static int mdss_fb_ioctl(struct fb_info *info, unsigned int cmd,
 			 unsigned long arg)
@@ -3756,24 +3242,13 @@ static int mdss_fb_ioctl(struct fb_info *info, unsigned int cmd,
 	int ret = -ENOSYS;
 	struct mdp_buf_sync buf_sync;
 	struct msm_sync_pt_data *sync_pt_data = NULL;
-<<<<<<< HEAD
-	
-=======
 	unsigned int dsi_mode = 0;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_F_SKYDISP_SMARTDIMMING
 	struct mdss_panel_info *panel_info = NULL;
 	struct mdss_panel_data * pdata =NULL;
 	struct mdss_dsi_ctrl_pdata *ctrl_pdata = NULL;
 #endif
-<<<<<<< HEAD
-		
-	if (!info || !info->par)
-		return -EINVAL;
-	mfd = (struct msm_fb_data_type *)info->par;
-	
-=======
 
 	if (!info || !info->par)
 		return -EINVAL;
@@ -3787,28 +3262,12 @@ static int mdss_fb_ioctl(struct fb_info *info, unsigned int cmd,
 
 	atomic_inc(&mfd->ioctl_ref_cnt);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_F_SKYDISP_SMARTDIMMING
 	panel_info = mfd->panel_info;
 	pdata = container_of(panel_info, struct mdss_panel_data,
 				panel_info);
 	ctrl_pdata = container_of(pdata, struct mdss_dsi_ctrl_pdata,
 				panel_data);
-<<<<<<< HEAD
-#endif	
-
-	mdss_fb_power_setting_idle(mfd);
-	if ((cmd != MSMFB_VSYNC_CTRL) && (cmd != MSMFB_OVERLAY_VSYNC_CTRL) &&
-			(cmd != MSMFB_ASYNC_BLIT) && (cmd != MSMFB_BLIT) &&
-			(cmd != MSMFB_NOTIFY_UPDATE)) {
-		ret = mdss_fb_pan_idle(mfd);
-		if (ret) {
-			pr_debug("Shutdown pending. Aborting operation %x\n",
-				cmd);
-			return ret;
-		}
-	}
-=======
 #endif
 
 	mdss_fb_power_setting_idle(mfd);
@@ -3816,7 +3275,6 @@ static int mdss_fb_ioctl(struct fb_info *info, unsigned int cmd,
 	ret = __ioctl_wait_idle(mfd, cmd);
 	if (ret)
 		goto exit;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	switch (cmd) {
 	case MSMFB_CURSOR:
@@ -3833,21 +3291,12 @@ static int mdss_fb_ioctl(struct fb_info *info, unsigned int cmd,
 		ret = copy_to_user(argp, &fb_page_protection,
 				   sizeof(fb_page_protection));
 		if (ret)
-<<<<<<< HEAD
-			return ret;
-=======
 			goto exit;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		break;
 
 	case MSMFB_BUFFER_SYNC:
 		ret = copy_from_user(&buf_sync, argp, sizeof(buf_sync));
 		if (ret)
-<<<<<<< HEAD
-			return ret;
-		if ((!mfd->op_enable) || (!mfd->panel_power_on))
-			return -EPERM;
-=======
 			goto exit;
 
 		if ((!mfd->op_enable) || (!mfd->panel_power_on)) {
@@ -3855,7 +3304,6 @@ static int mdss_fb_ioctl(struct fb_info *info, unsigned int cmd,
 			goto exit;
 		}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (mfd->mdp.get_sync_fnc)
 			sync_pt_data = mfd->mdp.get_sync_fnc(mfd, &buf_sync);
 		if (!sync_pt_data)
@@ -3874,9 +3322,6 @@ static int mdss_fb_ioctl(struct fb_info *info, unsigned int cmd,
 	case MSMFB_DISPLAY_COMMIT:
 		ret = mdss_fb_display_commit(info, argp);
 		break;
-<<<<<<< HEAD
-		
-=======
 
 	case MSMFB_LPM_ENABLE:
 		ret = copy_from_user(&dsi_mode, argp, sizeof(dsi_mode));
@@ -3888,7 +3333,6 @@ static int mdss_fb_ioctl(struct fb_info *info, unsigned int cmd,
 		ret = mdss_fb_lpm_enable(mfd, dsi_mode);
 		break;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_F_SKYDISP_SMARTDIMMING
 	case MSMFB_LCD_SMART_DIMMING_READ:
 		ret = copy_to_user(argp, &ctrl_pdata->panel_read_mtp,
@@ -3903,10 +3347,7 @@ static int mdss_fb_ioctl(struct fb_info *info, unsigned int cmd,
 			pr_err("#MSMFB_LCD_SMART_DIMMING_WRITE\n");
 		break;		
 #endif
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	default:
 		if (mfd->mdp.ioctl_handler)
 			ret = mfd->mdp.ioctl_handler(mfd, cmd, argp);
@@ -3916,13 +3357,10 @@ static int mdss_fb_ioctl(struct fb_info *info, unsigned int cmd,
 	if (ret == -ENOSYS)
 		pr_err("unsupported ioctl (%x)\n", cmd);
 
-<<<<<<< HEAD
-=======
 exit:
 	if (!atomic_dec_return(&mfd->ioctl_ref_cnt))
 		wake_up_all(&mfd->ioctl_q);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return ret;
 }
 
@@ -3938,10 +3376,7 @@ struct fb_info *msm_fb_get_writeback_fb(void)
 
 	return NULL;
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct msm_fb_data_type * mfdmsm_fb_get_mfd(void)
 {
 	int c = 0;
@@ -3953,10 +3388,7 @@ struct msm_fb_data_type * mfdmsm_fb_get_mfd(void)
 	}
 	return NULL;
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 EXPORT_SYMBOL(msm_fb_get_writeback_fb);
 
 static int mdss_fb_register_extra_panel(struct platform_device *pdev,
@@ -4022,12 +3454,8 @@ int mdss_register_panel(struct platform_device *pdev,
 		pr_info("adding framebuffer device %s\n", dev_name(&pdev->dev));
 		fb_pdev = of_platform_device_create(node, NULL,
 				&mdss_pdev->dev);
-<<<<<<< HEAD
-		fb_pdev->dev.platform_data = pdata;
-=======
 		if (fb_pdev)
 			fb_pdev->dev.platform_data = pdata;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	if (master_panel && mdp_instance->panel_register_done)
@@ -4056,11 +3484,7 @@ int mdss_fb_get_phys_info(unsigned long *start, unsigned long *len, int fb_num)
 	struct fb_info *info;
 	struct msm_fb_data_type *mfd;
 
-<<<<<<< HEAD
-	if (fb_num > MAX_FBI_LIST)
-=======
 	if (fb_num >= MAX_FBI_LIST)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -EINVAL;
 
 	info = fbi_list[fb_num];
@@ -4092,8 +3516,6 @@ int __init mdss_fb_init(void)
 }
 
 module_init(mdss_fb_init);
-<<<<<<< HEAD
-=======
 
 int mdss_fb_suspres_panel(struct device *dev, void *data)
 {
@@ -4118,4 +3540,3 @@ int mdss_fb_suspres_panel(struct device *dev, void *data)
 			mfd->index, rc);
 	return rc;
 }
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

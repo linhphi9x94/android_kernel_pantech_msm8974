@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -16,14 +12,6 @@
 
 #include <linux/module.h>
 #include <linux/err.h>
-<<<<<<< HEAD
-#include <linux/kernel.h>
-#include <linux/delay.h>
-#include <linux/i2c.h>
-#include <linux/regulator/driver.h>
-#include <linux/regmap.h>
-#include <linux/regulator/onsemi-ncp6335d.h>
-=======
 #include <linux/gpio.h>
 #include <linux/kernel.h>
 #include <linux/delay.h>
@@ -38,7 +26,6 @@
 #include <linux/regulator/onsemi-ncp6335d.h>
 #include <linux/string.h>
 #include <mach/gpiomux.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /* registers */
 #define REG_NCP6335D_PID		0x03
@@ -51,10 +38,7 @@
 /* constraints */
 #define NCP6335D_MIN_VOLTAGE_UV		600000
 #define NCP6335D_STEP_VOLTAGE_UV	6250
-<<<<<<< HEAD
-=======
 #define NCP6335D_VOLTAGE_STEPS		128
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define NCP6335D_MIN_SLEW_NS		166
 #define NCP6335D_MAX_SLEW_NS		1333
 
@@ -76,11 +60,6 @@ struct ncp6335d_info {
 	struct regmap *regmap;
 	struct device *dev;
 	unsigned int vsel_reg;
-<<<<<<< HEAD
-	unsigned int mode_bit;
-	int curr_voltage;
-	int slew_rate;
-=======
 	unsigned int vsel_backup_reg;
 	unsigned int mode_bit;
 	int curr_voltage;
@@ -90,7 +69,6 @@ struct ncp6335d_info {
 	unsigned int min_voltage;
 	unsigned int min_slew_ns;
 	unsigned int max_slew_ns;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static void dump_registers(struct ncp6335d_info *dd,
@@ -108,13 +86,8 @@ static void ncp633d_slew_delay(struct ncp6335d_info *dd,
 	u8 val;
 	int delay;
 
-<<<<<<< HEAD
-	val = abs(prev_uV - new_uV) / NCP6335D_STEP_VOLTAGE_UV;
-	delay =  (val * dd->slew_rate / 1000) + 1;
-=======
 	val = abs(prev_uV - new_uV) / dd->step_size;
 	delay = ((val * dd->slew_rate) / 1000) + 1;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	dev_dbg(dd->dev, "Slew Delay = %d\n", delay);
 
@@ -162,13 +135,8 @@ static int ncp6335d_get_voltage(struct regulator_dev *rdev)
 		dev_err(dd->dev, "Unable to get volatge rc(%d)", rc);
 		return rc;
 	}
-<<<<<<< HEAD
-	dd->curr_voltage = ((val & NCP6335D_VOUT_SEL_MASK) *
-			NCP6335D_STEP_VOLTAGE_UV) + NCP6335D_MIN_VOLTAGE_UV;
-=======
 	dd->curr_voltage = ((val & NCP6335D_VOUT_SEL_MASK) * dd->step_size) +
 				dd->min_voltage;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	dump_registers(dd, dd->vsel_reg, __func__);
 
@@ -181,15 +149,8 @@ static int ncp6335d_set_voltage(struct regulator_dev *rdev,
 	int rc, set_val, new_uV;
 	struct ncp6335d_info *dd = rdev_get_drvdata(rdev);
 
-<<<<<<< HEAD
-	set_val = DIV_ROUND_UP(min_uV - NCP6335D_MIN_VOLTAGE_UV,
-					NCP6335D_STEP_VOLTAGE_UV);
-	new_uV = (set_val * NCP6335D_STEP_VOLTAGE_UV) +
-					NCP6335D_MIN_VOLTAGE_UV;
-=======
 	set_val = DIV_ROUND_UP(min_uV - dd->min_voltage, dd->step_size);
 	new_uV = (set_val * dd->step_size) + dd->min_voltage;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (new_uV > max_uV) {
 		dev_err(dd->dev, "Unable to set volatge (%d %d)\n",
 							min_uV, max_uV);
@@ -211,8 +172,6 @@ static int ncp6335d_set_voltage(struct regulator_dev *rdev,
 	return rc;
 }
 
-<<<<<<< HEAD
-=======
 static int ncp6335d_list_voltage(struct regulator_dev *rdev,
 					unsigned selector)
 {
@@ -224,7 +183,6 @@ static int ncp6335d_list_voltage(struct regulator_dev *rdev,
 	return selector * dd->step_size + dd->min_voltage;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int ncp6335d_set_mode(struct regulator_dev *rdev,
 					unsigned int mode)
 {
@@ -279,10 +237,7 @@ static unsigned int ncp6335d_get_mode(struct regulator_dev *rdev)
 static struct regulator_ops ncp6335d_ops = {
 	.set_voltage = ncp6335d_set_voltage,
 	.get_voltage = ncp6335d_get_voltage,
-<<<<<<< HEAD
-=======
 	.list_voltage = ncp6335d_list_voltage,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	.enable = ncp6335d_enable,
 	.disable = ncp6335d_disable,
 	.set_mode = ncp6335d_set_mode,
@@ -292,13 +247,6 @@ static struct regulator_ops ncp6335d_ops = {
 static struct regulator_desc rdesc = {
 	.name = "ncp6335d",
 	.owner = THIS_MODULE,
-<<<<<<< HEAD
-	.n_voltages = 128,
-	.ops = &ncp6335d_ops,
-};
-
-static int __devinit ncp6335d_init(struct ncp6335d_info *dd,
-=======
 	.n_voltages = NCP6335D_VOLTAGE_STEPS,
 	.ops = &ncp6335d_ops,
 };
@@ -391,7 +339,6 @@ static int ncp6335d_parse_tlmm(struct device_node *node,
 
 static int __devinit ncp6335d_init(struct i2c_client *client,
 			struct ncp6335d_info *dd,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			const struct ncp6335d_platform_data *pdata)
 {
 	int rc;
@@ -400,18 +347,12 @@ static int __devinit ncp6335d_init(struct i2c_client *client,
 	switch (pdata->default_vsel) {
 	case NCP6335D_VSEL0:
 		dd->vsel_reg = REG_NCP6335D_PROGVSEL0;
-<<<<<<< HEAD
-=======
 		dd->vsel_backup_reg = REG_NCP6335D_PROGVSEL1;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		dd->mode_bit = NCP6335D_PWM_MODE0;
 	break;
 	case NCP6335D_VSEL1:
 		dd->vsel_reg = REG_NCP6335D_PROGVSEL1;
-<<<<<<< HEAD
-=======
 		dd->vsel_backup_reg = REG_NCP6335D_PROGVSEL0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		dd->mode_bit = NCP6335D_PWM_MODE1;
 	break;
 	default:
@@ -419,8 +360,6 @@ static int __devinit ncp6335d_init(struct i2c_client *client,
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
-=======
 	if (of_property_read_bool(client->dev.of_node, "onnn,restore-reg")) {
 		rc = ncp6335d_restore_working_reg(client->dev.of_node, dd);
 		if (rc)
@@ -435,7 +374,6 @@ static int __devinit ncp6335d_init(struct i2c_client *client,
 	if (rc)
 		return rc;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* get the current programmed voltage */
 	rc = regmap_read(dd->regmap, dd->vsel_reg, &val);
 	if (rc) {
@@ -443,11 +381,7 @@ static int __devinit ncp6335d_init(struct i2c_client *client,
 		return rc;
 	}
 	dd->curr_voltage = ((val & NCP6335D_VOUT_SEL_MASK) *
-<<<<<<< HEAD
-			NCP6335D_STEP_VOLTAGE_UV) + NCP6335D_MIN_VOLTAGE_UV;
-=======
 				dd->step_size) + dd->min_voltage;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/* set discharge */
 	rc = regmap_update_bits(dd->regmap, REG_NCP6335D_PGOOD,
@@ -460,17 +394,6 @@ static int __devinit ncp6335d_init(struct i2c_client *client,
 	}
 
 	/* set slew rate */
-<<<<<<< HEAD
-	if (pdata->slew_rate_ns < NCP6335D_MIN_SLEW_NS ||
-			pdata->slew_rate_ns > NCP6335D_MAX_SLEW_NS) {
-		dev_err(dd->dev, "Invalid slew rate %d\n", pdata->slew_rate_ns);
-		return -EINVAL;
-	}
-	val = DIV_ROUND_UP(pdata->slew_rate_ns - NCP6335D_MIN_SLEW_NS,
-						NCP6335D_MIN_SLEW_NS);
-	val >>= 1;
-	dd->slew_rate = val * NCP6335D_MIN_SLEW_NS;
-=======
 	if (pdata->slew_rate_ns < dd->min_slew_ns ||
 			pdata->slew_rate_ns > dd->max_slew_ns) {
 		dev_err(dd->dev, "Invalid slew rate %d\n", pdata->slew_rate_ns);
@@ -480,7 +403,6 @@ static int __devinit ncp6335d_init(struct i2c_client *client,
 	dd->slew_rate = pdata->slew_rate_ns;
 	val = DIV_ROUND_UP(pdata->slew_rate_ns, dd->min_slew_ns);
 	val = ilog2(val);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	rc = regmap_update_bits(dd->regmap, REG_NCP6335D_TIMING,
 			NCP6335D_SLEW_MASK, val << NCP6335D_SLEW_SHIFT);
@@ -507,8 +429,6 @@ static struct regmap_config ncp6335d_regmap_config = {
 	.val_bits = 8,
 };
 
-<<<<<<< HEAD
-=======
 static int ncp6335d_parse_dt(struct i2c_client *client,
 				struct ncp6335d_info *dd)
 {
@@ -619,7 +539,6 @@ static struct ncp6335d_platform_data *
 	return pdata;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int __devinit ncp6335d_regulator_probe(struct i2c_client *client,
 					const struct i2c_device_id *id)
 {
@@ -628,15 +547,11 @@ static int __devinit ncp6335d_regulator_probe(struct i2c_client *client,
 	struct ncp6335d_info *dd;
 	const struct ncp6335d_platform_data *pdata;
 
-<<<<<<< HEAD
-	pdata = client->dev.platform_data;
-=======
 	if (client->dev.of_node)
 		pdata = ncp6335d_get_of_platform_data(client);
 	else
 		pdata = client->dev.platform_data;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!pdata) {
 		dev_err(&client->dev, "Platform data not specified\n");
 		return -EINVAL;
@@ -648,8 +563,6 @@ static int __devinit ncp6335d_regulator_probe(struct i2c_client *client,
 		return -ENOMEM;
 	}
 
-<<<<<<< HEAD
-=======
 	if (client->dev.of_node) {
 		rc = ncp6335d_parse_dt(client, dd);
 		if (rc)
@@ -661,7 +574,6 @@ static int __devinit ncp6335d_regulator_probe(struct i2c_client *client,
 		dd->max_slew_ns	= NCP6335D_MAX_SLEW_NS;
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	dd->regmap = devm_regmap_init_i2c(client, &ncp6335d_regmap_config);
 	if (IS_ERR(dd->regmap)) {
 		dev_err(&client->dev, "Error allocating regmap\n");
@@ -680,23 +592,12 @@ static int __devinit ncp6335d_regulator_probe(struct i2c_client *client,
 	dd->dev = &client->dev;
 	i2c_set_clientdata(client, dd);
 
-<<<<<<< HEAD
-	rc = ncp6335d_init(dd, pdata);
-=======
 	rc = ncp6335d_init(client, dd, pdata);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (rc) {
 		dev_err(&client->dev, "Unable to intialize the regulator\n");
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
-	dd->regulator = regulator_register(&rdesc, &client->dev,
-					dd->init_data, dd, NULL);
-	if (IS_ERR(dd->regulator)) {
-		dev_err(&client->dev, "Unable to register regulator rc(%ld)",
-						PTR_ERR(dd->regulator));
-=======
 	dd->regulator = regulator_register(&rdesc, &client->dev, dd->init_data,
 						dd, client->dev.of_node);
 
@@ -704,7 +605,6 @@ static int __devinit ncp6335d_regulator_probe(struct i2c_client *client,
 		dev_err(&client->dev, "Unable to register regulator rc(%ld)",
 						PTR_ERR(dd->regulator));
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return PTR_ERR(dd->regulator);
 	}
 
@@ -720,15 +620,12 @@ static int __devexit ncp6335d_regulator_remove(struct i2c_client *client)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
 static struct of_device_id ncp6335d_match_table[] = {
 	{ .compatible = "onnn,ncp6335d-regulator", },
 	{},
 };
 MODULE_DEVICE_TABLE(of, ncp6335d_match_table);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static const struct i2c_device_id ncp6335d_id[] = {
 	{"ncp6335d", -1},
 	{ },
@@ -737,22 +634,13 @@ static const struct i2c_device_id ncp6335d_id[] = {
 static struct i2c_driver ncp6335d_regulator_driver = {
 	.driver = {
 		.name = "ncp6335d-regulator",
-<<<<<<< HEAD
-=======
 		.owner = THIS_MODULE,
 		.of_match_table = ncp6335d_match_table,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	},
 	.probe = ncp6335d_regulator_probe,
 	.remove = __devexit_p(ncp6335d_regulator_remove),
 	.id_table = ncp6335d_id,
 };
-<<<<<<< HEAD
-static int __init ncp6335d_regulator_init(void)
-{
-	return i2c_add_driver(&ncp6335d_regulator_driver);
-}
-=======
 
 /**
  * ncp6335d_regulator_init() - initialized ncp6335d regulator driver
@@ -772,7 +660,6 @@ int __init ncp6335d_regulator_init(void)
 	return i2c_add_driver(&ncp6335d_regulator_driver);
 }
 EXPORT_SYMBOL(ncp6335d_regulator_init);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 subsys_initcall(ncp6335d_regulator_init);
 
 static void __exit ncp6335d_regulator_exit(void)

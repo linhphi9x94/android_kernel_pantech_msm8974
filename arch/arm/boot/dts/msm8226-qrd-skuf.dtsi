@@ -125,11 +125,8 @@
 				FF FF FF FF FF FF FF FF FF FF
 				FF FF FF FF 3E 01];
 			goodix,fw_name = "gtp_fw.bin";
-<<<<<<< HEAD
-=======
 			goodix,have-touch-key;
 			goodix,driver-send-cfg;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		};
 	};
 };

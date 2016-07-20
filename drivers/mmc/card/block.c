@@ -30,10 +30,7 @@
 #include <linux/blkdev.h>
 #include <linux/mutex.h>
 #include <linux/scatterlist.h>
-<<<<<<< HEAD
-=======
 #include <linux/bitops.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <linux/string_helpers.h>
 #include <linux/delay.h>
 #include <linux/capability.h>
@@ -72,10 +69,7 @@ MODULE_ALIAS("mmc:block");
 #define PACKED_CMD_VER		0x01
 #define PACKED_CMD_WR		0x02
 #define PACKED_TRIGGER_MAX_ELEMENTS	5000
-<<<<<<< HEAD
-=======
 #define MMC_BLK_MAX_RETRIES 5 /* max # of retries before aborting a command */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define MMC_BLK_UPDATE_STOP_REASON(stats, reason)			\
 	do {								\
 		if (stats->enabled)					\
@@ -2477,11 +2471,7 @@ static int mmc_blk_issue_rw_rq(struct mmc_queue *mq, struct request *rqc)
 		areq = mmc_start_req(card->host, areq, (int *) &status);
 		if (!areq) {
 			if (status == MMC_BLK_NEW_REQUEST)
-<<<<<<< HEAD
-				mq->flags |= MMC_QUEUE_NEW_REQUEST;
-=======
 				set_bit(MMC_QUEUE_NEW_REQUEST, &mq->flags);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			return 0;
 		}
 
@@ -2502,11 +2492,7 @@ static int mmc_blk_issue_rw_rq(struct mmc_queue *mq, struct request *rqc)
 				mmc_blk_reinsert_req(areq);
 			}
 
-<<<<<<< HEAD
-			mq->flags |= MMC_QUEUE_URGENT_REQUEST;
-=======
 			set_bit(MMC_QUEUE_URGENT_REQUEST, &mq->flags);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			ret = 0;
 			break;
 		case MMC_BLK_URGENT_DONE:
@@ -2540,18 +2526,6 @@ static int mmc_blk_issue_rw_rq(struct mmc_queue *mq, struct request *rqc)
 			break;
 		case MMC_BLK_CMD_ERR:
 			ret = mmc_blk_cmd_err(md, card, brq, req, ret);
-<<<<<<< HEAD
-			if (!mmc_blk_reset(md, card->host, type))
-				break;
-			goto cmd_abort;
-		case MMC_BLK_RETRY:
-			if (retry++ < 5)
-				break;
-			/* Fall through */
-		case MMC_BLK_ABORT:
-			if (!mmc_blk_reset(md, card->host, type))
-				break;
-=======
 			if (!mmc_blk_reset(md, card->host, type)) {
 				if (!ret) {
 					/*
@@ -2575,7 +2549,6 @@ static int mmc_blk_issue_rw_rq(struct mmc_queue *mq, struct request *rqc)
 			if (!mmc_blk_reset(md, card->host, type) &&
 					(retry++ < (MMC_BLK_MAX_RETRIES + 1)))
 					break;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			goto cmd_abort;
 		case MMC_BLK_DATA_ERR: {
 			int err;
@@ -2679,18 +2652,6 @@ static int mmc_blk_issue_rq(struct mmc_queue *mq, struct request *req)
 	struct mmc_card *card = md->queue.card;
 	struct mmc_host *host = card->host;
 	unsigned long flags;
-<<<<<<< HEAD
-
-#ifdef CONFIG_MMC_BLOCK_DEFERRED_RESUME
-	if (mmc_bus_needs_resume(card->host)) {
-		mmc_resume_bus(card->host);
-		mmc_blk_set_blksize(md, card);
-	}
-#endif
-
-	if (req && !mq->mqrq_prev->req) {
-		mmc_rpm_hold(host, &card->dev);
-=======
 	unsigned int cmd_flags = req ? req->cmd_flags : 0;
 
 	if (req && !mq->mqrq_prev->req) {
@@ -2700,7 +2661,6 @@ static int mmc_blk_issue_rq(struct mmc_queue *mq, struct request *req)
 		mmc_resume_bus(card->host);
 	}
 #endif
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/* claim host only for the first request */
 		mmc_claim_host(card->host);
 		if (card->ext_csd.bkops_en)
@@ -2718,41 +2678,23 @@ static int mmc_blk_issue_rq(struct mmc_queue *mq, struct request *req)
 
 	mmc_blk_write_packing_control(mq, req);
 
-<<<<<<< HEAD
-	mq->flags &= ~MMC_QUEUE_NEW_REQUEST;
-	mq->flags &= ~MMC_QUEUE_URGENT_REQUEST;
-	if (req && req->cmd_flags & REQ_SANITIZE) {
-=======
 	clear_bit(MMC_QUEUE_NEW_REQUEST, &mq->flags);
 	clear_bit(MMC_QUEUE_URGENT_REQUEST, &mq->flags);
 	if (cmd_flags & REQ_SANITIZE) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/* complete ongoing async transfer before issuing sanitize */
 		if (card->host && card->host->areq)
 			mmc_blk_issue_rw_rq(mq, NULL);
 		ret = mmc_blk_issue_sanitize_rq(mq, req);
-<<<<<<< HEAD
-	} else if (req && req->cmd_flags & REQ_DISCARD) {
-		/* complete ongoing async transfer before issuing discard */
-		if (card->host->areq)
-			mmc_blk_issue_rw_rq(mq, NULL);
-		if (req->cmd_flags & REQ_SECURE &&
-=======
 	} else if (cmd_flags & REQ_DISCARD) {
 		/* complete ongoing async transfer before issuing discard */
 		if (card->host->areq)
 			mmc_blk_issue_rw_rq(mq, NULL);
 		if (cmd_flags & REQ_SECURE &&
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			!(card->quirks & MMC_QUIRK_SEC_ERASE_TRIM_BROKEN))
 			ret = mmc_blk_issue_secdiscard_rq(mq, req);
 		else
 			ret = mmc_blk_issue_discard_rq(mq, req);
-<<<<<<< HEAD
-	} else if (req && req->cmd_flags & REQ_FLUSH) {
-=======
 	} else if (cmd_flags & REQ_FLUSH) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/* complete ongoing async transfer before issuing flush */
 		if (card->host->areq)
 			mmc_blk_issue_rw_rq(mq, NULL);
@@ -2773,17 +2715,10 @@ out:
 	 * - urgent notification in progress and current request is not urgent
 	 *   (all existing requests completed or reinserted to the block layer)
 	 */
-<<<<<<< HEAD
-	if ((!req && !(mq->flags & MMC_QUEUE_NEW_REQUEST)) ||
-			((mq->flags & MMC_QUEUE_URGENT_REQUEST) &&
-			 !(mq->mqrq_cur->req->cmd_flags &
-				MMC_REQ_NOREINSERT_MASK))) {
-=======
 	if ((!req && !(test_bit(MMC_QUEUE_NEW_REQUEST, &mq->flags))) ||
 			(cmd_flags & MMC_REQ_SPECIAL_MASK) ||
 			((test_bit(MMC_QUEUE_URGENT_REQUEST, &mq->flags)) &&
 			 !(cmd_flags & MMC_REQ_NOREINSERT_MASK))) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (mmc_card_need_bkops(card))
 			mmc_start_bkops(card, false);
 		/* release host only when there are no more requests */
@@ -3189,12 +3124,6 @@ static const struct mmc_fixup blk_fixups[] =
 	MMC_FIXUP(CID_NAME_ANY, CID_MANFID_HYNIX, CID_OEMID_ANY, add_quirk_mmc,
 		  MMC_QUIRK_BROKEN_DATA_TIMEOUT),
 
-<<<<<<< HEAD
-	/* Disable cache for this cards */
-	MMC_FIXUP("H8G2d", CID_MANFID_HYNIX, CID_OEMID_ANY, add_quirk_mmc,
-		  MMC_QUIRK_CACHE_DISABLE),
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	END_FIXUP
 };
 
@@ -3282,11 +3211,7 @@ static void mmc_blk_shutdown(struct mmc_card *card)
 		mmc_claim_host(card->host);
 		mmc_stop_bkops(card);
 		mmc_release_host(card->host);
-<<<<<<< HEAD
-		mmc_send_long_pon(card);
-=======
 		mmc_send_pon(card);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		mmc_rpm_release(card->host, &card->dev);
 	}
 	return;

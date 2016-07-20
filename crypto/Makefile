@@ -96,7 +96,4 @@ obj-$(CONFIG_CRYPTO_USER_API_SKCIPHER) += algif_skcipher.o
 #
 obj-$(CONFIG_XOR_BLOCKS) += xor.o
 obj-$(CONFIG_ASYNC_CORE) += async_tx/
-<<<<<<< HEAD
-=======
 obj-$(CONFIG_CRYPTO_ABLK_HELPER) += ablk_helper.o
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

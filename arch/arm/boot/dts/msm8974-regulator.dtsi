@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -292,11 +288,7 @@
 	rpm-regulator-ldoa11 {
 		status = "okay";
 		pm8941_l11: regulator-l11 {
-<<<<<<< HEAD
-			regulator-min-microvolt = <1300000>;
-=======
 			regulator-min-microvolt = <1225000>;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			regulator-max-microvolt = <1350000>;
 			qcom,init-voltage = <1300000>;
 			status = "okay";
@@ -577,10 +569,7 @@
 &pm8941_chg_otg {
 	regulator-name = "8941_smbb_otg";
 };
-<<<<<<< HEAD
-=======
 
 &pm8941_chg_chgr {
 	regulator-name = "flash_wa";
 };
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

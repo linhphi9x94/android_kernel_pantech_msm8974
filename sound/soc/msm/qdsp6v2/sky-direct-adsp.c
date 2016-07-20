@@ -249,12 +249,8 @@ static long sky_direct_adsp_ioctl(struct file *file, unsigned int cmd, unsigned 
         case IOCTL_SKY_DIRECT_ADSP_PCM_WB_MODE_SET:
             SKY_DIRECT_ADSP_DBG_LOW("sky_direct_adsp_ioctl(), set ADSP mode PCM-WB");
             MVS_MODE = MODE_PCM;
-<<<<<<< HEAD
-            if(voip_info.play_samp_rate != 16000 || voip_info.cap_samp_rate != 16000)
-=======
             if((voip_info.play_samp_rate != 16000 || voip_info.cap_samp_rate != 16000) 
 	    	&& (voip_info.capture_substream != NULL && voip_info.playback_substream != NULL))
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
             {
        			voip_info.state = VOIP_STOPPED;
         		voc_end_voice_call(
@@ -317,12 +313,8 @@ static long sky_direct_adsp_ioctl(struct file *file, unsigned int cmd, unsigned 
         case IOCTL_SKY_DIRECT_ADSP_PCM_NB_MODE_SET:
             SKY_DIRECT_ADSP_DBG_LOW("sky_direct_adsp_ioctl(), set ADSP mode PCM-NB");
             MVS_MODE = MODE_PCM;
-<<<<<<< HEAD
-            if(voip_info.play_samp_rate != 8000 || voip_info.cap_samp_rate != 8000)
-=======
             if((voip_info.play_samp_rate != 8000 || voip_info.cap_samp_rate != 8000)
 	    	&& (voip_info.capture_substream != NULL && voip_info.playback_substream != NULL))
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
             {
        			voip_info.state = VOIP_STOPPED;
         		voc_end_voice_call(

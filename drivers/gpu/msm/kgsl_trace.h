@@ -38,30 +38,18 @@ TRACE_EVENT(kgsl_issueibcmds,
 	TP_PROTO(struct kgsl_device *device,
 			int drawctxt_id,
 			struct kgsl_cmdbatch *cmdbatch,
-<<<<<<< HEAD
-=======
 			unsigned int numibs,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			int timestamp,
 			int flags,
 			int result,
 			unsigned int type),
 
-<<<<<<< HEAD
-	TP_ARGS(device, drawctxt_id, cmdbatch, timestamp, flags,
-		result, type),
-=======
 	TP_ARGS(device, drawctxt_id, cmdbatch, numibs, timestamp,
 		flags, result, type),
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	TP_STRUCT__entry(
 		__string(device_name, device->name)
 		__field(unsigned int, drawctxt_id)
-<<<<<<< HEAD
-		__field(unsigned int, ibdesc_addr)
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		__field(unsigned int, numibs)
 		__field(unsigned int, timestamp)
 		__field(unsigned int, flags)
@@ -72,12 +60,7 @@ TRACE_EVENT(kgsl_issueibcmds,
 	TP_fast_assign(
 		__assign_str(device_name, device->name);
 		__entry->drawctxt_id = drawctxt_id;
-<<<<<<< HEAD
-		__entry->ibdesc_addr = cmdbatch->ibdesc[0].gpuaddr;
-		__entry->numibs = cmdbatch->ibcount;
-=======
 		__entry->numibs = numibs;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		__entry->timestamp = timestamp;
 		__entry->flags = flags;
 		__entry->result = result;
@@ -85,34 +68,20 @@ TRACE_EVENT(kgsl_issueibcmds,
 	),
 
 	TP_printk(
-<<<<<<< HEAD
-		"d_name=%s ctx=%u ib=0x%u numibs=%u ts=%u "
-		"flags=0x%x(%s) result=%d type=%s",
-		__get_str(device_name),
-		__entry->drawctxt_id,
-		__entry->ibdesc_addr,
-=======
 		"d_name=%s ctx=%u ib=0x0 numibs=%u ts=%u "
 		"flags=0x%x(%s) result=%d type=%s",
 		__get_str(device_name),
 		__entry->drawctxt_id,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		__entry->numibs,
 		__entry->timestamp,
 		__entry->flags,
 		__entry->flags ? __print_flags(__entry->flags, "|",
-<<<<<<< HEAD
-			{ KGSL_CONTEXT_SAVE_GMEM, "SAVE_GMEM" },
-			{ KGSL_CONTEXT_SUBMIT_IB_LIST, "IB_LIST" },
-			{ KGSL_CONTEXT_CTX_SWITCH, "CTX_SWITCH" })
-=======
 			{ KGSL_CMDBATCH_SUBMIT_IB_LIST, "IB_LIST" },
 			{ KGSL_CMDBATCH_CTX_SWITCH, "CTX_SWITCH" },
 			{ KGSL_CMDBATCH_SYNC, "SYNC" },
 			{ KGSL_CMDBATCH_END_OF_FRAME, "EOF" },
 			{ KGSL_CMDBATCH_PWR_CONSTRAINT, "PWR_CONSTRAINT" },
 			{ KGSL_CMDBATCH_MEMLIST, "MEMLIST" })
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			: "None",
 		__entry->result,
 		__print_symbolic(__entry->drawctxt_type,
@@ -657,18 +626,12 @@ TRACE_EVENT(kgsl_context_create,
 		__get_str(device_name), __entry->id, __entry->flags,
 		__entry->flags ? __print_flags(__entry->flags, "|",
 			{ KGSL_CONTEXT_NO_GMEM_ALLOC , "NO_GMEM_ALLOC" },
-<<<<<<< HEAD
-			{ KGSL_CONTEXT_PREAMBLE, "PREAMBLE" },
-			{ KGSL_CONTEXT_TRASH_STATE, "TRASH_STATE" },
-			{ KGSL_CONTEXT_PER_CONTEXT_TS, "PER_CONTEXT_TS" })
-=======
 			{ KGSL_CONTEXT_CTX_SWITCH, "CTX_SWITCH" },
 			{ KGSL_CONTEXT_PREAMBLE, "PREAMBLE" },
 			{ KGSL_CONTEXT_PER_CONTEXT_TS, "PER_CONTEXT_TS" },
 			{ KGSL_CONTEXT_USER_GENERATED_TS, "USER_GENERATED_TS" },
 			{ KGSL_CONTEXT_NO_FAULT_TOLERANCE, "NO_GFT" },
 			{ KGSL_CONTEXT_PWR_CONSTRAINT, "PWR_CONSTRAINT" })
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			: "None"
 	)
 );
@@ -837,19 +800,11 @@ TRACE_EVENT(kgsl_active_count,
 	)
 );
 
-<<<<<<< HEAD
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 TRACE_EVENT(kgsl_pwrstats,
 	TP_PROTO(struct kgsl_device *device, s64 time,
 		struct kgsl_power_stats *pstats),
 
 	TP_ARGS(device, time, pstats),
-<<<<<<< HEAD
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	TP_STRUCT__entry(
 		__string(device_name, device->name)
 		__field(s64, total_time)
@@ -873,8 +828,6 @@ TRACE_EVENT(kgsl_pwrstats,
 	)
 );
 
-<<<<<<< HEAD
-=======
 DECLARE_EVENT_CLASS(syncpoint_timestamp_template,
 	TP_PROTO(struct kgsl_cmdbatch *cmdbatch, struct kgsl_context *context,
 		unsigned int timestamp),
@@ -930,7 +883,6 @@ DEFINE_EVENT(syncpoint_fence_template, syncpoint_fence_expire,
 	TP_PROTO(struct kgsl_cmdbatch *cmdbatch, char *name),
 	TP_ARGS(cmdbatch, name)
 );
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #endif /* _KGSL_TRACE_H */
 

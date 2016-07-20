@@ -45,18 +45,13 @@
 #include <linux/mutex.h>
 #include <linux/export.h>
 #include <linux/hardirq.h>
-<<<<<<< HEAD
-=======
 #include <linux/module.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define CREATE_TRACE_POINTS
 #include <trace/events/rcu.h>
 
 #include "rcu.h"
 
-<<<<<<< HEAD
-=======
 module_param(rcu_expedited, int, 0);
 #ifdef CONFIG_PREEMPT_RCU
 
@@ -86,7 +81,6 @@ void exit_rcu(void)
 
 #endif /* #else #ifdef CONFIG_PREEMPT_RCU */
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_DEBUG_LOCK_ALLOC
 static struct lock_class_key rcu_lock_key;
 struct lockdep_map rcu_lock_map =

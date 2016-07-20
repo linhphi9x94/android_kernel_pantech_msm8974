@@ -1,10 +1,6 @@
 /* drivers/tty/n_smux.c
  *
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
@@ -3909,11 +3905,7 @@ static int __init smux_init(void)
 		return ret;
 	}
 
-<<<<<<< HEAD
-	log_ctx = ipc_log_context_create(1, "smux");
-=======
 	log_ctx = ipc_log_context_create(1, "smux", 0);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!log_ctx) {
 		SMUX_ERR("%s: unable to create log context\n", __func__);
 		disable_ipc_logging = 1;

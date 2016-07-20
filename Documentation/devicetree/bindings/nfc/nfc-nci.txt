@@ -8,17 +8,6 @@ Required properties:
 - reg: NCI i2c slave address.
 - qcom,dis-gpio: specific gpio for hardware reset.
 - qcom,irq-gpio: specific gpio for read interrupt.
-<<<<<<< HEAD
-- qcom,clk-src: nfc clock source ("BBCLK2", "RFCLK3", "GPCLK","GPCLK2" ...)
-- qcom,clk-en-gpio: msm gpio clock,used ony if clock source is msm gpio
-- vlogic-supply: LDO for power supply
-- interrupt-parent: Should be phandle for the interrupt controller
-                    that services interrupts for this device.
-- interrupts: should contain the NFC interrupt. NFC has one read interrupt.
-- qcom,clk-gpio: pmic gpio on which bbclk2 signal is coming.
-
-LDO example:
-=======
 - qcom,clk-src: nfc clock source ("BBCLK2", "RFCLK3", "GPCLK", "GPCLK2", ...)
 - qcom,clk-src-gpio: msm gpio clock,used ony if clock source is msm gpio
 - qcom,clk-req-gpio: clk-req input gpio for MSM based clocks.
@@ -29,7 +18,6 @@ LDO example:
 - qcom,clk-gpio: pmic or msm gpio on which bbclk2 signal is coming.
 
 Example:
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	i2c@f9925000 { /* BLSP-1 QUP-3 */
 		nfc-nci@e {
@@ -37,20 +25,11 @@ Example:
 			reg = <0x0e>;
 			qcom,irq-gpio = <&msmgpio 77 0x00>;
 			qcom,dis-gpio = <&msmgpio 93 0x00>;
-<<<<<<< HEAD
-			qcom,clk-en-gpio = <&msmgpio 78 0x00>;
-			qcom,clk-src = "GPCLK";
-			interrupt-parent = <&msmgpio>;
-			interrupts = <77 0>;
-			qcom,clk-gpio = <&msmgpio 75 0x00>;
-			vlogic-supply = <&pm8110_l14>;
-=======
 			qcom,clk-src-gpio = <&msmgpio 78 0x00>;
 			qcom,clk-src = "GPCLK2";
 			interrupt-parent = <&msmgpio>;
 			interrupts = <77 0>;
 			qcom,clk-gpio = <&msmgpio 75 0x00>;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		};
 	};
 

@@ -693,8 +693,6 @@ config USB_OCTEON_OHCI
 config USB_OCTEON2_COMMON
 	bool
 	default y if USB_OCTEON_EHCI || USB_OCTEON_OHCI
-<<<<<<< HEAD
-=======
 
 config USB_ICE40_HCD
 	tristate "ICE40 FPGA based SPI to Inter-Chip USB host controller"
@@ -708,4 +706,3 @@ config USB_ICE40_HCD
 
 	  To compile this driver a module, choose M here: the module
 	  will be called "ice40-hcd".
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

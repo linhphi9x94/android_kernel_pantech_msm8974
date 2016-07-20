@@ -280,13 +280,8 @@ int security_sb_statfs(struct dentry *dentry)
 	return security_ops->sb_statfs(dentry);
 }
 
-<<<<<<< HEAD
-int security_sb_mount(const char *dev_name, struct path *path,
-                       const char *type, unsigned long flags, void *data)
-=======
 int security_sb_mount(char *dev_name, struct path *path,
                        char *type, unsigned long flags, void *data)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	return security_ops->sb_mount(dev_name, path, type, flags, data);
 }
@@ -476,8 +471,6 @@ int security_inode_create(struct inode *dir, struct dentry *dentry, umode_t mode
 }
 EXPORT_SYMBOL_GPL(security_inode_create);
 
-<<<<<<< HEAD
-=======
 int security_inode_post_create(struct inode *dir, struct dentry *dentry,
 			       umode_t mode)
 {
@@ -488,7 +481,6 @@ int security_inode_post_create(struct inode *dir, struct dentry *dentry,
 	return security_ops->inode_post_create(dir, dentry, mode);
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int security_inode_link(struct dentry *old_dentry, struct inode *dir,
 			 struct dentry *new_dentry)
 {
@@ -750,8 +742,6 @@ int security_dentry_open(struct file *file, const struct cred *cred)
 	return fsnotify_perm(file, MAY_OPEN);
 }
 
-<<<<<<< HEAD
-=======
 int security_file_close(struct file *file)
 {
 	if (security_ops->file_close)
@@ -768,7 +758,6 @@ bool security_allow_merge_bio(struct bio *bio1, struct bio *bio2)
 	return true;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int security_task_create(unsigned long clone_flags)
 {
 	return security_ops->task_create(clone_flags);

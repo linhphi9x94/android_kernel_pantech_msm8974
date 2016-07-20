@@ -91,37 +91,20 @@ static inline void rcu_preempt_note_context_switch(void)
 {
 }
 
-<<<<<<< HEAD
-static inline void exit_rcu(void)
-{
-}
-
-static inline int rcu_needs_cpu(int cpu)
-{
-=======
 static inline int rcu_needs_cpu(int cpu, unsigned long *delta_jiffies)
 {
 	*delta_jiffies = ULONG_MAX;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 }
 
 #else /* #ifdef CONFIG_TINY_RCU */
 
 void rcu_preempt_note_context_switch(void);
-<<<<<<< HEAD
-extern void exit_rcu(void);
-int rcu_preempt_needs_cpu(void);
-
-static inline int rcu_needs_cpu(int cpu)
-{
-=======
 int rcu_preempt_needs_cpu(void);
 
 static inline int rcu_needs_cpu(int cpu, unsigned long *delta_jiffies)
 {
 	*delta_jiffies = ULONG_MAX;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rcu_preempt_needs_cpu();
 }
 

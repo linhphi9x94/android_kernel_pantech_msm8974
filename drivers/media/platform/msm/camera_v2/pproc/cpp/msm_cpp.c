@@ -861,10 +861,7 @@ static void cpp_load_fw(struct cpp_device *cpp_dev, char *fw_name_bin)
 	pr_info("MC Bootloader Version: 0x%x\n",
 		   msm_cpp_read(cpp_dev->base));
 #endif
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/*Get Firmware Version*/
 	msm_cpp_write(MSM_CPP_CMD_GET_FW_VER, cpp_dev->base);
 	msm_cpp_write(MSM_CPP_MSG_ID_CMD, cpp_dev->base);
@@ -984,11 +981,7 @@ static int cpp_close_node(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
 		CPP_DBG("%s: DEBUG_R1: 0x%x\n", __func__,
 			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x8C));
 #else
-<<<<<<< HEAD
-		pr_err("%s: irq_status: 0x%x\n", __func__,
-=======
 		pr_debug("irq_status: 0x%x\n",
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x4));
 		pr_debug("DEBUG_SP: 0x%x\n",
 			msm_camera_io_r(cpp_dev->cpp_hw_base + 0x40));

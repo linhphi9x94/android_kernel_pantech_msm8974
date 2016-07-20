@@ -368,11 +368,7 @@ static void __leaf_free_rcu(struct rcu_head *head)
 
 static inline void free_leaf(struct leaf *l)
 {
-<<<<<<< HEAD
-	call_rcu_bh(&l->rcu, __leaf_free_rcu);
-=======
 	call_rcu(&l->rcu, __leaf_free_rcu);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static inline void free_leaf_info(struct leaf_info *leaf)
@@ -2554,28 +2550,17 @@ static int fib_route_seq_show(struct seq_file *seq, void *v)
 		list_for_each_entry_rcu(fa, &li->falh, fa_list) {
 			const struct fib_info *fi = fa->fa_info;
 			unsigned int flags = fib_flag_trans(fa->fa_type, mask, fi);
-<<<<<<< HEAD
-			int len;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 			if (fa->fa_type == RTN_BROADCAST
 			    || fa->fa_type == RTN_MULTICAST)
 				continue;
 
-<<<<<<< HEAD
-			if (fi)
-				seq_printf(seq,
-					 "%s\t%08X\t%08X\t%04X\t%d\t%u\t"
-					 "%d\t%08X\t%d\t%u\t%u%n",
-=======
 			seq_setwidth(seq, 127);
 
 			if (fi)
 				seq_printf(seq,
 					 "%s\t%08X\t%08X\t%04X\t%d\t%u\t"
 					 "%d\t%08X\t%d\t%u\t%u",
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 					 fi->fib_dev ? fi->fib_dev->name : "*",
 					 prefix,
 					 fi->fib_nh->nh_gw, flags, 0, 0,
@@ -2584,17 +2569,6 @@ static int fib_route_seq_show(struct seq_file *seq, void *v)
 					 (fi->fib_advmss ?
 					  fi->fib_advmss + 40 : 0),
 					 fi->fib_window,
-<<<<<<< HEAD
-					 fi->fib_rtt >> 3, &len);
-			else
-				seq_printf(seq,
-					 "*\t%08X\t%08X\t%04X\t%d\t%u\t"
-					 "%d\t%08X\t%d\t%u\t%u%n",
-					 prefix, 0, flags, 0, 0, 0,
-					 mask, 0, 0, 0, &len);
-
-			seq_printf(seq, "%*s\n", 127 - len, "");
-=======
 					 fi->fib_rtt >> 3);
 			else
 				seq_printf(seq,
@@ -2604,7 +2578,6 @@ static int fib_route_seq_show(struct seq_file *seq, void *v)
 					 mask, 0, 0, 0);
 
 			seq_pad(seq, '\n');
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 	}
 

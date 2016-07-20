@@ -22,10 +22,6 @@
 #include <linux/mutex.h>
 #include <linux/skbuff.h>
 #include <linux/types.h>
-<<<<<<< HEAD
-#include <mach/bam_dmux.h>
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <mach/ipa.h>
 #include <mach/sps.h>
 #include "ipa_i.h"

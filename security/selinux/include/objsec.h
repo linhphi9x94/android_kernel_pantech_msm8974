@@ -38,22 +38,12 @@ struct task_security_struct {
 
 struct inode_security_struct {
 	struct inode *inode;	/* back pointer to inode object */
-<<<<<<< HEAD
-	union {
-		struct list_head list;	/* list of inode_security_struct */
-		struct rcu_head rcu;	/* for freeing the inode_security_struct */
-	};
-=======
 	struct list_head list;	/* list of inode_security_struct */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	u32 task_sid;		/* SID of creating task */
 	u32 sid;		/* SID of this object */
 	u16 sclass;		/* security class of this object */
 	unsigned char initialized;	/* initialization flag */
-<<<<<<< HEAD
-=======
 	u32 tag;		/* Per-File-Encryption tag */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct mutex lock;
 };
 

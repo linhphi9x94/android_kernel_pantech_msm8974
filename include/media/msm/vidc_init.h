@@ -20,10 +20,7 @@
 #define VIDC_MAX_NUM_CLIENTS 4
 #define MAX_VIDEO_NUM_OF_BUFF 100
 #define MAX_META_BUFFERS 32
-<<<<<<< HEAD
-=======
 #define MAX_MV_BUFFERS 32
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 enum buffer_dir {
 	BUFFER_TYPE_INPUT,

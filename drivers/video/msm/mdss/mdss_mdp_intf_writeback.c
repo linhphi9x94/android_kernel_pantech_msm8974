@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -21,12 +17,9 @@
 #include "mdss_mdp_rotator.h"
 #include "mdss_panel.h"
 
-<<<<<<< HEAD
-=======
 #define VBIF_WR_LIM_CONF    0xC0
 #define MDSS_DEFAULT_OT_SETTING    0x10
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 enum mdss_mdp_writeback_type {
 	MDSS_MDP_WRITEBACK_TYPE_ROTATOR,
 	MDSS_MDP_WRITEBACK_TYPE_LINE,
@@ -44,12 +37,9 @@ struct mdss_mdp_writeback_ctx {
 	u32 intr_type;
 	u32 intf_num;
 
-<<<<<<< HEAD
-=======
 	u32 xin_id;
 	u32 wr_lim;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	u32 opmode;
 	struct mdss_mdp_format_params *dst_fmt;
 	u16 width;
@@ -71,46 +61,31 @@ static struct mdss_mdp_writeback_ctx wb_ctx_list[MDSS_MDP_MAX_WRITEBACK] = {
 		.type = MDSS_MDP_WRITEBACK_TYPE_ROTATOR,
 		.intr_type = MDSS_MDP_IRQ_WB_ROT_COMP,
 		.intf_num = 0,
-<<<<<<< HEAD
-=======
 		.xin_id = 3,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	},
 	{
 		.type = MDSS_MDP_WRITEBACK_TYPE_ROTATOR,
 		.intr_type = MDSS_MDP_IRQ_WB_ROT_COMP,
 		.intf_num = 1,
-<<<<<<< HEAD
-=======
 		.xin_id = 11,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	},
 	{
 		.type = MDSS_MDP_WRITEBACK_TYPE_LINE,
 		.intr_type = MDSS_MDP_IRQ_WB_ROT_COMP,
 		.intf_num = 0,
-<<<<<<< HEAD
-=======
 		.xin_id = 3,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	},
 	{
 		.type = MDSS_MDP_WRITEBACK_TYPE_LINE,
 		.intr_type = MDSS_MDP_IRQ_WB_ROT_COMP,
 		.intf_num = 1,
-<<<<<<< HEAD
-=======
 		.xin_id = 11,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	},
 	{
 		.type = MDSS_MDP_WRITEBACK_TYPE_WFD,
 		.intr_type = MDSS_MDP_IRQ_WB_WFD,
 		.intf_num = 0,
-<<<<<<< HEAD
-=======
 		.xin_id = 6,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	},
 };
 
@@ -156,26 +131,17 @@ static int mdss_mdp_writeback_format_setup(struct mdss_mdp_writeback_ctx *ctx,
 	struct mdss_mdp_format_params *fmt;
 	u32 dst_format, pattern, ystride0, ystride1, outsize, chroma_samp;
 	u32 opmode = ctx->opmode;
-<<<<<<< HEAD
-=======
 	bool rotation = false;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct mdss_data_type *mdata;
 
 	pr_debug("wb_num=%d format=%d\n", ctx->wb_num, format);
 
-<<<<<<< HEAD
-	mdss_mdp_get_plane_sizes(format, ctx->width, ctx->height,
-				 &ctx->dst_planes,
-				 ctx->opmode & MDSS_MDP_OP_BWC_EN);
-=======
 	if (ctx->rot90)
 		rotation = true;
 
 	mdss_mdp_get_plane_sizes(format, ctx->width, ctx->height,
 				 &ctx->dst_planes,
 				 ctx->opmode & MDSS_MDP_OP_BWC_EN, rotation);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	fmt = mdss_mdp_get_format_params(format);
 	if (!fmt) {
@@ -297,10 +263,6 @@ static int mdss_mdp_writeback_prepare_rot(struct mdss_mdp_ctl *ctl, void *arg)
 	struct mdss_mdp_writeback_ctx *ctx;
 	struct mdss_mdp_writeback_arg *wb_args;
 	struct mdss_mdp_rotator_session *rot;
-<<<<<<< HEAD
-	struct mdss_mdp_format_params *fmt;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	u32 format;
 
 	ctx = (struct mdss_mdp_writeback_ctx *) ctl->priv_data;
@@ -333,24 +295,10 @@ static int mdss_mdp_writeback_prepare_rot(struct mdss_mdp_ctl *ctl, void *arg)
 
 	ctx->rot90 = !!(rot->flags & MDP_ROT_90);
 
-<<<<<<< HEAD
-	fmt = mdss_mdp_get_format_params(rot->format);
-	if (!fmt) {
-		pr_err("invalid pipe format %d\n", rot->format);
-		return -EINVAL;
-	}
-
-	if (ctx->bwc_mode || ctx->rot90)
-		format = mdss_mdp_get_rotator_dst_format(rot->format,
-				ctx->rot90, ctx->bwc_mode);
-	else
-		format = rot->format;
-=======
 	if (ctx->bwc_mode || ctx->rot90)
 		format = mdss_mdp_get_rotator_dst_format(rot->format, 1);
 	else
 		format = mdss_mdp_get_rotator_dst_format(rot->format, 0);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (ctx->rot90) {
 		ctx->opmode |= BIT(5); /* ROT 90 */
@@ -494,11 +442,8 @@ static int mdss_mdp_wb_wait4comp(struct mdss_mdp_ctl *ctl, void *arg)
 		rc = 0;
 	}
 
-<<<<<<< HEAD
-=======
 	mdss_iommu_ctrl(0);
 	mdss_bus_bandwidth_ctrl(false);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_OFF, false); /* clock off */
 
 	ctx->comp_cnt--;
@@ -510,18 +455,12 @@ static int mdss_mdp_writeback_display(struct mdss_mdp_ctl *ctl, void *arg)
 {
 	struct mdss_mdp_writeback_ctx *ctx;
 	struct mdss_mdp_writeback_arg *wb_args;
-<<<<<<< HEAD
-	u32 flush_bits;
-	int ret;
-
-=======
 	u32 flush_bits, val, off;
 	int ret;
 
 	if (!ctl || !ctl->mdata)
 		return -ENODEV;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ctx = (struct mdss_mdp_writeback_ctx *) ctl->priv_data;
 	if (!ctx)
 		return -ENODEV;
@@ -532,8 +471,6 @@ static int mdss_mdp_writeback_display(struct mdss_mdp_ctl *ctl, void *arg)
 		return -EPERM;
 	}
 
-<<<<<<< HEAD
-=======
 	if (ctl->mdata->rotator_ot_limit) {
 		if (ctx->type == MDSS_MDP_WRITEBACK_TYPE_ROTATOR)
 			ctx->wr_lim = ctl->mdata->rotator_ot_limit;
@@ -546,7 +483,6 @@ static int mdss_mdp_writeback_display(struct mdss_mdp_ctl *ctl, void *arg)
 		writel_relaxed(val, ctl->mdata->vbif_base + VBIF_WR_LIM_CONF);
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	wb_args = (struct mdss_mdp_writeback_arg *) arg;
 	if (!wb_args)
 		return -ENOENT;
@@ -567,9 +503,6 @@ static int mdss_mdp_writeback_display(struct mdss_mdp_ctl *ctl, void *arg)
 	INIT_COMPLETION(ctx->wb_comp);
 	mdss_mdp_irq_enable(ctx->intr_type, ctx->intf_num);
 
-<<<<<<< HEAD
-	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_ON, false);
-=======
 	ret = mdss_iommu_ctrl(1);
 	if (IS_ERR_VALUE(ret)) {
 		pr_err("IOMMU attach failed\n");
@@ -577,7 +510,6 @@ static int mdss_mdp_writeback_display(struct mdss_mdp_ctl *ctl, void *arg)
 	}
 	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_ON, false);
 	mdss_bus_bandwidth_ctrl(true);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mdss_mdp_ctl_write(ctl, MDSS_MDP_REG_CTL_START, 1);
 	wmb();
 

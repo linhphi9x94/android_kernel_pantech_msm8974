@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2010-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2010-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -678,38 +674,6 @@ static int _disp_stats(void)
 	struct ota_qce_dev *p;
 
 	pstat = &_qcota_stat;
-<<<<<<< HEAD
-	len = snprintf(_debug_read_buf, DEBUG_MAX_RW_BUF - 1,
-			"\nQualcomm OTA crypto accelerator Statistics:\n");
-
-	len += snprintf(_debug_read_buf + len, DEBUG_MAX_RW_BUF - len - 1,
-			"   F8 request             : %d\n",
-					pstat->f8_req);
-	len += snprintf(_debug_read_buf + len, DEBUG_MAX_RW_BUF - len - 1,
-			"   F8 operation success   : %d\n",
-					pstat->f8_op_success);
-	len += snprintf(_debug_read_buf + len, DEBUG_MAX_RW_BUF - len - 1,
-			"   F8 operation fail      : %d\n",
-					pstat->f8_op_fail);
-
-	len += snprintf(_debug_read_buf + len, DEBUG_MAX_RW_BUF - len - 1,
-			"   F8 MP request          : %d\n",
-					pstat->f8_mp_req);
-	len += snprintf(_debug_read_buf + len, DEBUG_MAX_RW_BUF - len - 1,
-			"   F8 MP operation success: %d\n",
-					pstat->f8_mp_op_success);
-	len += snprintf(_debug_read_buf + len, DEBUG_MAX_RW_BUF - len - 1,
-			"   F8 MP operation fail   : %d\n",
-					pstat->f8_mp_op_fail);
-
-	len += snprintf(_debug_read_buf + len, DEBUG_MAX_RW_BUF - len - 1,
-			"   F9 request             : %d\n",
-					pstat->f9_req);
-	len += snprintf(_debug_read_buf + len, DEBUG_MAX_RW_BUF - len - 1,
-			"   F9 operation success   : %d\n",
-					pstat->f9_op_success);
-	len += snprintf(_debug_read_buf + len, DEBUG_MAX_RW_BUF - len - 1,
-=======
 	len = scnprintf(_debug_read_buf, DEBUG_MAX_RW_BUF - 1,
 			"\nQualcomm OTA crypto accelerator Statistics:\n");
 
@@ -740,29 +704,20 @@ static int _disp_stats(void)
 			"   F9 operation success   : %d\n",
 					pstat->f9_op_success);
 	len += scnprintf(_debug_read_buf + len, DEBUG_MAX_RW_BUF - len - 1,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			"   F9 operation fail      : %d\n",
 					pstat->f9_op_fail);
 
 	spin_lock_irqsave(&podev->lock, flags);
 
 	list_for_each_entry(p, &podev->qce_dev, qlist) {
-<<<<<<< HEAD
-		len += snprintf(
-=======
 		len += scnprintf(
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			_debug_read_buf + len,
 			DEBUG_MAX_RW_BUF - len - 1,
 			"   Engine %d Req          : %d\n",
 			p->unit,
 			p->totalReq
 		);
-<<<<<<< HEAD
-		len += snprintf(
-=======
 		len += scnprintf(
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			_debug_read_buf + len,
 			DEBUG_MAX_RW_BUF - len - 1,
 			"   Engine %d Req Error    : %d\n",

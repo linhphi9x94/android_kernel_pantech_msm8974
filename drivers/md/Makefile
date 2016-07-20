@@ -43,11 +43,7 @@ obj-$(CONFIG_DM_ZERO)		+= dm-zero.o
 obj-$(CONFIG_DM_RAID)	+= dm-raid.o
 obj-$(CONFIG_DM_THIN_PROVISIONING)	+= dm-thin-pool.o
 obj-$(CONFIG_DM_VERITY)		+= dm-verity.o
-<<<<<<< HEAD
-
-=======
 obj-$(CONFIG_DM_REQ_CRYPT)		+= dm-req-crypt.o
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 ifeq ($(CONFIG_DM_UEVENT),y)
 dm-mod-objs			+= dm-uevent.o
 endif

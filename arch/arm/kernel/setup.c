@@ -110,12 +110,9 @@ EXPORT_SYMBOL(boot_reason);
 unsigned int cold_boot;
 EXPORT_SYMBOL(cold_boot);
 
-<<<<<<< HEAD
-=======
 char* (*arch_read_hardware_id)(void);
 EXPORT_SYMBOL(arch_read_hardware_id);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef MULTI_CPU
 struct processor processor __read_mostly;
 #endif
@@ -1056,12 +1053,9 @@ static const char *hwcap_str[] = {
 	"vfpv4",
 	"idiva",
 	"idivt",
-<<<<<<< HEAD
-=======
 	"vfpd32",
 	"lpae",
 	"evtstrm",
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	NULL
 };
 
@@ -1120,14 +1114,10 @@ static int c_show(struct seq_file *m, void *v)
 
 	seq_puts(m, "\n");
 
-<<<<<<< HEAD
-	seq_printf(m, "Hardware\t: %s\n", machine_name);
-=======
 	if (!arch_read_hardware_id)
 		seq_printf(m, "Hardware\t: %s\n", machine_name);
 	else
 		seq_printf(m, "Hardware\t: %s\n", arch_read_hardware_id());
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	seq_printf(m, "Revision\t: %04x\n", system_rev);
 	seq_printf(m, "Serial\t\t: %08x%08x\n",
 		   system_serial_high, system_serial_low);

@@ -1,11 +1,7 @@
 /* arch/arm/mach-msm/smd_tty.c
  *
  * Copyright (C) 2007 Google, Inc.
-<<<<<<< HEAD
- * Copyright (c) 2009-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2009-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  * Author: Brian Swetland <swetland@google.com>
  *
  * This software is licensed under the terms of the GNU General Public
@@ -32,10 +28,7 @@
 #include <linux/tty.h>
 #include <linux/tty_driver.h>
 #include <linux/tty_flip.h>
-<<<<<<< HEAD
-=======
 #include <linux/suspend.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #include <mach/msm_smd.h>
 #include <mach/subsystem_restart.h>
@@ -48,10 +41,7 @@
 #define MAX_SMD_TTYS 37
 #define MAX_TTY_BUF_SIZE 2048
 #define TTY_PUSH_WS_DELAY 500
-<<<<<<< HEAD
-=======
 #define TTY_PUSH_WS_POST_SUSPEND_DELAY 100
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define MAX_RA_WAKE_LOCK_NAME_LEN 32
 #define SMD_TTY_PROBE_WAIT_TIMEOUT 3000
 #define SMD_TTY_LOG_PAGES 2
@@ -75,13 +65,10 @@ static void *smd_tty_log_ctx;
 static struct delayed_work smd_tty_probe_work;
 static int smd_tty_probe_done;
 
-<<<<<<< HEAD
-=======
 static bool smd_tty_in_suspend;
 static bool smd_tty_read_in_suspend;
 static struct wakeup_source read_in_suspend_ws;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /**
  * struct smd_tty_info - context for an individual SMD TTY device
  *
@@ -316,12 +303,9 @@ static void smd_tty_read(unsigned long param)
 		 */
 		__pm_wakeup_event(&info->pending_ws, TTY_PUSH_WS_DELAY);
 
-<<<<<<< HEAD
-=======
 		 if (smd_tty_in_suspend)
 			smd_tty_read_in_suspend = true;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		tty_flip_buffer_push(tty);
 	}
 
@@ -576,11 +560,7 @@ static int smd_tty_open(struct tty_struct *tty, struct file *f)
 
 static void smd_tty_close(struct tty_struct *tty, struct file *f)
 {
-<<<<<<< HEAD
-	struct smd_tty_info *info = tty->driver_data;
-=======
 	struct smd_tty_info *info = smd_tty + tty->index;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	tty_port_close(&info->port, tty, f);
 }
@@ -725,8 +705,6 @@ static int smd_tty_dummy_probe(struct platform_device *pdev)
 	return -ENODEV;
 }
 
-<<<<<<< HEAD
-=======
 static int smd_tty_pm_notifier(struct notifier_block *nb,
 				unsigned long event, void *unused)
 {
@@ -753,7 +731,6 @@ static struct notifier_block smd_tty_pm_nb = {
 	.priority = 0,
 };
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /**
  * smd_tty_log_init()- Init function for IPC logging
  *
@@ -763,11 +740,7 @@ static struct notifier_block smd_tty_pm_nb = {
 static void smd_tty_log_init(void)
 {
 	smd_tty_log_ctx = ipc_log_context_create(SMD_TTY_LOG_PAGES,
-<<<<<<< HEAD
-						"smd_tty");
-=======
 						"smd_tty", 0);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!smd_tty_log_ctx)
 		pr_err("%s: Unable to create IPC log", __func__);
 }
@@ -898,14 +871,11 @@ static int smd_tty_core_init(void)
 		}
 	}
 	INIT_DELAYED_WORK(&loopback_work, loopback_probe_worker);
-<<<<<<< HEAD
-=======
 
 	ret = register_pm_notifier(&smd_tty_pm_nb);
 	if (ret)
 		pr_err("%s: power state notif error %d\n", __func__, ret);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 
 out:
@@ -988,13 +958,10 @@ static int smd_tty_devicetree_init(struct platform_device *pdev)
 	}
 	INIT_DELAYED_WORK(&loopback_work, loopback_probe_worker);
 
-<<<<<<< HEAD
-=======
 	ret = register_pm_notifier(&smd_tty_pm_nb);
 	if (ret)
 		pr_err("%s: power state notif error %d\n", __func__, ret);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 
 error:
@@ -1079,10 +1046,7 @@ static int __init smd_tty_init(void)
 	schedule_delayed_work(&smd_tty_probe_work,
 				msecs_to_jiffies(SMD_TTY_PROBE_WAIT_TIMEOUT));
 
-<<<<<<< HEAD
-=======
 	wakeup_source_init(&read_in_suspend_ws, "SMDTTY_READ_IN_SUSPEND");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 }
 

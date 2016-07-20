@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2010-2011, 2013-2014 The Linux Foundation.
- * All rights reserved.
-=======
 /* Copyright (c) 2010-2011, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -195,12 +190,8 @@ struct apr_svc_ch_dev *apr_tal_open(uint32_t svc, uint32_t dest,
 		apr_tal_close(&apr_svc_ch[dl][dest][svc]);
 		return NULL;
 	}
-<<<<<<< HEAD
-               smd_disable_read_intr(apr_svc_ch[dl][dest][svc].ch);
-=======
 
 	smd_disable_read_intr(apr_svc_ch[dl][dest][svc].ch);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (!apr_svc_ch[dl][dest][svc].dest_state) {
 		apr_svc_ch[dl][dest][svc].dest_state = 1;

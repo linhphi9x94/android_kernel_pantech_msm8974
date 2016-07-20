@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2010-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2010-2015, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -38,10 +34,7 @@ enum hdmi_tx_power_module_type {
 /* Data filled from device tree */
 struct hdmi_tx_platform_data {
 	bool primary;
-<<<<<<< HEAD
-=======
 	bool cond_power_on;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct dss_io_data io[HDMI_TX_MAX_IO];
 	struct dss_module_power power_data[HDMI_TX_MAX_PM];
 };
@@ -63,12 +56,9 @@ struct hdmi_tx_ctrl {
 
 	struct mutex mutex;
 	struct mutex lut_lock;
-<<<<<<< HEAD
-=======
 	struct mutex power_mutex;
 	struct mutex cable_notify_mutex;
 	struct list_head cable_notify_handlers;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct kobject *kobj;
 	struct switch_dev sdev;
 	struct switch_dev audio_sdev;
@@ -88,14 +78,6 @@ struct hdmi_tx_ctrl {
 	u8  timing_gen_on;
 	u32 mhl_max_pclk;
 	u8  mhl_hpd_on;
-<<<<<<< HEAD
-	struct completion hpd_done;
-	struct work_struct hpd_int_work;
-
-	struct work_struct power_off_work;
-
-	bool hdcp_feature_on;
-=======
 
 	struct completion hpd_int_done;
 	struct completion hpd_off_done;
@@ -106,7 +88,6 @@ struct hdmi_tx_ctrl {
 	bool hdcp_feature_on;
 	bool ds_registered;
 	bool hpd_disabled;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	u32 present_hdcp;
 
 	u8 spd_vendor_name[9];

@@ -347,8 +347,6 @@ struct device_node *of_get_next_child(const struct device_node *node,
 EXPORT_SYMBOL(of_get_next_child);
 
 /**
-<<<<<<< HEAD
-=======
  *	of_get_next_available_child - Find the next available child node
  *	@node:	parent node
  *	@prev:	previous child of the parent node, or NULL to get first
@@ -376,7 +374,6 @@ struct device_node *of_get_next_available_child(const struct device_node *node,
 EXPORT_SYMBOL(of_get_next_available_child);
 
 /**
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *	of_find_node_by_path - Find a node matching a full OF path
  *	@path:	The full path to match
  *

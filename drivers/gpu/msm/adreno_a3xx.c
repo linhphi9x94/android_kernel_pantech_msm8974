@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -17,10 +13,7 @@
 
 #include <linux/delay.h>
 #include <linux/sched.h>
-<<<<<<< HEAD
-=======
 #include <linux/ratelimit.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <mach/socinfo.h>
 
 #include "kgsl.h"
@@ -3037,18 +3030,8 @@ static int a3xx_rb_init(struct adreno_device *adreno_dev,
 	GSL_RB_WRITE(rb->device, cmds, cmds_gpu, 0x00000001);
 	GSL_RB_WRITE(rb->device, cmds, cmds_gpu, 0x00000000);
 	GSL_RB_WRITE(rb->device, cmds, cmds_gpu, 0x00000000);
-<<<<<<< HEAD
-#ifdef CONFIG_F_QUALCOMM_GPU_PATCH_FOR_PAGE_FAULT
 	/* Enable protected mode */
 	GSL_RB_WRITE(rb->device, cmds, cmds_gpu, 0x20000000);
-#else
-	/* Protected mode control - turned off for A3XX */
-	GSL_RB_WRITE(rb->device, cmds, cmds_gpu, 0x00000000);
-#endif
-=======
-	/* Enable protected mode */
-	GSL_RB_WRITE(rb->device, cmds, cmds_gpu, 0x20000000);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	GSL_RB_WRITE(rb->device, cmds, cmds_gpu, 0x00000000);
 	GSL_RB_WRITE(rb->device, cmds, cmds_gpu, 0x00000000);
 
@@ -3057,18 +3040,12 @@ static int a3xx_rb_init(struct adreno_device *adreno_dev,
 	return 0;
 }
 
-<<<<<<< HEAD
-static void a3xx_err_callback(struct adreno_device *adreno_dev, int bit)
-=======
 static void a3xx_fatal_err_callback(struct adreno_device *adreno_dev, int bit)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct kgsl_device *device = &adreno_dev->dev;
 	const char *err = "";
 
 	switch (bit) {
-<<<<<<< HEAD
-=======
 	case A3XX_INT_MISC_HANG_DETECT:
 		err = "MISC: GPU hang detected\n";
 		break;
@@ -3087,7 +3064,6 @@ static void a3xx_err_callback(struct adreno_device *adreno_dev, int bit)
 	struct kgsl_device *device = &adreno_dev->dev;
 
 	switch (bit) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	case A3XX_INT_RBBM_AHB_ERROR: {
 		unsigned int reg;
 
@@ -3106,38 +3082,6 @@ static void a3xx_err_callback(struct adreno_device *adreno_dev, int bit)
 
 		/* Clear the error */
 		kgsl_regwrite(device, A3XX_RBBM_AHB_CMD, (1 << 3));
-<<<<<<< HEAD
-		goto done;
-	}
-	case A3XX_INT_RBBM_REG_TIMEOUT:
-		err = "RBBM: AHB register timeout";
-		break;
-	case A3XX_INT_RBBM_ME_MS_TIMEOUT:
-		err = "RBBM: ME master split timeout";
-		break;
-	case A3XX_INT_RBBM_PFP_MS_TIMEOUT:
-		err = "RBBM: PFP master split timeout";
-		break;
-	case A3XX_INT_RBBM_ATB_BUS_OVERFLOW:
-		err = "RBBM: ATB bus oveflow";
-		break;
-	case A3XX_INT_VFD_ERROR:
-		err = "VFD: Out of bounds access";
-		break;
-	case A3XX_INT_CP_T0_PACKET_IN_IB:
-		err = "ringbuffer TO packet in IB interrupt";
-		break;
-	case A3XX_INT_CP_OPCODE_ERROR:
-		err = "ringbuffer opcode error interrupt";
-		break;
-	case A3XX_INT_CP_RESERVED_BIT_ERROR:
-		err = "ringbuffer reserved bit error interrupt";
-		break;
-	case A3XX_INT_CP_HW_FAULT:
-		err = "ringbuffer hardware fault";
-		break;
-#ifdef CONFIG_F_QUALCOMM_GPU_PATCH_FOR_PAGE_FAULT
-=======
 		break;
 	}
 	case A3XX_INT_RBBM_REG_TIMEOUT:
@@ -3178,7 +3122,6 @@ static void a3xx_err_callback(struct adreno_device *adreno_dev, int bit)
 			"CP | Ringbuffer HW fault | status=%x\n", reg);
 		break;
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	case A3XX_INT_CP_REG_PROTECT_FAULT: {
 		unsigned int reg;
 		kgsl_regread(device, A3XX_CP_PROTECT_STATUS, &reg);
@@ -3187,33 +3130,6 @@ static void a3xx_err_callback(struct adreno_device *adreno_dev, int bit)
 			"CP | Protected mode error| %s | addr=%x\n",
 			reg & (1 << 24) ? "WRITE" : "READ",
 			(reg & 0x1FFFF) >> 2);
-<<<<<<< HEAD
-		goto done;
-	}
-#else
-	case A3XX_INT_CP_REG_PROTECT_FAULT:
-		err = "ringbuffer protected mode error interrupt";
-		break;
-#endif		
-	case A3XX_INT_CP_AHB_ERROR_HALT:
-		err = "ringbuffer AHB error interrupt";
-		break;
-	case A3XX_INT_MISC_HANG_DETECT:
-		err = "MISC: GPU hang detected";
-		break;
-	case A3XX_INT_UCHE_OOB_ACCESS:
-		err = "UCHE:  Out of bounds access";
-		break;
-	default:
-		return;
-	}
-	KGSL_DRV_CRIT(device, "%s\n", err);
-	kgsl_pwrctrl_irq(device, KGSL_PWRFLAGS_OFF);
-
-done:
-	/* Trigger a fault in the dispatcher - this will effect a restart */
-	adreno_dispatcher_irq_fault(device);
-=======
 		break;
 	}
 	case A3XX_INT_CP_AHB_ERROR_HALT:
@@ -3224,7 +3140,6 @@ done:
 			"UCHE:  Out of bounds access\n");
 		break;
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static void a3xx_cp_callback(struct adreno_device *adreno_dev, int irq)
@@ -3232,11 +3147,7 @@ static void a3xx_cp_callback(struct adreno_device *adreno_dev, int irq)
 	struct kgsl_device *device = &adreno_dev->dev;
 
 	device->pwrctrl.irq_last = 1;
-<<<<<<< HEAD
-	queue_work(device->work_queue, &device->ts_expired_ws);
-=======
 	queue_work(device->work_queue, &device->event_work);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	adreno_dispatcher_schedule(device);
 }
 
@@ -3670,11 +3581,7 @@ static struct {
 	A3XX_IRQ_CALLBACK(a3xx_err_callback),  /* 21 - CP_AHB_ERROR_FAULT */
 	A3XX_IRQ_CALLBACK(NULL),	       /* 22 - Unused */
 	A3XX_IRQ_CALLBACK(NULL),	       /* 23 - Unused */
-<<<<<<< HEAD
-	A3XX_IRQ_CALLBACK(NULL),	       /* 24 - MISC_HANG_DETECT */
-=======
 	A3XX_IRQ_CALLBACK(a3xx_fatal_err_callback),/* 24 - MISC_HANG_DETECT */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	A3XX_IRQ_CALLBACK(a3xx_err_callback),  /* 25 - UCHE_OOB_ACCESS */
 	/* 26 to 31 - Unused */
 };
@@ -3715,13 +3622,9 @@ static void a3xx_irq_control(struct adreno_device *adreno_dev, int state)
 	struct kgsl_device *device = &adreno_dev->dev;
 
 	if (state)
-<<<<<<< HEAD
-		kgsl_regwrite(device, A3XX_RBBM_INT_0_MASK, A3XX_INT_MASK);
-=======
 		kgsl_regwrite(device, A3XX_RBBM_INT_0_MASK, A3XX_INT_MASK |
 			(test_bit(ADRENO_DEVICE_HANG_INTR, &adreno_dev->priv) ?
 				(1 << A3XX_INT_MISC_HANG_DETECT) : 0));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	else
 		kgsl_regwrite(device, A3XX_RBBM_INT_0_MASK, 0);
 }
@@ -3921,37 +3824,18 @@ static struct {
 
 static struct adreno_perfcount_register a3xx_perfcounters_cp[] = {
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_CP_0_LO,
-<<<<<<< HEAD
-		0, A3XX_CP_PERFCOUNTER_SELECT },
-=======
 		A3XX_RBBM_PERFCTR_CP_0_HI, 0, A3XX_CP_PERFCOUNTER_SELECT },
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static struct adreno_perfcount_register a3xx_perfcounters_rbbm[] = {
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_RBBM_0_LO,
-<<<<<<< HEAD
-		1, A3XX_RBBM_PERFCOUNTER0_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_RBBM_1_LO,
-		2, A3XX_RBBM_PERFCOUNTER1_SELECT },
-=======
 		A3XX_RBBM_PERFCTR_RBBM_0_HI, 1, A3XX_RBBM_PERFCOUNTER0_SELECT },
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_RBBM_1_LO,
 		A3XX_RBBM_PERFCTR_RBBM_1_HI, 2, A3XX_RBBM_PERFCOUNTER1_SELECT },
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static struct adreno_perfcount_register a3xx_perfcounters_pc[] = {
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_PC_0_LO,
-<<<<<<< HEAD
-		3, A3XX_PC_PERFCOUNTER0_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_PC_1_LO,
-		4, A3XX_PC_PERFCOUNTER1_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_PC_2_LO,
-		5, A3XX_PC_PERFCOUNTER2_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_PC_3_LO,
-		6, A3XX_PC_PERFCOUNTER3_SELECT },
-=======
 		A3XX_RBBM_PERFCTR_PC_0_HI, 3, A3XX_PC_PERFCOUNTER0_SELECT },
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_PC_1_LO,
 		A3XX_RBBM_PERFCTR_PC_1_HI, 4, A3XX_PC_PERFCOUNTER1_SELECT },
@@ -3959,37 +3843,17 @@ static struct adreno_perfcount_register a3xx_perfcounters_pc[] = {
 		A3XX_RBBM_PERFCTR_PC_2_HI, 5, A3XX_PC_PERFCOUNTER2_SELECT },
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_PC_3_LO,
 		A3XX_RBBM_PERFCTR_PC_3_HI, 6, A3XX_PC_PERFCOUNTER3_SELECT },
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static struct adreno_perfcount_register a3xx_perfcounters_vfd[] = {
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_VFD_0_LO,
-<<<<<<< HEAD
-		7, A3XX_VFD_PERFCOUNTER0_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_VFD_1_LO,
-		8, A3XX_VFD_PERFCOUNTER1_SELECT },
-=======
 		A3XX_RBBM_PERFCTR_VFD_0_HI, 7, A3XX_VFD_PERFCOUNTER0_SELECT },
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_VFD_1_LO,
 		A3XX_RBBM_PERFCTR_VFD_1_HI, 8, A3XX_VFD_PERFCOUNTER1_SELECT },
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static struct adreno_perfcount_register a3xx_perfcounters_hlsq[] = {
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_HLSQ_0_LO,
-<<<<<<< HEAD
-		9, A3XX_HLSQ_PERFCOUNTER0_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_HLSQ_1_LO,
-		10, A3XX_HLSQ_PERFCOUNTER1_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_HLSQ_2_LO,
-		11, A3XX_HLSQ_PERFCOUNTER2_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_HLSQ_3_LO,
-		12, A3XX_HLSQ_PERFCOUNTER3_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_HLSQ_4_LO,
-		13, A3XX_HLSQ_PERFCOUNTER4_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_HLSQ_5_LO,
-		14, A3XX_HLSQ_PERFCOUNTER5_SELECT },
-=======
 		A3XX_RBBM_PERFCTR_HLSQ_0_HI, 9,
 		A3XX_HLSQ_PERFCOUNTER0_SELECT },
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_HLSQ_1_LO,
@@ -4007,63 +3871,31 @@ static struct adreno_perfcount_register a3xx_perfcounters_hlsq[] = {
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_HLSQ_5_LO,
 		A3XX_RBBM_PERFCTR_HLSQ_5_HI, 14,
 		A3XX_HLSQ_PERFCOUNTER5_SELECT },
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static struct adreno_perfcount_register a3xx_perfcounters_vpc[] = {
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_VPC_0_LO,
-<<<<<<< HEAD
-		15, A3XX_VPC_PERFCOUNTER0_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_VPC_1_LO,
-		16, A3XX_VPC_PERFCOUNTER1_SELECT },
-=======
 		A3XX_RBBM_PERFCTR_VPC_0_HI, 15, A3XX_VPC_PERFCOUNTER0_SELECT },
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_VPC_1_LO,
 		A3XX_RBBM_PERFCTR_VPC_1_HI, 16, A3XX_VPC_PERFCOUNTER1_SELECT },
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static struct adreno_perfcount_register a3xx_perfcounters_tse[] = {
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_TSE_0_LO,
-<<<<<<< HEAD
-		17, A3XX_GRAS_PERFCOUNTER0_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_TSE_1_LO,
-		18, A3XX_GRAS_PERFCOUNTER1_SELECT },
-=======
 		A3XX_RBBM_PERFCTR_TSE_0_HI, 17, A3XX_GRAS_PERFCOUNTER0_SELECT },
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_TSE_1_LO,
 		A3XX_RBBM_PERFCTR_TSE_1_HI, 18, A3XX_GRAS_PERFCOUNTER1_SELECT },
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static struct adreno_perfcount_register a3xx_perfcounters_ras[] = {
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_RAS_0_LO,
-<<<<<<< HEAD
-		19, A3XX_GRAS_PERFCOUNTER2_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_RAS_1_LO,
-		20, A3XX_GRAS_PERFCOUNTER3_SELECT },
-=======
 		A3XX_RBBM_PERFCTR_RAS_0_HI, 19, A3XX_GRAS_PERFCOUNTER2_SELECT },
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_RAS_1_LO,
 		A3XX_RBBM_PERFCTR_RAS_1_HI, 20, A3XX_GRAS_PERFCOUNTER3_SELECT },
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static struct adreno_perfcount_register a3xx_perfcounters_uche[] = {
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_UCHE_0_LO,
-<<<<<<< HEAD
-		21, A3XX_UCHE_PERFCOUNTER0_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_UCHE_1_LO,
-		22, A3XX_UCHE_PERFCOUNTER1_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_UCHE_2_LO,
-		23, A3XX_UCHE_PERFCOUNTER2_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_UCHE_3_LO,
-		24, A3XX_UCHE_PERFCOUNTER3_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_UCHE_4_LO,
-		25, A3XX_UCHE_PERFCOUNTER4_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_UCHE_5_LO,
-		26, A3XX_UCHE_PERFCOUNTER5_SELECT },
-=======
 		A3XX_RBBM_PERFCTR_UCHE_0_HI, 21,
 		A3XX_UCHE_PERFCOUNTER0_SELECT },
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_UCHE_1_LO,
@@ -4081,24 +3913,10 @@ static struct adreno_perfcount_register a3xx_perfcounters_uche[] = {
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_UCHE_5_LO,
 		A3XX_RBBM_PERFCTR_UCHE_5_HI, 26,
 		A3XX_UCHE_PERFCOUNTER5_SELECT },
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static struct adreno_perfcount_register a3xx_perfcounters_tp[] = {
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_TP_0_LO,
-<<<<<<< HEAD
-		27, A3XX_TP_PERFCOUNTER0_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_TP_1_LO,
-		28, A3XX_TP_PERFCOUNTER1_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_TP_2_LO,
-		29, A3XX_TP_PERFCOUNTER2_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_TP_3_LO,
-		30, A3XX_TP_PERFCOUNTER3_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_TP_4_LO,
-		31, A3XX_TP_PERFCOUNTER4_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_TP_5_LO,
-		32, A3XX_TP_PERFCOUNTER5_SELECT },
-=======
 		A3XX_RBBM_PERFCTR_TP_0_HI, 27, A3XX_TP_PERFCOUNTER0_SELECT },
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_TP_1_LO,
 		A3XX_RBBM_PERFCTR_TP_1_HI, 28, A3XX_TP_PERFCOUNTER1_SELECT },
@@ -4110,28 +3928,10 @@ static struct adreno_perfcount_register a3xx_perfcounters_tp[] = {
 		A3XX_RBBM_PERFCTR_TP_4_HI, 31, A3XX_TP_PERFCOUNTER4_SELECT },
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_TP_5_LO,
 		A3XX_RBBM_PERFCTR_TP_5_HI, 32, A3XX_TP_PERFCOUNTER5_SELECT },
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static struct adreno_perfcount_register a3xx_perfcounters_sp[] = {
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_SP_0_LO,
-<<<<<<< HEAD
-		33, A3XX_SP_PERFCOUNTER0_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_SP_1_LO,
-		34, A3XX_SP_PERFCOUNTER1_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_SP_2_LO,
-		35, A3XX_SP_PERFCOUNTER2_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_SP_3_LO,
-		36, A3XX_SP_PERFCOUNTER3_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_SP_4_LO,
-		37, A3XX_SP_PERFCOUNTER4_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_SP_5_LO,
-		38, A3XX_SP_PERFCOUNTER5_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_SP_6_LO,
-		39, A3XX_SP_PERFCOUNTER6_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_SP_7_LO,
-		40, A3XX_SP_PERFCOUNTER7_SELECT },
-=======
 		A3XX_RBBM_PERFCTR_SP_0_HI, 33, A3XX_SP_PERFCOUNTER0_SELECT },
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_SP_1_LO,
 		A3XX_RBBM_PERFCTR_SP_1_HI, 34, A3XX_SP_PERFCOUNTER1_SELECT },
@@ -4147,39 +3947,17 @@ static struct adreno_perfcount_register a3xx_perfcounters_sp[] = {
 		A3XX_RBBM_PERFCTR_SP_6_HI, 39, A3XX_SP_PERFCOUNTER6_SELECT },
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_SP_7_LO,
 		A3XX_RBBM_PERFCTR_SP_7_HI, 40, A3XX_SP_PERFCOUNTER7_SELECT },
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static struct adreno_perfcount_register a3xx_perfcounters_rb[] = {
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_RB_0_LO,
-<<<<<<< HEAD
-		41, A3XX_RB_PERFCOUNTER0_SELECT },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_RB_1_LO,
-		42, A3XX_RB_PERFCOUNTER1_SELECT },
-=======
 		A3XX_RBBM_PERFCTR_RB_0_HI, 41, A3XX_RB_PERFCOUNTER0_SELECT },
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_RB_1_LO,
 		A3XX_RBBM_PERFCTR_RB_1_HI, 42, A3XX_RB_PERFCOUNTER1_SELECT },
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static struct adreno_perfcount_register a3xx_perfcounters_pwr[] = {
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_PWR_0_LO,
-<<<<<<< HEAD
-		-1, 0 },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_PWR_1_LO,
-		-1, 0 },
-};
-
-static struct adreno_perfcount_register a3xx_perfcounters_vbif[] = {
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_VBIF_PERF_CNT0_LO, -1, 0 },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_VBIF_PERF_CNT1_LO, -1, 0 },
-};
-static struct adreno_perfcount_register a3xx_perfcounters_vbif_pwr[] = {
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_VBIF_PERF_PWR_CNT0_LO, -1, 0 },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_VBIF_PERF_PWR_CNT1_LO, -1, 0 },
-	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_VBIF_PERF_PWR_CNT2_LO, -1, 0 },
-=======
 		A3XX_RBBM_PERFCTR_PWR_0_HI, -1, 0 },
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_RBBM_PERFCTR_PWR_1_LO,
 		A3XX_RBBM_PERFCTR_PWR_1_HI, -1, 0 },
@@ -4198,7 +3976,6 @@ static struct adreno_perfcount_register a3xx_perfcounters_vbif_pwr[] = {
 		A3XX_VBIF_PERF_PWR_CNT1_HI, -1, 0 },
 	{ KGSL_PERFCOUNTER_NOT_USED, 0, 0, A3XX_VBIF_PERF_PWR_CNT2_LO,
 		A3XX_VBIF_PERF_PWR_CNT2_HI, -1, 0 },
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static struct adreno_perfcount_group a3xx_perfcounter_groups[] = {
@@ -4233,22 +4010,11 @@ static inline int _get_counter(struct adreno_device *adreno_dev,
 	int ret = 0;
 
 	if (*lo == 0) {
-<<<<<<< HEAD
-		*hi = 0;
-
-		ret = adreno_perfcounter_get(adreno_dev, group, countable,
-			lo, PERFCOUNTER_FLAG_KERNEL);
-
-		if (ret == 0)
-			*hi = *lo + 1;
-		else {
-=======
 
 		ret = adreno_perfcounter_get(adreno_dev, group, countable,
 			lo, hi, PERFCOUNTER_FLAG_KERNEL);
 
 		if (ret) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			struct kgsl_device *device = &adreno_dev->dev;
 
 			KGSL_DRV_ERR(device,
@@ -4364,30 +4130,18 @@ static int a3xx_perfcounter_init(struct adreno_device *adreno_dev)
 
 	/* Reserve and start countable 1 in the PWR perfcounter group */
 	ret = adreno_perfcounter_get(adreno_dev, KGSL_PERFCOUNTER_GROUP_PWR, 1,
-<<<<<<< HEAD
-			NULL, PERFCOUNTER_FLAG_KERNEL);
-=======
 			NULL, NULL, PERFCOUNTER_FLAG_KERNEL);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (device->pwrctrl.bus_control) {
 		/* VBIF waiting for RAM */
 		ret |= adreno_perfcounter_get(adreno_dev,
 				KGSL_PERFCOUNTER_GROUP_VBIF_PWR, 0,
-<<<<<<< HEAD
-				NULL, PERFCOUNTER_FLAG_KERNEL);
-=======
 				NULL, NULL, PERFCOUNTER_FLAG_KERNEL);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/* VBIF DDR cycles */
 		ret |= adreno_perfcounter_get(adreno_dev,
 				KGSL_PERFCOUNTER_GROUP_VBIF,
 				VBIF_AXI_TOTAL_BEATS,
-<<<<<<< HEAD
-				&adreno_dev->ram_cycles_lo,
-=======
 				&adreno_dev->ram_cycles_lo, NULL,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				PERFCOUNTER_FLAG_KERNEL);
 	}
 
@@ -4404,21 +4158,11 @@ static int a3xx_perfcounter_init(struct adreno_device *adreno_dev)
  */
 static void a3xx_protect_init(struct kgsl_device *device)
 {
-<<<<<<< HEAD
-#ifdef CONFIG_F_QUALCOMM_GPU_PATCH_FOR_PAGE_FAULT
-	int index = 0;
-#endif
-	/* enable access protection to privileged registers */
-	kgsl_regwrite(device, A3XX_CP_PROTECT_CTRL, 0x00000007);
-	
-#ifdef CONFIG_F_QUALCOMM_GPU_PATCH_FOR_PAGE_FAULT
-=======
 	int index = 0;
 
 	/* enable access protection to privileged registers */
 	kgsl_regwrite(device, A3XX_CP_PROTECT_CTRL, 0x00000007);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* RBBM registers */
 	adreno_set_protected_registers(device, &index, 0x18, 0);
 	adreno_set_protected_registers(device, &index, 0x20, 2);
@@ -4427,16 +4171,10 @@ static void a3xx_protect_init(struct kgsl_device *device)
 	adreno_set_protected_registers(device, &index, 0x50, 4);
 	adreno_set_protected_registers(device, &index, 0x63, 0);
 	adreno_set_protected_registers(device, &index, 0x100, 4);
-<<<<<<< HEAD
-	
-	/* CP registers */
-	adreno_set_protected_registers(device, &index, 0x1C0, 5);
-=======
 
 	/* CP registers */
 	adreno_set_protected_registers(device, &index, 0x1C0, 5);
 	adreno_set_protected_registers(device, &index, 0x1EC, 1);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	adreno_set_protected_registers(device, &index, 0x1F6, 1);
 	adreno_set_protected_registers(device, &index, 0x1F8, 2);
 	adreno_set_protected_registers(device, &index, 0x45E, 2);
@@ -4444,43 +4182,12 @@ static void a3xx_protect_init(struct kgsl_device *device)
 
 	/* RB registers */
 	adreno_set_protected_registers(device, &index, 0xCC0, 0);
-<<<<<<< HEAD
-	
-	/* VBIF registers */
-	adreno_set_protected_registers(device, &index, 0x3000, 6);	
-
-	/* SMMU registers */
-	adreno_set_protected_registers(device, &index, 0x4000, 14);	
-#else
-/* RBBM registers */
-	kgsl_regwrite(device, A3XX_CP_PROTECT_REG_0, 0x63000040);
-	kgsl_regwrite(device, A3XX_CP_PROTECT_REG_1, 0x62000080);
-	kgsl_regwrite(device, A3XX_CP_PROTECT_REG_2, 0x600000CC);
-	kgsl_regwrite(device, A3XX_CP_PROTECT_REG_3, 0x60000108);
-	kgsl_regwrite(device, A3XX_CP_PROTECT_REG_4, 0x64000140);
-	kgsl_regwrite(device, A3XX_CP_PROTECT_REG_5, 0x66000400);
-
-	/* CP registers */
-	kgsl_regwrite(device, A3XX_CP_PROTECT_REG_6, 0x65000700);
-	kgsl_regwrite(device, A3XX_CP_PROTECT_REG_7, 0x610007D8);
-	kgsl_regwrite(device, A3XX_CP_PROTECT_REG_8, 0x620007E0);
-	kgsl_regwrite(device, A3XX_CP_PROTECT_REG_9, 0x61001178);
-	kgsl_regwrite(device, A3XX_CP_PROTECT_REG_A, 0x64001180);
-
-	/* RB registers */
-	kgsl_regwrite(device, A3XX_CP_PROTECT_REG_B, 0x60003300);
-
-	/* VBIF registers */
-	kgsl_regwrite(device, A3XX_CP_PROTECT_REG_C, 0x6B00C000);
-#endif	
-=======
 
 	/* VBIF registers */
 	adreno_set_protected_registers(device, &index, 0x3000, 6);
 
 	/* SMMU registers */
 	adreno_set_protected_registers(device, &index, 0x4000, 14);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static void a3xx_start(struct adreno_device *adreno_dev)
@@ -4523,18 +4230,12 @@ static void a3xx_start(struct adreno_device *adreno_dev)
 
 	/* Turn on hang detection - this spews a lot of useful information
 	 * into the RBBM registers on a hang */
-<<<<<<< HEAD
-
-	kgsl_regwrite(device, A3XX_RBBM_INTERFACE_HANG_INT_CTL,
-			(1 << 16) | 0xFFF);
-=======
 	if (adreno_is_a330v2(adreno_dev))
 		kgsl_regwrite(device, A3XX_RBBM_INTERFACE_HANG_INT_CTL,
 				(1 << 31) | 0xFFFF);
 	else
 		kgsl_regwrite(device, A3XX_RBBM_INTERFACE_HANG_INT_CTL,
 				(1 << 16) | 0xFFF);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/* Enable 64-byte cacheline size. HW Default is 32-byte (0x000000E0). */
 	kgsl_regwrite(device, A3XX_UCHE_CACHE_MODE_CONTROL_REG, 0x00000001);
@@ -4574,11 +4275,7 @@ static void a3xx_start(struct adreno_device *adreno_dev)
  */
 int a3xx_coresight_enable(struct kgsl_device *device)
 {
-<<<<<<< HEAD
-	mutex_lock(&device->mutex);
-=======
 	kgsl_mutex_lock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!kgsl_active_count_get(device)) {
 		kgsl_regwrite(device, A3XX_RBBM_DEBUG_BUS_CTL, 0x0001093F);
 		kgsl_regwrite(device, A3XX_RBBM_DEBUG_BUS_STB_CTL0,
@@ -4599,11 +4296,7 @@ int a3xx_coresight_enable(struct kgsl_device *device)
 				0x00000001);
 		kgsl_active_count_put(device);
 	}
-<<<<<<< HEAD
-	mutex_unlock(&device->mutex);
-=======
 	kgsl_mutex_unlock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 }
 
@@ -4614,11 +4307,7 @@ int a3xx_coresight_enable(struct kgsl_device *device)
  */
 void a3xx_coresight_disable(struct kgsl_device *device)
 {
-<<<<<<< HEAD
-	mutex_lock(&device->mutex);
-=======
 	kgsl_mutex_lock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!kgsl_active_count_get(device)) {
 		kgsl_regwrite(device, A3XX_RBBM_DEBUG_BUS_CTL, 0x0);
 		kgsl_regwrite(device, A3XX_RBBM_DEBUG_BUS_STB_CTL0, 0x0);
@@ -4631,30 +4320,18 @@ void a3xx_coresight_disable(struct kgsl_device *device)
 		kgsl_regwrite(device, A3XX_RBBM_EXT_TRACE_CMD, 0x0);
 		kgsl_active_count_put(device);
 	}
-<<<<<<< HEAD
-	mutex_unlock(&device->mutex);
-=======
 	kgsl_mutex_unlock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static void a3xx_coresight_write_reg(struct kgsl_device *device,
 		unsigned int wordoffset, unsigned int val)
 {
-<<<<<<< HEAD
-	mutex_lock(&device->mutex);
-=======
 	kgsl_mutex_lock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!kgsl_active_count_get(device)) {
 		kgsl_regwrite(device, wordoffset, val);
 		kgsl_active_count_put(device);
 	}
-<<<<<<< HEAD
-	mutex_unlock(&device->mutex);
-=======
 	kgsl_mutex_unlock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 void a3xx_coresight_config_debug_reg(struct kgsl_device *device,
@@ -4896,10 +4573,7 @@ static unsigned int a3xx_register_offsets[ADRENO_REG_REGISTER_MAX] = {
 	ADRENO_REG_DEFINE(ADRENO_REG_CP_TIMESTAMP, REG_CP_TIMESTAMP),
 	ADRENO_REG_DEFINE(ADRENO_REG_SCRATCH_ADDR, REG_SCRATCH_ADDR),
 	ADRENO_REG_DEFINE(ADRENO_REG_SCRATCH_UMSK, REG_SCRATCH_UMSK),
-<<<<<<< HEAD
-=======
 	ADRENO_REG_DEFINE(ADRENO_REG_CP_HW_FAULT, A3XX_CP_HW_FAULT),
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ADRENO_REG_DEFINE(ADRENO_REG_RBBM_STATUS, A3XX_RBBM_STATUS),
 	ADRENO_REG_DEFINE(ADRENO_REG_RBBM_PERFCTR_CTL, A3XX_RBBM_PERFCTR_CTL),
 	ADRENO_REG_DEFINE(ADRENO_REG_RBBM_PERFCTR_LOAD_CMD0,
@@ -4944,11 +4618,8 @@ static unsigned int a3xx_register_offsets[ADRENO_REG_REGISTER_MAX] = {
 	ADRENO_REG_DEFINE(ADRENO_REG_TC_CNTL_STATUS, REG_TC_CNTL_STATUS),
 	ADRENO_REG_DEFINE(ADRENO_REG_TP0_CHICKEN, REG_TP0_CHICKEN),
 	ADRENO_REG_DEFINE(ADRENO_REG_RBBM_RBBM_CTL, A3XX_RBBM_RBBM_CTL),
-<<<<<<< HEAD
-=======
 	ADRENO_REG_DEFINE(ADRENO_REG_UCHE_INVALIDATE0,
 			A3XX_UCHE_CACHE_INVALIDATE0_REG),
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 struct adreno_reg_offsets a3xx_reg_offsets = {

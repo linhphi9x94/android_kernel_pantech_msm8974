@@ -32,24 +32,6 @@
 #define GROUP_BYTES 4
 #define ROW_BYTES 16
 #define MAX_VSYNC_COUNT 0xFFFFFFF
-<<<<<<< HEAD
-struct mdss_debug_data {
-	struct dentry *root;
-	struct list_head base_list;
-};
-
-struct mdss_debug_base {
-	struct mdss_debug_data *mdd;
-	void __iomem *base;
-	size_t off;
-	size_t cnt;
-	size_t max_offset;
-	char *buf;
-	size_t buf_len;
-	struct list_head head;
-};
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static int mdss_debug_base_open(struct inode *inode, struct file *file)
 {
@@ -270,21 +252,14 @@ int mdss_debug_register_base(const char *name, void __iomem *base,
 	if (!dbg)
 		return -ENOMEM;
 
-<<<<<<< HEAD
-=======
 	if (name)
 		strlcpy(dbg->name, name, sizeof(dbg->name));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	dbg->base = base;
 	dbg->max_offset = max_offset;
 	dbg->off = 0;
 	dbg->cnt = DEFAULT_BASE_REG_CNT;
 
-<<<<<<< HEAD
-	if (name)
-=======
 	if (name && strcmp(name, "mdp"))
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		prefix_len = snprintf(dn, sizeof(dn), "%s_", name);
 
 	strlcpy(dn + prefix_len, "off", sizeof(dn) - prefix_len);
@@ -448,11 +423,7 @@ static ssize_t mdss_debug_gamma_read(struct file *file, char __user *buff,
 	panel_pdata = container_of(mdata->ctl_off->panel_data, struct mdss_dsi_ctrl_pdata,panel_data);
 	if(panel_pdata-> manufacture_id == SAMSUNG_DRIVER_IC)
 		memcpy(Base_gamma_array,gamma_level_lsi,sizeof(gamma_level_lsi));
-<<<<<<< HEAD
-		
-=======
 	
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	tot = scnprintf(bp, len, "\nGamma: %d\n",Base_gamma_array[mdata->ctl_off->mfd->bl_level]);
 	
 
@@ -533,11 +504,6 @@ int mdss_debugfs_init(struct mdss_data_type *mdata)
 	debugfs_create_file("mtp", 0644, mdd->root, mdata, &mdss_mtp_fops);
 	debugfs_create_file("gamma", 0644, mdd->root, mdata, &mdss_gamma_fops);
 #endif
-<<<<<<< HEAD
-	debugfs_create_u32("min_mdp_clk", 0644, mdd->root,
-			(u32 *)&mdata->min_mdp_clk);
-
-=======
 
 	debugfs_create_u32("min_mdp_clk", 0644, mdd->root,
 			(u32 *)&mdata->min_mdp_clk);
@@ -547,7 +513,6 @@ int mdss_debugfs_init(struct mdss_data_type *mdata)
 		return -ENODEV;
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mdata->debug_inf.debug_data = mdd;
 
 	return 0;
@@ -563,8 +528,6 @@ int mdss_debugfs_remove(struct mdss_data_type *mdata)
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
 void mdss_dump_reg(char __iomem *base, int len)
 {
 	char *addr;
@@ -588,7 +551,6 @@ void mdss_dump_reg(char __iomem *base, int len)
 	mdss_mdp_clk_ctrl(MDP_BLOCK_POWER_OFF, false);
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int vsync_count;
 static struct mdss_mdp_misr_map {
 	u32 ctrl_reg;

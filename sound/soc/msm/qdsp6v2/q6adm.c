@@ -433,11 +433,6 @@ int adm_get_params(int port_id, uint32_t module_id, uint32_t param_id,
 		rc = -EINVAL;
 		goto adm_get_param_return;
 	}
-<<<<<<< HEAD
-	if (params_data) {
-		for (i = 0; i < adm_get_parameters[0]; i++)
-			params_data[i] = adm_get_parameters[1+i];
-=======
 	if ((params_data) && (ARRAY_SIZE(adm_get_parameters) >=
 		(1+adm_get_parameters[0])) &&
 		(params_length/sizeof(uint32_t) >=
@@ -450,7 +445,6 @@ int adm_get_params(int port_id, uint32_t module_id, uint32_t param_id,
 		(1+adm_get_parameters[0]),
 		params_length/sizeof(int),
 		adm_get_parameters[0]);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	rc = 0;
 adm_get_param_return:
@@ -497,15 +491,12 @@ static int32_t adm_callback(struct apr_client_data *data, void *priv)
 {
 	uint32_t *payload;
 	int i, index;
-<<<<<<< HEAD
-=======
 
 	if (data == NULL) {
 		pr_err("%s: data paramter is null\n", __func__);
 		return -EINVAL;
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	payload = data->payload;
 
 	if (data->opcode == RESET_EVENTS) {
@@ -648,15 +639,6 @@ static int32_t adm_callback(struct apr_client_data *data, void *priv)
 					data->payload_size))
 				break;
 
-<<<<<<< HEAD
-			if (data->payload_size > (4 * sizeof(uint32_t))) {
-				adm_get_parameters[0] = payload[3];
-				pr_debug("GET_PP PARAM:received parameter length: %x\n",
-						adm_get_parameters[0]);
-				/* storing param size then params */
-				for (i = 0; i < payload[3]; i++)
-					adm_get_parameters[1+i] = payload[4+i];
-=======
 			/* payload[3] is the param size, check if payload */
 			/* is big enough and has a valid param size */
 			if ((payload[0] == 0) && (data->payload_size >
@@ -682,7 +664,6 @@ static int32_t adm_callback(struct apr_client_data *data, void *priv)
 				adm_get_parameters[0] = -1;
 				pr_err("%s: GET_PP_PARAMS failed, setting size to %d\n",
 					__func__, adm_get_parameters[0]);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			}
 			atomic_set(&this_adm.copp_stat[index], 1);
 			wake_up(&this_adm.wait[index]);
@@ -1223,12 +1204,8 @@ int adm_open(int port_id, int path, int rate, int channel_mode, int topology,
 
 		open.topology_id = topology;
 		if ((open.topology_id == VPM_TX_SM_ECNS_COPP_TOPOLOGY) ||
-<<<<<<< HEAD
-			(open.topology_id == VPM_TX_DM_FLUENCE_COPP_TOPOLOGY))
-=======
 			(open.topology_id == VPM_TX_DM_FLUENCE_COPP_TOPOLOGY) ||
 			(open.topology_id == VPM_TX_DM_RFECNS_COPP_TOPOLOGY))
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				rate = 16000;
 
 		if (perf_mode == ULTRA_LOW_LATENCY_PCM_MODE) {
@@ -1239,13 +1216,10 @@ int adm_open(int port_id, int path, int rate, int channel_mode, int topology,
 #ifdef CONFIG_PANTECH_SND_FLAC //20131223 jhsong : qct patch for 24bit pcm on offload
 			bits_per_sample = ULL_SUPPORTED_BITS_PER_SAMPLE;
 #endif
-<<<<<<< HEAD
-=======
 		} else if (perf_mode == LOW_LATENCY_PCM_MODE) {
 			if ((open.topology_id == DOLBY_ADM_COPP_TOPOLOGY_ID) ||
 			    (open.topology_id == SRS_TRUMEDIA_TOPOLOGY_ID))
 				open.topology_id = DEFAULT_COPP_TOPOLOGY;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 		open.dev_num_channel = channel_mode & 0x00FF;
 		open.bit_width = bits_per_sample;

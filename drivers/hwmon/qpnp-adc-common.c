@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1102,24 +1098,13 @@ int32_t qpnp_adc_scale_default(struct qpnp_vadc_chip *vadc,
 		return -EINVAL;
 
 	scale_voltage = (adc_code -
-<<<<<<< HEAD
-		chan_properties->adc_graph[CALIB_ABSOLUTE].adc_gnd)
-		* chan_properties->adc_graph[CALIB_ABSOLUTE].dx;
-=======
 		chan_properties->adc_graph[chan_properties->calib_type].adc_gnd)
 		* chan_properties->adc_graph[chan_properties->calib_type].dx;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (scale_voltage < 0) {
 		negative_offset = 1;
 		scale_voltage = -scale_voltage;
 	}
 	do_div(scale_voltage,
-<<<<<<< HEAD
-		chan_properties->adc_graph[CALIB_ABSOLUTE].dy);
-	if (negative_offset)
-		scale_voltage = -scale_voltage;
-	scale_voltage += chan_properties->adc_graph[CALIB_ABSOLUTE].dx;
-=======
 		chan_properties->adc_graph[chan_properties->calib_type].dy);
 	if (negative_offset)
 		scale_voltage = -scale_voltage;
@@ -1129,7 +1114,6 @@ int32_t qpnp_adc_scale_default(struct qpnp_vadc_chip *vadc,
 		chan_properties->adc_graph[chan_properties->calib_type].dx;
 	else
 		scale_voltage *= 1000;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (scale_voltage < 0) {
 		if (adc_properties->bipolar) {
@@ -1291,8 +1275,6 @@ int32_t qpnp_vadc_check_result(int32_t *data)
 }
 EXPORT_SYMBOL(qpnp_vadc_check_result);
 
-<<<<<<< HEAD
-=======
 int qpnp_adc_get_revid_version(struct device *dev)
 {
 	struct pmic_revid_data *revid_data;
@@ -1379,7 +1361,6 @@ int qpnp_adc_get_revid_version(struct device *dev)
 }
 EXPORT_SYMBOL(qpnp_adc_get_revid_version);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int32_t qpnp_adc_get_devicetree_data(struct spmi_device *spmi,
 			struct qpnp_adc_drv *adc_qpnp)
 {
@@ -1431,11 +1412,7 @@ int32_t qpnp_adc_get_devicetree_data(struct spmi_device *spmi,
 
 	for_each_child_of_node(node, child) {
 		int channel_num, scaling, post_scaling, hw_settle_time;
-<<<<<<< HEAD
-		int fast_avg_setup, calib_type, rc;
-=======
 		int fast_avg_setup, calib_type = 0, rc;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		const char *calibration_param, *channel_name;
 
 		channel_name = of_get_property(child,
@@ -1456,25 +1433,6 @@ int32_t qpnp_adc_get_devicetree_data(struct spmi_device *spmi,
 			pr_err("Invalid channel decimation property\n");
 			return -EINVAL;
 		}
-<<<<<<< HEAD
-		rc = of_property_read_u32(child,
-				"qcom,pre-div-channel-scaling", &scaling);
-		if (rc) {
-			pr_err("Invalid channel scaling property\n");
-			return -EINVAL;
-		}
-		rc = of_property_read_u32(child,
-				"qcom,scale-function", &post_scaling);
-		if (rc) {
-			pr_err("Invalid channel post scaling property\n");
-			return -EINVAL;
-		}
-		rc = of_property_read_u32(child,
-				"qcom,hw-settle-time", &hw_settle_time);
-		if (rc) {
-			pr_err("Invalid channel hw settle time property\n");
-			return -EINVAL;
-=======
 		if (!of_device_is_compatible(node, "qcom,qpnp-iadc")) {
 			rc = of_property_read_u32(child,
 				"qcom,hw-settle-time", &hw_settle_time);
@@ -1509,7 +1467,6 @@ int32_t qpnp_adc_get_devicetree_data(struct spmi_device *spmi,
 						__func__);
 				return -EINVAL;
 			}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 		rc = of_property_read_u32(child,
 				"qcom,fast-avg-setup", &fast_avg_setup);
@@ -1517,30 +1474,6 @@ int32_t qpnp_adc_get_devicetree_data(struct spmi_device *spmi,
 			pr_err("Invalid channel fast average setup\n");
 			return -EINVAL;
 		}
-<<<<<<< HEAD
-		rc = of_property_read_string(child, "qcom,calibration-type",
-							&calibration_param);
-		if (rc) {
-			pr_err("Invalid calibration type\n");
-			return -EINVAL;
-		}
-		if (!strncmp(calibration_param, "absolute", 8))
-			calib_type = CALIB_ABSOLUTE;
-		else if (!strncmp(calibration_param, "ratiometric", 11))
-			calib_type = CALIB_RATIOMETRIC;
-		else {
-			pr_err("%s: Invalid calibration property\n", __func__);
-			return -EINVAL;
-		}
-		/* Individual channel properties */
-		adc_channel_list[i].name = (char *)channel_name;
-		adc_channel_list[i].channel_num = channel_num;
-		adc_channel_list[i].chan_path_prescaling = scaling;
-		adc_channel_list[i].adc_decimation = decimation;
-		adc_channel_list[i].adc_scale_fn = post_scaling;
-		adc_channel_list[i].hw_settle_time = hw_settle_time;
-		adc_channel_list[i].fast_avg_setup = fast_avg_setup;
-=======
 		/* Individual channel properties */
 		adc_channel_list[i].name = (char *)channel_name;
 		adc_channel_list[i].channel_num = channel_num;
@@ -1552,7 +1485,6 @@ int32_t qpnp_adc_get_devicetree_data(struct spmi_device *spmi,
 			adc_channel_list[i].hw_settle_time = hw_settle_time;
 			adc_channel_list[i].calib_type = calib_type;
 		}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		i++;
 	}
 

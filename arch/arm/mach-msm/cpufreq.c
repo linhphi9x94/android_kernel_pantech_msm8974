@@ -160,11 +160,6 @@ static int set_cpu_freq(struct cpufreq_policy *policy, unsigned int new_freq,
 
 	if (!ret) {
 		trace_cpu_frequency_switch_end(policy->cpu);
-<<<<<<< HEAD
-
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		cpufreq_notify_transition(&freqs, CPUFREQ_POSTCHANGE);
 	}
 
@@ -244,12 +239,9 @@ static int msm_cpufreq_verify(struct cpufreq_policy *policy)
 
 static unsigned int msm_cpufreq_get_freq(unsigned int cpu)
 {
-<<<<<<< HEAD
-=======
 	if (is_clk && is_sync)
 		cpu = 0;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (is_clk)
 		return clk_get_rate(cpu_clk[cpu]) / 1000;
 
@@ -348,24 +340,12 @@ static int __cpuinit msm_cpufreq_cpu_callback(struct notifier_block *nfb,
 	 * before the CPU is brought up.
 	 */
 	case CPU_DEAD:
-<<<<<<< HEAD
-	case CPU_UP_CANCELED:
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (is_clk) {
 			clk_disable_unprepare(cpu_clk[cpu]);
 			clk_disable_unprepare(l2_clk);
 			update_l2_bw(NULL);
 		}
 		break;
-<<<<<<< HEAD
-	case CPU_UP_PREPARE:
-		if (is_clk) {
-			rc = clk_prepare_enable(l2_clk);
-			if (rc < 0)
-				return NOTIFY_BAD;
-			rc = clk_prepare_enable(cpu_clk[cpu]);
-=======
 	case CPU_UP_CANCELED:
 		if (is_clk) {
 			clk_unprepare(cpu_clk[cpu]);
@@ -379,14 +359,11 @@ static int __cpuinit msm_cpufreq_cpu_callback(struct notifier_block *nfb,
 			if (rc < 0)
 				return NOTIFY_BAD;
 			rc = clk_prepare(cpu_clk[cpu]);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			if (rc < 0)
 				return NOTIFY_BAD;
 			update_l2_bw(&cpu);
 		}
 		break;
-<<<<<<< HEAD
-=======
 	case CPU_STARTING:
 		if (is_clk) {
 			rc = clk_enable(l2_clk);
@@ -397,7 +374,6 @@ static int __cpuinit msm_cpufreq_cpu_callback(struct notifier_block *nfb,
 				return NOTIFY_BAD;
 		}
 		break;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	default:
 		break;
 	}

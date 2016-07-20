@@ -16,10 +16,6 @@
 
 #include <linux/init.h>
 #include <linux/export.h>
-<<<<<<< HEAD
-#include <linux/kernel.h>
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <linux/slab.h>
 #include <linux/fs.h>
 #include <linux/namei.h>
@@ -1466,12 +1462,7 @@ EXPORT_SYMBOL(full_name_hash);
  */
 static inline unsigned long hash_name(const char *name, unsigned int *hashp)
 {
-<<<<<<< HEAD
-	unsigned long a, b, adata, bdata, mask, hash, len;
-	const struct word_at_a_time constants = WORD_AT_A_TIME_CONSTANTS;
-=======
 	unsigned long a, mask, hash, len;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	hash = a = 0;
 	len = -sizeof(unsigned long);
@@ -1479,20 +1470,6 @@ static inline unsigned long hash_name(const char *name, unsigned int *hashp)
 		hash = (hash + a) * 9;
 		len += sizeof(unsigned long);
 		a = load_unaligned_zeropad(name+len);
-<<<<<<< HEAD
-		b = a ^ REPEAT_BYTE('/');
-	} while (!(has_zero(a, &adata, &constants) | has_zero(b, &bdata, &constants)));
-
-	adata = prep_zero_mask(a, adata, &constants);
-	bdata = prep_zero_mask(b, bdata, &constants);
-
-	mask = create_zero_mask(adata | bdata);
-
-	hash += a & zero_bytemask(mask);
-	*hashp = fold_hash(hash);
-
-	return len + find_zero(mask);
-=======
 		/* Do we have any NUL or '/' bytes in this word? */
 		mask = has_zero(a) | has_zero(a ^ REPEAT_BYTE('/'));
 	} while (!mask);
@@ -1504,7 +1481,6 @@ static inline unsigned long hash_name(const char *name, unsigned int *hashp)
 	*hashp = fold_hash(hash);
 
 	return len + count_masked_bytes(mask);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 #else
@@ -2106,8 +2082,6 @@ int vfs_create(struct inode *dir, struct dentry *dentry, umode_t mode,
 	if (error)
 		return error;
 	error = dir->i_op->create(dir, dentry, mode, nd);
-<<<<<<< HEAD
-=======
 	if (error)
 		return error;
 
@@ -2115,7 +2089,6 @@ int vfs_create(struct inode *dir, struct dentry *dentry, umode_t mode,
 	if (error)
 		return error;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!error)
 		fsnotify_create(dir, dentry);
 	return error;
@@ -2591,8 +2564,6 @@ int vfs_mknod(struct inode *dir, struct dentry *dentry, umode_t mode, dev_t dev)
 		return error;
 
 	error = dir->i_op->mknod(dir, dentry, mode, dev);
-<<<<<<< HEAD
-=======
 	if (error)
 		return error;
 
@@ -2600,7 +2571,6 @@ int vfs_mknod(struct inode *dir, struct dentry *dentry, umode_t mode, dev_t dev)
 	if (error)
 		return error;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!error)
 		fsnotify_create(dir, dentry);
 	return error;

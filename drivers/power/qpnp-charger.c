@@ -196,13 +196,6 @@ static int is_pantech_host_mode = 0;
 #define USB_OCP_THR				0x52
 #define USB_OCP_CLR				0x53
 #define BAT_IF_TEMP_STATUS			0x09
-<<<<<<< HEAD
-#define BOOST_ILIM				0x78
-#define USB_SPARE				0xDF
-#define DC_COMP_OVR1				0xE9
-#define CHGR_COMP_OVR1				0xEE
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define REG_OFFSET_PERP_SUBTYPE			0x05
 
@@ -443,11 +436,6 @@ struct qpnp_chg_chip {
 	bool				ibat_calibration_enabled;
 	bool				aicl_settled;
 	bool				use_external_rsense;
-<<<<<<< HEAD
-	bool				fastchg_on;
-	bool				parallel_ovp_mode;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	unsigned int			bpd_detection;
 	unsigned int			max_bat_chg_current;
 	unsigned int			warm_bat_chg_ma;
@@ -500,10 +488,6 @@ struct qpnp_chg_chip {
 	struct work_struct		soc_check_work;
 	struct delayed_work		aicl_check_work;
 	struct work_struct		insertion_ocv_work;
-<<<<<<< HEAD
-	struct work_struct		ocp_clear_work;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct qpnp_chg_regulator	otg_vreg;
 	struct qpnp_chg_regulator	boost_vreg;
 	struct qpnp_chg_regulator	batfet_vreg;
@@ -556,11 +540,6 @@ struct qpnp_chg_chip {
 #endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
 };
 
-<<<<<<< HEAD
-static void
-qpnp_chg_set_appropriate_battery_current(struct qpnp_chg_chip *chip);
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static struct of_device_id qpnp_charger_match_table[] = {
 	{ .compatible = QPNP_CHARGER_DEV_NAME, },
@@ -1360,74 +1339,10 @@ qpnp_chg_usb_iusbmax_get(struct qpnp_chg_chip *chip)
 	return iusbmax_ma;
 }
 
-<<<<<<< HEAD
-#define ILIMIT_OVR_0	0x02
-static int
-override_dcin_ilimit(struct qpnp_chg_chip *chip, bool override)
-{
-	int rc;
-
-	pr_debug("override %d\n", override);
-	rc = qpnp_chg_masked_write(chip,
-			chip->dc_chgpth_base + SEC_ACCESS,
-			0xA5,
-			0xA5, 1);
-	rc |= qpnp_chg_masked_write(chip,
-			chip->dc_chgpth_base + DC_COMP_OVR1,
-			0xFF,
-			override ? ILIMIT_OVR_0 : 0, 1);
-	if (rc) {
-		pr_err("Failed to override dc ilimit rc = %d\n", rc);
-		return rc;
-	}
-
-	return rc;
-}
-
-#define DUAL_PATH_EN	BIT(7)
-static int
-switch_parallel_ovp_mode(struct qpnp_chg_chip *chip, bool enable)
-{
-	int rc = 0;
-
-	if (!chip->usb_chgpth_base || !chip->dc_chgpth_base)
-		return rc;
-
-	pr_debug("enable %d\n", enable);
-	rc = override_dcin_ilimit(chip, 1);
-	udelay(10);
-
-	/* enable/disable dual path mode */
-	rc = qpnp_chg_masked_write(chip,
-			chip->usb_chgpth_base + SEC_ACCESS,
-			0xA5,
-			0xA5, 1);
-	rc |= qpnp_chg_masked_write(chip,
-			chip->usb_chgpth_base + USB_SPARE,
-			0xFF,
-			enable ? DUAL_PATH_EN : 0, 1);
-	if (rc) {
-		pr_err("Failed to turn on usb ovp rc = %d\n", rc);
-		return rc;
-	}
-
-	rc = override_dcin_ilimit(chip, 0);
-	return rc;
-}
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define USB_SUSPEND_BIT	BIT(0)
 static int
 qpnp_chg_usb_suspend_enable(struct qpnp_chg_chip *chip, int enable)
 {
-<<<<<<< HEAD
-	/* Turn off DC OVP FET when going into USB suspend */
-	if (chip->parallel_ovp_mode && enable)
-		switch_parallel_ovp_mode(chip, 0);
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return qpnp_chg_masked_write(chip,
 			chip->usb_chgpth_base + CHGR_USB_USB_SUSP,
 			USB_SUSPEND_BIT,
@@ -1737,41 +1652,9 @@ static irqreturn_t
 qpnp_chg_usb_usb_ocp_irq_handler(int irq, void *_chip)
 {
 	struct qpnp_chg_chip *chip = _chip;
-<<<<<<< HEAD
-
-	pr_debug("usb-ocp triggered\n");
-
-	schedule_work(&chip->ocp_clear_work);
-
-	return IRQ_HANDLED;
-}
-
-#define BOOST_ILIMIT_MIN	0x07
-#define BOOST_ILIMIT_DEF	0x02
-#define BOOST_ILIMT_MASK	0xFF
-static void
-qpnp_chg_ocp_clear_work(struct work_struct *work)
-{
-	int rc;
-	u8 usb_sts;
-	struct qpnp_chg_chip *chip = container_of(work,
-		struct qpnp_chg_chip, ocp_clear_work);
-
-	if (chip->type == SMBBP) {
-		rc = qpnp_chg_masked_write(chip,
-				chip->boost_base + BOOST_ILIM,
-				BOOST_ILIMT_MASK,
-				BOOST_ILIMIT_MIN, 1);
-		if (rc) {
-			pr_err("Failed to turn configure ilim rc = %d\n", rc);
-			return;
-		}
-	}
-=======
 	int rc;
 
 	pr_debug("usb-ocp triggered\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	rc = qpnp_chg_masked_write(chip,
 			chip->usb_chgpth_base + USB_OCP_CLR,
@@ -1788,33 +1671,7 @@ qpnp_chg_ocp_clear_work(struct work_struct *work)
 	if (rc)
 		pr_err("Failed to turn off usb ovp rc = %d\n", rc);
 
-<<<<<<< HEAD
-	if (chip->type == SMBBP) {
-		/* Wait for OCP circuitry to be powered up */
-		msleep(100);
-		rc = qpnp_chg_read(chip, &usb_sts,
-				INT_RT_STS(chip->usb_chgpth_base), 1);
-		if (rc) {
-			pr_err("failed to read interrupt sts %d\n", rc);
-			return;
-		}
-
-		if (usb_sts & COARSE_DET_USB_IRQ) {
-			rc = qpnp_chg_masked_write(chip,
-				chip->boost_base + BOOST_ILIM,
-				BOOST_ILIMT_MASK,
-				BOOST_ILIMIT_DEF, 1);
-			if (rc) {
-				pr_err("Failed to set ilim rc = %d\n", rc);
-				return;
-			}
-		} else {
-			pr_warn_ratelimited("USB short to GND detected!\n");
-		}
-	}
-=======
 	return IRQ_HANDLED;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 #define QPNP_CHG_VDDMAX_MIN		3400
@@ -2297,103 +2154,14 @@ qpnp_chg_chgr_chg_trklchg_irq_handler(int irq, void *_chip)
 	return IRQ_HANDLED;
 }
 
-<<<<<<< HEAD
-static int qpnp_chg_is_fastchg_on(struct qpnp_chg_chip *chip)
-{
-=======
 static irqreturn_t
 qpnp_chg_chgr_chg_fastchg_irq_handler(int irq, void *_chip)
 {
 	struct qpnp_chg_chip *chip = _chip;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	u8 chgr_sts;
 	int rc;
 
 	rc = qpnp_chg_read(chip, &chgr_sts, INT_RT_STS(chip->chgr_base), 1);
-<<<<<<< HEAD
-	if (rc) {
-		pr_err("failed to read interrupt status %d\n", rc);
-		return rc;
-	}
-	pr_debug("chgr_sts 0x%x\n", chgr_sts);
-	return (chgr_sts & FAST_CHG_ON_IRQ) ? 1 : 0;
-}
-
-#define VBATDET_BYPASS	0x01
-static int
-bypass_vbatdet_comp(struct qpnp_chg_chip *chip, bool bypass)
-{
-	int rc;
-
-	pr_debug("bypass %d\n", bypass);
-		rc = qpnp_chg_masked_write(chip,
-			chip->chgr_base + SEC_ACCESS,
-			0xA5,
-			0xA5, 1);
-	rc |= qpnp_chg_masked_write(chip,
-			chip->chgr_base + CHGR_COMP_OVR1,
-			0xFF,
-			bypass ? VBATDET_BYPASS : 0, 1);
-	if (rc) {
-		pr_err("Failed to bypass vbatdet comp rc = %d\n", rc);
-		return rc;
-	}
-
-	return rc;
-}
-
-static irqreturn_t
-qpnp_chg_chgr_chg_fastchg_irq_handler(int irq, void *_chip)
-{
-	struct qpnp_chg_chip *chip = _chip;
-	bool fastchg_on = false;
-
-	fastchg_on = qpnp_chg_is_fastchg_on(chip);
-
-	pr_debug("FAST_CHG IRQ triggered, fastchg_on: %d\n", fastchg_on);
-
-	if (chip->fastchg_on ^ fastchg_on) {
-		chip->fastchg_on = fastchg_on;
-		if (chip->bat_if_base) {
-			pr_debug("psy changed batt_psy\n");
-			power_supply_changed(&chip->batt_psy);
-		}
-
-		pr_debug("psy changed usb_psy\n");
-		power_supply_changed(chip->usb_psy);
-
-		if (chip->dc_chgpth_base) {
-			pr_debug("psy changed dc_psy\n");
-			power_supply_changed(&chip->dc_psy);
-		}
-
-		if (fastchg_on) {
-			chip->chg_done = false;
-			bypass_vbatdet_comp(chip, 1);
-			if (chip->bat_is_warm || chip->bat_is_cool) {
-				qpnp_chg_set_appropriate_vddmax(chip);
-				qpnp_chg_set_appropriate_battery_current(chip);
-			}
-
-			if (chip->resuming_charging) {
-				chip->resuming_charging = false;
-				qpnp_chg_set_appropriate_vbatdet(chip);
-			}
-
-			if (!chip->charging_disabled) {
-				schedule_delayed_work(&chip->eoc_work,
-					msecs_to_jiffies(EOC_CHECK_PERIOD_MS));
-				pm_stay_awake(chip->dev);
-			}
-			if (chip->parallel_ovp_mode)
-				switch_parallel_ovp_mode(chip, 1);
-		} else {
-			if (chip->parallel_ovp_mode)
-				switch_parallel_ovp_mode(chip, 0);
-			if (!chip->bat_is_warm && !chip->bat_is_cool)
-				bypass_vbatdet_comp(chip, 0);
-		}
-=======
 	if (rc)
 		pr_err("failed to read interrupt sts %d\n", rc);
 
@@ -2421,7 +2189,6 @@ qpnp_chg_chgr_chg_fastchg_irq_handler(int irq, void *_chip)
 		schedule_delayed_work(&chip->eoc_work,
 			msecs_to_jiffies(EOC_CHECK_PERIOD_MS));
 		pm_stay_awake(chip->dev);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	qpnp_chg_enable_irq(&chip->chg_vbatdet_lo);
@@ -2497,20 +2264,6 @@ switch_usb_to_charge_mode(struct qpnp_chg_chip *chip)
 	if (!qpnp_chg_is_otg_en_set(chip))
 		return 0;
 
-<<<<<<< HEAD
-	if (chip->type == SMBBP) {
-		rc = qpnp_chg_masked_write(chip,
-			chip->boost_base + BOOST_ILIM,
-			BOOST_ILIMT_MASK,
-			BOOST_ILIMIT_DEF, 1);
-		if (rc) {
-			pr_err("Failed to set ilim rc = %d\n", rc);
-			return rc;
-		}
-	}
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* enable usb ovp fet */
 	rc = qpnp_chg_masked_write(chip,
 			chip->usb_chgpth_base + CHGR_USB_USB_OTG_CTL,
@@ -2534,32 +2287,11 @@ static int
 switch_usb_to_host_mode(struct qpnp_chg_chip *chip)
 {
 	int rc;
-<<<<<<< HEAD
-	u8 usb_sts;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	pr_debug("switch to host mode\n");
 	if (qpnp_chg_is_otg_en_set(chip))
 		return 0;
 
-<<<<<<< HEAD
-	if (chip->parallel_ovp_mode)
-		switch_parallel_ovp_mode(chip, 0);
-
-	if (chip->type == SMBBP) {
-		rc = qpnp_chg_masked_write(chip,
-				chip->boost_base + BOOST_ILIM,
-				BOOST_ILIMT_MASK,
-				BOOST_ILIMIT_MIN, 1);
-		if (rc) {
-			pr_err("Failed to turn configure ilim rc = %d\n", rc);
-			return rc;
-		}
-	}
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!qpnp_chg_is_dc_chg_plugged_in(chip)) {
 		rc = qpnp_chg_force_run_on_batt(chip, 1);
 		if (rc) {
@@ -2578,33 +2310,6 @@ switch_usb_to_host_mode(struct qpnp_chg_chip *chip)
 		return rc;
 	}
 
-<<<<<<< HEAD
-	if (chip->type == SMBBP) {
-		/* Wait for OCP circuitry to be powered up */
-		msleep(100);
-		rc = qpnp_chg_read(chip, &usb_sts,
-				INT_RT_STS(chip->usb_chgpth_base), 1);
-		if (rc) {
-			pr_err("failed to read interrupt sts %d\n", rc);
-			return rc;
-		}
-
-		if (usb_sts & COARSE_DET_USB_IRQ) {
-			rc = qpnp_chg_masked_write(chip,
-				chip->boost_base + BOOST_ILIM,
-				BOOST_ILIMT_MASK,
-				BOOST_ILIMIT_DEF, 1);
-			if (rc) {
-				pr_err("Failed to set ilim rc = %d\n", rc);
-				return rc;
-			}
-		} else {
-			pr_warn_ratelimited("USB short to GND detected!\n");
-		}
-	}
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 }
 
@@ -3052,15 +2757,6 @@ get_prop_capacity(struct qpnp_chg_chip *chip)
 		return soc;
 	} else {
 #if defined(CONFIG_PANTECH_PMIC_FUELGAUGE_MAX17058)	
-<<<<<<< HEAD
-        soc = max17058_get_soc();	//20130719 djjeon BMS remove
-        if(soc<0)
-            pr_info("No BMS supply registered return 50\n");
-        else
-            return soc;
-#else
-        pr_debug("No BMS supply registered return 50\n");
-=======
 		soc = max17058_get_soc();	//20130719 djjeon BMS remove
 		if(soc<0)
 			pr_info("No BMS supply registered return 50\n");
@@ -3068,7 +2764,6 @@ get_prop_capacity(struct qpnp_chg_chip *chip)
 			return soc;
 #else
 		pr_debug("No BMS supply registered return 50\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif	
 	}
 
@@ -3099,11 +2794,7 @@ get_prop_batt_temp(struct qpnp_chg_chip *chip)
 		pr_debug("Unable to read batt temperature rc=%d\n", rc);
 		return 0;
 	}
-<<<<<<< HEAD
-	pr_debug("get_bat_temp %d, %lld\n",
-=======
 	pr_debug("get_bat_temp %d %lld\n",
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		results.adc_code, results.physical);
 
 	return (int)results.physical;
@@ -3242,26 +2933,6 @@ qpnp_batt_external_power_changed(struct power_supply *psy)
 				qpnp_chg_iusbmax_set(chip, ret.intval / 1000);
 			}
 
-<<<<<<< HEAD
-            if ((chip->flags & POWER_STAGE_WA)
-                && ((ret.intval / 1000) > USB_WALL_THRESHOLD_MA)
-                && !chip->power_stage_workaround_running
-                && chip->power_stage_workaround_enable) {
-                chip->power_stage_workaround_running = true;
-                pr_debug("usb wall chg inserted starting power stage workaround charger_monitor = %d\n",
-                         charger_monitor);
-                schedule_work(&chip->reduce_power_stage_work);
-            }
-#ifdef CONFIG_PANTECH_PMIC_ABNORMAL
-            if(((ret.intval / 1000) > USB_WALL_THRESHOLD_MA)
-               && (delayed_work_pending(&chip->update_abnormal_delayed_work))) {
-                chip->nonstandard_state = NONSTANDARD_ACIN;
-                cancel_delayed_work(&chip->update_abnormal_delayed_work);
-        }
-#endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
-    }
-    }
-=======
 			if ((chip->flags & POWER_STAGE_WA)
 			&& ((ret.intval / 1000) > USB_WALL_THRESHOLD_MA)
 			&& !chip->power_stage_workaround_running
@@ -3280,7 +2951,6 @@ qpnp_batt_external_power_changed(struct power_supply *psy)
 #endif /* CONFIG_PANTECH_PMIC_ABNORMAL */
 		}
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
 #ifdef CONFIG_PANTECH_QUALCOMM_OTG_MODE_OVP_BUG
@@ -3573,28 +3243,6 @@ static int qpnp_chg_tchg_max_set(struct qpnp_chg_chip *chip, int minutes)
 	return 0;
 }
 
-<<<<<<< HEAD
-static void
-qpnp_chg_set_appropriate_battery_current(struct qpnp_chg_chip *chip)
-{
-	unsigned int chg_current = chip->max_bat_chg_current;
-
-	if (chip->bat_is_cool)
-		chg_current = min(chg_current, chip->cool_bat_chg_ma);
-
-	if (chip->bat_is_warm)
-		chg_current = min(chg_current, chip->warm_bat_chg_ma);
-
-	if (chip->therm_lvl_sel != 0 && chip->thermal_mitigation)
-		chg_current = min(chg_current,
-			chip->thermal_mitigation[chip->therm_lvl_sel]);
-
-	pr_debug("setting %d mA\n", chg_current);
-	qpnp_chg_ibatmax_set(chip, chg_current);
-}
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int
 qpnp_chg_vddsafe_set(struct qpnp_chg_chip *chip, int voltage)
 {
@@ -3806,8 +3454,6 @@ qpnp_boost_vget_uv(struct qpnp_chg_chip *chip)
 }
 
 static void
-<<<<<<< HEAD
-=======
 qpnp_chg_set_appropriate_battery_current(struct qpnp_chg_chip *chip)
 {
 	unsigned int chg_current = chip->max_bat_chg_current;
@@ -3827,7 +3473,6 @@ qpnp_chg_set_appropriate_battery_current(struct qpnp_chg_chip *chip)
 }
 
 static void
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 qpnp_batt_system_temp_level_set(struct qpnp_chg_chip *chip, int lvl_sel)
 {
 	if (lvl_sel >= 0 && lvl_sel < chip->thermal_levels) {
@@ -4503,10 +4148,7 @@ qpnp_chg_adc_notification(enum qpnp_tm_state state, void *ctx)
 		pr_err("invalid notification %d\n", state);
 		return;
 	}
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
 	temp = get_prop_batt_temp();
 #else
@@ -4517,11 +4159,7 @@ qpnp_chg_adc_notification(enum qpnp_tm_state state, void *ctx)
 			state == ADC_TM_WARM_STATE ? "warm" : "cool");
 
 	if (state == ADC_TM_WARM_STATE) {
-<<<<<<< HEAD
-		if (temp >= chip->warm_bat_decidegc) {
-=======
 		if (temp > chip->warm_bat_decidegc) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			/* Normal to warm */
 			bat_warm = true;
 			bat_cool = false;
@@ -4529,11 +4167,7 @@ qpnp_chg_adc_notification(enum qpnp_tm_state state, void *ctx)
 				chip->warm_bat_decidegc - HYSTERISIS_DECIDEGC;
 			chip->adc_param.state_request =
 				ADC_TM_COOL_THR_ENABLE;
-<<<<<<< HEAD
-		} else if (temp >=
-=======
 		} else if (temp >
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				chip->cool_bat_decidegc + HYSTERISIS_DECIDEGC){
 			/* Cool to normal */
 			bat_warm = false;
@@ -4545,11 +4179,7 @@ qpnp_chg_adc_notification(enum qpnp_tm_state state, void *ctx)
 					ADC_TM_HIGH_LOW_THR_ENABLE;
 		}
 	} else {
-<<<<<<< HEAD
-		if (temp <= chip->cool_bat_decidegc) {
-=======
 		if (temp < chip->cool_bat_decidegc) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			/* Normal to cool */
 			bat_warm = false;
 			bat_cool = true;
@@ -4557,11 +4187,7 @@ qpnp_chg_adc_notification(enum qpnp_tm_state state, void *ctx)
 				chip->cool_bat_decidegc + HYSTERISIS_DECIDEGC;
 			chip->adc_param.state_request =
 				ADC_TM_WARM_THR_ENABLE;
-<<<<<<< HEAD
-		} else if (temp <=
-=======
 		} else if (temp <
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				chip->warm_bat_decidegc - HYSTERISIS_DECIDEGC){
 			/* Warm to normal */
 			bat_warm = false;
@@ -4578,12 +4204,9 @@ qpnp_chg_adc_notification(enum qpnp_tm_state state, void *ctx)
 		chip->bat_is_cool = bat_cool;
 		chip->bat_is_warm = bat_warm;
 
-<<<<<<< HEAD
-=======
 		if (bat_cool || bat_warm)
 			chip->resuming_charging = false;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/**
 		 * set appropriate voltages and currents.
 		 *
@@ -4591,31 +4214,9 @@ qpnp_chg_adc_notification(enum qpnp_tm_state state, void *ctx)
 		 * driver will not resume with SoC. Only vbatdet is used to
 		 * determine resume of charging.
 		 */
-<<<<<<< HEAD
-		if (bat_cool || bat_warm) {
-			chip->resuming_charging = false;
-			qpnp_chg_set_appropriate_vbatdet(chip);
-
-			/* To avoid ARB, only vbatdet is configured in
-			 * warm/cold zones. Once vbat < vbatdet the
-			 * appropriate vddmax/ibatmax adjustments will
-			 * be made in the fast charge interrupt. */
-			bypass_vbatdet_comp(chip, 1);
-			qpnp_chg_charge_en(chip, !chip->charging_disabled);
-			qpnp_chg_charge_en(chip, chip->charging_disabled);
-			qpnp_chg_charge_en(chip, !chip->charging_disabled);
-		} else {
-			bypass_vbatdet_comp(chip, 0);
-			/* restore normal parameters */
-			qpnp_chg_set_appropriate_vbatdet(chip);
-			qpnp_chg_set_appropriate_vddmax(chip);
-			qpnp_chg_set_appropriate_battery_current(chip);
-		}
-=======
 		qpnp_chg_set_appropriate_vddmax(chip);
 		qpnp_chg_set_appropriate_battery_current(chip);
 		qpnp_chg_set_appropriate_vbatdet(chip);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	pr_debug("warm %d, cool %d, low = %d deciDegC, high = %d deciDegC\n",
@@ -4986,21 +4587,13 @@ qpnp_batt_power_set_property(struct power_supply *psy,
 		break;
 	case POWER_SUPPLY_PROP_INPUT_CURRENT_MAX:
 		if (qpnp_chg_is_usb_chg_plugged_in(chip))
-<<<<<<< HEAD
-                        rc = qpnp_chg_iusbmax_set(chip, val->intval / 1000);
-=======
 			rc = qpnp_chg_iusbmax_set(chip, val->intval / 1000);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		break;
 	case POWER_SUPPLY_PROP_INPUT_CURRENT_TRIM:
 		rc = qpnp_chg_iusb_trim_set(chip, val->intval);
 		break;
 	case POWER_SUPPLY_PROP_INPUT_CURRENT_SETTLED:
-<<<<<<< HEAD
-                rc = qpnp_chg_input_current_settled(chip);
-=======
 		rc = qpnp_chg_input_current_settled(chip);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		break;
 	case POWER_SUPPLY_PROP_VOLTAGE_MIN:
 		rc = qpnp_chg_vinmin_set(chip, val->intval / 1000);
@@ -5010,15 +4603,9 @@ qpnp_batt_power_set_property(struct power_supply *psy,
 	}
 
 	if(!rc) {
-<<<<<<< HEAD
-	    pr_debug("psy changed batt_psy\n");
-        power_supply_changed(&chip->batt_psy);
-    }
-=======
 		pr_debug("psy changed batt_psy\n");
 		power_supply_changed(&chip->batt_psy);
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rc;
 }
 
@@ -5130,12 +4717,7 @@ qpnp_chg_request_irqs(struct qpnp_chg_chip *chip)
 
 			rc |= devm_request_irq(chip->dev, chip->chg_fastchg.irq,
 					qpnp_chg_chgr_chg_fastchg_irq_handler,
-<<<<<<< HEAD
-					IRQF_TRIGGER_RISING |
-					IRQF_TRIGGER_FALLING,
-=======
 					IRQF_TRIGGER_RISING,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 					"fast-chg-on", chip);
 			if (rc < 0) {
 				pr_err("Can't request %d fast-chg-on: %d\n",
@@ -6576,12 +6158,6 @@ qpnp_charger_read_dt_props(struct qpnp_chg_chip *chip)
 	chip->ibat_calibration_enabled =
 			of_property_read_bool(chip->spmi->dev.of_node,
 					"qcom,ibat-calibration-enabled");
-<<<<<<< HEAD
-	chip->parallel_ovp_mode =
-			of_property_read_bool(chip->spmi->dev.of_node,
-					"qcom,parallel-ovp-mode");
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	of_get_property(chip->spmi->dev.of_node, "qcom,thermal-mitigation",
 		&(chip->thermal_levels));
@@ -6782,11 +6358,6 @@ qpnp_charger_probe(struct spmi_device *spmi)
 	INIT_WORK(&chip->reduce_power_stage_work,
 			qpnp_chg_reduce_power_stage_work);
 	mutex_init(&chip->batfet_vreg_lock);
-<<<<<<< HEAD
-	INIT_WORK(&chip->ocp_clear_work,
-			qpnp_chg_ocp_clear_work);
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	INIT_WORK(&chip->batfet_lcl_work,
 			qpnp_chg_batfet_lcl_work);
 	INIT_WORK(&chip->insertion_ocv_work,
@@ -7026,10 +6597,7 @@ qpnp_charger_probe(struct spmi_device *spmi)
 			qpnp_usbin_health_check_work);
 	INIT_WORK(&chip->soc_check_work, qpnp_chg_soc_check_work);
 	INIT_DELAYED_WORK(&chip->aicl_check_work, qpnp_aicl_check_work);
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_PANTECH_PMIC_ABNORMAL
     chip->update_abnormal_wq = create_singlethread_workqueue("abnormal_work");
 	INIT_DELAYED_WORK(&chip->update_abnormal_delayed_work, check_abnormal_worker);
@@ -7042,10 +6610,7 @@ qpnp_charger_probe(struct spmi_device *spmi)
 #ifdef CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND
 	INIT_DELAYED_WORK(&chip->sysok_work, sysok_irq_handler_worker);
 #endif
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (chip->dc_chgpth_base) {
 		chip->dc_psy.name = "qpnp-dc";
 		chip->dc_psy.type = POWER_SUPPLY_TYPE_MAINS;
@@ -7118,10 +6683,7 @@ qpnp_charger_probe(struct spmi_device *spmi)
 		pr_err("failed to request interrupts %d\n", rc);
 		goto unregister_dc_psy;
 	}
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #if defined(CONFIG_PANTECH_PMIC_CHARGER_SMB349) || defined(CONFIG_PANTECH_PMIC_CHARGER_SMB347)
 #if defined(CONFIG_PANTECH_PMIC_EOC)
 	chip->end_recharing = false;
@@ -7295,11 +6857,7 @@ qpnp_charger_remove(struct spmi_device *spmi)
 	power_supply_unregister(&chip->dc_psy);
 	cancel_work_sync(&chip->soc_check_work);
 	cancel_delayed_work_sync(&chip->usbin_health_check);
-<<<<<<< HEAD
-        cancel_delayed_work_sync(&chip->arb_stop_work);
-=======
 	cancel_delayed_work_sync(&chip->arb_stop_work);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #if defined(CONFIG_PANTECH_PMIC_PHYSICAL_DROP)
 	cancel_delayed_work(&chip->drop_work); // skkim p14200@LS1
 #endif
@@ -7314,17 +6872,11 @@ qpnp_charger_remove(struct spmi_device *spmi)
 
 	mutex_destroy(&chip->batfet_vreg_lock);
 	mutex_destroy(&chip->jeita_configure_lock);
-<<<<<<< HEAD
-#if defined(CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND)
-	free_irq(gpio_to_irq(SC_SYSOK), chip);
-#endif
-=======
 
 #if defined(CONFIG_PANTECH_PMIC_USBIN_DROP_WORKAROUND)
 	free_irq(gpio_to_irq(SC_SYSOK), chip);
 #endif
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	regulator_unregister(chip->otg_vreg.rdev);
 	regulator_unregister(chip->boost_vreg.rdev);
 

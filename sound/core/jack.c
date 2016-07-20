@@ -35,10 +35,7 @@ static int jack_switch_types[] = {
 	SW_HPHL_OVERCURRENT,
 	SW_HPHR_OVERCURRENT,
 	SW_UNSUPPORT_INSERT,
-<<<<<<< HEAD
-=======
 	SW_MICROPHONE2_INSERT,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static int snd_jack_dev_free(struct snd_device *device)

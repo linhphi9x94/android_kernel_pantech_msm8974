@@ -27,10 +27,7 @@
 #define MAX_SINGLE_LUT_COLS	20
 
 #define MAX_BATT_ID_NUM		4
-<<<<<<< HEAD
-=======
 #define DEGC_SCALE		10
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 struct single_row_lut {
 	int x[MAX_SINGLE_LUT_COLS];

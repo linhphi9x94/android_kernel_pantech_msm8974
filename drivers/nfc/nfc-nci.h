@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -64,11 +60,8 @@ struct devicemode {
 #define SET_RX_BLOCK	_IOW(0xE9, 0x04, unsigned int)
 #define SET_EMULATOR_TEST_POINT		_IOW(0xE9, 0x05, unsigned int)
 #define NFCC_VERSION				_IOW(0xE9, 0x08, unsigned int)
-<<<<<<< HEAD
-=======
 #define NFC_GET_EFUSE				_IOW(0xE9, 0x09, unsigned int)
 #define NFCC_INITIAL_CORE_RESET_NTF		_IOW(0xE9, 0x10, unsigned int)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define NFC_MAX_I2C_TRANSFER	(0x0400)
 #define NFC_MSG_MAX_SIZE	(0x21)
@@ -204,14 +197,11 @@ enum nfcc_irq {
 	NFCC_INT,
 };
 
-<<<<<<< HEAD
-=======
 enum nfcc_initial_core_reset_ntf {
 	TIMEDOUT_INITIAL_CORE_RESET_NTF = 0, /* 0*/
 	ARRIVED_INITIAL_CORE_RESET_NTF, /* 1 */
 	DEFAULT_INITIAL_CORE_RESET_NTF, /*2*/
 };
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 struct nfc_info {
 	struct	miscdevice			miscdev;
@@ -240,12 +230,3 @@ struct nfc_i2c_platform_data {
 	unsigned int	reg;
 };
 #endif
-<<<<<<< HEAD
-/* enable LDO */
-struct vregs_info {
-	const char * const name;
-	struct regulator *regulator;
-};
-struct vregs_info regulators = {"vlogic", NULL};
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

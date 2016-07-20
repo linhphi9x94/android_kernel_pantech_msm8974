@@ -1978,11 +1978,7 @@ int ext4_orphan_add(handle_t *handle, struct inode *inode)
 	struct ext4_iloc iloc;
 	int err = 0, rc;
 
-<<<<<<< HEAD
-	if (!ext4_handle_valid(handle))
-=======
 	if (!EXT4_SB(sb)->s_journal || is_bad_inode(inode))
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return 0;
 
 	mutex_lock(&EXT4_SB(sb)->s_orphan_lock);
@@ -2056,13 +2052,8 @@ int ext4_orphan_del(handle_t *handle, struct inode *inode)
 	struct ext4_iloc iloc;
 	int err = 0;
 
-<<<<<<< HEAD
-	/* ext4_handle_valid() assumes a valid handle_t pointer */
-	if (handle && !ext4_handle_valid(handle))
-=======
 	if (!EXT4_SB(inode->i_sb)->s_journal &&
 	    !(EXT4_SB(inode->i_sb)->s_mount_state & EXT4_ORPHAN_FS))
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return 0;
 
 	mutex_lock(&EXT4_SB(inode->i_sb)->s_orphan_lock);
@@ -2081,11 +2072,7 @@ int ext4_orphan_del(handle_t *handle, struct inode *inode)
 	 * transaction handle with which to update the orphan list on
 	 * disk, but we still need to remove the inode from the linked
 	 * list in memory. */
-<<<<<<< HEAD
-	if (sbi->s_journal && !handle)
-=======
 	if (!handle)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		goto out;
 
 	err = ext4_reserve_inode_write(handle, inode, &iloc);

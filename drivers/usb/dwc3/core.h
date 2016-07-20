@@ -145,10 +145,7 @@
 #define DWC3_GEVNTCOUNT(n)	(0xc40c + (n * 0x10))
 
 #define DWC3_GHWPARAMS8		0xc600
-<<<<<<< HEAD
-=======
 #define DWC3_GFLADJ		0xc630
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /* Device Registers */
 #define DWC3_DCFG		0xc700
@@ -230,15 +227,12 @@
 /* Global HWPARAMS6 Register */
 #define DWC3_GHWPARAMS6_SRP_SUPPORT	(1 << 10)
 
-<<<<<<< HEAD
-=======
 /* Global Frame Length Adjustment Register */
 #define DWC3_GFLADJ_REFCLK_240MHZDECR_PLS1	(1 << 31)
 #define DWC3_GFLADJ_REFCLK_240MHZ_DECR		(0x7F << 24)
 #define DWC3_GFLADJ_REFCLK_LPM_SEL		(1 << 23)
 #define DWC3_GFLADJ_REFCLK_FLADJ		(0x3FFF << 8)
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* Device Configuration Register */
 #define DWC3_DCFG_LPM_CAP	(1 << 22)
 #define DWC3_DCFG_DEVADDR(addr)	((addr) << 3)
@@ -716,11 +710,8 @@ struct dwc3_scratchpad_array {
  * @hwparams: copy of hwparams registers
  * @root: debugfs root folder pointer
  * @tx_fifo_size: Available RAM size for TX fifo allocation
-<<<<<<< HEAD
-=======
  * @err_evt_seen: previous event in queue was erratic error
  * @irq_cnt: total irq count
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  */
 struct dwc3 {
 	struct usb_ctrlrequest	*ctrl_req;
@@ -768,10 +759,7 @@ struct dwc3 {
 #define DWC3_REVISION_210A	0x5533210a
 #define DWC3_REVISION_220A	0x5533220a
 #define DWC3_REVISION_230A	0x5533230a
-<<<<<<< HEAD
-=======
 #define DWC3_REVISION_250A	0x5533250a
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	unsigned		is_selfpowered:1;
 	unsigned		three_stage_setup:1;
@@ -812,11 +800,8 @@ struct dwc3 {
 	void (*notify_event) (struct dwc3 *, unsigned);
 	int			tx_fifo_size;
 	bool			tx_fifo_reduced;
-<<<<<<< HEAD
-=======
 	bool			err_evt_seen;
 	unsigned long		irq_cnt;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_PANTECH_USB_STATE_DEBUG
 	struct delayed_work 	state_work;
 #endif
@@ -978,11 +963,7 @@ int dwc3_event_buffers_setup(struct dwc3 *dwc);
 
 extern void dwc3_set_notifier(
 		void (*notify) (struct dwc3 *dwc3, unsigned event));
-<<<<<<< HEAD
-extern void dwc3_notify_event(struct dwc3 *dwc3, unsigned event);
-=======
 extern int dwc3_notify_event(struct dwc3 *dwc3, unsigned event);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 extern int dwc3_get_device_id(void);
 extern void dwc3_put_device_id(int id);
 

@@ -1,10 +1,6 @@
 /* arch/arm/mach-msm/smp2p.c
  *
-<<<<<<< HEAD
- * Copyright (c) 2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -944,11 +940,7 @@ static struct smp2p_smem __iomem *smp2p_in_validate_size_v0(int remote_pid,
 
 	if (size < sizeof(struct smp2p_smem)) {
 		SMP2P_ERR(
-<<<<<<< HEAD
-			"%s pid %d item size too small; expected: %d actual: %d\n",
-=======
 			"%s pid %d item size too small; expected: %zu actual: %d\n",
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			__func__, remote_pid,
 			sizeof(struct smp2p_smem), size);
 		smem_item = NULL;
@@ -1837,11 +1829,7 @@ static int __init msm_smp2p_init(void)
 		in_list[i].smem_edge_in = NULL;
 	}
 
-<<<<<<< HEAD
-	log_ctx = ipc_log_context_create(NUM_LOG_PAGES, "smp2p");
-=======
 	log_ctx = ipc_log_context_create(NUM_LOG_PAGES, "smp2p", 0);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!log_ctx)
 		SMP2P_ERR("%s: unable to create log context\n", __func__);
 

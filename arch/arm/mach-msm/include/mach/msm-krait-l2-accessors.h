@@ -1,13 +1,5 @@
-<<<<<<< HEAD
-#ifndef __ASM_ARCH_MSM_MSM_KRAIT_L2_ACCESSORS_H
-#define __ASM_ARCH_MSM_MSM_KRAIT_L2_ACCESSORS_H
-
-/*
- * Copyright (c) 2011-2013 The Linux Foundation. All rights reserved.
-=======
 /*
  * Copyright (c) 2011-2014 The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -19,12 +11,9 @@
  * GNU General Public License for more details.
  */
 
-<<<<<<< HEAD
-=======
 #ifndef __ASM_ARCH_MSM_MSM_KRAIT_L2_ACCESSORS_H
 #define __ASM_ARCH_MSM_MSM_KRAIT_L2_ACCESSORS_H
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define MAX_L2_PERIOD		((1ULL << 32) - 1)
 #define MAX_KRAIT_L2_CTRS	10
 
@@ -77,23 +66,12 @@
 #ifdef CONFIG_ARCH_MSM_KRAIT
 extern void set_l2_indirect_reg(u32 reg_addr, u32 val);
 extern u32 get_l2_indirect_reg(u32 reg_addr);
-<<<<<<< HEAD
-extern u32 set_get_l2_indirect_reg(u32 reg_addr, u32 val);
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #else
 static inline void set_l2_indirect_reg(u32 reg_addr, u32 val) {}
 static inline u32 get_l2_indirect_reg(u32 reg_addr)
 {
 	return 0;
 }
-<<<<<<< HEAD
-static inline u32 set_get_l2_indirect_reg(u32 reg_addr, u32 val)
-{
-	return 0;
-}
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif
 
 #endif

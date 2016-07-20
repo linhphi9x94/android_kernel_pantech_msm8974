@@ -1054,10 +1054,7 @@ int filp_close(struct file *filp, fl_owner_t id)
 		dnotify_flush(filp, id);
 		locks_remove_posix(filp, id);
 	}
-<<<<<<< HEAD
-=======
 	security_file_close(filp);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	fput(filp);
 	return retval;
 }

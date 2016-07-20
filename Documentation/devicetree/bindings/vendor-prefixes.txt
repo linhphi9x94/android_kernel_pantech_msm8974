@@ -8,10 +8,7 @@ amcc	Applied Micro Circuits Corporation (APM, formally AMCC)
 apm	Applied Micro Circuits Corporation (APM)
 arm	ARM Ltd.
 atmel	Atmel Corporation
-<<<<<<< HEAD
-=======
 avago	Avago Technologies
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 bosch	Bosch Sensortec GmbH
 capella	Capella Microsystems, Inc.
 cavium	Cavium, Inc.
@@ -21,10 +18,7 @@ dallas	Maxim Integrated Products (formerly Dallas Semiconductor)
 denx	Denx Software Engineering
 epson	Seiko Epson Corp.
 est	ESTeem Wireless Modems
-<<<<<<< HEAD
-=======
 fairchild	Fairchild Semiconductor International, Inc.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 focaltech Focaltech systems
 fsl	Freescale Semiconductor
 GEFanuc	GE Fanuc Intelligent Platforms Embedded Systems, Inc.
@@ -35,10 +29,7 @@ ibm	International Business Machines (IBM)
 idt	Integrated Device Technologies, Inc.
 intercontrol	Inter Control Group
 invn	InvenSense Inc.
-<<<<<<< HEAD
-=======
 lattice	Lattice Semiconductor.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 linux	Linux-specific binding
 kionix	Kionix Inc.
 marvell	Marvell Technology Group Ltd.

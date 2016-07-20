@@ -66,36 +66,6 @@ event log size will be defined as 256 bytes.
 Log Space
 ----------
 
-<<<<<<< HEAD
-Each context will have an associated log space, which is dynamically
-allocated from the kernel memory-space. The log space is organized as a
-list of kernel memory pages. Each page contains header information which
-is used to differentiate the log kernel page from the other kernel pages.
-
-	      0 ---------------------------------
-		|     magic_no = 0x52784425     |
-		---------------------------------
-		|    nmagic_no = 0xAD87BBDA     |
-		---------------------------------
-		|            log_id             |
-                ---------------------------------
-		|           page_num            |
-		---------------------------------
-		|  read_offset  | write_offset  |
-		---------------------------------
-		|        next/prev page         |
-		---------------------------------
-		|				|
-		|             Data		|
-		|		.		|
-		|		.		|
-		|		.		|
-		|				|
-		--------------------------------- PAGE_SIZE - 1
-
-This approach will support extracting the logs either from the memory dumps
-or from the live targets using DEBUGFS.
-=======
 Each context (Figure 1) has an associated log space, which is dynamically
 allocated from the kernel memory-space. The log space is organized as a list of
 1 or more kernel memory pages. Each page (Figure 2) contains header information
@@ -161,7 +131,6 @@ In addition to extracting logs at runtime through DebugFS, IPC Logging has been
 designed to allow extraction of logs from a memory dump.  The magic numbers,
 timestamps, and context offset are all added to support the memory-dump
 extraction use case.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 Design
 ======
@@ -217,10 +186,7 @@ Kernel-Space Interface APIs
  *
  * @max_num_pages: Number of pages of logging space required (max. 10)
  * @mod_name     : Name of the directory entry under DEBUGFS
-<<<<<<< HEAD
-=======
  * @user_version : Version number of user-defined message formats
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * returns reference to context on success, NULL on failure
  */

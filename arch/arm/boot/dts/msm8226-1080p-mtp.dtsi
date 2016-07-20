@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2013-2015, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -35,10 +31,7 @@
 			synaptics,i2c-pull-up;
 			synaptics,power-down;
 			synaptics,disable-gpios;
-<<<<<<< HEAD
-=======
 			synaptics,fw-image-name = "PR1469074-s3408bt_001F010D.img";
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		};
 	};
 
@@ -127,10 +120,7 @@
 
 		qcom,cdc-mclk-gpios = <&pm8226_gpios 1 0>;
 		qcom,cdc-vdd-spkr-gpios = <&pm8226_gpios 2 0>;
-<<<<<<< HEAD
-=======
 		qcom,cdc-us-euro-gpios = <&msmgpio 69 0>;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	};
 
 	sound-9302 {
@@ -148,10 +138,7 @@
 
 		qcom,cdc-mclk-gpios = <&pm8226_gpios 1 0>;
 		qcom,cdc-vdd-spkr-gpios = <&pm8226_gpios 2 0>;
-<<<<<<< HEAD
-=======
 		qcom,cdc-us-euro-gpios = <&msmgpio 69 0>;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	};
 };
 
@@ -168,13 +155,10 @@
 
 	qcom,hsusb-otg-mode = <3>;
 	vbus_otg-supply = <&pm8226_chg_otg>;
-<<<<<<< HEAD
-=======
 
 	qcom,hsusb-otg-mpm-dpsehv-int = <49>;
 	qcom,hsusb-otg-mpm-dmsehv-int = <58>;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 &sdcc1 {

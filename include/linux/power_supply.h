@@ -45,10 +45,7 @@ enum {
 	POWER_SUPPLY_CHARGE_TYPE_NONE,
 	POWER_SUPPLY_CHARGE_TYPE_TRICKLE,
 	POWER_SUPPLY_CHARGE_TYPE_FAST,
-<<<<<<< HEAD
-=======
 	POWER_SUPPLY_CHARGE_TYPE_TAPER,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 enum {
@@ -110,10 +107,7 @@ enum power_supply_property {
 	POWER_SUPPLY_PROP_INPUT_CURRENT_MAX,
 	POWER_SUPPLY_PROP_INPUT_CURRENT_TRIM,
 	POWER_SUPPLY_PROP_INPUT_CURRENT_SETTLED,
-<<<<<<< HEAD
-=======
 	POWER_SUPPLY_PROP_VCHG_LOOP_DBC_BYPASS,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	POWER_SUPPLY_PROP_CURRENT_NOW,
 	POWER_SUPPLY_PROP_CURRENT_AVG,
 	POWER_SUPPLY_PROP_POWER_NOW,
@@ -238,10 +232,7 @@ extern void power_supply_changed(struct power_supply *psy);
 extern int power_supply_am_i_supplied(struct power_supply *psy);
 extern int power_supply_set_battery_charged(struct power_supply *psy);
 extern int power_supply_set_current_limit(struct power_supply *psy, int limit);
-<<<<<<< HEAD
-=======
 extern int power_supply_set_voltage_limit(struct power_supply *psy, int limit);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 extern int power_supply_set_online(struct power_supply *psy, bool enable);
 extern int power_supply_set_health_state(struct power_supply *psy, int health);
 extern int power_supply_set_present(struct power_supply *psy, bool enable);
@@ -262,12 +253,9 @@ static inline int power_supply_am_i_supplied(struct power_supply *psy)
 							{ return -ENOSYS; }
 static inline int power_supply_set_battery_charged(struct power_supply *psy)
 							{ return -ENOSYS; }
-<<<<<<< HEAD
-=======
 static inline int power_supply_set_voltage_limit(struct power_supply *psy,
 							int limit)
 							{ return -ENOSYS; }
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static inline int power_supply_set_current_limit(struct power_supply *psy,
 							int limit)
 							{ return -ENOSYS; }

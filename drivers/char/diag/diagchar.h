@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2008-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2008-2015, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -21,20 +17,13 @@
 #include <linux/module.h>
 #include <linux/mempool.h>
 #include <linux/mutex.h>
-<<<<<<< HEAD
-=======
 #include <linux/list.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <linux/spinlock.h>
 #include <linux/workqueue.h>
 #include <linux/sched.h>
 #include <linux/wakelock.h>
 #include <mach/msm_smd.h>
 #include <asm/atomic.h>
-<<<<<<< HEAD
-#include <asm/mach-types.h>
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /* Size of the USB buffers used for read and write*/
 #define USB_MAX_OUT_BUF 4096
@@ -55,30 +44,12 @@
 #define POOL_TYPE_HSIC_WRITE	11
 #define POOL_TYPE_HSIC_2_WRITE	12
 #define POOL_TYPE_ALL		10
-<<<<<<< HEAD
-=======
 #define POOL_TYPE_DCI		20
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define POOL_COPY_IDX		0
 #define POOL_HDLC_IDX		1
 #define POOL_USER_IDX		2
 #define POOL_WRITE_STRUCT_IDX	3
-<<<<<<< HEAD
-#define POOL_HSIC_IDX		4
-#define POOL_HSIC_2_IDX		5
-#define POOL_HSIC_3_IDX		6
-#define POOL_HSIC_4_IDX		7
-#define POOL_HSIC_WRITE_IDX	8
-#define POOL_HSIC_2_WRITE_IDX	9
-#define POOL_HSIC_3_WRITE_IDX	10
-#define POOL_HSIC_4_WRITE_IDX	11
-
-#ifdef CONFIG_DIAGFWD_BRIDGE_CODE
-#define NUM_MEMORY_POOLS	12
-#else
-#define NUM_MEMORY_POOLS	4
-=======
 #define POOL_DCI_IDX		4
 #define POOL_BRIDGE_BASE	POOL_DCI_IDX
 #define POOL_HSIC_IDX		(POOL_BRIDGE_BASE + 1)
@@ -94,15 +65,11 @@
 #define NUM_MEMORY_POOLS	13
 #else
 #define NUM_MEMORY_POOLS	5
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif
 
 #define MAX_SSID_PER_RANGE	200
 
-<<<<<<< HEAD
-=======
 #define ALL_PROC		-1
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define MODEM_DATA		0
 #define LPASS_DATA		1
 #define WCNSS_DATA		2
@@ -144,8 +111,6 @@
 #define DIAG_STM_WCNSS	0x04
 #define DIAG_STM_APPS	0x08
 
-<<<<<<< HEAD
-=======
 #define BAD_PARAM_RESPONSE_MESSAGE 20
 
 #define DIAG_CMD_VERSION	0
@@ -166,7 +131,6 @@
 #define MODE_CMD	41
 #define RESET_ID	2
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*
  * The status bit masks when received in a signal handler are to be
  * used in conjunction with the peripheral list bit mask to determine the
@@ -185,8 +149,6 @@
 #define NUM_SMD_CMD_CHANNELS 1
 #define NUM_SMD_DCI_CMD_CHANNELS 1
 
-<<<<<<< HEAD
-=======
 /*
  * Indicates number of peripherals that can support DCI and Apps
  * processor. This doesn't mean that a peripheral has the
@@ -194,7 +156,6 @@
  */
 #define NUM_DCI_PROC	(NUM_SMD_DATA_CHANNELS + 1)
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define SMD_DATA_TYPE 0
 #define SMD_CNTL_TYPE 1
 #define SMD_DCI_TYPE 2
@@ -231,15 +192,12 @@ enum remote_procs {
 	QSC = 5,
 };
 
-<<<<<<< HEAD
-=======
 struct diag_pkt_header_t {
 	uint8_t cmd_code;
 	uint8_t subsys_id;
 	uint16_t subsys_cmd_code;
 } __packed;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct diag_master_table {
 	uint16_t cmd_code;
 	uint16_t subsys_id;
@@ -279,17 +237,6 @@ struct diag_client_map {
 	int pid;
 };
 
-<<<<<<< HEAD
-struct diag_nrt_wake_lock {
-	int enabled;
-	int ref_count;
-	int copy_count;
-	struct wake_lock read_lock;
-	spinlock_t read_spinlock;
-};
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct real_time_vote_t {
 	uint16_t proc;
 	uint8_t real_time_vote;
@@ -319,10 +266,7 @@ struct diag_smd_info {
 
 	int in_busy_1;
 	int in_busy_2;
-<<<<<<< HEAD
-=======
 	spinlock_t in_busy_lock;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	unsigned char *buf_in_1;
 	unsigned char *buf_in_2;
@@ -339,11 +283,6 @@ struct diag_smd_info {
 	struct diag_request *write_ptr_1;
 	struct diag_request *write_ptr_2;
 
-<<<<<<< HEAD
-	struct diag_nrt_wake_lock nrt_lock;
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct workqueue_struct *wq;
 
 	struct work_struct diag_read_smd_work;
@@ -370,15 +309,10 @@ struct diagchar_dev {
 	char *name;
 	int dropped_count;
 	struct class *diagchar_class;
-<<<<<<< HEAD
-	int ref_count;
-	struct mutex diagchar_mutex;
-=======
 	struct device *diag_dev;
 	int ref_count;
 	struct mutex diagchar_mutex;
 	struct mutex diag_file_mutex;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	wait_queue_head_t wait_q;
 	wait_queue_head_t smd_wait_q;
 	struct diag_client_map *client_map;
@@ -398,11 +332,7 @@ struct diagchar_dev {
 	int peripheral_supports_stm[NUM_SMD_CONTROL_CHANNELS];
 	/* DCI related variables */
 	struct list_head dci_req_list;
-<<<<<<< HEAD
-	struct diag_dci_client_tbl *dci_client_tbl;
-=======
 	struct list_head dci_client_list;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int dci_tag;
 	int dci_client_id;
 	struct mutex dci_mutex;
@@ -419,30 +349,21 @@ struct diagchar_dev {
 	unsigned int poolsize_user;
 	unsigned int itemsize_write_struct;
 	unsigned int poolsize_write_struct;
-<<<<<<< HEAD
-=======
 	unsigned int itemsize_dci;
 	unsigned int poolsize_dci;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	unsigned int debug_flag;
 	/* State for the mempool for the char driver */
 	mempool_t *diagpool;
 	mempool_t *diag_hdlc_pool;
 	mempool_t *diag_user_pool;
 	mempool_t *diag_write_struct_pool;
-<<<<<<< HEAD
-=======
 	mempool_t *diag_dci_pool;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	spinlock_t diag_mem_lock;
 	int count;
 	int count_hdlc_pool;
 	int count_user_pool;
 	int count_write_struct_pool;
-<<<<<<< HEAD
-=======
 	int count_dci_pool;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int used;
 	/* Buffers for masks */
 	struct mutex diag_cntl_mutex;
@@ -473,11 +394,6 @@ struct diagchar_dev {
 	unsigned hdlc_count;
 	unsigned hdlc_escape;
 	int in_busy_pktdata;
-<<<<<<< HEAD
-	struct device *dci_device;
-	struct device *dci_cmd_device;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* Variables for non real time mode */
 	int real_time_mode;
 	int real_time_update_busy;
@@ -495,10 +411,7 @@ struct diagchar_dev {
 	struct work_struct diag_usb_disconnect_work;
 #endif
 	struct workqueue_struct *diag_wq;
-<<<<<<< HEAD
-=======
 	struct workqueue_struct *diag_usb_wq;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct work_struct diag_drain_work;
 	struct workqueue_struct *diag_cntl_wq;
 	uint8_t *msg_masks;
@@ -511,12 +424,9 @@ struct diagchar_dev {
 	struct diag_master_table *table;
 	uint8_t *pkt_buf;
 	int pkt_length;
-<<<<<<< HEAD
-=======
 	uint8_t *dci_pkt_buf; /* For Apps DCI packets */
 	uint32_t dci_pkt_length;
 	int in_busy_dcipktdata;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct diag_request *usb_read_ptr;
 	struct diag_request *write_ptr_svc;
 	int logging_mode;
@@ -550,13 +460,10 @@ struct diagchar_dev {
 	int smux_connected;
 	struct diag_request *write_ptr_mdm;
 #endif
-<<<<<<< HEAD
-=======
 	/* Wakeup source related variables */
 	spinlock_t ws_lock;
 	int ws_ref_count;
 	int copy_count;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 extern struct diag_bridge_dev *diag_bridge;
@@ -568,9 +475,6 @@ extern uint16_t wrap_count;
 
 void diag_get_timestamp(char *time_str);
 int diag_find_polling_reg(int i);
-<<<<<<< HEAD
-=======
 void check_drain_timer(void);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #endif

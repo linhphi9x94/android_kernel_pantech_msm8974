@@ -65,8 +65,6 @@ struct us_port_data {
 	spinlock_t	dsp_lock;
 	/* extended parameters, related to q6 variants */
 	void		*ext;
-<<<<<<< HEAD
-=======
 	/* physical address of parameter buffer */
 	dma_addr_t	param_phys;
 	/* buffer which stores the parameter data */
@@ -75,7 +73,6 @@ struct us_port_data {
 	uint32_t	param_buf_size;
 	/* parameter buffer memory handle */
 	void		*param_buf_mem_handle;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 struct us_client {
@@ -99,11 +96,8 @@ int q6usm_run(struct us_client *usc, uint32_t flags,
 int q6usm_cmd(struct us_client *usc, int cmd);
 int q6usm_us_client_buf_alloc(unsigned int dir, struct us_client *usc,
 			      unsigned int bufsz, unsigned int bufcnt);
-<<<<<<< HEAD
-=======
 int q6usm_us_param_buf_alloc(unsigned int dir, struct us_client *usc,
 			      unsigned int bufsz);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int q6usm_enc_cfg_blk(struct us_client *usc, struct us_encdec_cfg *us_cfg);
 int q6usm_dec_cfg_blk(struct us_client *usc, struct us_encdec_cfg *us_cfg);
 int q6usm_read(struct us_client *usc, uint32_t read_ind);
@@ -120,12 +114,9 @@ bool q6usm_is_write_buf_full(struct us_client *usc, uint32_t *free_region);
 int q6usm_set_us_detection(struct us_client *usc,
 			   struct usm_session_cmd_detect_info *detect_info,
 			   uint16_t detect_info_size);
-<<<<<<< HEAD
-=======
 int q6usm_set_us_stream_param(int dir, struct us_client *usc,
 		uint32_t module_id, uint32_t param_id, uint32_t buf_size);
 int q6usm_get_us_stream_param(int dir, struct us_client *usc,
 		uint32_t module_id, uint32_t param_id, uint32_t buf_size);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #endif /* __Q6_USM_H__ */

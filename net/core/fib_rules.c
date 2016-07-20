@@ -484,12 +484,7 @@ static int fib_nl_delrule(struct sk_buff *skb, struct nlmsghdr* nlh, void *arg)
 		if (frh->action && (frh->action != rule->action))
 			continue;
 
-<<<<<<< HEAD
-		if (frh_get_table(frh, tb) &&
-		    (frh_get_table(frh, tb) != rule->table))
-=======
 		if (frh->table && (frh_get_table(frh, tb) != rule->table))
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			continue;
 
 		if (tb[FRA_PRIORITY] &&

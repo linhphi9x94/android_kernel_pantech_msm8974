@@ -34,57 +34,33 @@ int is_between(int left, int right, int value)
 	return 0;
 }
 
-<<<<<<< HEAD
-static int interpolate_single_lut(struct single_row_lut *lut, int x)
-{
-	int i, result;
-
-	if (x < lut->x[0]) {
-=======
 static int interpolate_single_lut_scaled(struct single_row_lut *lut,
 						int x, int scale)
 {
 	int i, result;
 
 	if (x < lut->x[0] * scale) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		pr_debug("x %d less than known range return y = %d lut = %pS\n",
 							x, lut->y[0], lut);
 		return lut->y[0];
 	}
-<<<<<<< HEAD
-	if (x > lut->x[lut->cols - 1]) {
-=======
 	if (x > lut->x[lut->cols - 1] * scale) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		pr_debug("x %d more than known range return y = %d lut = %pS\n",
 						x, lut->y[lut->cols - 1], lut);
 		return lut->y[lut->cols - 1];
 	}
 
 	for (i = 0; i < lut->cols; i++)
-<<<<<<< HEAD
-		if (x <= lut->x[i])
-			break;
-	if (x == lut->x[i]) {
-=======
 		if (x <= lut->x[i] * scale)
 			break;
 	if (x == lut->x[i] * scale) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		result = lut->y[i];
 	} else {
 		result = linear_interpolate(
 			lut->y[i - 1],
-<<<<<<< HEAD
-			lut->x[i - 1],
-			lut->y[i],
-			lut->x[i],
-=======
 			lut->x[i - 1] * scale,
 			lut->y[i],
 			lut->x[i] * scale,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			x);
 	}
 	return result;
@@ -92,15 +68,9 @@ static int interpolate_single_lut_scaled(struct single_row_lut *lut,
 
 int interpolate_fcc(struct single_row_lut *fcc_temp_lut, int batt_temp)
 {
-<<<<<<< HEAD
-	/* batt_temp is in tenths of degC - convert it to degC for lookups */
-	batt_temp = batt_temp/10;
-	return interpolate_single_lut(fcc_temp_lut, batt_temp);
-=======
 	return interpolate_single_lut_scaled(fcc_temp_lut,
 						batt_temp,
 						DEGC_SCALE);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 int interpolate_scalingfactor_fcc(struct single_row_lut *fcc_sf_lut,
@@ -111,11 +81,7 @@ int interpolate_scalingfactor_fcc(struct single_row_lut *fcc_sf_lut,
 	 * that case return 100%
 	 */
 	if (fcc_sf_lut)
-<<<<<<< HEAD
-		return interpolate_single_lut(fcc_sf_lut, cycles);
-=======
 		return interpolate_single_lut_scaled(fcc_sf_lut, cycles, 1);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	else
 		return 100;
 }
@@ -139,36 +105,6 @@ int interpolate_scalingfactor(struct sf_lut *sf_lut, int row_entry, int pc)
 		pr_debug("pc %d greater than known pc ranges for sfd\n", pc);
 		row1 = 0;
 		row2 = 0;
-<<<<<<< HEAD
-	}
-	if (pc < sf_lut->percent[rows - 1]) {
-		pr_debug("pc %d less than known pc ranges for sf\n", pc);
-		row1 = rows - 1;
-		row2 = rows - 1;
-	}
-	for (i = 0; i < rows; i++) {
-		if (pc == sf_lut->percent[i]) {
-			row1 = i;
-			row2 = i;
-			break;
-		}
-		if (pc > sf_lut->percent[i]) {
-			row1 = i - 1;
-			row2 = i;
-			break;
-		}
-	}
-
-	if (row_entry < sf_lut->row_entries[0])
-		row_entry = sf_lut->row_entries[0];
-	if (row_entry > sf_lut->row_entries[cols - 1])
-		row_entry = sf_lut->row_entries[cols - 1];
-
-	for (i = 0; i < cols; i++)
-		if (row_entry <= sf_lut->row_entries[i])
-			break;
-	if (row_entry == sf_lut->row_entries[i]) {
-=======
 	} else if (pc < sf_lut->percent[rows - 1]) {
 		pr_debug("pc %d less than known pc ranges for sf\n", pc);
 		row1 = rows - 1;
@@ -197,7 +133,6 @@ int interpolate_scalingfactor(struct sf_lut *sf_lut, int row_entry, int pc)
 		if (row_entry <= sf_lut->row_entries[i] * DEGC_SCALE)
 			break;
 	if (row_entry == sf_lut->row_entries[i] * DEGC_SCALE) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		scalefactor = linear_interpolate(
 				sf_lut->sf[row1][i],
 				sf_lut->percent[row1],
@@ -209,28 +144,16 @@ int interpolate_scalingfactor(struct sf_lut *sf_lut, int row_entry, int pc)
 
 	scalefactorrow1 = linear_interpolate(
 				sf_lut->sf[row1][i - 1],
-<<<<<<< HEAD
-				sf_lut->row_entries[i - 1],
-				sf_lut->sf[row1][i],
-				sf_lut->row_entries[i],
-=======
 				sf_lut->row_entries[i - 1] * DEGC_SCALE,
 				sf_lut->sf[row1][i],
 				sf_lut->row_entries[i] * DEGC_SCALE,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				row_entry);
 
 	scalefactorrow2 = linear_interpolate(
 				sf_lut->sf[row2][i - 1],
-<<<<<<< HEAD
-				sf_lut->row_entries[i - 1],
-				sf_lut->sf[row2][i],
-				sf_lut->row_entries[i],
-=======
 				sf_lut->row_entries[i - 1] * DEGC_SCALE,
 				sf_lut->sf[row2][i],
 				sf_lut->row_entries[i] * DEGC_SCALE,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				row_entry);
 
 	scalefactor = linear_interpolate(
@@ -245,11 +168,7 @@ int interpolate_scalingfactor(struct sf_lut *sf_lut, int row_entry, int pc)
 
 /* get ocv given a soc  -- reverse lookup */
 int interpolate_ocv(struct pc_temp_ocv_lut *pc_temp_ocv,
-<<<<<<< HEAD
-				int batt_temp_degc, int pc)
-=======
 				int batt_temp, int pc)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	int i, ocvrow1, ocvrow2, ocv, rows, cols;
 	int row1 = 0;
@@ -261,36 +180,6 @@ int interpolate_ocv(struct pc_temp_ocv_lut *pc_temp_ocv,
 		pr_debug("pc %d greater than known pc ranges for sfd\n", pc);
 		row1 = 0;
 		row2 = 0;
-<<<<<<< HEAD
-	}
-	if (pc < pc_temp_ocv->percent[rows - 1]) {
-		pr_debug("pc %d less than known pc ranges for sf\n", pc);
-		row1 = rows - 1;
-		row2 = rows - 1;
-	}
-	for (i = 0; i < rows; i++) {
-		if (pc == pc_temp_ocv->percent[i]) {
-			row1 = i;
-			row2 = i;
-			break;
-		}
-		if (pc > pc_temp_ocv->percent[i]) {
-			row1 = i - 1;
-			row2 = i;
-			break;
-		}
-	}
-
-	if (batt_temp_degc < pc_temp_ocv->temp[0])
-		batt_temp_degc = pc_temp_ocv->temp[0];
-	if (batt_temp_degc > pc_temp_ocv->temp[cols - 1])
-		batt_temp_degc = pc_temp_ocv->temp[cols - 1];
-
-	for (i = 0; i < cols; i++)
-		if (batt_temp_degc <= pc_temp_ocv->temp[i])
-			break;
-	if (batt_temp_degc == pc_temp_ocv->temp[i]) {
-=======
 	} else if (pc < pc_temp_ocv->percent[rows - 1]) {
 		pr_debug("pc %d less than known pc ranges for sf\n", pc);
 		row1 = rows - 1;
@@ -319,7 +208,6 @@ int interpolate_ocv(struct pc_temp_ocv_lut *pc_temp_ocv,
 		if (batt_temp <= pc_temp_ocv->temp[i] * DEGC_SCALE)
 			break;
 	if (batt_temp == pc_temp_ocv->temp[i] * DEGC_SCALE) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		ocv = linear_interpolate(
 				pc_temp_ocv->ocv[row1][i],
 				pc_temp_ocv->percent[row1],
@@ -331,19 +219,6 @@ int interpolate_ocv(struct pc_temp_ocv_lut *pc_temp_ocv,
 
 	ocvrow1 = linear_interpolate(
 				pc_temp_ocv->ocv[row1][i - 1],
-<<<<<<< HEAD
-				pc_temp_ocv->temp[i - 1],
-				pc_temp_ocv->ocv[row1][i],
-				pc_temp_ocv->temp[i],
-				batt_temp_degc);
-
-	ocvrow2 = linear_interpolate(
-				pc_temp_ocv->ocv[row2][i - 1],
-				pc_temp_ocv->temp[i - 1],
-				pc_temp_ocv->ocv[row2][i],
-				pc_temp_ocv->temp[i],
-				batt_temp_degc);
-=======
 				pc_temp_ocv->temp[i - 1] * DEGC_SCALE,
 				pc_temp_ocv->ocv[row1][i],
 				pc_temp_ocv->temp[i] * DEGC_SCALE,
@@ -355,7 +230,6 @@ int interpolate_ocv(struct pc_temp_ocv_lut *pc_temp_ocv,
 				pc_temp_ocv->ocv[row2][i],
 				pc_temp_ocv->temp[i] * DEGC_SCALE,
 				batt_temp);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	ocv = linear_interpolate(
 				ocvrow1,
@@ -368,32 +242,12 @@ int interpolate_ocv(struct pc_temp_ocv_lut *pc_temp_ocv,
 }
 
 int interpolate_pc(struct pc_temp_ocv_lut *pc_temp_ocv,
-<<<<<<< HEAD
-				int batt_temp_degc, int ocv)
-=======
 				int batt_temp, int ocv)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	int i, j, pcj, pcj_minus_one, pc;
 	int rows = pc_temp_ocv->rows;
 	int cols = pc_temp_ocv->cols;
 
-<<<<<<< HEAD
-	if (batt_temp_degc < pc_temp_ocv->temp[0]) {
-		pr_debug("batt_temp %d < known temp range\n", batt_temp_degc);
-		batt_temp_degc = pc_temp_ocv->temp[0];
-	}
-
-	if (batt_temp_degc > pc_temp_ocv->temp[cols - 1]) {
-		pr_debug("batt_temp %d > known temp range\n", batt_temp_degc);
-		batt_temp_degc = pc_temp_ocv->temp[cols - 1];
-	}
-
-	for (j = 0; j < cols; j++)
-		if (batt_temp_degc <= pc_temp_ocv->temp[j])
-			break;
-	if (batt_temp_degc == pc_temp_ocv->temp[j]) {
-=======
 	if (batt_temp < pc_temp_ocv->temp[0] * DEGC_SCALE) {
 		pr_debug("batt_temp %d < known temp range\n", batt_temp);
 		batt_temp = pc_temp_ocv->temp[0] * DEGC_SCALE;
@@ -408,7 +262,6 @@ int interpolate_pc(struct pc_temp_ocv_lut *pc_temp_ocv,
 		if (batt_temp <= pc_temp_ocv->temp[j] * DEGC_SCALE)
 			break;
 	if (batt_temp == pc_temp_ocv->temp[j] * DEGC_SCALE) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/* found an exact match for temp in the table */
 		if (ocv >= pc_temp_ocv->ocv[0][j])
 			return pc_temp_ocv->percent[0];
@@ -430,11 +283,7 @@ int interpolate_pc(struct pc_temp_ocv_lut *pc_temp_ocv,
 	}
 
 	/*
-<<<<<<< HEAD
-	 * batt_temp_degc is within temperature for
-=======
 	 * batt_temp is within temperature for
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	 * column j-1 and j
 	 */
 	if (ocv >= pc_temp_ocv->ocv[0][j])
@@ -470,17 +319,10 @@ int interpolate_pc(struct pc_temp_ocv_lut *pc_temp_ocv,
 		if (pcj && pcj_minus_one) {
 			pc = linear_interpolate(
 				pcj_minus_one,
-<<<<<<< HEAD
-				pc_temp_ocv->temp[j-1],
-				pcj,
-				pc_temp_ocv->temp[j],
-				batt_temp_degc);
-=======
 				pc_temp_ocv->temp[j-1] * DEGC_SCALE,
 				pcj,
 				pc_temp_ocv->temp[j] * DEGC_SCALE,
 				batt_temp);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			return pc;
 		}
 	}
@@ -492,10 +334,6 @@ int interpolate_pc(struct pc_temp_ocv_lut *pc_temp_ocv,
 		return pcj_minus_one;
 
 	pr_debug("%d ocv wasn't found for temp %d in the LUT returning 100%%\n",
-<<<<<<< HEAD
-							ocv, batt_temp_degc);
-=======
 							ocv, batt_temp);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 100;
 }

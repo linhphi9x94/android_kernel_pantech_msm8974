@@ -484,11 +484,7 @@ static int rawv6_recvmsg(struct kiocb *iocb, struct sock *sk,
 			goto csum_copy_err;
 		err = skb_copy_datagram_iovec(skb, 0, msg->msg_iov, copied);
 	} else {
-<<<<<<< HEAD
-		err = skb_copy_and_csum_datagram_iovec(skb, 0, msg->msg_iov);
-=======
 		err = skb_copy_and_csum_datagram_iovec(skb, 0, msg->msg_iov, copied);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (err == -EINVAL)
 			goto csum_copy_err;
 	}

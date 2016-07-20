@@ -21,18 +21,12 @@
 #include <linux/sys_soc.h>
 #include <linux/slab.h>
 #include <linux/stat.h>
-<<<<<<< HEAD
-=======
 #include <linux/string.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <linux/sysdev.h>
 #include <linux/types.h>
 
 #include <asm/mach-types.h>
-<<<<<<< HEAD
-=======
 #include <asm/system_misc.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #include <mach/socinfo.h>
 #include <mach/msm_smem.h>
@@ -147,10 +141,6 @@ enum {
     HW_PLATFORM_P_EF65S_TP10 = 6515, /* Pantech ef65s tp10 b'd */
     HW_PLATFORM_P_EF65S_TP20 = 6516, /* Pantech ef65s tp10 b'd */
     HW_PLATFORM_P_EF65S_PP10 = 6517, /* Pantech ef65s pp10 b'd */
-<<<<<<< HEAD
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif
 	HW_PLATFORM_INVALID
 };
@@ -344,8 +334,6 @@ struct socinfo_v8 {
 	uint32_t pmic_die_revision_2;
 };
 
-<<<<<<< HEAD
-=======
 
 struct socinfo_v9 {
 	struct socinfo_v8 v8;
@@ -354,7 +342,6 @@ struct socinfo_v9 {
 	uint32_t foundry_id;
 };
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static union {
 	struct socinfo_v1 v1;
 	struct socinfo_v2 v2;
@@ -364,248 +351,6 @@ static union {
 	struct socinfo_v6 v6;
 	struct socinfo_v7 v7;
 	struct socinfo_v8 v8;
-<<<<<<< HEAD
-} *socinfo;
-
-static enum msm_cpu cpu_of_id[] = {
-
-	/* 7x01 IDs */
-	[1]  = MSM_CPU_7X01,
-	[16] = MSM_CPU_7X01,
-	[17] = MSM_CPU_7X01,
-	[18] = MSM_CPU_7X01,
-	[19] = MSM_CPU_7X01,
-	[23] = MSM_CPU_7X01,
-	[25] = MSM_CPU_7X01,
-	[26] = MSM_CPU_7X01,
-	[32] = MSM_CPU_7X01,
-	[33] = MSM_CPU_7X01,
-	[34] = MSM_CPU_7X01,
-	[35] = MSM_CPU_7X01,
-
-	/* 7x25 IDs */
-	[20] = MSM_CPU_7X25,
-	[21] = MSM_CPU_7X25, /* 7225 */
-	[24] = MSM_CPU_7X25, /* 7525 */
-	[27] = MSM_CPU_7X25, /* 7625 */
-	[39] = MSM_CPU_7X25,
-	[40] = MSM_CPU_7X25,
-	[41] = MSM_CPU_7X25,
-	[42] = MSM_CPU_7X25,
-	[62] = MSM_CPU_7X25, /* 7625-1 */
-	[63] = MSM_CPU_7X25, /* 7225-1 */
-	[66] = MSM_CPU_7X25, /* 7225-2 */
-
-
-	/* 7x27 IDs */
-	[43] = MSM_CPU_7X27,
-	[44] = MSM_CPU_7X27,
-	[61] = MSM_CPU_7X27,
-	[67] = MSM_CPU_7X27, /* 7227-1 */
-	[68] = MSM_CPU_7X27, /* 7627-1 */
-	[69] = MSM_CPU_7X27, /* 7627-2 */
-
-
-	/* 8x50 IDs */
-	[30] = MSM_CPU_8X50,
-	[36] = MSM_CPU_8X50,
-	[37] = MSM_CPU_8X50,
-	[38] = MSM_CPU_8X50,
-
-	/* 7x30 IDs */
-	[59] = MSM_CPU_7X30,
-	[60] = MSM_CPU_7X30,
-
-	/* 8x55 IDs */
-	[74] = MSM_CPU_8X55,
-	[75] = MSM_CPU_8X55,
-	[85] = MSM_CPU_8X55,
-
-	/* 8x60 IDs */
-	[70] = MSM_CPU_8X60,
-	[71] = MSM_CPU_8X60,
-	[86] = MSM_CPU_8X60,
-
-	/* 8960 IDs */
-	[87] = MSM_CPU_8960,
-
-	/* 7x25A IDs */
-	[88] = MSM_CPU_7X25A,
-	[89] = MSM_CPU_7X25A,
-	[96] = MSM_CPU_7X25A,
-
-	/* 7x27A IDs */
-	[90] = MSM_CPU_7X27A,
-	[91] = MSM_CPU_7X27A,
-	[92] = MSM_CPU_7X27A,
-	[97] = MSM_CPU_7X27A,
-
-	/* FSM9xxx ID */
-	[94] = FSM_CPU_9XXX,
-	[95] = FSM_CPU_9XXX,
-
-	/*  7x25AA ID */
-	[98] = MSM_CPU_7X25AA,
-	[99] = MSM_CPU_7X25AA,
-	[100] = MSM_CPU_7X25AA,
-
-	/*  7x27AA ID */
-	[101] = MSM_CPU_7X27AA,
-	[102] = MSM_CPU_7X27AA,
-	[103] = MSM_CPU_7X27AA,
-	[136] = MSM_CPU_7X27AA,
-
-	/* 9x15 ID */
-	[104] = MSM_CPU_9615,
-	[105] = MSM_CPU_9615,
-	[106] = MSM_CPU_9615,
-	[107] = MSM_CPU_9615,
-	[171] = MSM_CPU_9615,
-
-	/* 8064 IDs */
-	[109] = MSM_CPU_8064,
-
-	/* 8930 IDs */
-	[116] = MSM_CPU_8930,
-	[117] = MSM_CPU_8930,
-	[118] = MSM_CPU_8930,
-	[119] = MSM_CPU_8930,
-	[179] = MSM_CPU_8930,
-
-	/* 8627 IDs */
-	[120] = MSM_CPU_8627,
-	[121] = MSM_CPU_8627,
-
-	/* 8660A ID */
-	[122] = MSM_CPU_8960,
-
-	/* 8260A ID */
-	[123] = MSM_CPU_8960,
-
-	/* 8060A ID */
-	[124] = MSM_CPU_8960,
-
-	/* 8974 IDs */
-	[126] = MSM_CPU_8974,
-	[184] = MSM_CPU_8974,
-	[185] = MSM_CPU_8974,
-	[186] = MSM_CPU_8974,
-
-	/* 8974AA IDs */
-	[208] = MSM_CPU_8974PRO_AA,
-	[211] = MSM_CPU_8974PRO_AA,
-	[214] = MSM_CPU_8974PRO_AA,
-	[217] = MSM_CPU_8974PRO_AA,
-
-	/* 8974AB IDs */
-	[209] = MSM_CPU_8974PRO_AB,
-	[212] = MSM_CPU_8974PRO_AB,
-	[215] = MSM_CPU_8974PRO_AB,
-	[218] = MSM_CPU_8974PRO_AB,
-
-	/* 8974AC IDs */
-	[194] = MSM_CPU_8974PRO_AC,
-	[210] = MSM_CPU_8974PRO_AC,
-	[213] = MSM_CPU_8974PRO_AC,
-	[216] = MSM_CPU_8974PRO_AC,
-
-	/* 8625 IDs */
-	[127] = MSM_CPU_8625,
-	[128] = MSM_CPU_8625,
-	[129] = MSM_CPU_8625,
-	[137] = MSM_CPU_8625,
-	[167] = MSM_CPU_8625,
-
-	/* 8064 MPQ ID */
-	[130] = MSM_CPU_8064,
-
-	/* 7x25AB IDs */
-	[131] = MSM_CPU_7X25AB,
-	[132] = MSM_CPU_7X25AB,
-	[133] = MSM_CPU_7X25AB,
-	[135] = MSM_CPU_7X25AB,
-
-	/* 9625 IDs */
-	[134] = MSM_CPU_9625,
-	[148] = MSM_CPU_9625,
-	[149] = MSM_CPU_9625,
-	[150] = MSM_CPU_9625,
-	[151] = MSM_CPU_9625,
-	[152] = MSM_CPU_9625,
-	[173] = MSM_CPU_9625,
-	[174] = MSM_CPU_9625,
-	[175] = MSM_CPU_9625,
-
-	/* 8960AB IDs */
-	[138] = MSM_CPU_8960AB,
-	[139] = MSM_CPU_8960AB,
-	[140] = MSM_CPU_8960AB,
-	[141] = MSM_CPU_8960AB,
-
-	/* 8930AA IDs */
-	[142] = MSM_CPU_8930AA,
-	[143] = MSM_CPU_8930AA,
-	[144] = MSM_CPU_8930AA,
-	[160] = MSM_CPU_8930AA,
-	[180] = MSM_CPU_8930AA,
-
-	/* 8226 IDs */
-	[145] = MSM_CPU_8226,
-	[158] = MSM_CPU_8226,
-	[159] = MSM_CPU_8226,
-	[198] = MSM_CPU_8226,
-	[199] = MSM_CPU_8226,
-	[200] = MSM_CPU_8226,
-	[205] = MSM_CPU_8226,
-	[219] = MSM_CPU_8226,
-	[220] = MSM_CPU_8226,
-	[221] = MSM_CPU_8226,
-	[222] = MSM_CPU_8226,
-	[223] = MSM_CPU_8226,
-	[224] = MSM_CPU_8226,
-
-	/* 8092 IDs */
-	[146] = MSM_CPU_8092,
-
-	/* 8610 IDs */
-	[147] = MSM_CPU_8610,
-	[161] = MSM_CPU_8610,
-	[162] = MSM_CPU_8610,
-	[163] = MSM_CPU_8610,
-	[164] = MSM_CPU_8610,
-	[165] = MSM_CPU_8610,
-	[166] = MSM_CPU_8610,
-
-	/* 8064AB IDs */
-	[153] = MSM_CPU_8064AB,
-
-	/* 8930AB IDs */
-	[154] = MSM_CPU_8930AB,
-	[155] = MSM_CPU_8930AB,
-	[156] = MSM_CPU_8930AB,
-	[157] = MSM_CPU_8930AB,
-	[181] = MSM_CPU_8930AB,
-
-	/* 8625Q IDs */
-	[168] = MSM_CPU_8625Q,
-	[169] = MSM_CPU_8625Q,
-	[170] = MSM_CPU_8625Q,
-
-	/* 8064AA IDs */
-	[172] = MSM_CPU_8064AA,
-
-	/* 8084 IDs */
-	[178] = MSM_CPU_8084,
-
-	/* krypton IDs */
-	[187] = MSM_CPU_KRYPTON,
-
-	/* FSM9900 ID */
-	[188] = FSM_CPU_9900,
-
-	/* Samarium IDs */
-	[195] = MSM_CPU_SAMARIUM,
-=======
 	struct socinfo_v9 v9;
 } *socinfo;
 
@@ -850,7 +595,6 @@ static struct msm_soc_info cpu_of_id[] = {
 
 	/* Samarium IDs */
 	[195] = {MSM_CPU_SAMARIUM, "MSMSAMARIUM"},
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/* Uninitialized IDs are not known to run Linux.
 	   MSM_CPU_UNKNOWN is set to 0 to ensure these IDs are
@@ -881,8 +625,6 @@ char *socinfo_get_build_id(void)
 	return (socinfo) ? socinfo->v1.build_id : NULL;
 }
 
-<<<<<<< HEAD
-=======
 static char *msm_read_hardware_id(void)
 {
 	static char msm_soc_str[128] = "Qualcomm ";
@@ -902,7 +644,6 @@ err_path:
 	return "UNKNOWN SOC TYPE";
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 uint32_t socinfo_get_raw_id(void)
 {
 	return socinfo ?
@@ -948,8 +689,6 @@ uint32_t socinfo_get_platform_subtype(void)
 		: 0;
 }
 
-<<<<<<< HEAD
-=======
 static uint32_t socinfo_get_foundry_id(void)
 {
 	return socinfo ?
@@ -958,7 +697,6 @@ static uint32_t socinfo_get_foundry_id(void)
 }
 
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 enum pmic_model socinfo_get_pmic_model(void)
 {
 	return socinfo ?
@@ -1137,11 +875,8 @@ socinfo_show_platform_subtype(struct sys_device *dev,
 			char *buf)
 {
 	uint32_t hw_subtype;
-<<<<<<< HEAD
-=======
 	WARN_ONCE(1, "Deprecated, use platform_subtype_id instead\n");
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!socinfo) {
 		pr_err("%s: No socinfo found!\n", __func__);
 		return 0;
@@ -1171,8 +906,6 @@ socinfo_show_platform_subtype(struct sys_device *dev,
 }
 
 static ssize_t
-<<<<<<< HEAD
-=======
 socinfo_show_platform_subtype_id(struct sys_device *dev,
 			struct sysdev_attribute *attr,
 			char *buf)
@@ -1185,7 +918,6 @@ socinfo_show_platform_subtype_id(struct sys_device *dev,
 }
 
 static ssize_t
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 socinfo_show_pmic_model(struct sys_device *dev,
 			struct sysdev_attribute *attr,
 			char *buf)
@@ -1308,8 +1040,6 @@ msm_get_platform_subtype(struct device *dev,
 }
 
 static ssize_t
-<<<<<<< HEAD
-=======
 msm_get_platform_subtype_id(struct device *dev,
 			struct device_attribute *attr,
 			char *buf)
@@ -1330,7 +1060,6 @@ msm_get_foundry_id(struct device *dev,
 }
 
 static ssize_t
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 msm_get_pmic_model(struct device *dev,
 			struct device_attribute *attr,
 			char *buf)
@@ -1375,21 +1104,13 @@ msm_set_image_version(struct device *dev,
 	char *store_address;
 
 	if (current_image != SMEM_IMAGE_VERSION_PARTITION_APPS)
-<<<<<<< HEAD
-	return count;
-=======
 		return count;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	store_address = socinfo_get_image_version_base_address();
 	if (store_address == NULL) {
 		pr_err("%s : Failed to get image version base address",
 				__func__);
 		return count;
-<<<<<<< HEAD
-}
-=======
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	store_address += current_image * SMEM_IMAGE_VERSION_SINGLE_BLOCK_SIZE;
 	snprintf(store_address, SMEM_IMAGE_VERSION_NAME_SIZE, "%-.75s", buf);
 	return count;
@@ -1484,11 +1205,8 @@ static struct sysdev_attribute socinfo_v5_files[] = {
 static struct sysdev_attribute socinfo_v6_files[] = {
 	_SYSDEV_ATTR(platform_subtype, 0444,
 			socinfo_show_platform_subtype, NULL),
-<<<<<<< HEAD
-=======
 	_SYSDEV_ATTR(platform_subtype_id, 0444,
 			socinfo_show_platform_subtype_id, NULL),
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static struct sysdev_attribute socinfo_v7_files[] = {
@@ -1574,8 +1292,6 @@ static struct device_attribute msm_soc_attr_platform_subtype =
 	__ATTR(platform_subtype, S_IRUGO,
 			msm_get_platform_subtype, NULL);
 
-<<<<<<< HEAD
-=======
 /* Platform Subtype String is being deprecated. Use Platform
  * Subtype ID instead.
  */
@@ -1587,7 +1303,6 @@ static struct device_attribute msm_soc_attr_foundry_id =
 	__ATTR(foundry_id, S_IRUGO,
 			msm_get_foundry_id, NULL);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static struct device_attribute msm_soc_attr_pmic_model =
 	__ATTR(pmic_model, S_IRUGO,
 			msm_get_pmic_model, NULL);
@@ -1672,12 +1387,9 @@ static void __init populate_soc_sysfs_files(struct device *msm_soc_device)
 	device_create_file(msm_soc_device, &select_image);
 
 	switch (legacy_format) {
-<<<<<<< HEAD
-=======
 	case 9:
 		device_create_file(msm_soc_device,
 					&msm_soc_attr_foundry_id);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	case 8:
 	case 7:
 		device_create_file(msm_soc_device,
@@ -1687,11 +1399,8 @@ static void __init populate_soc_sysfs_files(struct device *msm_soc_device)
 	case 6:
 		device_create_file(msm_soc_device,
 					&msm_soc_attr_platform_subtype);
-<<<<<<< HEAD
-=======
 		device_create_file(msm_soc_device,
 					&msm_soc_attr_platform_subtype_id);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	case 5:
 		device_create_file(msm_soc_device,
 					&msm_soc_attr_accessory_chip);
@@ -1896,8 +1605,6 @@ static void socinfo_print(void)
 			socinfo->v7.pmic_model,
 			socinfo->v7.pmic_die_revision);
 		break;
-<<<<<<< HEAD
-=======
 	case 9:
 		pr_info("%s: v%u, id=%u, ver=%u.%u, raw_id=%u, raw_ver=%u ,"
 			"hw_plat=%u, hw_plat_ver=%u\n accessory_chip=%u,"
@@ -1915,7 +1622,6 @@ static void socinfo_print(void)
 			socinfo->v7.pmic_die_revision,
 			socinfo->v9.foundry_id);
 		break;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	default:
 		pr_err("%s: Unknown format found\n", __func__);
 		break;
@@ -1924,14 +1630,10 @@ static void socinfo_print(void)
 
 int __init socinfo_init(void)
 {
-<<<<<<< HEAD
-	socinfo = smem_alloc(SMEM_HW_SW_BUILD_ID, sizeof(struct socinfo_v8));
-=======
 	socinfo = smem_alloc(SMEM_HW_SW_BUILD_ID, sizeof(struct socinfo_v9));
 	if (!socinfo)
 		socinfo = smem_alloc(SMEM_HW_SW_BUILD_ID,
 				sizeof(struct socinfo_v8));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (!socinfo)
 		socinfo = smem_alloc(SMEM_HW_SW_BUILD_ID,
@@ -1968,16 +1670,6 @@ int __init socinfo_init(void)
 	}
 
 	WARN(!socinfo_get_id(), "Unknown SOC ID!\n");
-<<<<<<< HEAD
-	WARN(socinfo_get_id() >= ARRAY_SIZE(cpu_of_id),
-		"New IDs added! ID => CPU mapping might need an update.\n");
-
-	if (socinfo->v1.id < ARRAY_SIZE(cpu_of_id))
-		cur_cpu = cpu_of_id[socinfo->v1.id];
-
-	boot_stats_init();
-	socinfo_print();
-=======
 
 	if (socinfo_get_id() >= ARRAY_SIZE(cpu_of_id))
 		BUG_ON("New IDs added! ID => CPU mapping might need an update.\n");
@@ -1988,7 +1680,6 @@ int __init socinfo_init(void)
 	boot_stats_init();
 	socinfo_print();
 	arch_read_hardware_id = msm_read_hardware_id;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return 0;
 }

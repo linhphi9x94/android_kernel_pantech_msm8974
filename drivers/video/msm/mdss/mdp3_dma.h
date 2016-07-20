@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -237,8 +233,6 @@ struct mdp3_notification {
 	void *arg;
 };
 
-<<<<<<< HEAD
-=======
 struct mdp3_tear_check {
 	int frame_rate;
 	bool hw_vsync_mode;
@@ -252,7 +246,6 @@ struct mdp3_tear_check {
 	u32 refx100;
 };
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct mdp3_intf;
 
 struct mdp3_dma {
@@ -279,21 +272,15 @@ struct mdp3_dma {
 	int histo_state;
 	struct mdp3_dma_histogram_data histo_data;
 	unsigned int vsync_status;
-<<<<<<< HEAD
-=======
 	bool update_src_cfg;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	int (*dma_config)(struct mdp3_dma *dma,
 			struct mdp3_dma_source *source_config,
 			struct mdp3_dma_output_config *output_config);
 
-<<<<<<< HEAD
-=======
 	int (*dma_sync_config)(struct mdp3_dma *dma, struct mdp3_dma_source
 				*source_config, struct mdp3_tear_check *te);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	void (*dma_config_source)(struct mdp3_dma *dma);
 
 	int (*start)(struct mdp3_dma *dma, struct mdp3_intf *intf);
@@ -348,10 +335,7 @@ struct mdp3_video_intf_cfg {
 	int hsync_polarity;
 	int vsync_polarity;
 	int de_polarity;
-<<<<<<< HEAD
-=======
 	int underflow_color;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 struct mdp3_dsi_cmd_intf_cfg {

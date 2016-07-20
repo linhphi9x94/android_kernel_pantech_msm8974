@@ -34,11 +34,7 @@ static void __kpss_mux_set_sel(struct mux_clk *mux, int sel)
 {
 	unsigned long flags;
 	u32 regval;
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	spin_lock_irqsave(&kpss_clock_reg_lock, flags);
 	regval = get_l2_indirect_reg(mux->offset);
 	regval &= ~(mux->mask << mux->shift);
@@ -47,10 +43,6 @@ static void __kpss_mux_set_sel(struct mux_clk *mux, int sel)
 		regval &= ~(mux->mask << (mux->shift + LPL_SHIFT));
 		regval |= (sel & mux->mask) << (mux->shift + LPL_SHIFT);
 	}
-<<<<<<< HEAD
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	set_l2_indirect_reg(mux->offset, regval);
 	spin_unlock_irqrestore(&kpss_clock_reg_lock, flags);
 

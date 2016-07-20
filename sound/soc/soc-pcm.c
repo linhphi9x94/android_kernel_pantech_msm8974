@@ -533,14 +533,11 @@ static int soc_pcm_prepare(struct snd_pcm_substream *substream)
 
 	mutex_lock_nested(&rtd->pcm_mutex, rtd->pcm_subclass);
 
-<<<<<<< HEAD
-=======
 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
 		snd_soc_dapm_stream_event(rtd,
 		codec_dai->driver->playback.stream_name,
 		SND_SOC_DAPM_STREAM_START);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (rtd->dai_link->ops && rtd->dai_link->ops->prepare) {
 		ret = rtd->dai_link->ops->prepare(substream);
 		if (ret < 0) {
@@ -580,29 +577,15 @@ static int soc_pcm_prepare(struct snd_pcm_substream *substream)
 		cancel_delayed_work(&rtd->delayed_work);
 	}
 
-<<<<<<< HEAD
-	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
-		snd_soc_dapm_stream_event(rtd,
-					  codec_dai->driver->playback.stream_name,
-					  SND_SOC_DAPM_STREAM_START);
-	else {
-		if (codec_dai->capture_active == 1)
-			snd_soc_dapm_stream_event(rtd,
-					  codec_dai->driver->capture.stream_name,
-					  SND_SOC_DAPM_STREAM_START);
-=======
 	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
 		if (codec_dai->capture_active == 1)
 			snd_soc_dapm_stream_event(rtd,
 			codec_dai->driver->capture.stream_name,
 			SND_SOC_DAPM_STREAM_START);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	snd_soc_dai_digital_mute(codec_dai, 0);
 
 out:
-<<<<<<< HEAD
-=======
 	if (ret < 0 && substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
 		pr_err("%s: Issue stop stream for codec_dai due to op failure %d = ret\n",
 		__func__, ret);
@@ -610,7 +593,6 @@ out:
 		codec_dai->driver->playback.stream_name,
 		SND_SOC_DAPM_STREAM_STOP);
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mutex_unlock(&rtd->pcm_mutex);
 	return ret;
 }
@@ -1729,40 +1711,22 @@ int soc_dpcm_fe_dai_prepare(struct snd_pcm_substream *substream)
 	}
 
 	ret = dpcm_be_dai_prepare(fe, substream->stream);
-<<<<<<< HEAD
-	if (ret < 0)
-		goto out;
-=======
 	if (ret < 0) {
 		dev_err(fe->dev, "ASoC: prepare FE %s failed\n",
 						fe->dai_link->name);
 		goto out;
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/* call prepare on the frontend */
 	if (!fe->fe_compr) {
 		ret = soc_pcm_prepare(substream);
 		if (ret < 0) {
-<<<<<<< HEAD
-			dev_err(fe->dev,"ASoC: prepare FE %s failed\n",
-=======
 			dev_err(fe->dev, "ASoC: prepare FE %s failed\n",
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 							fe->dai_link->name);
 			goto out;
 		}
 	}
 
-<<<<<<< HEAD
-	ret = soc_pcm_prepare(substream);
-	if (ret < 0) {
-		dev_err(fe->dev,"dpcm: prepare FE %s failed\n", fe->dai_link->name);
-		goto out;
-	}
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* run the stream event for each BE */
 	if (stream == SNDRV_PCM_STREAM_PLAYBACK)
 		dpcm_dapm_stream_event(fe, stream,

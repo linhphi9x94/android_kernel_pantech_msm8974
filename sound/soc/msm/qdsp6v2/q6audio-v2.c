@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -84,8 +80,6 @@ int q6audio_get_port_index(u16 port_id)
 	}
 }
 
-<<<<<<< HEAD
-=======
 int q6audio_get_port_id_from_index(u16 port_idx)
 {
 	switch (port_idx) {
@@ -147,7 +141,6 @@ int q6audio_get_port_id_from_index(u16 port_idx)
 	}
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int q6audio_get_port_id(u16 port_id)
 {
 	switch (port_id) {

@@ -156,18 +156,12 @@ static int snd_compr_free(struct inode *inode, struct file *f)
 static int snd_compr_update_tstamp(struct snd_compr_stream *stream,
 		struct snd_compr_tstamp *tstamp)
 {
-<<<<<<< HEAD
-	if (!stream->ops->pointer)
-		return -ENOTSUPP;
-	stream->ops->pointer(stream, tstamp);
-=======
 	int err = 0;
 	if (!stream->ops->pointer)
 		return -ENOTSUPP;
 	err = stream->ops->pointer(stream, tstamp);
 	if (err)
 		return err;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	pr_debug("dsp consumed till %d total %d bytes\n",
 		tstamp->byte_offset, tstamp->copied_total);
 	if (stream->direction == SND_COMPRESS_PLAYBACK)

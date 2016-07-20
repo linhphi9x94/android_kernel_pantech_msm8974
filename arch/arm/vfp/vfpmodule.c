@@ -22,10 +22,7 @@
 #include <linux/user.h>
 #include <linux/proc_fs.h>
 #include <linux/seq_file.h>
-<<<<<<< HEAD
-=======
 #include <linux/export.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #include <asm/cp15.h>
 #include <asm/cputype.h>
@@ -640,8 +637,6 @@ int vfp_restore_user_hwstate(struct user_vfp __user *ufp,
 	return err ? -EFAULT : 0;
 }
 
-<<<<<<< HEAD
-=======
 #ifdef CONFIG_KERNEL_MODE_NEON
 
 /*
@@ -688,7 +683,6 @@ EXPORT_SYMBOL(kernel_neon_end);
 
 #endif /* CONFIG_KERNEL_MODE_NEON */
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*
  * VFP hardware can lose all context when a CPU goes offline.
  * As we will be running in SMP mode with CPU hotplug, we will save the
@@ -819,8 +813,4 @@ static int __init vfp_init(void)
 	return 0;
 }
 
-<<<<<<< HEAD
-late_initcall(vfp_init);
-=======
 core_initcall(vfp_init);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

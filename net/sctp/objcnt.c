@@ -85,14 +85,6 @@ static sctp_dbg_objcnt_entry_t sctp_dbg_objcnt[] = {
  */
 static int sctp_objcnt_seq_show(struct seq_file *seq, void *v)
 {
-<<<<<<< HEAD
-	int i, len;
-
-	i = (int)*(loff_t *)v;
-	seq_printf(seq, "%s: %d%n", sctp_dbg_objcnt[i].label,
-				atomic_read(sctp_dbg_objcnt[i].counter), &len);
-	seq_printf(seq, "%*s\n", 127 - len, "");
-=======
 	int i;
 
 	i = (int)*(loff_t *)v;
@@ -100,7 +92,6 @@ static int sctp_objcnt_seq_show(struct seq_file *seq, void *v)
 	seq_printf(seq, "%s: %d", sctp_dbg_objcnt[i].label,
 				atomic_read(sctp_dbg_objcnt[i].counter));
 	seq_pad(seq, '\n');
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 }
 

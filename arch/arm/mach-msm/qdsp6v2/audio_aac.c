@@ -2,11 +2,7 @@
  *
  * Copyright (C) 2008 Google, Inc.
  * Copyright (C) 2008 HTC Corporation
-<<<<<<< HEAD
- * Copyright (c) 2010-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2010-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
@@ -236,16 +232,12 @@ static int audio_open(struct inode *inode, struct file *file)
 		kfree(audio);
 		return -ENOMEM;
 	}
-<<<<<<< HEAD
-
-=======
 	rc = audio_aio_open(audio, file);
 	if (rc < 0) {
 		pr_err("%s: audio_aio_open rc=%d\n",
 			__func__, rc);
 		goto fail;
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* open in T/NT mode */
 	if ((file->f_mode & FMODE_WRITE) && (file->f_mode & FMODE_READ)) {
 		rc = q6asm_open_read_write(audio->ac, FORMAT_LINEAR_PCM,
@@ -274,14 +266,6 @@ static int audio_open(struct inode *inode, struct file *file)
 		rc = -EACCES;
 		goto fail;
 	}
-<<<<<<< HEAD
-	rc = audio_aio_open(audio, file);
-	if (rc < 0) {
-		pr_err("audio_aio_open rc=%d\n", rc);
-		goto fail;
-	}
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #ifdef CONFIG_DEBUG_FS
 	snprintf(name, sizeof name, "msm_aac_%04x", audio->ac->session);

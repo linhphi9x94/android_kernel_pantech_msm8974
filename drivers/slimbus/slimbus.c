@@ -1100,19 +1100,13 @@ int slim_xfer_msg(struct slim_controller *ctrl, struct slim_device *sbdev,
 	} else
 		ret = slim_processtxn(ctrl, SLIM_MSG_DEST_LOGICALADDR, mc, ec,
 				SLIM_MSG_MT_CORE, rbuf, wbuf, len, mlen,
-<<<<<<< HEAD
-				NULL, sbdev->laddr, NULL);
-=======
 				msg->comp, sbdev->laddr, NULL);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 xfer_err:
 	return ret;
 }
 EXPORT_SYMBOL_GPL(slim_xfer_msg);
 
 /*
-<<<<<<< HEAD
-=======
  * User message:
  * slim_user_msg: Send user message that is interpreted by destination device
  * @sb: Client handle sending the message
@@ -1135,7 +1129,6 @@ int slim_user_msg(struct slim_device *sb, u8 la, u8 mt, u8 mc,
 EXPORT_SYMBOL(slim_user_msg);
 
 /*
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  * slim_alloc_mgrports: Allocate port on manager side.
  * @sb: device/client handle.
  * @req: Port request type.
@@ -1491,11 +1484,7 @@ EXPORT_SYMBOL_GPL(slim_disconnect_ports);
  * Client will call slim_port_get_xfer_status to get error and/or number of
  * bytes transferred if used asynchronously.
  */
-<<<<<<< HEAD
-int slim_port_xfer(struct slim_device *sb, u32 ph, u8 *iobuf, u32 len,
-=======
 int slim_port_xfer(struct slim_device *sb, u32 ph, phys_addr_t iobuf, u32 len,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				struct completion *comp)
 {
 	struct slim_controller *ctrl = sb->ctrl;
@@ -1525,11 +1514,7 @@ EXPORT_SYMBOL_GPL(slim_port_xfer);
  * processed from the multiple transfers.
  */
 enum slim_port_err slim_port_get_xfer_status(struct slim_device *sb, u32 ph,
-<<<<<<< HEAD
-			u8 **done_buf, u32 *done_len)
-=======
 			phys_addr_t *done_buf, u32 *done_len)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct slim_controller *ctrl = sb->ctrl;
 	u8 pn = SLIM_HDL_TO_PORT(ph);
@@ -1542,11 +1527,7 @@ enum slim_port_err slim_port_get_xfer_status(struct slim_device *sb, u32 ph,
 	 */
 	if (la != SLIM_LA_MANAGER) {
 		if (done_buf)
-<<<<<<< HEAD
-			*done_buf = NULL;
-=======
 			*done_buf = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (done_len)
 			*done_len = 0;
 		return SLIM_P_NOT_OWNED;

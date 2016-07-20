@@ -2568,10 +2568,7 @@ void usb_remove_hcd(struct usb_hcd *hcd)
 #if defined(CONFIG_ANDROID_PANTECH_USB_OTG_INTENT)
 	clear_bit(HCD_FLAG_DEAD, &hcd->flags);
 #endif
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	clear_bit(HCD_FLAG_RH_RUNNING, &hcd->flags);
 	if (HC_IS_RUNNING (hcd->state))
 		hcd->state = HC_STATE_QUIESCING;

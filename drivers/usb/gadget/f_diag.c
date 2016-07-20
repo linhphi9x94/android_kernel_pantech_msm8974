@@ -26,10 +26,7 @@
 #include <linux/usb/gadget.h>
 #include <linux/workqueue.h>
 #include <linux/debugfs.h>
-<<<<<<< HEAD
-=======
 #include <linux/kmemleak.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define F_PANTECH_UTS_POWER_UP //p13783 add : for FCMD
 #ifdef F_PANTECH_UTS_POWER_UP
@@ -371,31 +368,6 @@ static void free_reqs(struct diag_context *ctxt)
 }
 
 /**
-<<<<<<< HEAD
- * usb_diag_free_req() - Free USB requests
- * @ch: Channel handler
- *
- * This function free read and write USB requests for the interface
- * associated with this channel.
- *
- */
-void usb_diag_free_req(struct usb_diag_ch *ch)
-{
-	struct diag_context *ctxt = ch->priv_usb;
-	unsigned long flags;
-
-	if (ctxt) {
-		spin_lock_irqsave(&ctxt->lock, flags);
-		free_reqs(ctxt);
-		spin_unlock_irqrestore(&ctxt->lock, flags);
-	}
-
-}
-EXPORT_SYMBOL(usb_diag_free_req);
-
-/**
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  * usb_diag_alloc_req() - Allocate USB requests
  * @ch: Channel handler
  * @n_write: Number of requests for Tx
@@ -423,10 +395,7 @@ int usb_diag_alloc_req(struct usb_diag_ch *ch, int n_write, int n_read)
 		req = usb_ep_alloc_request(ctxt->in, GFP_ATOMIC);
 		if (!req)
 			goto fail;
-<<<<<<< HEAD
-=======
 		kmemleak_not_leak(req);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		req->complete = diag_write_complete;
 		list_add_tail(&req->list, &ctxt->write_pool);
 	}
@@ -435,10 +404,7 @@ int usb_diag_alloc_req(struct usb_diag_ch *ch, int n_write, int n_read)
 		req = usb_ep_alloc_request(ctxt->out, GFP_ATOMIC);
 		if (!req)
 			goto fail;
-<<<<<<< HEAD
-=======
 		kmemleak_not_leak(req);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		req->complete = diag_read_complete;
 		list_add_tail(&req->list, &ctxt->read_pool);
 	}
@@ -593,18 +559,11 @@ int usb_diag_write(struct usb_diag_ch *ch, struct diag_request *d_req)
 		/* If error add the link to linked list again*/
 		spin_lock_irqsave(&ctxt->lock, flags);
 		list_add_tail(&req->list, &ctxt->write_pool);
-<<<<<<< HEAD
-		spin_unlock_irqrestore(&ctxt->lock, flags);
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/* 1 error message for every 10 sec */
 		if (__ratelimit(&rl))
 			ERROR(ctxt->cdev, "%s: cannot queue"
 				" read request\n", __func__);
-<<<<<<< HEAD
-=======
 		spin_unlock_irqrestore(&ctxt->lock, flags);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -EIO;
 	}
 

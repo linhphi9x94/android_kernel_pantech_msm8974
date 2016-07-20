@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2013-2015, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -625,14 +621,11 @@ int msm_audio_effects_popless_eq_handler(struct audio_client *ac,
 			}
 			for (j = 0; j < eq->config.num_bands; j++) {
 				idx = *values++;
-<<<<<<< HEAD
-=======
 				if (idx >= MAX_EQ_BANDS) {
 					pr_err("EQ_CONFIG:invalid band index\n");
 					rc = -EINVAL;
 					goto invalid_config;
 				}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				eq->per_band_cfg[idx].band_idx = idx;
 				eq->per_band_cfg[idx].filter_type = *values++;
 				eq->per_band_cfg[idx].freq_millihertz =

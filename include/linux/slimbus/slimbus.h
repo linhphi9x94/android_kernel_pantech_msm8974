@@ -525,11 +525,8 @@ enum slim_clk_state {
  * @port_xfer_status: Called by framework when client calls get_xfer_status
  *	API. Returns how much buffer is actually processed and the port
  *	errors (e.g. overflow/underflow) if any.
-<<<<<<< HEAD
-=======
  * @xfer_user_msg: Send user message to specified logical address. Underlying
  *	controller has to support sending user messages. Returns error if any.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  */
 struct slim_controller {
 	struct device		dev;
@@ -572,12 +569,6 @@ struct slim_controller {
 	int			(*framer_handover)(struct slim_controller *ctrl,
 				struct slim_framer *new_framer);
 	int			(*port_xfer)(struct slim_controller *ctrl,
-<<<<<<< HEAD
-				u8 pn, u8 *iobuf, u32 len,
-				struct completion *comp);
-	enum slim_port_err	(*port_xfer_status)(struct slim_controller *ctr,
-				u8 pn, u8 **done_buf, u32 *done_len);
-=======
 				u8 pn, phys_addr_t iobuf, u32 len,
 				struct completion *comp);
 	enum slim_port_err	(*port_xfer_status)(struct slim_controller *ctr,
@@ -585,7 +576,6 @@ struct slim_controller {
 	int			(*xfer_user_msg)(struct slim_controller *ctrl,
 				u8 la, u8 mt, u8 mc,
 				struct slim_ele_access *msg, u8 *buf, u8 len);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 #define to_slim_controller(d) container_of(d, struct slim_controller, dev)
 
@@ -759,8 +749,6 @@ extern int slim_request_clear_inf_element(struct slim_device *sb,
 extern int slim_xfer_msg(struct slim_controller *ctrl,
 			struct slim_device *sbdev, struct slim_ele_access *msg,
 			u16 mc, u8 *rbuf, const u8 *wbuf, u8 len);
-<<<<<<< HEAD
-=======
 
 /*
  * User message:
@@ -775,7 +763,6 @@ extern int slim_xfer_msg(struct slim_controller *ctrl,
  */
 extern int slim_user_msg(struct slim_device *sb, u8 la, u8 mt, u8 mc,
 				struct slim_ele_access *msg, u8 *buf, u8 len);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* end of message apis */
 
 /* Port management for manager device APIs */
@@ -815,13 +802,8 @@ extern int slim_dealloc_mgrports(struct slim_device *sb, u32 *hdl, int hsz);
  * Client will call slim_port_get_xfer_status to get error and/or number of
  * bytes transferred if used asynchronously.
  */
-<<<<<<< HEAD
-extern int slim_port_xfer(struct slim_device *sb, u32 ph, u8 *iobuf, u32 len,
-				struct completion *comp);
-=======
 extern int slim_port_xfer(struct slim_device *sb, u32 ph, phys_addr_t iobuf,
 				u32 len, struct completion *comp);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /*
  * slim_port_get_xfer_status: Poll for port transfers, or get transfer status
@@ -843,11 +825,7 @@ extern int slim_port_xfer(struct slim_device *sb, u32 ph, phys_addr_t iobuf,
  * processed from the multiple transfers.
  */
 extern enum slim_port_err slim_port_get_xfer_status(struct slim_device *sb,
-<<<<<<< HEAD
-			u32 ph, u8 **done_buf, u32 *done_len);
-=======
 			u32 ph, phys_addr_t *done_buf, u32 *done_len);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /*
  * slim_connect_src: Connect source port to channel.

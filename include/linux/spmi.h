@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014 The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -386,10 +382,7 @@ extern int spmi_ext_register_writel(struct spmi_controller *ctrl,
  * -EPERM if the SPMI transaction is denied due to permission issues.
  * -EIO if the SPMI transaction fails (parity errors, etc).
  * -ETIMEDOUT if the SPMI transaction times out.
-<<<<<<< HEAD
-=======
  * -EAGAIN if the SPMI transaction is temporarily unavailable
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  */
 extern int spmi_command_reset(struct spmi_controller *ctrl, u8 sid);
 
@@ -405,10 +398,7 @@ extern int spmi_command_reset(struct spmi_controller *ctrl, u8 sid);
  * -EPERM if the SPMI transaction is denied due to permission issues.
  * -EIO if the SPMI transaction fails (parity errors, etc).
  * -ETIMEDOUT if the SPMI transaction times out.
-<<<<<<< HEAD
-=======
  * -EAGAIN if the SPMI transaction is temporarily unavailable
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  */
 extern int spmi_command_sleep(struct spmi_controller *ctrl, u8 sid);
 
@@ -425,10 +415,7 @@ extern int spmi_command_sleep(struct spmi_controller *ctrl, u8 sid);
  * -EPERM if the SPMI transaction is denied due to permission issues.
  * -EIO if the SPMI transaction fails (parity errors, etc).
  * -ETIMEDOUT if the SPMI transaction times out.
-<<<<<<< HEAD
-=======
  * -EAGAIN if the SPMI transaction is temporarily unavailable
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  */
 extern int spmi_command_wakeup(struct spmi_controller *ctrl, u8 sid);
 
@@ -444,10 +431,7 @@ extern int spmi_command_wakeup(struct spmi_controller *ctrl, u8 sid);
  * -EPERM if the SPMI transaction is denied due to permission issues.
  * -EIO if the SPMI transaction fails (parity errors, etc).
  * -ETIMEDOUT if the SPMI transaction times out.
-<<<<<<< HEAD
-=======
  * -EAGAIN if the SPMI transaction is temporarily unavailable
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  */
 extern int spmi_command_shutdown(struct spmi_controller *ctrl, u8 sid);
 

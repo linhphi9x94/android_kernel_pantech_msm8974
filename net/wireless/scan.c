@@ -18,11 +18,7 @@
 #include "nl80211.h"
 #include "wext-compat.h"
 
-<<<<<<< HEAD
-#define IEEE80211_SCAN_RESULT_EXPIRE	(7 * HZ)
-=======
 #define IEEE80211_SCAN_RESULT_EXPIRE	(3 * HZ)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 void ___cfg80211_scan_done(struct cfg80211_registered_device *rdev, bool leak)
 {

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -14,10 +10,6 @@
  * GNU General Public License for more details.
  */
 
-<<<<<<< HEAD
-/include/ "msm8926.dtsi"
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /include/ "msm8226-qrd.dtsi"
 /include/ "msm8926-camera-sensor-qrd.dtsi"
 
@@ -106,8 +98,6 @@
 &dsi_ssd2080m_720_vid {
 	qcom,cont-splash-enabled;
 };
-<<<<<<< HEAD
-=======
 
 &sdhc_2 {
 	qcom,nonremovable;
@@ -118,4 +108,3 @@
 	interrupt-names = "hc_irq", "pwr_irq";
 	/delete-property/ cd-gpios;
 };
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

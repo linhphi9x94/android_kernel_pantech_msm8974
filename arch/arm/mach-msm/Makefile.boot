@@ -90,57 +90,6 @@ endif
 else ifeq ($(CONFIG_MACH_MSM8974_EF63S),y)
 ifeq ($(CONFIG_BOARD_VER),$(CONFIG_PT10))
 	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63s-pt10.dtb
-<<<<<<< HEAD
-else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_PT20))
-	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63s-pt20.dtb
-else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_WS10))
-	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63s-ws10.dtb
-else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_WS15))
-	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63s-ws15.dtb
-else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_WS20))
-	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63s-ws20.dtb
-else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_TP10))
-	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63s-tp10.dtb
-else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_TP20))	
-	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63s-tp20.dtb
-else
-	dtb-$(CONFIG_MACH_MSM8974_EF63S)      += msm8974pro-ab-pm8941-ef63s-pp10.dtb
-endif
-else ifeq ($(CONFIG_MACH_MSM8974_EF63K),y)
-ifeq ($(CONFIG_BOARD_VER),$(CONFIG_PT10))
-	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63k-pt10.dtb
-else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_PT20))
-	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63k-pt20.dtb
-else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_WS10))
-	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63k-ws10.dtb
-else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_WS15))
-	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63k-ws15.dtb
-else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_WS20))
-	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63k-ws20.dtb
-else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_TP10))
-	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63k-tp10.dtb
-else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_TP20))
-	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63k-tp20.dtb
-else
-	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63k-pp10.dtb
-endif
-else ifeq ($(CONFIG_MACH_MSM8974_EF63L),y)
-ifeq ($(CONFIG_BOARD_VER),$(CONFIG_PT10))
-	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63l-pt10.dtb
-else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_PT20))	
-	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63l-pt20.dtb
-else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_WS10))	
-	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63l-ws10.dtb
-else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_WS15))	
-	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63l-ws15.dtb
-else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_WS20))	
-	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63l-ws20.dtb
-else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_TP10))	
-	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63l-tp10.dtb
-else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_TP20))	
-	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63l-tp20.dtb
-else	
-=======
 	dtb-$(CONFIG_MACH_MSM8974_EF63K)      += msm8974pro-ab-pm8941-ef63k-pt10.dtb
 	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63l-pt10.dtb
 else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_PT20))
@@ -238,7 +187,6 @@ else ifeq ($(CONFIG_BOARD_VER),$(CONFIG_TP20))
 else	
 	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63s-pp10.dtb
 	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63k-pp10.dtb
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	dtb-$(CONFIG_MACH_MSM8974_EF63L)      += msm8974pro-ab-pm8941-ef63l-pp10.dtb
 endif	
 else ifeq ($(CONFIG_MACH_MSM8974_EF56S),y)
@@ -328,10 +276,7 @@ else
         dtb-$(CONFIG_ARCH_MSM8974)	+= msm8974-v2.2-mtp.dtb
         dtb-$(CONFIG_ARCH_MSM8974)	+= msm8974pro-ab-pm8941-cdp.dtb
         dtb-$(CONFIG_ARCH_MSM8974)	+= msm8974pro-ab-pm8941-fluid.dtb
-<<<<<<< HEAD
-=======
         dtb-$(CONFIG_ARCH_MSM8974)	+= msm8974pro-ab-pm8941-fluid-hbtp.dtb
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
         dtb-$(CONFIG_ARCH_MSM8974)	+= msm8974pro-ab-pm8941-liquid.dtb
         dtb-$(CONFIG_ARCH_MSM8974)	+= msm8974pro-ab-pm8941-mtp.dtb
         dtb-$(CONFIG_ARCH_MSM8974)	+= msm8974pro-ac-pm8941-cdp.dtb
@@ -363,28 +308,16 @@ endif
 
 # MSM8226
    zreladdr-$(CONFIG_ARCH_MSM8226)	:= 0x00008000
-<<<<<<< HEAD
-=======
 	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-sim.dtb
 	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-fluid.dtb
 	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-v1-cdp.dtb
 	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-v1-mtp.dtb
 	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-v1-qrd-evt.dtb
 	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-v1-qrd-dvt.dtb
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-v2-720p-cdp.dtb
 	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-v2-1080p-cdp.dtb
 	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-v2-720p-mtp.dtb
 	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-v2-1080p-mtp.dtb
-<<<<<<< HEAD
-	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-720p-cdp.dtb
-	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-1080p-cdp.dtb
-	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-720p-mtp.dtb
-	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-1080p-mtp.dtb
-	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-qrd.dtb
-	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-qrd-skug.dtb
-	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-qrd-skug-pvt.dtb
-=======
 	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-v2-qrd-evt.dtb
 	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-v2-qrd-dvt.dtb
 	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-v1-720p-cdp.dtb
@@ -403,7 +336,6 @@ endif
 	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-v2-qrd.dtb
 	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-v2-qrd-skug.dtb
 	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8926-v2-qrd-skug-pvt.dtb
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-v1-qrd-skuf.dtb
 	dtb-$(CONFIG_ARCH_MSM8226)	+= msm8226-v2-qrd-skuf.dtb
 	dtb-$(CONFIG_ARCH_MSM8226)	+= apq8026-v1-xpm.dtb

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -25,11 +21,8 @@
 #include <linux/usb.h>
 #include <linux/wait.h>
 #include <linux/cdev.h>
-<<<<<<< HEAD
-=======
 #include <linux/ktime.h>
 #include <linux/debugfs.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #include <linux/usb/ccid_bridge.h>
 
@@ -43,15 +36,11 @@
 #define CCID_BRIDGE_MSG_SZ 512
 #define CCID_BRIDGE_OPEN_TIMEOUT 500 /* msec */
 #define CCID_CONTROL_TIMEOUT 500 /* msec */
-<<<<<<< HEAD
-#define CCID_BRIDGE_MSG_TIMEOUT 500 /* msec */
-=======
 #define CCID_BRIDGE_MSG_TIMEOUT 1000 /* msec */
 
 static unsigned ccid_bulk_msg_timeout = CCID_BRIDGE_MSG_TIMEOUT;
 module_param_named(bulk_msg_timeout, ccid_bulk_msg_timeout, uint, 0644);
 MODULE_PARM_DESC(bulk_msg_timeout, "Bulk message timeout (msecs)");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 struct ccid_bridge {
 	struct usb_device *udev;
@@ -84,8 +73,6 @@ struct ccid_bridge {
 	struct cdev cdev;
 	struct class *class;
 	struct device *device;
-<<<<<<< HEAD
-=======
 
 	struct dentry *dbg_root;
 	unsigned n_write;
@@ -94,7 +81,6 @@ struct ccid_bridge {
 	unsigned n_read_timeout;
 	unsigned long write_max_time;
 	unsigned long read_max_time;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static struct ccid_bridge *__ccid_bridge_dev;
@@ -284,10 +270,7 @@ static ssize_t ccid_bridge_write(struct file *fp, const char __user *ubuf,
 	struct ccid_bridge *ccid = fp->private_data;
 	int ret;
 	char *kbuf;
-<<<<<<< HEAD
-=======
 	ktime_t start_t, delta_t;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	pr_debug("called with %d", count);
 
@@ -298,12 +281,9 @@ static ssize_t ccid_bridge_write(struct file *fp, const char __user *ubuf,
 
 	mutex_lock(&ccid->write_mutex);
 
-<<<<<<< HEAD
-=======
 	ccid->n_write++;
 	start_t = ktime_get();
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!count || count > CCID_BRIDGE_MSG_SZ) {
 		pr_err("invalid count");
 		ret = -EINVAL;
@@ -342,13 +322,6 @@ static ssize_t ccid_bridge_write(struct file *fp, const char __user *ubuf,
 
 	ret = wait_event_interruptible_timeout(ccid->write_wq,
 			ccid->write_result != 0,
-<<<<<<< HEAD
-			msecs_to_jiffies(CCID_BRIDGE_MSG_TIMEOUT));
-	if (!ret || ret == -ERESTARTSYS) { /* timedout or interrupted */
-		usb_kill_urb(ccid->writeurb);
-		if (!ret)
-			ret = -ETIMEDOUT;
-=======
 			msecs_to_jiffies(ccid_bulk_msg_timeout));
 	if (!ret || ret == -ERESTARTSYS) { /* timedout or interrupted */
 		usb_kill_urb(ccid->writeurb);
@@ -356,20 +329,16 @@ static ssize_t ccid_bridge_write(struct file *fp, const char __user *ubuf,
 			ccid->n_write_timeout++;
 			ret = -ETIMEDOUT;
 		}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	} else {
 		ret = ccid->write_result;
 	}
 
-<<<<<<< HEAD
-=======
 	if (ret >= 0) {
 		delta_t = ktime_sub(ktime_get(), start_t);
 		if (ktime_to_ms(delta_t) > ccid->write_max_time)
 			ccid->write_max_time = ktime_to_ms(delta_t);
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	pr_debug("returning %d", ret);
 
 put_pm:
@@ -389,10 +358,7 @@ static ssize_t ccid_bridge_read(struct file *fp, char __user *ubuf,
 	struct ccid_bridge *ccid = fp->private_data;
 	int ret;
 	char *kbuf;
-<<<<<<< HEAD
-=======
 	ktime_t start_t, delta_t;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	pr_debug("called with %d", count);
 	if (!ccid->intf) {
@@ -402,12 +368,9 @@ static ssize_t ccid_bridge_read(struct file *fp, char __user *ubuf,
 
 	mutex_lock(&ccid->read_mutex);
 
-<<<<<<< HEAD
-=======
 	ccid->n_read++;
 	start_t = ktime_get();
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!count || count > CCID_BRIDGE_MSG_SZ) {
 		pr_err("invalid count");
 		ret = -EINVAL;
@@ -439,16 +402,6 @@ static ssize_t ccid_bridge_read(struct file *fp, char __user *ubuf,
 		goto free_kbuf;
 	}
 
-<<<<<<< HEAD
-
-	ret = wait_event_interruptible_timeout(ccid->read_wq,
-			ccid->read_result != 0,
-			msecs_to_jiffies(CCID_BRIDGE_MSG_TIMEOUT));
-	if (!ret || ret == -ERESTARTSYS) { /* timedout or interrupted */
-		usb_kill_urb(ccid->readurb);
-		if (!ret)
-			ret = -ETIMEDOUT;
-=======
 	ret = wait_event_interruptible_timeout(ccid->read_wq,
 			ccid->read_result != 0,
 			msecs_to_jiffies(ccid_bulk_msg_timeout));
@@ -458,17 +411,10 @@ static ssize_t ccid_bridge_read(struct file *fp, char __user *ubuf,
 			ccid->n_read_timeout++;
 			ret = -ETIMEDOUT;
 		}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	} else {
 		ret = ccid->read_result;
 	}
 
-<<<<<<< HEAD
-
-	if (ret > 0) {
-		if (copy_to_user(ubuf, kbuf, ret))
-			ret = -EFAULT;
-=======
 	if (ret > 0) {
 		if (copy_to_user(ubuf, kbuf, ret))
 			ret = -EFAULT;
@@ -476,7 +422,6 @@ static ssize_t ccid_bridge_read(struct file *fp, char __user *ubuf,
 		delta_t = ktime_sub(ktime_get(), start_t);
 		if (ktime_to_ms(delta_t) > ccid->read_max_time)
 			ccid->read_max_time = ktime_to_ms(delta_t);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	usb_autopm_put_interface(ccid->intf);
@@ -622,8 +567,6 @@ ccid_bridge_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
 static void ccid_bridge_reset_stats(struct ccid_bridge *ccid)
 {
 	ccid->n_write = 0;
@@ -634,15 +577,12 @@ static void ccid_bridge_reset_stats(struct ccid_bridge *ccid)
 	ccid->read_max_time = 0;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int ccid_bridge_release(struct inode *ip, struct file *fp)
 {
 	struct ccid_bridge *ccid = fp->private_data;
 
 	pr_debug("called");
 
-<<<<<<< HEAD
-=======
 	mutex_lock(&ccid->open_mutex);
 	if (ccid->intf == NULL) {
 		ccid->opened = false;
@@ -651,7 +591,6 @@ static int ccid_bridge_release(struct inode *ip, struct file *fp)
 	}
 	mutex_unlock(&ccid->open_mutex);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	usb_kill_urb(ccid->writeurb);
 	usb_kill_urb(ccid->readurb);
 	if (ccid->int_pipe)
@@ -663,11 +602,8 @@ static int ccid_bridge_release(struct inode *ip, struct file *fp)
 	mutex_lock(&ccid->open_mutex);
 	ccid->opened = false;
 	mutex_unlock(&ccid->open_mutex);
-<<<<<<< HEAD
-=======
 done:
 	ccid_bridge_reset_stats(ccid);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 }
 
@@ -816,10 +752,7 @@ ccid_bridge_probe(struct usb_interface *intf, const struct usb_device_id *id)
 	}
 
 	usb_set_intfdata(intf, ccid);
-<<<<<<< HEAD
-=======
 	usb_enable_autosuspend(ccid->udev);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	mutex_lock(&ccid->open_mutex);
 	ccid->intf = intf;
@@ -874,10 +807,7 @@ static void ccid_bridge_disconnect(struct usb_interface *intf)
 	}
 
 	ccid->intf = NULL;
-<<<<<<< HEAD
-=======
 	usb_put_dev(ccid->udev);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	mutex_unlock(&ccid->event_mutex);
 	mutex_unlock(&ccid->read_mutex);
@@ -903,8 +833,6 @@ static struct usb_driver ccid_bridge_driver = {
 	.supports_autosuspend = 1,
 };
 
-<<<<<<< HEAD
-=======
 static int ccid_bridge_stats_show(struct seq_file *s, void *unused)
 {
 	struct ccid_bridge *ccid = s->private;
@@ -979,7 +907,6 @@ out:
 	return ret;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int __init ccid_bridge_init(void)
 {
 	int ret;
@@ -1037,11 +964,8 @@ static int __init ccid_bridge_init(void)
 		goto del_cdev;
 	}
 
-<<<<<<< HEAD
-=======
 	ccid_bridge_debugfs_init(ccid);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	pr_info("success");
 
 	return 0;
@@ -1070,11 +994,8 @@ static void __exit ccid_bridge_exit(void)
 	struct ccid_bridge *ccid = __ccid_bridge_dev;
 
 	pr_debug("called");
-<<<<<<< HEAD
-=======
 
 	debugfs_remove_recursive(ccid->dbg_root);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	device_destroy(ccid->class, ccid->chrdev);
 	cdev_del(&ccid->cdev);
 	class_destroy(ccid->class);

@@ -22,11 +22,7 @@
 		#address-cells = <1>;
 		#size-cells = <1>;
 
-<<<<<<< HEAD
-		qcom,revid@100 {
-=======
 		pm8110_revid: qcom,revid@100 {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			compatible = "qcom,qpnp-revid";
 			reg = <0x100 0x100>;
 		};
@@ -43,15 +39,11 @@
 
 			qcom,pon_1 {
 				qcom,pon-type = <0>;
-<<<<<<< HEAD
-				qcom,pull-up = <1>;
-=======
 				qcom,support-reset = <1>;
 				qcom,pull-up = <1>;
 				qcom,s1-timer = <10256>;
 				qcom,s2-timer = <2000>;
 				qcom,s2-type = <1>;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				linux,code = <116>;
 			};
 
@@ -231,10 +223,7 @@
 			qcom,adc-bit-resolution = <15>;
 			qcom,adc-vdd-reference = <1800>;
 			qcom,vadc-poll-eoc;
-<<<<<<< HEAD
-=======
 			qcom,pmic-revid = <&pm8110_revid>;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 			chan@8 {
 				label = "die_temp";
@@ -284,22 +273,12 @@
 			qcom,iadc-vadc = <&pm8110_vadc>;
 			qcom,iadc-poll-eoc;
 			qcom,use-default-rds-trim = <1>;
-<<<<<<< HEAD
-=======
 			qcom,pmic-revid = <&pm8110_revid>;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 			chan@0 {
 				label = "internal_rsense";
 				reg = <0>;
 				qcom,decimation = <0>;
-<<<<<<< HEAD
-				qcom,pre-div-channel-scaling = <1>;
-				qcom,calibration-type = "absolute";
-				qcom,scale-function = <0>;
-				qcom,hw-settle-time = <0>;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				qcom,fast-avg-setup = <0>;
 			};
 		};
@@ -360,13 +339,10 @@
 			qcom,bms-iadc = <&pm8110_iadc>;
 			qcom,bms-adc_tm = <&pm8110_adc_tm>;
 
-<<<<<<< HEAD
-=======
 			qcom,batt-pres-status@1208 {
 				reg = <0x1208 0x1>;
 			};
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			qcom,bms-iadc@3800 {
 				reg = <0x3800 0x100>;
 			};

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
@@ -18,10 +14,7 @@
 #ifndef __LINUX_SMSC3503_H__
 #define __LINUX_SMSC3503_H__
 
-<<<<<<< HEAD
-=======
 #define SMSC3502_ID	3502
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define SMSC3503_ID	3503
 #define SMSC4604_ID	4604
 #define SMSC3503_I2C_ADDR	0x08
@@ -60,10 +53,7 @@ struct smsc_hub_platform_data {
 	int hub_reset;
 	int refclk_gpio;
 	int int_gpio;
-<<<<<<< HEAD
-=======
 	int xo_clk_gpio;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 #endif

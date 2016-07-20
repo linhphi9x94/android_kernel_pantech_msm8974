@@ -53,11 +53,7 @@ struct usm_mmap {
 
 static struct usm_mmap this_mmap;
 
-<<<<<<< HEAD
-static void q6usm_add_mmaphdr(struct us_client *usc, struct apr_hdr *hdr,
-=======
 static void q6usm_add_mmaphdr(struct apr_hdr *hdr,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			      uint32_t pkt_size, bool cmd_flg, u32 token)
 {
 	hdr->hdr_field = APR_HDR_FIELD(APR_MSG_TYPE_SEQ_CMD, \
@@ -72,35 +68,20 @@ static void q6usm_add_mmaphdr(struct apr_hdr *hdr,
 	return;
 }
 
-<<<<<<< HEAD
-static int q6usm_memory_map(struct us_client *usc, uint32_t buf_add, int dir,
-		     uint32_t bufsz, uint32_t bufcnt)
-=======
 static int q6usm_memory_map(uint32_t buf_add, int dir, uint32_t bufsz,
 		uint32_t bufcnt, uint32_t session, uint32_t *mem_handle)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct usm_cmd_memory_map_region mem_region_map;
 	int rc = 0;
 
-<<<<<<< HEAD
-	if ((usc == NULL) || (usc->apr == NULL) || (this_mmap.apr == NULL)) {
-=======
 	if (this_mmap.apr == NULL) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		pr_err("%s: APR handle NULL\n", __func__);
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
-	q6usm_add_mmaphdr(usc, &mem_region_map.hdr,
-			  sizeof(struct usm_cmd_memory_map_region), true,
-			  ((usc->session << 8) | dir));
-=======
 	q6usm_add_mmaphdr(&mem_region_map.hdr,
 			  sizeof(struct usm_cmd_memory_map_region), true,
 			  ((session << 8) | dir));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	mem_region_map.hdr.opcode = USM_CMD_SHARED_MEM_MAP_REGION;
 	mem_region_map.mempool_id = ADSP_MEMORY_MAP_SHMEM8_4K_POOL;
@@ -127,28 +108,13 @@ static int q6usm_memory_map(uint32_t buf_add, int dir, uint32_t bufsz,
 		rc = -ETIME;
 		pr_err("%s: timeout. waited for memory_map\n", __func__);
 	} else {
-<<<<<<< HEAD
-		struct us_port_data *port = &usc->port[dir];
-
-		*((uint32_t *)(port->ext)) = this_mmap.mem_handle;
-=======
 		*mem_handle = this_mmap.mem_handle;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		rc = 0;
 	}
 fail_cmd:
 	return rc;
 }
 
-<<<<<<< HEAD
-int q6usm_memory_unmap(struct us_client *usc, uint32_t buf_add, int dir)
-{
-	struct usm_cmd_memory_unmap_region mem_unmap;
-	struct us_port_data *port = &usc->port[dir];
-	int rc = 0;
-
-	if ((usc == NULL) || (usc->apr == NULL) || (this_mmap.apr == NULL)) {
-=======
 int q6usm_memory_unmap(uint32_t buf_add, int dir, uint32_t session,
 			uint32_t mem_handle)
 {
@@ -156,25 +122,15 @@ int q6usm_memory_unmap(uint32_t buf_add, int dir, uint32_t session,
 	int rc = 0;
 
 	if (this_mmap.apr == NULL) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		pr_err("%s: APR handle NULL\n", __func__);
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
-	port = &usc->port[dir];
-	q6usm_add_mmaphdr(usc, &mem_unmap.hdr,
-			  sizeof(struct usm_cmd_memory_unmap_region), true,
-			  ((usc->session << 8) | dir));
-	mem_unmap.hdr.opcode = USM_CMD_SHARED_MEM_UNMAP_REGION;
-	mem_unmap.mem_map_handle = *((uint32_t *)(port->ext));
-=======
 	q6usm_add_mmaphdr(&mem_unmap.hdr,
 			  sizeof(struct usm_cmd_memory_unmap_region), true,
 			  ((session << 8) | dir));
 	mem_unmap.hdr.opcode = USM_CMD_SHARED_MEM_UNMAP_REGION;
 	mem_unmap.mem_map_handle = mem_handle;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	rc = apr_send_pkt(this_mmap.apr, (uint32_t *) &mem_unmap);
 	if (rc < 0) {
@@ -250,12 +206,8 @@ int q6usm_us_client_buf_free(unsigned int dir,
 		return 0;
 	}
 
-<<<<<<< HEAD
-	rc = q6usm_memory_unmap(usc, port->phys, dir);
-=======
 	rc = q6usm_memory_unmap(port->phys, dir, usc->session,
 				*((uint32_t *)port->ext));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	pr_debug("%s: data[%p]phys[%p][%p]\n", __func__,
 		 (void *)port->data, (void *)port->phys, (void *)&port->phys);
 	/* 4K boundary is required by the API with QDSP6 */
@@ -270,8 +222,6 @@ int q6usm_us_client_buf_free(unsigned int dir,
 	return rc;
 }
 
-<<<<<<< HEAD
-=======
 int q6usm_us_param_buf_free(unsigned int dir,
 			struct us_client *usc)
 {
@@ -311,7 +261,6 @@ int q6usm_us_param_buf_free(unsigned int dir,
 	return rc;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 void q6usm_us_client_free(struct us_client *usc)
 {
 	int loopcnt = 0;
@@ -328,10 +277,7 @@ void q6usm_us_client_free(struct us_client *usc)
 			continue;
 		pr_debug("%s: loopcnt = %d\n", __func__, loopcnt);
 		q6usm_us_client_buf_free(loopcnt, usc);
-<<<<<<< HEAD
-=======
 		q6usm_us_param_buf_free(loopcnt, usc);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	q6usm_session_free(usc);
 	apr_deregister(usc->apr);
@@ -371,11 +317,7 @@ struct us_client *q6usm_us_client_alloc(
 		pr_err("%s: us_client allocation failed\n", __func__);
 		return NULL;
 	}
-<<<<<<< HEAD
-	p_mem_handle = kzalloc(sizeof(uint32_t) * 2, GFP_KERNEL);
-=======
 	p_mem_handle = kzalloc(sizeof(uint32_t) * 4, GFP_KERNEL);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (p_mem_handle == NULL) {
 		pr_err("%s: p_mem_handle allocation failed\n", __func__);
 		kfree(usc);
@@ -416,10 +358,7 @@ struct us_client *q6usm_us_client_alloc(
 		mutex_init(&usc->port[lcnt].lock);
 		spin_lock_init(&usc->port[lcnt].dsp_lock);
 		usc->port[lcnt].ext = (void *)p_mem_handle++;
-<<<<<<< HEAD
-=======
 		usc->port[lcnt].param_buf_mem_handle = (void *)p_mem_handle++;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		pr_err("%s: usc->port[%d].ext=%p;\n",
 		       __func__, lcnt, usc->port[lcnt].ext);
 	}
@@ -472,9 +411,6 @@ int q6usm_us_client_buf_alloc(unsigned int dir,
 		 (void *)&port->phys);
 
 	size = (size + MEM_4K_OFFSET) & MEM_4K_MASK;
-<<<<<<< HEAD
-	rc = q6usm_memory_map(usc, port->phys, dir, size, 1);
-=======
 	rc = q6usm_memory_map(port->phys, dir, size, 1, usc->session,
 				(uint32_t *)port->ext);
 	if (rc < 0) {
@@ -535,15 +471,11 @@ int q6usm_us_param_buf_alloc(unsigned int dir,
 	size = (bufsz + MEM_4K_OFFSET) & MEM_4K_MASK;
 	rc = q6usm_memory_map(port->param_phys, (IN | OUT), size, 1,
 			usc->session, (uint32_t *)port->param_buf_mem_handle);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (rc < 0) {
 		pr_err("%s: CMD Memory_map failed\n", __func__);
 		mutex_unlock(&usc->cmd_lock);
 		q6usm_us_client_buf_free(dir, usc);
-<<<<<<< HEAD
-=======
 		q6usm_us_param_buf_free(dir, usc);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	} else {
 		mutex_unlock(&usc->cmd_lock);
 		rc = 0;
@@ -638,11 +570,8 @@ static int32_t q6usm_callback(struct apr_client_data *data, void *priv)
 			case USM_STREAM_CMD_SET_ENC_PARAM:
 			case USM_DATA_CMD_MEDIA_FORMAT_UPDATE:
 			case USM_SESSION_CMD_SIGNAL_DETECT_MODE:
-<<<<<<< HEAD
-=======
 			case USM_STREAM_CMD_SET_PARAM:
 			case USM_STREAM_CMD_GET_PARAM:
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				if (atomic_read(&usc->cmd_state)) {
 					atomic_set(&usc->cmd_state, 0);
 					wake_up(&usc->cmd_wait);
@@ -660,8 +589,6 @@ static int32_t q6usm_callback(struct apr_client_data *data, void *priv)
 	}
 
 	switch (data->opcode) {
-<<<<<<< HEAD
-=======
 	case RESET_EVENTS: {
 		pr_err("%s: Reset event is received: %d %d\n",
 				__func__,
@@ -680,7 +607,6 @@ static int32_t q6usm_callback(struct apr_client_data *data, void *priv)
 	}
 
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	case USM_DATA_EVENT_READ_DONE: {
 		struct us_port_data *port = &usc->port[OUT];
 
@@ -819,11 +745,7 @@ static uint32_t q6usm_ext2int_format(uint32_t ext_format)
 		int_format = US_RAW_FORMAT_V2;
 		break;
 	case FORMAT_USPROX:
-<<<<<<< HEAD
-		int_format = US_PROX_FORMAT_V2;
-=======
 		int_format = US_PROX_FORMAT_V4;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		break;
 	case FORMAT_USGES_SYNC:
 		int_format = US_GES_SYNC_FORMAT;
@@ -1409,8 +1331,6 @@ int q6usm_set_us_detection(struct us_client *usc,
 	return rc;
 }
 
-<<<<<<< HEAD
-=======
 int q6usm_set_us_stream_param(int dir, struct us_client *usc,
 		uint32_t module_id, uint32_t param_id, uint32_t buf_size)
 {
@@ -1503,7 +1423,6 @@ int q6usm_get_us_stream_param(int dir, struct us_client *usc,
 	return rc;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int __init q6usm_init(void)
 {
 	pr_debug("%s\n", __func__);

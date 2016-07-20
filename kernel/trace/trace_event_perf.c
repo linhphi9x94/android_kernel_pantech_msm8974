@@ -222,12 +222,8 @@ int perf_trace_add(struct perf_event *p_event, int flags)
 void perf_trace_del(struct perf_event *p_event, int flags)
 {
 	struct ftrace_event_call *tp_event = p_event->tp_event;
-<<<<<<< HEAD
-	hlist_del_rcu(&p_event->hlist_entry);
-=======
 	if (!hlist_unhashed(&p_event->hlist_entry))
 		hlist_del_rcu(&p_event->hlist_entry);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	tp_event->class->reg(tp_event, TRACE_REG_PERF_DEL, p_event);
 }
 

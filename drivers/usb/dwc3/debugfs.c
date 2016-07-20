@@ -231,10 +231,7 @@ static const struct debugfs_reg32 dwc3_regs[] = {
 	dump_register(GEVNTCOUNT(0)),
 
 	dump_register(GHWPARAMS8),
-<<<<<<< HEAD
-=======
 	dump_register(GFLADJ),
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	dump_register(DCFG),
 	dump_register(DCTL),
 	dump_register(DEVTEN),
@@ -798,15 +795,9 @@ const struct file_operations dwc3_ep_trb_list_fops = {
 	.release		= single_release,
 };
 
-<<<<<<< HEAD
-static unsigned int ep_addr_rxdbg_mask;
-module_param(ep_addr_rxdbg_mask, uint, S_IRUGO | S_IWUSR);
-static unsigned int ep_addr_txdbg_mask;
-=======
 static unsigned int ep_addr_rxdbg_mask = 1;
 module_param(ep_addr_rxdbg_mask, uint, S_IRUGO | S_IWUSR);
 static unsigned int ep_addr_txdbg_mask = 1;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 module_param(ep_addr_txdbg_mask, uint, S_IRUGO | S_IWUSR);
 
 /* Maximum debug message length */

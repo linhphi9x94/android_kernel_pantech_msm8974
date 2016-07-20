@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2010-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2010-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -203,14 +199,9 @@ static void dump_ib(struct kgsl_device *device, char *buffId,
 	phys_addr_t pt_base, uint32_t base_offset, uint32_t ib_base,
 	uint32_t ib_size, bool dump)
 {
-<<<<<<< HEAD
-	uint8_t *base_addr = adreno_convertaddr(device, pt_base,
-		ib_base, ib_size*sizeof(uint32_t));
-=======
 	struct kgsl_mem_entry *ent = NULL;
 	uint8_t *base_addr = adreno_convertaddr(device, pt_base,
 		ib_base, ib_size*sizeof(uint32_t), &ent);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (base_addr && dump)
 		print_hex_dump(KERN_ERR, buffId, DUMP_PREFIX_OFFSET,
@@ -220,13 +211,10 @@ static void dump_ib(struct kgsl_device *device, char *buffId,
 			"offset:%5.5X%s\n",
 			buffId, ib_base, ib_size*4, base_offset,
 			base_addr ? "" : " [Invalid]");
-<<<<<<< HEAD
-=======
 	if (ent) {
 		kgsl_memdesc_unmap(&ent->memdesc);
 		kgsl_mem_entry_put(ent);
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 #define IB_LIST_SIZE	64
@@ -245,21 +233,14 @@ static void dump_ib1(struct kgsl_device *device, phys_addr_t pt_base,
 	int i, j;
 	uint32_t value;
 	uint32_t *ib1_addr;
-<<<<<<< HEAD
-=======
 	struct kgsl_mem_entry *ent = NULL;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	dump_ib(device, "IB1:", pt_base, base_offset, ib1_base,
 		ib1_size, dump);
 
 	/* fetch virtual address for given IB base */
 	ib1_addr = (uint32_t *)adreno_convertaddr(device, pt_base,
-<<<<<<< HEAD
-		ib1_base, ib1_size*sizeof(uint32_t));
-=======
 		ib1_base, ib1_size*sizeof(uint32_t), &ent);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!ib1_addr)
 		return;
 
@@ -286,13 +267,10 @@ static void dump_ib1(struct kgsl_device *device, phys_addr_t pt_base,
 			++ib_list->count;
 		}
 	}
-<<<<<<< HEAD
-=======
 	if (ent) {
 		kgsl_memdesc_unmap(&ent->memdesc);
 		kgsl_mem_entry_put(ent);
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static void adreno_dump_rb_buffer(struct kgsl_device *device, const void *buf,

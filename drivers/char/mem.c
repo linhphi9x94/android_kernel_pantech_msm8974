@@ -880,11 +880,7 @@ static const struct memdev {
 	 [7] = { "full", 0666, &full_fops, NULL },
 	 [8] = { "random", 0666, &random_fops, NULL },
 	 [9] = { "urandom", 0666, &urandom_fops, NULL },
-<<<<<<< HEAD
-	[11] = { "kmsg", 0, &kmsg_fops, NULL },
-=======
 	[11] = { "kmsg", 0644, &kmsg_fops, NULL },
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_CRASH_DUMP
 	[12] = { "oldmem", 0, &oldmem_fops, NULL },
 #endif

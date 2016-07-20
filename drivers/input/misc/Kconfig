@@ -73,8 +73,6 @@ config INPUT_BMA150
 	  To compile this driver as a module, choose M here: the
 	  module will be called bma150.
 
-<<<<<<< HEAD
-=======
 config INPUT_HBTP_INPUT
 	tristate "HBTP input driver support"
 	help
@@ -83,7 +81,6 @@ config INPUT_HBTP_INPUT
 	  To compile this driver as a module, choose M here: the
 	  module will be called hbtp_input.
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 config INPUT_PCSPKR
 	tristate "PC Speaker support"
 	depends on PCSPKR_PLATFORM

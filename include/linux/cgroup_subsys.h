@@ -72,12 +72,3 @@ SUBSYS(net_prio)
 #endif
 
 /* */
-<<<<<<< HEAD
-
-#ifdef CONFIG_CGROUP_BFQIO
-SUBSYS(bfqio)
-#endif
-
-/* */
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

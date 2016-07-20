@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2011-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2011-2013, 2016, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -113,11 +109,8 @@
 #define SPS_BAM_NO_LOCAL_CLK_GATING (1UL << 5)
 /* Don't enable writeback cancel*/
 #define SPS_BAM_CANCEL_WB           (1UL << 6)
-<<<<<<< HEAD
-=======
 /* Hold memory for BAM DMUX */
 #define SPS_BAM_HOLD_MEM            (1UL << 8)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 
 /* BAM device management flags */

@@ -398,11 +398,7 @@ static int qdss_bind(struct usb_configuration *c, struct usb_function *f)
 	}
 
 	if (gadget_is_dwc3(gadget))
-<<<<<<< HEAD
-	dwc3_tx_fifo_resize_request(qdss->data, true);
-=======
 		dwc3_tx_fifo_resize_request(qdss->data, true);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return 0;
 fail:
@@ -422,11 +418,7 @@ static void qdss_unbind(struct usb_configuration *c, struct usb_function *f)
 	flush_workqueue(qdss->wq);
 
 	if (gadget_is_dwc3(gadget))
-<<<<<<< HEAD
-	dwc3_tx_fifo_resize_request(qdss->data, false);
-=======
 		dwc3_tx_fifo_resize_request(qdss->data, false);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	clear_eps(f);
 	clear_desc(gadget, f);
@@ -845,11 +837,7 @@ void usb_qdss_close(struct usb_qdss_ch *ch)
 	spin_unlock_irqrestore(&d_lock, flags);
 
 	if (gadget_is_dwc3(gadget))
-<<<<<<< HEAD
-	msm_dwc3_restart_usb_session(gadget);
-=======
 		msm_dwc3_restart_usb_session(gadget);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 EXPORT_SYMBOL(usb_qdss_close);
 

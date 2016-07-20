@@ -161,10 +161,7 @@ struct ipv6_devconf {
 	__s32		accept_ra_rt_info_max_plen;
 #endif
 #endif
-<<<<<<< HEAD
-=======
 	__s32		accept_ra_rt_table;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	__s32		proxy_ndp;
 	__s32		accept_source_route;
 #ifdef CONFIG_IPV6_OPTIMISTIC_DAD
@@ -177,10 +174,7 @@ struct ipv6_devconf {
 	__s32		accept_dad;
 	__s32		force_tllao;
 	__s32		accept_ra_prefix_route;
-<<<<<<< HEAD
-=======
 	__s32		accept_ra_mtu;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	void		*sysctl;
 };
 
@@ -223,11 +217,8 @@ enum {
 	DEVCONF_ACCEPT_DAD,
 	DEVCONF_FORCE_TLLAO,
 	DEVCONF_ACCEPT_RA_PREFIX_ROUTE,
-<<<<<<< HEAD
-=======
 	DEVCONF_ACCEPT_RA_RT_TABLE,
 	DEVCONF_ACCEPT_RA_MTU,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	DEVCONF_MAX
 };
 

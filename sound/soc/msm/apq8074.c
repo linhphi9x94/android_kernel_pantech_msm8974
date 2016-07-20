@@ -26,20 +26,13 @@
 #include <sound/pcm.h>
 #include <sound/jack.h>
 #include <sound/q6afe-v2.h>
-<<<<<<< HEAD
-=======
 #include <sound/q6core.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <sound/pcm_params.h>
 #include <asm/mach-types.h>
 #include <mach/subsystem_notif.h>
 #include <mach/socinfo.h>
 
 #include "qdsp6v2/msm-pcm-routing-v2.h"
-<<<<<<< HEAD
-#include "qdsp6v2/q6core.h"
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include "../codecs/wcd9xxx-common.h"
 #include "../codecs/wcd9320.h"
 
@@ -1920,15 +1913,6 @@ static struct snd_soc_dai_link apq8074_common_dai_links[] = {
 	},
 	/* LSM FE */
 	{
-<<<<<<< HEAD
-		.name = "Listen Audio Service",
-		.stream_name = "Listen Audio Service",
-		.cpu_dai_name = "LSM",
-		.platform_name = "msm-lsm-client",
-		.dynamic = 1,
-		.trigger = { SND_SOC_DPCM_TRIGGER_POST,
-			     SND_SOC_DPCM_TRIGGER_POST },
-=======
 		.name = "Listen 1 Audio Service",
 		.stream_name = "Listen 1 Audio Service",
 		.cpu_dai_name = "LSM1",
@@ -1936,7 +1920,6 @@ static struct snd_soc_dai_link apq8074_common_dai_links[] = {
 		.dynamic = 1,
 		.trigger = { SND_SOC_DPCM_TRIGGER_POST,
 				 SND_SOC_DPCM_TRIGGER_POST },
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		.no_host_mode = SND_SOC_DAI_LINK_NO_HOST,
 		.ignore_suspend = 1,
 		.ignore_pmdown_time = 1,
@@ -1944,8 +1927,6 @@ static struct snd_soc_dai_link apq8074_common_dai_links[] = {
 		.codec_name = "snd-soc-dummy",
 		.be_id = MSM_FRONTEND_DAI_LSM1,
 	},
-<<<<<<< HEAD
-=======
 	{
 		.name = "Listen 2 Audio Service",
 		.stream_name = "Listen 2 Audio Service",
@@ -2051,7 +2032,6 @@ static struct snd_soc_dai_link apq8074_common_dai_links[] = {
 		.codec_name = "snd-soc-dummy",
 		.be_id = MSM_FRONTEND_DAI_LSM8,
 	},
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* Backend BT/FM DAI Links */
 	{
 		.name = LPASS_BE_INT_BT_SCO_RX,

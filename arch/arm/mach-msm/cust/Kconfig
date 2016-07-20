@@ -16,11 +16,6 @@ config DEFINE_LIST_EF56S
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
         select PANTECH_SND_BOOTUP_HEADSET_INFO
-<<<<<<< HEAD
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 endif
 
 if MACH_MSM8974_EF59S
@@ -35,11 +30,6 @@ config DEFINE_LIST_EF59S
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
         select PANTECH_SND_BOOTUP_HEADSET_INFO
-<<<<<<< HEAD
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 endif
 
 if MACH_MSM8974_EF59K
@@ -53,11 +43,6 @@ config DEFINE_LIST_EF59K
         select NLS_UTF8
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
-<<<<<<< HEAD
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 endif
 
 if MACH_MSM8974_EF59L
@@ -71,11 +56,6 @@ config DEFINE_LIST_EF59L
         select NLS_UTF8
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
-<<<<<<< HEAD
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 endif
 
 if MACH_MSM8974_EF60S
@@ -90,11 +70,6 @@ config DEFINE_LIST_EF60S
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
         select PANTECH_SND_BOOTUP_HEADSET_INFO
-<<<<<<< HEAD
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 endif
 
 if MACH_MSM8974_EF61K
@@ -108,11 +83,6 @@ config DEFINE_LIST_EF61K
         select NLS_UTF8
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
-<<<<<<< HEAD
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 endif
 
 if MACH_MSM8974_EF62L
@@ -126,11 +96,6 @@ config DEFINE_LIST_EF62L
         select NLS_UTF8
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
-<<<<<<< HEAD
-        select PANTECH_SND_QSOUND
-        select PANTECH_SND_FLAC
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 endif
 
 if MACH_MSM8974_EF63S
@@ -145,11 +110,6 @@ config DEFINE_LIST_EF63S
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
         select PANTECH_SND_BOOTUP_HEADSET_INFO
-<<<<<<< HEAD
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 endif
 
 if MACH_MSM8974_EF63K
@@ -163,11 +123,6 @@ config DEFINE_LIST_EF63K
         select NLS_UTF8
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
-<<<<<<< HEAD
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 endif
 
 if MACH_MSM8974_EF63L
@@ -181,11 +136,6 @@ config DEFINE_LIST_EF63L
         select NLS_UTF8
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
-<<<<<<< HEAD
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 endif
 
 if MACH_MSM8974_EF65S
@@ -200,11 +150,6 @@ config DEFINE_LIST_EF65S
         select PANTECH_SND
         select PANTECH_SND_QCOM_PATCH
         select PANTECH_SND_BOOTUP_HEADSET_INFO
-<<<<<<< HEAD
-        select PANTECH_SND_NXP
-        select PANTECH_SND_FLAC
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 endif
 
 config EV10
@@ -342,18 +287,6 @@ config PANTECH_SND_QCOM_PATCH
 config PANTECH_SND_BOOTUP_HEADSET_INFO
   bool
 
-<<<<<<< HEAD
-config PANTECH_SND_NXP
-  bool
-
-config PANTECH_SND_QSOUND
-  bool
-
-config PANTECH_SND_FLAC
-  bool
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 config PANTECH_GPIO_SLEEP_CONFIG
        bool "PANTECH GPIO SLEEP CONFIG"
        default y
@@ -405,12 +338,9 @@ config PANTECH_SELINUX_DENIAL_LOG
 	default y
 endif
 
-<<<<<<< HEAD
-=======
 config PANTECH_SELINUX_PERMISSIVE_LOG
 	bool     
 	default n
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 config PANTECH_PS_WIFI_COM_PREF_LOGGING
 	depends on WCNSS_CORE

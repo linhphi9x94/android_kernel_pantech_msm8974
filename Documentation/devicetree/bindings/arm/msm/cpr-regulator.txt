@@ -137,9 +137,6 @@ Optional properties:
 				  1 => equal to PVS corner ceiling voltage
 				  2 => equal to slow speed corner ceiling
 				  3 => equal to qcom,vdd-mx-vmax
-<<<<<<< HEAD
-				This is required when vdd-mx-supply is present.
-=======
 				  4 => equal to VDD_APC corner mapped vdd-mx voltage
 				This is required when vdd-mx-supply is present.
 - qcom,vdd-mx-corner-map:	Array of 3 elements which defines the mapping from VDD_APC
@@ -149,7 +146,6 @@ Optional properties:
 				[1] => voltage to set for vdd-mx when VDD_APC is running at NOM corner
 				[2] => voltage to set for vdd-mx when VDD_APC is running at TURBO corner
 				This is required when the qcom,vdd-mx-vmin-method property has a value of 4.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 - qcom,cpr-fuse-redun-bp-cpr-disable:	Redundant bit position of the bit to indicate if CPR should be disable
 - qcom,cpr-fuse-redun-bp-scheme:	Redundant bit position of the bit to indicate if it's a global/local scheme
 					This property is required if cpr-fuse-redun-bp-cpr-disable
@@ -207,24 +203,6 @@ Optional properties:
 - qcom,cpr-uplift-speed-bin:	The speed bin value corresponding to one type of processor which needs to apply the
 				pvs voltage uplift workaround.
 				This is required if cpr-fuse-uplift-disable-sel is present.
-<<<<<<< HEAD
-- qcom,cpr-quot-adjust-table:	Array of triples in which each triple indicates the speed bin of the CPU, the virtual
-				corner to use and the quotient adjustment.
-				The 3 elements in one triple are:
-				[0]: => the speed bin of the CPU.
-				[1]: => the virtual voltage corner to use.
-				[2]: => the quotient adjustment for the corresponding virtual corner.
-				If the speed bin in a triple is equal to the speed bin of the CPU, the adjustment would
-				be subtracted from the quotient value of the voltage corner when the CPU is running at
-				that virtual corner. Each virtual corner value must be in the range 1 to the number of
-				elements in qcom,cpr-corner-map.
-- qcom,cpr-corner-map:		Array of elements of fuse corner value for each virtual corner.
-				The location or 1-based index of an element in the list corresponds to
-				the virtual corner value. For example, the first element in the list is the fuse corner
-				value that virtual corner 1 maps to.
-				This is required if qcom,cpr-quot-adjust-table is present.
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 - qcom,cpr-quotient-adjustment:	Array of three elements of CPR quotient adjustments for each corner.
 				The 3 quotient adjustments with index[0..2] are:
 				[0] => amount to add to the SVS quotient
@@ -233,8 +211,6 @@ Optional properties:
 				If this property is specified, then the quotient adjustment values are added to the target
 				quotient values read from fuses before writing them into the CPR GCNT target control registers.
 				This property can be used to add static margin to the voltage rail managed by the CPR controller.
-<<<<<<< HEAD
-=======
 - vdd-apc-optional-prim-supply:	Present: Regulator of highest priority to supply VDD APC power
 				Not Present: No such regulator.
 - vdd-apc-optional-sec-supply:	Present: Regulator of second highest priority to supply VDD APC power.
@@ -277,7 +253,6 @@ Optional properties:
 				This property is required if qcom,cpr-speed-bin-max-corners is present.
 - mem-acc-supply:		Regulator to vote for the memory accelerator configuration.
 				Not Present: memory accelerator configuration not supported.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 Example:
 	apc_vreg_corner: regulator@f9018000 {
@@ -330,11 +305,8 @@ Example:
 		qcom,cpr-voltage-ceiling = <1050000 1150000 1280000>;
 		qcom,cpr-voltage-floor = <1050000 1050000 1100000>;
 		vdd-apc-supply = <&pm8226_s2>;
-<<<<<<< HEAD
-=======
 		vdd-apc-optional-prim-supply = <&ncp6335d>;
 		vdd-apc-optional-sec-supply = <&fan53555>;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		vdd-mx-supply = <&pm8226_l3_ao>;
 		qcom,vdd-mx-vmax = <1350000>;
 		qcom,vdd-mx-vmin-method = <1>;
@@ -370,12 +342,6 @@ Example:
 		qcom,cpr-uplift-speed-bin = <1>;
 		qcom,speed-bin-fuse-sel = <22 0 3 0>;
 		qcom,cpr-corner-map = <1 1 2 2 3 3 3 3 3 3 3 3>;
-<<<<<<< HEAD
-		qcom,cpr-quot-adjust-table = <1 1 0>, <1 2 0>, <1 3 0>,
-						<1 4 0>, <1 5 450>, <1 6 375>,
-						<1 7 300>, <1 8 225>, <1 9 187>,
-						<1 10 150>, <1 11 75>, <1 12 0>;
-=======
 		qcom,cpr-corner-frequency-map =
 				<1 300000000>,
 				<2 384000000>,
@@ -396,6 +362,5 @@ Example:
 				<2 1 2 4 10>,
 				<5 1 2 4 14>;
 		qcom,cpr-quot-adjust-scaling-factor-max = <650>;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	};
 

@@ -588,8 +588,6 @@ spi_transfer_del(struct spi_transfer *t)
 	list_del(&t->transfer_list);
 }
 
-<<<<<<< HEAD
-=======
 /**
  * spi_message_init_with_transfers - Initialize spi_message and append transfers
  * @m: spi_message to be initialized
@@ -610,7 +608,6 @@ struct spi_transfer *xfers, unsigned int num_xfers)
 		spi_message_add_tail(&xfers[i], m);
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* It's fine to embed message and transaction structures in other data
  * structures so long as you don't free them while they're in use.
  */
@@ -703,8 +700,6 @@ spi_read(struct spi_device *spi, void *buf, size_t len)
 	return spi_sync(spi, &m);
 }
 
-<<<<<<< HEAD
-=======
 /**
  * spi_sync_transfer - synchronous SPI data transfer
  * @spi: device with which data will be exchanged
@@ -729,7 +724,6 @@ spi_sync_transfer(struct spi_device *spi, struct spi_transfer *xfers,
 	return spi_sync(spi, &msg);
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* this copies txbuf and rxbuf data; for small transfers only! */
 extern int spi_write_then_read(struct spi_device *spi,
 		const void *txbuf, unsigned n_tx,

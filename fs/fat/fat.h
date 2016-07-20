@@ -329,12 +329,6 @@ extern int fat_flush_inodes(struct super_block *sb, struct inode *i1,
 /* fat/misc.c */
 extern __printf(3, 4) __cold
 void __fat_fs_error(struct super_block *sb, int report, const char *fmt, ...);
-<<<<<<< HEAD
-#define fat_fs_error(sb, fmt, args...)		\
-	__fat_fs_error(sb, 1, fmt , ## args)
-#define fat_fs_error_ratelimit(sb, fmt, args...) \
-	__fat_fs_error(sb, __ratelimit(&MSDOS_SB(sb)->ratelimit), fmt , ## args)
-=======
 #define fat_fs_error_ratelimit(sb, fmt, args...) \
 	__fat_fs_error(sb, __ratelimit(&MSDOS_SB(sb)->ratelimit), fmt , ## args)
 /*
@@ -343,7 +337,6 @@ void __fat_fs_error(struct super_block *sb, int report, const char *fmt, ...);
  * & in some cases leads to watchdog bark.
  */
 #define fat_fs_error(sb, fmt, args...)	fat_fs_error_ratelimit(sb, fmt, ## args)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 __printf(3, 4) __cold
 void fat_msg(struct super_block *sb, const char *level, const char *fmt, ...);
 extern int fat_clusters_flush(struct super_block *sb);

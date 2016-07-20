@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -70,10 +66,7 @@ char *mdss_dsi_buf_init(struct dsi_buf *dp)
 		off = 8 - off;
 	dp->data += off;
 	dp->len = 0;
-<<<<<<< HEAD
-=======
 	dp->read_cnt = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return dp->data;
 }
 
@@ -94,10 +87,7 @@ int mdss_dsi_buf_alloc(struct dsi_buf *dp, int size)
 
 	dp->data = dp->start;
 	dp->len = 0;
-<<<<<<< HEAD
-=======
 	dp->read_cnt = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return size;
 }
 
@@ -586,10 +576,7 @@ int mdss_dsi_short_read1_resp(struct dsi_buf *rp)
 	/* strip out dcs type */
 	rp->data++;
 	rp->len = 1;
-<<<<<<< HEAD
-=======
 	rp->read_cnt -= 3;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rp->len;
 }
 
@@ -601,10 +588,7 @@ int mdss_dsi_short_read2_resp(struct dsi_buf *rp)
 	/* strip out dcs type */
 	rp->data++;
 	rp->len = 2;
-<<<<<<< HEAD
-=======
 	rp->read_cnt -= 2;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rp->len;
 }
 
@@ -613,10 +597,7 @@ int mdss_dsi_long_read_resp(struct dsi_buf *rp)
 	/* strip out dcs header */
 	rp->data += 4;
 	rp->len -= 4;
-<<<<<<< HEAD
-=======
 	rp->read_cnt -= 6;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rp->len;
 }
 

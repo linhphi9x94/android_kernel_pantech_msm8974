@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -29,10 +25,7 @@
 #define DSI_INTR_CMD_MDP_DONE			BIT(8)
 #define DSI_INTR_CMD_DMA_DONE_MASK		BIT(1)
 #define DSI_INTR_CMD_DMA_DONE			BIT(0)
-<<<<<<< HEAD
-=======
 #define DSI_INTR_ALL_MASK			0x2220202
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define DSI_BTA_TERM				BIT(1)
 
@@ -178,11 +171,8 @@
 #define DSI_DSIPHY_BIST_CTRL4			0x049C
 #define DSI_DSIPHY_BIST_CTRL5			0x04A0
 
-<<<<<<< HEAD
-=======
 #define DSI_EN			BIT(0)
 #define DSI_VIDEO_MODE_EN	BIT(1)
 #define DSI_CMD_MODE_EN		BIT(2)
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif /* DSI_HOST_V2_H */

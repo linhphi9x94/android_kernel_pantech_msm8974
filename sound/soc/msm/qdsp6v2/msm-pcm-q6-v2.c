@@ -26,19 +26,13 @@
 #include <sound/initval.h>
 #include <sound/control.h>
 #include <sound/q6audio-v2.h>
-<<<<<<< HEAD
-=======
 #include <sound/timer.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <asm/dma.h>
 #include <linux/dma-mapping.h>
 #include <linux/msm_audio_ion.h>
 
 #include <linux/of_device.h>
-<<<<<<< HEAD
-=======
 #include <sound/tlv.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <sound/pcm_params.h>
 
 #include "msm-pcm-q6-v2.h"
@@ -46,13 +40,10 @@
 
 static struct audio_locks the_locks;
 
-<<<<<<< HEAD
-=======
 #define PCM_MASTER_VOL_MAX_STEPS	0x2000
 static const DECLARE_TLV_DB_LINEAR(msm_pcm_vol_gain, 0,
 				PCM_MASTER_VOL_MAX_STEPS);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct snd_msm {
 	struct snd_card *card;
 	struct snd_pcm *pcm;
@@ -250,8 +241,6 @@ static void event_handler(uint32_t opcode,
 		}
 	}
 	break;
-<<<<<<< HEAD
-=======
 	case RESET_EVENTS:
 		pr_err("%s RESET_EVENTS\n", __func__);
 		prtd->pcm_irq_pos += prtd->pcm_count;
@@ -264,7 +253,6 @@ static void event_handler(uint32_t opcode,
 		wake_up(&the_locks.write_wait);
 		wake_up(&the_locks.read_wait);
 		break;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	default:
 		pr_debug("Not Supported Event opcode[0x%x]\n", opcode);
 		break;
@@ -475,10 +463,7 @@ static int msm_pcm_open(struct snd_pcm_substream *substream)
 
 	prtd->dsp_cnt = 0;
 	prtd->set_channel_map = false;
-<<<<<<< HEAD
-=======
 	prtd->reset_event = false;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	runtime->private_data = prtd;
 
 	return 0;
@@ -501,15 +486,12 @@ static int msm_pcm_playback_copy(struct snd_pcm_substream *substream, int a,
 	fbytes = frames_to_bytes(runtime, frames);
 	pr_debug("%s: prtd->out_count = %d\n",
 				__func__, atomic_read(&prtd->out_count));
-<<<<<<< HEAD
-=======
 
 	if (prtd->reset_event) {
 		pr_err("%s: In SSR return ENETRESET before wait\n", __func__);
 		return -ENETRESET;
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ret = wait_event_timeout(the_locks.write_wait,
 			(atomic_read(&prtd->out_count)), 5 * HZ);
 	if (!ret) {
@@ -517,14 +499,11 @@ static int msm_pcm_playback_copy(struct snd_pcm_substream *substream, int a,
 		goto fail;
 	}
 
-<<<<<<< HEAD
-=======
 	if (prtd->reset_event) {
 		pr_err("%s: In SSR return ENETRESET after wait\n", __func__);
 		return -ENETRESET;
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!atomic_read(&prtd->out_count)) {
 		pr_err("%s: pcm stopped out_count 0\n", __func__);
 		return 0;
@@ -615,26 +594,20 @@ static int msm_pcm_capture_copy(struct snd_pcm_substream *substream,
 	pr_debug("hw_ptr %d\n", (int)runtime->status->hw_ptr);
 	pr_debug("avail_min %d\n", (int)runtime->control->avail_min);
 
-<<<<<<< HEAD
-=======
 	if (prtd->reset_event) {
 		pr_err("%s: In SSR return ENETRESET before wait\n", __func__);
 		return -ENETRESET;
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ret = wait_event_timeout(the_locks.read_wait,
 			(atomic_read(&prtd->in_count)), 5 * HZ);
 	if (!ret) {
 		pr_debug("%s: wait_event_timeout failed\n", __func__);
 		goto fail;
 	}
-<<<<<<< HEAD
-=======
 	if (prtd->reset_event) {
 		pr_err("%s: In SSR return ENETRESET after wait\n", __func__);
 		return -ENETRESET;
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!atomic_read(&prtd->in_count)) {
 		pr_debug("%s: pcm stopped in_count 0\n", __func__);
 		return 0;
@@ -884,8 +857,6 @@ static struct snd_pcm_ops msm_pcm_ops = {
 	.mmap		= msm_pcm_mmap,
 };
 
-<<<<<<< HEAD
-=======
 static int msm_pcm_set_volume(struct msm_audio *prtd, uint32_t volume)
 {
 	int rc = 0;
@@ -974,7 +945,6 @@ static int msm_pcm_add_volume_control(struct snd_soc_pcm_runtime *rtd)
 	return 0;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int msm_pcm_chmap_ctl_put(struct snd_kcontrol *kcontrol,
 				struct snd_ctl_elem_value *ucontrol)
 {
@@ -1061,13 +1031,10 @@ static int msm_asoc_pcm_new(struct snd_soc_pcm_runtime *rtd)
 		__func__, kctl->id.name);
 	kctl->put = msm_pcm_chmap_ctl_put;
 	kctl->get = msm_pcm_chmap_ctl_get;
-<<<<<<< HEAD
-=======
 	ret = msm_pcm_add_volume_control(rtd);
 	if (ret)
 		pr_err("%s: Could not add pcm Volume Control %d\n",
 			__func__, ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return ret;
 }
 

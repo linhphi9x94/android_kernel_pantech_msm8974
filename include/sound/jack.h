@@ -47,12 +47,9 @@ enum snd_jack_types {
 	SND_JACK_OC_HPHL	= 0x0000040,
 	SND_JACK_OC_HPHR	= 0x0000080,
 	SND_JACK_UNSUPPORTED	= 0x0000100,
-<<<<<<< HEAD
-=======
 	SND_JACK_MICROPHONE2    = 0x0000200,
 	SND_JACK_ANC_HEADPHONE = SND_JACK_HEADPHONE | SND_JACK_MICROPHONE |
 				 SND_JACK_MICROPHONE2,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* Kept separate from switches to facilitate implementation */
 	SND_JACK_BTN_0		= 0x4000000,
 	SND_JACK_BTN_1		= 0x2000000,

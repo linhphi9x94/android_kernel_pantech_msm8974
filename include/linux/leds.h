@@ -22,8 +22,6 @@ void qpnp_set_flash_mode(bool on);
 #endif
 
 struct device;
-<<<<<<< HEAD
-=======
 
 //++ p11309 2013.12.01 for Pantech LED & debug
 #if defined(CONFIG_MACH_MSM8974_EF63S) || defined(CONFIG_MACH_MSM8974_EF63K) || defined(CONFIG_MACH_MSM8974_EF63L) || defined(CONFIG_MACH_MSM8974_EF65S)
@@ -50,7 +48,6 @@ struct device;
 #define pan_debug(fmt, args...)
 #endif
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*
  * LED Core
  */

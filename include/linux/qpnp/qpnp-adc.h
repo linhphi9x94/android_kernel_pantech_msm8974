@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -24,10 +20,7 @@
 
 #include <linux/kernel.h>
 #include <linux/list.h>
-<<<<<<< HEAD
-=======
 #include <linux/qpnp-revid.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /**
  * enum qpnp_vadc_channels - QPNP AMUX arbiter channels
  */
@@ -198,10 +191,7 @@ enum qpnp_adc_calib_type {
  * %CHAN_PATH_SCALING2: ratio of {1, 4}
  * %CHAN_PATH_SCALING3: ratio of {1, 6}
  * %CHAN_PATH_SCALING4: ratio of {1, 20}
-<<<<<<< HEAD
-=======
  * %CHAN_PATH_SCALING5: ratio of {1, 8}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  * %CHAN_PATH_NONE: Do not use this pre-scaling ratio type.
  *
  * The pre-scaling is applied for signals to be within the voltage range
@@ -213,10 +203,7 @@ enum qpnp_adc_channel_scaling_param {
 	PATH_SCALING2,
 	PATH_SCALING3,
 	PATH_SCALING4,
-<<<<<<< HEAD
-=======
 	PATH_SCALING5,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	PATH_SCALING_NONE,
 };
 
@@ -853,10 +840,7 @@ struct qpnp_vadc_chan_properties {
 	enum qpnp_adc_meas_timer_2		meas_interval2;
 	enum qpnp_adc_tm_channel_select		tm_channel_select;
 	enum qpnp_state_request			state_request;
-<<<<<<< HEAD
-=======
 	enum qpnp_adc_calib_type		calib_type;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct qpnp_vadc_linear_graph	adc_graph[2];
 };
 
@@ -900,10 +884,7 @@ struct qpnp_adc_amux {
 	enum qpnp_adc_scale_fn_type		adc_scale_fn;
 	enum qpnp_adc_fast_avg_ctl		fast_avg_setup;
 	enum qpnp_adc_hw_settle_time		hw_settle_time;
-<<<<<<< HEAD
-=======
 	enum qpnp_adc_calib_type		calib_type;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 /**
@@ -915,12 +896,8 @@ static const struct qpnp_vadc_scaling_ratio qpnp_vadc_amux_scaling_ratio[] = {
 	{1, 3},
 	{1, 4},
 	{1, 6},
-<<<<<<< HEAD
-	{1, 20}
-=======
 	{1, 20},
 	{1, 8}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 /**
@@ -1028,17 +1005,6 @@ struct qpnp_adc_drv {
  * @chan_prop - Represent the channel properties of the ADC.
  */
 struct qpnp_adc_amux_properties {
-<<<<<<< HEAD
-	uint32_t			amux_channel;
-	uint32_t			decimation;
-	uint32_t			mode_sel;
-	uint32_t			hw_settle_time;
-	uint32_t			fast_avg_setup;
-	enum qpnp_vadc_trigger		trigger_channel;
-	struct qpnp_vadc_chan_properties	chan_prop[0];
-};
-
-=======
 	uint32_t				amux_channel;
 	uint32_t				decimation;
 	uint32_t				mode_sel;
@@ -1060,7 +1026,6 @@ struct qpnp_adc_amux_properties {
 #define QPNP_REV_ID_8941_2_0	9
 
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* Public API */
 #if defined(CONFIG_SENSORS_QPNP_ADC_VOLTAGE)				\
 			|| defined(CONFIG_SENSORS_QPNP_ADC_VOLTAGE_MODULE)
@@ -1416,11 +1381,6 @@ int32_t qpnp_vadc_iadc_sync_complete_request(struct qpnp_vadc_chip *dev,
  * qpnp_vadc_sns_comp_result() - Compensate vbatt readings based on temperature
  * @dev:	Structure device for qpnp vadc
  * @result:	Voltage in uV that needs compensation.
-<<<<<<< HEAD
- */
-int32_t qpnp_vbat_sns_comp_result(struct qpnp_vadc_chip *dev,
-						int64_t *result);
-=======
  * @is_pon_ocv: Whether the reading is from a power on OCV or not
  */
 int32_t qpnp_vbat_sns_comp_result(struct qpnp_vadc_chip *dev,
@@ -1431,7 +1391,6 @@ int32_t qpnp_vbat_sns_comp_result(struct qpnp_vadc_chip *dev,
  * returns internal mapped PMIC number and revision id.
  */
 int qpnp_adc_get_revid_version(struct device *dev);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #else
 static inline int32_t qpnp_vadc_read(struct qpnp_vadc_chip *dev,
 				uint32_t channel,
@@ -1545,11 +1504,8 @@ static inline int32_t qpnp_vadc_iadc_sync_complete_request(
 static inline int32_t qpnp_vbat_sns_comp_result(struct qpnp_vadc_chip *dev,
 						int64_t *result)
 { return -ENXIO; }
-<<<<<<< HEAD
-=======
 static inline int qpnp_adc_get_revid_version(struct device *dev)
 { return -ENXIO; }
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif
 
 /* Public API */

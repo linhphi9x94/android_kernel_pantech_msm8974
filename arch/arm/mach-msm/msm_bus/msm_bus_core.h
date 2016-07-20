@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2011-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2011-2014 The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -86,19 +82,12 @@ struct msm_bus_node_info {
 	unsigned int prio_wr;
 	unsigned int prio1;
 	unsigned int prio0;
-<<<<<<< HEAD
-	u64 th;
-	unsigned int mode_thresh;
-	bool dual_conf;
-	u64 bimc_bw;
-=======
 	unsigned int num_thresh;
 	u64 *th;
 	u64 cur_lim_bw;
 	unsigned int mode_thresh;
 	bool dual_conf;
 	u64 *bimc_bw;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	u32 bimc_gp;
 	u32 bimc_thmp;
 	const char *name;

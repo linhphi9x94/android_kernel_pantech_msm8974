@@ -5,8 +5,6 @@
 #include <linux/clocksource.h>
 #include <asm/errno.h>
 
-<<<<<<< HEAD
-=======
 #define ARCH_TIMER_USR_PCT_ACCESS_EN	(1 << 0) /* physical counter */
 #define ARCH_TIMER_USR_VCT_ACCESS_EN	(1 << 1) /* virtual counter */
 #define ARCH_TIMER_VIRT_EVT_EN		(1 << 2)
@@ -15,7 +13,6 @@
 #define ARCH_TIMER_USR_VT_ACCESS_EN	(1 << 8) /* virtual timer registers */
 #define ARCH_TIMER_USR_PT_ACCESS_EN	(1 << 9) /* physical timer registers */
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct arch_timer {
 	struct resource	res[3];
 };
@@ -24,8 +21,6 @@ struct arch_timer {
 int arch_timer_register(struct arch_timer *);
 int arch_timer_of_register(void);
 cycle_t arch_counter_get_cntpct(void);
-<<<<<<< HEAD
-=======
 
 static inline u32 arch_timer_get_cntkctl(void)
 {
@@ -66,7 +61,6 @@ static inline void arch_timer_evtstrm_enable(int divider)
 	arch_timer_set_cntkctl(cntkctl);
 	elf_hwcap |= HWCAP_EVTSTRM;
 }
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #else
 static inline int arch_timer_register(struct arch_timer *at)
 {

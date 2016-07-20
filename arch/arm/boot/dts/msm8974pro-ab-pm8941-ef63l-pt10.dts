@@ -29,8 +29,6 @@
 	qcom,pad-drv-on = <0x4 0x4 0x4>; /* 10mA, 10mA, 10mA */
 };
 
-<<<<<<< HEAD
-=======
 &ehci {
 	status = "ok";
 	qcom,usb2-enable-uicc;
@@ -38,7 +36,6 @@
 	qcom,vdd-voltage-level = <1 2 3 5 7>;
 };
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 &soc {
 	qcom,mdss_dsi@fd922800 {
 		qcom,dsi-pref-prim-pan = <&dsi_r63311_1080p_video_ef60>;

@@ -71,11 +71,7 @@ void alarm_init(struct alarm *alarm,
 void alarm_start_range(struct alarm *alarm, ktime_t start, ktime_t end);
 int alarm_try_to_cancel(struct alarm *alarm);
 int alarm_cancel(struct alarm *alarm);
-<<<<<<< HEAD
-void set_power_on_alarm(long secs);
-=======
 void set_power_on_alarm(long secs, bool enable);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 ktime_t alarm_get_elapsed_realtime(void);
 
 /* set rtc while preserving elapsed realtime */

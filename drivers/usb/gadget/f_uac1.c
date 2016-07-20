@@ -79,11 +79,7 @@ static int generic_get_cmd(struct usb_audio_control *con, u8 cmd);
 #define F_AUDIO_NUM_INTERFACES		2
 
  /* B.3.1  Standard AC Interface Descriptor */
-<<<<<<< HEAD
-struct usb_interface_descriptor ac_interface_desc = {
-=======
 struct usb_interface_descriptor uac1_ac_interface_desc = {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	.bLength		= USB_DT_INTERFACE_SIZE,
 	.bDescriptorType	= USB_DT_INTERFACE,
 	.bNumEndpoints		= 0,
@@ -100,11 +96,7 @@ struct usb_interface_descriptor uac1_ac_interface_desc = {
 	)
 
  /* B.3.2  Class-Specific AC Interface Descriptor */
-<<<<<<< HEAD
-struct uac1_ac_header_descriptor_2 ac_header_desc = {
-=======
 struct uac1_ac_header_descriptor_2 uac1_ac_header_desc = {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	.bLength		= UAC_DT_AC_HEADER_SIZE(2),
 	.bDescriptorType	= USB_DT_CS_INTERFACE,
 	.bDescriptorSubtype	= UAC_HEADER,
@@ -369,13 +361,8 @@ static struct usb_audio_control_selector microphone_as_iso_in = {
 /*--------------------------------- */
 
 static struct usb_descriptor_header *f_audio_desc[]  = {
-<<<<<<< HEAD
-	(struct usb_descriptor_header *)&ac_interface_desc,
-	(struct usb_descriptor_header *)&ac_header_desc,
-=======
 	(struct usb_descriptor_header *)&uac1_ac_interface_desc,
 	(struct usb_descriptor_header *)&uac1_ac_header_desc,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	(struct usb_descriptor_header *)&microphone_input_terminal_desc,
 	(struct usb_descriptor_header *)&microphone_output_terminal_desc,
@@ -900,15 +887,9 @@ static int f_audio_get_alt(struct usb_function *f, unsigned intf)
 {
 	struct f_audio	*audio = func_to_audio(f);
 
-<<<<<<< HEAD
-	if (intf == ac_header_desc.baInterfaceNr[0])
-		return audio->alt_intf[0];
-	if (intf == ac_header_desc.baInterfaceNr[1])
-=======
 	if (intf == uac1_ac_header_desc.baInterfaceNr[0])
 		return audio->alt_intf[0];
 	if (intf == uac1_ac_header_desc.baInterfaceNr[1])
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return audio->alt_intf[1];
 
 	return 0;
@@ -925,11 +906,7 @@ static int f_audio_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
 
 	pr_debug("intf %d, alt %d\n", intf, alt);
 
-<<<<<<< HEAD
-	if (intf == ac_header_desc.baInterfaceNr[0]) {
-=======
 	if (intf == uac1_ac_header_desc.baInterfaceNr[0]) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (alt == 1) {
 			err = usb_ep_enable(in_ep);
 			if (err) {
@@ -976,11 +953,7 @@ static int f_audio_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
 			spin_unlock_irqrestore(&audio->capture_lock, flags);
 		}
 		audio->alt_intf[0] = alt;
-<<<<<<< HEAD
-	} else if (intf == ac_header_desc.baInterfaceNr[1]) {
-=======
 	} else if (intf == uac1_ac_header_desc.baInterfaceNr[1]) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (alt == 1) {
 			err = usb_ep_enable(out_ep);
 			if (err) {
@@ -1098,11 +1071,7 @@ f_audio_bind(struct usb_configuration *c, struct usb_function *f)
 		pr_err("%s: failed to allocate desc interface", __func__);
 		goto fail;
 	}
-<<<<<<< HEAD
-	ac_interface_desc.bInterfaceNumber = status;
-=======
 	uac1_ac_interface_desc.bInterfaceNumber = status;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	status = -ENOMEM;
 
@@ -1113,11 +1082,7 @@ f_audio_bind(struct usb_configuration *c, struct usb_function *f)
 	}
 	microphone_as_interface_alt_0_desc.bInterfaceNumber = status;
 	microphone_as_interface_alt_1_desc.bInterfaceNumber = status;
-<<<<<<< HEAD
-	ac_header_desc.baInterfaceNr[0] = status;
-=======
 	uac1_ac_header_desc.baInterfaceNr[0] = status;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	audio->alt_intf[0] = 0;
 
 	status = -ENODEV;
@@ -1129,11 +1094,7 @@ f_audio_bind(struct usb_configuration *c, struct usb_function *f)
 	}
 	speaker_as_interface_alt_0_desc.bInterfaceNumber = status;
 	speaker_as_interface_alt_1_desc.bInterfaceNumber = status;
-<<<<<<< HEAD
-	ac_header_desc.baInterfaceNr[1] = status;
-=======
 	uac1_ac_header_desc.baInterfaceNr[1] = status;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	audio->alt_intf[1] = 0;
 
 	status = -ENODEV;

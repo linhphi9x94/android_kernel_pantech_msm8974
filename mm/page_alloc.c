@@ -658,11 +658,8 @@ static void free_pcppages_bulk(struct zone *zone, int count,
 	int migratetype = 0;
 	int batch_free = 0;
 	int to_free = count;
-<<<<<<< HEAD
-=======
 	int free = 0;
 	int cma_free = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int mt = 0;
 
 	spin_lock(&zone->lock);
@@ -693,19 +690,6 @@ static void free_pcppages_bulk(struct zone *zone, int count,
 		do {
 			page = list_entry(list->prev, struct page, lru);
 			mt = get_pageblock_migratetype(page);
-<<<<<<< HEAD
-			/* must delete as __free_one_page list manipulates */
-			list_del(&page->lru);
-			/* MIGRATE_MOVABLE list may include MIGRATE_RESERVEs */
-			__free_one_page(page, zone, 0, page_private(page));
-			trace_mm_page_pcpu_drain(page, 0, page_private(page));
-			if (is_migrate_cma(mt))
-				__mod_zone_page_state(zone,
-				NR_FREE_CMA_PAGES, 1);
-		} while (--to_free && --batch_free && !list_empty(list));
-	}
-	__mod_zone_page_state(zone, NR_FREE_PAGES, count);
-=======
 			if (likely(mt != MIGRATE_ISOLATE))
 				mt = page_private(page);
 
@@ -723,7 +707,6 @@ static void free_pcppages_bulk(struct zone *zone, int count,
 	}
 	__mod_zone_page_state(zone, NR_FREE_PAGES, free);
 	__mod_zone_page_state(zone, NR_FREE_CMA_PAGES, cma_free);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	spin_unlock(&zone->lock);
 }
 
@@ -1058,8 +1041,6 @@ static void change_pageblock_range(struct page *pageblock_page,
 	}
 }
 
-<<<<<<< HEAD
-=======
 /*
  * If breaking a large block of pages, move all free pages to the preferred
  * allocation list. If falling back for a reclaimable kernel allocation, be
@@ -1106,7 +1087,6 @@ static int try_to_steal_freepages(struct zone *zone, struct page *page,
 	return fallback_type;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* Remove an element from the buddy allocator from the fallback list */
 static inline struct page *
 __rmqueue_fallback(struct zone *zone, int order, int start_migratetype)
@@ -1114,11 +1094,7 @@ __rmqueue_fallback(struct zone *zone, int order, int start_migratetype)
 	struct free_area * area;
 	int current_order;
 	struct page *page;
-<<<<<<< HEAD
-	int migratetype, i;
-=======
 	int migratetype, new_type, i;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/* Find the largest possible block of pages in the other list */
 	for (current_order = MAX_ORDER-1; current_order >= order;
@@ -1138,53 +1114,14 @@ __rmqueue_fallback(struct zone *zone, int order, int start_migratetype)
 					struct page, lru);
 			area->nr_free--;
 
-<<<<<<< HEAD
-			/*
-			 * If breaking a large block of pages, move all free
-			 * pages to the preferred allocation list. If falling
-			 * back for a reclaimable kernel allocation, be more
-			 * aggressive about taking ownership of free pages
-			 *
-			 * On the other hand, never change migration
-			 * type of MIGRATE_CMA pageblocks nor move CMA
-			 * pages on different free lists. We don't
-			 * want unmovable pages to be allocated from
-			 * MIGRATE_CMA areas.
-			 */
-			if (!is_migrate_cma(migratetype) &&
-			    (unlikely(current_order >= pageblock_order / 2) ||
-			     start_migratetype == MIGRATE_RECLAIMABLE ||
-			     page_group_by_mobility_disabled)) {
-				int pages;
-				pages = move_freepages_block(zone, page,
-								start_migratetype);
-
-				/* Claim the whole block if over half of it is free */
-				if (pages >= (1 << (pageblock_order-1)) ||
-						page_group_by_mobility_disabled)
-					set_pageblock_migratetype(page,
-								start_migratetype);
-
-				migratetype = start_migratetype;
-			}
-=======
 			new_type = try_to_steal_freepages(zone, page,
 							  start_migratetype,
 							  migratetype);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 			/* Remove the page from the freelists */
 			list_del(&page->lru);
 			rmv_page_order(page);
 
-<<<<<<< HEAD
-			/* Take ownership for orders >= pageblock_order */
-			if (current_order >= pageblock_order &&
-			    !is_migrate_cma(migratetype))
-				change_pageblock_range(page, current_order,
-							start_migratetype);
-
-=======
 			/*
 			 * Borrow the excess buddy pages as well, irrespective
 			 * of whether we stole freepages, or took ownership of
@@ -1193,17 +1130,12 @@ __rmqueue_fallback(struct zone *zone, int order, int start_migratetype)
 			 * Exception: When borrowing from MIGRATE_CMA, release
 			 * the excess buddy pages to CMA itself.
 			 */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			expand(zone, page, order, current_order, area,
 			       is_migrate_cma(migratetype)
 			     ? migratetype : start_migratetype);
 
 			trace_mm_page_alloc_extfrag(page, order, current_order,
-<<<<<<< HEAD
-				start_migratetype, migratetype);
-=======
 				start_migratetype, new_type);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 			return page;
 		}

@@ -69,10 +69,7 @@ struct msm_audio {
 
 	int abort; /* set when error, like sample rate mismatch */
 
-<<<<<<< HEAD
-=======
         bool reset_event;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int enabled;
 	int close_ack;
 	int cmd_ack;

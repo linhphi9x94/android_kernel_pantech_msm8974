@@ -139,13 +139,9 @@ static long media_device_enum_links(struct media_device *mdev,
 		unsigned int p;
 
 		for (p = 0; p < entity->num_pads; p++) {
-<<<<<<< HEAD
-			struct media_pad_desc pad = {0};
-=======
 			struct media_pad_desc pad;
 
 			memset(&pad, 0, sizeof(pad));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			media_device_kpad_to_upad(&entity->pads[p], &pad);
 			if (copy_to_user(&links.pads[p], &pad, sizeof(pad)))
 				return -EFAULT;
@@ -163,10 +159,7 @@ static long media_device_enum_links(struct media_device *mdev,
 			if (entity->links[l].source->entity != entity)
 				continue;
 
-<<<<<<< HEAD
-=======
 			memset(&link, 0, sizeof(link));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			media_device_kpad_to_upad(entity->links[l].source,
 						  &link.source);
 			media_device_kpad_to_upad(entity->links[l].sink,

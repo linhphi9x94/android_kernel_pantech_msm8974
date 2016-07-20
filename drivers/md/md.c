@@ -5413,15 +5413,9 @@ static int get_bitmap_file(struct mddev * mddev, void __user * arg)
 	int err = -ENOMEM;
 
 	if (md_allow_write(mddev))
-<<<<<<< HEAD
-		file = kmalloc(sizeof(*file), GFP_NOIO);
-	else
-		file = kmalloc(sizeof(*file), GFP_KERNEL);
-=======
 		file = kzalloc(sizeof(*file), GFP_NOIO);
 	else
 		file = kzalloc(sizeof(*file), GFP_KERNEL);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (!file)
 		goto out;

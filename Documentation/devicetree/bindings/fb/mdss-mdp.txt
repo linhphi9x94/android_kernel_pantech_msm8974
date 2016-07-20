@@ -27,8 +27,6 @@ Required properties
 				to the respective VIG pipes. Number of xin ids
 				defined should match the number of offsets
 				defined in property: qcom,mdss-pipe-vig-off
-<<<<<<< HEAD
-=======
 - qcom,mdss-pipe-vig-clk-ctrl-off: Array of offsets describing clk control
 				offsets for dynamic clock gating. 1st value
 				in the array represents offset of the control
@@ -37,7 +35,6 @@ Required properties
 				offset within status register. Number of tuples
 				defined should match the number of offsets
 				defined in property: qcom,mdss-pipe-vig-off
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 - qcom,mdss-pipe-rgb-off:	Array of offsets for MDP source surface pipes of
 				type RGB, the offsets are calculated from
 				register "mdp_phys" defined in reg property.
@@ -53,8 +50,6 @@ Required properties
 				to the respective RGB pipes. Number of xin ids
 				defined should match the number of offsets
 				defined in property: qcom,mdss-pipe-rgb-off
-<<<<<<< HEAD
-=======
 - qcom,mdss-pipe-rgb-clk-ctrl-off: Array of offsets describing clk control
 				offsets for dynamic clock gating. 1st value
 				in the array represents offset of the control
@@ -63,7 +58,6 @@ Required properties
 				offset within status register. Number of tuples
 				defined should match the number of offsets
 				defined in property: qcom,mdss-pipe-rgb-off
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 - qcom,mdss-pipe-dma-off:	Array of offsets for MDP source surface pipes of
 				type DMA, the offsets are calculated from
 				register "mdp_phys" defined in reg property.
@@ -79,8 +73,6 @@ Required properties
 				to the respective DMA pipes. Number of xin ids
 				defined should match the number of offsets
 				defined in property: qcom,mdss-pipe-dma-off
-<<<<<<< HEAD
-=======
 - qcom,mdss-pipe-dma-clk-ctrl-off: Array of offsets describing clk control
 				offsets for dynamic clock gating. 1st value
 				in the array represents offset of the control
@@ -89,7 +81,6 @@ Required properties
 				offset within status register. Number of tuples
 				defined should match the number of offsets
 				defined in property: qcom,mdss-pipe-dma-off
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 - qcom,mdss-smp-data:		Array of shared memory pool data. There should
 				be only two values in this property. The first
 				value corresponds to the number of smp blocks
@@ -183,8 +174,6 @@ Bus Scaling Data:
 				bare no logic except for the use-case 0 where ab
 				and ib values needs to be 0.
 
-<<<<<<< HEAD
-=======
 - qcom,mdss-prefill-outstanding-buffer-bytes: The size of mdp outstanding buffer
 				in bytes. The buffer is filled during prefill
 				time and the buffer size shall be included in
@@ -225,7 +214,6 @@ Bus Scaling Data:
 				is determined by the line width, bytes per pixel and
 				scaling ratio, this number shall be included in prefill bandwidth
 				calculation.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 Optional properties:
 - vdd-cx-supply :	Phandle for vdd CX regulator device node.
 - batfet-supply :	Phandle for battery FET regulator device node.
@@ -258,11 +246,8 @@ Optional properties:
 - qcom,mdss-has-wfd-blk: Boolean property to indicate the presence of dedicated
 			writeback wfd block in MDSS as opposed to writeback
 			block that is shared between rotator and wfd.
-<<<<<<< HEAD
-=======
 - qcom,mdss-no-lut-read: 	Boolean property to indicate reading of LUT is
 				not supported.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 - qcom,mdss-smp-mb-per-pipe:	Maximum number of shared memory pool blocks
 				restricted for a source surface pipe. If this
 				property is not specified, no such restriction
@@ -284,8 +269,6 @@ Optional properties:
 				applied in scenarios where panel interface can
 				be more tolerant to memory latency such as
 				command mode panels.
-<<<<<<< HEAD
-=======
 - qcom,mdss-rotator-ot-limit:	This integer value indicates maximum number of pending
 				writes that can be allowed from rotator client. Default
 				value is 16 which is the maximum. This value can be
@@ -323,7 +306,6 @@ Fudge Factors:			Fudge factors are used to boost demand for
 				linear format. The value tells the GPU highest memory
 				 bank bit used.
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 Optional subnodes:
 Child nodes representing the frame buffer virtual devices.
 
@@ -382,8 +364,6 @@ Example:
 			<22 512 0 6400000>, <23 512 0 6400000>,
 			<22 512 0 6400000>, <23 512 0 6400000>;
 
-<<<<<<< HEAD
-=======
 		/* Fudge factors */
 		qcom,mdss-ab-factor = <2 1>;		/* 2 times    */
 		qcom,mdss-ib-factor = <3 2>;		/* 1.5 times  */
@@ -392,7 +372,6 @@ Example:
 		/* Clock levels */
 		qcom,mdss-clk-levels = <92310000, 177780000, 200000000>;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		qcom,max-clk-rate = <320000000>;
 		qcom,vbif-settings = <0x0004 0x00000001>,
 				     <0x00D8 0x00000707>;
@@ -417,17 +396,12 @@ Example:
 
 		qcom,mdss-smp-data = <22 4096>;
 		qcom,mdss-rot-block-size = <64>;
-<<<<<<< HEAD
-=======
 		qcom,mdss-rotator-ot-limit = <2>;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		qcom,mdss-smp-mb-per-pipe = <2>;
 		qcom,mdss-pref-prim-intf = "dsi";
 		qcom,mdss-has-bwc;
 		qcom,mdss-has-decimation;
 		qcom,mdss-has-wfd-blk;
-<<<<<<< HEAD
-=======
 		qcom,mdss-no-lut-read;
 
 		qcom,mdss-pipe-vig-clk-ctrl-offsets = <0x3AC 0 0>,
@@ -442,7 +416,6 @@ Example:
 
 		qcom,mdss-pipe-dma-clk-ctrl-offsets = <0x3AC 8 12>,
 						      <0x3B4 8 12>;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		qcom,mdss-ctl-off = <0x00000600 0x00000700 0x00000800
 				     0x00000900 0x0000A00>;
@@ -456,8 +429,6 @@ Example:
 		qcom,mdss-intf-off = <0x00021100 0x00021300
 					   0x00021500 0x00021700>;
 
-<<<<<<< HEAD
-=======
 		/* buffer parameters to calculate prefill bandwidth */
 		qcom,mdss-prefill-outstanding-buffer-bytes = <1024>;
 		qcom,mdss-prefill-y-buffer-bytes = <4096>;
@@ -467,7 +438,6 @@ Example:
 		qcom,mdss-prefill-pingpong-buffer-pixels = <5120>;
 		qcom,mdss-prefill-fbc-lines = <2>;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		mdss_fb0: qcom,mdss_fb_primary {
 			cell-index = <0>;
 			compatible = "qcom,mdss-fb";

@@ -52,10 +52,7 @@ struct msm_rpm_log_buffer {
 	char *data;
 	u32 len;
 	u32 pos;
-<<<<<<< HEAD
-=======
 	struct mutex mutex;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	u32 max_len;
 	u32 read_idx;
 	struct msm_rpm_log_platform_data *pdata;
@@ -222,10 +219,7 @@ static ssize_t msm_rpm_log_file_read(struct file *file, char __user *bufu,
 	if (!access_ok(VERIFY_WRITE, bufu, count))
 		return -EFAULT;
 
-<<<<<<< HEAD
-=======
 	mutex_lock(&buf->mutex);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* check for more messages if local buffer empty */
 	if (buf->pos == buf->len) {
 		buf->pos = 0;
@@ -233,15 +227,10 @@ static ssize_t msm_rpm_log_file_read(struct file *file, char __user *bufu,
 						&(buf->read_idx));
 	}
 
-<<<<<<< HEAD
-	if ((file->f_flags & O_NONBLOCK) && buf->len == 0)
-		return -EAGAIN;
-=======
 	if ((file->f_flags & O_NONBLOCK) && buf->len == 0) {
 		mutex_unlock(&buf->mutex);
 		return -EAGAIN;
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/* loop until new messages arrive */
 	while (buf->len == 0) {
@@ -256,10 +245,7 @@ static ssize_t msm_rpm_log_file_read(struct file *file, char __user *bufu,
 
 	remaining = __copy_to_user(bufu, &(buf->data[buf->pos]), out_len);
 	buf->pos += out_len - remaining;
-<<<<<<< HEAD
-=======
 	mutex_unlock(&buf->mutex);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return out_len - remaining;
 }
@@ -306,10 +292,7 @@ static int msm_rpm_log_file_open(struct inode *inode, struct file *file)
 	buf->pdata = pdata;
 	buf->len = 0;
 	buf->pos = 0;
-<<<<<<< HEAD
-=======
 	mutex_init(&buf->mutex);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	buf->max_len = PRINTED_LENGTH(pdata->log_len);
 	buf->read_idx = msm_rpm_log_read(pdata, MSM_RPM_LOG_PAGE_INDICES,
 					 MSM_RPM_LOG_HEAD);

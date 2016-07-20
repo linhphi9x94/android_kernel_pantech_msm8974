@@ -438,10 +438,7 @@ struct pt_bq2419x_chg_chip {
 #endif
 	unsigned int		revision;
 	unsigned int		bq2419x_irq;
-<<<<<<< HEAD
-=======
 	unsigned int		vin_irq;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	unsigned int		current_max;
 	unsigned int		update_time;
 	unsigned int		rcomp;
@@ -453,10 +450,7 @@ struct pt_bq2419x_chg_chip {
 	int				batt_temp;
 	int				host_mode;
 	int				user_iinlim;
-<<<<<<< HEAD
-=======
 	int				prevent_hiz_step;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	u8				bq2419x_regs[MAX_REG_NUM];
 	u16				chgr_base;
 	u16				buck_base;
@@ -481,10 +475,7 @@ struct pt_bq2419x_chg_chip {
 	struct notifier_block fb_notif;
 	struct wake_lock		heartbeat_wake_lock;
 	struct wake_lock		chg_wake_lock;
-<<<<<<< HEAD
-=======
 	struct wake_lock		vin_wl;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	enum power_supply_type		chg_type;
 	struct qpnp_chg_regulator	boost_vreg;
 	struct qpnp_chg_irq		batt_pres;
@@ -494,10 +485,7 @@ struct pt_bq2419x_chg_chip {
 	struct power_supply		batt_psy;
 	struct qpnp_adc_tm_btm_param	adc_param;
 	struct delayed_work		update_heartbeat;
-<<<<<<< HEAD
-=======
 	struct delayed_work		prevent_hiz_work;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #if defined(FEATURE_WORKAROUND_NC_CHARGER)
 	struct delayed_work		nc_chg_check_work;
 #endif
@@ -1485,11 +1473,7 @@ set_appropriate_input_current(struct pt_bq2419x_chg_chip *chip, unsigned int uA)
 			mA = (IINLIM_DUMMY_BATT/1000);
 	}
 	else
-<<<<<<< HEAD
-		mA = IINLIM_MIN;
-=======
 		mA = (IINLIM_MIN/1000);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	
 	bq2419x_iinlim_set(chip, mA);
 }
@@ -1617,10 +1601,7 @@ static int bq2419x_vreg_set(struct pt_bq2419x_chg_chip *chip, unsigned int mV)
 
 	return rc;
 }
-<<<<<<< HEAD
-=======
 #endif
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static int is_en_hiz_enabled(struct pt_bq2419x_chg_chip *chip)
 {
@@ -1632,10 +1613,6 @@ static int is_en_hiz_enabled(struct pt_bq2419x_chg_chip *chip)
 	
 	return (rData & BIT(7)) ? 1 : 0 ;	
 }
-<<<<<<< HEAD
-#endif
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define AUTO_RECHARGE_THRESHOLD_SOC		100
 static int can_recharging_start(struct pt_bq2419x_chg_chip *chip, u8 sys_stat)
@@ -2326,8 +2303,6 @@ static void bq2419x_hw_init(struct pt_bq2419x_chg_chip *chip)
 	bq2419x_regs_init(chip);
 }
 
-<<<<<<< HEAD
-=======
 #define CHECK_BEFORE_POWER_GOOD_IRQ	0
 #define CHECK_AFTER_POWER_GOOD_IRQ	1
 
@@ -2371,7 +2346,6 @@ prevent_hiz_mode_work(struct work_struct *work)
 	}
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #if defined(FEATURE_WORKAROUND_NC_CHARGER)
 static void
 non_conforming_chg_check_work(struct work_struct *work)
@@ -2657,8 +2631,6 @@ static irqreturn_t bq2419x_isr(int irq, void *_chip)
 	return IRQ_HANDLED;
 }
 
-<<<<<<< HEAD
-=======
 static irqreturn_t vbus_draw_irq_handler(int irq, void *_chip)
 {
 	struct pt_bq2419x_chg_chip *chip = _chip;
@@ -2668,7 +2640,6 @@ static irqreturn_t vbus_draw_irq_handler(int irq, void *_chip)
 	return IRQ_HANDLED;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static ssize_t bms_input_show_flag(struct device *dev, struct device_attribute *attr, char *buf)
 {
 	int enable;
@@ -3058,11 +3029,7 @@ static void create_testmenu_entries(struct pt_bq2419x_chg_chip *chip)
 	if (!ent) {
 		pr_err("%s: Unable to create /proc/setiinlim entry\n", __func__);
 		return;
-<<<<<<< HEAD
-}
-=======
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ent->read_proc = proc_debug_pm_chg_get_SetIInLim;
 }
 
@@ -3290,11 +3257,7 @@ pt_bq2419x_charger_probe(struct spmi_device *spmi)
 	bq2419x_hw_init(chip);
 
 	get_smem_data(chip);
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	chip->user_iinlim = chip->smem_data->auto_power_on_soc_check;
 	if(chip->user_iinlim < bq2419x_iinlim_val[IINLIM_100MA] || chip->user_iinlim > bq2419x_iinlim_val[IINLIM_3000MA])
 		chip->user_iinlim = bq2419x_iinlim_val[IINLIM_2000MA];
@@ -3319,12 +3282,8 @@ pt_bq2419x_charger_probe(struct spmi_device *spmi)
 	
 	wake_lock_init(&chip->chg_wake_lock, WAKE_LOCK_SUSPEND, "bq2419x_chg");
 	wake_lock_init(&chip->heartbeat_wake_lock, WAKE_LOCK_SUSPEND, "bq2419x_heartbeat");
-<<<<<<< HEAD
-
-=======
 	wake_lock_init(&chip->vin_wl, WAKE_LOCK_SUSPEND, "vbus_draw");
 	
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #if (CONFIG_BOARD_VER >= CONFIG_TP10)
 	INIT_WORK(&chip->pg_irq_work, power_good_irq_work);
 #endif
@@ -3332,12 +3291,8 @@ pt_bq2419x_charger_probe(struct spmi_device *spmi)
 	INIT_WORK(&chip->irq_work, bq2419x_irq_work);
 	INIT_DELAYED_WORK(&chip->update_heartbeat,
 			update_heartbeat_work);
-<<<<<<< HEAD
-	
-=======
 	INIT_DELAYED_WORK(&chip->prevent_hiz_work,
 			prevent_hiz_mode_work);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #if defined(FEATURE_WORKAROUND_NC_CHARGER)
 	INIT_DELAYED_WORK(&chip->nc_chg_check_work,
 			non_conforming_chg_check_work);
@@ -3393,8 +3348,6 @@ pt_bq2419x_charger_probe(struct spmi_device *spmi)
 		goto unregister_batt;
 	}
 
-<<<<<<< HEAD
-=======
 	chip->vin_irq = gpio_to_irq(chip->vin_gpio);
 	rc = request_irq(chip->vin_irq, vbus_draw_irq_handler, 
 			IRQF_TRIGGER_RISING |IRQF_TRIGGER_FALLING, "vin_int", chip);
@@ -3403,7 +3356,6 @@ pt_bq2419x_charger_probe(struct spmi_device *spmi)
 		goto unregister_batt;
 	}
 	
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #if (CONFIG_BOARD_VER >= CONFIG_TP10)
 	chip->cable_present = (gpio_get_value(chip->pg_gpio)) ? 0 : 1;
 #else
@@ -3464,10 +3416,7 @@ static int pt_bq2419x_chg_resume(struct device *dev)
 	struct pt_bq2419x_chg_chip *chip = dev_get_drvdata(dev);
 	int rc = 0;
 
-<<<<<<< HEAD
-=======
 	disable_irq_wake(chip->vin_irq);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #if (CONFIG_BOARD_VER >= CONFIG_TP10)
 	disable_irq_wake(chip->pw_good_irq);
 #else
@@ -3510,12 +3459,8 @@ static int pt_bq2419x_chg_suspend(struct device *dev)
 #else
 	enable_irq_wake(chip->bq2419x_irq);
 #endif
-<<<<<<< HEAD
-	
-=======
 	enable_irq_wake(chip->vin_irq);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rc;
 }
 

@@ -396,8 +396,6 @@ config BATTERY_BQ27520
 	help
 	  Say Y here to enable support for batteries with BQ27520 (I2C) chips.
 
-<<<<<<< HEAD
-=======
 config SMB358_CHARGER
 	tristate "SMB358 Battery Charger"
 	depends on I2C
@@ -409,7 +407,6 @@ config SMB358_CHARGER
 	  The driver reports the charger status via the power supply framework.
 	  A charger status change triggers an IRQ via the device STAT pin.
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 config BQ27520_TEST_ENABLE
 	bool "Enable BQ27520 Fuel Gauge Chip Test"
 	depends on BATTERY_BQ27520

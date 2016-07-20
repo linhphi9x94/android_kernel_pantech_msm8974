@@ -4,10 +4,6 @@ xipImage
 bootpImage
 uImage
 *.dtb
-<<<<<<< HEAD
-zImage-dtb
-=======
 zImage-dtb
 dt.img
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

@@ -88,11 +88,8 @@
 				00 FF FF FF FF FF FF FF 00 00
 				00 FF FF FF FF FF FF FF FF FF
 				F8 FF FF FF E4 01];
-<<<<<<< HEAD
-=======
 			goodix,have-touch-key;
 			goodix,driver-send-cfg;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		};
 	};
 	gen-vkeys {
@@ -186,8 +183,6 @@
 &dsi_otm8018b_fwvga_vid {
 	qcom,cont-splash-enabled;
 };
-<<<<<<< HEAD
-=======
 
 &sdhc_2 {
         qcom,nonremovable;
@@ -199,4 +194,3 @@
         /delete-property/ cd-gpios;
 };
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

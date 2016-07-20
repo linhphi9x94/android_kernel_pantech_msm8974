@@ -20,10 +20,7 @@
 #include <linux/input.h>
 #include <linux/uaccess.h>
 #include <linux/time.h>
-<<<<<<< HEAD
-=======
 #include <linux/kmemleak.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <asm/mach-types.h>
 #include <sound/apr_audio.h>
 #include <mach/qdsp6v2/usf.h>
@@ -31,13 +28,8 @@
 #include "usfcdev.h"
 
 /* The driver version*/
-<<<<<<< HEAD
-#define DRV_VERSION "1.6.1"
-#define USF_VERSION_ID 0x0161
-=======
 #define DRV_VERSION "1.7.1"
 #define USF_VERSION_ID 0x0171
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /* Standard timeout in the asynchronous ops */
 #define USF_TIMEOUT_JIFFIES (1*HZ) /* 1 sec */
@@ -45,11 +37,8 @@
 /* Undefined USF device */
 #define USF_UNDEF_DEV_ID 0xffff
 
-<<<<<<< HEAD
-=======
 /* TX memory mapping flag */
 #define USF_VM_READ 1
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* RX memory mapping flag */
 #define USF_VM_WRITE 2
 
@@ -84,10 +73,7 @@ enum usf_state_type {
 	USF_OPENED_STATE,
 	USF_CONFIGURED_STATE,
 	USF_WORK_STATE,
-<<<<<<< HEAD
-=======
 	USF_ADSP_RESTART_STATE,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	USF_ERROR_STATE
 };
 
@@ -424,8 +410,6 @@ static void usf_rx_cb(uint32_t opcode, uint32_t token,
 	case Q6USM_EVENT_WRITE_DONE:
 		wake_up(&usf_xx->wait);
 		break;
-<<<<<<< HEAD
-=======
 
 	case RESET_EVENTS:
 		pr_err("%s: received RESET_EVENTS\n", __func__);
@@ -433,7 +417,6 @@ static void usf_rx_cb(uint32_t opcode, uint32_t token,
 		wake_up(&usf_xx->wait);
 		break;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	default:
 		break;
 	}
@@ -473,15 +456,12 @@ static void usf_tx_cb(uint32_t opcode, uint32_t token,
 		}
 		break;
 
-<<<<<<< HEAD
-=======
 	case RESET_EVENTS:
 		pr_err("%s: received RESET_EVENTS\n", __func__);
 		usf_xx->usf_state = USF_ADSP_RESTART_STATE;
 		wake_up(&usf_xx->wait);
 		break;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	default:
 		break;
 	}
@@ -593,12 +573,9 @@ static int config_xx(struct usf_xx_type *usf_xx, struct us_xx_info_type *config)
 	if (config->params_data_size > 0) { /* transparent data copy */
 		usf_xx->encdec_cfg.params = kzalloc(config->params_data_size,
 						    GFP_KERNEL);
-<<<<<<< HEAD
-=======
 		/* False memory leak here - pointer in packed struct *
 		* is undetected by kmemleak tool                    */
 		kmemleak_ignore(usf_xx->encdec_cfg.params);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (usf_xx->encdec_cfg.params == NULL) {
 			pr_err("%s: params memory alloc[%d] failure\n",
 				__func__,
@@ -908,13 +885,9 @@ static int usf_set_us_detection(struct usf_type *usf, unsigned long arg)
 	if (detect_info.detect_timeout == USF_INFINITIVE_TIMEOUT) {
 		rc = wait_event_interruptible(usf_xx->wait,
 						(usf_xx->us_detect_type !=
-<<<<<<< HEAD
-						USF_US_DETECT_UNDEF));
-=======
 						USF_US_DETECT_UNDEF) ||
 						(usf_xx->usf_state ==
 						USF_ADSP_RESTART_STATE));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	} else {
 		if (detect_info.detect_timeout == USF_DEFAULT_TIMEOUT)
 			timeout = USF_TIMEOUT_JIFFIES;
@@ -923,10 +896,6 @@ static int usf_set_us_detection(struct usf_type *usf, unsigned long arg)
 	}
 	rc = wait_event_interruptible_timeout(usf_xx->wait,
 					(usf_xx->us_detect_type !=
-<<<<<<< HEAD
-					 USF_US_DETECT_UNDEF),
-					timeout);
-=======
 					USF_US_DETECT_UNDEF) ||
 					(usf_xx->usf_state ==
 					USF_ADSP_RESTART_STATE), timeout);
@@ -935,7 +904,6 @@ static int usf_set_us_detection(struct usf_type *usf, unsigned long arg)
 	if (usf_xx->usf_state == USF_ADSP_RESTART_STATE) {
 		rc = -EFAULT;
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* In the case of timeout, "no US" is assumed */
 	if (rc < 0)
 		pr_err("%s: Getting US detection failed rc[%d]\n",
@@ -1011,8 +979,6 @@ static int usf_set_tx_info(struct usf_type *usf, unsigned long arg)
 		return rc;
 	}
 
-<<<<<<< HEAD
-=======
 	rc = q6usm_us_param_buf_alloc(OUT, usf_xx->usc,
 			config_tx.us_xx_info.max_get_set_param_buf_size);
 	if (rc) {
@@ -1020,7 +986,6 @@ static int usf_set_tx_info(struct usf_type *usf, unsigned long arg)
 		return rc;
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	rc = q6usm_enc_cfg_blk(usf_xx->usc,
 			       &usf_xx->encdec_cfg);
 	if (!rc &&
@@ -1075,8 +1040,6 @@ static int usf_set_rx_info(struct usf_type *usf, unsigned long arg)
 		return rc;
 	}
 
-<<<<<<< HEAD
-=======
 	rc = q6usm_us_param_buf_alloc(IN, usf_xx->usc,
 			config_rx.us_xx_info.max_get_set_param_buf_size);
 	if (rc) {
@@ -1084,7 +1047,6 @@ static int usf_set_rx_info(struct usf_type *usf, unsigned long arg)
 		return rc;
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	rc = q6usm_dec_cfg_blk(usf_xx->usc,
 			       &usf_xx->encdec_cfg);
 	if (rc)
@@ -1328,8 +1290,6 @@ static int usf_get_version(unsigned long arg)
 	return rc;
 } /* usf_get_version */
 
-<<<<<<< HEAD
-=======
 static int usf_set_stream_param(struct usf_xx_type *usf_xx,
 				unsigned long arg, int dir)
 {
@@ -1444,7 +1404,6 @@ static int usf_get_stream_param(struct usf_xx_type *usf_xx,
 	return rc;
 } /* usf_get_stream_param */
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static long usf_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 {
 	int rc = 0;
@@ -1533,12 +1492,8 @@ static long usf_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 
 	case US_STOP_TX: {
 		usf_xx = &usf->usf_tx;
-<<<<<<< HEAD
-		if (usf_xx->usf_state == USF_WORK_STATE)
-=======
 		if ((usf_xx->usf_state == USF_WORK_STATE)
 			|| (usf_xx->usf_state == USF_ADSP_RESTART_STATE))
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			rc = usf_stop_tx(usf);
 		else {
 			pr_err("%s: stop_tx: wrong state[%d]\n",
@@ -1551,12 +1506,8 @@ static long usf_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 
 	case US_STOP_RX: {
 		usf_xx = &usf->usf_rx;
-<<<<<<< HEAD
-		if (usf_xx->usf_state == USF_WORK_STATE)
-=======
 		if ((usf_xx->usf_state == USF_WORK_STATE)
 			|| (usf_xx->usf_state == USF_ADSP_RESTART_STATE))
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			usf_disable(usf_xx);
 		else {
 			pr_err("%s: stop_rx: wrong state[%d]\n",
@@ -1585,8 +1536,6 @@ static long usf_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 		break;
 	} /* US_GET_VERSION */
 
-<<<<<<< HEAD
-=======
 	case US_SET_TX_STREAM_PARAM: {
 		rc = usf_set_stream_param(&usf->usf_tx, arg, OUT);
 		break;
@@ -1607,7 +1556,6 @@ static long usf_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 		break;
 	} /* US_GET_RX_STREAM_PARAM */
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	default:
 		pr_err("%s: unsupported IOCTL command [%d]\n",
 		       __func__,

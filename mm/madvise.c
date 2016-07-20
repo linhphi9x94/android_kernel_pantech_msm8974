@@ -93,12 +93,8 @@ static long madvise_behavior(struct vm_area_struct * vma,
 
 	pgoff = vma->vm_pgoff + ((start - vma->vm_start) >> PAGE_SHIFT);
 	*prev = vma_merge(mm, *prev, start, end, new_flags, vma->anon_vma,
-<<<<<<< HEAD
-				vma->vm_file, pgoff, vma_policy(vma));
-=======
 				vma->vm_file, pgoff, vma_policy(vma),
 				vma_get_anon_name(vma));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (*prev) {
 		vma = *prev;
 		goto success;

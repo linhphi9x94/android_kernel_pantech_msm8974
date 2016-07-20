@@ -345,32 +345,17 @@ static int camera_v4l2_s_fmt_vid_cap_mplane(struct file *filep, void *fh,
 
 		rc = msm_post_event(&event, MSM_POST_EVT_TIMEOUT);
 		if (rc < 0)
-<<<<<<< HEAD
-			goto set_fmt_fail;
-
-		rc = camera_check_event_status(&event);
-		if (rc < 0)
-			goto set_fmt_fail;
-=======
 			return rc;
 
 		rc = camera_check_event_status(&event);
 		if (rc < 0)
 			return rc;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		sp->is_vb2_valid = 1;
 	}
 
 	return rc;
 
-<<<<<<< HEAD
-set_fmt_fail:
-	kzfree(sp->vb2_q.drv_priv);
-	sp->vb2_q.drv_priv = NULL;
-	return rc;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static int camera_v4l2_try_fmt_vid_cap_mplane(struct file *filep, void *fh,

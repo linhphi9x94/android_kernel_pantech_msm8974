@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -55,12 +51,7 @@ struct mdss_mdp_rotator_session {
 	struct work_struct commit_work;
 };
 
-<<<<<<< HEAD
-static inline u32 mdss_mdp_get_rotator_dst_format(u32 in_format, u32 in_rot90,
-	u32 bwc)
-=======
 static inline u32 mdss_mdp_get_rotator_dst_format(u32 in_format, u8 in_rot90)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	switch (in_format) {
 	case MDP_RGB_565:
@@ -69,14 +60,6 @@ static inline u32 mdss_mdp_get_rotator_dst_format(u32 in_format, u8 in_rot90)
 			return MDP_RGB_888;
 		else
 			return in_format;
-<<<<<<< HEAD
-	case MDP_RGBA_8888:
-		if (bwc)
-			return MDP_BGRA_8888;
-		else
-			return in_format;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	case MDP_Y_CBCR_H2V2_VENUS:
 	case MDP_Y_CBCR_H2V2:
 		if (in_rot90)

@@ -1287,20 +1287,6 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list args)
 			break;
 
 		case FORMAT_TYPE_NRCHARS: {
-<<<<<<< HEAD
-			u8 qualifier = spec.qualifier;
-
-			if (qualifier == 'l') {
-				long *ip = va_arg(args, long *);
-				*ip = (str - buf);
-			} else if (_tolower(qualifier) == 'z') {
-				size_t *ip = va_arg(args, size_t *);
-				*ip = (str - buf);
-			} else {
-				int *ip = va_arg(args, int *);
-				*ip = (str - buf);
-			}
-=======
 			/*
 			 * Since %n poses a greater security risk than
 			 * utility, ignore %n and skip its argument.
@@ -1311,7 +1297,6 @@ int vsnprintf(char *buf, size_t size, const char *fmt, va_list args)
 					old_fmt);
 
 			skip_arg = va_arg(args, void *);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			break;
 		}
 

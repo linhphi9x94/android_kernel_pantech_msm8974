@@ -79,15 +79,6 @@ static void		ip6_link_failure(struct sk_buff *skb);
 static void		ip6_rt_update_pmtu(struct dst_entry *dst, u32 mtu);
 
 #ifdef CONFIG_IPV6_ROUTE_INFO
-<<<<<<< HEAD
-static struct rt6_info *rt6_add_route_info(struct net *net,
-					   const struct in6_addr *prefix, int prefixlen,
-					   const struct in6_addr *gwaddr, int ifindex,
-					   unsigned pref);
-static struct rt6_info *rt6_get_route_info(struct net *net,
-					   const struct in6_addr *prefix, int prefixlen,
-					   const struct in6_addr *gwaddr, int ifindex);
-=======
 static struct rt6_info *rt6_add_route_info(struct net_device *dev,
 					   const struct in6_addr *prefix, int prefixlen,
 					   const struct in6_addr *gwaddr,
@@ -95,7 +86,6 @@ static struct rt6_info *rt6_add_route_info(struct net_device *dev,
 static struct rt6_info *rt6_get_route_info(struct net_device *dev,
 					   const struct in6_addr *prefix, int prefixlen,
 					   const struct in6_addr *gwaddr);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif
 
 static u32 *ipv6_cow_metrics(struct dst_entry *dst, unsigned long old)
@@ -585,10 +575,6 @@ static struct rt6_info *rt6_select(struct fib6_node *fn, int oif, int strict)
 int rt6_route_rcv(struct net_device *dev, u8 *opt, int len,
 		  const struct in6_addr *gwaddr)
 {
-<<<<<<< HEAD
-	struct net *net = dev_net(dev);
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct route_info *rinfo = (struct route_info *) opt;
 	struct in6_addr prefix_buf, *prefix;
 	unsigned int pref;
@@ -630,12 +616,7 @@ int rt6_route_rcv(struct net_device *dev, u8 *opt, int len,
 		prefix = &prefix_buf;
 	}
 
-<<<<<<< HEAD
-	rt = rt6_get_route_info(net, prefix, rinfo->prefix_len, gwaddr,
-				dev->ifindex);
-=======
 	rt = rt6_get_route_info(dev, prefix, rinfo->prefix_len, gwaddr);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (rt && !lifetime) {
 		ip6_del_rt(rt);
@@ -643,12 +624,7 @@ int rt6_route_rcv(struct net_device *dev, u8 *opt, int len,
 	}
 
 	if (!rt && lifetime)
-<<<<<<< HEAD
-		rt = rt6_add_route_info(net, prefix, rinfo->prefix_len, gwaddr, dev->ifindex,
-					pref);
-=======
 		rt = rt6_add_route_info(dev, prefix, rinfo->prefix_len, gwaddr, pref);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	else if (rt)
 		rt->rt6i_flags = RTF_ROUTEINFO |
 				 (rt->rt6i_flags & ~RTF_PREF_MASK) | RTF_PREF(pref);
@@ -952,11 +928,8 @@ struct dst_entry * ip6_route_output(struct net *net, const struct sock *sk,
 {
 	int flags = 0;
 
-<<<<<<< HEAD
-=======
 	fl6->flowi6_iif = net->loopback_dev->ifindex;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if ((sk && sk->sk_bound_dev_if) || rt6_need_strict(&fl6->daddr))
 		flags |= RT6_LOOKUP_F_IFACE;
 
@@ -1878,26 +1851,16 @@ static struct rt6_info *ip6_rt_copy(struct rt6_info *ort,
 }
 
 #ifdef CONFIG_IPV6_ROUTE_INFO
-<<<<<<< HEAD
-static struct rt6_info *rt6_get_route_info(struct net *net,
-					   const struct in6_addr *prefix, int prefixlen,
-					   const struct in6_addr *gwaddr, int ifindex)
-=======
 static struct rt6_info *rt6_get_route_info(struct net_device *dev,
 					   const struct in6_addr *prefix, int prefixlen,
 					   const struct in6_addr *gwaddr)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct fib6_node *fn;
 	struct rt6_info *rt = NULL;
 	struct fib6_table *table;
 
-<<<<<<< HEAD
-	table = fib6_get_table(net, RT6_TABLE_INFO);
-=======
 	table = fib6_get_table(dev_net(dev),
 			       addrconf_rt_table(dev, RT6_TABLE_INFO));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!table)
 		return NULL;
 
@@ -1907,11 +1870,7 @@ static struct rt6_info *rt6_get_route_info(struct net_device *dev,
 		goto out;
 
 	for (rt = fn->leaf; rt; rt = rt->dst.rt6_next) {
-<<<<<<< HEAD
-		if (rt->dst.dev->ifindex != ifindex)
-=======
 		if (rt->dst.dev->ifindex != dev->ifindex)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			continue;
 		if ((rt->rt6i_flags & (RTF_ROUTEINFO|RTF_GATEWAY)) != (RTF_ROUTEINFO|RTF_GATEWAY))
 			continue;
@@ -1925,17 +1884,6 @@ out:
 	return rt;
 }
 
-<<<<<<< HEAD
-static struct rt6_info *rt6_add_route_info(struct net *net,
-					   const struct in6_addr *prefix, int prefixlen,
-					   const struct in6_addr *gwaddr, int ifindex,
-					   unsigned pref)
-{
-	struct fib6_config cfg = {
-		.fc_table	= RT6_TABLE_INFO,
-		.fc_metric	= IP6_RT_PRIO_USER,
-		.fc_ifindex	= ifindex,
-=======
 static struct rt6_info *rt6_add_route_info(struct net_device *dev,
 					   const struct in6_addr *prefix, int prefixlen,
 					   const struct in6_addr *gwaddr,
@@ -1945,17 +1893,12 @@ static struct rt6_info *rt6_add_route_info(struct net_device *dev,
 		.fc_table	= addrconf_rt_table(dev, RT6_TABLE_INFO),
 		.fc_metric	= IP6_RT_PRIO_USER,
 		.fc_ifindex	= dev->ifindex,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		.fc_dst_len	= prefixlen,
 		.fc_flags	= RTF_GATEWAY | RTF_ADDRCONF | RTF_ROUTEINFO |
 				  RTF_UP | RTF_PREF(pref),
 		.fc_nlinfo.pid = 0,
 		.fc_nlinfo.nlh = NULL,
-<<<<<<< HEAD
-		.fc_nlinfo.nl_net = net,
-=======
 		.fc_nlinfo.nl_net = dev_net(dev),
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	};
 
 	cfg.fc_dst = *prefix;
@@ -1967,11 +1910,7 @@ static struct rt6_info *rt6_add_route_info(struct net_device *dev,
 
 	ip6_route_add(&cfg);
 
-<<<<<<< HEAD
-	return rt6_get_route_info(net, prefix, prefixlen, gwaddr, ifindex);
-=======
 	return rt6_get_route_info(dev, prefix, prefixlen, gwaddr);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 #endif
 
@@ -1980,12 +1919,8 @@ struct rt6_info *rt6_get_dflt_router(const struct in6_addr *addr, struct net_dev
 	struct rt6_info *rt;
 	struct fib6_table *table;
 
-<<<<<<< HEAD
-	table = fib6_get_table(dev_net(dev), RT6_TABLE_DFLT);
-=======
 	table = fib6_get_table(dev_net(dev),
 			       addrconf_rt_table(dev, RT6_TABLE_MAIN));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!table)
 		return NULL;
 
@@ -2007,11 +1942,7 @@ struct rt6_info *rt6_add_dflt_router(const struct in6_addr *gwaddr,
 				     unsigned int pref)
 {
 	struct fib6_config cfg = {
-<<<<<<< HEAD
-		.fc_table	= RT6_TABLE_DFLT,
-=======
 		.fc_table	= addrconf_rt_table(dev, RT6_TABLE_DFLT),
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		.fc_metric	= IP6_RT_PRIO_USER,
 		.fc_ifindex	= dev->ifindex,
 		.fc_flags	= RTF_GATEWAY | RTF_ADDRCONF | RTF_DEFAULT |
@@ -2028,30 +1959,6 @@ struct rt6_info *rt6_add_dflt_router(const struct in6_addr *gwaddr,
 	return rt6_get_dflt_router(gwaddr, dev);
 }
 
-<<<<<<< HEAD
-void rt6_purge_dflt_routers(struct net *net)
-{
-	struct rt6_info *rt;
-	struct fib6_table *table;
-
-	/* NOTE: Keep consistent with rt6_get_dflt_router */
-	table = fib6_get_table(net, RT6_TABLE_DFLT);
-	if (!table)
-		return;
-
-restart:
-	read_lock_bh(&table->tb6_lock);
-	for (rt = table->tb6_root.leaf; rt; rt = rt->dst.rt6_next) {
-		if (rt->rt6i_flags & (RTF_DEFAULT | RTF_ADDRCONF) &&
-		    (!rt->rt6i_idev || rt->rt6i_idev->cnf.accept_ra != 2)) {
-			dst_hold(&rt->dst);
-			read_unlock_bh(&table->tb6_lock);
-			ip6_del_rt(rt);
-			goto restart;
-		}
-	}
-	read_unlock_bh(&table->tb6_lock);
-=======
 
 int rt6_addrconf_purge(struct rt6_info *rt, void *arg) {
 	if (rt->rt6i_flags & (RTF_DEFAULT | RTF_ADDRCONF) &&
@@ -2063,7 +1970,6 @@ int rt6_addrconf_purge(struct rt6_info *rt, void *arg) {
 void rt6_purge_dflt_routers(struct net *net)
 {
 	fib6_clean_all(net, rt6_addrconf_purge, 0, NULL);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static void rtmsg_to_fib6_config(struct net *net,

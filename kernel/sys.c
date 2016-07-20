@@ -40,12 +40,9 @@
 #include <linux/syscore_ops.h>
 #include <linux/version.h>
 #include <linux/ctype.h>
-<<<<<<< HEAD
-=======
 #include <linux/mm.h>
 #include <linux/mempolicy.h>
 #include <linux/sched.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #include <linux/compat.h>
 #include <linux/syscalls.h>
@@ -1827,8 +1824,6 @@ static int prctl_set_mm(int opt, unsigned long addr,
 }
 #endif
 
-<<<<<<< HEAD
-=======
 
 static int prctl_update_vma_anon_name(struct vm_area_struct *vma,
 		struct vm_area_struct **prev,
@@ -1969,15 +1964,11 @@ static int prctl_set_vma(unsigned long opt, unsigned long start,
 	return error;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
 		unsigned long, arg4, unsigned long, arg5)
 {
 	struct task_struct *me = current;
-<<<<<<< HEAD
-=======
 	struct task_struct *tsk;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	unsigned char comm[sizeof(me->comm)];
 	long error;
 
@@ -2134,8 +2125,6 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
 			error = put_user(me->signal->is_child_subreaper,
 					 (int __user *) arg2);
 			break;
-<<<<<<< HEAD
-=======
 		case PR_SET_VMA:
 			error = prctl_set_vma(arg2, arg3, arg4, arg5);
 			break;
@@ -2159,7 +2148,6 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
 			put_task_struct(tsk);
 			error = 0;
 			break;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		default:
 			error = -EINVAL;
 			break;

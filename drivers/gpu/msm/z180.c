@@ -219,11 +219,7 @@ static irqreturn_t z180_irq_handler(struct kgsl_device *device)
 			count &= 255;
 			z180_dev->timestamp += count;
 
-<<<<<<< HEAD
-			queue_work(device->work_queue, &device->ts_expired_ws);
-=======
 			queue_work(device->work_queue, &device->event_work);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			wake_up_interruptible(&device->wait_queue);
 		}
 	}
@@ -405,17 +401,10 @@ z180_cmdstream_issueibcmds(struct kgsl_device_private *dev_priv,
 	struct kgsl_pagetable *pagetable = dev_priv->process_priv->pagetable;
 	struct z180_device *z180_dev = Z180_DEVICE(device);
 	unsigned int sizedwords;
-<<<<<<< HEAD
-	unsigned int numibs;
-	struct kgsl_ibdesc *ibdesc;
-
-	mutex_lock(&device->mutex);
-=======
 	unsigned int numibs = 0;
 	struct kgsl_memobj_node *ib;
 
 	kgsl_mutex_lock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	result = kgsl_active_count_get(device);
 	if (result)
@@ -426,14 +415,9 @@ z180_cmdstream_issueibcmds(struct kgsl_device_private *dev_priv,
 		goto error;
 	}
 
-<<<<<<< HEAD
-	ibdesc = cmdbatch->ibdesc;
-	numibs = cmdbatch->ibcount;
-=======
 	/* Get the total IBs in the list */
 	list_for_each_entry(ib, &cmdbatch->cmdlist, node)
 		numibs++;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (device->state & KGSL_STATE_HUNG) {
 		result = -EINVAL;
@@ -444,13 +428,8 @@ z180_cmdstream_issueibcmds(struct kgsl_device_private *dev_priv,
 		result = -EINVAL;
 		goto error;
 	}
-<<<<<<< HEAD
-	cmd = ibdesc[0].gpuaddr;
-	sizedwords = ibdesc[0].sizedwords;
-=======
 	cmd = ib->gpuaddr;
 	sizedwords = ib->sizedwords;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/*
 	 * Get a kernel mapping to the IB for monkey patching.
 	 * See the end of this function.
@@ -535,20 +514,12 @@ z180_cmdstream_issueibcmds(struct kgsl_device_private *dev_priv,
 	z180_cmdwindow_write(device, ADDR_VGV3_CONTROL, cmd);
 	z180_cmdwindow_write(device, ADDR_VGV3_CONTROL, 0);
 error:
-<<<<<<< HEAD
-	kgsl_trace_issueibcmds(device, context->id, cmdbatch,
-=======
 	kgsl_trace_issueibcmds(device, context->id, cmdbatch, numibs,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		*timestamp, cmdbatch ? cmdbatch->flags : 0, result, 0);
 
 	kgsl_active_count_put(device);
 error_active_count:
-<<<<<<< HEAD
-	mutex_unlock(&device->mutex);
-=======
 	kgsl_mutex_unlock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return (int)result;
 }
@@ -896,15 +867,9 @@ static int z180_waittimestamp(struct kgsl_device *device,
 
 	status = kgsl_active_count_get(device);
 	if (!status) {
-<<<<<<< HEAD
-		mutex_unlock(&device->mutex);
-		status = z180_wait(device, context, timestamp, msecs);
-		mutex_lock(&device->mutex);
-=======
 		kgsl_mutex_unlock(&device->mutex, &device->mutex_owner);
 		status = z180_wait(device, context, timestamp, msecs);
 		kgsl_mutex_lock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		kgsl_active_count_put(device);
 	}
 

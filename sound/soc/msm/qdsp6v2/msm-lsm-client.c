@@ -284,10 +284,6 @@ static int msm_lsm_close(struct snd_pcm_substream *substream)
 	unsigned long flags;
 	struct snd_pcm_runtime *runtime = substream->runtime;
 	struct lsm_priv *prtd = runtime->private_data;
-<<<<<<< HEAD
-
-	pr_debug("%s\n", __func__);
-=======
 	int ret = 0;
 
 	pr_debug("%s\n", __func__);
@@ -314,7 +310,6 @@ static int msm_lsm_close(struct snd_pcm_substream *substream)
 			pr_debug("%s: dereg_snd_model succesful\n",
 				 __func__);
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	q6lsm_close(prtd->lsm_client);
 	q6lsm_client_free(prtd->lsm_client);

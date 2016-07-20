@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -19,18 +15,6 @@
 
 #include <mach/msm_ipc_logging.h>
 
-<<<<<<< HEAD
-struct ipc_log_page_header {
-	uint32_t magic;
-	uint32_t nmagic; /* inverse of magic number */
-	uint32_t log_id; /* owner of log */
-	uint32_t page_num;
-	uint16_t read_offset;
-	uint16_t write_offset;
-	struct list_head list;
-};
-
-=======
 #define IPC_LOG_VERSION 0x0001
 #define IPC_LOG_MAX_CONTEXT_NAME_LEN 20
 
@@ -81,15 +65,11 @@ struct ipc_log_page_header {
  * Each log consists of 1 to N log pages.  Data size is adjusted to always fit
  * the structure into a single kernel page.
  */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct ipc_log_page {
 	struct ipc_log_page_header hdr;
 	char data[PAGE_SIZE - sizeof(struct ipc_log_page_header)];
 };
 
-<<<<<<< HEAD
-struct ipc_log_context {
-=======
 /**
  * struct ipc_log_context - main logging context
  *
@@ -126,26 +106,18 @@ struct ipc_log_context {
 	char name[IPC_LOG_MAX_CONTEXT_NAME_LEN];
 
 	/* add local data structures after this point */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct list_head list;
 	struct list_head page_list;
 	struct ipc_log_page *first_page;
 	struct ipc_log_page *last_page;
 	struct ipc_log_page *write_page;
 	struct ipc_log_page *read_page;
-<<<<<<< HEAD
-	uint32_t write_avail;
-	struct dentry *dent;
-	struct list_head dfunc_info_list;
-	spinlock_t ipc_log_context_lock;
-=======
 	struct ipc_log_page *nd_read_page;
 
 	uint32_t write_avail;
 	struct dentry *dent;
 	struct list_head dfunc_info_list;
 	spinlock_t context_lock_lhb1;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct completion read_avail;
 };
 
@@ -167,34 +139,13 @@ enum {
 	OUTPUT_DEBUGFS,
 };
 
-<<<<<<< HEAD
-=======
 #define IPC_LOG_CONTEXT_MAGIC_NUM 0x25874452
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define IPC_LOGGING_MAGIC_NUM 0x52784425
 #define MIN(x, y) ((x) < (y) ? (x) : (y))
 #define IS_MSG_TYPE(x) (((x) > TSV_TYPE_MSG_START) && \
 			((x) < TSV_TYPE_MSG_END))
 #define MAX_MSG_DECODED_SIZE (MAX_MSG_SIZE*4)
 
-<<<<<<< HEAD
-extern rwlock_t ipc_log_context_list_lock;
-
-extern int msg_read(struct ipc_log_context *ilctxt,
-		    struct encode_context *ectxt);
-
-static inline int is_ilctxt_empty(struct ipc_log_context *ilctxt)
-{
-	if (!ilctxt)
-		return -EINVAL;
-
-	return ((ilctxt->read_page == ilctxt->write_page) &&
-		(ilctxt->read_page->hdr.read_offset ==
-		 ilctxt->write_page->hdr.write_offset));
-}
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #if (defined(CONFIG_DEBUG_FS))
 void check_and_create_debugfs(void);
 

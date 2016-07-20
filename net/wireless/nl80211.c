@@ -5449,11 +5449,8 @@ static int nl80211_testmode_dump(struct sk_buff *skb,
 	return err;
 }
 
-<<<<<<< HEAD
-=======
 #endif
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct sk_buff *__cfg80211_alloc_event_skb(struct wiphy *wiphy,
 					   enum nl80211_commands cmd,
 					   enum nl80211_attrs attr,
@@ -5501,11 +5498,7 @@ void __cfg80211_send_event_skb(struct sk_buff *skb, gfp_t gfp)
 			nl80211_testmode_mcgrp.id, gfp);
 }
 EXPORT_SYMBOL(__cfg80211_send_event_skb);
-<<<<<<< HEAD
-#endif
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static int nl80211_connect(struct sk_buff *skb, struct genl_info *info)
 {

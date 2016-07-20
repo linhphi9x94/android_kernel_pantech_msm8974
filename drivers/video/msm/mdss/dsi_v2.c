@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -56,8 +52,6 @@ static int dsi_on(struct mdss_panel_data *pdata)
 	return rc;
 }
 
-<<<<<<< HEAD
-=======
 static int dsi_update_pconfig(struct mdss_panel_data *pdata,
 				int mode)
 {
@@ -89,7 +83,6 @@ static int dsi_update_pconfig(struct mdss_panel_data *pdata,
 	return ret;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int dsi_panel_handler(struct mdss_panel_data *pdata, int enable)
 {
 	int rc = 0;
@@ -102,19 +95,6 @@ static int dsi_panel_handler(struct mdss_panel_data *pdata, int enable)
 				panel_data);
 
 	if (enable) {
-<<<<<<< HEAD
-		dsi_ctrl_gpio_request(ctrl_pdata);
-		mdss_dsi_panel_reset(pdata, 1);
-		rc = ctrl_pdata->on(pdata);
-		if (rc)
-			pr_err("dsi_panel_handler panel on failed %d\n", rc);
-	} else {
-		if (dsi_intf.op_mode_config)
-			dsi_intf.op_mode_config(DSI_CMD_MODE, pdata);
-		rc = ctrl_pdata->off(pdata);
-		mdss_dsi_panel_reset(pdata, 0);
-		dsi_ctrl_gpio_free(ctrl_pdata);
-=======
 		if (!pdata->panel_info.dynamic_switch_pending) {
 			if (pdata->panel_info.type == MIPI_CMD_PANEL)
 				dsi_ctrl_gpio_request(ctrl_pdata);
@@ -156,7 +136,6 @@ static int dsi_panel_handler(struct mdss_panel_data *pdata, int enable)
 				dsi_ctrl_gpio_free(ctrl_pdata);
 			mdss_dsi_panel_reset(pdata, 0);
 		}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	return rc;
 }
@@ -218,12 +197,9 @@ static int dsi_event_handler(struct mdss_panel_data *pdata,
 	case MDSS_EVENT_PANEL_CLK_CTRL:
 		rc = dsi_clk_ctrl(pdata, (int)arg);
 		break;
-<<<<<<< HEAD
-=======
 	case MDSS_EVENT_DSI_DYNAMIC_SWITCH:
 		rc = dsi_update_pconfig(pdata, (int)(unsigned long) arg);
 		break;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	default:
 		pr_debug("%s: unhandled event=%d\n", __func__, event);
 		break;
@@ -244,12 +220,8 @@ static int dsi_parse_gpio(struct platform_device *pdev,
 						__func__, __LINE__);
 
 	ctrl_pdata->disp_te_gpio = -1;
-<<<<<<< HEAD
-	if (ctrl_pdata->panel_data.panel_info.mipi.mode == DSI_CMD_MODE) {
-=======
 	if (ctrl_pdata->panel_data.panel_info.mipi.mode == DSI_CMD_MODE ||
 		ctrl_pdata->panel_data.panel_info.mipi.dynamic_switch_enabled) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		ctrl_pdata->disp_te_gpio = of_get_named_gpio(np,
 						"qcom,platform-te-gpio", 0);
 		if (!gpio_is_valid(ctrl_pdata->disp_te_gpio))
@@ -295,56 +267,6 @@ int dsi_ctrl_gpio_request(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
 	int rc = 0;
 
-<<<<<<< HEAD
-	if (gpio_is_valid(ctrl_pdata->disp_en_gpio)) {
-		rc = gpio_request(ctrl_pdata->disp_en_gpio, "disp_enable");
-		if (rc)
-			goto gpio_request_err4;
-
-		ctrl_pdata->disp_en_gpio_requested = 1;
-	}
-
-	if (gpio_is_valid(ctrl_pdata->rst_gpio)) {
-		rc = gpio_request(ctrl_pdata->rst_gpio, "disp_rst_n");
-		if (rc)
-			goto gpio_request_err3;
-
-		ctrl_pdata->rst_gpio_requested = 1;
-	}
-
-	if (gpio_is_valid(ctrl_pdata->disp_te_gpio)) {
-		rc = gpio_request(ctrl_pdata->disp_te_gpio, "disp_te");
-		if (rc)
-			goto gpio_request_err2;
-
-		ctrl_pdata->disp_te_gpio_requested = 1;
-	}
-
-	if (gpio_is_valid(ctrl_pdata->mode_gpio)) {
-		rc = gpio_request(ctrl_pdata->mode_gpio, "panel_mode");
-		if (rc)
-			goto gpio_request_err1;
-
-		ctrl_pdata->mode_gpio_requested = 1;
-	}
-
-	return rc;
-
-gpio_request_err1:
-	if (gpio_is_valid(ctrl_pdata->disp_te_gpio))
-		gpio_free(ctrl_pdata->disp_te_gpio);
-gpio_request_err2:
-	if (gpio_is_valid(ctrl_pdata->rst_gpio))
-		gpio_free(ctrl_pdata->rst_gpio);
-gpio_request_err3:
-	if (gpio_is_valid(ctrl_pdata->disp_en_gpio))
-		gpio_free(ctrl_pdata->disp_en_gpio);
-gpio_request_err4:
-	ctrl_pdata->disp_en_gpio_requested = 0;
-	ctrl_pdata->rst_gpio_requested = 0;
-	ctrl_pdata->disp_te_gpio_requested = 0;
-	ctrl_pdata->mode_gpio_requested = 0;
-=======
 	if (gpio_is_valid(ctrl_pdata->disp_te_gpio)) {
 		rc = gpio_request(ctrl_pdata->disp_te_gpio, "disp_te");
 		if (rc)
@@ -353,34 +275,15 @@ gpio_request_err4:
 			ctrl_pdata->disp_te_gpio_requested = 1;
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rc;
 }
 
 void dsi_ctrl_gpio_free(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
-<<<<<<< HEAD
-	if (ctrl_pdata->disp_en_gpio_requested) {
-		gpio_free(ctrl_pdata->disp_en_gpio);
-		ctrl_pdata->disp_en_gpio_requested = 0;
-	}
-	if (ctrl_pdata->rst_gpio_requested) {
-		gpio_free(ctrl_pdata->rst_gpio);
-		ctrl_pdata->rst_gpio_requested = 0;
-	}
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (ctrl_pdata->disp_te_gpio_requested) {
 		gpio_free(ctrl_pdata->disp_te_gpio);
 		ctrl_pdata->disp_te_gpio_requested = 0;
 	}
-<<<<<<< HEAD
-	if (ctrl_pdata->mode_gpio_requested) {
-		gpio_free(ctrl_pdata->mode_gpio);
-		ctrl_pdata->mode_gpio_requested = 0;
-	}
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static int dsi_parse_vreg(struct device *dev, struct dss_module_power *mp)
@@ -393,11 +296,7 @@ static int dsi_parse_vreg(struct device *dev, struct dss_module_power *mp)
 	if (!dev || !mp) {
 		pr_err("%s: invalid input\n", __func__);
 		rc = -EINVAL;
-<<<<<<< HEAD
-		goto error;
-=======
 		return rc;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	np = dev->of_node;

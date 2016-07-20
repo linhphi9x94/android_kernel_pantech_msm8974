@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2002,2008-2011,2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2002,2008-2011,2013-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -60,8 +56,6 @@
 	} \
 })
 
-<<<<<<< HEAD
-=======
 #define dev_crit_ratelimited(dev, fmt, ...)				\
 	dev_level_ratelimited(dev_crit, dev, fmt, ##__VA_ARGS__)
 
@@ -82,7 +76,6 @@ do {									\
 	} while (0)
 
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define KGSL_DRV_INFO(_dev, fmt, args...) \
 KGSL_LOG_INFO(_dev->dev, _dev->drv_log, fmt, ##args)
 #define KGSL_DRV_WARN(_dev, fmt, args...) \
@@ -91,11 +84,8 @@ KGSL_LOG_WARN(_dev->dev, _dev->drv_log, fmt, ##args)
 KGSL_LOG_ERR(_dev->dev, _dev->drv_log, fmt, ##args)
 #define KGSL_DRV_CRIT(_dev, fmt, args...) \
 KGSL_LOG_CRIT(_dev->dev, _dev->drv_log, fmt, ##args)
-<<<<<<< HEAD
-=======
 #define KGSL_DRV_CRIT_RATELIMIT(_dev, fmt, args...) \
 KGSL_LOG_CRIT_RATELIMITED(_dev->dev, _dev->drv_log, fmt, ##args)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define KGSL_CMD_INFO(_dev, fmt, args...) \
 KGSL_LOG_INFO(_dev->dev, _dev->cmd_log, fmt, ##args)

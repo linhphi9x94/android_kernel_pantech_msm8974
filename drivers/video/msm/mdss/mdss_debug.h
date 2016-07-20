@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -18,21 +14,13 @@
 #ifndef MDSS_DEBUG_H
 #define MDSS_DEBUG_H
 
-<<<<<<< HEAD
-#include "mdss.h"
-=======
 #include <stdarg.h>
 #include "mdss.h"
 #include "mdss_mdp_trace.h"
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define MISR_POLL_SLEEP		2000
 #define MISR_POLL_TIMEOUT	32000
 #define MISR_CRC_BATCH_CFG	0x101
-<<<<<<< HEAD
-
-#ifdef CONFIG_DEBUG_FS
-=======
 #define DATA_LIMITER (-1)
 #define XLOG_TOUT_DATA_LIMITER (NULL)
 #define XLOG_FUNC_ENTRY	0x1111
@@ -76,7 +64,6 @@ struct mdss_debug_data {
 	struct debug_log logd;
 };
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int mdss_debugfs_init(struct mdss_data_type *mdata);
 int mdss_debugfs_remove(struct mdss_data_type *mdata);
 int mdss_debug_register_base(const char *name, void __iomem *base,
@@ -86,8 +73,6 @@ int mdss_misr_set(struct mdss_data_type *mdata, struct mdp_misr *req,
 int mdss_misr_get(struct mdss_data_type *mdata, struct mdp_misr *resp,
 			struct mdss_mdp_ctl *ctl);
 void mdss_misr_crc_collect(struct mdss_data_type *mdata, int block_id);
-<<<<<<< HEAD
-=======
 
 int mdss_create_xlog_debug(struct mdss_debug_data *mdd);
 void mdss_xlog(const char *name, ...);
@@ -95,7 +80,6 @@ void mdss_xlog_dump(void);
 void mdss_dump_reg(char __iomem *base, int len);
 void mdss_dsi_debug_check_te(struct mdss_panel_data *pdata);
 void mdss_xlog_tout_handler(const char *name, ...);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #else
 static inline int mdss_debugfs_init(struct mdss_data_type *mdata) { return 0; }
 static inline int mdss_debugfs_remove(struct mdss_data_type *mdata)
@@ -112,8 +96,6 @@ static inline int mdss_misr_get(struct mdss_data_type *mdata,
 { return 0; }
 static inline void mdss_misr_crc_collect(struct mdss_data_type *mdata,
 						int block_id) { }
-<<<<<<< HEAD
-=======
 
 static inline int create_xlog_debug(struct mdss_data_type *mdata) { }
 static inline void mdss_xlog(const char *name, ...) { }
@@ -121,6 +103,5 @@ static inline void mdss_xlog_dump(void) { }
 static inline void mdss_dump_reg(char __iomem *base, int len) { }
 static inline void mdss_dsi_debug_check_te(struct mdss_panel_data *pdata) { }
 static inline void mdss_xlog_tout_handler(const char *name, ...) { }
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif
 #endif /* MDSS_DEBUG_H */

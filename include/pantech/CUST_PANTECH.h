@@ -80,25 +80,18 @@
 /*******************************************************************************
 **  SENSOR LS2
 *******************************************************************************/
-<<<<<<< HEAD
-#include "CUST_PANTECH_SENSOR.h"  
-=======
 #include "CUST_PANTECH_SENSOR.h"
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*******************************************************************************
 **  Display
 *******************************************************************************/
 #include "CUST_PANTECH_DISPLAY.h"
 
 /*******************************************************************************
-<<<<<<< HEAD
-=======
 **  p12455 - FEATURE_PANTECH_MUSIC_DRM & FEATURE_PANTECH_HOPPIN_DRM
 *******************************************************************************/
 #include "CUST_PANTECH_DRM.h"
 
 /*******************************************************************************
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 **  PMIC
 *******************************************************************************/
 #include "CUST_PANTECH_PMIC.h"
@@ -118,11 +111,7 @@
 #define FEATURE_PANTECH_DLOAD_USB
 #define FEATURE_PANTECH_REBOOT_FOR_IDLE_DL
 #define FEATURE_PANTECH_GOTA_BACKUP_CODE
-<<<<<<< HEAD
-#define FEATURE_PANTECH_GPT_RECOVERY     
-=======
 #define FEATURE_PANTECH_GPT_RECOVERY
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /* All MSM8974 model support */
 #define FEATURE_SKY_MDM_PREVENT_UPGRADE
@@ -149,20 +138,9 @@
 **  Display
 *******************************************************************************/
 #include "CUST_PANTECH_DISPLAY.h"
-<<<<<<< HEAD
- 
-
-#endif
-
-/*******************************************************************************
-** DATA
-*******************************************************************************/
-#include "cust_pantech_data_linux.h"
-=======
 
 
 #endif
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /*******************************************************************************
 **  EXT4 (repair /data partition)  manual, auto repair
@@ -194,11 +172,8 @@
 
 #define FEATURE_PANTECH_BLUETOOTH_A2DP_ENABLED	// 20140121 pooyi check A2DP connected and play state.
 
-<<<<<<< HEAD
-=======
 #define FEATURE_PANTECH_BLUETOOTH_QCOM_CR               /* 20141106 : youngbi@LS4 : Qualcomm CR patch feature */
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #if defined(T_EF56S) || defined(T_EF59S) || defined(T_EF59K) || defined(T_EF59L) || defined(T_EF60S) || defined(T_EF65S) || defined(T_EF61K) || defined(T_EF62L) || defined(T_EF63S) || defined(T_EF63K) || defined(T_EF63L)  
 #define FEATURE_PANTECH_BLUETOOTH_AVRCP_1_3 /* Use AVRCP 1.3 instead of 1.5  *//*We do not use 'BTRC_FEAT_ABSOLUTE_VOLUME' feature at AVRCP 1.3 *//*remote control Advanced Control command/response*/
 #endif
@@ -352,11 +327,7 @@
 #endif
 
 /*******************************************************************************
-<<<<<<< HEAD
-** UICC NO Power Down when going to LPM 
-=======
 ** UICC NO Power Down when going to LPM
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 *******************************************************************************/
 #if defined(T_NAMI)
 #define FEATURE_PANTECH_MMGSDI_CARD_NOT_POWER_DOWN
@@ -408,11 +379,7 @@
 /******************************************************************************
 ** Preload:Sample Content
 ******************************************************************************/
-<<<<<<< HEAD
-//p13156@lks 
-=======
 //p13156@lks
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define FEATURE_PANTECH_PRELOAD_SAMPLE_CONTENT
 /*******************************************************************************
 **  WIFI
@@ -423,11 +390,7 @@
 **  SELinux
 ******************************************************************************/
 #if defined(T_EF63S) || defined(T_EF63K) || defined(T_EF63L) || defined(T_EF65S) || defined(T_EF65K) || defined(T_EF65L)
-<<<<<<< HEAD
-#define FEATURE_PANTECH_SELINUX_DENIAL_LOG //P11536-SHPARK-SELinux 
-=======
 #define FEATURE_PANTECH_SELINUX_DENIAL_LOG //P11536-SHPARK-SELinux
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif
 
 /******************************************************************************
@@ -438,17 +401,6 @@
 **  Power On/Off Test (auto booting on offline charging mode)
 ******************************************************************************/
 //#define FEATURE_PANTECH_POWER_ONOFF
-<<<<<<< HEAD
-
-/*******************************************************************************
-**  Call PROTOCOL
-*******************************************************************************/
-/* 2013-04-10 octopusy added  [PS1/2 Team Feature] */
-#ifdef T_SKY_MODEL_TARGET_COMMON
-#include "cust_lgu_cp_linux.h"
-#endif/* T_SKY_MODEL_TARGET_COMMON */
-
-=======
 /*******************************************************************************
 **  Call PROTOCOL
 *******************************************************************************/
@@ -463,7 +415,6 @@
 
 #include "cust_sky_ds_linux.h"
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 //+US1-CF1
 //Feature : FW_VENDOR_FOR_AOT_VIDEO_APP
 //API support for AOT 
@@ -476,13 +427,6 @@
 ******************************************************************************/
 #define FEATURE_PANTECH_FINGERPRINT_BUMPER_CASE
 
-<<<<<<< HEAD
-// p13040 ++ [DS4] for DRM
-#include "CUST_PANTECH_DRM.h"
-// p13040 -- [DS4] for DRM
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*******************************************************************************
 **  IMS PROTOCOL - UI VOB Only
 *******************************************************************************/

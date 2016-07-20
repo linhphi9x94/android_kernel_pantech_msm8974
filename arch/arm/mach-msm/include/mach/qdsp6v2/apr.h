@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2010-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2010-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -98,11 +94,7 @@ struct apr_hdr {
 #define APR_SVC_SRD		0x7
 
 /* APR Port IDs */
-<<<<<<< HEAD
-#define APR_MAX_PORTS		0x40
-=======
 #define APR_MAX_PORTS		0x80
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define APR_NAME_MAX		0x40
 
@@ -176,8 +168,5 @@ enum apr_subsys_state apr_get_q6_state(void);
 int apr_set_q6_state(enum apr_subsys_state state);
 void apr_set_subsys_state(void);
 const char *apr_get_lpass_subsys_name(void);
-<<<<<<< HEAD
-=======
 extern int is_modem_up;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif

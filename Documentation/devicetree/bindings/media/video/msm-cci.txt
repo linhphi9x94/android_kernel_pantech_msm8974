@@ -48,10 +48,7 @@ MSM sensor node contains properties of camera sensor
 
 Required properties:
 - compatible : should be manufacturer name followed by sensor name
-<<<<<<< HEAD
-=======
     - "qcom,camera"
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
     - "qcom,s5k3l1yx"
     - "sne,imx134"
     - "qcom,imx135"
@@ -157,11 +154,8 @@ Optional properties:
 - qcom,vdd-cx-supply : should contain regulator from which cx voltage is
     supplied
 - qcom,vdd-cx-name : should contain names of cx regulator
-<<<<<<< HEAD
-=======
 - qcom,eeprom-src : if eeprom memory is supported by this sensor, this
    property should contain phandle of respective eeprom nodes
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 * Qualcomm MSM ACTUATOR
 
@@ -177,8 +171,6 @@ Required properties:
     - 0 -> MASTER 0
     - 1 -> MASTER 1
 
-<<<<<<< HEAD
-=======
 Optional properties:
 - qcom,cam-vreg-name : should contain names of all regulators needed by this
     actuator
@@ -195,7 +187,6 @@ Optional properties:
    (in the same order).
 - cam_vaf-supply : should contain regulator from which AF voltage is supplied
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 Example:
 
    qcom,cci@0xfda0c000 {
@@ -225,10 +216,6 @@ Example:
         actuator0: qcom,actuator@18 {
                 cell-index = <0>;
                 reg = <0x18>;
-<<<<<<< HEAD
-                compatible = "qcom,actuator";
-                qcom,cci-master = <0>;
-=======
 		compatible = "qcom,actuator";
 		qcom,cci-master = <0>;
 		cam_vaf-supply = <&pm8941_l23>;
@@ -237,7 +224,6 @@ Example:
 		qcom,cam-vreg-min-voltage = <3000000>;
 		qcom,cam-vreg-max-voltage = <3000000>;
 		qcom,cam-vreg-op-mode = <100000>;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
         };
 
        qcom,s5k3l1yx@6e {
@@ -247,10 +233,7 @@ Example:
                qcom,csiphy-sd-index = <2>;
                qcom,csid-sd-index = <0>;
                qcom,actuator-src = <&actuator0>;
-<<<<<<< HEAD
-=======
                qcom,eeprom-src = <&eeprom0 &eeprom1>;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
                qcom,led-flash-src = <&led_flash0>;
                qcom,mount-angle = <90>;
                qcom,sensor-name = "s5k3l1yx";

@@ -88,8 +88,6 @@ struct rcu_dynticks {
 				    /* Process level is worth LLONG_MAX/2. */
 	int dynticks_nmi_nesting;   /* Track NMI nesting level. */
 	atomic_t dynticks;	    /* Even value for idle, else odd. */
-<<<<<<< HEAD
-=======
 #ifdef CONFIG_RCU_FAST_NO_HZ
 	int dyntick_drain;	    /* Prepare-for-idle state variable. */
 	unsigned long dyntick_holdoff;
@@ -104,7 +102,6 @@ struct rcu_dynticks {
 	unsigned long nonlazy_posted_snap;
 				    /* idle-period nonlazy_posted snapshot. */
 #endif /* #ifdef CONFIG_RCU_FAST_NO_HZ */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 /* RCU's kthread states for tracing. */
@@ -388,8 +385,6 @@ struct rcu_state {
 
 	raw_spinlock_t onofflock;		/* exclude on/offline and */
 						/*  starting new GP. */
-<<<<<<< HEAD
-=======
 	struct rcu_head *orphan_nxtlist;	/* Orphaned callbacks that */
 						/*  need a grace period. */
 	struct rcu_head **orphan_nxttail;	/* Tail of above. */
@@ -401,7 +396,6 @@ struct rcu_state {
 	struct task_struct *rcu_barrier_in_progress;
 						/* Task doing rcu_barrier(), */
 						/*  or NULL if no barrier. */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	raw_spinlock_t fqslock;			/* Only one task forcing */
 						/*  quiescent states. */
 	unsigned long jiffies_force_qs;		/* Time at which to invoke */
@@ -502,10 +496,7 @@ static void __cpuinit rcu_prepare_kthreads(int cpu);
 static void rcu_prepare_for_idle_init(int cpu);
 static void rcu_cleanup_after_idle(int cpu);
 static void rcu_prepare_for_idle(int cpu);
-<<<<<<< HEAD
-=======
 static void rcu_idle_count_callbacks_posted(void);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static void print_cpu_stall_info_begin(void);
 static void print_cpu_stall_info(struct rcu_state *rsp, int cpu);
 static void print_cpu_stall_info_end(void);

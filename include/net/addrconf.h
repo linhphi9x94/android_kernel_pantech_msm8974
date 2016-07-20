@@ -166,12 +166,9 @@ extern int __ipv6_dev_ac_dec(struct inet6_dev *idev, const struct in6_addr *addr
 extern int ipv6_chk_acast_addr(struct net *net, struct net_device *dev,
 			       const struct in6_addr *addr);
 
-<<<<<<< HEAD
-=======
 u32 addrconf_rt_table(const struct net_device *dev, u32 default_table);
 extern void ipv6_ac_destroy_dev(struct inet6_dev *idev);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /* Device notifier */
 extern int register_inet6addr_notifier(struct notifier_block *nb);

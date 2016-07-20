@@ -458,8 +458,6 @@
 #define CONFIG_PANTECH_SNS_TMD277X_NEW_EQUATION
 
 /* -----------------------------------------------------------------
-<<<<<<< HEAD
-=======
 * CONFIG_PANTECH_SNS_TMD277X_ZERO_DATA_AFTER_RESET
 * -----------------------------------------------------------------
 *   .Brif          : fix bug that zero data is not reported as soon as reset
@@ -469,7 +467,6 @@
 #define CONFIG_PANTECH_SNS_TMD277X_ZERO_DATA_AFTER_RESET
 
 /* -----------------------------------------------------------------
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 * CONFIG_PANTECH_KITKAT_SENSOR_LIST
 * -----------------------------------------------------------------
 *   .Brif          : supported Sensor list on KITKAT
@@ -575,11 +572,7 @@
 *   .Applied Files : vendor/qcom/proprietary/sensors/dsps/libhalsensors/src/sensors_qcom_hal.c
 * ---------------------------------------------------------------*/
 #define CONFIG_PANTECH_FIX_BUG_UNCALIBRATED_MAGNETIC_FIELD
-<<<<<<< HEAD
-#if defined(H_EF56S) || defined(H_EF59S) || defined(H_EF59K) || defined(H_EF59L) || defined(H_EF60S) || defined(H_EF61K) || defined(H_EF62L)||defined(H_EF65S)
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* -----------------------------------------------------------------
 * CONFIG_PANTECH_QCAL_USE
 * -----------------------------------------------------------------
@@ -588,11 +581,7 @@
 *   .Applied Files : vendor/qcom/proprietary/sensors/dsps/sensordaemon/reg/src/sns_reg_conf_la.c
 * ---------------------------------------------------------------*/
 #define CONFIG_PANTECH_QCAL_USE
-<<<<<<< HEAD
-#endif
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* -----------------------------------------------------------------
 * CCONFIG_PANTECH_SNS_FIX_BUG_SAM
 * -----------------------------------------------------------------
@@ -613,8 +602,6 @@
 *                    adsp_proc/Sensors/dd/qcom/src/sns_dd_bmg160.c
 * ---------------------------------------------------------------*/
 #define CONFIG_PANTECH_SNS_BMG160_ODR
-<<<<<<< HEAD
-=======
 
 /* -----------------------------------------------------------------
 * CCONFIG_PANTECH_SNS_FIX_MAG_YAS_INIT
@@ -664,7 +651,6 @@
 * ---------------------------------------------------------------*/
 #define CONFIG_PANTECH_SNS_WAKE_LOCK_PROXIMITY
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #if defined(H_EF56S) || defined(H_EF59S) || defined(H_EF59K) || defined(H_EF59L) || defined(H_EF60S) || defined(H_EF61K) || defined(H_EF62L)
 /* -----------------------------------------------------------------
 * CONFIG_PANTECH_ACCEL_INT_USE
@@ -676,8 +662,6 @@
 #define CONFIG_PANTECH_ACCEL_INT_USE
 #endif
 
-<<<<<<< HEAD
-=======
 /* -----------------------------------------------------------------
 * CONFIG_PANCETH_SNS_APDS99xx_SUNLIGHT_CANCELATION
 * -----------------------------------------------------------------
@@ -696,5 +680,4 @@
 * ---------------------------------------------------------------*/
 #define CONFIG_PANTECH_FIX_APPS_SAM_BUG_WHEN_VENDOR_CAL
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif // _CUST_PANTECH_DSPS_H_

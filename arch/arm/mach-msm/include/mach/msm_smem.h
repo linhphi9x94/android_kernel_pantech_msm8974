@@ -40,8 +40,6 @@ enum {
 
 #define SMEM_NUM_SMD_STREAM_CHANNELS        64
 
-<<<<<<< HEAD
-=======
 /**
  * OVERFLOW_ADD_UNSIGNED() - check for unsigned overflow
  *
@@ -53,7 +51,6 @@ enum {
 #define OVERFLOW_ADD_UNSIGNED(type, a, b) \
 	(((type)~0 - (a)) < (b) ? true : false)
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 enum {
 	/* fixed items */
 	SMEM_PROC_COMM = 0,

@@ -769,10 +769,6 @@ static int acpuclk_8x60_set_rate(int cpu, unsigned long rate,
 	pr_debug("Switching from ACPU%d rate %u KHz -> %u KHz\n",
 		cpu, strt_s->acpuclk_khz, tgt_s->acpuclk_khz);
 
-<<<<<<< HEAD
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* Switch CPU speed. */
 	switch_sc_speed(cpu, tgt_s);
 

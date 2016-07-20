@@ -88,8 +88,6 @@ const uint32_t pack_patt_lut[MDP_IMGTYPE_LIMIT] = {
 		CLR_G, CLR_R, 8),
 };
 
-<<<<<<< HEAD
-=======
 const uint32_t swapped_pack_patt_lut[MDP_IMGTYPE_LIMIT] = {
 	[MDP_RGB_565] = PPP_GET_PACK_PATTERN(0, CLR_B, CLR_G, CLR_R, 8),
 	[MDP_BGR_565] = PPP_GET_PACK_PATTERN(0, CLR_R, CLR_G, CLR_B, 8),
@@ -119,7 +117,6 @@ const uint32_t swapped_pack_patt_lut[MDP_IMGTYPE_LIMIT] = {
 		CLR_G, CLR_B, 8),
 };
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 const uint32_t dst_op_reg[MDP_IMGTYPE_LIMIT] = {
 	[MDP_Y_CRCB_H2V2] = PPP_OP_DST_CHROMA_420,
 	[MDP_Y_CBCR_H2V2] = PPP_OP_DST_CHROMA_420,
@@ -1562,12 +1559,6 @@ uint32_t ppp_out_config(uint32_t type)
 	return out_cfg_lut[type];
 }
 
-<<<<<<< HEAD
-uint32_t ppp_pack_pattern(uint32_t type)
-{
-	if (MDP_IS_IMGTYPE_BAD(type))
-		return 0;
-=======
 uint32_t ppp_pack_pattern(uint32_t type, uint32_t yuv2rgb)
 {
 	if (MDP_IS_IMGTYPE_BAD(type))
@@ -1575,7 +1566,6 @@ uint32_t ppp_pack_pattern(uint32_t type, uint32_t yuv2rgb)
 	if (yuv2rgb)
 		return swapped_pack_patt_lut[type];
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return pack_patt_lut[type];
 }
 

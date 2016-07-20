@@ -24,11 +24,8 @@
 #include "kgsl_cffdump.h"
 #include "kgsl_device.h"
 
-<<<<<<< HEAD
-=======
 DEFINE_MUTEX(kernel_map_global_lock);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* An attribute for showing per-process memory statistics */
 struct kgsl_mem_entry_attribute {
 	struct attribute attr;
@@ -221,23 +218,6 @@ static int kgsl_drv_memstat_show(struct device *dev,
 	unsigned int val = 0;
 
 	if (!strncmp(attr->attr.name, "vmalloc", 7))
-<<<<<<< HEAD
-		val = kgsl_driver.stats.vmalloc;
-	else if (!strncmp(attr->attr.name, "vmalloc_max", 11))
-		val = kgsl_driver.stats.vmalloc_max;
-	else if (!strncmp(attr->attr.name, "page_alloc", 10))
-		val = kgsl_driver.stats.page_alloc;
-	else if (!strncmp(attr->attr.name, "page_alloc_max", 14))
-		val = kgsl_driver.stats.page_alloc_max;
-	else if (!strncmp(attr->attr.name, "coherent", 8))
-		val = kgsl_driver.stats.coherent;
-	else if (!strncmp(attr->attr.name, "coherent_max", 12))
-		val = kgsl_driver.stats.coherent_max;
-	else if (!strncmp(attr->attr.name, "mapped", 6))
-		val = kgsl_driver.stats.mapped;
-	else if (!strncmp(attr->attr.name, "mapped_max", 10))
-		val = kgsl_driver.stats.mapped_max;
-=======
 		val = atomic_read(&kgsl_driver.stats.vmalloc);
 	else if (!strncmp(attr->attr.name, "vmalloc_max", 11))
 		val = atomic_read(&kgsl_driver.stats.vmalloc_max);
@@ -253,29 +233,10 @@ static int kgsl_drv_memstat_show(struct device *dev,
 		val = atomic_read(&kgsl_driver.stats.mapped);
 	else if (!strncmp(attr->attr.name, "mapped_max", 10))
 		val = atomic_read(&kgsl_driver.stats.mapped_max);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return snprintf(buf, PAGE_SIZE, "%u\n", val);
 }
 
-<<<<<<< HEAD
-static int kgsl_drv_histogram_show(struct device *dev,
-				   struct device_attribute *attr,
-				   char *buf)
-{
-	int len = 0;
-	int i;
-
-	for (i = 0; i < 16; i++)
-		len += snprintf(buf + len, PAGE_SIZE - len, "%d ",
-			kgsl_driver.stats.histogram[i]);
-
-	len += snprintf(buf + len, PAGE_SIZE - len, "\n");
-	return len;
-}
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int kgsl_drv_full_cache_threshold_store(struct device *dev,
 					 struct device_attribute *attr,
 					 const char *buf, size_t count)
@@ -283,13 +244,8 @@ static int kgsl_drv_full_cache_threshold_store(struct device *dev,
 	int ret;
 	unsigned int thresh = 0;
 
-<<<<<<< HEAD
-	ret = kgsl_sysfs_store(buf, count, &thresh);
-	if (ret != count)
-=======
 	ret = kgsl_sysfs_store(buf, &thresh);
 	if (ret)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return ret;
 
 	kgsl_driver.full_cache_threshold = thresh;
@@ -312,10 +268,6 @@ DEVICE_ATTR(coherent, 0444, kgsl_drv_memstat_show, NULL);
 DEVICE_ATTR(coherent_max, 0444, kgsl_drv_memstat_show, NULL);
 DEVICE_ATTR(mapped, 0444, kgsl_drv_memstat_show, NULL);
 DEVICE_ATTR(mapped_max, 0444, kgsl_drv_memstat_show, NULL);
-<<<<<<< HEAD
-DEVICE_ATTR(histogram, 0444, kgsl_drv_histogram_show, NULL);
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 DEVICE_ATTR(full_cache_threshold, 0644,
 		kgsl_drv_full_cache_threshold_show,
 		kgsl_drv_full_cache_threshold_store);
@@ -329,10 +281,6 @@ static const struct device_attribute *drv_attr_list[] = {
 	&dev_attr_coherent_max,
 	&dev_attr_mapped,
 	&dev_attr_mapped_max,
-<<<<<<< HEAD
-	&dev_attr_histogram,
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	&dev_attr_full_cache_threshold,
 	NULL
 };
@@ -427,9 +375,6 @@ static int kgsl_page_alloc_vmfault(struct kgsl_memdesc *memdesc,
 
 static int kgsl_page_alloc_vmflags(struct kgsl_memdesc *memdesc)
 {
-<<<<<<< HEAD
-	return VM_RESERVED | VM_DONTEXPAND;
-=======
 	return VM_RESERVED | VM_DONTEXPAND | VM_DONTCOPY;
 }
 
@@ -456,7 +401,6 @@ static void kgsl_page_alloc_unmap_kernel(struct kgsl_memdesc *memdesc)
 	memdesc->hostptr = NULL;
 done:
 	mutex_unlock(&kernel_map_global_lock);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static void kgsl_page_alloc_free(struct kgsl_memdesc *memdesc)
@@ -465,14 +409,6 @@ static void kgsl_page_alloc_free(struct kgsl_memdesc *memdesc)
 	struct scatterlist *sg;
 	int sglen = memdesc->sglen;
 
-<<<<<<< HEAD
-	kgsl_driver.stats.page_alloc -= memdesc->size;
-
-	if (memdesc->hostptr) {
-		vunmap(memdesc->hostptr);
-		kgsl_driver.stats.vmalloc -= memdesc->size;
-	}
-=======
 	atomic_sub(memdesc->size, &kgsl_driver.stats.page_alloc);
 
 	kgsl_page_alloc_unmap_kernel(memdesc);
@@ -480,7 +416,6 @@ static void kgsl_page_alloc_free(struct kgsl_memdesc *memdesc)
 	/* we certainly do not expect the hostptr to still be mapped */
 	BUG_ON(memdesc->hostptr);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (memdesc->sg)
 		for_each_sg(memdesc->sg, sg, sglen, i)
 			__free_pages(sg_page(sg), get_order(sg->length));
@@ -488,11 +423,7 @@ static void kgsl_page_alloc_free(struct kgsl_memdesc *memdesc)
 
 static int kgsl_contiguous_vmflags(struct kgsl_memdesc *memdesc)
 {
-<<<<<<< HEAD
-	return VM_RESERVED | VM_IO | VM_PFNMAP | VM_DONTEXPAND;
-=======
 	return VM_RESERVED | VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTCOPY;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 /*
@@ -505,12 +436,9 @@ static int kgsl_contiguous_vmflags(struct kgsl_memdesc *memdesc)
  */
 static int kgsl_page_alloc_map_kernel(struct kgsl_memdesc *memdesc)
 {
-<<<<<<< HEAD
-=======
 	int ret = 0;
 
 	mutex_lock(&kernel_map_global_lock);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!memdesc->hostptr) {
 		pgprot_t page_prot = pgprot_writecombine(PAGE_KERNEL);
 		struct page **pages = NULL;
@@ -524,12 +452,8 @@ static int kgsl_page_alloc_map_kernel(struct kgsl_memdesc *memdesc)
 		if (!pages) {
 			KGSL_CORE_ERR("vmalloc(%d) failed\n",
 				npages * sizeof(struct page *));
-<<<<<<< HEAD
-			return -ENOMEM;
-=======
 			ret = -ENOMEM;
 			goto done;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 
 		for_each_sg(memdesc->sg, sg, sglen, i) {
@@ -543,16 +467,6 @@ static int kgsl_page_alloc_map_kernel(struct kgsl_memdesc *memdesc)
 
 		memdesc->hostptr = vmap(pages, count,
 					VM_IOREMAP, page_prot);
-<<<<<<< HEAD
-		KGSL_STATS_ADD(memdesc->size, kgsl_driver.stats.vmalloc,
-				kgsl_driver.stats.vmalloc_max);
-		vfree(pages);
-	}
-	if (!memdesc->hostptr)
-		return -ENOMEM;
-
-	return 0;
-=======
 		if (memdesc->hostptr)
 			KGSL_STATS_ADD(memdesc->size,
 				&kgsl_driver.stats.vmalloc,
@@ -567,7 +481,6 @@ done:
 	mutex_unlock(&kernel_map_global_lock);
 
 	return ret;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static int kgsl_contiguous_vmfault(struct kgsl_memdesc *memdesc,
@@ -591,14 +504,6 @@ static int kgsl_contiguous_vmfault(struct kgsl_memdesc *memdesc,
 	return VM_FAULT_NOPAGE;
 }
 
-<<<<<<< HEAD
-static void kgsl_ebimem_free(struct kgsl_memdesc *memdesc)
-
-{
-	kgsl_driver.stats.coherent -= memdesc->size;
-	if (memdesc->hostptr)
-		iounmap(memdesc->hostptr);
-=======
 static void kgsl_ebimem_unmap_kernel(struct kgsl_memdesc *memdesc)
 {
 	mutex_lock(&kernel_map_global_lock);
@@ -624,30 +529,19 @@ static void kgsl_ebimem_free(struct kgsl_memdesc *memdesc)
 	kgsl_ebimem_unmap_kernel(memdesc);
 	/* we certainly do not expect the hostptr to still be mapped */
 	BUG_ON(memdesc->hostptr);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	free_contiguous_memory_by_paddr(memdesc->physaddr);
 }
 
 static int kgsl_ebimem_map_kernel(struct kgsl_memdesc *memdesc)
 {
-<<<<<<< HEAD
-=======
 	int ret = 0;
 	mutex_lock(&kernel_map_global_lock);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!memdesc->hostptr) {
 		memdesc->hostptr = ioremap(memdesc->physaddr, memdesc->size);
 		if (!memdesc->hostptr) {
 			KGSL_CORE_ERR("ioremap failed, addr:0x%p, size:0x%x\n",
 				memdesc->hostptr, memdesc->size);
-<<<<<<< HEAD
-			return -ENOMEM;
-		}
-	}
-
-	return 0;
-=======
 			ret = -ENOMEM;
 			goto done;
 		}
@@ -656,17 +550,12 @@ static int kgsl_ebimem_map_kernel(struct kgsl_memdesc *memdesc)
 done:
 	mutex_unlock(&kernel_map_global_lock);
 	return ret;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static void kgsl_coherent_free(struct kgsl_memdesc *memdesc)
 {
-<<<<<<< HEAD
-	kgsl_driver.stats.coherent -= memdesc->size;
-=======
 	atomic_sub(memdesc->size,
 		&kgsl_driver.stats.coherent);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	dma_free_coherent(NULL, memdesc->size,
 			  memdesc->hostptr, memdesc->physaddr);
 }
@@ -676,12 +565,8 @@ struct kgsl_memdesc_ops kgsl_page_alloc_ops = {
 	.free = kgsl_page_alloc_free,
 	.vmflags = kgsl_page_alloc_vmflags,
 	.vmfault = kgsl_page_alloc_vmfault,
-<<<<<<< HEAD
-	.map_kernel_mem = kgsl_page_alloc_map_kernel,
-=======
 	.map_kernel = kgsl_page_alloc_map_kernel,
 	.unmap_kernel = kgsl_page_alloc_unmap_kernel,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 EXPORT_SYMBOL(kgsl_page_alloc_ops);
 
@@ -689,12 +574,8 @@ static struct kgsl_memdesc_ops kgsl_ebimem_ops = {
 	.free = kgsl_ebimem_free,
 	.vmflags = kgsl_contiguous_vmflags,
 	.vmfault = kgsl_contiguous_vmfault,
-<<<<<<< HEAD
-	.map_kernel_mem = kgsl_ebimem_map_kernel,
-=======
 	.map_kernel = kgsl_ebimem_map_kernel,
 	.unmap_kernel = kgsl_ebimem_unmap_kernel,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static struct kgsl_memdesc_ops kgsl_coherent_ops = {
@@ -735,11 +616,7 @@ _kgsl_sharedmem_page_alloc(struct kgsl_memdesc *memdesc,
 			struct kgsl_pagetable *pagetable,
 			size_t size)
 {
-<<<<<<< HEAD
-	int pcount = 0, order, ret = 0;
-=======
 	int pcount = 0, ret = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int j, len, page_size, sglen_alloc, sglen = 0;
 	struct page **pages = NULL;
 	pgprot_t page_prot = pgprot_writecombine(PAGE_KERNEL);
@@ -751,17 +628,12 @@ _kgsl_sharedmem_page_alloc(struct kgsl_memdesc *memdesc,
 
 	page_size = (align >= ilog2(SZ_64K) && size >= SZ_64K)
 			? SZ_64K : PAGE_SIZE;
-<<<<<<< HEAD
-	/* update align flags for what we actually use */
-	if (page_size != PAGE_SIZE)
-=======
 	/*
 	 * The alignment cannot be less than the intended page size - it can be
 	 * larger however to accomodate hardware quirks
 	 */
 
 	if (ilog2(align) < page_size)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		kgsl_memdesc_set_align(memdesc, ilog2(page_size));
 
 	/*
@@ -904,20 +776,9 @@ _kgsl_sharedmem_page_alloc(struct kgsl_memdesc *memdesc,
 	outer_cache_range_op_sg(memdesc->sg, memdesc->sglen,
 				KGSL_CACHE_OP_FLUSH);
 
-<<<<<<< HEAD
-	order = get_order(size);
-
-	if (order < 16)
-		kgsl_driver.stats.histogram[order]++;
-
-done:
-	KGSL_STATS_ADD(memdesc->size, kgsl_driver.stats.page_alloc,
-		kgsl_driver.stats.page_alloc_max);
-=======
 done:
 	KGSL_STATS_ADD(memdesc->size, &kgsl_driver.stats.page_alloc,
 		&kgsl_driver.stats.page_alloc_max);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if ((memdesc->sglen_alloc * sizeof(struct page *)) > PAGE_SIZE)
 		vfree(pages);
@@ -989,13 +850,8 @@ kgsl_sharedmem_alloc_coherent(struct kgsl_memdesc *memdesc, size_t size)
 
 	/* Record statistics */
 
-<<<<<<< HEAD
-	KGSL_STATS_ADD(size, kgsl_driver.stats.coherent,
-		       kgsl_driver.stats.coherent_max);
-=======
 	KGSL_STATS_ADD(size, &kgsl_driver.stats.coherent,
 		       &kgsl_driver.stats.coherent_max);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 err:
 	if (result)
@@ -1046,13 +902,8 @@ _kgsl_sharedmem_ebimem(struct kgsl_memdesc *memdesc,
 	if (result)
 		goto err;
 
-<<<<<<< HEAD
-	KGSL_STATS_ADD(size, kgsl_driver.stats.coherent,
-		kgsl_driver.stats.coherent_max);
-=======
 	KGSL_STATS_ADD(size, &kgsl_driver.stats.coherent,
 		&kgsl_driver.stats.coherent_max);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 err:
 	if (result)
@@ -1088,21 +939,12 @@ kgsl_sharedmem_ebimem(struct kgsl_memdesc *memdesc,
 	if (result)
 		return result;
 
-<<<<<<< HEAD
-	memdesc->hostptr = ioremap(memdesc->physaddr, size);
-
-	if (memdesc->hostptr == NULL) {
-		KGSL_CORE_ERR("ioremap failed\n");
-		kgsl_sharedmem_free(memdesc);
-		return -ENOMEM;
-=======
 	result = kgsl_ebimem_map_kernel(memdesc);
 
 	if (result) {
 		KGSL_CORE_ERR("hostptr mapping failed\n");
 		kgsl_sharedmem_free(memdesc);
 		return result;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	return 0;
@@ -1123,11 +965,8 @@ kgsl_sharedmem_readl(const struct kgsl_memdesc *memdesc,
 	WARN_ON(offsetbytes + sizeof(uint32_t) > memdesc->size);
 	if (offsetbytes + sizeof(uint32_t) > memdesc->size)
 		return -ERANGE;
-<<<<<<< HEAD
-=======
 
 	rmb();
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	src = (uint32_t *)(memdesc->hostptr + offsetbytes);
 	*dst = *src;
 	return 0;
@@ -1154,12 +993,9 @@ kgsl_sharedmem_writel(struct kgsl_device *device,
 		src, sizeof(uint32_t));
 	dst = (uint32_t *)(memdesc->hostptr + offsetbytes);
 	*dst = src;
-<<<<<<< HEAD
-=======
 
 	wmb();
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 }
 EXPORT_SYMBOL(kgsl_sharedmem_writel);

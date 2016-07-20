@@ -254,11 +254,8 @@ config UML_RANDOM
 config HW_RANDOM_MSM
 	tristate "Qualcomm MSM Random Number Generator support"
 	depends on HW_RANDOM && ARCH_MSM
-<<<<<<< HEAD
-=======
 	select CRYPTO_AES
 	select CRYPTO_ECB
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	default n
 	---help---
 	  This driver provides kernel-side support for the Random Number

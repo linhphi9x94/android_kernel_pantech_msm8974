@@ -151,10 +151,6 @@ enum zone_stat_item {
 #endif
 	NR_ANON_TRANSPARENT_HUGEPAGES,
 	NR_FREE_CMA_PAGES,
-<<<<<<< HEAD
-	NR_SWAPCACHE,
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	NR_VM_ZONE_STAT_ITEMS };
 
 /*

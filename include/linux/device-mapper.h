@@ -510,9 +510,6 @@ void dm_dispatch_request(struct request *rq);
 void dm_requeue_unmapped_request(struct request *rq);
 void dm_kill_unmapped_request(struct request *rq, int error);
 int dm_underlying_device_busy(struct request_queue *q);
-<<<<<<< HEAD
-=======
 void dm_end_request(struct request *clone, int error);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #endif	/* _LINUX_DEVICE_MAPPER_H */

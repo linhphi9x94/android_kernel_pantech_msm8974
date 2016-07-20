@@ -76,8 +76,6 @@ of mapping (no unaligned accesses, no re-ordering, no write merging, no
 buffering, no pre-fetching). This has severe performance penalties and
 should not be used for general purpose DMA allocations. It should only
 be used if one of the restrictions on strongly ordered memory is required.
-<<<<<<< HEAD
-=======
 
 DMA_ATTR_SKIP_CPU_SYNC
 ----------------------
@@ -103,4 +101,3 @@ dma_unmap_{single,page,sg} functions family to force buffer to stay in
 device domain after releasing a mapping for it. Use this attribute with
 care!
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

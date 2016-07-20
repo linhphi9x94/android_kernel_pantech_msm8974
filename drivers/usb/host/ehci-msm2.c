@@ -46,13 +46,10 @@
 
 #define PDEV_NAME_LEN 20
 
-<<<<<<< HEAD
-=======
 static bool uicc_card_present;
 module_param(uicc_card_present, bool, S_IRUGO | S_IWUSR);
 MODULE_PARM_DESC(uicc_card_present, "UICC card inserted");
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct msm_hcd {
 	struct ehci_hcd				ehci;
 	spinlock_t				wakeup_lock;
@@ -85,10 +82,7 @@ struct msm_hcd {
 	bool					wakeup_irq_enabled;
 	int					wakeup_irq;
 	enum usb_vdd_type			vdd_type;
-<<<<<<< HEAD
-=======
 	void __iomem				*usb_phy_ctrl_reg;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static inline struct msm_hcd *hcd_to_mhcd(struct usb_hcd *hcd)
@@ -306,14 +300,11 @@ static int msm_ehci_config_vddcx(struct msm_hcd *mhcd, int high)
 static void msm_ehci_vbus_power(struct msm_hcd *mhcd, bool on)
 {
 	int ret;
-<<<<<<< HEAD
-=======
 	const struct msm_usb_host_platform_data *pdata;
 
 	pdata = mhcd->dev->platform_data;
 	if (pdata && pdata->is_uicc)
 		return;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (!mhcd->vbus) {
 		pr_err("vbus is NULL.");
@@ -371,13 +362,10 @@ static int msm_ehci_init_vbus(struct msm_hcd *mhcd, int init)
 
 	pdata = mhcd->dev->platform_data;
 
-<<<<<<< HEAD
-=======
 	/* For uicc card connection, external vbus is not required */
 	if (pdata && pdata->is_uicc)
 		return 0;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!init) {
 		if (pdata && pdata->dock_connect_irq)
 			free_irq(pdata->dock_connect_irq, mhcd);
@@ -510,12 +498,9 @@ static int msm_ulpi_read(struct msm_hcd *mhcd, u32 reg)
 		if (time_after(jiffies, timeout)) {
 			dev_err(mhcd->dev, "msm_ulpi_read: timeout %08x\n",
 				readl_relaxed(USB_ULPI_VIEWPORT));
-<<<<<<< HEAD
-=======
 			dev_err(mhcd->dev, "PORTSC: %08x USBCMD: %08x\n",
 				readl_relaxed(USB_PORTSC),
 				readl_relaxed(USB_USBCMD));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			return -ETIMEDOUT;
 		}
 		udelay(1);
@@ -540,12 +525,9 @@ static int msm_ulpi_write(struct msm_hcd *mhcd, u32 val, u32 reg)
 	while (readl_relaxed(USB_ULPI_VIEWPORT) & ULPI_RUN) {
 		if (time_after(jiffies, timeout)) {
 			dev_err(mhcd->dev, "msm_ulpi_write: timeout\n");
-<<<<<<< HEAD
-=======
 			dev_err(mhcd->dev, "PORTSC: %08x USBCMD: %08x\n",
 				readl_relaxed(USB_PORTSC),
 				readl_relaxed(USB_USBCMD));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			return -ETIMEDOUT;
 		}
 		udelay(1);
@@ -597,21 +579,13 @@ static int msm_ehci_phy_reset(struct msm_hcd *mhcd)
 	struct msm_usb_host_platform_data *pdata;
 	u32 val;
 	int ret;
-<<<<<<< HEAD
-	int retries;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	ret = msm_ehci_link_clk_reset(mhcd, 1);
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
-	usleep_range(10, 12);
-=======
 	/* Minimum 10msec delay for block reset as per hardware spec */
 	usleep_range(10000, 12000);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	ret = msm_ehci_link_clk_reset(mhcd, 0);
 	if (ret)
@@ -625,34 +599,11 @@ static int msm_ehci_phy_reset(struct msm_hcd *mhcd)
 	val = readl_relaxed(USB_PORTSC) & ~PORTSC_PTS_MASK;
 	writel_relaxed(val | PORTSC_PTS_ULPI, USB_PORTSC);
 
-<<<<<<< HEAD
-	for (retries = 3; retries > 0; retries--) {
-		ret = msm_ulpi_write(mhcd, ULPI_FUNC_CTRL_SUSPENDM,
-				ULPI_CLR(ULPI_FUNC_CTRL));
-		if (!ret)
-			break;
-	}
-	if (!retries)
-		return -ETIMEDOUT;
-
-	/* Wakeup the PHY with a reg-access for calibration */
-	for (retries = 3; retries > 0; retries--) {
-		ret = msm_ulpi_read(mhcd, ULPI_DEBUG);
-		if (ret != -ETIMEDOUT)
-			break;
-	}
-	if (!retries)
-		return -ETIMEDOUT;
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	dev_info(mhcd->dev, "phy_reset: success\n");
 
 	return 0;
 }
 
-<<<<<<< HEAD
-=======
 static void usb_phy_reset(struct msm_hcd *mhcd)
 {
 	u32 val;
@@ -676,7 +627,6 @@ static void usb_phy_reset(struct msm_hcd *mhcd)
 	mb();
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define LINK_RESET_TIMEOUT_USEC		(250 * 1000)
 static int msm_hsusb_reset(struct msm_hcd *mhcd)
 {
@@ -711,12 +661,9 @@ static int msm_hsusb_reset(struct msm_hcd *mhcd)
 		writel_relaxed(readl_relaxed(USB_PHY_CTRL2) | (1<<16),
 								USB_PHY_CTRL2);
 
-<<<<<<< HEAD
-=======
 	/* Reset USB PHY after performing USB Link RESET */
 	usb_phy_reset(mhcd);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	msleep(100);
 
 	writel_relaxed(0x0, USB_AHBBURST);
@@ -761,11 +708,8 @@ static int msm_ehci_suspend(struct msm_hcd *mhcd)
 	unsigned long timeout;
 	int ret;
 	u32 portsc;
-<<<<<<< HEAD
-=======
 	const struct msm_usb_host_platform_data *pdata;
 	u32 func_ctrl;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (atomic_read(&mhcd->in_lpm)) {
 		dev_dbg(mhcd->dev, "%s called in lpm\n", __func__);
@@ -782,8 +726,6 @@ static int msm_ehci_suspend(struct msm_hcd *mhcd)
 		return -EBUSY;
 	}
 
-<<<<<<< HEAD
-=======
 	pdata = mhcd->dev->platform_data;
 	if (pdata && pdata->is_uicc) {
 		/* put the controller in non-driving mode */
@@ -792,7 +734,6 @@ static int msm_ehci_suspend(struct msm_hcd *mhcd)
 		func_ctrl |= ULPI_FUNC_CTRL_OPMODE_NONDRIVING;
 		msm_ulpi_write(mhcd, func_ctrl, ULPI_FUNC_CTRL);
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* If port is enabled wait 5ms for PHCD to come up. Reset PHY
 	 * and link if it fails to do so.
 	 * If port is not enabled set the PHCD bit and poll for it to
@@ -897,11 +838,8 @@ static int msm_ehci_resume(struct msm_hcd *mhcd)
 	unsigned temp;
 	int ret;
 	unsigned long flags;
-<<<<<<< HEAD
-=======
 	u32 func_ctrl;
 	const struct msm_usb_host_platform_data *pdata;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (!atomic_read(&mhcd->in_lpm)) {
 		dev_dbg(mhcd->dev, "%s called in !in_lpm\n", __func__);
@@ -971,8 +909,6 @@ static int msm_ehci_resume(struct msm_hcd *mhcd)
 	}
 
 skip_phy_resume:
-<<<<<<< HEAD
-=======
 	pdata = mhcd->dev->platform_data;
 	if (pdata && pdata->is_uicc) {
 		/* put the controller in normal mode */
@@ -981,7 +917,6 @@ skip_phy_resume:
 		func_ctrl |= ULPI_FUNC_CTRL_OPMODE_NORMAL;
 		msm_ulpi_write(mhcd, func_ctrl, ULPI_FUNC_CTRL);
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	usb_hcd_resume_root_hub(hcd);
 	atomic_set(&mhcd->in_lpm, 0);
@@ -1436,11 +1371,8 @@ struct msm_usb_host_platform_data *ehci_msm2_dt_to_pdata(
 	pdata->resume_gpio = of_get_named_gpio(node, "qcom,resume-gpio", 0);
 	if (pdata->resume_gpio < 0)
 		pdata->resume_gpio = 0;
-<<<<<<< HEAD
-=======
 	pdata->is_uicc = of_property_read_bool(node,
 					"qcom,usb2-enable-uicc");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return pdata;
 }
@@ -1457,8 +1389,6 @@ static int __devinit ehci_msm2_probe(struct platform_device *pdev)
 
 	dev_dbg(&pdev->dev, "ehci_msm2 probe\n");
 
-<<<<<<< HEAD
-=======
 	/*
 	 * Fail probe in case of uicc till userspace activates driver through
 	 * sysfs entry.
@@ -1467,7 +1397,6 @@ static int __devinit ehci_msm2_probe(struct platform_device *pdev)
 				pdev->dev.of_node, "qcom,usb2-enable-uicc"))
 		return -ENODEV;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (pdev->dev.of_node) {
 		dev_dbg(&pdev->dev, "device tree enabled\n");
 		pdev->dev.platform_data = ehci_msm2_dt_to_pdata(pdev);
@@ -1609,8 +1538,6 @@ static int __devinit ehci_msm2_probe(struct platform_device *pdev)
 		goto disable_ldo;
 	}
 
-<<<<<<< HEAD
-=======
 	pdata = mhcd->dev->platform_data;
 
 	if (pdata && pdata->use_sec_phy)
@@ -1618,7 +1545,6 @@ static int __devinit ehci_msm2_probe(struct platform_device *pdev)
 	else
 		mhcd->usb_phy_ctrl_reg = USB_PHY_CTRL;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ret = msm_hsusb_reset(mhcd);
 	if (ret) {
 		dev_err(&pdev->dev, "hsusb PHY initialization failed\n");
@@ -1631,10 +1557,6 @@ static int __devinit ehci_msm2_probe(struct platform_device *pdev)
 		goto vbus_deinit;
 	}
 
-<<<<<<< HEAD
-	pdata = mhcd->dev->platform_data;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (pdata && (!pdata->dock_connect_irq ||
 				!irq_read_line(pdata->dock_connect_irq)))
 		msm_ehci_vbus_power(mhcd, 1);
@@ -1754,13 +1676,10 @@ static int __devexit ehci_msm2_remove(struct platform_device *pdev)
 	if (mhcd->resume_gpio)
 		gpio_free(mhcd->resume_gpio);
 
-<<<<<<< HEAD
-=======
 	/* If the device was removed no need to call pm_runtime_disable */
 	if (pdev->dev.power.power_state.event != PM_EVENT_INVALID)
 		pm_runtime_disable(&pdev->dev);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	device_init_wakeup(&pdev->dev, 0);
 	pm_runtime_set_suspended(&pdev->dev);
 

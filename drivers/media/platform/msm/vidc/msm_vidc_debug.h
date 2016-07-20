@@ -54,10 +54,7 @@ extern int msm_fw_debug_mode;
 extern int msm_fw_low_power_mode;
 extern int msm_vp8_low_tier;
 extern int msm_vidc_hw_rsp_timeout;
-<<<<<<< HEAD
-=======
 extern u32 msm_vidc_firmware_unload_delay;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define dprintk(__level, __fmt, arg...)	\
 	do { \

@@ -103,11 +103,7 @@ struct branch_clk {
 	const u32 bcr_reg;
 	int has_sibling;
 	u32 cur_div;
-<<<<<<< HEAD
-	const u32 max_div;
-=======
 	u32 max_div;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	const u32 halt_check;
 	void *const __iomem *base;
 };

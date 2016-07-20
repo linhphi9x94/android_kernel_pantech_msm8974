@@ -34,10 +34,6 @@
 static void sync_fence_signal_pt(struct sync_pt *pt);
 static int _sync_pt_has_signaled(struct sync_pt *pt);
 static void sync_fence_free(struct kref *kref);
-<<<<<<< HEAD
-static void sync_dump(struct sync_fence *fence);
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static LIST_HEAD(sync_timeline_list_head);
 static DEFINE_SPINLOCK(sync_timeline_list_lock);
@@ -589,8 +585,6 @@ static bool sync_fence_check(struct sync_fence *fence)
 	return fence->status != 0;
 }
 
-<<<<<<< HEAD
-=======
 static const char *sync_status_str(int status)
 {
 	if (status > 0)
@@ -659,7 +653,6 @@ void sync_fence_log(struct sync_fence *fence)
 }
 EXPORT_SYMBOL(sync_fence_log);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int sync_fence_wait(struct sync_fence *fence, long timeout)
 {
 	int err = 0;
@@ -685,11 +678,7 @@ int sync_fence_wait(struct sync_fence *fence, long timeout)
 
 	if (fence->status < 0) {
 		pr_info("fence error %d on [%p]\n", fence->status, fence);
-<<<<<<< HEAD
-		sync_dump(fence);
-=======
 		sync_fence_log(fence);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return fence->status;
 	}
 
@@ -697,11 +686,7 @@ int sync_fence_wait(struct sync_fence *fence, long timeout)
 		if (timeout > 0) {
 			pr_info("fence timeout on [%p] after %dms\n", fence,
 				jiffies_to_msecs(timeout));
-<<<<<<< HEAD
-			sync_dump(fence);
-=======
 			sync_fence_log(fence);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 		return -ETIME;
 	}
@@ -923,19 +908,6 @@ static long sync_fence_ioctl(struct file *file, unsigned int cmd,
 }
 
 #ifdef CONFIG_DEBUG_FS
-<<<<<<< HEAD
-static const char *sync_status_str(int status)
-{
-	if (status > 0)
-		return "signaled";
-	else if (status == 0)
-		return "active";
-	else
-		return "error";
-}
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static void sync_print_pt(struct seq_file *s, struct sync_pt *pt, bool fence)
 {
 	int status = pt->status;
@@ -1068,38 +1040,4 @@ static __init int sync_debugfs_init(void)
 	return 0;
 }
 late_initcall(sync_debugfs_init);
-<<<<<<< HEAD
-
-#define DUMP_CHUNK 256
-static char sync_dump_buf[64 * 1024];
-static void sync_dump(struct sync_fence *fence)
-{
-       struct seq_file s = {
-               .buf = sync_dump_buf,
-               .size = sizeof(sync_dump_buf) - 1,
-       };
-       int i;
-
-       seq_printf(&s, "fence:\n--------------\n");
-       sync_print_fence(&s, fence);
-       seq_printf(&s, "\n");
-
-       for (i = 0; i < s.count; i += DUMP_CHUNK) {
-               if ((s.count - i) > DUMP_CHUNK) {
-                       char c = s.buf[i + DUMP_CHUNK];
-                       s.buf[i + DUMP_CHUNK] = 0;
-                       pr_cont("%s", s.buf + i);
-                       s.buf[i + DUMP_CHUNK] = c;
-               } else {
-                       s.buf[s.count] = 0;
-                       pr_cont("%s", s.buf + i);
-               }
-       }
-}
-#else
-static void sync_dump(struct sync_fence *fence)
-{
-}
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif

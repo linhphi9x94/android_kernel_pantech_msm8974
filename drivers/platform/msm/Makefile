@@ -3,11 +3,7 @@
 #
 
 ccflags-y += -Idrivers/misc/
-<<<<<<< HEAD
-
-=======
 ccflags-y += -Isecurity/selinux -Isecurity/selinux/include
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 obj-$(CONFIG_MSM_SSBI) += ssbi.o
 obj-$(CONFIG_USB_BAM) += usb_bam.o
@@ -20,8 +16,5 @@ obj-$(CONFIG_QPNP_CLKDIV) += qpnp-clkdiv.o
 obj-$(CONFIG_QPNP_COINCELL) += qpnp-coincell.o
 obj-$(CONFIG_MSM_AVTIMER) += avtimer.o
 obj-$(CONFIG_SSM) += ssm.o
-<<<<<<< HEAD
-=======
 obj-$(CONFIG_PFT) += pft.o
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 obj-$(CONFIG_QPNP_REVID) += qpnp-revid.o

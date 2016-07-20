@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -32,8 +28,6 @@
 #define DCI_LOG_CON_MIN_LEN		14
 #define DCI_EVENT_CON_MIN_LEN		16
 
-<<<<<<< HEAD
-=======
 #define DIAG_DATA_TYPE		1
 #define DIAG_CNTL_TYPE		2
 
@@ -41,7 +35,6 @@
 #define DCI_BUF_SECONDARY	2
 #define DCI_BUF_CMD		3
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_DEBUG_FS
 #define DIAG_DCI_DEBUG_CNT	100
 #define DIAG_DCI_DEBUG_LEN	100
@@ -60,11 +53,8 @@
 
 extern unsigned int dci_max_reg;
 extern unsigned int dci_max_clients;
-<<<<<<< HEAD
-=======
 extern unsigned char dci_cumulative_log_mask[DCI_LOG_MASK_SIZE];
 extern unsigned char dci_cumulative_event_mask[DCI_EVENT_MASK_SIZE];
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 extern struct mutex dci_health_mutex;
 
 struct dci_pkt_req_entry_t {
@@ -74,18 +64,6 @@ struct dci_pkt_req_entry_t {
 	struct list_head track;
 } __packed;
 
-<<<<<<< HEAD
-struct diag_dci_client_tbl {
-	uint32_t client_id;
-	struct task_struct *client;
-	uint16_t list; /* bit mask */
-	int signal_type;
-	unsigned char dci_log_mask[DCI_LOG_MASK_SIZE];
-	unsigned char dci_event_mask[DCI_EVENT_MASK_SIZE];
-	unsigned char *dci_data;
-	int data_len;
-	int total_capacity;
-=======
 struct diag_dci_reg_tbl_t {
 	uint32_t client_id;
 	uint16_t notification_list;
@@ -93,27 +71,10 @@ struct diag_dci_reg_tbl_t {
 };
 
 struct diag_dci_health_t {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int dropped_logs;
 	int dropped_events;
 	int received_logs;
 	int received_events;
-<<<<<<< HEAD
-	struct mutex data_mutex;
-	uint8_t real_time;
-};
-
-/* This is used for DCI health stats */
-struct diag_dci_health_stats {
-	int client_id;
-	int dropped_logs;
-	int dropped_events;
-	int received_logs;
-	int received_events;
-	int reset_status;
-};
-
-=======
 };
 
 struct diag_dci_buffer_t {
@@ -160,7 +121,6 @@ struct diag_dci_health_stats_proc {
 	int proc;
 };
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* This is used for querying DCI Log
    or Event Mask */
 struct diag_log_event_stats {
@@ -168,8 +128,6 @@ struct diag_log_event_stats {
 	int is_set;
 };
 
-<<<<<<< HEAD
-=======
 struct diag_dci_pkt_rsp_header_t {
 	int type;
 	int length;
@@ -185,7 +143,6 @@ struct diag_dci_pkt_header_t {
 	int tag;
 } __packed;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 enum {
 	DIAG_DCI_NO_ERROR = 1001,	/* No error */
 	DIAG_DCI_NO_REG,		/* Could not register */
@@ -202,10 +159,7 @@ struct diag_dci_data_info {
 	unsigned long iteration;
 	int data_size;
 	char time_stamp[DIAG_TS_SIZE];
-<<<<<<< HEAD
-=======
 	uint8_t peripheral;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	uint8_t ch_type;
 };
 
@@ -215,17 +169,6 @@ extern struct mutex dci_stat_mutex;
 
 int diag_dci_init(void);
 void diag_dci_exit(void);
-<<<<<<< HEAD
-void diag_update_smd_dci_work_fn(struct work_struct *);
-void diag_dci_notify_client(int peripheral_mask, int data);
-int diag_process_smd_dci_read_data(struct diag_smd_info *smd_info, void *buf,
-								int recd_bytes);
-int diag_process_dci_transaction(unsigned char *buf, int len);
-void extract_dci_pkt_rsp(struct diag_smd_info *smd_info, unsigned char *buf);
-
-int diag_dci_find_client_index_health(int client_id);
-int diag_dci_find_client_index(int client_id);
-=======
 int diag_dci_register_client(struct diag_dci_reg_tbl_t *reg_entry);
 int diag_dci_deinit_client(void);
 void diag_update_smd_dci_work_fn(struct work_struct *);
@@ -238,38 +181,17 @@ int diag_process_dci_transaction(unsigned char *buf, int len);
 void extract_dci_pkt_rsp(unsigned char *buf, int len, int data_source,
 			 struct diag_smd_info *smd_info);
 struct diag_dci_client_tbl *diag_dci_get_client_entry(void);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* DCI Log streaming functions */
 void create_dci_log_mask_tbl(unsigned char *tbl_buf);
 void update_dci_cumulative_log_mask(int offset, unsigned int byte_index,
 						uint8_t byte_mask);
-<<<<<<< HEAD
-void clear_client_dci_cumulative_log_mask(int client_index);
-int diag_send_dci_log_mask(struct diag_smd_info *smd_info);
-void extract_dci_log(unsigned char *buf);
-=======
 void diag_dci_invalidate_cumulative_log_mask(void);
 int diag_send_dci_log_mask(void);
 void extract_dci_log(unsigned char *buf, int len, int data_source);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int diag_dci_clear_log_mask(void);
 int diag_dci_query_log_mask(uint16_t log_code);
 /* DCI event streaming functions */
 void update_dci_cumulative_event_mask(int offset, uint8_t byte_mask);
-<<<<<<< HEAD
-void clear_client_dci_cumulative_event_mask(int client_index);
-int diag_send_dci_event_mask(struct diag_smd_info *smd_info);
-void extract_dci_events(unsigned char *buf);
-void create_dci_event_mask_tbl(unsigned char *tbl_buf);
-int diag_dci_clear_event_mask(void);
-int diag_dci_query_event_mask(uint16_t event_id);
-void diag_dci_smd_record_info(int read_bytes, uint8_t ch_type);
-uint8_t diag_dci_get_cumulative_real_time(void);
-int diag_dci_set_real_time(int client_id, uint8_t real_time);
-/* Functions related to DCI wakeup sources */
-void diag_dci_try_activate_wakeup_source(smd_channel_t *channel);
-void diag_dci_try_deactivate_wakeup_source(smd_channel_t *channel);
-=======
 void diag_dci_invalidate_cumulative_event_mask(void);
 int diag_send_dci_event_mask(void);
 void extract_dci_events(unsigned char *buf, int len, int data_source);
@@ -285,5 +207,4 @@ int diag_dci_copy_health_stats(struct diag_dci_health_stats *stats, int proc);
 void diag_dci_try_activate_wakeup_source(void);
 void diag_dci_try_deactivate_wakeup_source(void);
 int diag_dci_write_proc(int peripheral, int pkt_type, char *buf, int len);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif

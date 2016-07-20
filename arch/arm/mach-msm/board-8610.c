@@ -136,11 +136,7 @@ static const char *msm8610_dt_match[] __initconst = {
 	NULL
 };
 
-<<<<<<< HEAD
-DT_MACHINE_START(MSM8610_DT, "Qualcomm MSM 8610 (Flattened Device Tree)")
-=======
 DT_MACHINE_START(MSM8610_DT, "Qualcomm MSM 8x10 / MSM 8x12 (Flattened Device Tree)")
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	.map_io = msm_map_msm8610_io,
 	.init_irq = msm_dt_init_irq,
 	.init_machine = msm8610_init,

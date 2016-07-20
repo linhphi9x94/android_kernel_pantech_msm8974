@@ -11,10 +11,7 @@
  */
 #include <linux/pm_runtime.h>
 #include <linux/dma-mapping.h>
-<<<<<<< HEAD
-=======
 #include <linux/delay.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <linux/slimbus/slimbus.h>
 #include <mach/sps.h>
 #include "slim-msm.h"
@@ -55,11 +52,7 @@ int msm_slim_get_ctrl(struct msm_slim_ctrl *dev)
 	if (ret >= 0) {
 		ref = atomic_read(&dev->dev->power.usage_count);
 		if (ref <= 0) {
-<<<<<<< HEAD
-			dev_err(dev->dev, "reference count -ve:%d", ref);
-=======
 			SLIM_WARN(dev, "reference count -ve:%d", ref);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			ret = -ENODEV;
 		}
 	}
@@ -75,11 +68,7 @@ void msm_slim_put_ctrl(struct msm_slim_ctrl *dev)
 	pm_runtime_mark_last_busy(dev->dev);
 	ref = atomic_read(&dev->dev->power.usage_count);
 	if (ref <= 0)
-<<<<<<< HEAD
-		dev_err(dev->dev, "reference count mismatch:%d", ref);
-=======
 		SLIM_WARN(dev, "reference count mismatch:%d", ref);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	else
 		pm_runtime_put_sync(dev->dev);
 #endif
@@ -121,11 +110,7 @@ irqreturn_t msm_slim_port_irq_handler(struct msm_slim_ctrl *dev, u32 pstat)
 	/* clear port interrupts */
 	writel_relaxed(pstat, PGD_THIS_EE(PGD_PORT_INT_CL_EEn,
 							dev->ver));
-<<<<<<< HEAD
-	pr_info("disabled overflow/underflow for port 0x%x", pstat);
-=======
 	SLIM_INFO(dev, "disabled overflow/underflow for port 0x%x", pstat);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/*
 	 * Guarantee that port interrupt bit(s) clearing writes go
@@ -321,11 +306,7 @@ void msm_dealloc_port(struct slim_controller *ctrl, u8 pn)
 }
 
 enum slim_port_err msm_slim_port_xfer_status(struct slim_controller *ctr,
-<<<<<<< HEAD
-				u8 pn, u8 **done_buf, u32 *done_len)
-=======
 				u8 pn, phys_addr_t *done_buf, u32 *done_len)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct msm_slim_ctrl *dev = slim_get_ctrldata(ctr);
 	struct sps_iovec sio;
@@ -333,11 +314,7 @@ enum slim_port_err msm_slim_port_xfer_status(struct slim_controller *ctr,
 	if (done_len)
 		*done_len = 0;
 	if (done_buf)
-<<<<<<< HEAD
-		*done_buf = NULL;
-=======
 		*done_buf = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!dev->pipes[pn].connected)
 		return SLIM_P_DISCONNECT;
 	ret = sps_get_iovec(dev->pipes[pn].sps, &sio);
@@ -345,11 +322,7 @@ enum slim_port_err msm_slim_port_xfer_status(struct slim_controller *ctr,
 		if (done_len)
 			*done_len = sio.size;
 		if (done_buf)
-<<<<<<< HEAD
-			*done_buf = (u8 *)sio.addr;
-=======
 			*done_buf = (phys_addr_t)sio.addr;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	dev_dbg(dev->dev, "get iovec returned %d\n", ret);
 	return SLIM_P_INPROGRESS;
@@ -374,11 +347,7 @@ static void msm_slim_port_cb(struct sps_event_notify *ev)
 		complete(comp);
 }
 
-<<<<<<< HEAD
-int msm_slim_port_xfer(struct slim_controller *ctrl, u8 pn, u8 *iobuf,
-=======
 int msm_slim_port_xfer(struct slim_controller *ctrl, u8 pn, phys_addr_t iobuf,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			u32 len, struct completion *comp)
 {
 	struct sps_register_event sreg;
@@ -398,11 +367,7 @@ int msm_slim_port_xfer(struct slim_controller *ctrl, u8 pn, phys_addr_t iobuf,
 		dev_dbg(dev->dev, "sps register event error:%x\n", ret);
 		return ret;
 	}
-<<<<<<< HEAD
-	ret = sps_transfer_one(dev->pipes[pn].sps, (u32)iobuf, len, comp,
-=======
 	ret = sps_transfer_one(dev->pipes[pn].sps, iobuf, len, comp,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				SPS_IOVEC_FLAG_INT);
 	dev_dbg(dev->dev, "sps submit xfer error code:%x\n", ret);
 	if (!ret) {
@@ -426,15 +391,9 @@ static int msm_slim_post_tx_msgq(struct msm_slim_ctrl *dev, u8 *buf, int len)
 	struct msm_slim_endp *endpoint = &dev->tx_msgq;
 	struct sps_mem_buffer *mem = &endpoint->buf;
 	struct sps_pipe *pipe = endpoint->sps;
-<<<<<<< HEAD
-	int ix = (buf - (u8 *)mem->base) / SLIM_MSGQ_BUF_LEN;
-
-	phys_addr_t phys_addr = mem->phys_base + (SLIM_MSGQ_BUF_LEN * ix);
-=======
 	int ix = (buf - (u8 *)mem->base);
 
 	phys_addr_t phys_addr = mem->phys_base + ix;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	for (ret = 0; ret < ((len + 3) >> 2); ret++)
 		pr_debug("BAM TX buf[%d]:0x%x", ret, ((u32 *)buf)[ret]);
@@ -447,35 +406,12 @@ static int msm_slim_post_tx_msgq(struct msm_slim_ctrl *dev, u8 *buf, int len)
 	return ret;
 }
 
-<<<<<<< HEAD
-static u32 *msm_slim_tx_msgq_return(struct msm_slim_ctrl *dev)
-=======
 void msm_slim_tx_msg_return(struct msm_slim_ctrl *dev)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct msm_slim_endp *endpoint = &dev->tx_msgq;
 	struct sps_mem_buffer *mem = &endpoint->buf;
 	struct sps_pipe *pipe = endpoint->sps;
 	struct sps_iovec iovec;
-<<<<<<< HEAD
-	int ret;
-
-	/* first transaction after establishing connection */
-	if (dev->tx_idx == -1) {
-		dev->tx_idx = 0;
-		return mem->base;
-	}
-	ret = sps_get_iovec(pipe, &iovec);
-	if (ret || iovec.addr == 0) {
-		dev_err(dev->dev, "sps_get_iovec() failed 0x%x\n", ret);
-		return NULL;
-	}
-
-	/* Calculate buffer index */
-	dev->tx_idx = ((int)(iovec.addr - mem->phys_base)) / SLIM_MSGQ_BUF_LEN;
-
-	return (u32 *)((u8 *)mem->base + (dev->tx_idx * SLIM_MSGQ_BUF_LEN));
-=======
 	int idx, ret = 0;
 	if (dev->use_tx_msgqs != MSM_MSGQ_ENABLED) {
 		/* use 1 buffer, non-blocking writes are not possible */
@@ -574,7 +510,6 @@ u32 *msm_slim_manage_tx_msgq(struct msm_slim_ctrl *dev, bool getbuf,
 
 	mutex_unlock(&dev->tx_buf_lock);
 	return NULL;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 int msm_send_msg_buf(struct msm_slim_ctrl *dev, u32 *buf, u8 len, u32 tx_reg)
@@ -592,30 +527,19 @@ int msm_send_msg_buf(struct msm_slim_ctrl *dev, u32 *buf, u8 len, u32 tx_reg)
 	return msm_slim_post_tx_msgq(dev, (u8 *)buf, len);
 }
 
-<<<<<<< HEAD
-u32 *msm_get_msg_buf(struct msm_slim_ctrl *dev, int len)
-=======
 u32 *msm_get_msg_buf(struct msm_slim_ctrl *dev, int len,
 			struct completion *comp)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	/*
 	 * Currently we block a transaction until the current one completes.
 	 * In case we need multiple transactions, use message Q
 	 */
-<<<<<<< HEAD
-	if (dev->use_tx_msgqs != MSM_MSGQ_ENABLED)
-		return dev->tx_buf;
-
-	return msm_slim_tx_msgq_return(dev);
-=======
 	if (dev->use_tx_msgqs != MSM_MSGQ_ENABLED) {
 		dev->wr_comp[0] = comp;
 		return dev->tx_buf;
 	}
 
 	return msm_slim_manage_tx_msgq(dev, true, comp);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static void
@@ -765,12 +689,8 @@ int msm_slim_connect_endp(struct msm_slim_ctrl *dev,
 		}
 		dev->use_rx_msgqs = MSM_MSGQ_ENABLED;
 	} else {
-<<<<<<< HEAD
-		dev->tx_idx = -1;
-=======
 		dev->tx_tail = 0;
 		dev->tx_head = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		dev->use_tx_msgqs = MSM_MSGQ_ENABLED;
 	}
 
@@ -877,29 +797,18 @@ static int msm_slim_init_tx_msgq(struct msm_slim_ctrl *dev, u32 pipe_reg)
 	config->options = SPS_O_ERROR | SPS_O_NO_Q |
 				SPS_O_ACK_TRANSFERS | SPS_O_AUTO_ENABLE;
 
-<<<<<<< HEAD
-	/* Allocate memory for the FIFO descriptors */
-	ret = msm_slim_sps_mem_alloc(dev, descr,
-				MSM_TX_BUFS * sizeof(struct sps_iovec));
-=======
 	/* Desc and TX buf are circular queues */
 	/* Allocate memory for the FIFO descriptors */
 	ret = msm_slim_sps_mem_alloc(dev, descr,
 				(MSM_TX_BUFS + 1) * sizeof(struct sps_iovec));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (ret) {
 		dev_err(dev->dev, "unable to allocate SPS descriptors\n");
 		goto alloc_descr_failed;
 	}
 
-<<<<<<< HEAD
-	/* Allocate memory for the message buffer(s), N descrs, 40-byte mesg */
-	ret = msm_slim_sps_mem_alloc(dev, mem, MSM_TX_BUFS * SLIM_MSGQ_BUF_LEN);
-=======
 	/* Allocate TX buffer from which descriptors are created */
 	ret = msm_slim_sps_mem_alloc(dev, mem, ((MSM_TX_BUFS + 1) *
 					SLIM_MSGQ_BUF_LEN));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (ret) {
 		dev_err(dev->dev, "dma_alloc_coherent failed\n");
 		goto alloc_buffer_failed;
@@ -1042,22 +951,16 @@ static void msm_slim_remove_ep(struct msm_slim_ctrl *dev,
 
 void msm_slim_sps_exit(struct msm_slim_ctrl *dev, bool dereg)
 {
-<<<<<<< HEAD
-=======
 	int i;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (dev->use_rx_msgqs >= MSM_MSGQ_ENABLED)
 		msm_slim_remove_ep(dev, &dev->rx_msgq, &dev->use_rx_msgqs);
 	if (dev->use_tx_msgqs >= MSM_MSGQ_ENABLED)
 		msm_slim_remove_ep(dev, &dev->tx_msgq, &dev->use_tx_msgqs);
-<<<<<<< HEAD
-=======
 	for (i = dev->port_b; i < MSM_SLIM_NPORTS; i++) {
 		if (dev->pipes[i - dev->port_b].connected)
 			msm_slim_disconn_pipe_port(dev, i - dev->port_b);
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (dereg) {
 		int i;
 		for (i = dev->port_b; i < MSM_SLIM_NPORTS; i++) {
@@ -1324,21 +1227,13 @@ static int msm_slim_qmi_send_select_inst_req(struct msm_slim_ctrl *dev,
 	rc = qmi_send_req_wait(dev->qmi.handle, &req_desc, req, sizeof(*req),
 					&resp_desc, &resp, sizeof(resp), 5000);
 	if (rc < 0) {
-<<<<<<< HEAD
-		pr_err("%s: QMI send req failed %d\n", __func__, rc);
-=======
 		SLIM_ERR(dev, "%s: QMI send req failed %d\n", __func__, rc);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return rc;
 	}
 
 	/* Check the response */
 	if (resp.resp.result != QMI_RESULT_SUCCESS_V01) {
-<<<<<<< HEAD
-		pr_err("%s: QMI request failed 0x%x (%s)\n", __func__,
-=======
 		SLIM_ERR(dev, "%s: QMI request failed 0x%x (%s)\n", __func__,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				resp.resp.result, get_qmi_error(&resp.resp));
 		return -EREMOTEIO;
 	}
@@ -1364,21 +1259,13 @@ static int msm_slim_qmi_send_power_request(struct msm_slim_ctrl *dev,
 	rc = qmi_send_req_wait(dev->qmi.handle, &req_desc, req, sizeof(*req),
 					&resp_desc, &resp, sizeof(resp), 5000);
 	if (rc < 0) {
-<<<<<<< HEAD
-		pr_err("%s: QMI send req failed %d\n", __func__, rc);
-=======
 		SLIM_ERR(dev, "%s: QMI send req failed %d\n", __func__, rc);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return rc;
 	}
 
 	/* Check the response */
 	if (resp.resp.result != QMI_RESULT_SUCCESS_V01) {
-<<<<<<< HEAD
-		pr_err("%s: QMI request failed 0x%x (%s)\n", __func__,
-=======
 		SLIM_ERR(dev, "%s: QMI request failed 0x%x (%s)\n", __func__,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				resp.resp.result, get_qmi_error(&resp.resp));
 		return -EREMOTEIO;
 	}
@@ -1415,11 +1302,7 @@ int msm_slim_qmi_init(struct msm_slim_ctrl *dev, bool apps_is_master)
 						SLIMBUS_QMI_SVC_V1,
 						SLIMBUS_QMI_INS_ID);
 	if (rc < 0) {
-<<<<<<< HEAD
-		pr_err("%s: QMI server not found\n", __func__);
-=======
 		SLIM_ERR(dev, "%s: QMI server not found\n", __func__);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		goto qmi_connect_to_service_failed;
 	}
 
@@ -1492,20 +1375,12 @@ int msm_slim_qmi_check_framer_request(struct msm_slim_ctrl *dev)
 	rc = qmi_send_req_wait(dev->qmi.handle, &req_desc, NULL, 0,
 					&resp_desc, &resp, sizeof(resp), 5000);
 	if (rc < 0) {
-<<<<<<< HEAD
-		dev_err(dev->dev, "%s: QMI send req failed %d\n", __func__, rc);
-=======
 		SLIM_ERR(dev, "%s: QMI send req failed %d\n", __func__, rc);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return rc;
 	}
 	/* Check the response */
 	if (resp.resp.result != QMI_RESULT_SUCCESS_V01) {
-<<<<<<< HEAD
-		dev_err(dev->dev, "%s: QMI request failed 0x%x (%s)\n",
-=======
 		SLIM_ERR(dev, "%s: QMI request failed 0x%x (%s)\n",
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			__func__, resp.resp.result, get_qmi_error(&resp.resp));
 		return -EREMOTEIO;
 	}

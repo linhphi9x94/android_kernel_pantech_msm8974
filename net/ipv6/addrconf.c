@@ -91,22 +91,12 @@
 #include <linux/seq_file.h>
 #include <linux/export.h>
 
-<<<<<<< HEAD
-#ifdef CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX
-/* Set to 3 to get tracing... */
-#define ACONF_DEBUG 3
-#else
-/* Set to 3 to get tracing... */
-#define ACONF_DEBUG 2
-#endif /* CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX */
-=======
 /* Set to 3 to get tracing... */
 #ifdef CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX
 #define ACONF_DEBUG 3
 #else
 #define ACONF_DEBUG 2
 #endif /* CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #if ACONF_DEBUG >= 3
 #define ADBG(x) printk x
@@ -209,19 +199,13 @@ static struct ipv6_devconf ipv6_devconf __read_mostly = {
 	.accept_ra_rt_info_max_plen = 0,
 #endif
 #endif
-<<<<<<< HEAD
-=======
 	.accept_ra_rt_table	= 0,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	.proxy_ndp		= 0,
 	.accept_source_route	= 0,	/* we do not accept RH0 by default. */
 	.disable_ipv6		= 0,
 	.accept_dad		= 1,
 	.accept_ra_prefix_route = 1,
-<<<<<<< HEAD
-=======
 	.accept_ra_mtu		= 1,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static struct ipv6_devconf ipv6_devconf_dflt __read_mostly = {
@@ -252,19 +236,13 @@ static struct ipv6_devconf ipv6_devconf_dflt __read_mostly = {
 	.accept_ra_rt_info_max_plen = 0,
 #endif
 #endif
-<<<<<<< HEAD
-=======
 	.accept_ra_rt_table	= 0,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	.proxy_ndp		= 0,
 	.accept_source_route	= 0,	/* we do not accept RH0 by default. */
 	.disable_ipv6		= 0,
 	.accept_dad		= 1,
 	.accept_ra_prefix_route = 1,
-<<<<<<< HEAD
-=======
 	.accept_ra_mtu		= 1,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 /* IPv6 Wildcard Address and Loopback Address defined by RFC2553 */
@@ -308,23 +286,14 @@ static void addrconf_mod_timer(struct inet6_ifaddr *ifp,
 	case AC_DAD:
 		ifp->timer.function = addrconf_dad_timer;
 
-<<<<<<< HEAD
-#ifdef CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT
-=======
 #ifdef CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
        if(strncmp( ifp->idev->dev->name, "rmnet", 5) == 0 )
        {
          printk(KERN_CRIT "addrconf_mod_timer() DAD timer start when %lu to 50 ms\n", when);
          when = 5;
-<<<<<<< HEAD
-	   }
-#endif       
-=======
        }
 #endif /* CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT */
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		break;
 	case AC_RS:
 		ifp->timer.function = addrconf_rs_timer;
@@ -705,22 +674,14 @@ ipv6_add_addr(struct inet6_dev *idev, const struct in6_addr *addr, int pfxlen,
 	ifa->prefix_len = pfxlen;
 	ifa->flags = flags | IFA_F_TENTATIVE;
   
-<<<<<<< HEAD
-#ifdef CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT
-=======
 #ifdef CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
    if(strncmp( idev->dev->name, "rmnet",5) == 0 
     && !(addr_type & IPV6_ADDR_LINKLOCAL) )
    {
      printk(KERN_CRIT "ipv6_add_addr() set mask NODAD\n");
      ifa->flags |= IFA_F_NODAD; 
    }
-<<<<<<< HEAD
-#endif   
-=======
 #endif /* CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
    
 	ifa->cstamp = ifa->tstamp = jiffies;
 
@@ -735,15 +696,9 @@ ipv6_add_addr(struct inet6_dev *idev, const struct in6_addr *addr, int pfxlen,
 	hash = ipv6_addr_hash(addr);
 
 	hlist_add_head_rcu(&ifa->addr_lst, &inet6_addr_lst[hash]);
-<<<<<<< HEAD
-#ifndef CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX  
-	spin_unlock(&addrconf_hash_lock);
-#endif /* CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX */
-=======
 #ifndef CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX
 	spin_unlock(&addrconf_hash_lock);
 #endif /* CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	write_lock(&idev->lock);
 	/* Add to inet6_dev unicast addr list. */
@@ -758,15 +713,9 @@ ipv6_add_addr(struct inet6_dev *idev, const struct in6_addr *addr, int pfxlen,
 
 	in6_ifa_hold(ifa);
 	write_unlock(&idev->lock);
-<<<<<<< HEAD
-#ifdef CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX
-	spin_unlock(&addrconf_hash_lock);
-#endif /* CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX */
-=======
 #ifdef CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX  
 	spin_unlock(&addrconf_hash_lock);
 #endif /* CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX */	
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 out2:
 	rcu_read_unlock_bh();
 
@@ -803,15 +752,9 @@ static void ipv6_del_addr(struct inet6_ifaddr *ifp)
 
 	spin_lock_bh(&addrconf_hash_lock);
 	hlist_del_init_rcu(&ifp->addr_lst);
-<<<<<<< HEAD
-#ifndef CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX  
-	spin_unlock_bh(&addrconf_hash_lock);
-#endif /* CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX */
-=======
 #ifndef CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX  
 	spin_unlock_bh(&addrconf_hash_lock);
 #endif /* CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	write_lock_bh(&idev->lock);
 #ifdef CONFIG_IPV6_PRIVACY
@@ -864,16 +807,10 @@ static void ipv6_del_addr(struct inet6_ifaddr *ifp)
 		}
 	}
 	write_unlock_bh(&idev->lock);
-<<<<<<< HEAD
-#ifdef CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX
-	spin_unlock_bh(&addrconf_hash_lock);
-#endif /* CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX */
-=======
 #ifdef CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX  
 	spin_unlock_bh(&addrconf_hash_lock);
 #endif /* CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX */
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	addrconf_del_timer(ifp);
 
 	ipv6_ifa_notify(RTM_DELADDR, ifp);
@@ -1790,8 +1727,6 @@ static int __ipv6_try_regen_rndid(struct inet6_dev *idev, struct in6_addr *tmpad
 }
 #endif
 
-<<<<<<< HEAD
-=======
 u32 addrconf_rt_table(const struct net_device *dev, u32 default_table) {
 	/* Determines into what table to put autoconf PIO/RIO/default routes
 	 * learned on this device.
@@ -1817,7 +1752,6 @@ u32 addrconf_rt_table(const struct net_device *dev, u32 default_table) {
 	return table;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*
  *	Add prefix route.
  */
@@ -1827,11 +1761,7 @@ addrconf_prefix_route(struct in6_addr *pfx, int plen, struct net_device *dev,
 		      unsigned long expires, u32 flags)
 {
 	struct fib6_config cfg = {
-<<<<<<< HEAD
-		.fc_table = RT6_TABLE_PREFIX,
-=======
 		.fc_table = addrconf_rt_table(dev, RT6_TABLE_PREFIX),
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		.fc_metric = IP6_RT_PRIO_ADDRCONF,
 		.fc_ifindex = dev->ifindex,
 		.fc_expires = expires,
@@ -1865,12 +1795,8 @@ static struct rt6_info *addrconf_get_prefix_route(const struct in6_addr *pfx,
 	struct rt6_info *rt = NULL;
 	struct fib6_table *table;
 
-<<<<<<< HEAD
-	table = fib6_get_table(dev_net(dev), RT6_TABLE_PREFIX);
-=======
 	table = fib6_get_table(dev_net(dev),
 			       addrconf_rt_table(dev, RT6_TABLE_PREFIX));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (table == NULL)
 		return NULL;
 
@@ -2925,32 +2851,19 @@ static int addrconf_ifdown(struct net_device *dev, int how)
 		snmp6_unregister_dev(idev);
 
 	}
-<<<<<<< HEAD
-#ifdef CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX
-	spin_lock_bh(&addrconf_hash_lock);
-#endif /* CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX */
-
-=======
 
 #ifdef CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX
 	spin_lock_bh(&addrconf_hash_lock);
 #endif /* CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* Step 2: clear hash table */
 	for (i = 0; i < IN6_ADDR_HSIZE; i++) {
 		struct hlist_head *h = &inet6_addr_lst[i];
 		struct hlist_node *n;
-<<<<<<< HEAD
-#ifndef CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX
-		spin_lock_bh(&addrconf_hash_lock);
-#endif /* CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX */
-=======
 
 #ifndef CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX
 		spin_lock_bh(&addrconf_hash_lock);
 #endif /* CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX */
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	restart:
 		hlist_for_each_entry_rcu(ifa, n, h, addr_lst) {
 			if (ifa->idev == idev) {
@@ -2959,15 +2872,9 @@ static int addrconf_ifdown(struct net_device *dev, int how)
 				goto restart;
 			}
 		}
-<<<<<<< HEAD
-#ifndef CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX    
-		spin_unlock_bh(&addrconf_hash_lock);
-#endif /* CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX */
-=======
 #ifndef CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX    
 		spin_unlock_bh(&addrconf_hash_lock);
 #endif /* CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	write_lock_bh(&idev->lock);
@@ -3022,17 +2929,6 @@ static int addrconf_ifdown(struct net_device *dev, int how)
 	}
 
 	write_unlock_bh(&idev->lock);
-<<<<<<< HEAD
-#ifdef CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX
-	spin_unlock_bh(&addrconf_hash_lock);
-#endif /* CONFIG_LGU_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX */
-
-	/* Step 5: Discard multicast list */
-	if (how)
-		ipv6_mc_destroy_dev(idev);
-	else
-		ipv6_mc_down(idev);
-=======
   
 #ifdef CONFIG_SKY_DS_OPTIMIZE_IPV6_ASSIGNMENT_CRASH_FIX
 	spin_unlock_bh(&addrconf_hash_lock);
@@ -3045,7 +2941,6 @@ static int addrconf_ifdown(struct net_device *dev, int how)
 	} else {
 		ipv6_mc_down(idev);
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	idev->tstamp = jiffies;
 
@@ -4104,10 +3999,7 @@ static inline void ipv6_store_devconf(struct ipv6_devconf *cnf,
 	array[DEVCONF_ACCEPT_RA_RT_INFO_MAX_PLEN] = cnf->accept_ra_rt_info_max_plen;
 #endif
 #endif
-<<<<<<< HEAD
-=======
 	array[DEVCONF_ACCEPT_RA_RT_TABLE] = cnf->accept_ra_rt_table;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	array[DEVCONF_PROXY_NDP] = cnf->proxy_ndp;
 	array[DEVCONF_ACCEPT_SOURCE_ROUTE] = cnf->accept_source_route;
 #ifdef CONFIG_IPV6_OPTIMISTIC_DAD
@@ -4119,10 +4011,7 @@ static inline void ipv6_store_devconf(struct ipv6_devconf *cnf,
 	array[DEVCONF_DISABLE_IPV6] = cnf->disable_ipv6;
 	array[DEVCONF_ACCEPT_DAD] = cnf->accept_dad;
 	array[DEVCONF_FORCE_TLLAO] = cnf->force_tllao;
-<<<<<<< HEAD
-=======
 	array[DEVCONF_ACCEPT_RA_MTU] = cnf->accept_ra_mtu;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static inline size_t inet6_ifla6_size(void)
@@ -4489,8 +4378,6 @@ int addrconf_sysctl_forward(ctl_table *ctl, int write,
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
 static
 int addrconf_sysctl_mtu(struct ctl_table *ctl, int write,
 			void __user *buffer, size_t *lenp, loff_t *ppos)
@@ -4506,7 +4393,6 @@ int addrconf_sysctl_mtu(struct ctl_table *ctl, int write,
 	return proc_dointvec_minmax(&lctl, write, buffer, lenp, ppos);
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static void dev_disable_change(struct inet6_dev *idev)
 {
 	if (!idev || !idev->dev)
@@ -4616,11 +4502,7 @@ static struct addrconf_sysctl_table
 			.data		= &ipv6_devconf.mtu6,
 			.maxlen		= sizeof(int),
 			.mode		= 0644,
-<<<<<<< HEAD
-			.proc_handler	= proc_dointvec,
-=======
 			.proc_handler	= addrconf_sysctl_mtu,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		},
 		{
 			.procname	= "accept_ra",
@@ -4762,8 +4644,6 @@ static struct addrconf_sysctl_table
 #endif
 #endif
 		{
-<<<<<<< HEAD
-=======
 			.procname	= "accept_ra_rt_table",
 			.data		= &ipv6_devconf.accept_ra_rt_table,
 			.maxlen		= sizeof(int),
@@ -4771,7 +4651,6 @@ static struct addrconf_sysctl_table
 			.proc_handler	= proc_dointvec,
 		},
 		{
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			.procname	= "proxy_ndp",
 			.data		= &ipv6_devconf.proxy_ndp,
 			.maxlen		= sizeof(int),
@@ -4833,8 +4712,6 @@ static struct addrconf_sysctl_table
 			.proc_handler	= proc_dointvec,
 		},
 		{
-<<<<<<< HEAD
-=======
 			.procname	= "accept_ra_mtu",
 			.data		= &ipv6_devconf.accept_ra_mtu,
 			.maxlen		= sizeof(int),
@@ -4842,7 +4719,6 @@ static struct addrconf_sysctl_table
 			.proc_handler	= proc_dointvec,
 		},
 		{
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			/* sentinel */
 		}
 	},

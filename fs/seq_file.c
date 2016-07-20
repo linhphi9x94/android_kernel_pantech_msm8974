@@ -732,8 +732,6 @@ int seq_write(struct seq_file *seq, const void *data, size_t len)
 }
 EXPORT_SYMBOL(seq_write);
 
-<<<<<<< HEAD
-=======
 /**
  * seq_pad - write padding spaces to buffer
  * @m: seq_file identifying the buffer to which data should be written
@@ -749,7 +747,6 @@ void seq_pad(struct seq_file *m, char c)
 }
 EXPORT_SYMBOL(seq_pad);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct list_head *seq_list_start(struct list_head *head, loff_t pos)
 {
 	struct list_head *lh;

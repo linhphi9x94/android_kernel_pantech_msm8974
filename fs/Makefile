@@ -29,10 +29,7 @@ obj-$(CONFIG_SIGNALFD)		+= signalfd.o
 obj-$(CONFIG_TIMERFD)		+= timerfd.o
 obj-$(CONFIG_EVENTFD)		+= eventfd.o
 obj-$(CONFIG_AIO)               += aio.o
-<<<<<<< HEAD
-=======
 obj-$(CONFIG_FS_ENCRYPTION)	+= crypto/
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 obj-$(CONFIG_FILE_LOCKING)      += locks.o
 obj-$(CONFIG_COMPAT)		+= compat.o compat_ioctl.o
 obj-$(CONFIG_BINFMT_AOUT)	+= binfmt_aout.o
@@ -126,10 +123,7 @@ obj-$(CONFIG_DEBUG_FS)		+= debugfs/
 obj-$(CONFIG_OCFS2_FS)		+= ocfs2/
 obj-$(CONFIG_BTRFS_FS)		+= btrfs/
 obj-$(CONFIG_GFS2_FS)           += gfs2/
-<<<<<<< HEAD
-=======
 obj-$(CONFIG_F2FS_FS)           += f2fs/
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 obj-y				+= exofs/ # Multiple modules
 obj-$(CONFIG_CEPH_FS)		+= ceph/
 obj-$(CONFIG_PSTORE)		+= pstore/

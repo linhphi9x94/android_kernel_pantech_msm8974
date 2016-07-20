@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -261,8 +257,6 @@ void mdss_mdp_intersect_rect(struct mdss_mdp_img_rect *res_rect,
 	else
 		*res_rect = (struct mdss_mdp_img_rect){l, t, (r-l), (b-t)};
 }
-<<<<<<< HEAD
-=======
 
 void mdss_mdp_crop_rect(struct mdss_mdp_img_rect *src_rect,
 	struct mdss_mdp_img_rect *dst_rect,
@@ -284,7 +278,6 @@ void mdss_mdp_crop_rect(struct mdss_mdp_img_rect *src_rect,
 	}
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int mdss_mdp_get_rau_strides(u32 w, u32 h,
 			       struct mdss_mdp_format_params *fmt,
 			       struct mdss_mdp_plane_sizes *ps)
@@ -327,11 +320,7 @@ int mdss_mdp_get_rau_strides(u32 w, u32 h,
 }
 
 int mdss_mdp_get_plane_sizes(u32 format, u32 w, u32 h,
-<<<<<<< HEAD
-			     struct mdss_mdp_plane_sizes *ps, u32 bwc_mode)
-=======
 	struct mdss_mdp_plane_sizes *ps, u32 bwc_mode, bool rotation)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	struct mdss_mdp_format_params *fmt;
 	int i, rc;
@@ -385,11 +374,6 @@ int mdss_mdp_get_plane_sizes(u32 format, u32 w, u32 h,
 			u8 hmap[] = { 1, 2, 1, 2 };
 			u8 vmap[] = { 1, 1, 2, 2 };
 			u8 horiz, vert, stride_align, height_align;
-<<<<<<< HEAD
-
-			horiz = hmap[fmt->chroma_sample];
-			vert = vmap[fmt->chroma_sample];
-=======
 			u32 chroma_samp;
 
 			chroma_samp = fmt->chroma_sample;
@@ -403,7 +387,6 @@ int mdss_mdp_get_plane_sizes(u32 format, u32 w, u32 h,
 
 			horiz = hmap[chroma_samp];
 			vert = vmap[chroma_samp];
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 			switch (format) {
 			case MDP_Y_CR_CB_GH2V2:
@@ -515,26 +498,6 @@ int mdss_mdp_put_img(struct mdss_mdp_img_data *data)
 		data->srcp_file = NULL;
 	} else if (!IS_ERR_OR_NULL(data->srcp_ihdl)) {
 		pr_debug("ion hdl=%p buf=0x%x\n", data->srcp_ihdl, data->addr);
-<<<<<<< HEAD
-
-		if (is_mdss_iommu_attached()) {
-			int domain;
-			if (data->flags & MDP_SECURE_OVERLAY_SESSION)
-				domain = MDSS_IOMMU_DOMAIN_SECURE;
-			else
-				domain = MDSS_IOMMU_DOMAIN_UNSECURE;
-			ion_unmap_iommu(iclient, data->srcp_ihdl,
-					mdss_get_iommu_domain(domain), 0);
-
-			if (domain == MDSS_IOMMU_DOMAIN_SECURE) {
-				msm_ion_unsecure_buffer(iclient,
-					data->srcp_ihdl);
-			}
-		}
-
-		ion_free(iclient, data->srcp_ihdl);
-		data->srcp_ihdl = NULL;
-=======
 		if (!iclient) {
 			pr_err("invalid ion client\n");
 			return -ENOMEM;
@@ -558,7 +521,6 @@ int mdss_mdp_put_img(struct mdss_mdp_img_data *data)
 			data->srcp_ihdl = NULL;
 		}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	} else {
 		return -ENOMEM;
 	}
@@ -632,10 +594,7 @@ int mdss_mdp_get_img(struct msmfb_data *img, struct mdss_mdp_img_data *data)
 			if (ret && (domain == MDSS_IOMMU_DOMAIN_SECURE))
 				msm_ion_unsecure_buffer(iclient,
 						data->srcp_ihdl);
-<<<<<<< HEAD
-=======
 			data->mapped = true;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		} else {
 			ret = ion_phys(iclient, data->srcp_ihdl, start,
 				       (size_t *) len);

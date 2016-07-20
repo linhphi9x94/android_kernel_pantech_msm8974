@@ -85,10 +85,7 @@ static int sdio_irq_thread(void *_host)
 	struct sched_param param = { .sched_priority = 1 };
 	unsigned long period, idle_period;
 	int ret;
-<<<<<<< HEAD
-=======
 	bool ws;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	sched_setscheduler(current, SCHED_FIFO, &param);
 
@@ -122,8 +119,6 @@ static int sdio_irq_thread(void *_host)
 		ret = __mmc_claim_host(host, &host->sdio_irq_thread_abort);
 		if (ret)
 			break;
-<<<<<<< HEAD
-=======
 		ws = false;
 		/*
 		 * prevent suspend if it has started when scheduled;
@@ -135,7 +130,6 @@ static int sdio_irq_thread(void *_host)
 			pm_wakeup_event(&host->card->dev, 100);
 			ws = true;
 		}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		ret = process_sdio_pending_irqs(host);
 		host->sdio_irq_pending = false;
 		mmc_release_host(host);
@@ -172,15 +166,12 @@ static int sdio_irq_thread(void *_host)
 			host->ops->enable_sdio_irq(host, 1);
 			mmc_host_clk_release(host);
 		}
-<<<<<<< HEAD
-=======
 		/*
 		 * function drivers would have processed the event from card
 		 * unless suspended, hence release wake source
 		 */
 		if (ws && (host->dev_status == DEV_RESUMED))
 			pm_relax(&host->card->dev);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (!kthread_should_stop())
 			schedule_timeout(period);
 		set_current_state(TASK_RUNNING);

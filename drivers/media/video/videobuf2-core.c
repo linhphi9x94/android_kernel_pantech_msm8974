@@ -513,16 +513,6 @@ int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requestbuffers *req)
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
-	/*
-	 * If the same number of buffers and memory access method is requested
-	 * then return immediately.
-	 */
-	if (q->memory == req->memory && req->count == q->num_buffers)
-		return 0;
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (req->count == 0 || q->num_buffers != 0 || q->memory != req->memory) {
 		/*
 		 * We already have buffers allocated, so first check if they
@@ -546,11 +536,7 @@ int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requestbuffers *req)
 	/*
 	 * Make sure the requested values and current defaults are sane.
 	 */
-<<<<<<< HEAD
-	num_buffers = min_t(unsigned int, req->count, VIDEO_MAX_FRAME);
-=======
 	num_buffers = min_t(unsigned int, req->count, VB2_MAX_FRAME);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	memset(q->plane_sizes, 0, sizeof(q->plane_sizes));
 	memset(q->alloc_ctx, 0, sizeof(q->alloc_ctx));
 	q->memory = req->memory;
@@ -658,11 +644,7 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
 		return -EINVAL;
 	}
 
-<<<<<<< HEAD
-	if (q->num_buffers == VIDEO_MAX_FRAME) {
-=======
 	if (q->num_buffers == VB2_MAX_FRAME) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		dprintk(1, "%s(): maximum number of buffers already allocated\n",
 			__func__);
 		return -ENOBUFS;
@@ -676,11 +658,7 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
 		q->memory = create->memory;
 	}
 
-<<<<<<< HEAD
-	num_buffers = min(create->count, VIDEO_MAX_FRAME - q->num_buffers);
-=======
 	num_buffers = min(create->count, VB2_MAX_FRAME - q->num_buffers);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/*
 	 * Ask the driver, whether the requested number of buffers, planes per
@@ -1121,19 +1099,11 @@ int vb2_qbuf(struct vb2_queue *q, struct v4l2_buffer *b)
 	if (q->memory == V4L2_MEMORY_USERPTR) {
 		bool mm_exists = !!current->mm;
 
-<<<<<<< HEAD
-              mmap_sem = mm_exists ? &current->mm->mmap_sem : NULL;
-		call_qop(q, wait_prepare, q);
-		/* kthreads have no userspace, hence no pages to lock */
-              if (mmap_sem)
-                down_read(mmap_sem);
-=======
 		mmap_sem = mm_exists ? &current->mm->mmap_sem : NULL;
 		call_qop(q, wait_prepare, q);
 		/* kthreads have no userspace, hence no pages to lock */
 		if (mmap_sem)
 			down_read(mmap_sem);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		call_qop(q, wait_finish, q);
 	}
 
@@ -1804,11 +1774,7 @@ struct vb2_fileio_buf {
 struct vb2_fileio_data {
 	struct v4l2_requestbuffers req;
 	struct v4l2_buffer b;
-<<<<<<< HEAD
-	struct vb2_fileio_buf bufs[VIDEO_MAX_FRAME];
-=======
 	struct vb2_fileio_buf bufs[VB2_MAX_FRAME];
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	unsigned int index;
 	unsigned int q_count;
 	unsigned int dq_count;

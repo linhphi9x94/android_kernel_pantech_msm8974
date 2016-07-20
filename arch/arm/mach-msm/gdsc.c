@@ -162,11 +162,7 @@ static struct regulator_ops gdsc_ops = {
 
 static int __devinit gdsc_probe(struct platform_device *pdev)
 {
-<<<<<<< HEAD
-	static atomic_t gdsc_count = ATOMIC_INIT(-1);
-=======
 	static atomic_t gdsc_count __initdata = ATOMIC_INIT(-1);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct regulator_init_data *init_data;
 	struct resource *res;
 	struct gdsc *sc;
@@ -294,11 +290,7 @@ static int __devexit gdsc_remove(struct platform_device *pdev)
 	return 0;
 }
 
-<<<<<<< HEAD
-static struct of_device_id gdsc_match_table[] = {
-=======
 static struct of_device_id gdsc_match_table[] __initdata = {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	{ .compatible = "qcom,gdsc" },
 	{}
 };

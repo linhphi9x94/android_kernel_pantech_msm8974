@@ -32,9 +32,6 @@ static int mdmdump = 0;
 static int ssrmode = 0;
 
 // p15060
-<<<<<<< HEAD
-#include "pantech_ssrsystem.h"
-=======
 //#include "../../../../vendor/pantech/frameworks/testmenu_server/inc/pantech_ssrsystem.h"
 typedef struct {
     unsigned int ssr_info_start_magic_num;
@@ -60,7 +57,6 @@ typedef struct {
 #define SSR_SET_MODEM_DUMP_ENABLE(b)    (b->ssr_set_modem_dump_enable = (unsigned int)1)
 #define SSR_SET_MODEM_DUMP_DISABLE(b)   (b->ssr_set_modem_dump_enable = (unsigned int)0)
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static char backup_buffer[SECTOR_SIZE];
 sky_ssr_info_type *ssrinfo; // setting option
 extern int modem_ssr_dump_enable;

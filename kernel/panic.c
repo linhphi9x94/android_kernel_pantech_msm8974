@@ -129,25 +129,6 @@ void panic(const char *fmt, ...)
 	va_start(args, fmt);
 	vsnprintf(buf, sizeof(buf), fmt, args);
 	va_end(args);
-<<<<<<< HEAD
-
-
-// p15060
-#ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
-    if( 1 == user_fault )
-    {
-        strcat( buf, " - USER_RAMDUMP" );
-    }
-    else if( 2 == user_fault )
-    {
-        strcat( buf, " - FRAME_RAMDUMP" );
-    }
-#endif
-    printk(KERN_EMERG "Kernel panic - not syncing: %s\n",buf);
-
-#ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
-    __save_regs_and_mmu_in_panic();
-=======
 // p15060
 #ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
 	if( 1 == user_fault )
@@ -162,7 +143,6 @@ void panic(const char *fmt, ...)
 
 #ifdef CONFIG_PANTECH_ERR_CRASH_LOGGING
 	__save_regs_and_mmu_in_panic();
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif
     
 #ifdef CONFIG_DEBUG_BUGVERBOSE

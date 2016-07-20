@@ -11,11 +11,6 @@
 #define KGSL_VERSION_MAJOR        3
 #define KGSL_VERSION_MINOR        14
 
-<<<<<<< HEAD
-/*context flags */
-#define KGSL_CONTEXT_SAVE_GMEM		0x00000001
-#define KGSL_CONTEXT_NO_GMEM_ALLOC	0x00000002
-=======
 /*
  * We have traditionally mixed context and issueibcmds / command batch flags
  * together into a big flag stew. This worked fine until we started adding a
@@ -33,32 +28,21 @@
 #define KGSL_CONTEXT_SAVE_GMEM		0x00000001
 #define KGSL_CONTEXT_NO_GMEM_ALLOC	0x00000002
 /* This is a cmdbatch exclusive flag - use the CMDBATCH equivalent instead */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define KGSL_CONTEXT_SUBMIT_IB_LIST	0x00000004
 #define KGSL_CONTEXT_CTX_SWITCH		0x00000008
 #define KGSL_CONTEXT_PREAMBLE		0x00000010
 #define KGSL_CONTEXT_TRASH_STATE	0x00000020
 #define KGSL_CONTEXT_PER_CONTEXT_TS	0x00000040
 #define KGSL_CONTEXT_USER_GENERATED_TS	0x00000080
-<<<<<<< HEAD
-#define KGSL_CONTEXT_END_OF_FRAME	0x00000100
-
-#define KGSL_CONTEXT_NO_FAULT_TOLERANCE 0x00000200
-=======
 /* This is a cmdbatch exclusive flag - use the CMDBATCH equivalent instead */
 #define KGSL_CONTEXT_END_OF_FRAME	0x00000100
 #define KGSL_CONTEXT_NO_FAULT_TOLERANCE 0x00000200
 /* This is a cmdbatch exclusive flag - use the CMDBATCH equivalent instead */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define KGSL_CONTEXT_SYNC               0x00000400
 #define KGSL_CONTEXT_PWR_CONSTRAINT     0x00000800
 /* bits [12:15] are reserved for future use */
 #define KGSL_CONTEXT_TYPE_MASK          0x01F00000
 #define KGSL_CONTEXT_TYPE_SHIFT         20
-<<<<<<< HEAD
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define KGSL_CONTEXT_TYPE_ANY		0
 #define KGSL_CONTEXT_TYPE_GL		1
 #define KGSL_CONTEXT_TYPE_CL		2
@@ -68,8 +52,6 @@
 
 #define KGSL_CONTEXT_INVALID 0xffffffff
 
-<<<<<<< HEAD
-=======
 /*
  * --- command batch flags ---
  * The bits that are linked to a KGSL_CONTEXT equivalent are either legacy
@@ -91,7 +73,6 @@
  * contexts and command batches.  Update this comment as new flags are added.
  */
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* --- Memory allocation flags --- */
 
 /* General allocation hints */
@@ -746,12 +727,8 @@ struct kgsl_gpumem_sync_cache {
  * struct kgsl_perfcounter_get - argument to IOCTL_KGSL_PERFCOUNTER_GET
  * @groupid: Performance counter group ID
  * @countable: Countable to select within the group
-<<<<<<< HEAD
- * @offset: Return offset of the reserved counter
-=======
  * @offset: Return offset of the reserved LO counter
  * @offset_hi: Return offset of the reserved HI counter
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * Get an available performance counter from a specified groupid.  The offset
  * of the performance counter will be returned after successfully assigning
@@ -766,14 +743,9 @@ struct kgsl_perfcounter_get {
 	unsigned int groupid;
 	unsigned int countable;
 	unsigned int offset;
-<<<<<<< HEAD
-/* private: reserved for future use */
-	unsigned int __pad[2]; /* For future binary compatibility */
-=======
 	unsigned int offset_hi;
 /* private: reserved for future use */
 	unsigned int __pad; /* For future binary compatibility */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 #define IOCTL_KGSL_PERFCOUNTER_GET \
@@ -916,12 +888,9 @@ struct kgsl_cmd_syncpoint {
 	unsigned int size;
 };
 
-<<<<<<< HEAD
-=======
 /* Flag to indicate that the cmdlist may contain memlists */
 #define KGSL_IBDESC_MEMLIST 0x1
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /**
  * struct kgsl_submit_commands - Argument to IOCTL_KGSL_SUBMIT_COMMANDS
  * @context_id: KGSL context ID that owns the commands
@@ -937,12 +906,8 @@ struct kgsl_cmd_syncpoint {
  * similar to kgsl_issueibcmds expect that it doesn't support the legacy way to
  * submit IB lists and it adds sync points to block the IB until the
  * dependencies are satisified.  This entry point is the new and preferred way
-<<<<<<< HEAD
- * to submit commands to the GPU.
-=======
  * to submit commands to the GPU. The memory list can be used to specify all
  * memory that is referrenced in the current set of commands.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  */
 
 struct kgsl_submit_commands {

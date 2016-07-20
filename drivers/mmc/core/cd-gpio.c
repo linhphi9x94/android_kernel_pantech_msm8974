@@ -19,13 +19,8 @@
 
 struct mmc_cd_gpio {
 	unsigned int gpio;
-<<<<<<< HEAD
-	char label[0];
-	bool status;
-=======
 	bool status;
 	char label[0];
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static int mmc_cd_get_status(struct mmc_host *host)

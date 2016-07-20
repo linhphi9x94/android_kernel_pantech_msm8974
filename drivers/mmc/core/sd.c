@@ -1045,10 +1045,7 @@ static int mmc_sd_init_card(struct mmc_host *host, u32 ocr,
 		err = mmc_send_relative_addr(host, &card->rca);
 		if (err)
 			return err;
-<<<<<<< HEAD
-=======
 		host->card = card;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	if (!oldcard) {
@@ -1118,14 +1115,6 @@ static int mmc_sd_init_card(struct mmc_host *host, u32 ocr,
 		}
 	}
 
-<<<<<<< HEAD
-	host->card = card;
-	return 0;
-
-free_card:
-	if (!oldcard)
-		mmc_remove_card(card);
-=======
 	return 0;
 
 free_card:
@@ -1133,7 +1122,6 @@ free_card:
 		host->card = NULL;
 		mmc_remove_card(card);
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return err;
 }
@@ -1146,18 +1134,11 @@ static void mmc_sd_remove(struct mmc_host *host)
 	BUG_ON(!host);
 	BUG_ON(!host->card);
 
-<<<<<<< HEAD
-=======
 	mmc_exit_clk_scaling(host);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mmc_remove_card(host->card);
 
 	mmc_claim_host(host);
 	host->card = NULL;
-<<<<<<< HEAD
-	mmc_exit_clk_scaling(host);
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mmc_release_host(host);
 }
 
@@ -1420,15 +1401,11 @@ int mmc_attach_sd(struct mmc_host *host)
 	 */
 #ifdef CONFIG_MMC_PARANOID_SD_INIT
 	retries = 5;
-<<<<<<< HEAD
-	while (retries) {
-=======
 	/*
 	 * Some bad cards may take a long time to init, give preference to
 	 * suspend in those cases.
 	 */
 	while (retries && !host->rescan_disable) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		err = mmc_sd_init_card(host, host->ocr, NULL);
 		if (err) {
 			retries--;
@@ -1446,12 +1423,9 @@ int mmc_attach_sd(struct mmc_host *host)
 		       mmc_hostname(host), err);
 		goto err;
 	}
-<<<<<<< HEAD
-=======
 
 	if (host->rescan_disable)
 		goto err;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #else
 	err = mmc_sd_init_card(host, host->ocr, NULL);
 	if (err)
@@ -1475,15 +1449,9 @@ remove_card:
 	mmc_claim_host(host);
 err:
 	mmc_detach_bus(host);
-<<<<<<< HEAD
-
-	pr_err("%s: error %d whilst initialising SD card\n",
-		mmc_hostname(host), err);
-=======
 	if (err)
 		pr_err("%s: error %d whilst initialising SD card: rescan: %d\n",
 		       mmc_hostname(host), err, host->rescan_disable);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return err;
 }

@@ -21,11 +21,7 @@
 
 #define MSM_VDEC_DVC_NAME "msm_vdec_8974"
 #define MIN_NUM_OUTPUT_BUFFERS 4
-<<<<<<< HEAD
-#define MAX_NUM_OUTPUT_BUFFERS VIDEO_MAX_FRAME
-=======
 #define MAX_NUM_OUTPUT_BUFFERS VB2_MAX_FRAME
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define DEFAULT_VIDEO_CONCEAL_COLOR_BLACK 0x8010
 #define MB_SIZE_IN_PIXEL (16 * 16)
 
@@ -739,11 +735,7 @@ int msm_vdec_reqbufs(struct msm_vidc_inst *inst, struct v4l2_requestbuffers *b)
 	rc = vb2_reqbufs(&q->vb2_bufq, b);
 	mutex_unlock(&q->lock);
 	if (rc)
-<<<<<<< HEAD
-		dprintk(VIDC_ERR, "Failed to get reqbufs, %d\n", rc);
-=======
 		dprintk(VIDC_DBG, "Failed to get reqbufs, %d\n", rc);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rc;
 }
 
@@ -942,11 +934,7 @@ int msm_vdec_s_parm(struct msm_vidc_inst *inst, struct v4l2_streamparm *a)
 
 	if ((fps % 15 == 14) || (fps % 24 == 23))
 		fps = fps + 1;
-<<<<<<< HEAD
-	else if ((fps % 24 == 1) || (fps % 15 == 1))
-=======
 	else if ((fps > 1) && ((fps % 24 == 1) || (fps % 15 == 1)))
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		fps = fps - 1;
 
 	if (inst->prop.fps != fps) {
@@ -1083,10 +1071,7 @@ int msm_vdec_s_fmt(struct msm_vidc_inst *inst, struct v4l2_format *f)
 		rc = msm_comm_try_state(inst, MSM_VIDC_OPEN_DONE);
 		if (rc) {
 			dprintk(VIDC_ERR, "Failed to open instance\n");
-<<<<<<< HEAD
-=======
 			msm_comm_session_clean(inst);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			goto err_invalid_fmt;
 		}
 		frame_sz.buffer_type = HAL_BUFFER_INPUT;
@@ -1216,10 +1201,7 @@ static int msm_vdec_queue_setup(struct vb2_queue *q,
 		rc = msm_comm_try_state(inst, MSM_VIDC_OPEN_DONE);
 		if (rc) {
 			dprintk(VIDC_ERR, "Failed to open instance\n");
-<<<<<<< HEAD
-=======
 			msm_comm_session_clean(inst);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			break;
 		}
 		rc = msm_comm_try_get_bufreqs(inst);
@@ -1329,23 +1311,6 @@ static inline int start_streaming(struct msm_vidc_inst *inst)
 			goto fail_start;
 		}
 	}
-<<<<<<< HEAD
-	mutex_lock(&inst->sync_lock);
-	if (!list_empty(&inst->pendingq)) {
-		list_for_each_safe(ptr, next, &inst->pendingq) {
-			temp = list_entry(ptr, struct vb2_buf_entry, list);
-			rc = msm_comm_qbuf(temp->vb);
-			if (rc) {
-				dprintk(VIDC_ERR,
-					"Failed to qbuf to hardware\n");
-				break;
-			}
-			list_del(&temp->list);
-			kfree(temp);
-		}
-	}
-	mutex_unlock(&inst->sync_lock);
-=======
 
 	mutex_lock(&inst->pendingq.lock);
 	list_for_each_safe(ptr, next, &inst->pendingq.list) {
@@ -1360,7 +1325,6 @@ static inline int start_streaming(struct msm_vidc_inst *inst)
 		kfree(temp);
 	}
 	mutex_unlock(&inst->pendingq.lock);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rc;
 fail_start:
 	return rc;

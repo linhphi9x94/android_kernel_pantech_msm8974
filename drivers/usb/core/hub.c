@@ -2085,10 +2085,7 @@ int usb_new_device(struct usb_device *udev)
 		}
 	}
 #endif
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	device_enable_async_suspend(&udev->dev);
 
 	/*

@@ -307,12 +307,8 @@ static struct mem_type mem_types[] = {
 		.domain    = DOMAIN_KERNEL,
 	},
 	[MT_MEMORY_DMA_READY] = {
-<<<<<<< HEAD
-		.prot_pte  = L_PTE_PRESENT | L_PTE_YOUNG | L_PTE_DIRTY,
-=======
 		.prot_pte  = L_PTE_PRESENT | L_PTE_YOUNG | L_PTE_DIRTY |
 				L_PTE_XN,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		.prot_l1   = PMD_TYPE_TABLE,
 		.domain    = DOMAIN_KERNEL,
 	},
@@ -348,13 +344,6 @@ int set_memory_##_name(unsigned long addr, int numpages) \
 	unsigned long size = PAGE_SIZE*numpages; \
 	unsigned end = start + size; \
 \
-<<<<<<< HEAD
-	if (start < MODULES_VADDR || start >= MODULES_END) \
-		return -EINVAL;\
-\
-	if (end < MODULES_VADDR || end >= MODULES_END) \
-		return -EINVAL; \
-=======
 	if (!IS_ENABLED(CONFIG_FORCE_PAGES)) { \
 		if (start < MODULES_VADDR || start >= MODULES_END) \
 			return -EINVAL;\
@@ -362,7 +351,6 @@ int set_memory_##_name(unsigned long addr, int numpages) \
 		if (end < MODULES_VADDR || end >= MODULES_END) \
 			return -EINVAL; \
 	} \
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 \
 	apply_to_page_range(&init_mm, start, size, callback, NULL); \
 	flush_tlb_kernel_range(start, end); \
@@ -1521,8 +1509,6 @@ static void __init map_lowmem(void)
 	}
 }
 
-<<<<<<< HEAD
-=======
 #ifdef CONFIG_FORCE_PAGES
 /*
  * remap a PMD into pages
@@ -1642,7 +1628,6 @@ static void __init remap_pages(void)
 }
 #endif
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*
  * paging_init() sets up the page tables, initialises the zone memory
  * maps, and sets up the zero page, bad page and bad page tables.
@@ -1657,10 +1642,7 @@ void __init paging_init(struct machine_desc *mdesc)
 	prepare_page_table();
 	map_lowmem();
 	dma_contiguous_remap();
-<<<<<<< HEAD
-=======
 	remap_pages();
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	devicemaps_init(mdesc);
 	kmap_init();
 

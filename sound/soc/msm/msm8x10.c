@@ -106,10 +106,7 @@ static struct wcd9xxx_mbhc_config mbhc_cfg = {
 			    1 << MBHC_CS_ENABLE_REMOVAL),
 	.do_recalibration = false,
 	.use_vddio_meas = false,
-<<<<<<< HEAD
-=======
 	.hw_jack_type = FOUR_POLE_JACK,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 /*
@@ -299,11 +296,7 @@ static int msm_tx_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
 }
 
 
-<<<<<<< HEAD
-static const char *const btsco_rate_text[] = {"8000", "16000"};
-=======
 static const char *const btsco_rate_text[] = {"BTSCO_RATE_8KHZ", "BTSCO_RATE_16KHZ"};
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static const struct soc_enum msm_btsco_enum[] = {
 	SOC_ENUM_SINGLE_EXT(2, btsco_rate_text),
 };
@@ -323,17 +316,10 @@ static int msm_btsco_rate_put(struct snd_kcontrol *kcontrol,
 			      struct snd_ctl_elem_value *ucontrol)
 {
 	switch (ucontrol->value.integer.value[0]) {
-<<<<<<< HEAD
-	case 8000:
-		msm_btsco_rate = BTSCO_RATE_8KHZ;
-		break;
-	case 16000:
-=======
 	case 0:
 		msm_btsco_rate = BTSCO_RATE_8KHZ;
 		break;
 	case 1:
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		msm_btsco_rate = BTSCO_RATE_16KHZ;
 		break;
 	default:
@@ -638,13 +624,8 @@ static void *def_msm8x10_wcd_mbhc_cal(void)
 	btn_low[5] = 190;
 	btn_high[5] = 228;
 	btn_low[6] = 229;
-<<<<<<< HEAD
-	btn_high[6] = 269;
-	btn_low[7] = 270;
-=======
 	btn_high[6] = 264;
 	btn_low[7] = 265;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	btn_high[7] = 500;
 	n_ready = wcd9xxx_mbhc_cal_btn_det_mp(btn_cfg, MBHC_BTN_DET_N_READY);
 	n_ready[0] = 80;
@@ -913,8 +894,6 @@ static struct snd_soc_dai_link msm8x10_dai[] = {
 		.codec_name = "snd-soc-dummy",
 		.be_id = MSM_FRONTEND_DAI_QCHAT,
 	},
-<<<<<<< HEAD
-=======
 	{/* hw:x,15 */
 		.name = "MSM8X10 Media9",
 		.stream_name = "MultiMedia9",
@@ -930,7 +909,6 @@ static struct snd_soc_dai_link msm8x10_dai[] = {
 		.ignore_pmdown_time = 1,
 		.be_id = MSM_FRONTEND_DAI_MULTIMEDIA9
 	},
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* Backend I2S DAI Links */
 	{
 		.name = LPASS_BE_SEC_MI2S_RX,
@@ -1076,8 +1054,6 @@ static struct snd_soc_dai_link msm8x10_dai[] = {
 		.be_hw_params_fixup = msm_be_hw_params_fixup,
 		.ignore_suspend = 1,
 	},
-<<<<<<< HEAD
-=======
 	/* Incall Music 2 BACK END DAI Link */
 	{
 		.name = LPASS_BE_VOICE2_PLAYBACK_TX,
@@ -1091,7 +1067,6 @@ static struct snd_soc_dai_link msm8x10_dai[] = {
 		.be_hw_params_fixup = msm_be_hw_params_fixup,
 		.ignore_suspend = 1,
 	},
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 struct snd_soc_card snd_soc_card_msm8x10 = {
@@ -1104,11 +1079,8 @@ struct snd_soc_card snd_soc_card_msm8x10 = {
 static __devinit int msm8x10_asoc_machine_probe(struct platform_device *pdev)
 {
 	struct snd_soc_card *card = &snd_soc_card_msm8x10;
-<<<<<<< HEAD
-=======
 	const char *mbhc_audio_jack_type = NULL;
 	size_t n = strlen("4-pole-jack");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int ret;
 
 	dev_dbg(&pdev->dev, "%s\n", __func__);
@@ -1146,8 +1118,6 @@ static __devinit int msm8x10_asoc_machine_probe(struct platform_device *pdev)
 	mbhc_cfg.use_int_rbias = of_property_read_bool(pdev->dev.of_node,
 						"qcom,mbhc-bias-internal");
 
-<<<<<<< HEAD
-=======
 	ret = of_property_read_string(pdev->dev.of_node,
 		"qcom,mbhc-audio-jack-type", &mbhc_audio_jack_type);
 	if (ret) {
@@ -1177,7 +1147,6 @@ static __devinit int msm8x10_asoc_machine_probe(struct platform_device *pdev)
 		}
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	spdev = pdev;
 
 	ret = snd_soc_register_card(card);

@@ -4,11 +4,7 @@
  *  Copyright (C)  2001 Russell King
  *            (C)  2003 Venkatesh Pallipadi <venkatesh.pallipadi@intel.com>.
  *                      Jun Nakajima <jun.nakajima@intel.com>
-<<<<<<< HEAD
- *            (c)  2013 The Linux Foundation. All rights reserved.
-=======
  *            (c)  2013, 2015 The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
@@ -96,10 +92,6 @@ struct cpufreq_governor cpufreq_gov_ondemand = {
        .owner                  = THIS_MODULE,
 };
 
-<<<<<<< HEAD
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* Sampling types */
 enum {DBS_NORMAL_SAMPLE, DBS_SUB_SAMPLE};
 
@@ -129,10 +121,7 @@ struct cpu_dbs_info_s {
 	struct task_struct *sync_thread;
 	wait_queue_head_t sync_wq;
 	atomic_t src_sync_cpu;
-<<<<<<< HEAD
-=======
 	atomic_t being_woken;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	atomic_t sync_enabled;
 };
 static DEFINE_PER_CPU(struct cpu_dbs_info_s, od_cpu_dbs_info);
@@ -1055,12 +1044,8 @@ static void dbs_check_cpu(struct cpu_dbs_info_s *this_dbs_info)
 
 		/* If switching to max speed, apply sampling_down_factor */
 		if (policy->cur < policy->max)
-<<<<<<< HEAD
-			this_dbs_info->rate_mult = dbs_tuners_ins.sampling_down_factor;
-=======
 			this_dbs_info->rate_mult =
 				dbs_tuners_ins.sampling_down_factor;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		dbs_freq_increase(policy, freq_target);
 #else	
@@ -1289,9 +1274,6 @@ static int dbs_migration_notify(struct notifier_block *nb,
 		&per_cpu(od_cpu_dbs_info, target_cpu);
 
 	atomic_set(&target_dbs_info->src_sync_cpu, (int)arg);
-<<<<<<< HEAD
-	wake_up(&target_dbs_info->sync_wq);
-=======
 	/*
 	* Avoid issuing recursive wakeup call, as sync thread itself could be
 	* seen as migrating triggering this notification. Note that sync thread
@@ -1302,7 +1284,6 @@ static int dbs_migration_notify(struct notifier_block *nb,
 		wake_up(&target_dbs_info->sync_wq);
 		atomic_set(&target_dbs_info->being_woken, 0);
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return NOTIFY_OK;
 }
@@ -1662,10 +1643,7 @@ static int __init cpufreq_gov_dbs_init(void)
 		dbs_work->cpu = i;
 
 		atomic_set(&this_dbs_info->src_sync_cpu, -1);
-<<<<<<< HEAD
-=======
 		atomic_set(&this_dbs_info->being_woken, 0);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		init_waitqueue_head(&this_dbs_info->sync_wq);
 
 		this_dbs_info->sync_thread = kthread_run(dbs_sync_thread,

@@ -1106,12 +1106,9 @@ static int irda_create(struct net *net, struct socket *sock, int protocol,
 
 	IRDA_DEBUG(2, "%s()\n", __func__);
 
-<<<<<<< HEAD
-=======
 	if (protocol < 0 || protocol > SK_PROTOCOL_MAX)
 		return -EINVAL;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (net != &init_net)
 		return -EAFNOSUPPORT;
 

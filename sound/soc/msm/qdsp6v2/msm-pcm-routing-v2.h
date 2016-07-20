@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -83,11 +79,6 @@ enum {
 	MSM_FRONTEND_DAI_VOICE_STUB,
 	MSM_FRONTEND_DAI_VOLTE,
 	MSM_FRONTEND_DAI_DTMF_RX,
-<<<<<<< HEAD
-	MSM_FRONTEND_DAI_LSM1,
-	MSM_FRONTEND_DAI_VOICE2,
-	MSM_FRONTEND_DAI_QCHAT,
-=======
 	MSM_FRONTEND_DAI_VOICE2,
 	MSM_FRONTEND_DAI_QCHAT,
 	MSM_FRONTEND_DAI_LSM1,
@@ -99,7 +90,6 @@ enum {
 	MSM_FRONTEND_DAI_LSM7,
 	MSM_FRONTEND_DAI_LSM8,
 	MSM_FRONTEND_DAI_VOWLAN,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	MSM_FRONTEND_DAI_MAX,
 };
 

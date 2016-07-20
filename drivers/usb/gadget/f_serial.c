@@ -420,10 +420,7 @@ static struct usb_descriptor_header *gser_ss_function[] = {
 	NULL,
 };
 #endif
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* string descriptors: */
 
 static struct usb_string gser_string_defs[] = {
@@ -742,10 +739,7 @@ static int gser_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
 #else
 	gport_connect(gser);
 #endif
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	gser->online = 1;
 #ifdef CONFIG_ANDROID_PANTECH_USB_MANAGER
 	usb_interface_enum_cb(ACM_TYPE_FLAG);
@@ -979,21 +973,14 @@ gser_bind(struct usb_configuration *c, struct usb_function *f)
 	gser->data_id = status;
 	gser_interface_desc.bInterfaceNumber = status;
 	}
-<<<<<<< HEAD
-#else  
-=======
 #else
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	status = usb_interface_id(c, f);
 	if (status < 0)
 		goto fail;
 	gser->data_id = status;
 	gser_interface_desc.bInterfaceNumber = status;
 #endif
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	status = -ENODEV;
 
 	/* allocate instance-specific endpoints */

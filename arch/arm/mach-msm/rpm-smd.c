@@ -165,11 +165,7 @@ struct msm_rpm_driver_data {
 #define MAX_ERR_BUFFER_SIZE 128
 #define INIT_ERROR 1
 
-<<<<<<< HEAD
-static ATOMIC_NOTIFIER_HEAD(msm_rpm_sleep_notifier);
-=======
 static __refdata ATOMIC_NOTIFIER_HEAD(msm_rpm_sleep_notifier);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static bool standalone;
 
 int msm_rpm_register_notifier(struct notifier_block *nb)
@@ -410,11 +406,7 @@ static void tr_update(struct slp_buf *s, char *buf)
 int msm_rpm_smd_buffer_request(char *buf, uint32_t size, gfp_t flag)
 {
 	struct slp_buf *slp;
-<<<<<<< HEAD
-	static DEFINE_SPINLOCK(slp_buffer_lock);
-=======
 	static __refdata DEFINE_SPINLOCK(slp_buffer_lock);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	unsigned long flags;
 
 	if (size > MAX_SLEEP_BUFFER)
@@ -552,11 +544,7 @@ struct msm_rpm_wait_data {
 	int errno;
 	struct completion ack;
 };
-<<<<<<< HEAD
-DEFINE_SPINLOCK(msm_rpm_list_lock);
-=======
 __refdata DEFINE_SPINLOCK(msm_rpm_list_lock);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 struct msm_rpm_ack_msg {
 	uint32_t req;
@@ -1289,10 +1277,7 @@ static int msm_rpm_send_data(struct msm_rpm_request *cdata,
 		ret = cdata->msg_hdr.msg_id;
 		return ret;
 	}
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef OEM_DDR_CLK_CONVERSION_SWITCH
 	if (msm_rpm_debug_mask & MSM_RPM_USER_REQUEST_DDR_CLK)
 	{
@@ -1303,10 +1288,7 @@ static int msm_rpm_send_data(struct msm_rpm_request *cdata,
 		}	
 	}
 #endif
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	msm_rpm_add_wait_list(cdata->msg_hdr.msg_id);
 
 	ret = msm_rpm_send_smd_buffer(&cdata->buf[0], msg_size, noirq);
@@ -1616,11 +1598,7 @@ fail:
 	return -EINVAL;
 }
 
-<<<<<<< HEAD
-static struct of_device_id msm_rpm_match_table[] =  {
-=======
 static struct of_device_id msm_rpm_match_table[] __initdata =  {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	{.compatible = "qcom,rpm-smd"},
 	{},
 };

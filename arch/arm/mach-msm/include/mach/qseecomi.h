@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -31,10 +27,7 @@
 #define QSEOS_RESULT_FAIL_KS_ALREADY_DONE     -69
 #define QSEOS_RESULT_FAIL_KEY_ID_DNE          -70
 #define QSEOS_RESULT_FAIL_INCORRECT_PSWD      -71
-<<<<<<< HEAD
-=======
 #define QSEOS_RESULT_FAIL_MAX_ATTEMPT         -72
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 enum qseecom_command_scm_resp_type {
 	QSEOS_APP_ID = 0xEE01,

@@ -32,11 +32,7 @@
 
 extern void rcu_init(void);
 extern void rcu_note_context_switch(int cpu);
-<<<<<<< HEAD
-extern int rcu_needs_cpu(int cpu);
-=======
 extern int rcu_needs_cpu(int cpu, unsigned long *delta_jiffies);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 extern void rcu_cpu_stall_reset(void);
 
 /*
@@ -49,21 +45,6 @@ static inline void rcu_virt_note_context_switch(int cpu)
 	rcu_note_context_switch(cpu);
 }
 
-<<<<<<< HEAD
-#ifdef CONFIG_TREE_PREEMPT_RCU
-
-extern void exit_rcu(void);
-
-#else /* #ifdef CONFIG_TREE_PREEMPT_RCU */
-
-static inline void exit_rcu(void)
-{
-}
-
-#endif /* #else #ifdef CONFIG_TREE_PREEMPT_RCU */
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 extern void synchronize_rcu_bh(void);
 extern void synchronize_sched_expedited(void);
 extern void synchronize_rcu_expedited(void);

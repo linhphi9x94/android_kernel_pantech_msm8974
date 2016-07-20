@@ -7,10 +7,6 @@ piggy.lzma
 piggy.xzkern
 vmlinux
 vmlinux.lds
-<<<<<<< HEAD
-bswapsdi2.S
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 # borrowed libfdt files
 fdt.c

@@ -1409,23 +1409,6 @@ int __dwc3_gadget_ep_set_halt(struct dwc3_ep *dep, int value)
 	if (value) {
 		ret = dwc3_send_gadget_ep_cmd(dwc, dep->number,
 			DWC3_DEPCMD_SETSTALL, &params);
-<<<<<<< HEAD
-		if (ret)
-			dev_err(dwc->dev, "failed to %s STALL on %s\n",
-					value ? "set" : "clear",
-					dep->name);
-		else
-			dep->flags |= DWC3_EP_STALL;
-	} else {
-		ret = dwc3_send_gadget_ep_cmd(dwc, dep->number,
-			DWC3_DEPCMD_CLEARSTALL, &params);
-		if (ret)
-			dev_err(dwc->dev, "failed to %s STALL on %s\n",
-					value ? "set" : "clear",
-					dep->name);
-		else
-			dep->flags &= ~(DWC3_EP_STALL | DWC3_EP_WEDGE);
-=======
 		if (ret) {
 			dbg_event(dep->number, "SETSTAL", ret);
 			dev_dbg(dwc->dev, "failed to %s STALL on %s\n",
@@ -1445,7 +1428,6 @@ int __dwc3_gadget_ep_set_halt(struct dwc3_ep *dep, int value)
 		} else {
 			dep->flags &= ~(DWC3_EP_STALL | DWC3_EP_WEDGE);
 		}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	return ret;
@@ -2173,11 +2155,8 @@ static int dwc3_cleanup_done_reqs(struct dwc3 *dwc, struct dwc3_ep *dep,
 			break;
 	} while (1);
 
-<<<<<<< HEAD
-=======
 	dwc->gadget.xfer_isr_count++;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (usb_endpoint_xfer_isoc(dep->endpoint.desc) &&
 			list_empty(&dep->req_queued)) {
 		if (list_empty(&dep->request_list))
@@ -2269,10 +2248,7 @@ static void dwc3_endpoint_interrupt(struct dwc3 *dwc,
 			return;
 		}
 
-<<<<<<< HEAD
-=======
 		dbg_event(dep->number, "XFRCOMP", 0);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		dwc3_endpoint_transfer_complete(dwc, dep, event, 1);
 		break;
 	case DWC3_DEPEVT_XFERINPROGRESS:
@@ -2282,17 +2258,11 @@ static void dwc3_endpoint_interrupt(struct dwc3 *dwc,
 			return;
 		}
 
-<<<<<<< HEAD
-		dwc3_endpoint_transfer_complete(dwc, dep, event, 0);
-		break;
-	case DWC3_DEPEVT_XFERNOTREADY:
-=======
 		dbg_event(dep->number, "XFRPROG", 0);
 		dwc3_endpoint_transfer_complete(dwc, dep, event, 0);
 		break;
 	case DWC3_DEPEVT_XFERNOTREADY:
 		dbg_event(dep->number, "XFRNRDY", 0);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (usb_endpoint_xfer_isoc(dep->endpoint.desc)) {
 			dwc3_gadget_start_isoc(dwc, dep, event);
 		} else {
@@ -2350,10 +2320,7 @@ static void dwc3_disconnect_gadget(struct dwc3 *dwc)
 		dwc->gadget_driver->disconnect(&dwc->gadget);
 		spin_lock(&dwc->lock);
 	}
-<<<<<<< HEAD
-=======
 	dwc->gadget.xfer_isr_count = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static void dwc3_stop_active_transfer(struct dwc3 *dwc, u32 epnum)
@@ -2685,15 +2652,6 @@ static void dwc3_gadget_wakeup_interrupt(struct dwc3 *dwc)
 {
 	dev_vdbg(dwc->dev, "%s\n", __func__);
 
-<<<<<<< HEAD
-	/*
-	 * TODO take core out of low power mode when that's
-	 * implemented.
-	 */
-
-	dbg_event(0xFF, "WAKEUP", 0);
-	dwc->gadget_driver->resume(&dwc->gadget);
-=======
 	/* Only perform resume from L2 or Early suspend states */
 	if (dwc->link_state == DWC3_LINK_STATE_U3) {
 		dbg_event(0xFF, "WAKEUP", 0);
@@ -2701,7 +2659,6 @@ static void dwc3_gadget_wakeup_interrupt(struct dwc3 *dwc)
 	}
 
 	dwc->link_state = DWC3_LINK_STATE_U0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static void dwc3_gadget_linksts_change_interrupt(struct dwc3 *dwc,
@@ -2711,10 +2668,7 @@ static void dwc3_gadget_linksts_change_interrupt(struct dwc3 *dwc,
 #ifdef CONFIG_PANTECH_USB_STATE_DEBUG
 	enum dwc3_link_state	pre = dwc->link_state;
 #endif
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/*
 	 * WORKAROUND: DWC3 Revisions <1.83a have an issue which, depending
 	 * on the link partner, the USB session might do multiple entry/exit
@@ -2823,11 +2777,6 @@ static void dwc3_dump_reg_info(struct dwc3 *dwc)
 	dbg_print_reg("OCTL", dwc3_readl(dwc->regs, DWC3_OCTL));
 	dbg_print_reg("OEVT", dwc3_readl(dwc->regs, DWC3_OEVT));
 	dbg_print_reg("OSTS", dwc3_readl(dwc->regs, DWC3_OSTS));
-<<<<<<< HEAD
-
-	dwc3_notify_event(dwc, DWC3_CONTROLLER_ERROR_EVENT);
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static void dwc3_gadget_interrupt(struct dwc3 *dwc,
@@ -2856,17 +2805,11 @@ static void dwc3_gadget_interrupt(struct dwc3 *dwc,
 		dev_vdbg(dwc->dev, "Start of Periodic Frame\n");
 		break;
 	case DWC3_DEVICE_EVENT_ERRATIC_ERROR:
-<<<<<<< HEAD
-		dbg_event(0xFF, "ERROR", 0);
-		dev_vdbg(dwc->dev, "Erratic Error\n");
-		dwc3_dump_reg_info(dwc);
-=======
 		if (!dwc->err_evt_seen) {
 			dbg_event(0xFF, "ERROR", 0);
 			dev_vdbg(dwc->dev, "Erratic Error\n");
 			dwc3_dump_reg_info(dwc);
 		}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		break;
 	case DWC3_DEVICE_EVENT_CMD_CMPL:
 		dev_vdbg(dwc->dev, "Command Complete\n");
@@ -2906,11 +2849,8 @@ static void dwc3_gadget_interrupt(struct dwc3 *dwc,
 	default:
 		dev_dbg(dwc->dev, "UNKNOWN IRQ %d\n", event->type);
 	}
-<<<<<<< HEAD
-=======
 
 	dwc->err_evt_seen = (event->type == DWC3_DEVICE_EVENT_ERRATIC_ERROR);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static void dwc3_process_event_entry(struct dwc3 *dwc,
@@ -2952,8 +2892,6 @@ static irqreturn_t dwc3_process_event_buf(struct dwc3 *dwc, u32 buf)
 		event.raw = *(u32 *) (evt->buf + evt->lpos);
 
 		dwc3_process_event_entry(dwc, &event);
-<<<<<<< HEAD
-=======
 
 		if (dwc->err_evt_seen) {
 			/*
@@ -2970,7 +2908,6 @@ static irqreturn_t dwc3_process_event_buf(struct dwc3 *dwc, u32 buf)
 			break;
 		}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/*
 		 * XXX we wrap around correctly to the next entry as almost all
 		 * entries are 4 bytes in size. There is one entry which has 12
@@ -2995,8 +2932,6 @@ static irqreturn_t dwc3_interrupt(int irq, void *_dwc)
 
 	spin_lock(&dwc->lock);
 
-<<<<<<< HEAD
-=======
 	dwc->irq_cnt++;
 
 	if (dwc->err_evt_seen) {
@@ -3005,19 +2940,15 @@ static irqreturn_t dwc3_interrupt(int irq, void *_dwc)
 		return IRQ_HANDLED;
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	for (i = 0; i < dwc->num_event_buffers; i++) {
 		irqreturn_t status;
 
 		status = dwc3_process_event_buf(dwc, i);
 		if (status == IRQ_HANDLED)
 			ret = status;
-<<<<<<< HEAD
-=======
 
 		if (dwc->err_evt_seen)
 			break;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	spin_unlock(&dwc->lock);

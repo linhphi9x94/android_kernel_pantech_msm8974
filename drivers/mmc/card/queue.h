@@ -1,11 +1,8 @@
 #ifndef MMC_QUEUE_H
 #define MMC_QUEUE_H
 
-<<<<<<< HEAD
-=======
 #define MMC_REQ_SPECIAL_MASK    (REQ_DISCARD | REQ_FLUSH)
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct request;
 struct task_struct;
 
@@ -43,17 +40,10 @@ struct mmc_queue {
 	struct mmc_card		*card;
 	struct task_struct	*thread;
 	struct semaphore	thread_sem;
-<<<<<<< HEAD
-	unsigned int		flags;
-#define MMC_QUEUE_SUSPENDED		(1 << 0)
-#define MMC_QUEUE_NEW_REQUEST		(1 << 1)
-#define MMC_QUEUE_URGENT_REQUEST	(1 << 2)
-=======
 	unsigned long		flags;
 #define MMC_QUEUE_SUSPENDED		0
 #define MMC_QUEUE_NEW_REQUEST		1
 #define MMC_QUEUE_URGENT_REQUEST	2
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	int			(*issue_fn)(struct mmc_queue *, struct request *);
 	void			*data;

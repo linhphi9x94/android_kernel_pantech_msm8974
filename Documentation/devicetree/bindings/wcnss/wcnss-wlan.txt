@@ -27,8 +27,6 @@ Optional properties:
 should be performed during boot up.
 - qcom,wlan-rx-buff-count: WLAN RX buffer count is a configurable value,
 using a smaller count for this buffer will reduce the memory usage.
-<<<<<<< HEAD
-=======
 =======
 - qcom,is-pronto-v3: boolean flag to determine the pronto hardware version
 in use. subsequently correct workqueue will be used by DXE engine to push frames
@@ -42,7 +40,6 @@ in TX data path.
         1      -  WCN RPM power collapse enabled
         1      -  WCN standalone power collapse enabled
         6      -  GPIO strength value
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 Example:
 
@@ -67,8 +64,5 @@ Example:
         qcom,has-48mhz-xo;
         qcom,has-pronto-hw;
         qcom,wcnss-adc_tm = <&pm8226_adc_tm>;
-<<<<<<< HEAD
-=======
 	qcom,wcnss-pm = <11 21 1200 1 1 6>;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
     };

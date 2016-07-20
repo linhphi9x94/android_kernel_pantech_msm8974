@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -34,11 +30,7 @@ struct mdss_dsi_ctrl_pdata;
 
 #define MDSS_DSI_MRPS	0x04  /* Maximum Return Packet Size */
 
-<<<<<<< HEAD
-#define MDSS_DSI_LEN 8 /* 4 x 4 - 6 - 2, bytes dcs header+crc-align  */
-=======
 #define MDSS_DSI_LEN 10 /* 4 x 4 - 4 - 2, bytes dcs header+crc-align  */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 struct dsi_buf {
 	u32 *hdr;	/* dsi host header */
@@ -48,10 +40,7 @@ struct dsi_buf {
 	char *data;	/* buffer */
 	int len;	/* data length */
 	dma_addr_t dmap; /* mapped dma addr */
-<<<<<<< HEAD
-=======
 	int read_cnt;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 /* dcs read/write */
@@ -111,10 +100,7 @@ struct dsi_cmd_desc {
 #define CMD_CLK_CTRL    0x0004
 #define CMD_REQ_NO_MAX_PKT_SIZE 0x0008
 #define CMD_REQ_LP_MODE 0x0010
-<<<<<<< HEAD
-=======
 #define CMD_REQ_HS_MODE 0x0020
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 struct dcs_cmd_req {
 	struct dsi_cmd_desc *cmds;

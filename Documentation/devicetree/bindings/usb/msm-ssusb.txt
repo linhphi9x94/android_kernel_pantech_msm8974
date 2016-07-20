@@ -60,11 +60,8 @@ Optional properties :
   deemphasis value to be used for overriding into SSPHY register.
 - qcom,usbin-vadc: Corresponding vadc device's phandle to read usbin voltage using VADC.
 	This will be used to get value of usb power supply's VOLTAGE_NOW property,
-<<<<<<< HEAD
-=======
 - qcom,utmi-clk-rate: Indicates refclk frequency (in Hz) to the core. If not
   specified, default of 19.2MHz is assumed.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 Sub nodes:
 - Sub node for "DWC3- USB3 controller".

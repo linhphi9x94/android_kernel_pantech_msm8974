@@ -775,11 +775,7 @@ static void free_rq_clone(struct request *clone)
  * Complete the clone and the original request.
  * Must be called without queue lock.
  */
-<<<<<<< HEAD
-static void dm_end_request(struct request *clone, int error)
-=======
 void dm_end_request(struct request *clone, int error)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	int rw = rq_data_dir(clone);
 	struct dm_rq_target_io *tio = clone->end_io_data;

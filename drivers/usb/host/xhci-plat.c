@@ -51,8 +51,6 @@ static int xhci_plat_setup(struct usb_hcd *hcd)
 	return xhci_gen_setup(hcd, xhci_plat_quirks);
 }
 
-<<<<<<< HEAD
-=======
 static void xhci_plat_phy_autosuspend(struct usb_hcd *hcd,
 						int enable_autosuspend)
 {
@@ -64,7 +62,6 @@ static void xhci_plat_phy_autosuspend(struct usb_hcd *hcd,
 	return;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static const struct hc_driver xhci_plat_xhci_driver = {
 	.description =		"xhci-hcd",
 	.product_desc =		"xHCI Host Controller",
@@ -112,10 +109,7 @@ static const struct hc_driver xhci_plat_xhci_driver = {
 	.hub_status_data =	xhci_hub_status_data,
 	.bus_suspend =		xhci_bus_suspend,
 	.bus_resume =		xhci_bus_resume,
-<<<<<<< HEAD
-=======
 	.set_autosuspend =	xhci_plat_phy_autosuspend,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static int xhci_plat_probe(struct platform_device *pdev)

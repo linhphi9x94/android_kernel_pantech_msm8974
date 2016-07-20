@@ -280,10 +280,7 @@ EXPORT_SYMBOL_GPL(get_cpu_iowait_time_us);
 static void tick_nohz_stop_sched_tick(struct tick_sched *ts)
 {
 	unsigned long seq, last_jiffies, next_jiffies, delta_jiffies;
-<<<<<<< HEAD
-=======
 	unsigned long rcu_delta_jiffies;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ktime_t last_update, expires, now;
 	struct clock_event_device *dev = __get_cpu_var(tick_cpu_device).evtdev;
 	u64 time_delta;
@@ -332,11 +329,7 @@ static void tick_nohz_stop_sched_tick(struct tick_sched *ts)
 		time_delta = timekeeping_max_deferment();
 	} while (read_seqretry(&xtime_lock, seq));
 
-<<<<<<< HEAD
-	if (rcu_needs_cpu(cpu) || printk_needs_cpu(cpu) ||
-=======
 	if (rcu_needs_cpu(cpu, &rcu_delta_jiffies) || printk_needs_cpu(cpu) ||
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	    arch_needs_cpu(cpu)) {
 		next_jiffies = last_jiffies + 1;
 		delta_jiffies = 1;
@@ -344,13 +337,10 @@ static void tick_nohz_stop_sched_tick(struct tick_sched *ts)
 		/* Get the next timer wheel timer */
 		next_jiffies = get_next_timer_interrupt(last_jiffies);
 		delta_jiffies = next_jiffies - last_jiffies;
-<<<<<<< HEAD
-=======
 		if (rcu_delta_jiffies < delta_jiffies) {
 			next_jiffies = last_jiffies + rcu_delta_jiffies;
 			delta_jiffies = rcu_delta_jiffies;
 		}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	/*
 	 * Do not stop the tick, if we are only one off

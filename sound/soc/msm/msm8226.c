@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -31,13 +27,6 @@
 #include <asm/mach-types.h>
 #include <mach/socinfo.h>
 #include <mach/subsystem_notif.h>
-<<<<<<< HEAD
-#include <qdsp6v2/msm-pcm-routing-v2.h>
-#include "qdsp6v2/q6core.h"
-#include "../codecs/wcd9xxx-common.h"
-#include "../codecs/wcd9306.h"
-
-=======
 #include <sound/q6core.h>
 
 #include <qdsp6v2/msm-pcm-routing-v2.h>
@@ -48,7 +37,6 @@
 #define SAMPLING_RATE_96KHZ 96000
 #define SAMPLING_RATE_192KHZ 192000
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define DRV_NAME "msm8226-asoc-tapan"
 
 #define MSM_SLIM_0_RX_MAX_CHANNELS		2
@@ -71,11 +59,7 @@
 #define LO_1_SPK_AMP   0x1
 #define LO_2_SPK_AMP   0x2
 
-<<<<<<< HEAD
-#define ADSP_STATE_READY_TIMEOUT_MS 3000
-=======
 #define ADSP_STATE_READY_TIMEOUT_MS 50
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static void *adsp_state_notifier;
 
@@ -103,10 +87,7 @@ static struct wcd9xxx_mbhc_config mbhc_cfg = {
 	.read_fw_bin = false,
 	.calibration = NULL,
 	.micbias = MBHC_MICBIAS2,
-<<<<<<< HEAD
-=======
 	.anc_micbias = MBHC_MICBIAS2,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	.mclk_cb_fn = msm_snd_enable_codec_ext_clk,
 	.mclk_rate = TAPAN_EXT_CLK_RATE,
 	.gpio = 0,
@@ -118,18 +99,12 @@ static struct wcd9xxx_mbhc_config mbhc_cfg = {
 	.swap_gnd_mic = NULL,
 	.cs_enable_flags = (1 << MBHC_CS_ENABLE_POLLING |
 			    1 << MBHC_CS_ENABLE_INSERTION |
-<<<<<<< HEAD
-			    1 << MBHC_CS_ENABLE_REMOVAL),
-	.do_recalibration = true,
-	.use_vddio_meas = true,
-=======
 			    1 << MBHC_CS_ENABLE_REMOVAL |
 			    1 << MBHC_CS_ENABLE_DET_ANC),
 	.do_recalibration = true,
 	.use_vddio_meas = true,
 	.enable_anc_mic_detect = false,
 	.hw_jack_type = FOUR_POLE_JACK,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 struct msm_auxpcm_gpio {
@@ -184,11 +159,8 @@ static int clk_users;
 static int ext_spk_amp_gpio = -1;
 static int vdd_spkr_gpio = -1;
 static int msm_proxy_rx_ch = 2;
-<<<<<<< HEAD
-=======
 
 static int slim0_rx_sample_rate = SAMPLING_RATE_48KHZ;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int slim0_rx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
 
 static inline int param_is_mask(int p)
@@ -423,29 +395,20 @@ static const char *const slim0_rx_ch_text[] = {"One", "Two"};
 static const char *const slim0_tx_ch_text[] = {"One", "Two", "Three", "Four"};
 static const char *const proxy_rx_ch_text[] = {"One", "Two", "Three", "Four",
 	"Five", "Six", "Seven", "Eight"};
-<<<<<<< HEAD
-=======
 static char const *rx_bit_format_text[] = {"S16_LE", "S24_LE"};
 static char const *slim0_rx_sample_rate_text[] = {"KHZ_48", "KHZ_96",
 						  "KHZ_192"};
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static const struct soc_enum msm_enum[] = {
 	SOC_ENUM_SINGLE_EXT(2, slim0_rx_ch_text),
 	SOC_ENUM_SINGLE_EXT(4, slim0_tx_ch_text),
 };
 
-<<<<<<< HEAD
-static const char *const btsco_rate_text[] = {"8000", "16000"};
-=======
 static const char *const btsco_rate_text[] = {"BTSCO_RATE_8KHZ", "BTSCO_RATE_16KHZ"};
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static const struct soc_enum msm_btsco_enum[] = {
 	SOC_ENUM_SINGLE_EXT(2, btsco_rate_text),
 };
 
-<<<<<<< HEAD
-=======
 static int slim0_rx_sample_rate_get(struct snd_kcontrol *kcontrol,
 	struct snd_ctl_elem_value *ucontrol)
 {
@@ -498,7 +461,6 @@ static int slim0_rx_sample_rate_put(struct snd_kcontrol *kcontrol,
 	return 0;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int msm_slim_0_rx_ch_get(struct snd_kcontrol *kcontrol,
 	struct snd_ctl_elem_value *ucontrol)
 {
@@ -548,17 +510,10 @@ static int msm_btsco_rate_put(struct snd_kcontrol *kcontrol,
 				struct snd_ctl_elem_value *ucontrol)
 {
 	switch (ucontrol->value.integer.value[0]) {
-<<<<<<< HEAD
-	case 8000:
-		msm_btsco_rate = BTSCO_RATE_8KHZ;
-		break;
-	case 16000:
-=======
 	case 0:
 		msm_btsco_rate = BTSCO_RATE_8KHZ;
 		break;
 	case 1:
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		msm_btsco_rate = BTSCO_RATE_16KHZ;
 		break;
 	default:
@@ -832,12 +787,7 @@ static int msm_slim_0_rx_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
 	pr_debug("%s()\n", __func__);
 	param_set_mask(params, SNDRV_PCM_HW_PARAM_FORMAT,
 					slim0_rx_bit_format);
-<<<<<<< HEAD
-
-	rate->min = rate->max = 48000;
-=======
 	rate->min = rate->max = slim0_rx_sample_rate;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	channels->min = channels->max = msm_slim_0_rx_ch;
 
 	return 0;
@@ -891,11 +841,8 @@ static const struct soc_enum msm_snd_enum[] = {
 	SOC_ENUM_SINGLE_EXT(2, slim0_rx_ch_text),
 	SOC_ENUM_SINGLE_EXT(4, slim0_tx_ch_text),
 	SOC_ENUM_SINGLE_EXT(8, proxy_rx_ch_text),
-<<<<<<< HEAD
-=======
 	SOC_ENUM_SINGLE_EXT(2, rx_bit_format_text),
 	SOC_ENUM_SINGLE_EXT(3, slim0_rx_sample_rate_text),
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static const struct snd_kcontrol_new msm_snd_controls[] = {
@@ -911,12 +858,8 @@ static const struct snd_kcontrol_new msm_snd_controls[] = {
 			msm_proxy_rx_ch_get, msm_proxy_rx_ch_put),
 	SOC_ENUM_EXT("SLIM_0_RX Format", msm_snd_enum[3],
 			slim0_rx_bit_format_get, slim0_rx_bit_format_put),
-<<<<<<< HEAD
-
-=======
 	SOC_ENUM_EXT("SLIM_0_RX SampleRate", msm_snd_enum[4],
 			slim0_rx_sample_rate_get, slim0_rx_sample_rate_put),
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static int msm_afe_set_config(struct snd_soc_codec *codec)
@@ -1531,15 +1474,9 @@ static struct snd_soc_dai_link msm8226_common_dai[] = {
 	},
 	/* LSM FE */
 	{
-<<<<<<< HEAD
-		.name = "Listen Audio Service",
-		.stream_name = "Listen Audio Service",
-		.cpu_dai_name = "LSM",
-=======
 		.name = "Listen 1 Audio Service",
 		.stream_name = "Listen 1 Audio Service",
 		.cpu_dai_name = "LSM1",
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		.platform_name = "msm-lsm-client",
 		.dynamic = 1,
 		.trigger = {SND_SOC_DPCM_TRIGGER_POST,
@@ -1566,8 +1503,6 @@ static struct snd_soc_dai_link msm8226_common_dai[] = {
 		 /* this dainlink has playback support */
 		.be_id = MSM_FRONTEND_DAI_MULTIMEDIA8,
 	},
-<<<<<<< HEAD
-=======
 	{
 		.name = "Listen 2 Audio Service",
 		.stream_name = "Listen 2 Audio Service",
@@ -1719,7 +1654,6 @@ static struct snd_soc_dai_link msm8226_common_dai[] = {
 		.codec_name = "snd-soc-dummy",
 		.be_id = MSM_FRONTEND_DAI_VOWLAN,
 	},
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* Backend BT/FM DAI Links */
 	{
 		.name = LPASS_BE_INT_BT_SCO_RX,
@@ -2327,11 +2261,8 @@ static __devinit int msm8226_asoc_machine_probe(struct platform_device *pdev)
 	struct msm8226_asoc_mach_data *pdata;
 	int ret;
 	const char *auxpcm_pri_gpio_set = NULL;
-<<<<<<< HEAD
-=======
 	const char *mbhc_audio_jack_type = NULL;
 	size_t n = strlen("4-pole-jack");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (!pdev->dev.of_node) {
 		dev_err(&pdev->dev, "No platform supplied from device tree\n");
@@ -2397,8 +2328,6 @@ static __devinit int msm8226_asoc_machine_probe(struct platform_device *pdev)
 	mbhc_cfg.gpio_level_insert = of_property_read_bool(pdev->dev.of_node,
 					"qcom,headset-jack-type-NC");
 
-<<<<<<< HEAD
-=======
 	ret = of_property_read_string(pdev->dev.of_node,
 		"qcom,mbhc-audio-jack-type", &mbhc_audio_jack_type);
 	if (ret) {
@@ -2428,7 +2357,6 @@ static __devinit int msm8226_asoc_machine_probe(struct platform_device *pdev)
 		}
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ret = snd_soc_register_card(card);
 	if (ret == -EPROBE_DEFER)
 		goto err;

@@ -2739,11 +2739,6 @@ static int mdp4_argc_process_write_req(uint32_t *offset,
 	struct mdp_ar_gc_lut_data r[MDP_AR_GC_MAX_STAGES];
 	struct mdp_ar_gc_lut_data g[MDP_AR_GC_MAX_STAGES];
 	struct mdp_ar_gc_lut_data b[MDP_AR_GC_MAX_STAGES];
-<<<<<<< HEAD
-
-	ret = copy_from_user(&r[0], pgc_ptr->r_data,
-		pgc_ptr->num_r_stages * sizeof(struct mdp_ar_gc_lut_data));
-=======
 	uint8_t num_r_stages;
 	uint8_t num_g_stages;
 	uint8_t num_b_stages;
@@ -2770,25 +2765,16 @@ static int mdp4_argc_process_write_req(uint32_t *offset,
 
 	ret = copy_from_user(&r[0], pgc_ptr->r_data,
 		num_r_stages * sizeof(struct mdp_ar_gc_lut_data));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (!ret) {
 		ret = copy_from_user(&g[0],
 				pgc_ptr->g_data,
-<<<<<<< HEAD
-				pgc_ptr->num_g_stages
-=======
 				num_g_stages
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				* sizeof(struct mdp_ar_gc_lut_data));
 		if (!ret)
 			ret = copy_from_user(&b[0],
 					pgc_ptr->b_data,
-<<<<<<< HEAD
-					pgc_ptr->num_b_stages
-=======
 					num_b_stages
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 					* sizeof(struct mdp_ar_gc_lut_data));
 	}
 

@@ -663,11 +663,7 @@ static int fsg_setup(struct usb_function *f,
 		if (fsg->common->cdev)
 			return USB_GADGET_DELAYED_STATUS;
 		else
-<<<<<<< HEAD
-		return DELAYED_STATUS;
-=======
 			return DELAYED_STATUS;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	case US_BULK_GET_MAX_LUN:
 		if (ctrl->bRequestType !=

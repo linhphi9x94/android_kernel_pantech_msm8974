@@ -327,17 +327,6 @@ static void audio_send(struct audio_dev *audio)
 	s64 msecs;
 	s64 frames;
 	ktime_t now;
-<<<<<<< HEAD
-
-	/* audio->substream will be null if we have been closed */
-	if (!audio->substream)
-		return;
-	/* audio->buffer_pos will be null if we have been stopped */
-	if (!audio->buffer_pos)
-		return;
-
-	runtime = audio->substream->runtime;
-=======
 	unsigned long flags;
 
 	spin_lock_irqsave(&audio->lock, flags);
@@ -354,7 +343,6 @@ static void audio_send(struct audio_dev *audio)
 
 	runtime = audio->substream->runtime;
 	spin_unlock_irqrestore(&audio->lock, flags);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/* compute number of frames to send */
 	now = ktime_get();
@@ -378,10 +366,6 @@ static void audio_send(struct audio_dev *audio)
 
 	while (frames > 0) {
 		req = audio_req_get(audio);
-<<<<<<< HEAD
-		if (!req)
-			break;
-=======
 		spin_lock_irqsave(&audio->lock, flags);
 		/* audio->substream will be null if we have been closed */
 		if (!audio->substream) {
@@ -397,7 +381,6 @@ static void audio_send(struct audio_dev *audio)
 			spin_unlock_irqrestore(&audio->lock, flags);
 			break;
 		}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		length = frames_to_bytes(runtime, frames);
 		if (length > IN_EP_MAX_PACKET_SIZE)
@@ -423,10 +406,7 @@ static void audio_send(struct audio_dev *audio)
 		}
 
 		req->length = length;
-<<<<<<< HEAD
-=======
 		spin_unlock_irqrestore(&audio->lock, flags);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		ret = usb_ep_queue(audio->in_ep, req, GFP_ATOMIC);
 		if (ret < 0) {
 			pr_err("usb_ep_queue failed ret: %d\n", ret);

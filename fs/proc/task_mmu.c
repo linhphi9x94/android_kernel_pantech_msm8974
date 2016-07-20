@@ -82,14 +82,6 @@ unsigned long task_statm(struct mm_struct *mm,
 	return mm->total_vm;
 }
 
-<<<<<<< HEAD
-static void pad_len_spaces(struct seq_file *m, int len)
-{
-	len = 25 + sizeof(void*) * 6 - len;
-	if (len < 1)
-		len = 1;
-	seq_printf(m, "%*c", len, ' ');
-=======
 static void seq_print_vma_name(struct seq_file *m, struct vm_area_struct *vma)
 {
 	const char __user *name = vma_get_anon_name(vma);
@@ -138,7 +130,6 @@ static void seq_print_vma_name(struct seq_file *m, struct vm_area_struct *vma)
 	}
 
 	seq_putc(m, ']');
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static void vma_stop(struct proc_maps_private *priv, struct vm_area_struct *vma)
@@ -272,10 +263,6 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma, int is_pid)
 	unsigned long long pgoff = 0;
 	unsigned long start, end;
 	dev_t dev = 0;
-<<<<<<< HEAD
-	int len;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	const char *name = NULL;
 
 	if (file) {
@@ -293,12 +280,8 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma, int is_pid)
 	if (stack_guard_page_end(vma, end))
 		end -= PAGE_SIZE;
 
-<<<<<<< HEAD
-	seq_printf(m, "%08lx-%08lx %c%c%c%c %08llx %02x:%02x %lu %n",
-=======
 	seq_setwidth(m, 25 + sizeof(void *) * 6 - 1);
 	seq_printf(m, "%08lx-%08lx %c%c%c%c %08llx %02x:%02x %lu ",
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			start,
 			end,
 			flags & VM_READ ? 'r' : '-',
@@ -306,22 +289,14 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma, int is_pid)
 			flags & VM_EXEC ? 'x' : '-',
 			flags & VM_MAYSHARE ? 's' : 'p',
 			pgoff,
-<<<<<<< HEAD
-			MAJOR(dev), MINOR(dev), ino, &len);
-=======
 			MAJOR(dev), MINOR(dev), ino);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/*
 	 * Print the dentry name for named mappings, and a
 	 * special [heap] marker for the heap:
 	 */
 	if (file) {
-<<<<<<< HEAD
-		pad_len_spaces(m, len);
-=======
 		seq_pad(m, ' ');
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		seq_path(m, &file->f_path, "\n");
 		goto done;
 	}
@@ -353,11 +328,6 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma, int is_pid)
 				name = "[stack]";
 			} else {
 				/* Thread stack in /proc/PID/maps */
-<<<<<<< HEAD
-				pad_len_spaces(m, len);
-				seq_printf(m, "[stack:%d]", tid);
-			}
-=======
 				seq_pad(m, ' ');
 				seq_printf(m, "[stack:%d]", tid);
 			}
@@ -367,17 +337,12 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma, int is_pid)
 		if (vma_get_anon_name(vma)) {
 			seq_pad(m, ' ');
 			seq_print_vma_name(m, vma);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 	}
 
 done:
 	if (name) {
-<<<<<<< HEAD
-		pad_len_spaces(m, len);
-=======
 		seq_pad(m, ' ');
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		seq_puts(m, name);
 	}
 	seq_putc(m, '\n');
@@ -604,15 +569,12 @@ static int show_smap(struct seq_file *m, void *v, int is_pid)
 		   (vma->vm_flags & VM_LOCKED) ?
 			(unsigned long)(mss.pss >> (10 + PSS_SHIFT)) : 0);
 
-<<<<<<< HEAD
-=======
 	if (vma_get_anon_name(vma)) {
 		seq_puts(m, "Name:           ");
 		seq_print_vma_name(m, vma);
 		seq_putc(m, '\n');
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (m->count < m->size)  /* vma is copied successfully */
 		m->version = (vma != get_gate_vma(task->mm))
 			? vma->vm_start : 0;
@@ -1077,11 +1039,6 @@ out:
 	return ret;
 }
 
-<<<<<<< HEAD
-const struct file_operations proc_pagemap_operations = {
-	.llseek		= mem_lseek, /* borrow this */
-	.read		= pagemap_read,
-=======
 static int pagemap_open(struct inode *inode, struct file *file)
 {
 	/* do not disclose physical addresses to unprivileged
@@ -1095,7 +1052,6 @@ const struct file_operations proc_pagemap_operations = {
 	.llseek		= mem_lseek, /* borrow this */
 	.read		= pagemap_read,
 	.open		= pagemap_open,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 #endif /* CONFIG_PROC_PAGE_MONITOR */
 

@@ -13,20 +13,12 @@ MTD flash partition layout for NAND devices -
 Each partition is represented as a sub-node of the qcom,mtd-partitions device.
 Each node's name represents the name of the corresponding partition.
 
-<<<<<<< HEAD
-Required properties:
-- reg : The partition offset and size
-- label : The label / name for this partition.
-
-Optional properties:
-=======
 This is now completely optional as the partition information is avaialble from
 bootloader.
 
 Optional properties:
 - reg : The partition offset and size
 - label : The label / name for this partition.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 - read-only: This parameter, if present, indicates that this partition
   should only be mounted read-only.
 

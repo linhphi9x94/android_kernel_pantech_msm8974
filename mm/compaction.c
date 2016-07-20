@@ -243,10 +243,6 @@ static unsigned long isolate_freepages_block(struct compact_control *cc,
 {
 	int nr_scanned = 0, total_isolated = 0;
 	struct page *cursor, *valid_page = NULL;
-<<<<<<< HEAD
-//	unsigned long nr_strict_required = end_pfn - blockpfn;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	unsigned long flags;
 	bool locked = false;
 
@@ -260,10 +256,7 @@ static unsigned long isolate_freepages_block(struct compact_control *cc,
 		nr_scanned++;
 		if (!pfn_valid_within(blockpfn))
 			goto isolate_fail;
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (!valid_page)
 			valid_page = page;
 		if (!PageBuddy(page))
@@ -292,10 +285,6 @@ static unsigned long isolate_freepages_block(struct compact_control *cc,
 
 		/* Found a free page, break it into order-0 pages */
 		isolated = split_free_page(page);
-<<<<<<< HEAD
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		total_isolated += isolated;
 		for (i = 0; i < isolated; i++) {
 			list_add(&page->lru, freelist);
@@ -308,17 +297,11 @@ static unsigned long isolate_freepages_block(struct compact_control *cc,
 			cursor += isolated - 1;
 			continue;
 		}
-<<<<<<< HEAD
-isolate_fail:
-		if (strict)
-			break;
-=======
 
 isolate_fail:
 		if (strict)
 			break;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	trace_mm_compaction_isolate_freepages(nr_scanned, total_isolated);

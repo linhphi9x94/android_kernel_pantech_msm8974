@@ -141,9 +141,6 @@ void dwc3_set_mode(struct dwc3 *dwc, u32 mode)
 	 * if it failed previously to operate in SS mode.
 	 */
 	reg |= DWC3_GCTL_U2RSTECN;
-<<<<<<< HEAD
-	if (mode == DWC3_GCTL_PRTCAP_HOST) {
-=======
 	reg &= ~(DWC3_GCTL_SOFITPSYNC);
 	reg &= ~(DWC3_GCTL_PWRDNSCALEMASK);
 	reg |= DWC3_GCTL_PWRDNSCALE(2);
@@ -151,24 +148,10 @@ void dwc3_set_mode(struct dwc3 *dwc, u32 mode)
 	dwc3_writel(dwc->regs, DWC3_GCTL, reg);
 
 	if (mode == DWC3_GCTL_PRTCAP_OTG || mode == DWC3_GCTL_PRTCAP_HOST) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/*
 		 * Allow ITP generated off of ref clk based counter instead
 		 * of UTMI/ULPI clk based counter, when superspeed only is
 		 * active so that UTMI/ULPI PHY can be suspened.
-<<<<<<< HEAD
-		 */
-		reg |= DWC3_GCTL_SOFITPSYNC;
-		reg &= ~(DWC3_GCTL_PWRDNSCALEMASK);
-		reg |= DWC3_GCTL_PWRDNSCALE(2);
-	} else if (mode == DWC3_GCTL_PRTCAP_DEVICE) {
-		reg &= ~(DWC3_GCTL_PWRDNSCALEMASK);
-		reg |= DWC3_GCTL_PWRDNSCALE(2);
-		reg &= ~(DWC3_GCTL_SOFITPSYNC);
-	}
-	reg |= DWC3_GCTL_U2EXIT_LFPS;
-	dwc3_writel(dwc->regs, DWC3_GCTL, reg);
-=======
 		 *
 		 * Starting with revision 2.50A, GFLADJ_REFCLK_LPM_SEL is used
 		 * instead.
@@ -184,7 +167,6 @@ void dwc3_set_mode(struct dwc3 *dwc, u32 mode)
 		}
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	reg = dwc3_readl(dwc->regs, DWC3_GUSB3PIPECTL(0));
 	reg |= DWC3_GUSB3PIPECTL_SUSPHY;
 	dwc3_writel(dwc->regs, DWC3_GUSB3PIPECTL(0), reg);
@@ -206,11 +188,7 @@ static void dwc3_core_soft_reset(struct dwc3 *dwc)
 	reg |= DWC3_GCTL_CORESOFTRESET;
 	dwc3_writel(dwc->regs, DWC3_GCTL, reg);
 
-<<<<<<< HEAD
-		dwc3_notify_event(dwc, DWC3_CONTROLLER_RESET_EVENT);
-=======
 	dwc3_notify_event(dwc, DWC3_CONTROLLER_RESET_EVENT);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/* Assert USB3 PHY reset */
 	reg = dwc3_readl(dwc->regs, DWC3_GUSB3PIPECTL(0));
@@ -241,11 +219,7 @@ static void dwc3_core_soft_reset(struct dwc3 *dwc)
 	reg &= ~DWC3_GCTL_CORESOFTRESET;
 	dwc3_writel(dwc->regs, DWC3_GCTL, reg);
 
-<<<<<<< HEAD
-		dwc3_notify_event(dwc, DWC3_CONTROLLER_POST_RESET_EVENT);
-=======
 	dwc3_notify_event(dwc, DWC3_CONTROLLER_POST_RESET_EVENT);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 /**
@@ -715,12 +689,6 @@ void dwc3_set_notifier(void (*notify)(struct dwc3 *, unsigned))
 }
 EXPORT_SYMBOL(dwc3_set_notifier);
 
-<<<<<<< HEAD
-void dwc3_notify_event(struct dwc3 *dwc, unsigned event)
-{
-	if (dwc->notify_event)
-		dwc->notify_event(dwc, event);
-=======
 int dwc3_notify_event(struct dwc3 *dwc, unsigned event)
 {
 	int ret = 0;
@@ -731,7 +699,6 @@ int dwc3_notify_event(struct dwc3 *dwc, unsigned event)
 		ret = -ENODEV;
 
 	return ret;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 EXPORT_SYMBOL(dwc3_notify_event);
 
@@ -841,10 +808,7 @@ static int __devinit dwc3_probe(struct platform_device *pdev)
 #ifdef CONFIG_PANTECH_USB_STATE_DEBUG
 	INIT_DELAYED_WORK(&dwc->state_work, dwc3_state_work);
 #endif
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mode = DWC3_MODE(dwc->hwparams.hwparams0);
 
 	/* Override mode if user selects host-only config with DRD core */
@@ -917,10 +881,7 @@ static int __devinit dwc3_probe(struct platform_device *pdev)
 		dev_err(dev, "failed to initialize debugfs\n");
 		goto err2;
 	}
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #if defined(CONFIG_ANDROID_PANTECH_USB_OTG_INTENT)
 	//LS2_USB tarial ssphy tune
 	temp_dwc3 = dwc;

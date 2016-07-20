@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2011-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2011-2016, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -65,20 +61,12 @@ module_param_named(max_sleep, POLLING_MAX_SLEEP,
 static int POLLING_INACTIVITY = 1;
 module_param_named(inactivity, POLLING_INACTIVITY,
 		   int, S_IRUGO | S_IWUSR | S_IWGRP);
-<<<<<<< HEAD
-#ifdef CONFIG_LGU_DS_BAM_ADAPTIVE_TIMER_OFF
-static int bam_adaptive_timer_enabled = 0;
-#else
-static int bam_adaptive_timer_enabled;
-#endif
-=======
 
 #ifdef CONFIG_SKY_DS_BAM_ADAPTIVE_TIMER_OFF
 static int bam_adaptive_timer_enabled = 0;
 #else
 static int bam_adaptive_timer_enabled;
 #endif /* CONFIG_SKY_DS_BAM_ADAPTIVE_TIMER_OFF */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 module_param_named(adaptive_timer_enabled,
 			bam_adaptive_timer_enabled,
@@ -287,10 +275,6 @@ static DEFINE_MUTEX(smsm_cb_lock);
 static DEFINE_MUTEX(delayed_ul_vote_lock);
 static int need_delayed_ul_vote;
 static int power_management_only_mode;
-<<<<<<< HEAD
-static int in_ssr;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int ssr_skipped_disconnect;
 static struct completion shutdown_completion;
 
@@ -1792,16 +1776,11 @@ static void reconnect_to_bam(void)
 {
 	int i;
 
-<<<<<<< HEAD
-	in_global_reset = 0;
-	in_ssr = 0;
-=======
 	if (in_global_reset) {
 		BAM_DMUX_LOG("%s: skipping due to SSR\n", __func__);
 		return;
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	vote_dfab();
 	if (!power_management_only_mode) {
 		if (ssr_skipped_disconnect) {
@@ -1880,15 +1859,9 @@ static void disconnect_to_bam(void)
 	/* tear down BAM connection */
 	INIT_COMPLETION(bam_connection_completion);
 
-<<<<<<< HEAD
-	/* in_ssr documentation/assumptions found in restart_notifier_cb */
-	if (!power_management_only_mode) {
-		if (likely(!in_ssr)) {
-=======
 	/* documentation/assumptions found in restart_notifier_cb */
 	if (!power_management_only_mode) {
 		if (likely(!in_global_reset)) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			BAM_DMUX_LOG("%s: disconnect tx\n", __func__);
 			bam_ops->sps_disconnect_ptr(bam_tx_pipe);
 			BAM_DMUX_LOG("%s: disconnect rx\n", __func__);
@@ -2026,21 +1999,13 @@ static int restart_notifier_cb(struct notifier_block *this,
 	if (code == SUBSYS_BEFORE_SHUTDOWN) {
 		BAM_DMUX_LOG("%s: begin\n", __func__);
 		in_global_reset = 1;
-<<<<<<< HEAD
-		in_ssr = 1;
-		/* wait till all bam_dmux writes completes */
-=======
 		/* sync to ensure the driver sees SSR */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		synchronize_srcu(&bam_dmux_srcu);
 		BAM_DMUX_LOG("%s: ssr signaling complete\n", __func__);
 		flush_workqueue(bam_mux_rx_workqueue);
 	}
-<<<<<<< HEAD
-=======
 	if (code == SUBSYS_BEFORE_POWERUP)
 		in_global_reset = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (code != SUBSYS_AFTER_SHUTDOWN)
 		return NOTIFY_DONE;
 
@@ -2111,10 +2076,7 @@ static int bam_init(void)
 	void *a2_virt_addr;
 	int skip_iounmap = 0;
 
-<<<<<<< HEAD
-=======
 	in_global_reset = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	vote_dfab();
 	/* init BAM */
 	a2_virt_addr = ioremap_nocache((unsigned long)(a2_phys_base),
@@ -2128,11 +2090,7 @@ static int bam_init(void)
 	a2_props.virt_addr = a2_virt_addr;
 	a2_props.virt_size = a2_phys_size;
 	a2_props.irq = a2_bam_irq;
-<<<<<<< HEAD
-	a2_props.options = SPS_BAM_OPT_IRQ_WAKEUP;
-=======
 	a2_props.options = SPS_BAM_OPT_IRQ_WAKEUP | SPS_BAM_HOLD_MEM;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	a2_props.num_pipes = A2_NUM_PIPES;
 	a2_props.summing_threshold = A2_SUMMING_THRESHOLD;
 	a2_props.constrained_logging = true;
@@ -2373,13 +2331,9 @@ static void toggle_apps_ack(void)
 static void bam_dmux_smsm_cb(void *priv, uint32_t old_state, uint32_t new_state)
 {
 	static int last_processed_state;
-<<<<<<< HEAD
-
-=======
 	int rcu_id;
 
 	rcu_id = srcu_read_lock(&bam_dmux_srcu);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	mutex_lock(&smsm_cb_lock);
 	bam_dmux_power_state = new_state & SMSM_A2_POWER_CONTROL ? 1 : 0;
 	DBG_INC_A2_POWER_CONTROL_IN_CNT();
@@ -2388,10 +2342,7 @@ static void bam_dmux_smsm_cb(void *priv, uint32_t old_state, uint32_t new_state)
 	if (last_processed_state == (new_state & SMSM_A2_POWER_CONTROL)) {
 		BAM_DMUX_LOG("%s: already processed this state\n", __func__);
 		mutex_unlock(&smsm_cb_lock);
-<<<<<<< HEAD
-=======
 		srcu_read_unlock(&bam_dmux_srcu, rcu_id);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return;
 	}
 
@@ -2418,30 +2369,20 @@ static void bam_dmux_smsm_cb(void *priv, uint32_t old_state, uint32_t new_state)
 		pr_err("%s: unsupported state change\n", __func__);
 	}
 	mutex_unlock(&smsm_cb_lock);
-<<<<<<< HEAD
-
-=======
 	srcu_read_unlock(&bam_dmux_srcu, rcu_id);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static void bam_dmux_smsm_ack_cb(void *priv, uint32_t old_state,
 						uint32_t new_state)
 {
-<<<<<<< HEAD
-=======
 	int rcu_id;
 
 	rcu_id = srcu_read_lock(&bam_dmux_srcu);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	DBG_INC_ACK_IN_CNT();
 	BAM_DMUX_LOG("%s: 0x%08x -> 0x%08x\n", __func__, old_state,
 			new_state);
 	complete_all(&ul_wakeup_ack_completion);
-<<<<<<< HEAD
-=======
 	srcu_read_unlock(&bam_dmux_srcu, rcu_id);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 /**
@@ -2470,12 +2411,9 @@ void msm_bam_dmux_deinit(void)
 {
 	restart_notifier_cb(NULL, SUBSYS_BEFORE_SHUTDOWN, NULL);
 	restart_notifier_cb(NULL, SUBSYS_AFTER_SHUTDOWN, NULL);
-<<<<<<< HEAD
-=======
 	restart_notifier_cb(NULL, SUBSYS_BEFORE_POWERUP, NULL);
 	restart_notifier_cb(NULL, SUBSYS_AFTER_POWERUP, NULL);
 	in_global_reset = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 EXPORT_SYMBOL(msm_bam_dmux_deinit);
 
@@ -2599,11 +2537,7 @@ static int bam_dmux_probe(struct platform_device *pdev)
 
 	rc = bam_ops->smsm_state_cb_register_ptr(SMSM_MODEM_STATE,
 			SMSM_A2_POWER_CONTROL,
-<<<<<<< HEAD
-					bam_dmux_smsm_cb, NULL);
-=======
 			bam_dmux_smsm_cb, NULL);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (rc) {
 		destroy_workqueue(bam_mux_rx_workqueue);
@@ -2614,11 +2548,7 @@ static int bam_dmux_probe(struct platform_device *pdev)
 
 	rc = bam_ops->smsm_state_cb_register_ptr(SMSM_MODEM_STATE,
 			SMSM_A2_POWER_CONTROL_ACK,
-<<<<<<< HEAD
-					bam_dmux_smsm_ack_cb, NULL);
-=======
 			bam_dmux_smsm_ack_cb, NULL);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (rc) {
 		destroy_workqueue(bam_mux_rx_workqueue);
@@ -2668,12 +2598,8 @@ static int __init bam_dmux_init(void)
 	}
 #endif
 
-<<<<<<< HEAD
-	bam_ipc_log_txt = ipc_log_context_create(BAM_IPC_LOG_PAGES, "bam_dmux");
-=======
 	bam_ipc_log_txt = ipc_log_context_create(BAM_IPC_LOG_PAGES, "bam_dmux",
 			0);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!bam_ipc_log_txt) {
 		pr_err("%s : unable to create IPC Logging Context", __func__);
 	}

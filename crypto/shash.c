@@ -629,8 +629,6 @@ int crypto_unregister_shash(struct shash_alg *alg)
 }
 EXPORT_SYMBOL_GPL(crypto_unregister_shash);
 
-<<<<<<< HEAD
-=======
 int crypto_register_shashes(struct shash_alg *algs, int count)
 {
 	int i, ret;
@@ -667,7 +665,6 @@ int crypto_unregister_shashes(struct shash_alg *algs, int count)
 }
 EXPORT_SYMBOL_GPL(crypto_unregister_shashes);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int shash_register_instance(struct crypto_template *tmpl,
 			    struct shash_instance *inst)
 {

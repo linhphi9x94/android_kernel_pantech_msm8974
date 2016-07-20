@@ -1,10 +1,6 @@
 /* drivers/serial/msm_serial_hs_hwreg.h
  *
-<<<<<<< HEAD
- * Copyright (c) 2007-2009, 2012-2013,The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2007-2009, 2012-2014,The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  * 
  * All source code in this file is licensed under the following license
  * except where indicated.
@@ -65,29 +61,6 @@ enum msm_hsl_regs {
 };
 
 enum msm_hs_regs {
-<<<<<<< HEAD
-	UART_DM_MR1,
-	UART_DM_MR2,
-	UART_DM_IMR,
-	UART_DM_SR,
-	UART_DM_CR,
-	UART_DM_CSR,
-	UART_DM_IPR,
-	UART_DM_ISR,
-	UART_DM_RX_TOTAL_SNAP,
-	UART_DM_RFWR,
-	UART_DM_TFWR,
-	UART_DM_RF,
-	UART_DM_TF,
-	UART_DM_MISR,
-	UART_DM_DMRX,
-	UART_DM_NCF_TX,
-	UART_DM_DMEN,
-	UART_DM_TXFS,
-	UART_DM_RXFS,
-	UART_DM_RX_TRANS_CTRL,
-	UART_DM_LAST,
-=======
 	UART_DM_MR1 = 0x0,
 	UART_DM_MR2 = 0x4,
 	UART_DM_IMR = 0xb0,
@@ -109,7 +82,6 @@ enum msm_hs_regs {
 	UART_DM_RXFS = 0x50,
 	UART_DM_RX_TRANS_CTRL = 0xcc,
 	UART_DM_BCR = 0xc8,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 #define UARTDM_MR1_ADDR 0x0
@@ -122,15 +94,11 @@ enum msm_hs_regs {
  * UARTDM Core v1.4 STALE_IRQ_EMPTY bit defination
  * Stale interrupt will fire if bit is set when RX-FIFO is empty
  */
-<<<<<<< HEAD
-#define UARTDM_BCR_STALE_IRQ_EMPTY	0x2
-=======
 #define UARTDM_BCR_TX_BREAK_DISABLE	0x1
 #define UARTDM_BCR_STALE_IRQ_EMPTY	0x2
 #define UARTDM_BCR_RX_DMRX_LOW_EN	0x4
 #define UARTDM_BCR_RX_STAL_IRQ_DMRX_EQL	0x10
 #define UARTDM_BCR_RX_DMRX_1BYTE_RES_EN	0x20
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /* TRANSFER_CONTROL Register for UARTDM Core v1.4 */
 #define UARTDM_RX_TRANS_CTRL_ADDR      0xcc

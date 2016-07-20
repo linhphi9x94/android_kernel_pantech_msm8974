@@ -629,12 +629,8 @@ int msm_bus_scale_client_update_request(uint32_t cl, unsigned index)
 	pdata = client->pdata;
 	if (!pdata) {
 		MSM_BUS_ERR("Null pdata passed to update-request\n");
-<<<<<<< HEAD
-		return -ENXIO;
-=======
 		ret = -ENXIO;
 		goto err;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	if (index >= pdata->num_usecases) {

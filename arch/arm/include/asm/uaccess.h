@@ -203,12 +203,6 @@ static inline void set_fs(mm_segment_t fs)
 
 #define access_ok(type,addr,size)	(__range_ok(addr,size) == 0)
 
-<<<<<<< HEAD
-#define user_addr_max() \
-	(segment_eq(get_fs(), USER_DS) ? TASK_SIZE : ~0UL)
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*
  * The "__xxx" versions of the user access functions do not verify the
  * address space - it must have been done previously with a separate
@@ -418,12 +412,9 @@ extern unsigned long __must_check __clear_user_std(void __user *addr, unsigned l
 #define __clear_user(addr,n)		(memset((void __force *)addr, 0, n), 0)
 #endif
 
-<<<<<<< HEAD
-=======
 extern unsigned long __must_check __strncpy_from_user(char *to, const char __user *from, unsigned long count);
 extern unsigned long __must_check __strnlen_user(const char __user *s, long n);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static inline unsigned long __must_check copy_from_user(void *to, const void __user *from, unsigned long n)
 {
 	if (access_ok(VERIFY_READ, from, n))
@@ -450,12 +441,6 @@ static inline unsigned long __must_check clear_user(void __user *to, unsigned lo
 	return n;
 }
 
-<<<<<<< HEAD
-extern long strncpy_from_user(char *dest, const char __user *src, long count);
-
-extern __must_check long strlen_user(const char __user *str);
-extern __must_check long strnlen_user(const char __user *str, long n);
-=======
 static inline long __must_check strncpy_from_user(char *dst, const char __user *src, long count)
 {
 	long res = -EFAULT;
@@ -475,6 +460,5 @@ static inline long __must_check strnlen_user(const char __user *s, long n)
 
 	return res;
 }
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #endif /* _ASMARM_UACCESS_H */

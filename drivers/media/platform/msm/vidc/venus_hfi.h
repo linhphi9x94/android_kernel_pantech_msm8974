@@ -215,10 +215,7 @@ struct venus_hfi_device {
 	struct workqueue_struct *venus_pm_workq;
 	int spur_count;
 	int reg_count;
-<<<<<<< HEAD
-=======
 	int pc_num_cmds;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	u32 base_addr;
 	u32 register_base;
 	u32 register_size;

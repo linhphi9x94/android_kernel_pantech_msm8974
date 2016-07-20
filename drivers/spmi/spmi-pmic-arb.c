@@ -33,13 +33,9 @@
 /* PMIC Arbiter configuration registers */
 #define PMIC_ARB_VERSION		0x0000
 #define PMIC_ARB_INT_EN			0x0004
-<<<<<<< HEAD
-
-=======
 #define PMIC_ARB_PROTOCOL_IRQ_STATUS	(0x700 + 0x820)
 #define PMIC_ARB_GENI_CTRL		0x0024
 #define PMIC_ARB_GENI_STATUS	0x0028
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* PMIC Arbiter channel registers */
 #define PMIC_ARB_CMD(N)			(0x0800 + (0x80 * (N)))
 #define PMIC_ARB_CONFIG(N)		(0x0804 + (0x80 * (N)))
@@ -131,10 +127,7 @@ struct spmi_pmic_arb_dev {
 	u8			max_apid;
 	u16			periph_id_map[PMIC_ARB_MAX_PERIPHS];
 	u32			mapping_table[SPMI_MAPPING_TABLE_LEN];
-<<<<<<< HEAD
-=======
 	u32			prev_prtcl_irq_stat;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static struct spmi_pmic_arb_dev *the_pmic_arb;
@@ -153,8 +146,6 @@ static void pmic_arb_write(struct spmi_pmic_arb_dev *dev, u32 offset, u32 val)
 	writel_relaxed(val, dev->base + offset);
 }
 
-<<<<<<< HEAD
-=======
 static void pmic_arb_save_stat_before_txn(struct spmi_pmic_arb_dev *dev)
 {
 	dev->prev_prtcl_irq_stat =
@@ -186,7 +177,6 @@ static int pmic_arb_diagnosis(struct spmi_pmic_arb_dev *dev, u32 status)
 	return 0;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int pmic_arb_wait_for_done(struct spmi_pmic_arb_dev *dev)
 {
 	u32 status = 0;
@@ -196,36 +186,6 @@ static int pmic_arb_wait_for_done(struct spmi_pmic_arb_dev *dev)
 	while (timeout--) {
 		status = pmic_arb_read(dev, offset);
 
-<<<<<<< HEAD
-		if (status & PMIC_ARB_STATUS_DONE) {
-			if (status & PMIC_ARB_STATUS_DENIED) {
-				dev_err(dev->dev,
-					"%s: transaction denied (0x%x)\n",
-					__func__, status);
-				return -EPERM;
-			}
-
-			if (status & PMIC_ARB_STATUS_FAILURE) {
-				dev_err(dev->dev,
-					"%s: transaction failed (0x%x)\n",
-					__func__, status);
-				return -EIO;
-			}
-
-			if (status & PMIC_ARB_STATUS_DROPPED) {
-				dev_err(dev->dev,
-					"%s: transaction dropped (0x%x)\n",
-					__func__, status);
-				return -EIO;
-			}
-
-			return 0;
-		}
-		udelay(1);
-	}
-
-	dev_err(dev->dev, "%s: timeout, status 0x%x\n", __func__, status);
-=======
 		if (status & PMIC_ARB_STATUS_DONE)
 			return pmic_arb_diagnosis(dev, status);
 
@@ -233,7 +193,6 @@ static int pmic_arb_wait_for_done(struct spmi_pmic_arb_dev *dev)
 	}
 
 	dev_err(dev->dev, "wait_for_done:: timeout, status 0x%x\n", status);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return -ETIMEDOUT;
 }
 
@@ -263,8 +222,6 @@ pa_write_data(struct spmi_pmic_arb_dev *dev, u8 *buf, u32 reg, u8 bc)
 	pmic_arb_write(dev, reg, data);
 }
 
-<<<<<<< HEAD
-=======
 static void pmic_arb_dbg_err_dump(struct spmi_pmic_arb_dev *pmic_arb, int ret,
 		const char *msg, u8 opc, u8 sid, u16 addr, u8 bc, u8 *buf)
 {
@@ -288,7 +245,6 @@ static void pmic_arb_dbg_err_dump(struct spmi_pmic_arb_dev *pmic_arb, int ret,
 		irq_stat, pmic_arb->prev_prtcl_irq_stat, geni_stat, geni_ctrl);
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* Non-data command */
 static int pmic_arb_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid)
 {
@@ -308,19 +264,13 @@ static int pmic_arb_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid)
 	cmd = (opc << 27) | ((sid & 0xf) << 20);
 
 	spin_lock_irqsave(&pmic_arb->lock, flags);
-<<<<<<< HEAD
-=======
 	pmic_arb_save_stat_before_txn(pmic_arb);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	pmic_arb_write(pmic_arb, PMIC_ARB_CMD(pmic_arb->channel), cmd);
 	rc = pmic_arb_wait_for_done(pmic_arb);
 	spin_unlock_irqrestore(&pmic_arb->lock, flags);
 
-<<<<<<< HEAD
-=======
 	if (rc)
 		pmic_arb_dbg_err_dump(pmic_arb, rc, "cmd", opc, sid, 0, 0, 0);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rc;
 }
 
@@ -338,12 +288,8 @@ static int pmic_arb_read_cmd(struct spmi_controller *ctrl,
 					, PMIC_ARB_MAX_TRANS_BYTES, bc+1);
 		return  -EINVAL;
 	}
-<<<<<<< HEAD
-	pr_debug("op:0x%x sid:%d bc:%d addr:0x%x\n", opc, sid, bc, addr);
-=======
 	dev_dbg(pmic_arb->dev, "client-rd op:0x%x sid:%d addr:0x%x bc:%d\n",
 							opc, sid, addr, bc + 1);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/* Check the opcode */
 	if (opc >= 0x60 && opc <= 0x7F)
@@ -358,10 +304,7 @@ static int pmic_arb_read_cmd(struct spmi_controller *ctrl,
 	cmd = (opc << 27) | ((sid & 0xf) << 20) | (addr << 4) | (bc & 0x7);
 
 	spin_lock_irqsave(&pmic_arb->lock, flags);
-<<<<<<< HEAD
-=======
 	pmic_arb_save_stat_before_txn(pmic_arb);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	pmic_arb_write(pmic_arb, PMIC_ARB_CMD(pmic_arb->channel), cmd);
 	rc = pmic_arb_wait_for_done(pmic_arb);
 	if (rc)
@@ -377,12 +320,9 @@ static int pmic_arb_read_cmd(struct spmi_controller *ctrl,
 
 done:
 	spin_unlock_irqrestore(&pmic_arb->lock, flags);
-<<<<<<< HEAD
-=======
 	if (rc)
 		pmic_arb_dbg_err_dump(pmic_arb, rc, "read", opc, sid, addr, bc,
 									buf);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rc;
 }
 
@@ -400,12 +340,8 @@ static int pmic_arb_write_cmd(struct spmi_controller *ctrl,
 					, PMIC_ARB_MAX_TRANS_BYTES, bc+1);
 		return  -EINVAL;
 	}
-<<<<<<< HEAD
-	pr_debug("op:0x%x sid:%d bc:%d addr:0x%x\n", opc, sid, bc, addr);
-=======
 	dev_dbg(pmic_arb->dev, "client-wr op:0x%x sid:%d addr:0x%x bc:%d\n",
 							opc, sid, addr, bc + 1);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/* Check the opcode */
 	if (opc >= 0x40 && opc <= 0x5F)
@@ -423,10 +359,7 @@ static int pmic_arb_write_cmd(struct spmi_controller *ctrl,
 
 	/* Write data to FIFOs */
 	spin_lock_irqsave(&pmic_arb->lock, flags);
-<<<<<<< HEAD
-=======
 	pmic_arb_save_stat_before_txn(pmic_arb);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	pa_write_data(pmic_arb, buf, PMIC_ARB_WDATA0(pmic_arb->channel)
 							, min_t(u8, bc, 3));
 	if (bc > 3)
@@ -438,13 +371,10 @@ static int pmic_arb_write_cmd(struct spmi_controller *ctrl,
 	rc = pmic_arb_wait_for_done(pmic_arb);
 	spin_unlock_irqrestore(&pmic_arb->lock, flags);
 
-<<<<<<< HEAD
-=======
 	if (rc)
 		pmic_arb_dbg_err_dump(pmic_arb, rc, "write", opc, sid, addr, bc,
 									buf);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rc;
 }
 
@@ -621,13 +551,9 @@ periph_interrupt(struct spmi_pmic_arb_dev *pmic_arb, u8 apid, bool show)
 	int i;
 
 	if (!is_apid_valid(pmic_arb, apid)) {
-<<<<<<< HEAD
-		dev_err(pmic_arb->dev, "unknown peripheral id 0x%x\n", ppid);
-=======
 		dev_err(pmic_arb->dev,
 		"periph_interrupt(apid:0x%x sid:0x%x pid:0x%x) unknown peripheral\n",
 			apid, sid, pid);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/* return IRQ_NONE; */
 	}
 

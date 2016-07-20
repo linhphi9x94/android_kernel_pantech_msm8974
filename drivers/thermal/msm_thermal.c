@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -15,11 +11,8 @@
  *
  */
 
-<<<<<<< HEAD
-=======
 #define pr_fmt(fmt) "%s:%s " fmt, KBUILD_MODNAME, __func__
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <linux/kernel.h>
 #include <linux/init.h>
 #include <linux/module.h>
@@ -39,33 +32,24 @@
 #include <linux/of.h>
 #include <linux/sysfs.h>
 #include <linux/types.h>
-<<<<<<< HEAD
-=======
 #include <linux/io.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <linux/android_alarm.h>
 #include <linux/thermal.h>
 #include <mach/rpm-regulator.h>
 #include <mach/rpm-regulator-smd.h>
 #include <linux/regulator/consumer.h>
 #include <linux/msm_thermal_ioctl.h>
-<<<<<<< HEAD
-=======
 #include <mach/rpm-smd.h>
 #include <mach/scm.h>
 #include <linux/sched.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define MAX_CURRENT_UA 1000000
 #define MAX_RAILS 5
 #define MAX_THRESHOLD 2
-<<<<<<< HEAD
-=======
 #define MONITOR_ALL_TSENS -1
 #define BYTES_PER_FUSE_ROW  8
 #define MAX_EFUSE_VALUE  16
 #define THERM_SECURE_BITE_CMD 8
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static int ecocpu; // FEATURE_PANTECH_ECO_CPU_MODE
 
@@ -81,12 +65,6 @@ static struct kobject *cc_kobj;
 static struct work_struct timer_work;
 static struct task_struct *hotplug_task;
 static struct task_struct *freq_mitigation_task;
-<<<<<<< HEAD
-static struct completion hotplug_notify_complete;
-static struct completion freq_mitigation_complete;
-
-static int enabled;
-=======
 static struct task_struct *thermal_monitor_task;
 static struct completion hotplug_notify_complete;
 static struct completion freq_mitigation_complete;
@@ -94,7 +72,6 @@ static struct completion thermal_monitor_complete;
 
 static int enabled;
 static int polling_enabled;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int rails_cnt;
 static int psm_rails_cnt;
 static int ocr_rail_cnt;
@@ -116,24 +93,18 @@ static bool freq_mitigation_enabled;
 static bool ocr_enabled;
 static bool ocr_nodes_called;
 static bool ocr_probed;
-<<<<<<< HEAD
-=======
 static bool interrupt_mode_enable;
 static bool msm_thermal_probed;
 static bool therm_reset_enabled;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int *tsens_id_map;
 static DEFINE_MUTEX(vdd_rstr_mutex);
 static DEFINE_MUTEX(psm_mutex);
 static DEFINE_MUTEX(ocr_mutex);
 static uint32_t min_freq_limit;
-<<<<<<< HEAD
-=======
 static uint32_t default_cpu_temp_limit;
 static bool default_temp_limit_enabled;
 static bool default_temp_limit_probed;
 static bool default_temp_limit_nodes_called;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 enum thermal_threshold {
 	HOTPLUG_THRESHOLD_HIGH,
@@ -143,11 +114,6 @@ enum thermal_threshold {
 	THRESHOLD_MAX_NR,
 };
 
-<<<<<<< HEAD
-struct cpu_info {
-	uint32_t cpu;
-	const char *sensor_type;
-=======
 enum sensor_id_type {
 	THERM_ZONE_ID,
 	THERM_TSENS_ID,
@@ -158,7 +124,6 @@ struct cpu_info {
 	uint32_t cpu;
 	const char *sensor_type;
 	enum sensor_id_type id_type;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	uint32_t sensor_id;
 	bool offline;
 	bool user_offline;
@@ -172,8 +137,6 @@ struct cpu_info {
 	bool freq_thresh_clear;
 };
 
-<<<<<<< HEAD
-=======
 struct threshold_info;
 struct therm_threshold {
 	int32_t sensor_id;
@@ -189,7 +152,6 @@ struct threshold_info {
 	struct therm_threshold *thresh_list;
 };
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct rail {
 	const char *name;
 	uint32_t freq_req;
@@ -213,31 +175,23 @@ struct psm_rail {
 	struct attribute_group attr_gp;
 };
 
-<<<<<<< HEAD
-=======
 enum msm_thresh_list {
 	MSM_THERM_RESET,
 	MSM_VDD_RESTRICTION,
 	MSM_LIST_MAX_NR,
 };
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static struct psm_rail *psm_rails;
 static struct psm_rail *ocr_rails;
 static struct rail *rails;
 static struct cpu_info cpus[NR_CPUS];
-<<<<<<< HEAD
-=======
 static struct threshold_info *thresh;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 struct vdd_rstr_enable {
 	struct kobj_attribute ko_attr;
 	uint32_t enabled;
 };
 
-<<<<<<< HEAD
-=======
 enum efuse_data {
 	EFUSE_ADDRESS = 0,
 	EFUSE_SIZE,
@@ -247,7 +201,6 @@ enum efuse_data {
 	EFUSE_DATA_MAX,
 };
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* For SMPS only*/
 enum PMIC_SW_MODE {
 	PMIC_AUTO_MODE  = RPM_REGULATOR_MODE_AUTO,
@@ -263,11 +216,7 @@ enum ocr_request {
 
 #define VDD_RES_RO_ATTRIB(_rail, ko_attr, j, _name) \
 	ko_attr.attr.name = __stringify(_name); \
-<<<<<<< HEAD
-	ko_attr.attr.mode = 444; \
-=======
 	ko_attr.attr.mode = 0444; \
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ko_attr.show = vdd_rstr_reg_##_name##_show; \
 	ko_attr.store = NULL; \
 	sysfs_attr_init(&ko_attr.attr); \
@@ -275,11 +224,7 @@ enum ocr_request {
 
 #define VDD_RES_RW_ATTRIB(_rail, ko_attr, j, _name) \
 	ko_attr.attr.name = __stringify(_name); \
-<<<<<<< HEAD
-	ko_attr.attr.mode = 644; \
-=======
 	ko_attr.attr.mode = 0644; \
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ko_attr.show = vdd_rstr_reg_##_name##_show; \
 	ko_attr.store = vdd_rstr_reg_##_name##_store; \
 	sysfs_attr_init(&ko_attr.attr); \
@@ -296,11 +241,7 @@ enum ocr_request {
 
 #define OCR_RW_ATTRIB(_rail, ko_attr, j, _name) \
 	ko_attr.attr.name = __stringify(_name); \
-<<<<<<< HEAD
-	ko_attr.attr.mode = 644; \
-=======
 	ko_attr.attr.mode = 0644; \
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ko_attr.show = ocr_reg_##_name##_show; \
 	ko_attr.store = ocr_reg_##_name##_store; \
 	sysfs_attr_init(&ko_attr.attr); \
@@ -308,11 +249,7 @@ enum ocr_request {
 
 #define PSM_RW_ATTRIB(_rail, ko_attr, j, _name) \
 	ko_attr.attr.name = __stringify(_name); \
-<<<<<<< HEAD
-	ko_attr.attr.mode = 644; \
-=======
 	ko_attr.attr.mode = 0644; \
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ko_attr.show = psm_reg_##_name##_show; \
 	ko_attr.store = psm_reg_##_name##_store; \
 	sysfs_attr_init(&ko_attr.attr); \
@@ -330,13 +267,8 @@ static int  msm_thermal_cpufreq_callback(struct notifier_block *nfb,
 
 	switch (event) {
 	case CPUFREQ_INCOMPATIBLE:
-<<<<<<< HEAD
-		pr_debug("%s: mitigating cpu %d to freq max: %u min: %u\n",
-		KBUILD_MODNAME, policy->cpu, max_freq_req, min_freq_req);
-=======
 		pr_debug("mitigating CPU%d to freq max: %u min: %u\n",
 		policy->cpu, max_freq_req, min_freq_req);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		cpufreq_verify_within_limits(policy, min_freq_req,
 			max_freq_req);
@@ -361,11 +293,7 @@ static int check_freq_table(void)
 
 	table = cpufreq_frequency_get_table(0);
 	if (!table) {
-<<<<<<< HEAD
-		pr_debug("%s: error reading cpufreq table\n", __func__);
-=======
 		pr_debug("error reading cpufreq table\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -EINVAL;
 	}
 	freq_table_get = 1;
@@ -375,11 +303,6 @@ static int check_freq_table(void)
 
 static void update_cpu_freq(int cpu)
 {
-<<<<<<< HEAD
-	if (cpu_online(cpu)) {
-		if (cpufreq_update_policy(cpu))
-			pr_err("Unable to update policy for cpu:%d\n", cpu);
-=======
 	int ret = 0;
 
 	if (cpu_online(cpu)) {
@@ -387,7 +310,6 @@ static void update_cpu_freq(int cpu)
 		if (ret)
 			pr_err("Unable to update policy for cpu:%d. err:%d\n",
 				cpu, ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 }
 
@@ -399,21 +321,14 @@ static int update_cpu_min_freq_all(uint32_t min)
 	if (!freq_table_get) {
 		ret = check_freq_table();
 		if (ret) {
-<<<<<<< HEAD
-			pr_err("%s:Fail to get freq table\n", KBUILD_MODNAME);
-=======
 			pr_err("Fail to get freq table. err:%d\n", ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			return ret;
 		}
 	}
 	/* If min is larger than allowed max */
 	min = min(min, table[limit_idx_high].frequency);
 
-<<<<<<< HEAD
-=======
 	pr_debug("Requesting min freq:%u for all CPU's\n", min);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (freq_mitigation_task) {
 		min_freq_limit = min;
 		complete(&freq_mitigation_complete);
@@ -462,11 +377,7 @@ static int vdd_restriction_apply_voltage(struct rail *r, int level)
 	int ret = 0;
 
 	if (r->reg == NULL) {
-<<<<<<< HEAD
-		pr_info("Do not have regulator handle:%s, can't apply vdd\n",
-=======
 		pr_err("%s don't have regulator handle. can't apply vdd\n",
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				r->name);
 		return -EFAULT;
 	}
@@ -479,21 +390,15 @@ static int vdd_restriction_apply_voltage(struct rail *r, int level)
 			r->levels[r->num_levels - 1]);
 		if (!ret)
 			r->curr_level = -1;
-<<<<<<< HEAD
-=======
 		pr_debug("Requested min level for %s. curr level: %d\n",
 				r->name, r->curr_level);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	} else if (level >= 0 && level < (r->num_levels)) {
 		ret = regulator_set_voltage(r->reg, r->levels[level],
 			r->levels[r->num_levels - 1]);
 		if (!ret)
 			r->curr_level = level;
-<<<<<<< HEAD
-=======
 		pr_debug("Requesting level %d for %s. curr level: %d\n",
 			r->levels[level], r->name, r->levels[r->curr_level]);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	} else {
 		pr_err("level input:%d is not within range\n", level);
 		return -EINVAL;
@@ -509,21 +414,13 @@ static int psm_set_mode_all(int mode)
 	int fail_cnt = 0;
 	int ret = 0;
 
-<<<<<<< HEAD
-=======
 	pr_debug("Requesting PMIC Mode: %d\n", mode);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	for (i = 0; i < psm_rails_cnt; i++) {
 		if (psm_rails[i].mode != mode) {
 			ret = rpm_regulator_set_mode(psm_rails[i].reg, mode);
 			if (ret) {
-<<<<<<< HEAD
-				pr_err("Cannot set mode:%d for %s",
-					mode, psm_rails[i].name);
-=======
 				pr_err("Cannot set mode:%d for %s. err:%d",
 					mode, psm_rails[i].name, ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				fail_cnt++;
 			} else
 				psm_rails[i].mode = mode;
@@ -533,15 +430,12 @@ static int psm_set_mode_all(int mode)
 	return fail_cnt ? (-EFAULT) : ret;
 }
 
-<<<<<<< HEAD
-=======
 static ssize_t default_cpu_temp_limit_show(struct kobject *kobj,
 	struct kobj_attribute *attr, char *buf)
 {
 	return snprintf(buf, PAGE_SIZE, "%d\n", default_cpu_temp_limit);
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int vdd_rstr_en_show(
 	struct kobject *kobj, struct kobj_attribute *attr, char *buf)
 {
@@ -599,11 +493,8 @@ static ssize_t vdd_rstr_en_store(struct kobject *kobj,
 		en->enabled = 1;
 	else if (!val && (dis_cnt == rails_cnt))
 		en->enabled = 0;
-<<<<<<< HEAD
-=======
 	pr_debug("%s vdd restriction. curr: %d\n",
 			(val) ? "Enable" : "Disable", en->enabled);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 done_vdd_rstr_en:
 	mutex_unlock(&vdd_rstr_mutex);
@@ -612,11 +503,7 @@ done_vdd_rstr_en:
 
 static struct vdd_rstr_enable vdd_rstr_en = {
 	.ko_attr.attr.name = __stringify(enabled),
-<<<<<<< HEAD
-	.ko_attr.attr.mode = 644,
-=======
 	.ko_attr.attr.mode = 0644,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	.ko_attr.show = vdd_rstr_en_show,
 	.ko_attr.store = vdd_rstr_en_store,
 	.enabled = 1,
@@ -682,22 +569,14 @@ static ssize_t vdd_rstr_reg_level_store(struct kobject *kobj,
 			ret = vdd_restriction_apply_voltage(reg, val);
 			if (ret) {
 				pr_err( \
-<<<<<<< HEAD
-				"Set vdd restriction for regulator %s failed\n",
-				reg->name);
-=======
 				"Set vdd restriction for regulator %s failed. err:%d\n",
 				reg->name, ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				goto done_store_level;
 			}
 		}
 		reg->curr_level = val;
-<<<<<<< HEAD
-=======
 		pr_debug("Request level %d for %s\n",
 				reg->curr_level, reg->name);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 done_store_level:
@@ -813,25 +692,15 @@ static ssize_t psm_reg_mode_store(struct kobject *kobj,
 	}
 
 	if ((val != PMIC_PWM_MODE) && (val != PMIC_AUTO_MODE)) {
-<<<<<<< HEAD
-		pr_err(" Invalid number %d for mode\n", val);
-=======
 		pr_err("Invalid number %d for mode\n", val);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		goto done_psm_store;
 	}
 
 	if (val != reg->mode) {
 		ret = rpm_regulator_set_mode(reg->reg, val);
 		if (ret) {
-<<<<<<< HEAD
-			pr_err( \
-			"Fail to set PMIC SW Mode:%d for %s\n",
-			val, reg->name);
-=======
 			pr_err("Fail to set Mode:%d for %s. err:%d\n",
 			val, reg->name, ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			goto done_psm_store;
 		}
 		reg->mode = val;
@@ -845,11 +714,7 @@ done_psm_store:
 static int check_sensor_id(int sensor_id)
 {
 	int i = 0;
-<<<<<<< HEAD
-	bool hw_id_found;
-=======
 	bool hw_id_found = false;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	int ret = 0;
 
 	for (i = 0; i < max_tsens_num; i++) {
@@ -859,11 +724,7 @@ static int check_sensor_id(int sensor_id)
 		}
 	}
 	if (!hw_id_found) {
-<<<<<<< HEAD
-		pr_err("%s: Invalid sensor hw id :%d\n", __func__, sensor_id);
-=======
 		pr_err("Invalid sensor hw id:%d\n", sensor_id);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -EINVAL;
 	}
 
@@ -878,12 +739,7 @@ static int create_sensor_id_map(void)
 	tsens_id_map = kzalloc(sizeof(int) * max_tsens_num,
 			GFP_KERNEL);
 	if (!tsens_id_map) {
-<<<<<<< HEAD
-		pr_err("%s: Cannot allocate memory for tsens_id_map\n",
-				__func__);
-=======
 		pr_err("Cannot allocate memory for tsens_id_map\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -ENOMEM;
 	}
 
@@ -895,14 +751,8 @@ static int create_sensor_id_map(void)
 				tsens_id_map[i] = i;
 				ret = 0;
 			} else {
-<<<<<<< HEAD
-				pr_err( \
-				"%s: Failed to get hw id for sw id %d\n",
-				__func__, i);
-=======
 				pr_err("Failed to get hw id for id:%d.err:%d\n",
 						i, ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				goto fail;
 			}
 		}
@@ -931,13 +781,9 @@ static int vdd_restriction_apply_all(int en)
 			ret = vdd_restriction_apply_voltage(&rails[i],
 					en ? 0 : -1);
 		if (ret) {
-<<<<<<< HEAD
-			pr_err("Cannot set voltage for %s", rails[i].name);
-=======
 			pr_err("Failed to %s for %s. err:%d",
 					(en) ? "enable" : "disable",
 					rails[i].name, ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			fail_cnt++;
 		} else {
 			if (en)
@@ -969,11 +815,7 @@ static int msm_thermal_get_freq_table(void)
 
 	table = cpufreq_frequency_get_table(0);
 	if (table == NULL) {
-<<<<<<< HEAD
-		pr_debug("%s: error reading cpufreq table\n", KBUILD_MODNAME);
-=======
 		pr_err("error reading cpufreq table\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		ret = -EINVAL;
 		goto fail;
 	}
@@ -995,25 +837,15 @@ static int set_and_activate_threshold(uint32_t sensor_id,
 
 	ret = sensor_set_trip(sensor_id, threshold);
 	if (ret != 0) {
-<<<<<<< HEAD
-		pr_err("%s: Error in setting trip %d\n",
-			KBUILD_MODNAME, threshold->trip);
-=======
 		pr_err("sensor:%u Error in setting trip:%d. err:%d\n",
 			sensor_id, threshold->trip, ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		goto set_done;
 	}
 
 	ret = sensor_activate_trip(sensor_id, threshold, true);
 	if (ret != 0) {
-<<<<<<< HEAD
-		pr_err("%s: Error in enabling trip %d\n",
-			KBUILD_MODNAME, threshold->trip);
-=======
 		pr_err("sensor:%u Error in enabling trip:%d. err:%d\n",
 			sensor_id, threshold->trip, ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		goto set_done;
 	}
 
@@ -1021,17 +853,6 @@ set_done:
 	return ret;
 }
 
-<<<<<<< HEAD
-static int set_threshold(uint32_t sensor_id,
-	struct sensor_threshold *threshold)
-{
-	struct tsens_device tsens_dev;
-	int i = 0, ret = 0;
-	long temp;
-
-	if ((!threshold) || check_sensor_id(sensor_id)) {
-		pr_err("%s: Invalid input\n", KBUILD_MODNAME);
-=======
 static int therm_get_temp(uint32_t id, enum sensor_id_type type, long *temp)
 {
 	int ret = 0;
@@ -1076,20 +897,10 @@ static int set_threshold(uint32_t zone_id,
 
 	if ((!threshold) || (zone_id >= max_tsens_num)) {
 		pr_err("Invalid input\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		ret = -EINVAL;
 		goto set_threshold_exit;
 	}
 
-<<<<<<< HEAD
-	tsens_dev.sensor_num = sensor_id;
-	ret = tsens_get_temp(&tsens_dev, &temp);
-	if (ret) {
-		pr_err("%s: Unable to read TSENS sensor %d\n",
-			KBUILD_MODNAME, tsens_dev.sensor_num);
-		goto set_threshold_exit;
-	}
-=======
 	ret = therm_get_temp(zone_id, THERM_ZONE_ID, &temp);
 	if (ret) {
 		pr_err("Unable to read temperature for zone:%d. err:%d\n",
@@ -1097,16 +908,11 @@ static int set_threshold(uint32_t zone_id,
 		goto set_threshold_exit;
 	}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	while (i < MAX_THRESHOLD) {
 		switch (threshold[i].trip) {
 		case THERMAL_TRIP_CONFIGURABLE_HI:
 			if (threshold[i].temp >= temp) {
-<<<<<<< HEAD
-				ret = set_and_activate_threshold(sensor_id,
-=======
 				ret = set_and_activate_threshold(zone_id,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 					&threshold[i]);
 				if (ret)
 					goto set_threshold_exit;
@@ -1114,22 +920,15 @@ static int set_threshold(uint32_t zone_id,
 			break;
 		case THERMAL_TRIP_CONFIGURABLE_LOW:
 			if (threshold[i].temp <= temp) {
-<<<<<<< HEAD
-				ret = set_and_activate_threshold(sensor_id,
-=======
 				ret = set_and_activate_threshold(zone_id,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 					&threshold[i]);
 				if (ret)
 					goto set_threshold_exit;
 			}
 			break;
 		default:
-<<<<<<< HEAD
-=======
 			pr_err("zone:%u Invalid trip:%d\n", zone_id,
 					threshold[i].trip);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			break;
 		}
 		i++;
@@ -1138,8 +937,6 @@ set_threshold_exit:
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
 static void msm_thermal_bite(int tsens_id, long temp)
 {
 	pr_err("TSENS:%d reached temperature:%ld. System reset\n",
@@ -1207,7 +1004,6 @@ static void therm_reset_notify(struct therm_threshold *thresh_data)
 	set_threshold(thresh_data->sensor_id, thresh_data->threshold);
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_SMP
 static void __ref do_core_control(long temp)
 {
@@ -1225,21 +1021,12 @@ static void __ref do_core_control(long temp)
 				continue;
 			if (cpus_offlined & BIT(i) && !cpu_online(i))
 				continue;
-<<<<<<< HEAD
-			pr_info("%s: Set Offline: CPU%d Temp: %ld\n",
-					KBUILD_MODNAME, i, temp);
-			ret = cpu_down(i);
-			if (ret)
-				pr_err("%s: Error %d offline core %d\n",
-					KBUILD_MODNAME, ret, i);
-=======
 			pr_info("Set Offline: CPU%d Temp: %ld\n",
 					i, temp);
 			ret = cpu_down(i);
 			if (ret)
 				pr_err("Error %d offline core %d\n",
 					ret, i);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			cpus_offlined |= BIT(i);
 			break;
 		}
@@ -1250,13 +1037,8 @@ static void __ref do_core_control(long temp)
 			if (!(cpus_offlined & BIT(i)))
 				continue;
 			cpus_offlined &= ~BIT(i);
-<<<<<<< HEAD
-			pr_info("%s: Allow Online CPU%d Temp: %ld\n",
-					KBUILD_MODNAME, i, temp);
-=======
 			pr_info("Allow Online CPU%d Temp: %ld\n",
 					i, temp);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			/*
 			 * If this core is already online, then bring up the
 			 * next offlined core.
@@ -1265,13 +1047,8 @@ static void __ref do_core_control(long temp)
 				continue;
 			ret = cpu_up(i);
 			if (ret)
-<<<<<<< HEAD
-				pr_err("%s: Error %d online core %d\n",
-						KBUILD_MODNAME, ret, i);
-=======
 				pr_err("Error %d online core %d\n",
 						ret, i);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			break;
 		}
 	}
@@ -1295,15 +1072,10 @@ static int __ref update_offline_cores(int val)
 			continue;
 		ret = cpu_down(cpu);
 		if (ret)
-<<<<<<< HEAD
-			pr_err("%s: Unable to offline cpu%d\n",
-				KBUILD_MODNAME, cpu);
-=======
 			pr_err("Unable to offline CPU%d. err:%d\n",
 				cpu, ret);
 		else
 			pr_debug("Offlined CPU%d\n", cpu);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	return ret;
 }
@@ -1312,14 +1084,6 @@ static __ref int do_hotplug(void *data)
 {
 	int ret = 0;
 	uint32_t cpu = 0, mask = 0;
-<<<<<<< HEAD
-
-	if (!core_control_enabled)
-		return -EINVAL;
-
-	while (!kthread_should_stop()) {
-		wait_for_completion(&hotplug_notify_complete);
-=======
 	struct sched_param param = {.sched_priority = MAX_RT_PRIO-2};
 
 	if (!core_control_enabled) {
@@ -1332,7 +1096,6 @@ static __ref int do_hotplug(void *data)
 		while (wait_for_completion_interruptible(
 			&hotplug_notify_complete) != 0)
 			;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		INIT_COMPLETION(hotplug_notify_complete);
 		mask = 0;
 
@@ -1370,10 +1133,6 @@ static __ref int do_hotplug(void *data)
 
 static int do_ocr(void)
 {
-<<<<<<< HEAD
-	struct tsens_device tsens_dev;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	long temp = 0;
 	int ret = 0;
 	int i = 0, j = 0;
@@ -1384,18 +1143,10 @@ static int do_ocr(void)
 
 	mutex_lock(&ocr_mutex);
 	for (i = 0; i < max_tsens_num; i++) {
-<<<<<<< HEAD
-		tsens_dev.sensor_num = tsens_id_map[i];
-		ret = tsens_get_temp(&tsens_dev, &temp);
-		if (ret) {
-			pr_debug("%s: Unable to read TSENS sensor %d\n",
-					__func__, tsens_dev.sensor_num);
-=======
 		ret = therm_get_temp(tsens_id_map[i], THERM_TSENS_ID, &temp);
 		if (ret) {
 			pr_debug("%s: Unable to read TSENS sensor %d\n",
 					__func__, tsens_id_map[i]);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			auto_cnt++;
 			continue;
 		}
@@ -1406,15 +1157,11 @@ static int do_ocr(void)
 					ocr_rails[j].init = OPTIMUM_CURRENT_NR;
 			ret = ocr_set_mode_all(OPTIMUM_CURRENT_MAX);
 			if (ret)
-<<<<<<< HEAD
-				pr_err("Error setting max optimum current\n");
-=======
 				pr_err("Error setting max ocr. err:%d\n",
 					ret);
 			else
 				pr_debug("Requested MAX OCR. tsens:%d Temp:%ld",
 					tsens_id_map[i], temp);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			goto do_ocr_exit;
 		} else if (temp <= (msm_thermal_info.ocr_temp_degC -
 			msm_thermal_info.ocr_temp_hyst_degC))
@@ -1435,11 +1182,8 @@ static int do_ocr(void)
 		if (ret) {
 			pr_err("Error setting min optimum current\n");
 			goto do_ocr_exit;
-<<<<<<< HEAD
-=======
 		} else {
 			pr_debug("Requested MIN OCR. Temp:%ld", temp);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 	}
 
@@ -1450,10 +1194,6 @@ do_ocr_exit:
 
 static int do_vdd_restriction(void)
 {
-<<<<<<< HEAD
-	struct tsens_device tsens_dev;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	long temp = 0;
 	int ret = 0;
 	int i = 0;
@@ -1469,18 +1209,10 @@ static int do_vdd_restriction(void)
 
 	mutex_lock(&vdd_rstr_mutex);
 	for (i = 0; i < max_tsens_num; i++) {
-<<<<<<< HEAD
-		tsens_dev.sensor_num = tsens_id_map[i];
-		ret = tsens_get_temp(&tsens_dev, &temp);
-		if (ret) {
-			pr_debug("%s: Unable to read TSENS sensor %d\n",
-					__func__, tsens_dev.sensor_num);
-=======
 		ret = therm_get_temp(tsens_id_map[i], THERM_TSENS_ID, &temp);
 		if (ret) {
 			pr_err("Unable to read TSENS sensor:%d. err:%d\n",
 				tsens_id_map[i], ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			dis_cnt++;
 			continue;
 		}
@@ -1488,11 +1220,6 @@ static int do_vdd_restriction(void)
 			ret = vdd_restriction_apply_all(1);
 			if (ret) {
 				pr_err( \
-<<<<<<< HEAD
-				"Enable vdd rstr votlage for all failed\n");
-				goto exit;
-			}
-=======
 				"Enable vdd rstr for all failed. err:%d\n",
 					ret);
 				goto exit;
@@ -1500,7 +1227,6 @@ static int do_vdd_restriction(void)
 			pr_debug("Enabled Vdd Restriction tsens:%d. Temp:%ld\n",
 			thresh[MSM_VDD_RESTRICTION].thresh_list[i].sensor_id,
 			temp);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			goto exit;
 		} else if (temp > msm_thermal_info.vdd_rstr_temp_hyst_degC)
 			dis_cnt++;
@@ -1508,17 +1234,11 @@ static int do_vdd_restriction(void)
 	if (dis_cnt == max_tsens_num) {
 		ret = vdd_restriction_apply_all(0);
 		if (ret) {
-<<<<<<< HEAD
-			pr_err("Disable vdd rstr votlage for all failed\n");
-			goto exit;
-		}
-=======
 			pr_err("Disable vdd rstr for all failed. err:%d\n",
 					ret);
 			goto exit;
 		}
 		pr_debug("Disabled Vdd Restriction\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 exit:
 	mutex_unlock(&vdd_rstr_mutex);
@@ -1527,10 +1247,6 @@ exit:
 
 static int do_psm(void)
 {
-<<<<<<< HEAD
-	struct tsens_device tsens_dev;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	long temp = 0;
 	int ret = 0;
 	int i = 0;
@@ -1538,18 +1254,10 @@ static int do_psm(void)
 
 	mutex_lock(&psm_mutex);
 	for (i = 0; i < max_tsens_num; i++) {
-<<<<<<< HEAD
-		tsens_dev.sensor_num = tsens_id_map[i];
-		ret = tsens_get_temp(&tsens_dev, &temp);
-		if (ret) {
-			pr_debug("%s: Unable to read TSENS sensor %d\n",
-					__func__, tsens_dev.sensor_num);
-=======
 		ret = therm_get_temp(tsens_id_map[i], THERM_TSENS_ID, &temp);
 		if (ret) {
 			pr_err("Unable to read TSENS sensor:%d. err:%d\n",
 					tsens_id_map[i], ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			auto_cnt++;
 			continue;
 		}
@@ -1562,18 +1270,12 @@ static int do_psm(void)
 		if (temp >  msm_thermal_info.psm_temp_degC) {
 			ret = psm_set_mode_all(PMIC_PWM_MODE);
 			if (ret) {
-<<<<<<< HEAD
-				pr_err("Set pwm mode for all failed\n");
-				goto exit;
-			}
-=======
 				pr_err("Set pwm mode for all failed. err:%d\n",
 						ret);
 				goto exit;
 			}
 			pr_debug("Requested PMIC PWM Mode tsens:%d. Temp:%ld\n",
 					tsens_id_map[i], temp);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			break;
 		} else if (temp <= msm_thermal_info.psm_temp_hyst_degC)
 			auto_cnt++;
@@ -1582,16 +1284,10 @@ static int do_psm(void)
 	if (auto_cnt == max_tsens_num) {
 		ret = psm_set_mode_all(PMIC_AUTO_MODE);
 		if (ret) {
-<<<<<<< HEAD
-			pr_err("Set auto mode for all failed\n");
-			goto exit;
-		}
-=======
 			pr_err("Set auto mode for all failed. err:%d\n", ret);
 			goto exit;
 		}
 		pr_debug("Requested PMIC AUTO Mode\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 exit:
@@ -1633,11 +1329,8 @@ static void __ref do_freq_control(long temp)
 	for_each_possible_cpu(cpu) {
 		if (!(msm_thermal_info.bootup_freq_control_mask & BIT(cpu)))
 			continue;
-<<<<<<< HEAD
-=======
 		pr_info("Limiting CPU%d max frequency to %u. Temp:%ld\n",
 			cpu, max_freq, temp);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		cpus[cpu].limited_max_freq = max_freq;
 		update_cpu_freq(cpu);
 	}
@@ -1647,17 +1340,6 @@ static void __ref do_freq_control(long temp)
 static void __ref check_temp(struct work_struct *work)
 {
 	static int limit_init;
-<<<<<<< HEAD
-	struct tsens_device tsens_dev;
-	long temp = 0;
-	int ret = 0;
-
-	tsens_dev.sensor_num = msm_thermal_info.sensor_id;
-	ret = tsens_get_temp(&tsens_dev, &temp);
-	if (ret) {
-		pr_debug("%s: Unable to read TSENS sensor %d\n",
-				KBUILD_MODNAME, tsens_dev.sensor_num);
-=======
 	long temp = 0;
 	int ret = 0;
 
@@ -1667,7 +1349,6 @@ static void __ref check_temp(struct work_struct *work)
 	if (ret) {
 		pr_err("Unable to read TSENS sensor:%d. err:%d\n",
 				msm_thermal_info.sensor_id, ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		goto reschedule;
 	}
 
@@ -1686,11 +1367,7 @@ static void __ref check_temp(struct work_struct *work)
 	do_freq_control(temp);
 
 reschedule:
-<<<<<<< HEAD
-	if (enabled)
-=======
 	if (polling_enabled)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		schedule_delayed_work(&check_temp_work,
 				msecs_to_jiffies(msm_thermal_info.poll_ms));
 }
@@ -1704,23 +1381,13 @@ static int __ref msm_thermal_cpu_callback(struct notifier_block *nfb,
 		if (core_control_enabled &&
 			(msm_thermal_info.core_control_mask & BIT(cpu)) &&
 			(cpus_offlined & BIT(cpu))) {
-<<<<<<< HEAD
-			pr_debug(
-			"%s: Preventing cpu%d from coming online.\n",
-				KBUILD_MODNAME, cpu);
-=======
 			pr_debug("Preventing CPU%d from coming online.\n",
 				cpu);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			return NOTIFY_BAD;
 		}
 	}
 
-<<<<<<< HEAD
-
-=======
 	pr_debug("voting for CPU%d to be online\n", cpu);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return NOTIFY_OK;
 }
 
@@ -1765,12 +1432,7 @@ static int hotplug_notify(enum thermal_trip_type type, int temp, void *data)
 {
 	struct cpu_info *cpu_node = (struct cpu_info *)data;
 
-<<<<<<< HEAD
-	pr_info("%s: %s reach temp threshold: %d\n", KBUILD_MODNAME,
-			cpu_node->sensor_type, temp);
-=======
 	pr_info("%s reach temp threshold: %d\n", cpu_node->sensor_type, temp);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (!(msm_thermal_info.core_control_mask & BIT(cpu_node->cpu)))
 		return 0;
@@ -1790,21 +1452,13 @@ static int hotplug_notify(enum thermal_trip_type type, int temp, void *data)
 		cpu_node->hotplug_thresh_clear = true;
 		complete(&hotplug_notify_complete);
 	} else {
-<<<<<<< HEAD
-		pr_err("%s: Hotplug task is not initialized\n", KBUILD_MODNAME);
-=======
 		pr_err("Hotplug task is not initialized\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	return 0;
 }
 /* Adjust cpus offlined bit based on temperature reading. */
 static int hotplug_init_cpu_offlined(void)
 {
-<<<<<<< HEAD
-	struct tsens_device tsens_dev;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	long temp = 0;
 	uint32_t cpu = 0;
 
@@ -1815,17 +1469,10 @@ static int hotplug_init_cpu_offlined(void)
 	for_each_possible_cpu(cpu) {
 		if (!(msm_thermal_info.core_control_mask & BIT(cpus[cpu].cpu)))
 			continue;
-<<<<<<< HEAD
-		tsens_dev.sensor_num = cpus[cpu].sensor_id;
-		if (tsens_get_temp(&tsens_dev, &temp)) {
-			pr_err("%s: Unable to read TSENS sensor %d\n",
-				KBUILD_MODNAME, tsens_dev.sensor_num);
-=======
 		if (therm_get_temp(cpus[cpu].sensor_id, cpus[cpu].id_type,
 					&temp)) {
 			pr_err("Unable to read TSENS sensor:%d.\n",
 				cpus[cpu].sensor_id);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			mutex_unlock(&core_control_mutex);
 			return -EINVAL;
 		}
@@ -1841,12 +1488,7 @@ static int hotplug_init_cpu_offlined(void)
 	if (hotplug_task)
 		complete(&hotplug_notify_complete);
 	else {
-<<<<<<< HEAD
-		pr_err("%s: Hotplug task is not initialized\n",
-					KBUILD_MODNAME);
-=======
 		pr_err("Hotplug task is not initialized\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -EINVAL;
 	}
 	return 0;
@@ -1866,10 +1508,7 @@ static void hotplug_init(void)
 	for_each_possible_cpu(cpu) {
 		cpus[cpu].sensor_id =
 			sensor_get_id((char *)cpus[cpu].sensor_type);
-<<<<<<< HEAD
-=======
 		cpus[cpu].id_type = THERM_ZONE_ID;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (!(msm_thermal_info.core_control_mask & BIT(cpus[cpu].cpu)))
 			continue;
 
@@ -1889,13 +1528,8 @@ init_kthread:
 	init_completion(&hotplug_notify_complete);
 	hotplug_task = kthread_run(do_hotplug, NULL, "msm_thermal:hotplug");
 	if (IS_ERR(hotplug_task)) {
-<<<<<<< HEAD
-		pr_err("%s: Failed to create do_hotplug thread\n",
-				KBUILD_MODNAME);
-=======
 		pr_err("Failed to create do_hotplug thread. err:%ld\n",
 				PTR_ERR(hotplug_task));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return;
 	}
 	/*
@@ -1910,14 +1544,6 @@ static __ref int do_freq_mitigation(void *data)
 {
 	int ret = 0;
 	uint32_t cpu = 0, max_freq_req = 0, min_freq_req = 0;
-<<<<<<< HEAD
-
-	while (!kthread_should_stop()) {
-		wait_for_completion(&freq_mitigation_complete);
-		INIT_COMPLETION(freq_mitigation_complete);
-
-		get_online_cpus();
-=======
 	struct sched_param param = {.sched_priority = MAX_RT_PRIO-1};
 
 	sched_setscheduler(current, SCHED_FIFO, &param);
@@ -1927,7 +1553,6 @@ static __ref int do_freq_mitigation(void *data)
 			;
 		INIT_COMPLETION(freq_mitigation_complete);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		for_each_possible_cpu(cpu) {
 			max_freq_req = (cpus[cpu].max_freq) ?
 					msm_thermal_info.freq_limit :
@@ -1955,10 +1580,6 @@ reset_threshold:
 				cpus[cpu].freq_thresh_clear = false;
 			}
 		}
-<<<<<<< HEAD
-		put_online_cpus();
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	return ret;
 }
@@ -1968,11 +1589,7 @@ static int freq_mitigation_notify(enum thermal_trip_type type,
 {
 	struct cpu_info *cpu_node = (struct cpu_info *) data;
 
-<<<<<<< HEAD
-	pr_debug("%s: %s reached temp threshold: %d\n", KBUILD_MODNAME,
-=======
 	pr_debug("%s reached temp threshold: %d\n",
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		cpu_node->sensor_type, temp);
 
 	if (!(msm_thermal_info.freq_mitig_control_mask &
@@ -1982,13 +1599,8 @@ static int freq_mitigation_notify(enum thermal_trip_type type,
 	switch (type) {
 	case THERMAL_TRIP_CONFIGURABLE_HI:
 		if (!cpu_node->max_freq) {
-<<<<<<< HEAD
-			pr_info("%s: Mitigating cpu %d frequency to %d\n",
-				KBUILD_MODNAME, cpu_node->cpu,
-=======
 			pr_info("Mitigating CPU%d frequency to %d\n",
 				cpu_node->cpu,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				msm_thermal_info.freq_limit);
 
 			cpu_node->max_freq = true;
@@ -1996,13 +1608,8 @@ static int freq_mitigation_notify(enum thermal_trip_type type,
 		break;
 	case THERMAL_TRIP_CONFIGURABLE_LOW:
 		if (cpu_node->max_freq) {
-<<<<<<< HEAD
-			pr_info("%s: Removing frequency mitigation for cpu%d\n",
-				KBUILD_MODNAME, cpu_node->cpu);
-=======
 			pr_info("Removing frequency mitigation for CPU%d\n",
 				cpu_node->cpu);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 			cpu_node->max_freq = false;
 		}
@@ -2015,12 +1622,7 @@ static int freq_mitigation_notify(enum thermal_trip_type type,
 		cpu_node->freq_thresh_clear = true;
 		complete(&freq_mitigation_complete);
 	} else {
-<<<<<<< HEAD
-		pr_err("%s: Frequency mitigation task is not initialized\n",
-			KBUILD_MODNAME);
-=======
 		pr_err("Frequency mitigation task is not initialized\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	return 0;
@@ -2059,13 +1661,8 @@ init_freq_thread:
 		"msm_thermal:freq_mitig");
 
 	if (IS_ERR(freq_mitigation_task)) {
-<<<<<<< HEAD
-		pr_err("%s: Failed to create frequency mitigation thread\n",
-				KBUILD_MODNAME);
-=======
 		pr_err("Failed to create frequency mitigation thread. err:%ld\n",
 				PTR_ERR(freq_mitigation_task));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return;
 	}
 }
@@ -2075,20 +1672,13 @@ int msm_thermal_set_frequency(uint32_t cpu, uint32_t freq, bool is_max)
 	int ret = 0;
 
 	if (cpu >= num_possible_cpus()) {
-<<<<<<< HEAD
-		pr_err("%s: Invalid input\n", KBUILD_MODNAME);
-=======
 		pr_err("Invalid input\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		ret = -EINVAL;
 		goto set_freq_exit;
 	}
 
-<<<<<<< HEAD
-=======
 	pr_debug("Userspace requested %s frequency %u for CPU%u\n",
 			(is_max) ? "Max" : "Min", freq, cpu);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (is_max) {
 		if (cpus[cpu].user_max_freq == freq)
 			goto set_freq_exit;
@@ -2104,12 +1694,7 @@ int msm_thermal_set_frequency(uint32_t cpu, uint32_t freq, bool is_max)
 	if (freq_mitigation_task) {
 		complete(&freq_mitigation_complete);
 	} else {
-<<<<<<< HEAD
-		pr_err("%s: Frequency mitigation task is not initialized\n",
-			KBUILD_MODNAME);
-=======
 		pr_err("Frequency mitigation task is not initialized\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		ret = -ESRCH;
 		goto set_freq_exit;
 	}
@@ -2118,8 +1703,6 @@ set_freq_exit:
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
 int therm_set_threshold(struct threshold_info *thresh_inp)
 {
 	int ret = 0, i = 0, err = 0;
@@ -2331,7 +1914,6 @@ init_thresh_exit:
 	return ret;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*
  * We will reset the cpu frequencies limits here. The core online/offline
  * status will be carried over to the process stopping the msm_thermal, as
@@ -2342,22 +1924,14 @@ static void __ref disable_msm_thermal(void)
 	uint32_t cpu = 0;
 
 	/* make sure check_temp is no longer running */
-<<<<<<< HEAD
-	cancel_delayed_work(&check_temp_work);
-	flush_scheduled_work();
-=======
 	cancel_delayed_work_sync(&check_temp_work);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	get_online_cpus();
 	for_each_possible_cpu(cpu) {
 		if (cpus[cpu].limited_max_freq == UINT_MAX &&
 			cpus[cpu].limited_min_freq == 0)
 			continue;
-<<<<<<< HEAD
-=======
 		pr_info("Max frequency reset for CPU%d\n", cpu);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		cpus[cpu].limited_max_freq = UINT_MAX;
 		cpus[cpu].limited_min_freq = 0;
 		update_cpu_freq(cpu);
@@ -2365,8 +1939,6 @@ static void __ref disable_msm_thermal(void)
 	put_online_cpus();
 }
 
-<<<<<<< HEAD
-=======
 static void interrupt_mode_init(void)
 {
 	if (!msm_thermal_probed) {
@@ -2383,23 +1955,11 @@ static void interrupt_mode_init(void)
 	}
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int __ref set_enabled(const char *val, const struct kernel_param *kp)
 {
 	int ret = 0;
 
 	ret = param_set_bool(val, kp);
-<<<<<<< HEAD
-	if (!enabled) {
-		disable_msm_thermal();
-		hotplug_init();
-		freq_mitigation_init();
-	} else
-		pr_info("%s: no action for enabled = %d\n",
-			KBUILD_MODNAME, enabled);
-
-	pr_info("%s: enabled = %d\n", KBUILD_MODNAME, enabled);
-=======
 	if (!enabled)
 		interrupt_mode_init();
 	else
@@ -2407,7 +1967,6 @@ static int __ref set_enabled(const char *val, const struct kernel_param *kp)
 			enabled);
 
 	pr_info("enabled = %d\n", enabled);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return ret;
 }
@@ -2455,11 +2014,7 @@ static ssize_t __ref store_cc_enabled(struct kobject *kobj,
 
 	ret = kstrtoint(buf, 10, &val);
 	if (ret) {
-<<<<<<< HEAD
-		pr_err("%s: Invalid input %s\n", KBUILD_MODNAME, buf);
-=======
 		pr_err("Invalid input %s. err:%d\n", buf, ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		goto done_store_cc;
 	}
 
@@ -2468,25 +2023,14 @@ static ssize_t __ref store_cc_enabled(struct kobject *kobj,
 
 	core_control_enabled = !!val;
 	if (core_control_enabled) {
-<<<<<<< HEAD
-		pr_info("%s: Core control enabled\n", KBUILD_MODNAME);
-=======
 		pr_info("Core control enabled\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		register_cpu_notifier(&msm_thermal_cpu_notifier);
 		if (hotplug_task)
 			complete(&hotplug_notify_complete);
 		else
-<<<<<<< HEAD
-			pr_err("%s: Hotplug task is not initialized\n",
-					KBUILD_MODNAME);
-	} else {
-		pr_info("%s: Core control disabled\n", KBUILD_MODNAME);
-=======
 			pr_err("Hotplug task is not initialized\n");
 	} else {
 		pr_info("Core control disabled\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		unregister_cpu_notifier(&msm_thermal_cpu_notifier);
 	}
 
@@ -2510,22 +2054,12 @@ static ssize_t __ref store_cpus_offlined(struct kobject *kobj,
 	mutex_lock(&core_control_mutex);
 	ret = kstrtouint(buf, 10, &val);
 	if (ret) {
-<<<<<<< HEAD
-		pr_err("%s: Invalid input %s\n", KBUILD_MODNAME, buf);
-		goto done_cc;
-	}
-
-	if (enabled) {
-		pr_err("%s: Ignoring request; polling thread is enabled.\n",
-				KBUILD_MODNAME);
-=======
 		pr_err("Invalid input %s. err:%d\n", buf, ret);
 		goto done_cc;
 	}
 
 	if (polling_enabled) {
 		pr_err("Ignoring request; polling thread is enabled.\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		goto done_cc;
 	}
 
@@ -2533,22 +2067,15 @@ static ssize_t __ref store_cpus_offlined(struct kobject *kobj,
 		if (!(msm_thermal_info.core_control_mask & BIT(cpu)))
 			continue;
 		cpus[cpu].user_offline = !!(val & BIT(cpu));
-<<<<<<< HEAD
-=======
 		pr_debug("\"%s\"(PID:%i) requests %s CPU%d.\n", current->comm,
 			current->pid, (cpus[cpu].user_offline) ? "offline" :
 			"online", cpu);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	if (hotplug_task)
 		complete(&hotplug_notify_complete);
 	else
-<<<<<<< HEAD
-		pr_err("%s: Hotplug task is not initialized\n", KBUILD_MODNAME);
-=======
 		pr_err("Hotplug task is not initialized\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 done_cc:
 	mutex_unlock(&core_control_mutex);
 	return count;
@@ -2623,35 +2150,21 @@ static __init int msm_thermal_add_cc_nodes(void)
 
 	module_kobj = kset_find_obj(module_kset, KBUILD_MODNAME);
 	if (!module_kobj) {
-<<<<<<< HEAD
-		pr_err("%s: cannot find kobject for module\n",
-			KBUILD_MODNAME);
-=======
 		pr_err("cannot find kobject\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		ret = -ENOENT;
 		goto done_cc_nodes;
 	}
 
 	cc_kobj = kobject_create_and_add("core_control", module_kobj);
 	if (!cc_kobj) {
-<<<<<<< HEAD
-		pr_err("%s: cannot create core control kobj\n",
-				KBUILD_MODNAME);
-=======
 		pr_err("cannot create core control kobj\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		ret = -ENOMEM;
 		goto done_cc_nodes;
 	}
 
 	ret = sysfs_create_group(cc_kobj, &cc_attr_group);
 	if (ret) {
-<<<<<<< HEAD
-		pr_err("%s: cannot create group\n", KBUILD_MODNAME);
-=======
 		pr_err("cannot create sysfs group. err:%d\n", ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		goto done_cc_nodes;
 	}
 
@@ -2698,9 +2211,6 @@ failed:
 	return ret;
 }
 
-<<<<<<< HEAD
-int __devinit msm_thermal_init(struct msm_thermal_data *pdata)
-=======
 int msm_thermal_pre_init(void)
 {
 	int ret = 0;
@@ -2729,35 +2239,10 @@ pre_init_exit:
 }
 
 int msm_thermal_init(struct msm_thermal_data *pdata)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	int ret = 0;
 	uint32_t cpu;
 
-<<<<<<< HEAD
-	BUG_ON(!pdata);
-	tsens_get_max_sensor_num(&max_tsens_num);
-	memcpy(&msm_thermal_info, pdata, sizeof(struct msm_thermal_data));
-
-	if (create_sensor_id_map())
-		return -EINVAL;
-	if (check_sensor_id(msm_thermal_info.sensor_id))
-		return -EINVAL;
-
-	enabled = 1;
-
-        ecocpu=0; // FEATURE_PANTECH_ECO_CPU_MODE
-
-	for_each_possible_cpu(cpu) {
-		cpus[cpu].limited_max_freq = UINT_MAX;
-		cpus[cpu].limited_min_freq = 0;
-	}
-	ret = cpufreq_register_notifier(&msm_thermal_cpufreq_notifier,
-			CPUFREQ_POLICY_NOTIFIER);
-	if (ret)
-		pr_err("%s: cannot register cpufreq notifier\n",
-			KBUILD_MODNAME);
-=======
 	for_each_possible_cpu(cpu) {
 		cpus[cpu].cpu = cpu;
 		cpus[cpu].offline = 0;
@@ -2789,7 +2274,6 @@ int msm_thermal_init(struct msm_thermal_data *pdata)
 	if (ret)
 		pr_err("cannot register cpufreq notifier. err:%d\n", ret);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	INIT_DELAYED_WORK(&check_temp_work, check_temp);
 	schedule_delayed_work(&check_temp_work, 0);
 
@@ -2851,12 +2335,7 @@ static int vdd_restriction_reg_init(struct platform_device *pdev)
 			if (freq_table_get)
 				ret = vdd_restriction_apply_freq(&rails[i], 0);
 			else
-<<<<<<< HEAD
-				pr_info("%s:Defer vdd rstr freq init\n",
-						__func__);
-=======
 				pr_info("Defer vdd rstr freq init.\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		} else {
 			rails[i].reg = devm_regulator_get(&pdev->dev,
 					rails[i].name);
@@ -2864,22 +2343,14 @@ static int vdd_restriction_reg_init(struct platform_device *pdev)
 				ret = PTR_ERR(rails[i].reg);
 				if (ret != -EPROBE_DEFER) {
 					pr_err( \
-<<<<<<< HEAD
-					"%s, could not get regulator: %s\n",
-					rails[i].name, __func__);
-=======
 					"could not get regulator: %s. err:%d\n",
 					rails[i].name, ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 					rails[i].reg = NULL;
 					rails[i].curr_level = -2;
 					return ret;
 				}
-<<<<<<< HEAD
-=======
 				pr_info("Defer regulator %s probe\n",
 					rails[i].name);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				return ret;
 			}
 			/*
@@ -2905,13 +2376,6 @@ static int psm_reg_init(struct platform_device *pdev)
 		if (IS_ERR_OR_NULL(psm_rails[i].reg)) {
 			ret = PTR_ERR(psm_rails[i].reg);
 			if (ret != -EPROBE_DEFER) {
-<<<<<<< HEAD
-				pr_err("%s, could not get rpm regulator: %s\n",
-					psm_rails[i].name, __func__);
-				psm_rails[i].reg = NULL;
-				goto psm_reg_exit;
-			}
-=======
 				pr_err("couldn't get rpm regulator %s. err%d\n",
 					psm_rails[i].name, ret);
 				psm_rails[i].reg = NULL;
@@ -2919,7 +2383,6 @@ static int psm_reg_init(struct platform_device *pdev)
 			}
 			pr_info("Defer regulator %s probe\n",
 					psm_rails[i].name);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			return ret;
 		}
 		/* Apps default vote for PWM mode */
@@ -2927,11 +2390,7 @@ static int psm_reg_init(struct platform_device *pdev)
 		ret = rpm_regulator_set_mode(psm_rails[i].reg,
 				psm_rails[i].init);
 		if (ret) {
-<<<<<<< HEAD
-			pr_err("%s: Cannot set PMIC PWM mode\n", __func__);
-=======
 			pr_err("Cannot set PMIC PWM mode. err:%d\n", ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			return ret;
 		} else
 			psm_rails[i].mode = PMIC_PWM_MODE;
@@ -2950,8 +2409,6 @@ psm_reg_exit:
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
 static struct kobj_attribute default_cpu_temp_limit_attr =
 		__ATTR_RO(default_cpu_temp_limit);
 
@@ -2984,7 +2441,6 @@ static int msm_thermal_add_default_temp_limit_nodes(void)
 	return ret;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int msm_thermal_add_vdd_rstr_nodes(void)
 {
 	struct kobject *module_kobj = NULL;
@@ -3003,34 +2459,21 @@ static int msm_thermal_add_vdd_rstr_nodes(void)
 
 	module_kobj = kset_find_obj(module_kset, KBUILD_MODNAME);
 	if (!module_kobj) {
-<<<<<<< HEAD
-		pr_err("%s: cannot find kobject for module %s\n",
-			__func__, KBUILD_MODNAME);
-=======
 		pr_err("cannot find kobject\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		rc = -ENOENT;
 		goto thermal_sysfs_add_exit;
 	}
 
 	vdd_rstr_kobj = kobject_create_and_add("vdd_restriction", module_kobj);
 	if (!vdd_rstr_kobj) {
-<<<<<<< HEAD
-		pr_err("%s: cannot create vdd_restriction kobject\n", __func__);
-=======
 		pr_err("cannot create vdd_restriction kobject\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		rc = -ENOMEM;
 		goto thermal_sysfs_add_exit;
 	}
 
 	rc = sysfs_create_group(vdd_rstr_kobj, &vdd_rstr_en_attribs_gp);
 	if (rc) {
-<<<<<<< HEAD
-		pr_err("%s: cannot create kobject attribute group\n", __func__);
-=======
 		pr_err("cannot create kobject attribute group. err:%d\n", rc);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		rc = -ENOMEM;
 		goto thermal_sysfs_add_exit;
 	}
@@ -3039,13 +2482,8 @@ static int msm_thermal_add_vdd_rstr_nodes(void)
 		vdd_rstr_reg_kobj[i] = kobject_create_and_add(rails[i].name,
 					vdd_rstr_kobj);
 		if (!vdd_rstr_reg_kobj[i]) {
-<<<<<<< HEAD
-			pr_err("%s: cannot create for kobject for %s\n",
-					__func__, rails[i].name);
-=======
 			pr_err("cannot create kobject for %s\n",
 					rails[i].name);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			rc = -ENOMEM;
 			goto thermal_sysfs_add_exit;
 		}
@@ -3053,10 +2491,7 @@ static int msm_thermal_add_vdd_rstr_nodes(void)
 		rails[i].attr_gp.attrs = kzalloc(sizeof(struct attribute *) * 3,
 					GFP_KERNEL);
 		if (!rails[i].attr_gp.attrs) {
-<<<<<<< HEAD
-=======
 			pr_err("kzalloc failed\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			rc = -ENOMEM;
 			goto thermal_sysfs_add_exit;
 		}
@@ -3068,13 +2503,8 @@ static int msm_thermal_add_vdd_rstr_nodes(void)
 		rc = sysfs_create_group(vdd_rstr_reg_kobj[i],
 				&rails[i].attr_gp);
 		if (rc) {
-<<<<<<< HEAD
-			pr_err("%s: cannot create attribute group for %s\n",
-					__func__, rails[i].name);
-=======
 			pr_err("cannot create attribute group for %s. err:%d\n",
 					rails[i].name, rc);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			goto thermal_sysfs_add_exit;
 		}
 	}
@@ -3185,23 +2615,14 @@ static int msm_thermal_add_psm_nodes(void)
 
 	module_kobj = kset_find_obj(module_kset, KBUILD_MODNAME);
 	if (!module_kobj) {
-<<<<<<< HEAD
-		pr_err("%s: cannot find kobject for module %s\n",
-			__func__, KBUILD_MODNAME);
-=======
 		pr_err("cannot find kobject\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		rc = -ENOENT;
 		goto psm_node_exit;
 	}
 
 	psm_kobj = kobject_create_and_add("pmic_sw_mode", module_kobj);
 	if (!psm_kobj) {
-<<<<<<< HEAD
-		pr_err("%s: cannot create psm kobject\n", KBUILD_MODNAME);
-=======
 		pr_err("cannot create psm kobject\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		rc = -ENOMEM;
 		goto psm_node_exit;
 	}
@@ -3210,23 +2631,15 @@ static int msm_thermal_add_psm_nodes(void)
 		psm_reg_kobj[i] = kobject_create_and_add(psm_rails[i].name,
 					psm_kobj);
 		if (!psm_reg_kobj[i]) {
-<<<<<<< HEAD
-			pr_err("%s: cannot create for kobject for %s\n",
-					KBUILD_MODNAME, psm_rails[i].name);
-=======
 			pr_err("cannot create kobject for %s\n",
 					psm_rails[i].name);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			rc = -ENOMEM;
 			goto psm_node_exit;
 		}
 		psm_rails[i].attr_gp.attrs = kzalloc( \
 				sizeof(struct attribute *) * 2, GFP_KERNEL);
 		if (!psm_rails[i].attr_gp.attrs) {
-<<<<<<< HEAD
-=======
 			pr_err("kzalloc failed\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			rc = -ENOMEM;
 			goto psm_node_exit;
 		}
@@ -3236,13 +2649,8 @@ static int msm_thermal_add_psm_nodes(void)
 
 		rc = sysfs_create_group(psm_reg_kobj[i], &psm_rails[i].attr_gp);
 		if (rc) {
-<<<<<<< HEAD
-			pr_err("%s: cannot create attribute group for %s\n",
-					KBUILD_MODNAME, psm_rails[i].name);
-=======
 			pr_err("cannot create attribute group for %s. err:%d\n",
 					psm_rails[i].name, rc);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			goto psm_node_exit;
 		}
 	}
@@ -3289,22 +2697,14 @@ static int probe_vdd_rstr(struct device_node *node,
 	if (rails_cnt == 0)
 		goto read_node_fail;
 	if (rails_cnt >= MAX_RAILS) {
-<<<<<<< HEAD
-		pr_err("%s: Too many rails.\n", __func__);
-=======
 		pr_err("Too many rails:%d.\n", rails_cnt);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -EFAULT;
 	}
 
 	rails = kzalloc(sizeof(struct rail) * rails_cnt,
 				GFP_KERNEL);
 	if (!rails) {
-<<<<<<< HEAD
-		pr_err("%s: Fail to allocate memory for rails.\n", __func__);
-=======
 		pr_err("Fail to allocate memory for rails.\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return -ENOMEM;
 	}
 
@@ -3321,12 +2721,8 @@ static int probe_vdd_rstr(struct device_node *node,
 		rails[i].num_levels = arr_size/sizeof(__be32);
 		if (rails[i].num_levels >
 			sizeof(rails[i].levels)/sizeof(uint32_t)) {
-<<<<<<< HEAD
-			pr_err("%s: Array size too large\n", __func__);
-=======
 			pr_err("Array size:%d too large for index:%d\n",
 				rails[i].num_levels, i);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			return -EFAULT;
 		}
 		ret = of_property_read_u32_array(child_node, key,
@@ -3354,10 +2750,6 @@ static int probe_vdd_rstr(struct device_node *node,
 	if (rails_cnt) {
 		ret = vdd_restriction_reg_init(pdev);
 		if (ret) {
-<<<<<<< HEAD
-			pr_info("%s:Failed to get regulators. KTM continues.\n",
-				__func__);
-=======
 			pr_err("Err regulator init. err:%d. KTM continues.\n",
 					ret);
 			goto read_node_fail;
@@ -3368,7 +2760,6 @@ static int probe_vdd_rstr(struct device_node *node,
 		if (ret) {
 			pr_err("Error in initializing thresholds. err:%d\n",
 					ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			goto read_node_fail;
 		}
 		vdd_rstr_enabled = true;
@@ -3377,13 +2768,8 @@ read_node_fail:
 	vdd_rstr_probed = true;
 	if (ret) {
 		dev_info(&pdev->dev,
-<<<<<<< HEAD
-			"%s:Failed reading node=%s, key=%s. KTM continues\n",
-			__func__, node->full_name, key);
-=======
 		"%s:Failed reading node=%s, key=%s. err=%d. KTM continues\n",
 			__func__, node->full_name, key, ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		kfree(rails);
 		rails_cnt = 0;
 	}
@@ -3392,8 +2778,6 @@ read_node_fail:
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
 static int get_efuse_temp_map(struct device_node *node,
 				int *efuse_values,
 				int *efuse_temp)
@@ -3557,7 +2941,6 @@ read_efuse_exit:
 	return ret;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int probe_ocr(struct device_node *node, struct msm_thermal_data *data,
 		struct platform_device *pdev)
 {
@@ -3659,11 +3042,7 @@ static int probe_psm(struct device_node *node, struct msm_thermal_data *data,
 	psm_rails = kzalloc(sizeof(struct psm_rail) * psm_rails_cnt,
 			GFP_KERNEL);
 	if (!psm_rails) {
-<<<<<<< HEAD
-		pr_err("%s: Fail to allocate memory for psm rails\n", __func__);
-=======
 		pr_err("Fail to allocate memory for psm rails\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		psm_rails_cnt = 0;
 		return -ENOMEM;
 	}
@@ -3678,13 +3057,8 @@ static int probe_psm(struct device_node *node, struct msm_thermal_data *data,
 	if (psm_rails_cnt) {
 		ret = psm_reg_init(pdev);
 		if (ret) {
-<<<<<<< HEAD
-			pr_info("%s:Failed to get regulators. KTM continues.\n",
-					__func__);
-=======
 			pr_err("Err regulator init. err:%d. KTM continues.\n",
 					ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			goto read_node_fail;
 		}
 		psm_enabled = true;
@@ -3694,13 +3068,8 @@ read_node_fail:
 	psm_probed = true;
 	if (ret) {
 		dev_info(&pdev->dev,
-<<<<<<< HEAD
-			"%s:Failed reading node=%s, key=%s. KTM continues\n",
-			__func__, node->full_name, key);
-=======
 		"%s:Failed reading node=%s, key=%s. err=%d. KTM continues\n",
 			__func__, node->full_name, key, ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		kfree(psm_rails);
 		psm_rails_cnt = 0;
 	}
@@ -3750,25 +3119,13 @@ static int probe_cc(struct device_node *node, struct msm_thermal_data *data,
 
 	key = "qcom,cpu-sensors";
 	cpu_cnt = of_property_count_strings(node, key);
-<<<<<<< HEAD
-	if (cpu_cnt != num_possible_cpus()) {
-		pr_err("%s: Wrong number of cpu\n", KBUILD_MODNAME);
-=======
 	if (cpu_cnt < num_possible_cpus()) {
 		pr_err("Wrong number of cpu sensors:%d\n", cpu_cnt);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		ret = -EINVAL;
 		goto hotplug_node_fail;
 	}
 
 	for_each_possible_cpu(cpu) {
-<<<<<<< HEAD
-		cpus[cpu].cpu = cpu;
-		cpus[cpu].offline = 0;
-		cpus[cpu].user_offline = 0;
-		cpus[cpu].hotplug_thresh_clear = false;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		ret = of_property_read_string_index(node, key, cpu,
 				&cpus[cpu].sensor_type);
 		if (ret)
@@ -3778,13 +3135,8 @@ static int probe_cc(struct device_node *node, struct msm_thermal_data *data,
 read_node_fail:
 	if (ret) {
 		dev_info(&pdev->dev,
-<<<<<<< HEAD
-			"%s:Failed reading node=%s, key=%s. KTM continues\n",
-			KBUILD_MODNAME, node->full_name, key);
-=======
 		"%s:Failed reading node=%s, key=%s. err=%d. KTM continues\n",
 			KBUILD_MODNAME, node->full_name, key, ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		core_control_enabled = 0;
 	}
 
@@ -3793,21 +3145,14 @@ read_node_fail:
 hotplug_node_fail:
 	if (ret) {
 		dev_info(&pdev->dev,
-<<<<<<< HEAD
-			"%s:Failed reading node=%s, key=%s. KTM continues\n",
-			KBUILD_MODNAME, node->full_name, key);
-=======
 		"%s:Failed reading node=%s, key=%s. err=%d. KTM continues\n",
 			KBUILD_MODNAME, node->full_name, key, ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		hotplug_enabled = 0;
 	}
 
 	return ret;
 }
 
-<<<<<<< HEAD
-=======
 static int probe_therm_reset(struct device_node *node,
 		struct msm_thermal_data *data,
 		struct platform_device *pdev)
@@ -3840,17 +3185,12 @@ PROBE_RESET_EXIT:
 	return ret;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int probe_freq_mitigation(struct device_node *node,
 		struct msm_thermal_data *data,
 		struct platform_device *pdev)
 {
 	char *key = NULL;
 	int ret = 0;
-<<<<<<< HEAD
-	uint32_t cpu;
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	key = "qcom,freq-mitigation-temp";
 	ret = of_property_read_u32(node, key, &data->freq_mitig_temp_degc);
@@ -3874,28 +3214,12 @@ static int probe_freq_mitigation(struct device_node *node,
 		goto PROBE_FREQ_EXIT;
 
 	freq_mitigation_enabled = 1;
-<<<<<<< HEAD
-	for_each_possible_cpu(cpu) {
-		cpus[cpu].max_freq = false;
-		cpus[cpu].user_max_freq = UINT_MAX;
-		cpus[cpu].user_min_freq = 0;
-		cpus[cpu].limited_max_freq = UINT_MAX;
-		cpus[cpu].limited_min_freq = 0;
-		cpus[cpu].freq_thresh_clear = false;
-	}
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 PROBE_FREQ_EXIT:
 	if (ret) {
 		dev_info(&pdev->dev,
-<<<<<<< HEAD
-			"%s:Failed reading node=%s, key=%s. KTM continues\n",
-			__func__, node->full_name, key);
-=======
 		"%s:Failed reading node=%s, key=%s. err=%d. KTM continues\n",
 			__func__, node->full_name, key, ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		freq_mitigation_enabled = 0;
 	}
 	return ret;
@@ -3909,14 +3233,11 @@ static int __devinit msm_thermal_dev_probe(struct platform_device *pdev)
 	struct msm_thermal_data data;
 
 	memset(&data, 0, sizeof(struct msm_thermal_data));
-<<<<<<< HEAD
-=======
 	ret = msm_thermal_pre_init();
 	if (ret) {
 		pr_err("thermal pre init failed. err:%d\n", ret);
 		goto fail;
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	key = "qcom,sensor-id";
 	ret = of_property_read_u32(node, key, &data.sensor_id);
@@ -3949,11 +3270,8 @@ static int __devinit msm_thermal_dev_probe(struct platform_device *pdev)
 	ret = probe_cc(node, &data, pdev);
 
 	ret = probe_freq_mitigation(node, &data, pdev);
-<<<<<<< HEAD
-=======
 	ret = probe_therm_reset(node, &data, pdev);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/*
 	 * Probe optional properties below. Call probe_psm before
 	 * probe_vdd_rstr because rpm_regulator_get has to be called
@@ -3971,10 +3289,7 @@ static int __devinit msm_thermal_dev_probe(struct platform_device *pdev)
 	ret = probe_ocr(node, &data, pdev);
 	if (ret == -EPROBE_DEFER)
 		goto fail;
-<<<<<<< HEAD
-=======
 	probe_thermal_efuse_read(node, &data, pdev);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/*
 	 * In case sysfs add nodes get called before probe function.
@@ -3992,10 +3307,6 @@ static int __devinit msm_thermal_dev_probe(struct platform_device *pdev)
 		msm_thermal_add_ocr_nodes();
 		ocr_nodes_called = false;
 	}
-<<<<<<< HEAD
-	msm_thermal_ioctl_init();
-	ret = msm_thermal_init(&data);
-=======
 	if (default_temp_limit_nodes_called) {
 		msm_thermal_add_default_temp_limit_nodes();
 		default_temp_limit_nodes_called = false;
@@ -4008,18 +3319,12 @@ static int __devinit msm_thermal_dev_probe(struct platform_device *pdev)
 		interrupt_mode_init();
 		interrupt_mode_enable = false;
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return ret;
 fail:
 	if (ret)
-<<<<<<< HEAD
-		pr_err("%s: Failed reading node=%s, key=%s\n",
-			__func__, node->full_name, key);
-=======
 		pr_err("Failed reading node=%s, key=%s. err:%d\n",
 			node->full_name, key, ret);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	return ret;
 }
@@ -4027,15 +3332,12 @@ fail:
 static int msm_thermal_dev_exit(struct platform_device *inp_dev)
 {
 	msm_thermal_ioctl_cleanup();
-<<<<<<< HEAD
-=======
 	if (thresh) {
 		if (vdd_rstr_enabled)
 			kfree(thresh[MSM_VDD_RESTRICTION].thresh_list);
 		kfree(thresh);
 		thresh = NULL;
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 }
 
@@ -4066,19 +3368,13 @@ int __init msm_thermal_late_init(void)
 	msm_thermal_add_psm_nodes();
 	msm_thermal_add_vdd_rstr_nodes();
 	msm_thermal_add_ocr_nodes();
-<<<<<<< HEAD
-=======
 	msm_thermal_add_default_temp_limit_nodes();
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	alarm_init(&thermal_rtc, ANDROID_ALARM_ELAPSED_REALTIME_WAKEUP,
 			thermal_rtc_callback);
 	INIT_WORK(&timer_work, timer_work_fn);
 	msm_thermal_add_timer_nodes();
 
-<<<<<<< HEAD
-=======
 	interrupt_mode_init();
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return 0;
 }
 late_initcall(msm_thermal_late_init);

@@ -51,9 +51,6 @@
 #define IPA_IOCTL_GET_NAT_OFFSET 28
 #define IPA_IOCTL_RM_ADD_DEPENDENCY 29
 #define IPA_IOCTL_RM_DEL_DEPENDENCY 30
-<<<<<<< HEAD
-#define IPA_IOCTL_MAX            31
-=======
 #define IPA_IOCTL_GENERATE_FLT_EQ 31
 #define IPA_IOCTL_QUERY_INTF_EXT_PROPS 32
 #define IPA_IOCTL_QUERY_EP_MAPPING 33
@@ -63,7 +60,6 @@
 #define IPA_IOCTL_NOTIFY_WAN_UPSTREAM_ROUTE_ADD 37
 #define IPA_IOCTL_NOTIFY_WAN_UPSTREAM_ROUTE_DEL 38
 #define IPA_IOCTL_MAX 39
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /**
  * max size of the header to be inserted
@@ -76,14 +72,11 @@
 #define IPA_RESOURCE_NAME_MAX 20
 
 /**
-<<<<<<< HEAD
-=======
  * max number of interface properties
  */
 #define IPA_NUM_PROPS_MAX 20
 
 /**
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  * size of the mac address
  */
 #define IPA_MAC_ADDR_SIZE  6
@@ -194,9 +187,6 @@ enum ipa_wlan_event {
 	WLAN_AP_DISCONNECT,
 	WLAN_STA_CONNECT,
 	WLAN_STA_DISCONNECT,
-<<<<<<< HEAD
-	IPA_EVENT_MAX
-=======
 	IPA_WLAN_EVENT_MAX
 };
 
@@ -229,7 +219,6 @@ struct ipa_wan_msg {
 	char upstream_ifname[IPA_RESOURCE_NAME_MAX];
 	char tethered_ifname[IPA_RESOURCE_NAME_MAX];
 	enum ipa_ip_type ip;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 /**
@@ -874,8 +863,6 @@ struct ipa_ioc_rm_dependency {
 				IPA_IOCTL_RM_DEL_DEPENDENCY, \
 				struct ipa_ioc_rm_dependency *)
 
-<<<<<<< HEAD
-=======
 #define IPA_IOC_NOTIFY_WAN_UPSTREAM_ROUTE_ADD _IOWR(IPA_IOC_MAGIC, \
 				IPA_IOCTL_NOTIFY_WAN_UPSTREAM_ROUTE_ADD, \
 				struct ipa_wan_msg *)
@@ -884,7 +871,6 @@ struct ipa_ioc_rm_dependency {
 				IPA_IOCTL_NOTIFY_WAN_UPSTREAM_ROUTE_DEL, \
 				struct ipa_wan_msg *)
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*
  * unique magic number of the Tethering bridge ioctls
  */
@@ -954,15 +940,12 @@ struct teth_aggr_capabilities {
 	struct teth_aggr_params_link prot_caps[0];
 };
 
-<<<<<<< HEAD
-=======
 enum ipacm_client_enum {
      IPACM_CLIENT_USB = 1,
      IPACM_CLIENT_WLAN,
      IPACM_CLIENT_MAX
 };
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #define TETH_BRIDGE_IOC_SET_BRIDGE_MODE _IOW(TETH_BRIDGE_IOC_MAGIC, \
 				TETH_BRIDGE_IOCTL_SET_BRIDGE_MODE, \

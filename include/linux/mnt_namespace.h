@@ -7,11 +7,7 @@ struct fs_struct;
 struct user_namespace;
 
 extern struct mnt_namespace *copy_mnt_ns(unsigned long, struct mnt_namespace *,
-<<<<<<< HEAD
-		struct user_namespace *, struct fs_struct *);
-=======
 		 struct user_namespace *, struct fs_struct *);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 extern void put_mnt_ns(struct mnt_namespace *ns);
 
 extern const struct file_operations proc_mounts_operations;

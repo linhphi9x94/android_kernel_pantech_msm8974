@@ -1216,16 +1216,11 @@ static int snd_pcm_dev_disconnect(struct snd_device *device)
 	list_del_init(&pcm->list);
 	for (cidx = 0; cidx < 2; cidx++)
 		for (substream = pcm->streams[cidx].substream; substream; substream = substream->next)
-<<<<<<< HEAD
-			if (substream->runtime)
-				substream->runtime->status->state = SNDRV_PCM_STATE_DISCONNECTED;
-=======
 			if (substream->runtime) {
 				substream->runtime->status->state = SNDRV_PCM_STATE_DISCONNECTED;
                                 wake_up(&substream->runtime->sleep);
                                 wake_up(&substream->runtime->tsleep);
                         }
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	list_for_each_entry(notify, &snd_pcm_notify_list, list) {
 		notify->n_disconnect(pcm);
 	}

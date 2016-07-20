@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -210,11 +206,7 @@ int ocmem_notifier_init(void);
 int check_notifier(int);
 const char *get_name(int);
 int get_tz_id(int);
-<<<<<<< HEAD
-int ocmem_enable_sec_program(int);
-=======
 int ocmem_restore_sec_program(int);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 int ocmem_enable_dump(enum ocmem_client, unsigned long, unsigned long);
 int ocmem_disable_dump(enum ocmem_client, unsigned long, unsigned long);
 int check_id(int);
@@ -234,10 +226,6 @@ int process_shrink(int, struct ocmem_handle *, unsigned long);
 int process_dump(int, struct ocmem_handle *, unsigned long);
 int ocmem_rdm_transfer(int, struct ocmem_map_list *,
 				unsigned long, int);
-<<<<<<< HEAD
-int ocmem_clear(unsigned long, unsigned long);
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 unsigned long process_quota(int);
 int ocmem_memory_off(int, unsigned long, unsigned long);
 int ocmem_memory_on(int, unsigned long, unsigned long);

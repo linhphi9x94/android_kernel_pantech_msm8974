@@ -51,17 +51,10 @@ struct devfreq_dev_status {
  * bound (greatest lower bound)
  */
 #define DEVFREQ_FLAG_LEAST_UPPER_BOUND		0x1
-<<<<<<< HEAD
-#define DEVFREQ_FLAG_WAKEUP_MAXFREQ		0x2
-
-#define DEVFREQ_FLAG_FAST_HINT	0x2
-#define DEVFREQ_FLAG_SLOW_HINT	0x4
-=======
 
 #define DEVFREQ_FLAG_FAST_HINT			0x2
 #define DEVFREQ_FLAG_SLOW_HINT			0x4
 #define DEVFREQ_FLAG_WAKEUP_MAXFREQ		0x8
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /**
  * struct devfreq_governor_data - mapping to per device governor data

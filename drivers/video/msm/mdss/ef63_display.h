@@ -272,11 +272,6 @@ char oled_gamma_lsi[34] = {
 
 
 char locking[2] = {0xf7,0x01};
-<<<<<<< HEAD
-// brightness fix by sktjdgns1189 & arter97
-char locking_fix[2] = {0xf7,0x02};
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 char locking_disable[2] = {0xf7,0x00};
 char locking_lsi[2] = {0xf7,0x03};
 char temp_set[5] = {0xb8,0x00,0x04,0x00,0x00};
@@ -305,14 +300,6 @@ struct dsi_cmd_desc locking_cmd = {
 	{DTYPE_DCS_WRITE1, 1, 0, 0, 0, sizeof(locking)},
 	locking
 };
-<<<<<<< HEAD
-// brightness fix by sktjdgns1189 & arter97
-struct dsi_cmd_desc locking_fix_cmd = {
-	{DTYPE_DCS_WRITE1, 1, 0, 0, 0, sizeof(locking_fix)},
-	locking_fix
-};
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 struct dsi_cmd_desc locking_disable_cmd = {
 	{DTYPE_DCS_WRITE1, 1, 0, 0, 0, sizeof(locking_disable)},
 	locking_disable

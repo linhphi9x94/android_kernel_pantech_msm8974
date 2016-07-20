@@ -29,17 +29,10 @@
 #include <linux/dma-mapping.h>
 #include <trace/events/kmem.h>
 
-<<<<<<< HEAD
-static unsigned int high_order_gfp_flags = (GFP_HIGHUSER | __GFP_ZERO |
-					    __GFP_NOWARN | __GFP_NORETRY |
-					    __GFP_NO_KSWAPD) & ~__GFP_WAIT;
-static unsigned int low_order_gfp_flags  = (GFP_HIGHUSER | __GFP_ZERO |
-=======
 static unsigned int high_order_gfp_flags = (GFP_HIGHUSER |
 					    __GFP_NOWARN | __GFP_NORETRY |
 					    __GFP_NO_KSWAPD) & ~__GFP_WAIT;
 static unsigned int low_order_gfp_flags  = (GFP_HIGHUSER |
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 					 __GFP_NOWARN);
 static const unsigned int orders[] = {9, 8, 4, 0};
 static const int num_orders = ARRAY_SIZE(orders);
@@ -66,22 +59,15 @@ struct ion_system_heap {
 
 struct page_info {
 	struct page *page;
-<<<<<<< HEAD
-=======
 	bool from_pool;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	unsigned int order;
 	struct list_head list;
 };
 
 static struct page *alloc_buffer_page(struct ion_system_heap *heap,
 				      struct ion_buffer *buffer,
-<<<<<<< HEAD
-				      unsigned long order)
-=======
 				      unsigned long order,
 				      bool *from_pool)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	bool cached = ion_buffer_cached(buffer);
 	bool split_pages = ion_buffer_fault_user_mappings(buffer);
@@ -92,11 +78,7 @@ static struct page *alloc_buffer_page(struct ion_system_heap *heap,
 		pool = heap->uncached_pools[order_to_index(order)];
 	else
 		pool = heap->cached_pools[order_to_index(order)];
-<<<<<<< HEAD
-	page = ion_page_pool_alloc(pool);
-=======
 	page = ion_page_pool_alloc(pool, from_pool);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!page)
 		return 0;
 
@@ -139,22 +121,14 @@ static struct page_info *alloc_largest_available(struct ion_system_heap *heap,
 	struct page *page;
 	struct page_info *info;
 	int i;
-<<<<<<< HEAD
-
-=======
 	bool from_pool;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	for (i = 0; i < num_orders; i++) {
 		if (size < order_to_size(orders[i]))
 			continue;
 		if (max_order < orders[i])
 			continue;
 
-<<<<<<< HEAD
-		page = alloc_buffer_page(heap, buffer, orders[i]);
-=======
 		page = alloc_buffer_page(heap, buffer, orders[i], &from_pool);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (!page)
 			continue;
 
@@ -162,17 +136,12 @@ static struct page_info *alloc_largest_available(struct ion_system_heap *heap,
 		if (info) {
 			info->page = page;
 			info->order = orders[i];
-<<<<<<< HEAD
-=======
 			info->from_pool = from_pool;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 		return info;
 	}
 	return NULL;
 }
-<<<<<<< HEAD
-=======
 static unsigned int process_info(struct page_info *info,
 				 struct scatterlist *sg,
 				 struct scatterlist *sg_sync,
@@ -200,7 +169,6 @@ static unsigned int process_info(struct page_info *info,
 	kfree(info);
 	return i;
 }
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static int ion_system_heap_allocate(struct ion_heap *heap,
 				     struct ion_buffer *buffer,
@@ -211,18 +179,6 @@ static int ion_system_heap_allocate(struct ion_heap *heap,
 							struct ion_system_heap,
 							heap);
 	struct sg_table *table;
-<<<<<<< HEAD
-	struct scatterlist *sg;
-	int ret;
-	struct list_head pages;
-	struct page_info *info, *tmp_info;
-	int i = 0;
-	unsigned long size_remaining = PAGE_ALIGN(size);
-	unsigned int max_order = orders[0];
-	bool split_pages = ion_buffer_fault_user_mappings(buffer);
-
-	INIT_LIST_HEAD(&pages);
-=======
 	struct sg_table table_sync;
 	struct scatterlist *sg;
 	struct scatterlist *sg_sync;
@@ -241,15 +197,10 @@ static int ion_system_heap_allocate(struct ion_heap *heap,
 	data.size = 0;
 	INIT_LIST_HEAD(&pages);
 	INIT_LIST_HEAD(&pages_from_pool);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	while (size_remaining > 0) {
 		info = alloc_largest_available(sys_heap, buffer, size_remaining, max_order);
 		if (!info)
 			goto err;
-<<<<<<< HEAD
-		list_add_tail(&info->list, &pages);
-		size_remaining -= (1 << info->order) * PAGE_SIZE;
-=======
 
 		sz = (1 << info->order) * PAGE_SIZE;
 
@@ -261,16 +212,10 @@ static int ion_system_heap_allocate(struct ion_heap *heap,
 			++nents_sync;
 		}
 		size_remaining -= sz;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		max_order = info->order;
 		i++;
 	}
 
-<<<<<<< HEAD
-	table = kmalloc(sizeof(struct sg_table), GFP_KERNEL);
-	if (!table)
-		goto err;
-=======
 	ret = ion_heap_alloc_pages_mem(&data);
 
 	if (ret)
@@ -279,7 +224,6 @@ static int ion_system_heap_allocate(struct ion_heap *heap,
 	table = kmalloc(sizeof(struct sg_table), GFP_KERNEL);
 	if (!table)
 		goto err_free_data_pages;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	if (split_pages)
 		ret = sg_alloc_table(table, PAGE_ALIGN(size) / PAGE_SIZE,
@@ -290,29 +234,6 @@ static int ion_system_heap_allocate(struct ion_heap *heap,
 	if (ret)
 		goto err1;
 
-<<<<<<< HEAD
-	sg = table->sgl;
-	list_for_each_entry_safe(info, tmp_info, &pages, list) {
-		struct page *page = info->page;
-		if (split_pages) {
-			for (i = 0; i < (1 << info->order); i++) {
-				sg_set_page(sg, page + i, PAGE_SIZE, 0);
-				sg = sg_next(sg);
-			}
-		} else {
-			sg_set_page(sg, page, (1 << info->order) * PAGE_SIZE,
-				    0);
-			sg = sg_next(sg);
-		}
-		list_del(&info->list);
-		kfree(info);
-	}
-
-	buffer->priv_virt = table;
-	return 0;
-err1:
-	kfree(table);
-=======
 	if (nents_sync) {
 		ret = sg_alloc_table(&table_sync, nents_sync, GFP_KERNEL);
 		if (ret)
@@ -389,19 +310,15 @@ err1:
 	kfree(table);
 err_free_data_pages:
 	ion_heap_free_pages_mem(&data);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 err:
 	list_for_each_entry_safe(info, tmp_info, &pages, list) {
 		free_buffer_page(sys_heap, buffer, info->page, info->order);
 		kfree(info);
 	}
-<<<<<<< HEAD
-=======
 	list_for_each_entry_safe(info, tmp_info, &pages_from_pool, list) {
 		free_buffer_page(sys_heap, buffer, info->page, info->order);
 		kfree(info);
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return -ENOMEM;
 }
 

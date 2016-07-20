@@ -421,23 +421,17 @@ int mmc_add_card(struct mmc_card *card)
 	else if (!mmc_card_sdio(card) && mmc_use_core_runtime_pm(card->host))
 		pm_runtime_enable(&card->dev);
 
-<<<<<<< HEAD
-=======
 	if (mmc_card_sdio(card)) {
 		ret = device_init_wakeup(&card->dev, true);
 		if (ret)
 			pr_err("%s: %s: failed to init wakeup: %d\n",
 			       mmc_hostname(card->host), __func__, ret);
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ret = device_add(&card->dev);
 	if (ret)
 		return ret;
 
-<<<<<<< HEAD
-=======
 	device_enable_async_suspend(&card->dev);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (mmc_use_core_runtime_pm(card->host) && !mmc_card_sdio(card)) {
 		card->rpm_attrib.show = show_rpm_delay;
 		card->rpm_attrib.store = store_rpm_delay;

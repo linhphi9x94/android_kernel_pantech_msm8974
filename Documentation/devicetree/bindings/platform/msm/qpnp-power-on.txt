@@ -36,13 +36,10 @@ Optional properties:
 				to include it more than once.
 - qcom,s3-debounce		The debounce delay for stage3 reset trigger in
 				secs. The values range from 0 to 128.
-<<<<<<< HEAD
-=======
 - qcom,s3-src			The source for stage 3 reset. It can be one of
 				"kpdpwr", "resin", "kpdpwr-or-resin" or
 				"kpdpwr-and-resin". The default value is
 				"kpdpwr-and-resin".
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 All the below properties are in the sub-node section (properties of the child
 node).
@@ -99,10 +96,7 @@ Example:
 		qcom,pon-dbc-delay = <15625>;
 		qcom,system-reset;
 		qcom,s3-debounce = <32>;
-<<<<<<< HEAD
-=======
 		qcom,s3-src = "resin";
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		qcom,pon_1 {
 			qcom,pon-type = <0>;

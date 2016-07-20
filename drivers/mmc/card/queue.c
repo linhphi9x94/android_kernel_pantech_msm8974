@@ -15,27 +15,18 @@
 #include <linux/freezer.h>
 #include <linux/kthread.h>
 #include <linux/scatterlist.h>
-<<<<<<< HEAD
-
-#include <linux/mmc/card.h>
-#include <linux/mmc/host.h>
-=======
 #include <linux/bitops.h>
 
 #include <linux/mmc/card.h>
 #include <linux/mmc/host.h>
 #include <linux/sched.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include "queue.h"
 
 #define MMC_QUEUE_BOUNCESZ	65536
 
 
-<<<<<<< HEAD
-=======
 #define MMC_REQ_SPECIAL_MASK	(REQ_DISCARD | REQ_FLUSH)
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*
  * Based on benchmark tests the default num of requests to trigger the write
  * packing was determined, to keep the read latency as low as possible and
@@ -72,24 +63,18 @@ static int mmc_queue_thread(void *d)
 	struct request_queue *q = mq->queue;
 	struct mmc_card *card = mq->card;
 
-<<<<<<< HEAD
-=======
 	struct sched_param scheduler_params = {0};
 	scheduler_params.sched_priority = 1;
 
 	sched_setscheduler(current, SCHED_FIFO, &scheduler_params);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	current->flags |= PF_MEMALLOC;
 
 	down(&mq->thread_sem);
 	do {
 		struct mmc_queue_req *tmp;
 		struct request *req = NULL;
-<<<<<<< HEAD
-=======
 		unsigned int cmd_flags = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		spin_lock_irq(q->queue_lock);
 		set_current_state(TASK_INTERRUPTIBLE);
@@ -99,15 +84,6 @@ static int mmc_queue_thread(void *d)
 
 		if (req || mq->mqrq_prev->req) {
 			set_current_state(TASK_RUNNING);
-<<<<<<< HEAD
-			mq->issue_fn(mq, req);
-			if (mq->flags & MMC_QUEUE_NEW_REQUEST) {
-				continue; /* fetch again */
-			} else if ((mq->flags & MMC_QUEUE_URGENT_REQUEST) &&
-				   (mq->mqrq_cur->req &&
-				!(mq->mqrq_cur->req->cmd_flags &
-				       MMC_REQ_NOREINSERT_MASK))) {
-=======
 			cmd_flags = req ? req->cmd_flags : 0;
 			mq->issue_fn(mq, req);
 			if (test_bit(MMC_QUEUE_NEW_REQUEST, &mq->flags)) {
@@ -116,7 +92,6 @@ static int mmc_queue_thread(void *d)
 					&mq->flags) && (mq->mqrq_cur->req &&
 					!(cmd_flags &
 						MMC_REQ_NOREINSERT_MASK))) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				/*
 				 * clean current request when urgent request
 				 * processing in progress and current request is
@@ -130,9 +105,6 @@ static int mmc_queue_thread(void *d)
 			/*
 			 * Current request becomes previous request
 			 * and vice versa.
-<<<<<<< HEAD
-			 */
-=======
 			 * In case of special requests, current request
 			 * has been finished. Do not assign it to previous
 			 * request.
@@ -140,7 +112,6 @@ static int mmc_queue_thread(void *d)
 			if (cmd_flags & MMC_REQ_SPECIAL_MASK)
 				mq->mqrq_cur->req = NULL;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			mq->mqrq_prev->brq.mrq.data = NULL;
 			mq->mqrq_prev->req = NULL;
 			tmp = mq->mqrq_prev;
@@ -520,13 +491,7 @@ int mmc_queue_suspend(struct mmc_queue *mq, int wait)
 	unsigned long flags;
 	int rc = 0;
 
-<<<<<<< HEAD
-	if (!(mq->flags & MMC_QUEUE_SUSPENDED)) {
-		mq->flags |= MMC_QUEUE_SUSPENDED;
-
-=======
 	if (!(test_and_set_bit(MMC_QUEUE_SUSPENDED, &mq->flags))) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		spin_lock_irqsave(q->queue_lock, flags);
 		blk_stop_queue(q);
 		spin_unlock_irqrestore(q->queue_lock, flags);
@@ -537,11 +502,7 @@ int mmc_queue_suspend(struct mmc_queue *mq, int wait)
 			 * Failed to take the lock so better to abort the
 			 * suspend because mmcqd thread is processing requests.
 			 */
-<<<<<<< HEAD
-			mq->flags &= ~MMC_QUEUE_SUSPENDED;
-=======
 			clear_bit(MMC_QUEUE_SUSPENDED, &mq->flags);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			spin_lock_irqsave(q->queue_lock, flags);
 			blk_start_queue(q);
 			spin_unlock_irqrestore(q->queue_lock, flags);
@@ -563,12 +524,7 @@ void mmc_queue_resume(struct mmc_queue *mq)
 	struct request_queue *q = mq->queue;
 	unsigned long flags;
 
-<<<<<<< HEAD
-	if (mq->flags & MMC_QUEUE_SUSPENDED) {
-		mq->flags &= ~MMC_QUEUE_SUSPENDED;
-=======
 	if (test_and_clear_bit(MMC_QUEUE_SUSPENDED, &mq->flags)) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		up(&mq->thread_sem);
 

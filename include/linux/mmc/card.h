@@ -94,10 +94,7 @@ struct mmc_ext_csd {
 	u8			raw_erased_mem_count;	/* 181 */
 	u8			raw_ext_csd_structure;	/* 194 */
 	u8			raw_card_type;		/* 196 */
-<<<<<<< HEAD
-=======
 	u8			raw_drive_strength;	/* 197 */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	u8			out_of_int_time;	/* 198 */
 	u8			raw_s_a_timeout;		/* 217 */
 	u8			raw_hc_erase_gap_size;	/* 221 */
@@ -313,13 +310,10 @@ struct mmc_bkops_info {
 #define BKOPS_SIZE_PERCENTAGE_TO_QUEUE_DELAYED_WORK 1 /* 1% */
 };
 
-<<<<<<< HEAD
-=======
 enum mmc_pon_type {
 	MMC_LONG_PON = 1,
 	MMC_SHRT_PON,
 };
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*
  * MMC device
  */
@@ -406,11 +400,7 @@ struct mmc_card {
 	struct device_attribute rpm_attrib;
 	unsigned int		idle_timeout;
 	struct notifier_block        reboot_notify;
-<<<<<<< HEAD
-	bool issue_long_pon;
-=======
 	enum mmc_pon_type pon_type;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	u8 *cached_ext_csd;
 };
 
@@ -468,10 +458,7 @@ struct mmc_fixup {
 #define CID_MANFID_TOSHIBA	0x11
 #define CID_MANFID_MICRON	0x13
 #define CID_MANFID_SAMSUNG	0x15
-<<<<<<< HEAD
-=======
 #define CID_MANFID_KINGSTON	0x70
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #define CID_MANFID_HYNIX	0x90
 
 #define END_FIXUP { 0 }
@@ -671,9 +658,5 @@ extern struct mmc_wr_pack_stats *mmc_blk_get_packed_statistics(
 			struct mmc_card *card);
 extern void mmc_blk_init_packed_statistics(struct mmc_card *card);
 extern void mmc_blk_disable_wr_packing(struct mmc_queue *mq);
-<<<<<<< HEAD
-extern int mmc_send_long_pon(struct mmc_card *card);
-=======
 extern int mmc_send_pon(struct mmc_card *card);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif /* LINUX_MMC_CARD_H */

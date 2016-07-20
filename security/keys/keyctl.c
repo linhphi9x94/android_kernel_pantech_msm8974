@@ -702,18 +702,6 @@ long keyctl_read_key(key_serial_t keyid, char __user *buffer, size_t buflen)
 
 	/* the key is probably readable - now try to read it */
 can_read_key:
-<<<<<<< HEAD
-	ret = key_validate(key);
-	if (ret == 0) {
-		ret = -EOPNOTSUPP;
-		if (key->type->read) {
-			/* read the data with the semaphore held (since we
-			 * might sleep) */
-			down_read(&key->sem);
-			ret = key->type->read(key, buffer, buflen);
-			up_read(&key->sem);
-		}
-=======
 	ret = -EOPNOTSUPP;
 	if (key->type->read) {
 		/* Read the data with the semaphore held (since we might sleep)
@@ -724,7 +712,6 @@ can_read_key:
 		if (ret == 0)
 			ret = key->type->read(key, buffer, buflen);
 		up_read(&key->sem);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 error2:

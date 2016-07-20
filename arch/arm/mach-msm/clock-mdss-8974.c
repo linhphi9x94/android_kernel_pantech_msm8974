@@ -1877,11 +1877,7 @@ static int edp_vco_set_rate(struct clk *c, unsigned long vco_rate)
 	if (vco_rate == 810000000) {
 		DSS_REG_W(mdss_edp_base, 0x0c, 0x18);
 		/* UNIPHY_PLL_LKDET_CFG2 */
-<<<<<<< HEAD
-		DSS_REG_W(mdss_edp_base, 0x64, 0x05);
-=======
 		DSS_REG_W(mdss_edp_base, 0x64, 0x0d);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/* UNIPHY_PLL_REFCLK_CFG */
 		DSS_REG_W(mdss_edp_base, 0x00, 0x00);
 		/* UNIPHY_PLL_SDM_CFG0 */
@@ -1903,11 +1899,7 @@ static int edp_vco_set_rate(struct clk *c, unsigned long vco_rate)
 		/* UNIPHY_PLL_SSC_CFG3 */
 		DSS_REG_W(mdss_edp_base, 0x58, 0x00);
 		/* UNIPHY_PLL_CAL_CFG0 */
-<<<<<<< HEAD
-		DSS_REG_W(mdss_edp_base, 0x6c, 0x0a);
-=======
 		DSS_REG_W(mdss_edp_base, 0x6c, 0x12);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/* UNIPHY_PLL_CAL_CFG2 */
 		DSS_REG_W(mdss_edp_base, 0x74, 0x01);
 		/* UNIPHY_PLL_CAL_CFG6 */
@@ -1932,11 +1924,7 @@ static int edp_vco_set_rate(struct clk *c, unsigned long vco_rate)
 		DSS_REG_W(mdss_edp_base, 0x28, 0x00);
 	} else if (vco_rate == 1350000000) {
 		/* UNIPHY_PLL_LKDET_CFG2 */
-<<<<<<< HEAD
-		DSS_REG_W(mdss_edp_base, 0x64, 0x05);
-=======
 		DSS_REG_W(mdss_edp_base, 0x64, 0x0d);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/* UNIPHY_PLL_REFCLK_CFG */
 		DSS_REG_W(mdss_edp_base, 0x00, 0x01);
 		/* UNIPHY_PLL_SDM_CFG0 */
@@ -1958,11 +1946,7 @@ static int edp_vco_set_rate(struct clk *c, unsigned long vco_rate)
 		/* UNIPHY_PLL_SSC_CFG3 */
 		DSS_REG_W(mdss_edp_base, 0x58, 0x00);
 		/* UNIPHY_PLL_CAL_CFG0 */
-<<<<<<< HEAD
-		DSS_REG_W(mdss_edp_base, 0x6c, 0x0a);
-=======
 		DSS_REG_W(mdss_edp_base, 0x6c, 0x12);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/* UNIPHY_PLL_CAL_CFG2 */
 		DSS_REG_W(mdss_edp_base, 0x74, 0x01);
 		/* UNIPHY_PLL_CAL_CFG6 */

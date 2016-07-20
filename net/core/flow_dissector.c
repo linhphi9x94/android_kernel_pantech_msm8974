@@ -35,15 +35,7 @@ again:
 		struct iphdr _iph;
 ip:
 		iph = skb_header_pointer(skb, nhoff, sizeof(_iph), &_iph);
-<<<<<<< HEAD
-#ifdef CONFIG_PANTECH_WLAN_PATCH //lee.eunsuk 20140110, Android security patch - Flow dissector can have an infinite loop 
 		if (!iph || iph->ihl < 5)
-#else
-		if (!iph)
-#endif 			
-=======
-		if (!iph || iph->ihl < 5)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			return false;
 
 		if (ip_is_fragment(iph))

@@ -123,12 +123,9 @@ static int inet6_create(struct net *net, struct socket *sock, int protocol,
 	int try_loading_module = 0;
 	int err;
 
-<<<<<<< HEAD
-=======
 	if (protocol < 0 || protocol >= IPPROTO_MAX)
 		return -EINVAL;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!current_has_network())
 		return -EACCES;
 

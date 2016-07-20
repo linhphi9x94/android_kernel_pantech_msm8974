@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -147,11 +143,8 @@ struct msm_compr_audio {
 	uint32_t stream_available;
 	uint32_t next_stream;
 
-<<<<<<< HEAD
-=======
 	uint64_t marker_timestamp;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	struct msm_compr_gapless_state gapless_state;
 
 	atomic_t start;
@@ -190,23 +183,16 @@ static int msm_compr_set_volume(struct snd_compr_stream *cstream,
 
 	pr_debug("%s: volume_l %d volume_r %d\n",
 		__func__, volume_l, volume_r);
-<<<<<<< HEAD
-=======
 	if (!cstream || !cstream->runtime) {
 		pr_err("%s: session not active\n", __func__);
 		return -EPERM;
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	prtd = cstream->runtime->private_data;
 	if (prtd && prtd->audio_client) {
 		if (volume_l != volume_r) {
 			pr_debug("%s: call q6asm_set_lrgain\n", __func__);
 			rc = q6asm_set_lrgain(prtd->audio_client,
 						volume_l, volume_r);
-<<<<<<< HEAD
-		} else {
-			pr_debug("%s: call q6asm_set_volume\n", __func__);
-=======
 			if (rc < 0) {
 				pr_err("%s: set lrgain command failed rc=%d\n",
 				__func__, rc);
@@ -232,7 +218,6 @@ static int msm_compr_set_volume(struct snd_compr_stream *cstream,
 				__func__, rc);
 				return rc;
 			}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			rc = q6asm_set_volume(prtd->audio_client, volume_l);
 		}
 		if (rc < 0) {
@@ -280,11 +265,7 @@ static int msm_compr_send_buffer(struct msm_compr_audio *prtd)
 
 	pr_debug("%s: bytes_received = %d copied_total = %d\n",
 		__func__, prtd->bytes_received, prtd->copied_total);
-<<<<<<< HEAD
-	if (prtd->first_buffer && prtd->gapless_state.use_dsp_gapless_mode)
-=======
 	if (prtd->first_buffer &&  prtd->gapless_state.use_dsp_gapless_mode)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		q6asm_stream_send_meta_data(prtd->audio_client,
 				prtd->audio_client->stream_id,
 				prtd->gapless_state.initial_samples_drop,
@@ -337,10 +318,7 @@ static void compr_event_handler(uint32_t opcode,
 	uint32_t sample_rate = 0;
 	int bytes_available, stream_id;
 	uint32_t stream_index;
-<<<<<<< HEAD
-=======
 	unsigned long flags;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	pr_debug("%s opcode =%08x\n", __func__, opcode);
 	switch (opcode) {
@@ -513,13 +491,6 @@ static void compr_event_handler(uint32_t opcode,
 	case RESET_EVENTS:
 		pr_err("%s: Received reset events CB, move to error state",
 			__func__);
-<<<<<<< HEAD
-		spin_lock(&prtd->lock);
-		snd_compr_fragment_elapsed(cstream);
-		prtd->copied_total = prtd->bytes_received;
-		atomic_set(&prtd->error, 1);
-		spin_unlock(&prtd->lock);
-=======
 		spin_lock_irqsave(&prtd->lock, flags);
 		snd_compr_fragment_elapsed(cstream);
 		prtd->copied_total = prtd->bytes_received;
@@ -531,7 +502,6 @@ static void compr_event_handler(uint32_t opcode,
 			atomic_set(&prtd->eos, 0);
 		}
 		spin_unlock_irqrestore(&prtd->lock, flags);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		break;
 	default:
 #ifdef CONFIG_PANTECH_SND_NXP
@@ -555,26 +525,12 @@ static void populate_codec_list(struct msm_compr_audio *prtd)
 			COMPR_PLAYBACK_MIN_NUM_FRAGMENTS;
 	prtd->compr_cap.max_fragments =
 			COMPR_PLAYBACK_MAX_NUM_FRAGMENTS;
-<<<<<<< HEAD
-#ifdef CONFIG_PANTECH_SND_FLAC //20131223 jhsong : qct patch for 24bit pcm on offload
 	prtd->compr_cap.num_codecs = 5;
-#else
-	prtd->compr_cap.num_codecs = 4;
-#endif
-=======
-	prtd->compr_cap.num_codecs = 5;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	prtd->compr_cap.codecs[0] = SND_AUDIOCODEC_MP3;
 	prtd->compr_cap.codecs[1] = SND_AUDIOCODEC_AAC;
 	prtd->compr_cap.codecs[2] = SND_AUDIOCODEC_AC3;
 	prtd->compr_cap.codecs[3] = SND_AUDIOCODEC_EAC3;
-<<<<<<< HEAD
-#ifdef CONFIG_PANTECH_SND_FLAC //20131223 jhsong : qct patch for 24bit pcm on offload
 	prtd->compr_cap.codecs[4] = SND_AUDIOCODEC_PCM;
-#endif
-=======
-	prtd->compr_cap.codecs[4] = SND_AUDIOCODEC_PCM;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static int msm_compr_send_media_format_block(struct snd_compr_stream *cstream,
@@ -584,10 +540,6 @@ static int msm_compr_send_media_format_block(struct snd_compr_stream *cstream,
 	struct msm_compr_audio *prtd = runtime->private_data;
 	struct asm_aac_cfg aac_cfg;
 	int ret = 0;
-<<<<<<< HEAD
-
-	switch (prtd->codec) {
-=======
 #ifndef CONFIG_PANTECH_SND_FLAC
 	uint16_t bit_width = 16;
 #endif
@@ -619,22 +571,17 @@ static int msm_compr_send_media_format_block(struct snd_compr_stream *cstream,
 
 		break;
 #endif
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	case FORMAT_MP3:
 		/* no media format block needed */
 		break;
 	case FORMAT_MPEG4_AAC:
 		memset(&aac_cfg, 0x0, sizeof(struct asm_aac_cfg));
 		aac_cfg.aot = AAC_ENC_MODE_EAAC_P;
-<<<<<<< HEAD
-		aac_cfg.format = 0x03;
-=======
 		if (prtd->codec_param.codec.format ==
 					SND_AUDIOSTREAMFORMAT_MP4ADTS)
 			aac_cfg.format = 0x0;
 		else
 			aac_cfg.format = 0x03;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		aac_cfg.ch_cfg = prtd->num_channels;
 		aac_cfg.sample_rate = prtd->sample_rate;
 		ret = q6asm_stream_media_format_block_aac(prtd->audio_client,
@@ -646,21 +593,6 @@ static int msm_compr_send_media_format_block(struct snd_compr_stream *cstream,
 		break;
 	case FORMAT_EAC3:
 		break;
-<<<<<<< HEAD
-#ifdef CONFIG_PANTECH_SND_FLAC //20131223 jhsong : qct patch for 24bit pcm on offload
-	case FORMAT_LINEAR_PCM:
-		pr_debug("FORMAT_LINEAR_PCM SR %d, CH %d",
-				prtd->sample_rate, prtd->num_channels);
-		ret = q6asm_media_format_block_pcm_format_support(
-			prtd->audio_client, prtd->sample_rate,
-			prtd->num_channels, prtd->bits_per_sample);
-
-		if (ret < 0)
-			pr_err("PCM Format block failed = %d\n", ret);
-		break;
-#endif
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	default:
 		pr_debug("%s, unsupported format, skip", __func__);
 		break;
@@ -723,40 +655,26 @@ static int msm_compr_configure_dsp(struct snd_compr_stream *cstream)
 				prtd->session_id,
 				SNDRV_PCM_STREAM_PLAYBACK);
 
-<<<<<<< HEAD
-=======
 	/*
 	 * Setting the master volume gain to 0 while
 	 * configuring ASM session. This is to address
 	 * DSP pop noise issue where. This change is
 	 * there from begining may be DSP limitation
 	 */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ret = msm_compr_set_volume(cstream, 0, 0);
 	if (ret < 0)
 		pr_err("%s : Set Volume failed : %d", __func__, ret);
 
-<<<<<<< HEAD
-	ret = q6asm_set_softpause(ac, &softpause);
-	if (ret < 0)
-		pr_err("%s: Send SoftPause Param failed ret=%d\n",
-			__func__, ret);
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ret = q6asm_set_softvolume(ac, &softvol);
 	if (ret < 0)
 		pr_err("%s: Send SoftVolume Param failed ret=%d\n",
 			__func__, ret);
 
-<<<<<<< HEAD
-=======
 	ret = q6asm_set_softpause(ac, &softpause);
 	if (ret < 0)
 		pr_err("%s: Send SoftPause Param failed ret=%d\n",
 				__func__, ret);
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	ret = q6asm_set_io_mode(ac, (COMPRESSED_STREAM_IO | ASYNC_IO_MODE));
 	if (ret < 0) {
 		pr_err("%s: Set IO mode failed\n", __func__);
@@ -813,10 +731,7 @@ static int msm_compr_open(struct snd_compr_stream *cstream)
 		 kzalloc(sizeof(struct msm_compr_audio_effects), GFP_KERNEL);
 	if (!pdata->audio_effects[rtd->dai_link->be_id]) {
 		pr_err("%s: Could not allocate memory for effects\n", __func__);
-<<<<<<< HEAD
-=======
 		pdata->cstream[rtd->dai_link->be_id] = NULL;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		kfree(prtd);
 		return -ENOMEM;
 	}
@@ -825,11 +740,8 @@ static int msm_compr_open(struct snd_compr_stream *cstream)
 	if (!pdata->dec_params[rtd->dai_link->be_id]) {
 		pr_err("%s: Could not allocate memory for dec params\n",
 			__func__);
-<<<<<<< HEAD
-=======
 		kfree(pdata->audio_effects[rtd->dai_link->be_id]);
 		pdata->cstream[rtd->dai_link->be_id] = NULL;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		kfree(prtd);
 		return -ENOMEM;
 	}
@@ -839,10 +751,7 @@ static int msm_compr_open(struct snd_compr_stream *cstream)
 		pr_err("%s: Could not allocate memory for client\n", __func__);
 		kfree(pdata->audio_effects[rtd->dai_link->be_id]);
 		kfree(pdata->dec_params[rtd->dai_link->be_id]);
-<<<<<<< HEAD
-=======
 		pdata->cstream[rtd->dai_link->be_id] = NULL;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		kfree(prtd);
 		return -ENOMEM;
 	}
@@ -942,10 +851,7 @@ static int msm_compr_free(struct snd_compr_stream *cstream)
 
 	if ((stream_index < MAX_NUMBER_OF_STREAMS && stream_index >= 0) &&
 	    (prtd->gapless_state.stream_opened[stream_index])) {
-<<<<<<< HEAD
-=======
 		prtd->gapless_state.stream_opened[stream_index] = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		spin_unlock_irqrestore(&prtd->lock, flags);
 		pr_debug(" close stream %d", NEXT_STREAM_ID(stream_id));
 		q6asm_stream_cmd(ac, CMD_CLOSE, NEXT_STREAM_ID(stream_id));
@@ -955,10 +861,7 @@ static int msm_compr_free(struct snd_compr_stream *cstream)
 	stream_index = STREAM_ARRAY_INDEX(stream_id);
 	if ((stream_index < MAX_NUMBER_OF_STREAMS && stream_index >= 0) &&
 	    (prtd->gapless_state.stream_opened[stream_index])) {
-<<<<<<< HEAD
-=======
 		prtd->gapless_state.stream_opened[stream_index] = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		spin_unlock_irqrestore(&prtd->lock, flags);
 		pr_debug("close stream %d", stream_id);
 		q6asm_stream_cmd(ac, CMD_CLOSE, stream_id);
@@ -1062,8 +965,6 @@ static int msm_compr_set_params(struct snd_compr_stream *cstream,
 	pr_debug("%s: sample_rate %d\n", __func__, prtd->sample_rate);
 
 	switch (params->codec.id) {
-<<<<<<< HEAD
-=======
 #ifdef CONFIG_PANTECH_SND_FLAC //20131223 jhsong : qct patch for 24bit pcm on offload
 	case SND_AUDIOCODEC_PCM: {
 		pr_err("SND_AUDIOCODEC_PCM format = %d\n",
@@ -1080,7 +981,6 @@ static int msm_compr_set_params(struct snd_compr_stream *cstream,
 	}
 #endif
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	case SND_AUDIOCODEC_MP3: {
 		pr_debug("SND_AUDIOCODEC_MP3\n");
 		prtd->codec = FORMAT_MP3;
@@ -1107,19 +1007,6 @@ static int msm_compr_set_params(struct snd_compr_stream *cstream,
 		break;
 	}
 
-<<<<<<< HEAD
-#ifdef CONFIG_PANTECH_SND_FLAC //20131223 jhsong : qct patch for 24bit pcm on offload
-	case SND_AUDIOCODEC_PCM: {
-		pr_err("SND_AUDIOCODEC_PCM format = %d\n",
-				prtd->codec_param.codec.format);
-		prtd->codec = FORMAT_LINEAR_PCM;
-		prtd->bits_per_sample = prtd->codec_param.codec.format;
-		break;
-	}
-#endif
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	default:
 		pr_err("codec not supported, id =%d\n", params->codec.id);
 		return -EINVAL;
@@ -1159,27 +1046,19 @@ static int msm_compr_drain_buffer(struct msm_compr_audio *prtd,
 	rc = wait_event_interruptible(prtd->drain_wait,
 					prtd->drain_ready ||
 					prtd->cmd_interrupt ||
-<<<<<<< HEAD
-					atomic_read(&prtd->xrun));
-	pr_debug("%s: out of buffer drain wait\n", __func__);
-=======
 					atomic_read(&prtd->xrun) ||
 					atomic_read(&prtd->error));
 	pr_debug("%s: out of buffer drain wait with ret %d\n", __func__, rc);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	spin_lock_irqsave(&prtd->lock, *flags);
 	if (prtd->cmd_interrupt) {
 		pr_debug("%s: buffer drain interrupted by flush)\n", __func__);
 		rc = -EINTR;
 		prtd->cmd_interrupt = 0;
 	}
-<<<<<<< HEAD
-=======
 	if (atomic_read(&prtd->error)) {
 		pr_err("%s: Got RESET EVENTS notification, return\n", __func__);
 		rc = -ENETRESET;
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return rc;
 }
 
@@ -1317,10 +1196,7 @@ static int msm_compr_trigger(struct snd_compr_stream *cstream, int cmd)
 		prtd->app_pointer  = 0;
 		prtd->bytes_received = 0;
 		prtd->bytes_sent = 0;
-<<<<<<< HEAD
-=======
 		prtd->marker_timestamp = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		atomic_set(&prtd->xrun, 0);
 		spin_unlock_irqrestore(&prtd->lock, flags);
@@ -1453,11 +1329,8 @@ static int msm_compr_trigger(struct snd_compr_stream *cstream, int cmd)
 			prtd->first_buffer = 1;
 			prtd->last_buffer = 0;
 			prtd->gapless_state.gapless_transition = 1;
-<<<<<<< HEAD
-=======
 			prtd->marker_timestamp = 0;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			/*
 			Don't reset these as these vars map to
 			total_bytes_transferred and total_bytes_available
@@ -1490,13 +1363,9 @@ static int msm_compr_trigger(struct snd_compr_stream *cstream, int cmd)
 
 		/* Wait indefinitely for  DRAIN. Flush can also signal this*/
 		rc = wait_event_interruptible(prtd->eos_wait,
-<<<<<<< HEAD
-					      (prtd->cmd_ack || prtd->cmd_interrupt));
-=======
 						(prtd->cmd_ack ||
 						prtd->cmd_interrupt ||
 						atomic_read(&prtd->error)));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		if (rc < 0)
 			pr_err("%s: EOS wait failed\n", __func__);
@@ -1507,14 +1376,11 @@ static int msm_compr_trigger(struct snd_compr_stream *cstream, int cmd)
 		if (prtd->cmd_interrupt)
 			rc = -EINTR;
 
-<<<<<<< HEAD
-=======
 		if (atomic_read(&prtd->error)) {
 			pr_err("%s: Got RESET EVENTS notification, return\n", __func__);
 			rc = -ENETRESET;
 		}
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		/*FIXME : what if a flush comes while PC is here */
 		if (rc == 0) {
 			/*
@@ -1527,25 +1393,6 @@ static int msm_compr_trigger(struct snd_compr_stream *cstream, int cmd)
 			q6asm_stream_cmd_nowait(ac, CMD_PAUSE, ac->stream_id);
 			prtd->cmd_ack = 0;
 			spin_unlock_irqrestore(&prtd->lock, flags);
-<<<<<<< HEAD
-			pr_debug("%s:issue CMD_FLUSH ac->stream_id %d",
-					      __func__, ac->stream_id);
-			q6asm_stream_cmd(ac, CMD_FLUSH, ac->stream_id);
-			wait_event_timeout(prtd->flush_wait,
-					   prtd->cmd_ack, 1 * HZ / 4);
-
-			spin_lock_irqsave(&prtd->lock, flags);
-			/*
-			Don't reset these as these vars map to
-			total_bytes_transferred and total_bytes_available
-			directly, only total_bytes_transferred will be updated
-			in the next avail() ioctl
-			prtd->copied_total = 0;
-			prtd->bytes_received = 0;
-			do not reset prtd->bytes_sent as well as the same
-			session is used for gapless playback
-			*/
-=======
 
 			/*
 			 * Cache this time as last known time
@@ -1563,7 +1410,6 @@ static int msm_compr_trigger(struct snd_compr_stream *cstream, int cmd)
 			 * do not reset prtd->bytes_sent as well as the same
 			 * session is used for gapless playback
 			 */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			prtd->byte_offset = 0;
 
 			prtd->app_pointer  = 0;
@@ -1571,10 +1417,6 @@ static int msm_compr_trigger(struct snd_compr_stream *cstream, int cmd)
 			prtd->last_buffer = 0;
 			atomic_set(&prtd->drain, 0);
 			atomic_set(&prtd->xrun, 1);
-<<<<<<< HEAD
-			q6asm_run_nowait(prtd->audio_client, 0, 0, 0);
-			spin_unlock_irqrestore(&prtd->lock, flags);
-=======
 			spin_unlock_irqrestore(&prtd->lock, flags);
 
 			pr_debug("%s:issue CMD_FLUSH ac->stream_id %d",
@@ -1584,7 +1426,6 @@ static int msm_compr_trigger(struct snd_compr_stream *cstream, int cmd)
 					   prtd->cmd_ack, 1 * HZ / 4);
 
 			q6asm_run_nowait(prtd->audio_client, 0, 0, 0);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 		prtd->cmd_interrupt = 0;
 		break;
@@ -1690,20 +1531,12 @@ static int msm_compr_pointer(struct snd_compr_stream *cstream,
 	tstamp.byte_offset = prtd->byte_offset;
 	tstamp.copied_total = prtd->copied_total;
 	first_buffer = prtd->first_buffer;
-<<<<<<< HEAD
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (atomic_read(&prtd->error)) {
 		pr_err("%s Got RESET EVENTS notification, return error", __func__);
 		tstamp.pcm_io_frames = 0;
 		memcpy(arg, &tstamp, sizeof(struct snd_compr_tstamp));
 		spin_unlock_irqrestore(&prtd->lock, flags);
-<<<<<<< HEAD
-		return -EINVAL;
-=======
 		return -ENETRESET;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	spin_unlock_irqrestore(&prtd->lock, flags);
@@ -1717,10 +1550,6 @@ static int msm_compr_pointer(struct snd_compr_stream *cstream,
 		if (rc < 0) {
 			pr_err("%s: Get Session Time return value =%lld\n",
 				__func__, timestamp);
-<<<<<<< HEAD
-			return -EAGAIN;
-		}
-=======
 			if (atomic_read(&prtd->error))
 				return -ENETRESET;
 			else
@@ -1728,7 +1557,6 @@ static int msm_compr_pointer(struct snd_compr_stream *cstream,
 		}
 	} else {
 		timestamp = prtd->marker_timestamp;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	/* DSP returns timestamp in usec */
@@ -1808,11 +1636,7 @@ static int msm_compr_copy(struct snd_compr_stream *cstream,
 	if (atomic_read(&prtd->error)) {
 		pr_err("%s Got RESET EVENTS notification", __func__);
 		spin_unlock_irqrestore(&prtd->lock, flags);
-<<<<<<< HEAD
-		return -EINVAL;
-=======
 		return -ENETRESET;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	spin_unlock_irqrestore(&prtd->lock, flags);
 
@@ -2422,10 +2246,7 @@ static struct snd_soc_platform_driver msm_soc_platform = {
 	.pcm_new	= msm_compr_new,
 	.controls       = msm_compr_gapless_controls,
 	.num_controls   = ARRAY_SIZE(msm_compr_gapless_controls),
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 };
 
 static __devinit int msm_compr_dev_probe(struct platform_device *pdev)

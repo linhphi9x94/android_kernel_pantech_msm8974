@@ -123,17 +123,6 @@ unsigned long task_statm(struct mm_struct *mm,
 	return size;
 }
 
-<<<<<<< HEAD
-static void pad_len_spaces(struct seq_file *m, int len)
-{
-	len = 25 + sizeof(void*) * 6 - len;
-	if (len < 1)
-		len = 1;
-	seq_printf(m, "%*c", len, ' ');
-}
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /*
  * display a single VMA to a sequenced file
  */
@@ -145,11 +134,7 @@ static int nommu_vma_show(struct seq_file *m, struct vm_area_struct *vma,
 	unsigned long ino = 0;
 	struct file *file;
 	dev_t dev = 0;
-<<<<<<< HEAD
-	int flags, len;
-=======
 	int flags;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	unsigned long long pgoff = 0;
 
 	flags = vma->vm_flags;
@@ -162,14 +147,9 @@ static int nommu_vma_show(struct seq_file *m, struct vm_area_struct *vma,
 		pgoff = (loff_t)vma->vm_pgoff << PAGE_SHIFT;
 	}
 
-<<<<<<< HEAD
-	seq_printf(m,
-		   "%08lx-%08lx %c%c%c%c %08llx %02x:%02x %lu %n",
-=======
 	seq_setwidth(m, 25 + sizeof(void *) * 6 - 1);
 	seq_printf(m,
 		   "%08lx-%08lx %c%c%c%c %08llx %02x:%02x %lu ",
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		   vma->vm_start,
 		   vma->vm_end,
 		   flags & VM_READ ? 'r' : '-',
@@ -177,27 +157,16 @@ static int nommu_vma_show(struct seq_file *m, struct vm_area_struct *vma,
 		   flags & VM_EXEC ? 'x' : '-',
 		   flags & VM_MAYSHARE ? flags & VM_SHARED ? 'S' : 's' : 'p',
 		   pgoff,
-<<<<<<< HEAD
-		   MAJOR(dev), MINOR(dev), ino, &len);
-
-	if (file) {
-		pad_len_spaces(m, len);
-=======
 		   MAJOR(dev), MINOR(dev), ino);
 
 	if (file) {
 		seq_pad(m, ' ');
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		seq_path(m, &file->f_path, "");
 	} else if (mm) {
 		pid_t tid = vm_is_stack(priv->task, vma, is_pid);
 
 		if (tid != 0) {
-<<<<<<< HEAD
-			pad_len_spaces(m, len);
-=======
 			seq_pad(m, ' ');
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			/*
 			 * Thread stack in /proc/PID/task/TID/maps or
 			 * the main process stack.

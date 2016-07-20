@@ -87,8 +87,6 @@ config IOMMU_PGTABLES_L2
          section mappings and TLB misses should be quite infrequent.
          Most people can probably say Y here.
 
-<<<<<<< HEAD
-=======
 config MSM_IOMMU_VBIF_CHECK
 	bool "Enable support for VBIF check when IOMMU gets stuck"
 	depends on MSM_IOMMU
@@ -99,7 +97,6 @@ config MSM_IOMMU_VBIF_CHECK
 
 	  If unsure, say N here.
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 config IOMMU_NON_SECURE
 	bool "Turns on programming of secure SMMU by kernel"
 	depends on MSM_IOMMU

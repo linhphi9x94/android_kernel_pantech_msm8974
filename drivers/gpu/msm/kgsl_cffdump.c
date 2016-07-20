@@ -631,26 +631,13 @@ int kgsl_cff_dump_enable_set(void *data, u64 val)
 			}
 		}
 		if (!device->cff_dump_enable) {
-<<<<<<< HEAD
-			mutex_lock(&device->mutex);
-=======
 			kgsl_mutex_lock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			device->cff_dump_enable = 1;
 			ret = kgsl_open_device(device);
 			if (!ret)
 				ret = kgsl_active_count_get(device);
 			if (ret)
 				device->cff_dump_enable = 0;
-<<<<<<< HEAD
-			mutex_unlock(&device->mutex);
-		}
-	} else if (device->cff_dump_enable && !val) {
-		mutex_lock(&device->mutex);
-		ret = kgsl_close_device(device);
-		device->cff_dump_enable = 0;
-		mutex_unlock(&device->mutex);
-=======
 			kgsl_mutex_unlock(&device->mutex, &device->mutex_owner);
 		}
 	} else if (device->cff_dump_enable && !val) {
@@ -658,7 +645,6 @@ int kgsl_cff_dump_enable_set(void *data, u64 val)
 		ret = kgsl_close_device(device);
 		device->cff_dump_enable = 0;
 		kgsl_mutex_unlock(&device->mutex, &device->mutex_owner);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 done:
 	mutex_unlock(&kgsl_driver.devlock);
@@ -673,8 +659,6 @@ int kgsl_cff_dump_enable_get(void *data, u64 *val)
 	return 0;
 }
 EXPORT_SYMBOL(kgsl_cff_dump_enable_get);
-<<<<<<< HEAD
-=======
 
 /*
  * kgsl_cffdump_capture_ib_desc() - Capture CFF for a list of IB's
@@ -718,4 +702,3 @@ done:
 	return ret;
 }
 EXPORT_SYMBOL(kgsl_cffdump_capture_ib_desc);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

@@ -76,12 +76,9 @@ static u8 pantech_ethaddr[14];//ETH_ALEN=6 ->14;
 #include "epautoconf.c"
 #include "composite.c"
 
-<<<<<<< HEAD
-=======
 #ifdef CONFIG_SND_RAWMIDI
 #include "f_midi.c"
 #endif
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include "f_diag.c"
 #include "f_qdss.c"
 #include "f_rmnet_smd.c"
@@ -152,14 +149,11 @@ static const char longname[] = "Gadget Android";
 #define PRODUCT_ID		0x0001
 
 #define ANDROID_DEVICE_NODE_NAME_LENGTH 11
-<<<<<<< HEAD
-=======
 /* f_midi configuration */
 #define MIDI_INPUT_PORTS    1
 #define MIDI_OUTPUT_PORTS   1
 #define MIDI_BUFFER_SIZE    1024
 #define MIDI_QUEUE_LENGTH   32
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 struct android_usb_function {
 	char *name;
@@ -460,11 +454,7 @@ static void android_work(struct work_struct *data)
 	}
 #ifdef CONFIG_ANDROID_PANTECH_USB_MANAGER
 }
-<<<<<<< HEAD
-#endif	
-=======
 #endif
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static int android_enable(struct android_dev *dev)
@@ -1898,10 +1888,7 @@ struct mass_storage_function_config {
 	struct fsg_common *common;
 };
 
-<<<<<<< HEAD
-=======
 #define MAX_LUN_NAME 8
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static int mass_storage_function_init(struct android_usb_function *f,
 					struct usb_composite_dev *cdev)
 {
@@ -1909,14 +1896,9 @@ static int mass_storage_function_init(struct android_usb_function *f,
 	struct mass_storage_function_config *config;
 	struct fsg_common *common;
 	int err;
-<<<<<<< HEAD
-	int i;
-	const char *name[3];
-=======
 	int i, n;
 	char name[FSG_MAX_LUNS][MAX_LUN_NAME];
 	u8 uicc_nluns = dev->pdata ? dev->pdata->uicc_nluns : 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	config = kzalloc(sizeof(struct mass_storage_function_config),
 								GFP_KERNEL);
@@ -1924,35 +1906,20 @@ static int mass_storage_function_init(struct android_usb_function *f,
 		return -ENOMEM;
 
 	config->fsg.nluns = 1;
-<<<<<<< HEAD
-	name[0] = "lun";
-=======
 	snprintf(name[0], MAX_LUN_NAME, "lun");
 	config->fsg.luns[0].removable = 1;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (dev->pdata && dev->pdata->cdrom) {
 		config->fsg.luns[config->fsg.nluns].cdrom = 1;
 		config->fsg.luns[config->fsg.nluns].ro = 1;
 		config->fsg.luns[config->fsg.nluns].removable = 0;
-<<<<<<< HEAD
-		name[config->fsg.nluns] = "lun0";
-=======
 		snprintf(name[config->fsg.nluns], MAX_LUN_NAME, "lun0");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		config->fsg.nluns++;
 	}
 	if (dev->pdata && dev->pdata->internal_ums) {
 		config->fsg.luns[config->fsg.nluns].cdrom = 0;
 		config->fsg.luns[config->fsg.nluns].ro = 0;
 		config->fsg.luns[config->fsg.nluns].removable = 1;
-<<<<<<< HEAD
-		name[config->fsg.nluns] = "lun1";
-		config->fsg.nluns++;
-	}
-
-	config->fsg.luns[0].removable = 1;
-=======
 		snprintf(name[config->fsg.nluns], MAX_LUN_NAME, "lun1");
 		config->fsg.nluns++;
 	}
@@ -1968,7 +1935,6 @@ static int mass_storage_function_init(struct android_usb_function *f,
 		config->fsg.luns[n].removable = 1;
 		config->fsg.nluns++;
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #ifdef CONFIG_ANDROID_PANTECH_USB
 	config->fsg.vendor_name = "Pantech";
@@ -1980,11 +1946,7 @@ static int mass_storage_function_init(struct android_usb_function *f,
 	config->fsg.luns[config->fsg.nluns].cdrom = 1;
 	config->fsg.luns[config->fsg.nluns].ro = 1;
 	//JB patch
-<<<<<<< HEAD
-	name[config->fsg.nluns]="lun0";
-=======
 	snprintf(name[config->fsg.nluns], MAX_LUN_NAME, "lun0");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	config->fsg.nluns++;	
 #endif
 
@@ -2156,12 +2118,8 @@ static ssize_t audio_source_pcm_show(struct device *dev,
 	struct audio_source_config *config = f->config;
 
 	/* print PCM card and device numbers */
-<<<<<<< HEAD
-	return sprintf(buf, "%d %d\n", config->card, config->device);
-=======
 	return snprintf(buf, PAGE_SIZE,
 			"%d %d\n", config->card, config->device);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 }
 
 static DEVICE_ATTR(pcm, S_IRUGO | S_IWUSR, audio_source_pcm_show, NULL);
@@ -2227,8 +2185,6 @@ static struct android_usb_function uasp_function = {
 	.bind_config	= uasp_function_bind_config,
 };
 
-<<<<<<< HEAD
-=======
 #ifdef CONFIG_SND_RAWMIDI
 static int midi_function_init(struct android_usb_function *f,
 					struct usb_composite_dev *cdev)
@@ -2284,7 +2240,6 @@ static struct android_usb_function midi_function = {
 	.attributes	= midi_function_attributes,
 };
 #endif
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static struct android_usb_function *supported_functions[] = {
 	&mbim_function,
 	&ecm_qc_function,
@@ -2314,12 +2269,9 @@ static struct android_usb_function *supported_functions[] = {
 	&audio_source_function,
 #endif
 	&uasp_function,
-<<<<<<< HEAD
-=======
 #ifdef CONFIG_SND_RAWMIDI
 	&midi_function,
 #endif
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_ANDROID_PANTECH_USB_MANAGER
 #ifdef CONFIG_PANTECH_VERIZON
 	&usbnet_function,
@@ -3119,11 +3071,8 @@ android_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *c)
 	struct android_configuration	*conf;
 	int value = -EOPNOTSUPP;
 	unsigned long flags;
-<<<<<<< HEAD
-=======
 	bool do_work = false;
 	bool prev_configured = false;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	req->zero = 0;
 	req->complete = composite_setup_complete;
@@ -3146,15 +3095,12 @@ android_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *c)
 			}
 		}
 
-<<<<<<< HEAD
-=======
 	/*
 	 * skip the  work when 2nd set config arrives
 	 * with same value from the host.
 	 */
 	if (cdev->config)
 		prev_configured = true;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	/* Special case the accessory function.
 	 * It needs to handle control requests before it is enabled.
 	 */
@@ -3171,15 +3117,6 @@ android_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *c)
 	spin_lock_irqsave(&cdev->lock, flags);
 	if (!dev->connected) {
 		dev->connected = 1;
-<<<<<<< HEAD
-		schedule_work(&dev->work);
-	} else if (c->bRequest == USB_REQ_SET_CONFIGURATION &&
-						cdev->config) {
-		schedule_work(&dev->work);
-	}
-	spin_unlock_irqrestore(&cdev->lock, flags);
-
-=======
 		do_work = true;
 	} else if (c->bRequest == USB_REQ_SET_CONFIGURATION &&
 						cdev->config) {
@@ -3189,7 +3126,6 @@ android_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *c)
 	spin_unlock_irqrestore(&cdev->lock, flags);
 	if (do_work)
 		schedule_work(&dev->work);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	return value;
 }
 
@@ -3226,13 +3162,8 @@ static void android_suspend(struct usb_gadget *gadget)
 
 	spin_lock_irqsave(&cdev->lock, flags);
 	if (!dev->suspended) {
-<<<<<<< HEAD
-	dev->suspended = 1;
-	schedule_work(&dev->work);
-=======
 		dev->suspended = 1;
 		schedule_work(&dev->work);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	spin_unlock_irqrestore(&cdev->lock, flags);
 
@@ -3247,13 +3178,8 @@ static void android_resume(struct usb_gadget *gadget)
 
 	spin_lock_irqsave(&cdev->lock, flags);
 	if (dev->suspended) {
-<<<<<<< HEAD
-	dev->suspended = 0;
-	schedule_work(&dev->work);
-=======
 		dev->suspended = 0;
 		schedule_work(&dev->work);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 	spin_unlock_irqrestore(&cdev->lock, flags);
 
@@ -3433,13 +3359,10 @@ static int __devinit android_probe(struct platform_device *pdev)
 		}
 
 		pdata->streaming_func_count = len;
-<<<<<<< HEAD
-=======
 
 		ret = of_property_read_u32(pdev->dev.of_node,
 				"qcom,android-usb-uicc-nluns",
 				&pdata->uicc_nluns);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	} else {
 		pdata = pdev->dev.platform_data;
 	}

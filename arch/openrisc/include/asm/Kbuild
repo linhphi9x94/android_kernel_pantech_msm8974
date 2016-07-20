@@ -65,7 +65,3 @@ generic-y += topology.h
 generic-y += types.h
 generic-y += ucontext.h
 generic-y += user.h
-<<<<<<< HEAD
-generic-y += word-at-a-time.h
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

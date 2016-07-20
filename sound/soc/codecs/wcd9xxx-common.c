@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -556,9 +552,6 @@ static int get_impedance_index(u32 imped)
 				__func__);
 		goto ret;
 	}
-<<<<<<< HEAD
-	for (i = 0; i < ARRAY_SIZE(imped_index); i++) {
-=======
 	if (imped >= imped_index[ARRAY_SIZE(imped_index) - 1].imped_val) {
 		pr_debug("%s, detected impedance is greater than 32164 Ohm\n",
 				__func__);
@@ -566,7 +559,6 @@ static int get_impedance_index(u32 imped)
 		goto ret;
 	}
 	for (i = 0; i < ARRAY_SIZE(imped_index) - 1; i++) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (imped >= imped_index[i].imped_val &&
 			imped < imped_index[i + 1].imped_val)
 			break;
@@ -583,11 +575,7 @@ void wcd9xxx_clsh_imped_config(struct snd_soc_codec *codec,
 	int i  = 0;
 	int index = 0;
 	index = get_impedance_index(imped);
-<<<<<<< HEAD
-	if (index > ARRAY_SIZE(imped_index)) {
-=======
 	if (index >= ARRAY_SIZE(imped_index)) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		pr_err("%s, invalid imped = %d\n", __func__, imped);
 		return;
 	}
@@ -669,8 +657,6 @@ void wcd9xxx_restore_registers(struct snd_soc_codec *codec,
 }
 EXPORT_SYMBOL(wcd9xxx_restore_registers);
 
-<<<<<<< HEAD
-=======
 static void wcd9xxx_dynamic_bypass_buck_ctrl_lo(struct snd_soc_codec *cdc,
 						bool enable)
 {
@@ -718,7 +704,6 @@ static void wcd9xxx_dynamic_bypass_buck_ctrl(struct snd_soc_codec *cdc,
 	usleep_range(BUCK_SETTLE_TIME_US, BUCK_SETTLE_TIME_US+10);
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static void wcd9xxx_set_buck_mode(struct snd_soc_codec *codec, u8 buck_vref)
 {
 	int i;
@@ -875,8 +860,6 @@ static void wcd9xxx_cfg_clsh_param_hph(struct snd_soc_codec *codec)
 			 __func__);
 }
 
-<<<<<<< HEAD
-=======
 static void wcd9xxx_ncp_bypass_enable(struct snd_soc_codec *cdc, bool enable)
 {
 	snd_soc_update_bits(cdc, WCD9XXX_A_NCP_STATIC, 0x10, (enable << 4));
@@ -1109,7 +1092,6 @@ static void wcd9xxx_clsh_state_hph_ear_lo(struct snd_soc_codec *codec,
 					is_enable);
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static void wcd9xxx_clsh_state_ear(struct snd_soc_codec *codec,
 			struct wcd9xxx_clsh_cdc_data *clsh_d,
 			u8 req_state, bool is_enable)
@@ -1198,12 +1180,6 @@ static void wcd9xxx_clsh_state_hph_st(struct snd_soc_codec *codec,
 	pr_debug("%s: enter %s\n", __func__, is_enable ? "enable" : "disable");
 
 	if (is_enable) {
-<<<<<<< HEAD
-		wcd9xxx_clsh_comp_req(codec, clsh_d, CLSH_COMPUTE_HPH_L, true);
-		wcd9xxx_clsh_comp_req(codec, clsh_d, CLSH_COMPUTE_HPH_R, true);
-	} else {
-		dev_dbg(codec->dev, "%s: stub fallback to hph_st\n", __func__);
-=======
 		if (req_state == WCD9XXX_CLSH_STATE_HPHL)
 			wcd9xxx_clsh_comp_req(codec, clsh_d,
 						CLSH_COMPUTE_HPH_L, true);
@@ -1218,7 +1194,6 @@ static void wcd9xxx_clsh_state_hph_st(struct snd_soc_codec *codec,
 		if (req_state == WCD9XXX_CLSH_STATE_HPHR)
 			wcd9xxx_clsh_comp_req(codec, clsh_d,
 						CLSH_COMPUTE_HPH_R, false);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 }
 
@@ -1272,8 +1247,6 @@ static void wcd9xxx_clsh_state_err(struct snd_soc_codec *codec,
 	WARN_ON(1);
 }
 
-<<<<<<< HEAD
-=======
 /*
  * Function: wcd9xxx_clsh_is_state_valid
  * Params: state
@@ -1315,7 +1288,6 @@ static int wcd9xxx_clsh_is_state_valid(u8 state)
  * based on validity of their states. cdc_clsh_d will contain current
  * class h state information
  */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 void wcd9xxx_clsh_fsm(struct snd_soc_codec *codec,
 		struct wcd9xxx_clsh_cdc_data *cdc_clsh_d,
 		u8 req_state, bool req_type, u8 clsh_event)
@@ -1331,12 +1303,6 @@ void wcd9xxx_clsh_fsm(struct snd_soc_codec *codec,
 		old_state = cdc_clsh_d->state;
 		new_state = old_state | req_state;
 
-<<<<<<< HEAD
-		(*clsh_state_fp[req_state]) (codec, cdc_clsh_d, req_state,
-					     req_type);
-		cdc_clsh_d->state = new_state;
-		dev_dbg(codec->dev, "%s: ClassH state transition from %s to %s\n",
-=======
 		if (!wcd9xxx_clsh_is_state_valid(new_state)) {
 			dev_dbg(codec->dev,
 				"%s: classH not a valid new state: %s\n",
@@ -1356,7 +1322,6 @@ void wcd9xxx_clsh_fsm(struct snd_soc_codec *codec,
 		cdc_clsh_d->state = new_state;
 		dev_dbg(codec->dev,
 			"%s: ClassH state transition from %s to %s\n",
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			__func__, state_to_str(old_state, msg0, sizeof(msg0)),
 			state_to_str(cdc_clsh_d->state, msg1, sizeof(msg1)));
 
@@ -1367,9 +1332,6 @@ void wcd9xxx_clsh_fsm(struct snd_soc_codec *codec,
 			new_state = old_state & (~req_state);
 
 			if (new_state < NUM_CLSH_STATES) {
-<<<<<<< HEAD
-				(*clsh_state_fp[req_state]) (codec, cdc_clsh_d,
-=======
 				if (!wcd9xxx_clsh_is_state_valid(old_state)) {
 					dev_dbg(codec->dev,
 						"%s:Invalid old state:%s\n",
@@ -1387,7 +1349,6 @@ void wcd9xxx_clsh_fsm(struct snd_soc_codec *codec,
 					return;
 				}
 				(*clsh_state_fp[old_state]) (codec, cdc_clsh_d,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 							     req_state,
 							     req_type);
 				cdc_clsh_d->state = new_state;
@@ -1398,11 +1359,7 @@ void wcd9xxx_clsh_fsm(struct snd_soc_codec *codec,
 						     sizeof(msg1)));
 
 			} else {
-<<<<<<< HEAD
-				dev_dbg(codec->dev, "%s: wrong new state = %x\n",
-=======
 				dev_dbg(codec->dev, "%s:wrong new state=0x%x\n",
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 						__func__, new_state);
 			}
 		} else if (!(cdc_clsh_d->state & WCD9XXX_CLSH_STATE_LO)) {
@@ -1433,8 +1390,6 @@ void wcd9xxx_clsh_init(struct wcd9xxx_clsh_cdc_data *clsh,
 	clsh_state_fp[WCD9XXX_CLSH_STATE_HPH_ST] =
 						wcd9xxx_clsh_state_hph_st;
 	clsh_state_fp[WCD9XXX_CLSH_STATE_LO] = wcd9xxx_clsh_state_lo;
-<<<<<<< HEAD
-=======
 	clsh_state_fp[WCD9XXX_CLSH_STATE_HPHL_EAR] =
 						wcd9xxx_clsh_state_hph_ear;
 	clsh_state_fp[WCD9XXX_CLSH_STATE_HPHR_EAR] =
@@ -1452,7 +1407,6 @@ void wcd9xxx_clsh_init(struct wcd9xxx_clsh_cdc_data *clsh,
 						wcd9xxx_clsh_state_hph_ear_lo;
 	clsh_state_fp[WCD9XXX_CLSH_STATE_HPH_ST_EAR_LO] =
 						wcd9xxx_clsh_state_hph_ear_lo;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 }
 EXPORT_SYMBOL_GPL(wcd9xxx_clsh_init);

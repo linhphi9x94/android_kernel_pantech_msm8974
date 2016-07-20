@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -14,12 +10,6 @@
  * GNU General Public License for more details.
  */
 
-<<<<<<< HEAD
-/*
- * DLKM to register a callback with a ftrace event
- */
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/slab.h>
@@ -30,54 +20,6 @@
 
 #include <trace/events/exception.h>
 
-<<<<<<< HEAD
-static void abort_coresight_tracing(void *ignore, struct task_struct *task,\
-					unsigned long addr, unsigned int fsr)
-{
-	coresight_abort();
-	pr_debug("control_trace: task_name: %s, addr: %lu, fsr:%u",\
-		(char *)task->comm, addr, fsr);
-}
-
-static void abort_tracing_undef_instr(void *ignore, struct pt_regs *regs,\
-					void *pc)
-{
-	if (user_mode(regs)) {
-		coresight_abort();
-		pr_debug("control_trace: pc: %p", pc);
-	}
-}
-
-static int __init control_trace_init(void)
-{
-	int ret_user_fault, ret_undef_instr;
-	ret_user_fault = register_trace_user_fault(abort_coresight_tracing,\
-							NULL);
-	ret_undef_instr = register_trace_undef_instr(abort_tracing_undef_instr,\
-							NULL);
-	if (ret_user_fault != 0 || ret_undef_instr != 0) {
-		pr_info("control_trace: Module Not Registered\n");
-		return (ret_user_fault < 0 ?\
-			ret_user_fault : ret_undef_instr);
-	}
-	pr_info("control_trace: Module Registered\n");
-	return 0;
-}
-
-module_init(control_trace_init);
-
-static void __exit control_trace_exit(void)
-{
-	unregister_trace_user_fault(abort_coresight_tracing, NULL);
-	unregister_trace_undef_instr(abort_tracing_undef_instr, NULL);
-	pr_info("control_trace: Module Removed\n");
-}
-
-module_exit(control_trace_exit);
-
-MODULE_LICENSE("GPL v2");
-MODULE_DESCRIPTION("Kernel Module to abort tracing");
-=======
 static int event_abort_enable;
 static int event_abort_set(const char *val, struct kernel_param *kp);
 module_param_call(event_abort_enable, event_abort_set, param_get_int,
@@ -176,4 +118,3 @@ module_exit(event_exit);
 
 MODULE_LICENSE("GPL v2");
 MODULE_DESCRIPTION("Coresight Event driver to abort tracing");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

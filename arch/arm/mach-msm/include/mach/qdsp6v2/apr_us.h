@@ -45,8 +45,6 @@ struct usm_stream_cmd_open_write {
 
 #define USM_STREAM_CMD_CLOSE				0x0001230A
 
-<<<<<<< HEAD
-=======
 #define USM_STREAM_CMD_SET_PARAM			0x00012731
 struct usm_stream_cmd_set_param {
 	struct apr_hdr hdr;
@@ -69,7 +67,6 @@ struct usm_stream_cmd_get_param {
 	u32            param_id;
 } __packed;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 /* Encoder configuration definitions */
 #define USM_STREAM_CMD_SET_ENC_PARAM			0x0001230B
 /* Decoder configuration definitions */

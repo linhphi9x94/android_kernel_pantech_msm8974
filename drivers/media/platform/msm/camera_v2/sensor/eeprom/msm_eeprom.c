@@ -85,13 +85,8 @@ int32_t msm_eeprom_config(struct msm_eeprom_ctrl_t *e_ctrl,
 		break;
 	case CFG_EEPROM_READ_CAL_DATA:
 		if (cdata->cfg.read_data.num_bytes <= e_ctrl->num_bytes) {
-<<<<<<< HEAD
-		CDBG("%s E CFG_EEPROM_READ_CAL_DATA\n", __func__);
-		rc = copy_to_user(cdata->cfg.read_data.dbuffer,
-=======
 			CDBG("%s E CFG_EEPROM_READ_CAL_DATA\n", __func__);
 			rc = copy_to_user(cdata->cfg.read_data.dbuffer,
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			e_ctrl->memory_data,
 			cdata->cfg.read_data.num_bytes);
 		}
@@ -737,10 +732,7 @@ static int msm_eeprom_alloc_memory_map(struct msm_eeprom_ctrl_t *e_ctrl,
 			pr_err("%s: failed %d\n", __func__, __LINE__);
 			goto out;
 		}
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifndef CONFIG_PANTECH_CAMERA
 		snprintf(property, 14, "qcom,pageen%d", i);
 		rc = of_property_read_u32_array(of, property,
@@ -748,10 +740,7 @@ static int msm_eeprom_alloc_memory_map(struct msm_eeprom_ctrl_t *e_ctrl,
 		if (rc < 0)
 			pr_err("%s: pageen not needed\n", __func__);
 #endif
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		snprintf(property, 12, "qcom,poll%d", i);
 		rc = of_property_read_u32_array(of, property,
 			(uint32_t *) &eb->eeprom_map[i].poll, count);
@@ -1308,12 +1297,7 @@ static int32_t msm_eeprom_platform_probe(struct platform_device *pdev)
 		pr_err("failed rc %d\n", rc);
 		goto memdata_free;
 	}
-<<<<<<< HEAD
-
- 	rc = read_eeprom_memory(e_ctrl);
-=======
 	rc = read_eeprom_memory(e_ctrl);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (rc < 0) {
 		pr_err("%s read_eeprom_memory failed\n", __func__);
 		goto power_down;
@@ -1324,13 +1308,8 @@ static int32_t msm_eeprom_platform_probe(struct platform_device *pdev)
 		pr_err("%s read_eeprom_memory checksum failed\n", __func__);
 		goto power_down;
 	}
-<<<<<<< HEAD
-#endif	
- 		pr_err("%s line %d\n", __func__, __LINE__);
-=======
 #endif
 		pr_err("%s line %d\n", __func__, __LINE__);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	for (j = 0; j < e_ctrl->num_bytes; j++)
 		CDBG("memory_data[%d] = 0x%X\n", j, e_ctrl->memory_data[j]);
 

@@ -1641,10 +1641,7 @@ static int crypt_ctr(struct dm_target *ti, unsigned int argc, char **argv)
 
 	ret = -ENOMEM;
 	cc->io_queue = alloc_workqueue("kcryptd_io",
-<<<<<<< HEAD
-=======
 				       WQ_HIGHPRI |
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				       WQ_NON_REENTRANT|
 				       WQ_MEM_RECLAIM,
 				       1);
@@ -1654,16 +1651,9 @@ static int crypt_ctr(struct dm_target *ti, unsigned int argc, char **argv)
 	}
 
 	cc->crypt_queue = alloc_workqueue("kcryptd",
-<<<<<<< HEAD
-					  WQ_NON_REENTRANT|
-					  WQ_CPU_INTENSIVE|
-					  WQ_MEM_RECLAIM,
-					  1);
-=======
 					  WQ_HIGHPRI |
 					  WQ_MEM_RECLAIM |
 					  WQ_UNBOUND, num_online_cpus());
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!cc->crypt_queue) {
 		ti->error = "Couldn't create kcryptd queue";
 		goto bad;

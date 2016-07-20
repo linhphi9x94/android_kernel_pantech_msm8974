@@ -720,19 +720,13 @@ static int __devinit gpio_keys_probe(struct platform_device *pdev)
 	struct input_dev *input;
 	int i, error;
 	int wakeup = 0;
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 // ++ P16088 140220 LS4@Touch/HS - To set home key enable/disable by user space when smart cover open/close.
 #ifdef USER_SET_GPIO_KEYS_ON_OFF
 	home_button = 0;
 #endif
 // -- P16088
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (!pdata) {
 		error = gpio_keys_get_devtree_pdata(dev, &alt_pdata);
 		if (error)

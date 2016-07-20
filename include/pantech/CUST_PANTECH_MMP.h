@@ -92,11 +92,7 @@
   frameworks/base/media/libstagefright/Android.mk. (remove 
   BUILD_WITH_WMA_SW_DECODER:=true)
   ************************************************************************/
-<<<<<<< HEAD
- //#define FEATURE_PANTECH_MMP_HOPPIN
-=======
  #define FEATURE_PANTECH_MMP_HOPPIN
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
  /************************************************************************
  Who Added it And Why??
@@ -378,8 +374,6 @@
 #define FEATURE_PANTECH_MMP_xxx
 
 /************************************************************************
-<<<<<<< HEAD
-=======
   - 2012/10/17 KYJ  P10588
   - FEATURE_PANTECH_MMP_SKT_HLS
   - It can be supported HLS streaming with url that not includs m3u8 for SKT HLS service.
@@ -387,7 +381,6 @@
 #define FEATURE_PANTECH_MMP_SKT_HLS
 
 /************************************************************************
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 -  Caution !!
 -  File Owner : LS3 Codec Part. 
 -  This file is for Handling LS3 Codec Part Features . 

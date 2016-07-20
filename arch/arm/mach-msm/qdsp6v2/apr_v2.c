@@ -53,16 +53,12 @@ struct apr_svc *apr_register(char *dest, char *svc_name, apr_fn svc_fn,
 		pr_debug("%s: adsp Up\n", __func__);
 	} else if ((dest_id == APR_DEST_MODEM) &&
 		   (apr_get_modem_state() == APR_SUBSYS_DOWN)) {
-<<<<<<< HEAD
-		pr_debug("%s: Wait for modem to bootup\n", __func__);
-=======
                 if (is_modem_up) {
                     pr_err("%s: modem shutdown \
                             due to SSR, return", __func__);
                     return NULL;
                 }
                 pr_debug("%s: Wait for modem to bootup\n", __func__);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		rc = apr_wait_for_device_up(dest_id);
 		if (rc == 0) {
 			pr_err("%s: Modem is not Up\n", __func__);

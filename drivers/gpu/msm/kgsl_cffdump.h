@@ -51,12 +51,9 @@ void kgsl_cffdump_memory_base(struct kgsl_device *device, unsigned int base,
 void kgsl_cffdump_hang(struct kgsl_device *device);
 int kgsl_cff_dump_enable_set(void *data, u64 val);
 int kgsl_cff_dump_enable_get(void *data, u64 *val);
-<<<<<<< HEAD
-=======
 int kgsl_cffdump_capture_ib_desc(struct kgsl_device *device,
 				struct kgsl_context *context,
 				struct kgsl_cmdbatch *cmdbatch);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #else
 
@@ -130,8 +127,6 @@ static inline void kgsl_cffdump_user_event(struct kgsl_device *device,
 {
 	return;
 }
-<<<<<<< HEAD
-=======
 
 static inline int kgsl_cffdump_capture_ib_desc(struct kgsl_device *device,
 				struct kgsl_context *context,
@@ -140,7 +135,6 @@ static inline int kgsl_cffdump_capture_ib_desc(struct kgsl_device *device,
 	return 0;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static inline int kgsl_cff_dump_enable_set(void *data, u64 val)
 {
 	return -EINVAL;

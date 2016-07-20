@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -52,19 +48,12 @@ struct decode_context {
  *
  * @max_num_pages: Number of pages of logging space required (max. 10)
  * @mod_name     : Name of the directory entry under DEBUGFS
-<<<<<<< HEAD
- *
- * returns context id on success, NULL on failure
- */
-void *ipc_log_context_create(int max_num_pages, const char *modname);
-=======
  * @user_version : Version number of user-defined message formats
  *
  * returns context id on success, NULL on failure
  */
 void *ipc_log_context_create(int max_num_pages, const char *modname,
 		uint16_t user_version);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 /*
  * msg_encode_start: Start encoding a log message
@@ -221,11 +210,7 @@ int ipc_log_context_destroy(void *ctxt);
 #else
 
 static inline void *ipc_log_context_create(int max_num_pages,
-<<<<<<< HEAD
-	const char *modname)
-=======
 	const char *modname, uint16_t user_version)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 { return NULL; }
 
 static inline void msg_encode_start(struct encode_context *ectxt,

@@ -463,16 +463,6 @@ void *a3xx_snapshot(struct adreno_device *adreno_dev, void *snapshot,
 	size = (adreno_is_a330(adreno_dev) ||
 		adreno_is_a305b(adreno_dev)) ? 0x2E : 0x14;
 
-<<<<<<< HEAD
-	snapshot = kgsl_snapshot_indexed_registers(device, snapshot,
-			remain, REG_CP_STATE_DEBUG_INDEX,
-			REG_CP_STATE_DEBUG_DATA, 0x0, size);
-
-	/* CP_ME indexed registers */
-	snapshot = kgsl_snapshot_indexed_registers(device, snapshot,
-			remain, REG_CP_ME_CNTL, REG_CP_ME_STATUS,
-			64, 44);
-=======
 	/* Skip indexed register dump for these chipsets 8974, 8x26, 8x10 */
 	if (adreno_is_a330(adreno_dev) ||
 		adreno_is_a330v2(adreno_dev) ||
@@ -490,7 +480,6 @@ void *a3xx_snapshot(struct adreno_device *adreno_dev, void *snapshot,
 				remain, REG_CP_ME_CNTL, REG_CP_ME_STATUS,
 				64, 44);
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	/* VPC memory */
 	snapshot = kgsl_snapshot_add_section(device,
@@ -502,12 +491,6 @@ void *a3xx_snapshot(struct adreno_device *adreno_dev, void *snapshot,
 			KGSL_SNAPSHOT_SECTION_DEBUG, snapshot, remain,
 			a3xx_snapshot_cp_meq, NULL);
 
-<<<<<<< HEAD
-	/* Shader working/shadow memory */
-	snapshot = kgsl_snapshot_add_section(device,
-			KGSL_SNAPSHOT_SECTION_DEBUG, snapshot, remain,
-			a3xx_snapshot_shader_memory, NULL);
-=======
 	/* Skip shader memory dump for these chipsets: 8974, 8x26, 8x10 */
 	if (adreno_is_a330(adreno_dev) ||
 		adreno_is_a330v2(adreno_dev) ||
@@ -521,7 +504,6 @@ void *a3xx_snapshot(struct adreno_device *adreno_dev, void *snapshot,
 			KGSL_SNAPSHOT_SECTION_DEBUG, snapshot, remain,
 			a3xx_snapshot_shader_memory, NULL);
 	}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 
 	/* CP PFP and PM4 */

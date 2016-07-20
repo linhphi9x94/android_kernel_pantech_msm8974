@@ -42,7 +42,4 @@ obj-$(CONFIG_USB_IMX21_HCD)	+= imx21-hcd.o
 obj-$(CONFIG_USB_FSL_MPH_DR_OF)	+= fsl-mph-dr-of.o
 obj-$(CONFIG_USB_OCTEON2_COMMON) += octeon2-common.o
 obj-$(CONFIG_MIPS_ALCHEMY)	+= alchemy-common.o
-<<<<<<< HEAD
-=======
 obj-$(CONFIG_USB_ICE40_HCD)	+= ice40-hcd.o
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0

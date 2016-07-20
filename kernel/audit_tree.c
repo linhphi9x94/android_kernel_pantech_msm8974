@@ -595,11 +595,7 @@ void audit_trim_trees(void)
 
 		root_mnt = collect_mounts(&path);
 		path_put(&path);
-<<<<<<< HEAD
-		if (IS_ERR(root_mnt))
-=======
 		if (!root_mnt)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			goto skip_it;
 
 		spin_lock(&hash_lock);
@@ -673,13 +669,8 @@ int audit_add_tree_rule(struct audit_krule *rule)
 		goto Err;
 	mnt = collect_mounts(&path);
 	path_put(&path);
-<<<<<<< HEAD
-	if (IS_ERR(mnt)) {
-		err = PTR_ERR(mnt);
-=======
 	if (!mnt) {
 		err = -ENOMEM;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		goto Err;
 	}
 
@@ -728,13 +719,8 @@ int audit_tag_tree(char *old, char *new)
 		return err;
 	tagged = collect_mounts(&path2);
 	path_put(&path2);
-<<<<<<< HEAD
-	if (IS_ERR(tagged))
-		return PTR_ERR(tagged);
-=======
 	if (!tagged)
 		return -ENOMEM;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	err = kern_path(old, 0, &path1);
 	if (err) {

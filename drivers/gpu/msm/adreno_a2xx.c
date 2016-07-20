@@ -1803,11 +1803,7 @@ static void a2xx_cp_intrcallback(struct kgsl_device *device)
 	kgsl_regwrite(device, REG_CP_INT_ACK, status);
 
 	if (status & (CP_INT_CNTL__IB1_INT_MASK | CP_INT_CNTL__RB_INT_MASK)) {
-<<<<<<< HEAD
-		queue_work(device->work_queue, &device->ts_expired_ws);
-=======
 		queue_work(device->work_queue, &device->event_work);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		adreno_dispatcher_schedule(device);
 	}
 }

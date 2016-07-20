@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2012, The Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -67,8 +63,6 @@ TRACE_EVENT(undef_instr,
 	TP_printk("pc:%p", __entry->prog_cnt)
 );
 
-<<<<<<< HEAD
-=======
 TRACE_EVENT(unhandled_abort,
 
 	TP_PROTO(struct pt_regs *regs, unsigned long addr, unsigned int fsr),
@@ -90,7 +84,6 @@ TRACE_EVENT(unhandled_abort,
 	TP_printk("addr:%lu, fsr:%u", __entry->addr, __entry->fsr)
 );
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #endif
 
 #include <trace/define_trace.h>

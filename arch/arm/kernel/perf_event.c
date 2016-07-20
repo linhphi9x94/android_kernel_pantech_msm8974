@@ -893,11 +893,8 @@ static int __cpuinit pmu_cpu_notify(struct notifier_block *b,
 						 hcpu, 1);
 		break;
 	case CPU_STARTING:
-<<<<<<< HEAD
-=======
 		if (cpu_pmu && cpu_pmu->reset)
 			cpu_pmu->reset(NULL);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (cpu_pmu && cpu_pmu->restore_pm_registers)
 			smp_call_function_single(cpu,
 						 cpu_pmu->restore_pm_registers,
@@ -932,14 +929,8 @@ static int __cpuinit pmu_cpu_notify(struct notifier_block *b,
 				enable_irq_callback(&irq);
 			}
 
-<<<<<<< HEAD
-			if (cpu_pmu && cpu_pmu->reset) {
-				__get_cpu_var(from_idle) = 1;
-				cpu_pmu->reset(NULL);
-=======
 			if (cpu_pmu) {
 				__get_cpu_var(from_idle) = 1;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 				pmu = &cpu_pmu->pmu;
 				pmu->pmu_enable(pmu);
 				return NOTIFY_OK;

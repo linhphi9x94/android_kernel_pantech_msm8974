@@ -63,10 +63,7 @@
 #include <linux/tty.h>
 
 #include "audit.h"
-<<<<<<< HEAD
-=======
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_PANTECH_SELINUX_DENIAL_LOG //P11536-SHPARK-SELinux 
 #include <linux/avclog.h>
 #endif

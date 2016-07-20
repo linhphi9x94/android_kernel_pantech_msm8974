@@ -3,11 +3,7 @@
  *
  *  Copyright (C) 2009 Samsung Electronics
  *  Kyungmin Park <kyungmin.park@samsung.com>
-<<<<<<< HEAD
- *  Copyright (c) 2010-2013, The Linux Foundation. All rights reserved.
-=======
  *  Copyright (c) 2010-2014, The Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
@@ -322,11 +318,7 @@ static int isa1200_setup(struct i2c_client *client)
 
 	value |= (haptic->pdata->mode_ctrl << 3) |
 		(haptic->pdata->overdrive_high << 5) |
-<<<<<<< HEAD
-		(haptic->pdata->overdrive_en << 5) |
-=======
 		(haptic->pdata->overdrive_en << 6) |
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		(haptic->pdata->chip_en << 7);
 
 	rc = isa1200_write_reg(client, ISA1200_HCTRL0, value);

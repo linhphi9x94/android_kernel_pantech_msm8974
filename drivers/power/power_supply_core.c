@@ -26,8 +26,6 @@ EXPORT_SYMBOL_GPL(power_supply_class);
 static struct device_type power_supply_dev_type;
 
 /**
-<<<<<<< HEAD
-=======
  * power_supply_set_voltage_limit - set current limit
  * @psy:	the power supply to control
  * @limit:	current limit in uV from the power supply.
@@ -50,7 +48,6 @@ EXPORT_SYMBOL(power_supply_set_voltage_limit);
 
 
 /**
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  * power_supply_set_current_limit - set current limit
  * @psy:	the power supply to control
  * @limit:	current limit in uA from the power supply.

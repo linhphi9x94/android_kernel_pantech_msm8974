@@ -41,10 +41,7 @@
 		compatible = "qcom,android-usb";
 		reg = <0xfc42b0c8 0xc8>;
 		qcom,android-usb-swfi-latency = <1>;
-<<<<<<< HEAD
-=======
 		qcom,android-usb-uicc-nluns = /bits/ 8 <1>;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	};
 
 	qcom,msm-imem@fc42b000 {

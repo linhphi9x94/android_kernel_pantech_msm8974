@@ -79,15 +79,9 @@ static void *emergency_dload_mode_addr;
 static int dload_set(const char *val, struct kernel_param *kp);
 static int download_mode = 1;
 module_param_call(download_mode, dload_set, param_get_int,
-<<<<<<< HEAD
-		&download_mode, 0644);
-static int panic_prep_restart(struct notifier_block *this,
-		unsigned long event, void *ptr)
-=======
 			&download_mode, 0644);
 static int panic_prep_restart(struct notifier_block *this,
 			      unsigned long event, void *ptr)
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 {
 	in_panic = 1;
 	return NOTIFY_DONE;
@@ -102,11 +96,7 @@ static void set_dload_mode(int on)
 	if (dload_mode_addr) {
 		__raw_writel(on ? 0xE47B337D : 0, dload_mode_addr);
 		__raw_writel(on ? 0xCE14091A : 0,
-<<<<<<< HEAD
-				dload_mode_addr + sizeof(unsigned int));
-=======
 		       dload_mode_addr + sizeof(unsigned int));
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		mb();
 		dload_mode_enabled = on;
 	}
@@ -225,11 +215,7 @@ static void cpu_power_off(void *data)
 	int rc;
 
 	pr_err("PMIC Initiated shutdown %s cpu=%d\n", __func__,
-<<<<<<< HEAD
-			smp_processor_id());
-=======
 						smp_processor_id());
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (smp_processor_id() == 0) {
 		/*
 		 * PMIC initiated power off, do not lower ps_hold, pmic will
@@ -241,11 +227,7 @@ static void cpu_power_off(void *data)
 		pr_err("Calling scm to disable arbiter\n");
 		/* call secure manager to disable arbiter and never return */
 		rc = scm_call_atomic1(SCM_SVC_PWR,
-<<<<<<< HEAD
-				SCM_IO_DISABLE_PMIC_ARBITER, 1);
-=======
 						SCM_IO_DISABLE_PMIC_ARBITER, 1);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		pr_err("SCM returned even when asked to busy loop rc=%d\n", rc);
 		pr_err("waiting on pmic to shut msm down\n");
@@ -296,10 +278,6 @@ static void msm_restart_prepare(const char *cmd)
 	else
 		qpnp_pon_system_pwr_off(PON_POWER_OFF_HARD_RESET);
 
-<<<<<<< HEAD
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (cmd != NULL) {
 		if (!strncmp(cmd, "bootloader", 10)) {
 			__raw_writel(0x77665500, restart_reason);
@@ -347,15 +325,9 @@ void msm_restart(char mode, const char *cmd)
 	if (!use_restart_v2()) {
 		__raw_writel(0, msm_tmr0_base + WDT0_EN);
 		if (!(machine_is_msm8x60_fusion() ||
-<<<<<<< HEAD
-					machine_is_msm8x60_fusn_ffa())) {
-			mb();
-			/* Actually reset the chip */
-=======
 		      machine_is_msm8x60_fusn_ffa())) {
 			mb();
 			 /* Actually reset the chip */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			__raw_writel(0, PSHOLD_CTL_SU);
 			mdelay(5000);
 			pr_notice("PS_HOLD didn't work, falling back to watchdog\n");
@@ -385,13 +357,8 @@ static int __init msm_pmic_restart_init(void)
 
 	if (pmic_reset_irq != 0) {
 		rc = request_any_context_irq(pmic_reset_irq,
-<<<<<<< HEAD
-				resout_irq_handler, IRQF_TRIGGER_HIGH,
-				"restart_from_pmic", NULL);
-=======
 					resout_irq_handler, IRQF_TRIGGER_HIGH,
 					"restart_from_pmic", NULL);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (rc < 0)
 			pr_err("pmic restart irq fail rc = %d\n", rc);
 	} else {

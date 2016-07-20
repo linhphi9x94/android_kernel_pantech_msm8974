@@ -22,13 +22,9 @@
 
 //---------------------------------------------------
 // PS1 Team add
-<<<<<<< HEAD
-//#define FEATURE_SKY_CP_ADB_LOG_FOR_VITAMIN
-=======
 /*
 #define FEATURE_SKY_CP_ADB_LOG_FOR_VITAMIN
 */
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 //--------------------------------------------------
 
 /*
@@ -65,12 +61,8 @@ struct logger_entry {
 #define LOGGER_LOG_RADIO	"log_radio"	/* radio-related messages */
 #define LOGGER_LOG_EVENTS	"log_events"	/* system/hardware events */
 #define LOGGER_LOG_SYSTEM	"log_system"	/* system/framework messages */
-<<<<<<< HEAD
-#define LOGGER_LOG_MAIN	"log_main"	/* everything else */
-=======
 #define LOGGER_LOG_MAIN		"log_main"	/* everything else */
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 #ifdef CONFIG_PANTECH_PS_WIFI_COM_PREF_LOGGING
 #define LOGGER_LOG_WIFI	"log_wifi"
 #endif

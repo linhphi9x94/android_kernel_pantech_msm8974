@@ -173,11 +173,7 @@ struct msm_bus_scale_pdata *msm_bus_cl_get_pdata(struct platform_device *pdev)
 	of_node = pdev->dev.of_node;
 	pdata = get_pdata(pdev, of_node);
 	if (!pdata) {
-<<<<<<< HEAD
-		pr_err("Error getting bus pdata!\n");
-=======
 		pr_err("client has to provide missing entry for successful registration\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return NULL;
 	}
 
@@ -218,11 +214,7 @@ struct msm_bus_scale_pdata *msm_bus_pdata_from_node(
 
 	pdata = get_pdata(pdev, of_node);
 	if (!pdata) {
-<<<<<<< HEAD
-		pr_err("Error getting bus pdata!\n");
-=======
 		pr_err("client has to provide missing entry for successful registration\n");
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		return NULL;
 	}
 
@@ -279,8 +271,6 @@ err:
 	return NULL;
 }
 
-<<<<<<< HEAD
-=======
 static u64 *get_th_params(struct platform_device *pdev,
 		const struct device_node *node, const char *prop,
 		int *nports)
@@ -329,7 +319,6 @@ err:
 	return NULL;
 }
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static struct msm_bus_node_info *get_nodes(struct device_node *of_node,
 	struct platform_device *pdev,
 	struct msm_bus_fabric_registration *pdata)
@@ -337,11 +326,7 @@ static struct msm_bus_node_info *get_nodes(struct device_node *of_node,
 	struct msm_bus_node_info *info;
 	struct device_node *child_node = NULL;
 	int i = 0, ret;
-<<<<<<< HEAD
-	u32 temp;
-=======
 	int num_bw = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 	for_each_child_of_node(of_node, child_node) {
 		i++;
@@ -416,17 +401,6 @@ static struct msm_bus_node_info *get_nodes(struct device_node *of_node,
 		of_property_read_u32(child_node, "qcom,buswidth",
 			&info[i].buswidth);
 		of_property_read_u32(child_node, "qcom,ws", &info[i].ws);
-<<<<<<< HEAD
-		ret = of_property_read_u32(child_node, "qcom,thresh",
-			&temp);
-		if (!ret)
-			info[i].th = (uint64_t)KBTOB(temp);
-
-		ret = of_property_read_u32(child_node, "qcom,bimc,bw",
-			&temp);
-		if (!ret)
-			info[i].bimc_bw = (uint64_t)KBTOB(temp);
-=======
 
 		info[i].dual_conf =
 			of_property_read_bool(child_node, "qcom,dual-conf");
@@ -445,24 +419,16 @@ static struct msm_bus_node_info *get_nodes(struct device_node *of_node,
 				__func__, info[i].name);
 			goto err;
 		}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 		of_property_read_u32(child_node, "qcom,bimc,gp",
 			&info[i].bimc_gp);
 		of_property_read_u32(child_node, "qcom,bimc,thmp",
 			&info[i].bimc_thmp);
-<<<<<<< HEAD
-		ret = of_property_read_string(child_node, "qcom,mode",
-			&sel_str);
-		if (ret)
-			info[i].mode = 0;
-=======
 
 		ret = of_property_read_string(child_node, "qcom,mode-thresh",
 			&sel_str);
 		if (ret)
 			info[i].mode_thresh = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		else {
 			ret = get_num(mode_sel_name, sel_str);
 			if (ret < 0) {
@@ -470,18 +436,6 @@ static struct msm_bus_node_info *get_nodes(struct device_node *of_node,
 				goto err;
 			}
 
-<<<<<<< HEAD
-			info[i].mode = ret;
-		}
-
-		info[i].dual_conf =
-			of_property_read_bool(child_node, "qcom,dual-conf");
-
-		ret = of_property_read_string(child_node, "qcom,mode-thresh",
-			&sel_str);
-		if (ret)
-			info[i].mode_thresh = 0;
-=======
 			info[i].mode_thresh = ret;
 			MSM_BUS_DBG("AXI: THreshold mode set: %d\n",
 					info[i].mode_thresh);
@@ -491,7 +445,6 @@ static struct msm_bus_node_info *get_nodes(struct device_node *of_node,
 				&sel_str);
 		if (ret)
 			info[i].mode = 0;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		else {
 			ret = get_num(mode_sel_name, sel_str);
 			if (ret < 0) {
@@ -499,13 +452,7 @@ static struct msm_bus_node_info *get_nodes(struct device_node *of_node,
 				goto err;
 			}
 
-<<<<<<< HEAD
-			info[i].mode_thresh = ret;
-			MSM_BUS_DBG("AXI: THreshold mode set: %d\n",
-				info[i].mode_thresh);
-=======
 			info[i].mode = ret;
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 
 		ret = of_property_read_string(child_node, "qcom,perm-mode",

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Copyright (c) 2010-2013, Linux Foundation. All rights reserved.
-=======
 /* Copyright (c) 2010-2014, Linux Foundation. All rights reserved.
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -368,16 +364,8 @@ void msm_bus_fabric_update_bw(struct msm_bus_fabric_device *fabdev,
 {
 	struct msm_bus_fabric *fabric = to_msm_bus_fabric(fabdev);
 	void *sel_cdata;
-<<<<<<< HEAD
-#ifdef CONFIG_F_QUALCOMM_BOOTING_BLUESCREEN	
-	long rounded_rate, cur_rate;
-#else
-	long rounded_rate;
-#endif
-=======
 	long rounded_rate, cur_rate;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	sel_cdata = fabric->cdata[ctx];
 
 	/* If it's an ahb fabric, don't calculate arb values */
@@ -391,44 +379,20 @@ void msm_bus_fabric_update_bw(struct msm_bus_fabric_device *fabdev,
 	}
 
 	/* Enable clocks before accessing QoS registers */
-<<<<<<< HEAD
-#ifdef CONFIG_F_QUALCOMM_BOOTING_BLUESCREEN
-	if (fabric->info.nodeclk[DUAL_CTX].clk) {
-#else
-	if (fabric->info.nodeclk[DUAL_CTX].clk)
-#endif		
-		if (fabric->info.nodeclk[DUAL_CTX].rate == 0) {
-#ifdef CONFIG_F_QUALCOMM_BOOTING_BLUESCREEN 			
-=======
 	if (fabric->info.nodeclk[DUAL_CTX].clk) {
 		if (fabric->info.nodeclk[DUAL_CTX].rate == 0) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			cur_rate = clk_get_rate(
 					fabric->info.nodeclk[DUAL_CTX].clk);
 			rounded_rate = clk_round_rate(
 					fabric->info.nodeclk[DUAL_CTX].clk,
-<<<<<<< HEAD
-					cur_rate ? cur_rate : 1);	
-#else
-			rounded_rate = clk_round_rate(fabric->
-				info.nodeclk[DUAL_CTX].clk, 1);
-#endif
-=======
 					cur_rate ? cur_rate : 1);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (clk_set_rate(fabric->info.nodeclk[DUAL_CTX].clk,
 				rounded_rate))
 			MSM_BUS_ERR("Error: clk: en: Node: %d rate: %ld",
 				fabric->fabdev.id, rounded_rate);
 
 		clk_prepare_enable(fabric->info.nodeclk[DUAL_CTX].clk);
-<<<<<<< HEAD
-#ifdef CONFIG_F_QUALCOMM_BOOTING_BLUESCREEN		
 		}
-#endif		
-=======
-		}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	if (info->iface_clk.clk)
@@ -554,58 +518,26 @@ static void msm_bus_fabric_config_master(
 	struct msm_bus_inode_info *info, uint64_t req_clk, uint64_t req_bw)
 {
 	struct msm_bus_fabric *fabric = to_msm_bus_fabric(fabdev);
-<<<<<<< HEAD
-#ifdef CONFIG_F_QUALCOMM_BOOTING_BLUESCREEN	
-	long rounded_rate, cur_rate;
-#else
-	long rounded_rate;
-#endif
-=======
 	long rounded_rate, cur_rate;
 
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	if (fabdev->hw_algo.config_master == NULL)
 		return;
 
 	/* Enable clocks before accessing QoS registers */
-<<<<<<< HEAD
-#ifdef CONFIG_F_QUALCOMM_BOOTING_BLUESCREEN	
-	if (fabric->info.nodeclk[DUAL_CTX].clk) {
-#else
-	if (fabric->info.nodeclk[DUAL_CTX].clk)
-#endif
-		if (fabric->info.nodeclk[DUAL_CTX].rate == 0) {
-#ifdef CONFIG_F_QUALCOMM_BOOTING_BLUESCREEN			
-=======
 	if (fabric->info.nodeclk[DUAL_CTX].clk) {
 		if (fabric->info.nodeclk[DUAL_CTX].rate == 0) {
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 			cur_rate = clk_get_rate(
 					fabric->info.nodeclk[DUAL_CTX].clk);
 			rounded_rate = clk_round_rate(
 					fabric->info.nodeclk[DUAL_CTX].clk,
-<<<<<<< HEAD
-					cur_rate ? cur_rate : 1);	
-#else
-			rounded_rate = clk_round_rate(fabric->
-				info.nodeclk[DUAL_CTX].clk, 1);
-#endif
-=======
 					cur_rate ? cur_rate : 1);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		if (clk_set_rate(fabric->info.nodeclk[DUAL_CTX].clk,
 				rounded_rate))
 			MSM_BUS_ERR("Error: clk: en: Node: %d rate: %ld",
 				fabric->fabdev.id, rounded_rate);
 
 		clk_prepare_enable(fabric->info.nodeclk[DUAL_CTX].clk);
-<<<<<<< HEAD
-#ifdef CONFIG_F_QUALCOMM_BOOTING_BLUESCREEN		
 		}
-#endif		
-=======
-		}
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	}
 
 	if (info->iface_clk.clk)
@@ -972,13 +904,6 @@ static struct platform_driver msm_bus_fabric_driver = {
 	},
 };
 
-<<<<<<< HEAD
-static int __init msm_bus_fabric_init_driver(void)
-{
-	MSM_BUS_ERR("msm_bus_fabric_init_driver\n");
-	return platform_driver_register(&msm_bus_fabric_driver);
-}
-=======
 int __init msm_bus_fabric_init_driver(void)
 {
 	static bool initialized;
@@ -992,5 +917,4 @@ int __init msm_bus_fabric_init_driver(void)
 	return platform_driver_register(&msm_bus_fabric_driver);
 }
 EXPORT_SYMBOL(msm_bus_fabric_init_driver);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 subsys_initcall(msm_bus_fabric_init_driver);

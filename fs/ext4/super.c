@@ -43,10 +43,7 @@
 
 #include <linux/kthread.h>
 #include <linux/freezer.h>
-<<<<<<< HEAD
-=======
 #include <linux/ratelimit.h>
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 #include "ext4.h"
 #include "ext4_extents.h"
@@ -62,11 +59,6 @@
 #include "../../arch/arm/mach-msm/include/mach/pantech_sys.h"
 #endif /* CONFIG_PANTECH_FS_AUTO_REPAIR */
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 static struct proc_dir_entry *ext4_proc_root;
 static struct kset *ext4_kset;
 static struct ext4_lazy_init *ext4_li_info;
@@ -450,12 +442,6 @@ static void ext4_journal_commit_callback(journal_t *journal, transaction_t *txn)
 	struct super_block		*sb = journal->j_private;
 	struct ext4_sb_info		*sbi = EXT4_SB(sb);
 	int				error = is_journal_aborted(journal);
-<<<<<<< HEAD
-	struct ext4_journal_cb_entry	*jce, *tmp;
-
-	spin_lock(&sbi->s_md_lock);
-	list_for_each_entry_safe(jce, tmp, &txn->t_private_list, jce_list) {
-=======
 	struct ext4_journal_cb_entry	*jce;
 
 	BUG_ON(txn->t_state == T_FINISHED);
@@ -463,7 +449,6 @@ static void ext4_journal_commit_callback(journal_t *journal, transaction_t *txn)
 	while (!list_empty(&txn->t_private_list)) {
 		jce = list_entry(txn->t_private_list.next,
 				 struct ext4_journal_cb_entry, jce_list);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		list_del_init(&jce->jce_list);
 		spin_unlock(&sbi->s_md_lock);
 		jce->jce_func(sb, jce, error);
@@ -736,11 +721,7 @@ void ext4_msg(struct super_block *sb, const char *prefix, const char *fmt, ...)
 	va_start(args, fmt);
 	vaf.fmt = fmt;
 	vaf.va = &args;
-<<<<<<< HEAD
-	printk("%sEXT4-fs (%s): %pV\n", prefix, sb->s_id, &vaf);
-=======
 	printk_ratelimited("%sEXT4-fs (%s): %pV\n", prefix, sb->s_id, &vaf);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 	va_end(args);
 }
 

@@ -30,11 +30,7 @@
 #define BT_PWR_DBG(fmt, arg...)  pr_debug("%s: " fmt "\n" , __func__ , ## arg)
 #define BT_PWR_INFO(fmt, arg...) pr_info("%s: " fmt "\n" , __func__ , ## arg)
 #define BT_PWR_ERR(fmt, arg...)  pr_err("%s: " fmt "\n" , __func__ , ## arg)
-<<<<<<< HEAD
-
-=======
 #define BT_VDD_PA_CURRENT        60000
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 
 static struct of_device_id bt_power_match_table[] = {
 	{	.compatible = "qca,ar3002" },
@@ -217,12 +213,9 @@ static int bluetooth_power(int on)
 				BT_PWR_ERR("bt_power vddpa config failed");
 				goto vdd_pa_fail;
 			}
-<<<<<<< HEAD
-=======
 			regulator_set_optimum_mode(
 				bt_power_pdata->bt_vdd_pa->reg,
 				BT_VDD_PA_CURRENT);
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
 		}
 		if (bt_power_pdata->bt_chip_pwd) {
 			rc = bt_configure_vreg(bt_power_pdata->bt_chip_pwd);

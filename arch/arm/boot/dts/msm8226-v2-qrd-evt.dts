@@ -27,8 +27,6 @@
 &dsi_nt35590_720_vid {
 	qcom,cont-splash-enabled;
 };
-<<<<<<< HEAD
-=======
 
 &slim_msm {
 	tapan_codec {
@@ -36,4 +34,3 @@
 		qcom,cdc-micbias3-ext-cap;
 	};
 };
->>>>>>> sunghun/cm-13.0_LA.BF.1.1.3-01610-8x74.0
