@@ -493,6 +493,7 @@ struct qpnp_led_data {
 };
 
 static int num_kpbl_leds_on;
+static DEFINE_MUTEX(flash_lock);
 
 
 //=================================================================
@@ -1689,7 +1690,7 @@ static int qpnp_flash_set(struct qpnp_led_data *led)
 					rc);
 					goto error_flash_set;
 				}
-				}
+			}
 
 			rc = qpnp_led_masked_write(led,
 				FLASH_LED_UNLOCK_SECURE(led->base),
@@ -1865,17 +1866,17 @@ static int qpnp_flash_set(struct qpnp_led_data *led)
 				led->flash_cfg->trigger_flash |=
 						FLASH_HW_SW_STROBE_SEL_MASK;
 
-				rc = qpnp_led_masked_write(led,
-					FLASH_LED_STROBE_CTRL(led->base),
-					led->flash_cfg->trigger_flash,
-					led->flash_cfg->trigger_flash);
-				if (rc) {
-					dev_err(&led->spmi_dev->dev,
-					"LED %d strobe reg write failed(%d)\n",
-					led->id, rc);
-					goto error_flash_set;
-				}
-				}
+			rc = qpnp_led_masked_write(led,
+				FLASH_LED_STROBE_CTRL(led->base),
+				led->flash_cfg->trigger_flash,
+				led->flash_cfg->trigger_flash);
+			if (rc) {
+				dev_err(&led->spmi_dev->dev,
+				"LED %d strobe reg write failed(%d)\n",
+				led->id, rc);
+				goto error_flash_set;
+			}
+		}
 	} else {
 		rc = qpnp_led_masked_write(led,
 			FLASH_LED_STROBE_CTRL(led->base),
@@ -2028,7 +2029,11 @@ static int qpnp_kpdbl_set(struct qpnp_led_data *led)
 			return rc;
 		}
 
+#ifdef CONFIG_MACH_OPPO
+		num_kpbl_leds_on = 1;
+#else
 		num_kpbl_leds_on++;
+#endif
 
 	} else {
 		led->kpdbl_cfg->pwm_cfg->mode =
@@ -2077,33 +2082,19 @@ static int qpnp_rgb_set(struct qpnp_led_data *led)
 	int duty_us;
 	int rc;
 
-	pan_debug("%s: id=%d, brightness=%d, len=%d, pwm=0x%X, pwm_chan=%d, %d %d %d %d %d %d\n", 
-		__func__,
-		led->id, 
-		led->cdev.brightness,
-		led->rgb_cfg->pwm_cfg->lut_params.idx_len,
-		(unsigned int)led->rgb_cfg->pwm_cfg->pwm_dev, 
-		led->rgb_cfg->pwm_cfg->pwm_channel,
-		led->rgb_cfg->pwm_cfg->duty_cycles->duty_pcts[0],
-		led->rgb_cfg->pwm_cfg->duty_cycles->duty_pcts[1],
-		led->rgb_cfg->pwm_cfg->duty_cycles->duty_pcts[2],
-		led->rgb_cfg->pwm_cfg->duty_cycles->duty_pcts[3],
-		led->rgb_cfg->pwm_cfg->duty_cycles->duty_pcts[4],
-		led->rgb_cfg->pwm_cfg->duty_cycles->duty_pcts[5]);
-
 	if (led->cdev.brightness) {
 		if (!led->rgb_cfg->pwm_cfg->blinking)
 			led->rgb_cfg->pwm_cfg->mode =
 				led->rgb_cfg->pwm_cfg->default_mode;
 		if (led->rgb_cfg->pwm_cfg->mode == PWM_MODE) {
-
 			duty_us = (led->rgb_cfg->pwm_cfg->pwm_period_us *
 				led->cdev.brightness) / LED_FULL;
 			rc = pwm_config_us(led->rgb_cfg->pwm_cfg->pwm_dev,
 					duty_us,
 					led->rgb_cfg->pwm_cfg->pwm_period_us);
 			if (rc < 0) {
-				printk("[+++ LED] pwm config failed\n");
+				dev_err(&led->spmi_dev->dev,
+					"pwm config failed\n");
 				return rc;
 			}
 		}
@@ -2111,13 +2102,14 @@ static int qpnp_rgb_set(struct qpnp_led_data *led)
 			RGB_LED_EN_CTL(led->base),
 			led->rgb_cfg->enable, led->rgb_cfg->enable);
 		if (rc) {
-			printk("[+++ LED] Failed to write led enable reg\n");
+			dev_err(&led->spmi_dev->dev,
+				"Failed to write led enable reg\n");
 			return rc;
 		}
 
 		rc = pwm_enable(led->rgb_cfg->pwm_cfg->pwm_dev);
 		if (rc < 0) {
-			printk("[+++ LED] pwm enable failed\n");
+			dev_err(&led->spmi_dev->dev, "pwm enable failed\n");
 			return rc;
 		}
 	} else {
@@ -2128,7 +2120,8 @@ static int qpnp_rgb_set(struct qpnp_led_data *led)
 			RGB_LED_EN_CTL(led->base),
 			led->rgb_cfg->enable, RGB_LED_DISABLE);
 		if (rc) {
-			printk("[+++ LED] Failed to write led enable reg\n");
+			dev_err(&led->spmi_dev->dev,
+				"Failed to write led enable reg\n");
 			return rc;
 		}
 	}
@@ -2143,6 +2136,7 @@ static void qpnp_led_set(struct led_classdev *led_cdev,
 				enum led_brightness value)
 {
 	struct qpnp_led_data *led;
+
 	led = container_of(led_cdev, struct qpnp_led_data, cdev);
 	if (value < LED_OFF) {
 		dev_err(&led->spmi_dev->dev, "Invalid brightness value\n");
@@ -2155,40 +2149,16 @@ static void qpnp_led_set(struct led_classdev *led_cdev,
 	led->cdev.brightness = value;
 	schedule_work(&led->work);
 }
-#ifdef PAN_LED_CONTROL	
-static int qpnp_led_set_block_pending(struct led_classdev *led_cdev,
-				enum led_brightness value)
-{
-	struct qpnp_led_data *led;
-    int ret;
-	led = container_of(led_cdev, struct qpnp_led_data, cdev);
-	if (value < LED_OFF) {
-		dev_err(&led->spmi_dev->dev, "Invalid brightness value\n");
-		return -1;
-	}
-
-	if (value > led->cdev.max_brightness)
-		value = led->cdev.max_brightness;
-
-	led->cdev.brightness = value;
-	ret = schedule_work(&led->work);
-    pan_debug("%s ret = %d\n" , __func__ , ret);
-    if(!ret){
-        pan_debug("%s work pendding\n",__func__);
-        flush_work(&led->work);
-	    schedule_work(&led->work);
-    }
-    return ret;
-}
-#endif
 
 static void __qpnp_led_work(struct qpnp_led_data *led,
 				enum led_brightness value)
 {
 	int rc;
 
-	pan_debug("%s: id=%d, brightness=%d\n", __func__, led->id, value);
-	mutex_lock(&led->lock);
+	if (led->id == QPNP_ID_FLASH1_LED0 || led->id == QPNP_ID_FLASH1_LED1)
+		mutex_lock(&flash_lock);
+	else
+		mutex_lock(&led->lock);
 
 	switch (led->id) {
 	case QPNP_ID_WLED:
@@ -2210,7 +2180,7 @@ static void __qpnp_led_work(struct qpnp_led_data *led,
 		rc = qpnp_rgb_set(led);
 		if (rc < 0)
 			dev_err(&led->spmi_dev->dev,
-				"RGB set brightness failed (%d)\n", rc);		
+				"RGB set brightness failed (%d)\n", rc);
 		break;
 	case QPNP_ID_LED_MPP:
 		rc = qpnp_mpp_set(led);
@@ -2228,7 +2198,10 @@ static void __qpnp_led_work(struct qpnp_led_data *led,
 		dev_err(&led->spmi_dev->dev, "Invalid LED(%d)\n", led->id);
 		break;
 	}
-	mutex_unlock(&led->lock);
+	if (led->id == QPNP_ID_FLASH1_LED0 || led->id == QPNP_ID_FLASH1_LED1)
+		mutex_unlock(&flash_lock);
+	else
+		mutex_unlock(&led->lock);
 
 }
 
@@ -2501,8 +2474,10 @@ static int qpnp_pwm_init(struct pwm_config_data *pwm_cfg,
 		}
 
 		if (pwm_cfg->mode == LPG_MODE) {
-			start_idx =	pwm_cfg->duty_cycles->start_idx;
-			idx_len = pwm_cfg->duty_cycles->num_duty_pcts;
+			start_idx =
+			pwm_cfg->duty_cycles->start_idx;
+			idx_len =
+			pwm_cfg->duty_cycles->num_duty_pcts;
 
 			if (idx_len >= PWM_LUT_MAX_SIZE &&
 					start_idx) {
@@ -2987,309 +2962,86 @@ static ssize_t blink_store(struct device *dev,
 	return count;
 }
 
-//++ p11309 - 2013.12.03 for LED Pattern Customization
-#ifdef PAN_LED_CONTROL
-static void pan_rgb_led_off(int id) 
+#ifdef CONFIG_MACH_OPPO
+static void led_flash_blink_work(struct work_struct *work)
 {
-	if ( pan_led_data.led_state[id] == PAN_LED_OFF ) return;
+	//int brightness;
+	struct delayed_work *dwork = to_delayed_work(work);
+	struct qpnp_led_data *led = container_of(dwork,
+			struct qpnp_led_data, dwork);
 
-	pan_rgb_pattern.is_white = 0;
-	pan_rgb_pattern.is_rainbow = 0;
-	pan_led_data.led[id]->cdev.brightness = 0;
-	//__qpnp_led_work(pan_led_data.led[id], 0);	
-	pan_pattern_process_loop(id, PAN_DIM_ALL_ZERO);
-	pan_led_data.led_state[id] = PAN_LED_OFF;
-    pan_debug("%s id : %d\n" , __func__ , id);
+	if (flash_blink_state) {
+		if (led->flash_cfg->torch_enable)
+			led->cdev.brightness = 51;
+		else
+			led->cdev.brightness = 500;
+	} else {
+		led->cdev.brightness = 0;
+	}
+
+	__qpnp_led_work(led, 0);
+
+	flash_blink_state = !flash_blink_state;
+
+	schedule_delayed_work(dwork, msecs_to_jiffies(1200));
+	return;
 }
 
-static ssize_t pan_rainbow_store(struct device *dev,
-	struct device_attribute *attr,
-	const char *buf, size_t count)
-{	
-	unsigned long rainbow;	
+static void led_flash_blink_stop(struct qpnp_led_data *led)
+{
+	if (led_flash_state == 2) {
+		flash_blink_state = false;
+		cancel_delayed_work_sync(&led->dwork);
+		led->cdev.brightness = 0;
+		__qpnp_led_work(led, 0);
+	} else if(led_flash_state == 1) {
+		led->cdev.brightness = 0;
+		__qpnp_led_work(led, 0);
+	} else {
+		return;
+	}
+
+	led_flash_state = 0;
+}
+
+static ssize_t led_flash_blink_store(struct device *dev,
+		struct device_attribute *attr,
+		const char *buf, size_t count)
+{
 	ssize_t ret = -EINVAL;
-	
-	int i=0;
-	int pattern;
-	int lut;
-	int setup_t;
-	int hold_t;
+	struct qpnp_led_data *led;
+	unsigned long state;
+	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+	led = container_of(led_cdev, struct qpnp_led_data, cdev);
 
-	ret = kstrtoul(buf, 10, &rainbow);
-	if (ret){
-        pan_debug("%s data is overflow!\n",__func__);
+	ret = kstrtoul(buf, 10, &state);
+	if (ret)
 		return ret;
-    }
 
-	pattern = rainbow & 0xFF;
-	lut = (rainbow >> 8) & 0xFF;
-	setup_t = ((rainbow >> 16) & 0xFF)*10;
-	hold_t = ((rainbow >> 24) & 0xFF)*10;
-
-	pan_debug("%s: pattern=%d, lut=%d, setup_time=%d, keep_time=%d\n", 
-		__func__, pattern, lut, setup_t, hold_t);
-	
-	pan_rgb_pattern.is_white = 0;
-	pan_rgb_pattern.is_rainbow = 0;
-	del_timer(&pan_led_data.timer);
-//	cancel_work_sync(&pan_led_data.wq);
-	
-	if (pattern) {		
-		pan_do_rainbow(pattern-1, lut, setup_t, hold_t);
-
-		pan_led_data.led_state[RGB_RED] = PAN_LED_RAINBOW;
-		pan_led_data.led_state[RGB_GREEN] = PAN_LED_RAINBOW;
-		pan_led_data.led_state[RGB_BLUE] = PAN_LED_RAINBOW;
-	}
-	else {
-		for (i=0; i<RGB_MAX; i++) 
-			pan_rgb_led_off(i);
+	if (state == 2) {
+		/*blink*/
+		led_flash_blink_stop(led);
+		led_flash_state = 2;
+		flash_blink_state = true;
+		INIT_DELAYED_WORK(&led->dwork, led_flash_blink_work);
+		schedule_delayed_work(&led->dwork, msecs_to_jiffies(500));
+	} else if (state == 1) {
+		/*lamp*/
+		led_flash_blink_stop(led);
+		led_flash_state = 1;
+		if (led->flash_cfg->torch_enable)
+			led->cdev.brightness = 51;
+		else
+			led->cdev.brightness = 500;
+		__qpnp_led_work(led, 0);
+	} else {
+		/*off*/
+		led_flash_blink_stop(led);
 	}
 
 	return count;
 }
-
-static ssize_t pan_oneshot_store(struct device *dev,
-	struct device_attribute *attr,
-	const char *buf, size_t count)
-{	
-	unsigned long data;	
-	ssize_t ret = -EINVAL;
-	
-	int id;
-	int rgb;
-	int lut;
-	int dim_mode;
-	int setup_t;
-	
-	ret = kstrtoul(buf, 10, &data);
-	if (ret){
-        pan_debug("%s data is overflow!\n",__func__);
-		return ret;
-    }
-	
-	rgb = data & 0xFF;
-	lut = (data >> 8) & 0xFF;
-	dim_mode = ((data >> 16) & 0xFF);
-	setup_t = ((data >> 24) & 0xFF)*10;
-
-	pan_debug("%s: rgb=%d, lut=%d, dim_mode=%d, setup_time=%d\n", 
-		__func__, rgb, lut, dim_mode, setup_t);	
-
-	if ( rgb == 7 ) 
-		pan_rgb_pattern.is_white = 1;
-
-	pan_rgb_pattern.rise_mode = lut;
-	pan_rgb_pattern.setup_t = setup_t;	
-	for (id=0; id<RGB_MAX; id++) {
-		if ( rgb & (1<<id) ) {
-			if ( dim_mode == PAN_DIM_ALL_ZERO ) 
-				pan_rgb_led_off(id);
-			else {
-				pan_led_data.led_state[id] = PAN_LED_ONESHOT;
-				pan_pattern_process_oneshot(id, dim_mode);
-			}
-		}
-		else 
-			pan_rgb_led_off(id);
-	}	
-
-	return count;
-}
-
-static ssize_t pan_loop_store(struct device *dev,
-	struct device_attribute *attr,
-	const char *buf, size_t count)
-{	
-	unsigned long data;	
-	ssize_t ret = -EINVAL;
-	
-	int id;
-	int rgb;
-	int lut;
-	int dim_mode;
-	int setup_t;
-	
-	ret = kstrtoul(buf, 10, &data);
-	if (ret){
-        pan_debug("%s data is overflow!\n",__func__);
-		return ret;
-    }
-	
-	rgb = data & 0xFF;
-	lut = (data >> 8) & 0xFF;
-	dim_mode = ((data >> 16) & 0xFF);
-	setup_t = ((data >> 24) & 0xFF)*10;
-
-	pan_debug("%s: rgb=%d, lut=%d, dim_mode=%d, setup_time=%d\n", 
-		__func__, rgb, lut, dim_mode, setup_t);
-
-	if ( rgb == 7 ) 
-		pan_rgb_pattern.is_white = 1;
-
-	pan_rgb_pattern.rise_mode = lut;
-	pan_rgb_pattern.setup_t = setup_t;	
-	for (id=0; id<RGB_MAX; id++) {
-		if ( rgb & (1<<id) ) {
-			if ( dim_mode == PAN_DIM_ALL_ZERO ) 
-				pan_rgb_led_off(id);
-			else {
-				pan_led_data.led_state[id] = PAN_LED_LOOP;
-				pan_pattern_process_loop(id, dim_mode);
-			}
-		}
-		else 
-			pan_rgb_led_off(id);
-	}	
-
-	return count;
-}
-
-static ssize_t pan_blink_store(struct device *dev,
-	struct device_attribute *attr,
-	const char *buf, size_t count)
-{	
-	unsigned long data;	
-	ssize_t ret = -EINVAL;	
-	
-	int id;
-	int rgb;
-	int on_cnt;
-	int on;
-	int off;	
-	int led_cnt=0;
-	int lut_max_size;
-	int lut_offset[3] = {1, 21, 42};
-
-	ret = kstrtoul(buf, 10, &data);
-	if (ret){
-        pan_debug("%s data is overflow!\n",__func__);
-		return ret;	
-    }
-
-	rgb = data & 0xF;
-	on_cnt = ((data >> 4) & 0xF);
-	on = ((data >> 8) & 0xFF)*10;
-	off = ((data >> 16) & 0xFFFF)*10;	
-
-	for (id=0; id<RGB_MAX; id++) {
-		if ( rgb & (1<<id) )
-			led_cnt++;
-	}
-	
-	switch (led_cnt) {
-	case 0: return count;
-	case 1:
-		lut_max_size = 61;
-		lut_offset[1] = 1;
-		lut_offset[2] = 1;
-		break;
-	case 2:
-		lut_max_size = 31;
-		lut_offset[1] = 32;
-		lut_offset[2] = 32;
-		break;
-	case 3:
-		lut_max_size = 21;
-		break;
-	default:
-		return count;
-	}
-
-	if ( rgb == 7 ) 
-		pan_rgb_pattern.is_white = 1;
-
-	if ( on_cnt > 5 ) on_cnt = 5;
-	if ( on_cnt <= 0 ) on_cnt = 1;
-	
-	pan_debug("%s: rgb=%d, count=%d, on=%d, off=%d, led_cnt=%d\n", 
-		__func__, rgb, on_cnt, on, off, led_cnt);
-
-	led_cnt=0;
-	for (id=0; id<RGB_MAX; id++) {
-		if ( rgb & (1<<id) ) {
-			pan_led_data.led_state[id] = PAN_LED_BLINK;
-			pan_blink_process(id, on_cnt, on, off, 
-				lut_offset[led_cnt], lut_max_size);
-			led_cnt++;
-		}
-		else 
-			pan_rgb_led_off(id);
-	}
-
-	return count;
-}
-
-static ssize_t pan_rgb_off_store(struct device *dev,
-	struct device_attribute *attr,
-	const char *buf, size_t count)
-{	
-	unsigned long data;	
-	ssize_t ret = -EINVAL;	
-	
-	int id;
-	int rgb;	
-
-	ret = kstrtoul(buf, 10, &data);
-	if (ret){
-        pan_debug("%s data is overflow!\n",__func__);
-		return ret;	
-    }
-
-	rgb = data & 0xFF;	
-    pan_rgb_pattern.control_rainbow_timer = 0;
-
-	pan_debug("%s: rgb=%d , control_rainbow_timer=%d\n", __func__, rgb , pan_rgb_pattern.control_rainbow_timer);
-	for (id=0; id<RGB_MAX; id++) {
-		if ( rgb & (1<<id) )
-			pan_rgb_led_off(id);
-	}
-
-	return count;
-}
-
-static ssize_t pan_brightness_store(struct device *dev,
-	struct device_attribute *attr,
-	const char *buf, size_t count)
-{	
-	unsigned long data;	
-	ssize_t ret = -EINVAL;	
-	
-	int id;
-	int rgb;	
-	int brightness;	
-
-	ret = kstrtoul(buf, 10, &data);
-	if (ret){
-        pan_debug("%s data is overflow!\n",__func__);
-		return ret;	
-    }
-
-	pan_rgb_pattern.is_white = 0;
-
-	rgb = data & 0xFF;		
-	brightness = (data >> 8) & 0xFFFFFF;	
-
-	pan_debug("%s: rgb=%d, brightness=%d\n", __func__, rgb, brightness);
-
-	for (id=0; id<RGB_MAX; id++) {
-		if ( rgb & (1<<id) ) {
-			pan_led_data.led_state[id] = PAN_LED_BRIGHTNESS;
-			pan_pattern_brightness(id, brightness);
-		}
-	}
-
-	return count;
-}
-
-static DEVICE_ATTR(pan_rainbow, 0664, NULL, pan_rainbow_store);
-static DEVICE_ATTR(pan_oneshot, 0664, NULL, pan_oneshot_store);
-static DEVICE_ATTR(pan_loop, 0664, NULL, pan_loop_store);
-static DEVICE_ATTR(pan_blink, 0664, NULL, pan_blink_store);
-static DEVICE_ATTR(pan_rgb_off, 0664, NULL, pan_rgb_off_store);
-static DEVICE_ATTR(pan_brightness, 0664, NULL, pan_brightness_store);
-#endif // PAN_LED_CONTROL
-//--p11309
+#endif
 
 static DEVICE_ATTR(led_mode, 0664, NULL, led_mode_store);
 static DEVICE_ATTR(strobe, 0664, NULL, led_strobe_type_store);
@@ -3301,8 +3053,14 @@ static DEVICE_ATTR(ramp_step_ms, 0664, NULL, ramp_step_ms_store);
 static DEVICE_ATTR(lut_flags, 0664, NULL, lut_flags_store);
 static DEVICE_ATTR(duty_pcts, 0664, NULL, duty_pcts_store);
 static DEVICE_ATTR(blink, 0664, NULL, blink_store);
+#ifdef CONFIG_MACH_OPPO
+static DEVICE_ATTR(flash_blink, 0664, NULL, led_flash_blink_store);
+#endif
 
 static struct attribute *led_attrs[] = {
+#ifdef CONFIG_MACH_OPPO
+	&dev_attr_flash_blink.attr,
+#endif
 	&dev_attr_led_mode.attr,
 	&dev_attr_strobe.attr,
 	NULL
@@ -3324,16 +3082,6 @@ static struct attribute *lpg_attrs[] = {
 	&dev_attr_ramp_step_ms.attr,
 	&dev_attr_lut_flags.attr,
 	&dev_attr_duty_pcts.attr,
-//++ p11309 - 2013.12.03 for LED Pattern Customization
-#ifdef PAN_LED_CONTROL
-	&dev_attr_pan_rainbow.attr,
-	&dev_attr_pan_oneshot.attr,
-	&dev_attr_pan_loop.attr,
-	&dev_attr_pan_blink.attr,
-	&dev_attr_pan_rgb_off.attr,
-	&dev_attr_pan_brightness.attr,
-#endif
-//-- p11309
 	NULL
 };
 
@@ -4152,23 +3900,6 @@ static int __devinit qpnp_get_config_rgb(struct qpnp_led_data *led,
 		return -ENOMEM;
 	}
 
-//++ p11309 - 2013.12.03 for LED Pattern Customization
-#ifdef PAN_LED_CONTROL	
-	if (led->id == QPNP_ID_RGB_RED) {
-		led->rgb_cfg->enable = RGB_LED_ENABLE_RED;
-		pan_led_data.led[RGB_RED] = led;		
-	}
-	else if (led->id == QPNP_ID_RGB_GREEN) {
-		led->rgb_cfg->enable = RGB_LED_ENABLE_GREEN;
-		pan_led_data.led[RGB_GREEN] = led;
-	}
-	else if (led->id == QPNP_ID_RGB_BLUE) {
-		led->rgb_cfg->enable = RGB_LED_ENABLE_BLUE;
-		pan_led_data.led[RGB_BLUE] = led;
-	}
-	else
-		return -EINVAL;
-#else
 	if (led->id == QPNP_ID_RGB_RED)
 		led->rgb_cfg->enable = RGB_LED_ENABLE_RED;
 	else if (led->id == QPNP_ID_RGB_GREEN)
@@ -4177,8 +3908,6 @@ static int __devinit qpnp_get_config_rgb(struct qpnp_led_data *led,
 		led->rgb_cfg->enable = RGB_LED_ENABLE_BLUE;
 	else
 		return -EINVAL;
-#endif
-//-- p11309
 
 	rc = of_property_read_string(node, "qcom,mode", &mode);
 	if (!rc) {
@@ -4303,46 +4032,21 @@ static int __devinit qpnp_leds_probe(struct spmi_device *spmi)
 	const char *led_label;
 	bool regulator_probe = false;
 
-//++ p11309 - 2014.01.03 for Offline Charger
-#ifdef PAN_LED_CONTROL
-	int offline_charger = 0;
-	oem_pm_smem_vendor1_data_type *smem_id_vendor1_ptr;
-
-	smem_id_vendor1_ptr =  (oem_pm_smem_vendor1_data_type*)smem_alloc(SMEM_ID_VENDOR1,sizeof(oem_pm_smem_vendor1_data_type));
-	if(smem_id_vendor1_ptr->power_on_mode == 0){
-		offline_charger=1;
-	}
-
-//++ p11309 2013.12.01 for LED Load Information
-	printk("[+++ LED] ============================================\n");
-	printk("[+++ LED]    PM8941 LED Driver - Boot Mode: %s\n", offline_charger ? "Offline": "Online");
-	printk("[+++ LED] ============================================\n");
-//-- p11309
-#endif
-
 	node = spmi->dev.of_node;
-	if (node == NULL) {
-//++ p11309 2013.12.01 for LED Load Information
-		printk("[+++ LED] no dt data(No Device Tree Data).\n");
-//-- p11309
+	if (node == NULL)
 		return -ENODEV;
-	}
 
 	temp = NULL;
 	while ((temp = of_get_next_child(node, temp)))
 		num_leds++;
 
-	if (!num_leds) {
-//++ p11309 2013.12.01 for LED Load Information
-		printk("[+++ LED] no LED data in device tree..\n");
-//-- p11309
+	if (!num_leds)
 		return -ECHILD;
-	}
 
 	led_array = devm_kzalloc(&spmi->dev,
 		(sizeof(struct qpnp_led_data) * num_leds), GFP_KERNEL);
 	if (!led_array) {
-		printk("[+++ LED] Unable to allocate memory\n");
+		dev_err(&spmi->dev, "Unable to allocate memory\n");
 		return -ENOMEM;
 	}
 
@@ -4353,7 +4057,7 @@ static int __devinit qpnp_leds_probe(struct spmi_device *spmi)
 
 		led_resource = spmi_get_resource(spmi, NULL, IORESOURCE_MEM, 0);
 		if (!led_resource) {
-			printk("[+++ LED] Unable to get LED base address\n");
+			dev_err(&spmi->dev, "Unable to get LED base address\n");
 			rc = -ENXIO;
 			goto fail_id_check;
 		}
@@ -4361,33 +4065,38 @@ static int __devinit qpnp_leds_probe(struct spmi_device *spmi)
 
 		rc = of_property_read_string(temp, "label", &led_label);
 		if (rc < 0) {
-			printk("[+++ LED] Failure reading label, rc = %d\n", rc);
+			dev_err(&led->spmi_dev->dev,
+				"Failure reading label, rc = %d\n", rc);
 			goto fail_id_check;
 		}
 
 		rc = of_property_read_string(temp, "linux,name",
 			&led->cdev.name);
 		if (rc < 0) {
-			printk("[+++ LED] Failure reading led name, rc = %d\n", rc);
+			dev_err(&led->spmi_dev->dev,
+				"Failure reading led name, rc = %d\n", rc);
 			goto fail_id_check;
 		}
 
 		rc = of_property_read_u32(temp, "qcom,max-current",
 			&led->max_current);
 		if (rc < 0) {
-			printk("[+++ LED] Failure reading max_current, rc =  %d\n", rc);
+			dev_err(&led->spmi_dev->dev,
+				"Failure reading max_current, rc =  %d\n", rc);
 			goto fail_id_check;
 		}
 
 		rc = of_property_read_u32(temp, "qcom,id", &led->id);
 		if (rc < 0) {
-			printk("[+++ LED] Failure reading led id, rc =  %d\n", rc);
+			dev_err(&led->spmi_dev->dev,
+				"Failure reading led id, rc =  %d\n", rc);
 			goto fail_id_check;
 		}
 
 		rc = qpnp_get_common_configs(led, temp);
 		if (rc) {
-			printk("[+++ LED] Failure reading common led configuration," \
+			dev_err(&led->spmi_dev->dev,
+				"Failure reading common led configuration," \
 				" rc = %d\n", rc);
 			goto fail_id_check;
 		}
@@ -4398,7 +4107,8 @@ static int __devinit qpnp_leds_probe(struct spmi_device *spmi)
 		if (strncmp(led_label, "wled", sizeof("wled")) == 0) {
 			rc = qpnp_get_config_wled(led, temp);
 			if (rc < 0) {
-				printk("[+++ LED] Unable to read wled config data\n");
+				dev_err(&led->spmi_dev->dev,
+					"Unable to read wled config data\n");
 				goto fail_id_check;
 			}
 		} else if (strncmp(led_label, "flash", sizeof("flash"))
@@ -4407,52 +4117,54 @@ static int __devinit qpnp_leds_probe(struct spmi_device *spmi)
 				regulator_probe = true;
 			rc = qpnp_get_config_flash(led, temp, &regulator_probe);
 			if (rc < 0) {
-				printk("[+++ LED] Unable to read flash config data\n");
+				dev_err(&led->spmi_dev->dev,
+					"Unable to read flash config data\n");
 				goto fail_id_check;
 			}
 		} else if (strncmp(led_label, "rgb", sizeof("rgb")) == 0) {
 			rc = qpnp_get_config_rgb(led, temp);
 			if (rc < 0) {
-				printk("[+++ LED] Unable to read rgb config data\n");
+				dev_err(&led->spmi_dev->dev,
+					"Unable to read rgb config data\n");
 				goto fail_id_check;
 			}
 		} else if (strncmp(led_label, "mpp", sizeof("mpp")) == 0) {
 			rc = qpnp_get_config_mpp(led, temp);
 			if (rc < 0) {
-				printk("[+++ LED] Unable to read mpp config data\n");
+				dev_err(&led->spmi_dev->dev,
+						"Unable to read mpp config data\n");
 				goto fail_id_check;
 			}
 		} else if (strncmp(led_label, "kpdbl", sizeof("kpdbl")) == 0) {
 			num_kpbl_leds_on = 0;
 			rc = qpnp_get_config_kpdbl(led, temp);
 			if (rc < 0) {
-				printk("[+++ LED] Unable to read kpdbl config data\n");
+				dev_err(&led->spmi_dev->dev,
+					"Unable to read kpdbl config data\n");
 				goto fail_id_check;
 			}
 		} else {
-			printk("[+++ LED] No LED matching label\n");
+			dev_err(&led->spmi_dev->dev, "No LED matching label\n");
 			rc = -EINVAL;
 			goto fail_id_check;
 		}
 
-		mutex_init(&led->lock);
+		if (led->id != QPNP_ID_FLASH1_LED0 &&
+					led->id != QPNP_ID_FLASH1_LED1)
+			mutex_init(&led->lock);
 		INIT_WORK(&led->work, qpnp_led_work);
 
 		rc =  qpnp_led_initialize(led);
-		if (rc < 0) {
-			printk("[+++ LED] qpnp_led_initialize failed\n");
+		if (rc < 0)
 			goto fail_id_check;
-		}
 
 		rc = qpnp_led_set_max_brightness(led);
-		if (rc < 0) {
-			printk("[+++ LED] qpnp_led_set_max_brightness failed\n");
+		if (rc < 0)
 			goto fail_id_check;
-		}
 
 		rc = led_classdev_register(&spmi->dev, &led->cdev);
 		if (rc) {
-			printk("[+++ LED] unable to register led %d,rc=%d\n",
+			dev_err(&spmi->dev, "unable to register led %d,rc=%d\n",
 						 led->id, rc);
 			goto fail_id_check;
 		}
@@ -4461,10 +4173,9 @@ static int __devinit qpnp_leds_probe(struct spmi_device *spmi)
 			led->id == QPNP_ID_FLASH1_LED1) {
 			rc = sysfs_create_group(&led->cdev.dev->kobj,
 							&led_attr_group);
-			if (rc) {
-				printk("[+++ LED] FLASH1_LED0 or FLASH1_LED1 sysfs_create_group failed\n");
+			if (rc)
 				goto fail_id_check;
-			}
+
 		}
 
 		if (led->id == QPNP_ID_LED_MPP) {
@@ -4473,73 +4184,50 @@ static int __devinit qpnp_leds_probe(struct spmi_device *spmi)
 			if (led->mpp_cfg->pwm_cfg->mode == PWM_MODE) {
 				rc = sysfs_create_group(&led->cdev.dev->kobj,
 					&pwm_attr_group);
-				if (rc) {
-					printk("[+++ LED] LED_MPP, pwm_attr sysfs_create_group failed\n");
+				if (rc)
 					goto fail_id_check;
-				}
 			}
 			if (led->mpp_cfg->pwm_cfg->use_blink) {
 				rc = sysfs_create_group(&led->cdev.dev->kobj,
 					&blink_attr_group);
-				if (rc) {
-					printk("[+++ LED] LED_MPP, blink_attr sysfs_create_group failed\n");
+				if (rc)
 					goto fail_id_check;
-				}
 
 				rc = sysfs_create_group(&led->cdev.dev->kobj,
 					&lpg_attr_group);
-				if (rc) {
-					printk("[+++ LED] LED_MPP, lpg_attr sysfs_create_group failed\n");
+				if (rc)
 					goto fail_id_check;
-				}
 			} else if (led->mpp_cfg->pwm_cfg->mode == LPG_MODE) {
 				rc = sysfs_create_group(&led->cdev.dev->kobj,
 					&lpg_attr_group);
-				if (rc) {
-					printk("[+++ LED] LED_MPP, lpg_attr sysfs_create_group failed\n");
+				if (rc)
 					goto fail_id_check;
-				}
 			}
 		} else if ((led->id == QPNP_ID_RGB_RED) ||
 			(led->id == QPNP_ID_RGB_GREEN) ||
 			(led->id == QPNP_ID_RGB_BLUE)) {
-
 			if (led->rgb_cfg->pwm_cfg->mode == PWM_MODE) {
 				rc = sysfs_create_group(&led->cdev.dev->kobj,
 					&pwm_attr_group);
-				if (rc) {
-					printk("[+++ LED] LED_RGB, pwm_attr sysfs_create_group failed\n");
+				if (rc)
 					goto fail_id_check;
-				}
 			}
 			if (led->rgb_cfg->pwm_cfg->use_blink) {
 				rc = sysfs_create_group(&led->cdev.dev->kobj,
 					&blink_attr_group);
-				if (rc) {
-					printk("[+++ LED] LED_RGB, blink_attr sysfs_create_group failed\n");
+				if (rc)
 					goto fail_id_check;
-				}
 
 				rc = sysfs_create_group(&led->cdev.dev->kobj,
 					&lpg_attr_group);
-				if (rc) {
-					printk("[+++ LED] LED_RGB, lpg_attr sysfs_create_group failed\n");
+				if (rc)
 					goto fail_id_check;
-				}
 			} else if (led->rgb_cfg->pwm_cfg->mode == LPG_MODE) {
 				rc = sysfs_create_group(&led->cdev.dev->kobj,
 					&lpg_attr_group);
-				if (rc) {
-					printk("[+++ LED] LED_RGB, lpg_attr sysfs_create_group failed\n");
+				if (rc)
 					goto fail_id_check;
-				}
 			}
-
-//++ p11309 - 2013.12.03 for LED Pattern Customization
-#ifdef PAN_LED_CONTROL
-			is_rgb_registered++;
-#endif
-//-- p11309
 		}
 
 		/* configure default state */
@@ -4554,61 +4242,13 @@ static int __devinit qpnp_leds_probe(struct spmi_device *spmi)
 		parsed_leds++;
 	}
 	dev_set_drvdata(&spmi->dev, led_array);
-
-//++ p11309 - 2013.12.03 for LED Pattern Customization
-#ifdef PAN_LED_CONTROL
-	if ( is_rgb_registered >= 3 ) {
-
-		is_rgb_registered = 0;		
-		INIT_WORK(&pan_led_data.wq, pan_led_process_timer_wq_func);
-		init_timer(&pan_led_data.timer);
-		pan_led_data.timer.function = pan_led_process_timer_func;
-		pan_led_data.timer.data = 0;		
-
-		INIT_WORK(&pan_rainbow_off_timer_work, pan_rainbow_off_timer_work_func);
-		init_timer(&pan_rainbow_off_timer);
-		pan_rainbow_off_timer.function = pan_rainbow_off_timer_func;
-		pan_rainbow_off_timer.data = 0;
-		
-//++ p11309 - 2014.01.03 for Offline Charger
-		pan_led_data.offline_boot = offline_charger;
-		if (pan_led_data.offline_boot == 1 ) {
-			INIT_WORK(&pan_led_data.offline_wq, pan_offline_timer_work_func);
-			init_timer(&pan_led_data.offline_timer);
-			pan_led_data.offline_timer.function = pan_offline_timer_func;
-			pan_led_data.offline_timer.data = 0;			
-			
-			pan_led_data.led_state[RGB_RED] = PAN_LED_OFF;
-			pan_led_data.led_state[RGB_GREEN] = PAN_LED_OFF;
-			pan_led_data.led_state[RGB_BLUE] = PAN_LED_OFF;
-
-			pan_led_data.batt_status = PAN_BATT_NOT_DEFINED;
-			mod_timer(&pan_led_data.offline_timer, 
-				jiffies + msecs_to_jiffies(PAN_OFFLINE_CHECK_INTERVAL));
-		}
-//-- p11309
-		else{
-			printk("[+++ LED] Enable Rainbow Effect for Boot up.\n");			
-
-			pan_led_data.led_state[RGB_RED] = PAN_LED_RAINBOW;
-			pan_led_data.led_state[RGB_GREEN] = PAN_LED_RAINBOW;
-			pan_led_data.led_state[RGB_BLUE] = PAN_LED_RAINBOW;
-
-			pan_rgb_pattern.is_white = 0;
-			pan_do_rainbow(1, PAN_LUT_RISE_MODE_LOG, 
-				PAN_RAINBOW_SETUP_TIME, PAN_RAINBOW_KEEP_TIME);
-			mod_timer(&pan_rainbow_off_timer, 
-				jiffies + msecs_to_jiffies(30000));
-		}		
-	}	
-#endif
-//-- p11309
-
 	return 0;
 
 fail_id_check:
 	for (i = 0; i < parsed_leds; i++) {
-		mutex_destroy(&led_array[i].lock);
+		if (led_array[i].id != QPNP_ID_FLASH1_LED0 &&
+				led_array[i].id != QPNP_ID_FLASH1_LED1)
+			mutex_destroy(&led_array[i].lock);
 		led_classdev_unregister(&led_array[i].cdev);
 	}
 
@@ -4620,17 +4260,12 @@ static int __devexit qpnp_leds_remove(struct spmi_device *spmi)
 	struct qpnp_led_data *led_array  = dev_get_drvdata(&spmi->dev);
 	int i, parsed_leds = led_array->num_leds;
 
-//++ p11309 - 2014.01.03 for Offline Charger
-#ifdef PAN_LED_CONTROL
-	if (pan_led_data.offline_boot == 1) {
-		del_timer(&pan_led_data.offline_timer);
-	}
-#endif
-//-- p11309
-	
 	for (i = 0; i < parsed_leds; i++) {
 		cancel_work_sync(&led_array[i].work);
-		mutex_destroy(&led_array[i].lock);
+		if (led_array[i].id != QPNP_ID_FLASH1_LED0 &&
+				led_array[i].id != QPNP_ID_FLASH1_LED1)
+			mutex_destroy(&led_array[i].lock);
+
 		led_classdev_unregister(&led_array[i].cdev);
 		switch (led_array[i].id) {
 		case QPNP_ID_WLED:
@@ -4679,7 +4314,8 @@ static int __devexit qpnp_leds_remove(struct spmi_device *spmi)
 					kobj, &lpg_attr_group);
 			break;
 		default:
-			printk("[+++ LED] Invalid LED(%d)\n",
+			dev_err(&led_array[i].spmi_dev->dev,
+					"Invalid LED(%d)\n",
 					led_array[i].id);
 			return -EINVAL;
 		}
