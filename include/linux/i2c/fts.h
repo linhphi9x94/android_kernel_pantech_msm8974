@@ -29,6 +29,12 @@ struct fts_noise_param {
 };
 #endif
 
+#ifdef FTS_SUPPORT_TA_MODE
+struct fts_callbacks {
+	void (*inform_charger) (struct fts_callbacks *, int);
+};
+#endif
+
 struct fts_i2c_platform_data {
 	bool factory_flatform;
 	bool recovery_mode;
@@ -38,26 +44,29 @@ struct fts_i2c_platform_data {
 	int max_y;
 	int max_width;
 	unsigned char panel_revision;	/* to identify panel info */
-
 	const char *firmware_name;
 	const char *project_name;
 
 	int (*power) (bool enable);
-	void (*register_cb) (void *);
+	void	(*register_cb)(void *);
+#ifdef FTS_SUPPORT_TA_MODE
+	struct fts_callbacks callbacks;
+	bool charging_mode;
+#endif
 	void (*enable_sync)(bool on);
 
 	unsigned gpio;
 	int irq_type;
+
 };
 
-//++ p11309 - 2013.12.22 for disabled
-#define PAN_TSP_IO
-//#define PAN_KNOCK_ON
-#define TSP_FACTORY_TEST
-//#define FTS_SUPPORT_TA_MODE
-#define FTS_SUPPORT_TA_MODE_PANTECH // 2014.3.25 P13106. ADD TA MODE
+//#define SEC_TSP_FACTORY_TEST
 
-//-- p11309
+#define TSP_FACTORY_TEST
+
+#ifdef SEC_TSP_FACTORY_TEST
+extern struct class *sec_class;
+#endif
 
 extern unsigned int lcdtype;
 

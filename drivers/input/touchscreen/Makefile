@@ -85,5 +85,5 @@ obj-$(CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_FW_UPDATE) 	+= synaptics_fw_update.o
 obj-$(CONFIG_TOUCHSCREEN_SYNAPTICS_I2C_RMI4)		+= synaptics_i2c_rmi4.o
 obj-$(CONFIG_TOUCHSCREEN_GT9XX)		+= gt9xx/
 obj-$(CONFIG_TOUCHSCREEN_ATMEL_MXT_FW30) += atmel_mxt_fw_30/
-obj-$(CONFIG_TOUCHSCREEN_FTS) += stmicro/
+obj-$(CONFIG_TOUCHSCREEN_FTS) += stm_fts/
 obj-$(CONFIG_KEYBOARD_TC370) += coreriver/
