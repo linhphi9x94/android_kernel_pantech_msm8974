@@ -28,17 +28,6 @@ rm -rf $RAMFS_TMP.cpio
 cp -ax $RAMFS_SOURCE $RAMFS_TMP
 cd $RAMFS_TMP
 
-find . -name '*.sh' -exec chmod 755 {} \;
-
-$KERNELDIR/ramdisk_fix_permissions.sh 2>/dev/null
-
-#clear git repositories in ramfs
-find . -name .git -exec rm -rf {} \;
-find . -name EMPTY_DIRECTORY -exec rm -rf {} \;
-cd $KERNELDIR
-rm -rf $RAMFS_TMP/tmp/*
-
-cd $RAMFS_TMP
 find . | fakeroot cpio -H newc -o | lzop -9 > $RAMFS_TMP.cpio.lzo
 ls -lh $RAMFS_TMP.cpio.lzo
 cd $KERNELDIR
