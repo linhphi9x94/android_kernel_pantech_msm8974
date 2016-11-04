@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2011-2014 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,29 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -55,7 +28,6 @@
 
 
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /** ------------------------------------------------------------------------- *
     ------------------------------------------------------------------------- *
 
@@ -63,11 +35,6 @@
     \file csrInternal.h
 
     Define internal data structure for MAC.
-<<<<<<< HEAD
-
-    Copyright (C) 2006 Airgo Networks, Incorporated
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    ========================================================================== */
 #ifndef CSRINTERNAL_H__
 #define CSRINTERNAL_H__
@@ -80,11 +47,8 @@
 #include "vos_nvitem.h"
 #include "wlan_qct_tl.h"
 
-<<<<<<< HEAD
-=======
 #include "csrApi.h"
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef WLAN_FEATURE_NEIGHBOR_ROAMING
 #include "csrNeighborRoam.h"
 #endif
@@ -120,20 +84,13 @@
      NULL \
 )
 
-<<<<<<< HEAD
-=======
 #define CSR_MAX_NUM_COUNTRY_CODE  100
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define CSR_IS_SELECT_5GHZ_MARGIN( pMac ) \
 ( \
    (((pMac)->roam.configParam.nSelect5GHzMargin)?eANI_BOOLEAN_TRUE:eANI_BOOLEAN_FALSE) \
 )
 
-<<<<<<< HEAD
-#if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR)
-=======
 #if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define CSR_IS_ROAM_PREFER_5GHZ( pMac ) \
 ( \
    (((pMac)->roam.configParam.nRoamPrefer5GHz)?eANI_BOOLEAN_TRUE:eANI_BOOLEAN_FALSE) \
@@ -156,11 +113,7 @@
 )
 #endif
 
-<<<<<<< HEAD
-//Support for "Fast roaming" (i.e., CCX, LFR, or 802.11r.)
-=======
 //Support for "Fast roaming" (i.e., ESE, LFR, or 802.11r.)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define CSR_BG_SCAN_OCCUPIED_CHANNEL_LIST_LEN 15
 
 typedef enum
@@ -431,13 +384,10 @@ typedef struct tagCsrRoamStartBssParams
     tANI_U8             *pRSNIE;     //If not null, it has the IE byte stream for RSN
     tANI_BOOLEAN        updatebeaconInterval; //Flag used to indicate update
                                              // beaconInterval
-<<<<<<< HEAD
-=======
 #ifdef WLAN_FEATURE_11W
     tANI_BOOLEAN        mfpCapable;
     tANI_BOOLEAN        mfpRequired;
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }tCsrRoamStartBssParams;
 
 
@@ -455,11 +405,8 @@ typedef struct tagScanCmd
         tCsrScanRequest   scanRequest;
         tCsrBGScanRequest bgScanRequest;
     }u;
-<<<<<<< HEAD
-=======
     //This flag will be set while aborting the scan due to band change
      eCsrAbortReason        abortScanIndication;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }tScanCmd;
 
 typedef struct tagRoamCmd
@@ -570,10 +517,7 @@ typedef struct tagCsrNeighborRoamConfig
     tANI_U8        nMaxNeighborRetries;
     tANI_U16       nNeighborResultsRefreshPeriod;
     tANI_U16       nEmptyScanRefreshPeriod;
-<<<<<<< HEAD
-=======
     tANI_U8        nNeighborInitialForcedRoamTo5GhEnable;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }tCsrNeighborRoamConfig;
 #endif
 
@@ -629,12 +573,8 @@ typedef struct tagCsrConfig
     //code", or the doamin of the country code doesn't match the default domain, the Ap is
     //not acceptable.
     tANI_BOOLEAN fEnforceDefaultDomain;
-<<<<<<< HEAD
-
-=======
     //When set, It enforece country code even if 11doriginal is true
     tANI_BOOLEAN fEnforceCountryCode;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tANI_U16 vccRssiThreshold;
     tANI_U32 vccUlMacLossThreshold;
 
@@ -643,11 +583,8 @@ typedef struct tagCsrConfig
     tANI_U32  nActiveMinChnTime;     //in units of milliseconds
     tANI_U32  nActiveMaxChnTime;     //in units of milliseconds
 
-<<<<<<< HEAD
-=======
     tANI_U32  nInitialDwellTime;     //in units of milliseconds
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tANI_U32  nActiveMinChnTimeBtc;     //in units of milliseconds
     tANI_U32  nActiveMaxChnTimeBtc;     //in units of milliseconds
     tANI_U8   disableAggWithBtc;
@@ -686,19 +623,11 @@ typedef struct tagCsrConfig
 #endif
 #endif
 
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-    tANI_U8   isCcxIniFeatureEnabled;
-#endif
-
-#if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR)
-=======
 #ifdef FEATURE_WLAN_ESE
     tANI_U8   isEseIniFeatureEnabled;
 #endif
 
 #if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tANI_U8       isFastTransitionEnabled;
     tANI_U8       RoamRssiDiff;
     tANI_U8       nImmediateRoamRssiDiff;
@@ -730,15 +659,9 @@ typedef struct tagCsrConfig
     tANI_U8   txBFEnable;
     tANI_U8   txBFCsnValue;
     tANI_BOOLEAN enableVhtFor24GHz;
-<<<<<<< HEAD
-#endif
-    tANI_U8   txLdpcEnable;
-    tANI_BOOLEAN  enableOxygenNwk;
-=======
     tANI_U8   txMuBformee;
 #endif
     tANI_U8   txLdpcEnable;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     /*
      * Enable/Disable heartbeat offload
@@ -746,8 +669,6 @@ typedef struct tagCsrConfig
     tANI_BOOLEAN enableHeartBeatOffload;
     tANI_U8 isAmsduSupportInAMPDU;
     tANI_U8 nSelect5GHzMargin;
-<<<<<<< HEAD
-=======
     tANI_U8 isCoalesingInIBSSAllowed;
     tANI_U8 allowDFSChannelRoam;
     tANI_BOOLEAN initialScanSkipDFSCh;
@@ -761,7 +682,6 @@ typedef struct tagCsrConfig
     tANI_U8 roamDelayStatsEnabled;
     tANI_BOOLEAN ignorePeerHTopMode;
     tANI_BOOLEAN disableP2PMacSpoofing;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }tCsrConfig;
 
 typedef struct tagCsrChannelPowerInfo
@@ -788,14 +708,11 @@ typedef struct tagCsrOsChannelMask
     tANI_U8 channelList[WNI_CFG_VALID_CHANNEL_LIST_LEN];
 }tCsrOsChannelMask;
 
-<<<<<<< HEAD
-=======
 typedef struct tagCsrVotes11d
 {
     tANI_U8 votes;
     tANI_U8 countryCode[WNI_CFG_COUNTRY_CODE_LEN];
 }tCsrVotes11d;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 typedef struct tagCsrScanStruct
 {
@@ -810,11 +727,6 @@ typedef struct tagCsrScanStruct
     vos_timer_t hTimerStaApConcTimer;
 #endif
     vos_timer_t hTimerIdleScan;
-<<<<<<< HEAD
-    vos_timer_t hTimerResultAging;
-    vos_timer_t hTimerResultCfgAging;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tPalTimerHandle hTimerBgScan;
     //changes on every scan, it is used as a flag for whether 11d info is found on every scan
     tANI_U8 channelOf11dInfo;
@@ -842,10 +754,6 @@ typedef struct tagCsrScanStruct
     v_REGDOMAIN_t domainIdDefault;  //default regulatory domain
     v_REGDOMAIN_t domainIdCurrent;  //current regulatory domain
     tCsrBssid currentCountryBssid;  // Bssid for current country code
-<<<<<<< HEAD
-    tANI_BOOLEAN f11dInfoApplied;
-    tANI_BOOLEAN fCancelIdleScan;
-=======
     tANI_S8 currentCountryRSSI;     // RSSI for current country code
     tANI_BOOLEAN f11dInfoApplied;
     tANI_BOOLEAN fCancelIdleScan;
@@ -856,7 +764,6 @@ typedef struct tagCsrScanStruct
     tANI_U8 countryCodeElected[WNI_CFG_COUNTRY_CODE_LEN];
 
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef FEATURE_WLAN_WAPI
 //    tANI_U16 NumBkidCandidate;
 //    tBkidCandidateInfo BkidCandidateInfo[CSR_MAX_BKID_ALLOWED]; /* Move this as part of SessionEntry */
@@ -883,11 +790,7 @@ typedef struct tagCsrScanStruct
     /*Customer wants to optimize the scan time. Avoiding scans(passive) on DFS
     * channels while swipping through both bands can save some time
     * (apprx 1.3 sec) */
-<<<<<<< HEAD
-    tANI_BOOLEAN fEnableDFSChnlScan;
-=======
     tANI_U8 fEnableDFSChnlScan;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     /*
     * To enable/disable scanning only 2.4Ghz channels on first scan
@@ -901,36 +804,11 @@ typedef struct tagCsrScanStruct
 #endif
     tCsrChannel occupiedChannels;   //This includes all channels on which candidate APs are found
     tANI_S8     inScanResultBestAPRssi;
-<<<<<<< HEAD
-}tCsrScanStruct;
-
-#ifdef FEATURE_WLAN_TDLS_INTERNAL
-/*
- * struct to carry TDLS discovery info..
- */
-typedef struct sCsrTdlsContext
-{
-    tDblLinkList tdlsPotentialPeerList ;
-    tANI_U16 tdlsCommonFlag ;
-    tANI_U16 tdlsCommonState ;
-    tANI_U16 tdlsPeerCount ;
-}tCsrTdlsCtxStruct;
-
-typedef struct sCsrTdlsPeerLinkInfo
-{
-    tListElem tdlsPeerStaLink ;
-    tSirTdlsPeerInfo tdlsDisPeerInfo ;
-}tCsrTdlsPeerLinkinfo ;
-#endif
-
-
-=======
 
     csrScanCompleteCallback callback11dScanDone;
     eCsrBand  scanBandPreference;  //This defines the band perference for scan
     bool fcc_constraint;
 }tCsrScanStruct;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 
 //Save the connected information. This structure + connectedProfile
@@ -943,11 +821,7 @@ typedef struct tagRoamCsrConnectedInfo
 #ifdef WLAN_FEATURE_VOWIFI_11R
     tANI_U32 nRICRspLength; //Length of the parsed RIC response IEs received in reassoc response
 #endif
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-=======
 #ifdef FEATURE_WLAN_ESE
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tANI_U32 nTspecIeLength;
 #endif
     tANI_U8 *pbFrames;  //Point to a buffer contain the beacon, assoc req, assoc rsp frame, in that order
@@ -1014,12 +888,8 @@ typedef struct tagCsrRoamSession
     tCsrRoamConnectedInfo connectedInfo;
     tCsrRoamProfile *pCurRoamProfile;
     tSirBssDescription *pConnectBssDesc;
-<<<<<<< HEAD
-    tANI_U16 NumPmkidCache;
-=======
     tANI_U16 NumPmkidCache; /* valid no. of pmkid in the cache */
     tANI_U16 CurCacheIndex; /* the index in pmkidcache to write next to */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tPmkidCacheInfo PmkidCacheInfo[CSR_MAX_PMKID_ALLOWED];
     tANI_U8 cJoinAttemps;
     //This may or may not have the up-to-date valid channel list
@@ -1044,16 +914,11 @@ typedef struct tagCsrRoamSession
     tANI_U32 nWapiRspIeLength;    //the byte count for pWapiRspIE
     tANI_U8 *pWapiRspIE;  //this contain the WAPI IE in beacon/probe rsp
 #endif /* FEATURE_WLAN_WAPI */
-<<<<<<< HEAD
-    tANI_U32 nAddIEScanLength;  //the byte count of pAddIeScanIE;
-    tANI_U8 *pAddIEScan; //this contains the additional IE in (unicast) probe request at the time of join
-=======
     tANI_U32 nAddIEScanLength;  //length of addIeScan
     /* This contains the additional IE in (unicast)
      *  probe request at the time of join
      */
     tANI_U8 addIEScan[SIR_MAC_MAX_ADD_IE_LENGTH+2];
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tANI_U32 nAddIEAssocLength;      //the byte count for pAddIeAssocIE
     tANI_U8 *pAddIEAssoc; //this contains the additional IE in (re) assoc request
 
@@ -1062,12 +927,6 @@ typedef struct tagCsrRoamSession
     eCsrRoamingReason roamingReason;
     tANI_BOOLEAN fCancelRoaming;
     vos_timer_t hTimerRoaming;
-<<<<<<< HEAD
-    vos_timer_t hTimerIbssJoining;
-    tCsrTimerInfo ibssJoinTimerInfo;
-    tANI_BOOLEAN ibss_join_pending;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     eCsrRoamResult roamResult;  //the roamResult that is used when the roaming timer fires
     tCsrRoamJoinStatus joinFailStatusCode;    //This is the reason code for join(assoc) failure
     //The status code returned from PE for deauth or disassoc (in case of lostlink), or our own dynamic roaming
@@ -1087,26 +946,16 @@ typedef struct tagCsrRoamSession
     tCsrTimerInfo joinRetryTimerInfo;
     tANI_U32 maxRetryCount;
 #endif
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-    tCsrCcxCckmInfo ccxCckmInfo;
-=======
 #ifdef FEATURE_WLAN_ESE
     tCsrEseCckmInfo eseCckmInfo;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tANI_BOOLEAN isPrevApInfoValid;
     tSirMacSSid prevApSSID;
     tCsrBssid prevApBssid;
     tANI_U8 prevOpChannel;
     tANI_U16 clientDissSecs;
     tANI_U32 roamTS1;
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX_UPLOAD)
-    tCsrCcxCckmIe suppCckmIeInfo;
-=======
 #if defined(FEATURE_WLAN_ESE_UPLOAD)
     tCsrEseCckmIe suppCckmIeInfo;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 #endif
     tANI_U8 bRefAssocStartCnt;   //Tracking assoc start indication
@@ -1114,10 +963,7 @@ typedef struct tagCsrRoamSession
     * the PMKID cache. To clear the cache in this particular case this is added
     * it is needed by the HS 2.0 passpoint certification 5.2.a and b testcases */
     tANI_BOOLEAN fIgnorePMKIDCache;
-<<<<<<< HEAD
-=======
     tANI_BOOLEAN abortConnection;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 } tCsrRoamSession;
 
 typedef struct tagCsrRoamStruct
@@ -1165,15 +1011,6 @@ typedef struct tagCsrRoamStruct
 #ifdef FEATURE_WLAN_LFR
     tANI_U8   isFastRoamIniFeatureEnabled;
 #endif
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-    tANI_U8   isCcxIniFeatureEnabled;
-#endif
-#if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR)
-    tANI_U8        RoamRssiDiff;
-    tANI_BOOLEAN   isWESModeEnabled;
-#endif
-=======
 #ifdef FEATURE_WLAN_ESE
     tANI_U8   isEseIniFeatureEnabled;
 #endif
@@ -1182,7 +1019,6 @@ typedef struct tagCsrRoamStruct
     tANI_BOOLEAN   isWESModeEnabled;
 #endif
     tANI_U32 deauthRspStatus;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }tCsrRoamStruct;
 
 
@@ -1311,11 +1147,8 @@ void csrScanSuspendIMPS( tpAniSirGlobal pMac );
 void csrScanResumeIMPS( tpAniSirGlobal pMac );
 
 eHalStatus csrInitGetChannels(tpAniSirGlobal pMac);
-<<<<<<< HEAD
-=======
 eHalStatus csrScanFilterResults(tpAniSirGlobal pMac);
 eHalStatus csrScanFilterDFSResults(tpAniSirGlobal pMac);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 eHalStatus csrSetModifyProfileFields(tpAniSirGlobal pMac, tANI_U32 sessionId,
                                      tCsrRoamModifyProfileFields *pModifyProfileFields);
@@ -1432,11 +1265,7 @@ eHalStatus csrGetRssi(tpAniSirGlobal pMac,tCsrRssiCallback callback,tANI_U8 staI
 eHalStatus csrGetSnr(tpAniSirGlobal pMac, tCsrSnrCallback callback,
                      tANI_U8 staId, tCsrBssid bssId, void *pContext);
 
-<<<<<<< HEAD
-#if defined WLAN_FEATURE_VOWIFI_11R || defined FEATURE_WLAN_CCX || defined(FEATURE_WLAN_LFR)
-=======
 #if defined WLAN_FEATURE_VOWIFI_11R || defined FEATURE_WLAN_ESE || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 eHalStatus csrGetRoamRssi(tpAniSirGlobal pMac,
                           tCsrRssiCallback callback,
                           tANI_U8 staId,
@@ -1445,19 +1274,11 @@ eHalStatus csrGetRoamRssi(tpAniSirGlobal pMac,
                           void * pVosContext);
 #endif
 
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX) && defined(FEATURE_WLAN_CCX_UPLOAD)
-eHalStatus csrGetTsmStats(tpAniSirGlobal pMac, tCsrTsmStatsCallback callback, tANI_U8 staId,
-                              tCsrBssid bssId, void *pContext, void* pVosContext,
-                              tANI_U8 tid);
-#endif  /* FEATURE_WLAN_CCX && FEATURE_WLAN_CCX_UPLOAD */
-=======
 #if defined(FEATURE_WLAN_ESE) && defined(FEATURE_WLAN_ESE_UPLOAD)
 eHalStatus csrGetTsmStats(tpAniSirGlobal pMac, tCsrTsmStatsCallback callback, tANI_U8 staId,
                               tCsrBssid bssId, void *pContext, void* pVosContext,
                               tANI_U8 tid);
 #endif  /* FEATURE_WLAN_ESE && FEATURE_WLAN_ESE_UPLOAD */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 eHalStatus csrRoamRegisterCallback(tpAniSirGlobal pMac, csrRoamCompleteCallback callback, void *pContext);
 /* ---------------------------------------------------------------------------
@@ -1493,8 +1314,6 @@ eHalStatus csrMsgProcessor( tpAniSirGlobal pMac,  void *pMsgBuf );
     \return eHalStatus
   -------------------------------------------------------------------------------*/
 eHalStatus csrOpen(tpAniSirGlobal pMac);
-<<<<<<< HEAD
-=======
 
 /* ---------------------------------------------------------------------------
     \fn csrInitChannels
@@ -1512,7 +1331,6 @@ eHalStatus csrInitChannels(tpAniSirGlobal pMac);
 eHalStatus csrInitChannelsForCC(tpAniSirGlobal pMac, driver_load_type init );
 #endif
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* ---------------------------------------------------------------------------
     \fn csrClose
     \brief To close down CSR module. There should not be any API call into CSR after calling this function.
@@ -1576,10 +1394,7 @@ eHalStatus csrRoamUpdateWPARSNIEs( tpAniSirGlobal pMac, tANI_U32 sessionId, tSir
 void csrSetCfgPrivacy( tpAniSirGlobal pMac, tCsrRoamProfile *pProfile, tANI_BOOLEAN fPrivacy );
 tANI_S8 csrGetInfraSessionId( tpAniSirGlobal pMac );
 tANI_U8 csrGetInfraOperationChannel( tpAniSirGlobal pMac, tANI_U8 sessionId);
-<<<<<<< HEAD
-=======
 tANI_BOOLEAN csrIsSessionClientAndConnected(tpAniSirGlobal pMac, tANI_U8 sessionId);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 tANI_U8 csrGetConcurrentOperationChannel( tpAniSirGlobal pMac );
 
 eHalStatus csrRoamCopyConnectProfile(tpAniSirGlobal pMac, tANI_U32 sessionId,
@@ -1601,19 +1416,11 @@ eHalStatus csrScanSavePreferredNetworkFound(tpAniSirGlobal pMac,
 tANI_BOOLEAN csrRoamIs11rAssoc(tpAniSirGlobal pMac);
 #endif
 
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-//Returns whether the current association is a CCX assoc or not
-tANI_BOOLEAN csrRoamIsCCXAssoc(tpAniSirGlobal pMac);
-tANI_BOOLEAN csrRoamIsCcxIniFeatureEnabled(tpAniSirGlobal pMac);
-tANI_BOOLEAN csrNeighborRoamIsCCXAssoc(tpAniSirGlobal pMac);
-=======
 #ifdef FEATURE_WLAN_ESE
 //Returns whether the current association is a ESE assoc or not
 tANI_BOOLEAN csrRoamIsESEAssoc(tpAniSirGlobal pMac);
 tANI_BOOLEAN csrRoamIsEseIniFeatureEnabled(tpAniSirGlobal pMac);
 tANI_BOOLEAN csrNeighborRoamIsESEAssoc(tpAniSirGlobal pMac);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 
 //Remove this code once SLM_Sessionization is supported
@@ -1637,7 +1444,4 @@ eHalStatus csrHandoffRequest(tpAniSirGlobal pMac, tCsrHandoffRequest *pHandoffIn
 tANI_BOOLEAN csrRoamIsStaMode(tpAniSirGlobal pMac, tANI_U32 sessionId);
 #endif
 
-<<<<<<< HEAD
-=======
 void csrDisableDfsChannel(tpAniSirGlobal pMac);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver

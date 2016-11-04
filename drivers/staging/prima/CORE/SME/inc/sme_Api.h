@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,29 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -55,7 +28,6 @@
 
 
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #if !defined( __SME_API_H )
 #define __SME_API_H
 
@@ -66,12 +38,6 @@
   
   \brief prototype for SME APIs
   
-<<<<<<< HEAD
-   Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
-   
-   Qualcomm Confidential and Proprietary.
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   
   ========================================================================*/
 
@@ -80,10 +46,7 @@
 /*--------------------------------------------------------------------------
   Include Files
   ------------------------------------------------------------------------*/
-<<<<<<< HEAD
-=======
 #include <linux/version.h>
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include "ccmApi.h"
 #include "csrApi.h"
 #include "pmcApi.h"
@@ -94,10 +57,7 @@
 #include "btcApi.h"
 #include "vos_nvitem.h"
 #include "p2p_Api.h"
-<<<<<<< HEAD
-=======
 #include "smeInternal.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef FEATURE_OEM_DATA_SUPPORT
 #include "oemDataApi.h"
@@ -106,10 +66,7 @@
 #if defined WLAN_FEATURE_VOWIFI
 #include "smeRrmInternal.h"
 #endif
-<<<<<<< HEAD
-=======
 #include "nan_Api.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*-------------------------------------------------------------------------- 
   Preprocessor definitions and constants
@@ -126,13 +83,10 @@
 
 //Macro to disable split scan
 #define SME_DISABLE_SPLIT_SCAN   255
-<<<<<<< HEAD
-=======
 
 //Macro to indicate invalid no of tspecs
 #define INVALID_TSPEC 100
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*-------------------------------------------------------------------------- 
   Type declarations
   ------------------------------------------------------------------------*/
@@ -146,32 +100,19 @@ typedef struct _smeConfigParams
     tANI_U8   isFastRoamIniFeatureEnabled;
     tANI_U8   MAWCEnabled;
 #endif
-<<<<<<< HEAD
-#if defined FEATURE_WLAN_CCX
-    tANI_U8   isCcxIniFeatureEnabled;
-=======
 #if defined FEATURE_WLAN_ESE
     tANI_U8   isEseIniFeatureEnabled;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 #if defined WLAN_FEATURE_P2P_INTERNAL
    tP2PConfigParam  p2pConfig;
 #endif
-<<<<<<< HEAD
-#if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR)
-=======
 #if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tANI_U8       isFastTransitionEnabled;
     tANI_U8       RoamRssiDiff;
     tANI_BOOLEAN  isWESModeEnabled;
 #endif
     tANI_BOOLEAN  fScanOffload;
     tANI_U8  isAmsduSupportInAMPDU;
-<<<<<<< HEAD
-} tSmeConfigParams, *tpSmeConfigParams;
-
-=======
     tANI_U32       fEnableDebugLog;
     tANI_U32      fDeferIMPSTime;
     tANI_U8       fBtcEnableIndTimerVal;
@@ -349,7 +290,6 @@ eHalStatus sme_EXTScanRegisterCallback (tHalHandle hHal,
     -------------------------------------------------------------------------*/
 eHalStatus  sme_SpoofMacAddrReq(tHalHandle hHal, v_MACADDR_t *macaddr);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 typedef enum
 {
     eSME_ROAM_TRIGGER_NONE = 0,
@@ -359,14 +299,8 @@ typedef enum
 } tSmeFastRoamTrigger;
 
 /*------------------------------------------------------------------------- 
-<<<<<<< HEAD
-  Function declarations and documenation
-  ------------------------------------------------------------------------*/
-
-=======
   Function declarations and documentation.
   ------------------------------------------------------------------------*/
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*--------------------------------------------------------------------------
   
   \brief sme_Open() - Initialze all SME modules and put them at idle state
@@ -409,8 +343,6 @@ eHalStatus sme_Open(tHalHandle hHal);
 eHalStatus sme_Close(tHalHandle hHal);
 
 /*--------------------------------------------------------------------------
-<<<<<<< HEAD
-=======
 
   \brief sme_PreClose() - Stop SME resources prior to final sme_Stop.
 
@@ -426,7 +358,6 @@ eHalStatus sme_Close(tHalHandle hHal);
 v_VOID_t sme_PreClose(tHalHandle hHal);
 
 /*--------------------------------------------------------------------------
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   
   \brief sme_Start() - Put all SME modules at ready state.
   
@@ -504,13 +435,6 @@ void sme_SetCurrDeviceMode (tHalHandle hHal, tVOS_CON_MODE currDeviceMode);
   
   This is a synchronous API.
 
-<<<<<<< HEAD
-  
-  \param hHal - The handle returned by macOpen.
-
-  \param sessionId - A previous opened session's ID.
-  
-=======
   \param hHal - The handle returned by macOpen.
 
   \param sessionId - A previous opened session's ID.
@@ -518,20 +442,11 @@ void sme_SetCurrDeviceMode (tHalHandle hHal, tVOS_CON_MODE currDeviceMode);
   \param bPurgeSmeCmdList  - Whether sme cmd list purging is required or not.
                              TRUE -Purging require FALSE - Purging not require
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   \return eHAL_STATUS_SUCCESS - session is closed. 
   
           Other status means SME is failed to open the session.  
           eHAL_STATUS_INVALID_PARAMETER - session is not opened. 
   \sa
-<<<<<<< HEAD
-  
-  --------------------------------------------------------------------------*/
-eHalStatus sme_CloseSession(tHalHandle hHal, tANI_U8 sessionId,
-                         csrRoamSessionCloseCallback callback, void *pContext);
-
-
-=======
 
 
   --------------------------------------------------------------------------*/
@@ -553,7 +468,6 @@ eHalStatus sme_CloseSession(tHalHandle hHal, tANI_U8 sessionId,
 --------------------------------------------------------------------------*/
 
 eHalStatus sme_PurgeCmdList(tHalHandle hHal, tANI_U8 sessionId);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*--------------------------------------------------------------------------
   
@@ -599,8 +513,6 @@ eHalStatus sme_UpdateChannelConfig(tHalHandle hHal);
 
 #endif // FEATURE_WLAN_SCAN_PNLO
 /*--------------------------------------------------------------------------
-<<<<<<< HEAD
-=======
 
   \brief sme_UpdateChannelList() - Update channel List in FW.
 
@@ -616,7 +528,6 @@ eHalStatus sme_UpdateChannelConfig(tHalHandle hHal);
 eHalStatus sme_UpdateChannelList(tHalHandle hHal);
 
 /*--------------------------------------------------------------------------
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   
   \brief sme_set11dinfo() - Set the 11d information about valid channels
    and there power using information from nvRAM 
@@ -762,8 +673,6 @@ eHalStatus sme_ScanGetResult(tHalHandle hHal, tANI_U8 sessionId, tCsrScanResultF
     \return eHalStatus     
   ---------------------------------------------------------------------------*/
 eHalStatus sme_ScanFlushResult(tHalHandle hHal, tANI_U8 sessionId);
-<<<<<<< HEAD
-=======
 
 /*
  * ---------------------------------------------------------------------------
@@ -785,7 +694,6 @@ eHalStatus sme_FilterScanResults(tHalHandle hHal, tANI_U8 sessionId);
  */
 eHalStatus sme_FilterScanDFSResults(tHalHandle hHal);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 eHalStatus sme_ScanFlushP2PResult(tHalHandle hHal, tANI_U8 sessionId);
 
 /* ---------------------------------------------------------------------------
@@ -909,8 +817,6 @@ eHalStatus sme_RoamConnectToLastProfile(tHalHandle hHal, tANI_U8 sessionId);
 eHalStatus sme_RoamDisconnect(tHalHandle hHal, tANI_U8 sessionId, eCsrRoamDisconnectReason reason);
 
 /* ---------------------------------------------------------------------------
-<<<<<<< HEAD
-=======
     \fn.sme_abortConnection
     \brief a wrapper function to request CSR to stop from connecting a network
     \retun void.
@@ -919,7 +825,6 @@ eHalStatus sme_RoamDisconnect(tHalHandle hHal, tANI_U8 sessionId, eCsrRoamDiscon
 void sme_abortConnection(tHalHandle hHal, tANI_U8 sessionId);
 
 /* ---------------------------------------------------------------------------
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     \fn sme_RoamStopBss
     \brief a wrapper function to request CSR to stop bss
     \param sessionId    - sessionId of SoftAP
@@ -949,9 +854,6 @@ eHalStatus sme_RoamGetAssociatedStas(tHalHandle hHal, tANI_U8 sessionId,
     \param pPeerMacAddr - Caller allocated memory filled with peer MAC address (6 bytes)
     \return eHalStatus  SUCCESS  Roam callback will be called to indicate actual results
   -------------------------------------------------------------------------------*/
-<<<<<<< HEAD
-eHalStatus sme_RoamDisconnectSta(tHalHandle hHal, tANI_U8 sessionId, tANI_U8 *pPeerMacAddr);
-=======
 eHalStatus sme_RoamDisconnectSta(tHalHandle hHal, tANI_U8 sessionId,
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,18,0))
                                  const tANI_U8 *pPeerMacAddr
@@ -959,26 +861,17 @@ eHalStatus sme_RoamDisconnectSta(tHalHandle hHal, tANI_U8 sessionId,
                                  tANI_U8 *pPeerMacAddr
 #endif
                                  );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /* ---------------------------------------------------------------------------
     \fn sme_RoamDeauthSta
     \brief To disassociate a station. This is an asynchronous API.
     \param hHal - Global structure
     \param sessionId - sessionId of SoftAP
-<<<<<<< HEAD
-    \param pPeerMacAddr - Caller allocated memory filled with peer MAC address (6 bytes)
-    \return eHalStatus  SUCCESS  Roam callback will be called to indicate actual results    
-  -------------------------------------------------------------------------------*/
-eHalStatus sme_RoamDeauthSta(tHalHandle hHal, tANI_U8 sessionId,
-                                tANI_U8 *pPeerMacAddr);
-=======
     \param pDelStaParams- Pointer to parameters of the station to deauthenticate
     \return eHalStatus  SUCCESS  Roam callback will be called to indicate actual results    
   -------------------------------------------------------------------------------*/
 eHalStatus sme_RoamDeauthSta(tHalHandle hHal, tANI_U8 sessionId,
                              struct tagCsrDelStaParams *pDelStaParams);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /* ---------------------------------------------------------------------------
     \fn sme_RoamTKIPCounterMeasures
@@ -1041,27 +934,19 @@ eHalStatus sme_RoamFreeConnectProfile(tHalHandle hHal,
     \param numItems - a variable that has the number of tPmkidCacheInfo 
                       allocated when retruning, this is either the number needed 
                       or number of items put into pPMKIDCache
-<<<<<<< HEAD
-=======
     \param update_entire_cache - if TRUE, then it overwrites the entire cache
                                  with pPMKIDCache, else it updates entry by
                                  entry without deleting the old entries.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     \return eHalStatus - when fail, it usually means the buffer allocated is not 
                          big enough and pNumItems has the number of 
                          tPmkidCacheInfo.
     \Note: pNumItems is a number of tPmkidCacheInfo, 
            not sizeof(tPmkidCacheInfo) * something
   ---------------------------------------------------------------------------*/
-<<<<<<< HEAD
-eHalStatus sme_RoamSetPMKIDCache( tHalHandle hHal, tANI_U8 sessionId, tPmkidCacheInfo *pPMKIDCache, 
-                                  tANI_U32 numItems );
-=======
 eHalStatus sme_RoamSetPMKIDCache( tHalHandle hHal, tANI_U8 sessionId,
                                   tPmkidCacheInfo *pPMKIDCache,
                                   tANI_U32 numItems,
                                   tANI_BOOLEAN update_entire_cache );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /* ---------------------------------------------------------------------------
     \fn sme_RoamGetSecurityReqIE
@@ -1187,11 +1072,7 @@ eHalStatus sme_GetSnr(tHalHandle hHal,
                        tCsrSnrCallback callback,
                        tANI_U8 staId, tCsrBssid bssId,
                        void *pContext);
-<<<<<<< HEAD
-#if defined WLAN_FEATURE_VOWIFI_11R || defined FEATURE_WLAN_CCX || defined(FEATURE_WLAN_LFR)
-=======
 #if defined WLAN_FEATURE_VOWIFI_11R || defined FEATURE_WLAN_ESE || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 eHalStatus sme_GetRoamRssi(tHalHandle hHal,
                            tCsrRssiCallback callback,
                            tANI_U8 staId,
@@ -1200,11 +1081,7 @@ eHalStatus sme_GetRoamRssi(tHalHandle hHal,
                            void* pVosContext);
 #endif
 
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX) && defined(FEATURE_WLAN_CCX_UPLOAD)
-=======
 #if defined(FEATURE_WLAN_ESE) && defined(FEATURE_WLAN_ESE_UPLOAD)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* ---------------------------------------------------------------------------
     \fn sme_GetTsmStats
     \brief a wrapper function that client calls to register a callback to get TSM Stats
@@ -1233,19 +1110,6 @@ eHalStatus sme_SetCCKMIe(tHalHandle hHal, tANI_U8 sessionId, tANI_U8 *pCckmIe, t
 
 
 /* ---------------------------------------------------------------------------
-<<<<<<< HEAD
-    \fn sme_SetCcxBeaconRequest
-    \brief  function to set CCX beacon request parameters
-    \param  hHal - HAL handle for device
-    \param  pCcxBcnReq - pointer to CCX beacon request
-    \- return Success or failure
-    -------------------------------------------------------------------------*/
-eHalStatus sme_SetCcxBeaconRequest(tHalHandle hHal, const tANI_U8 sessionId,
-                                   const tCsrCcxBeaconReq* pCcxBcnReq);
-
-
-#endif /*FEATURE_WLAN_CCX && FEATURE_WLAN_CCX_UPLOAD */
-=======
     \fn sme_SetEseBeaconRequest
     \brief  function to set ESE beacon request parameters
     \param  hHal - HAL handle for device
@@ -1257,7 +1121,6 @@ eHalStatus sme_SetEseBeaconRequest(tHalHandle hHal, const tANI_U8 sessionId,
 
 
 #endif /*FEATURE_WLAN_ESE && FEATURE_WLAN_ESE_UPLOAD */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* ---------------------------------------------------------------------------
     \fn sme_CfgSetInt
     \brief a wrapper function that HDD calls to set parameters in CFG. 
@@ -1289,33 +1152,15 @@ eHalStatus sme_CfgSetInt(tHalHandle hHal, tANI_U32 cfgId, tANI_U32 ccmValue,
 eHalStatus sme_CfgSetStr(tHalHandle hHal, tANI_U32 cfgId, tANI_U8 *pStr, 
                          tANI_U32 length, tCcmCfgSetCallback callback, 
                          eAniBoolean toBeSaved) ;
-<<<<<<< HEAD
-
-
-/* ---------------------------------------------------------------------------
-    \fn sme_GetModifyProfileFields
-    \brief HDD or SME - QOS calls this function to get the current values of 
-=======
 /* ---------------------------------------------------------------------------
     \fn sme_GetModifyProfileFields
     \brief HDD or SME - QOS calls this function to get the current values of
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     connected profile fields, changing which can cause reassoc.
     This function must be called after CFG is downloaded and STA is in connected
     state. Also, make sure to call this function to get the current profile
     fields before calling the reassoc. So that pModifyProfileFields will have
     all the latest values plus the one(s) has been updated as part of reassoc
     request.
-<<<<<<< HEAD
-    \param pModifyProfileFields - pointer to the connected profile fields 
-    changing which can cause reassoc
-
-    \return eHalStatus     
-  -------------------------------------------------------------------------------*/
-eHalStatus sme_GetModifyProfileFields(tHalHandle hHal, tANI_U8 sessionId, 
-                                     tCsrRoamModifyProfileFields * pModifyProfileFields);
-
-=======
     \param pModifyProfileFields - pointer to the connected profile fields
     changing which can cause reassoc
 
@@ -1334,7 +1179,6 @@ eHalStatus sme_GetModifyProfileFields(tHalHandle hHal, tANI_U8 sessionId,
     \return eHalStatus
   -------------------------------------------------------------------------------*/
 eHalStatus sme_HT40StopOBSSScan(tHalHandle hHal, tANI_U8 sessionId );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*--------------------------------------------------------------------------
     \fn sme_SetConfigPowerSave
@@ -1589,8 +1433,6 @@ extern eHalStatus sme_RegisterPowerSaveCheck (
    tANI_BOOLEAN (*checkRoutine) (void *checkContext), void *checkContext);
 
 /* ---------------------------------------------------------------------------
-<<<<<<< HEAD
-=======
     \fn sme_Register11dScanDoneCallback
     \brief  Register a routine of type csrScanCompleteCallback which is
             called whenever an 11d scan is done
@@ -1603,7 +1445,6 @@ extern eHalStatus sme_Register11dScanDoneCallback (
    csrScanCompleteCallback);
 
 /* ---------------------------------------------------------------------------
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     \fn sme_DeregisterPowerSaveCheck
     \brief  Deregister a power save check routine
     \param  hHal - The handle returned by macOpen.
@@ -1731,11 +1572,7 @@ extern eHalStatus sme_EnterWowl (
                                   not even completed.
             eHAL_STATUS_SUCCESS  Request accepted to exit WoWLAN mode. 
   ---------------------------------------------------------------------------*/
-<<<<<<< HEAD
-extern eHalStatus sme_ExitWowl (tHalHandle hHal);
-=======
 extern eHalStatus sme_ExitWowl (tHalHandle hHal, tWowlExitSource wowlExitSrc);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /* ---------------------------------------------------------------------------
 
@@ -1817,8 +1654,6 @@ eHalStatus sme_GetCountryCode(tHalHandle hHal, tANI_U8 *pBuf, tANI_U8 *pbLen);
 eHalStatus sme_SetCountryCode(tHalHandle hHal, tANI_U8 *pCountry, tANI_BOOLEAN *pfRestartNeeded);
 
 /* ---------------------------------------------------------------------------
-<<<<<<< HEAD
-=======
 
     \fn sme_InitChannels
 
@@ -1852,7 +1687,6 @@ eHalStatus sme_InitChannelsForCC(tHalHandle hHal, driver_load_type init);
 #endif
 
 /* ---------------------------------------------------------------------------
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     \fn sme_ResetCountryCodeInformation
     \brief this function is to reset the country code current being used back to EEPROM default
     this includes channel list and power setting. This is a synchronous API.
@@ -2004,11 +1838,7 @@ eHalStatus sme_GenericChangeCountryCode( tHalHandle hHal,
 
     \param device_mode the mode of the device
 
-<<<<<<< HEAD
-    \param macAddr the macAddress of the devices
-=======
     \param sessionId session ID
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     \return eHalStatus  SUCCESS.
 
@@ -2018,11 +1848,7 @@ eHalStatus sme_GenericChangeCountryCode( tHalHandle hHal,
 
 eHalStatus sme_DHCPStartInd( tHalHandle hHal,
                              tANI_U8 device_mode,
-<<<<<<< HEAD
-                             tANI_U8 *macAddr );
-=======
                              tANI_U8 sessionId );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /* ---------------------------------------------------------------------------
 
@@ -2034,11 +1860,7 @@ eHalStatus sme_DHCPStartInd( tHalHandle hHal,
 
     \param device_mode the mode of the device
 
-<<<<<<< HEAD
-    \param macAddr the macAddress of the devices
-=======
     \param sessionId session ID
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     \return eHalStatus  SUCCESS.
 
@@ -2047,11 +1869,7 @@ eHalStatus sme_DHCPStartInd( tHalHandle hHal,
  -------------------------------------------------------------------------------*/
 eHalStatus sme_DHCPStopInd( tHalHandle hHal,
                             tANI_U8 device_mode,
-<<<<<<< HEAD
-                            tANI_U8 *macAddr );
-=======
                             tANI_U8 sessionId );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 
 /* ---------------------------------------------------------------------------
@@ -2335,20 +2153,6 @@ eHalStatus sme_SetHostOffload (tHalHandle hHal, tANI_U8 sessionId,
 eHalStatus sme_SetKeepAlive (tHalHandle hHal, tANI_U8 sessionId,
                                   tpSirKeepAliveReq pRequest);
 
-<<<<<<< HEAD
-
-/* ---------------------------------------------------------------------------
-    \fn sme_AbortMacScan
-    \brief  API to cancel MAC scan.
-    \param  hHal - The handle returned by macOpen.
-    \return VOS_STATUS
-            VOS_STATUS_E_FAILURE - failure
-            VOS_STATUS_SUCCESS  success
-  ---------------------------------------------------------------------------*/
-eHalStatus sme_AbortMacScan(tHalHandle hHal);
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* ----------------------------------------------------------------------------
    \fn sme_GetOperationChannel
    \brief API to get current channel on which STA is parked
@@ -2359,12 +2163,9 @@ eHalStatus sme_AbortMacScan(tHalHandle hHal);
 -------------------------------------------------------------------------------*/
 eHalStatus sme_GetOperationChannel(tHalHandle hHal, tANI_U32 *pChannel, tANI_U8 sessionId);
 
-<<<<<<< HEAD
-=======
 eHalStatus sme_register_mgmt_frame_ind_callback(tHalHandle hHal,
       sir_mgmt_frame_ind_callback callback);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* ---------------------------------------------------------------------------
 
     \fn sme_RegisterMgtFrame
@@ -2392,8 +2193,6 @@ eHalStatus sme_RegisterMgmtFrame(tHalHandle hHal, tANI_U8 sessionId,
   -------------------------------------------------------------------------------*/
 eHalStatus sme_DeregisterMgmtFrame(tHalHandle hHal, tANI_U8 sessionId, 
                      tANI_U16 frameType, tANI_U8* matchData, tANI_U16 matchLen);
-<<<<<<< HEAD
-=======
 /* ---------------------------------------------------------------------------
     \fn sme_GetFramesLog
     \brief a wrapper function that client calls to register a callback to get
@@ -2419,7 +2218,6 @@ eHalStatus sme_GetFramesLog(tHalHandle hHal, tANI_U8 flag);
 --------------------------------------------------------------------------- */
 eHalStatus sme_InitMgmtFrameLogging( tHalHandle hHal,
                             tpSirFWLoggingInitParam wlanFWLoggingInitParam);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /* ---------------------------------------------------------------------------
 
@@ -2563,20 +2361,12 @@ tANI_U8 sme_GetConcurrentOperationChannel( tHalHandle hHal );
     \fn sme_AbortMacScan
     \brief  API to cancel MAC scan.
     \param  hHal - The handle returned by macOpen.
-<<<<<<< HEAD
-    \return VOS_STATUS
-            VOS_STATUS_E_FAILURE - failure
-            VOS_STATUS_SUCCESS  success
-  ---------------------------------------------------------------------------*/
-eHalStatus sme_AbortMacScan(tHalHandle hHal);
-=======
     \param  sessionId - sessionId for interface
     \return tSirAbortScanStatus return status abort scan
 
   ---------------------------------------------------------------------------*/
 tSirAbortScanStatus sme_AbortMacScan(tHalHandle hHal, tANI_U8 sessionId,
                                      eCsrAbortReason reason);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /* ---------------------------------------------------------------------------
     \fn sme_GetCfgValidChannels
@@ -2816,8 +2606,6 @@ eHalStatus sme_SetMaxTxPower(tHalHandle hHal, tSirMacAddr pBssid,
                              tSirMacAddr pSelfMacAddress, v_S7_t dB);
 
 /* ---------------------------------------------------------------------------
-<<<<<<< HEAD
-=======
     \fn sme_SetMaxTxPowerPerBand
     \brief  Used to set the Maximum Transmit Power for
     specific band dynamically. Note: this setting will not persist over reboots
@@ -2828,7 +2616,6 @@ eHalStatus sme_SetMaxTxPower(tHalHandle hHal, tSirMacAddr pBssid,
 eHalStatus sme_SetMaxTxPowerPerBand(eCsrBand band, v_S7_t db);
 
 /* ---------------------------------------------------------------------------
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     \fn sme_SetTxPower
 
@@ -2941,11 +2728,7 @@ void sme_transportDebug(tHalHandle hHal, v_BOOL_t displaySnapshot, v_BOOL_t togg
     -------------------------------------------------------------------------*/
 void sme_ResetPowerValuesFor5G (tHalHandle hHal);
 
-<<<<<<< HEAD
-#if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR)
-=======
 #if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* ---------------------------------------------------------------------------
     \fn sme_UpdateRoamPrefer5GHz
     \brief  enable/disable Roam prefer 5G runtime option
@@ -3080,11 +2863,7 @@ eHalStatus sme_UpdateWESMode(tHalHandle hHal, v_BOOL_t isWESModeEnabled);
           Other status means SME failure to update
     -------------------------------------------------------------------------*/
 eHalStatus sme_SetRoamScanControl(tHalHandle hHal, v_BOOL_t roamScanControl);
-<<<<<<< HEAD
-#endif /* (WLAN_FEATURE_VOWIFI_11R) || (FEATURE_WLAN_CCX) || (FEATURE_WLAN_LFR) */
-=======
 #endif /* (WLAN_FEATURE_VOWIFI_11R) || (FEATURE_WLAN_ESE) || (FEATURE_WLAN_LFR) */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef FEATURE_WLAN_LFR
 /*--------------------------------------------------------------------------
@@ -3102,8 +2881,6 @@ eHalStatus sme_UpdateIsFastRoamIniFeatureEnabled(tHalHandle hHal,
         const v_BOOL_t isFastRoamIniFeatureEnabled);
 
 /*--------------------------------------------------------------------------
-<<<<<<< HEAD
-=======
   \brief sme_ConfigFwrRoaming() - enable/disable LFR support at runtime
   When Supplicant issue enabled / disable fwr based roaming on the basis
   of the Bssid modification in network block ( e.g. AutoJoin mody N/W block)
@@ -3119,7 +2896,6 @@ eHalStatus sme_ConfigFwrRoaming(tHalHandle hHal,
         const v_BOOL_t isFastRoamEnabled);
 
 /*--------------------------------------------------------------------------
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   \brief sme_UpdateIsMAWCIniFeatureEnabled() -
   Enable/disable LFR MAWC support at runtime
   It is used at in the REG_DYNAMIC_VARIABLE macro definition of
@@ -3149,24 +2925,6 @@ eHalStatus sme_UpdateEnableFastRoamInConcurrency(tHalHandle hHal,
 #endif
 #endif /* FEATURE_WLAN_LFR */
 
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-/*--------------------------------------------------------------------------
-  \brief sme_UpdateIsCcxFeatureEnabled() - enable/disable CCX support at runtime
-  It is used at in the REG_DYNAMIC_VARIABLE macro definition of
-  isCcxIniFeatureEnabled.
-  This is a synchronuous call
-  \param hHal - The handle returned by macOpen.
-  \return eHAL_STATUS_SUCCESS - SME update isCcxIniFeatureEnabled config successfully.
-          Other status means SME is failed to update isCcxIniFeatureEnabled.
-  \sa
-  --------------------------------------------------------------------------*/
-
-eHalStatus sme_UpdateIsCcxFeatureEnabled(tHalHandle hHal,
-        const v_BOOL_t isCcxIniFeatureEnabled);
-
-#endif /* FEATURE_WLAN_CCX */
-=======
 #ifdef FEATURE_WLAN_ESE
 /*--------------------------------------------------------------------------
   \brief sme_UpdateIsEseFeatureEnabled() - enable/disable ESE support at runtime
@@ -3183,7 +2941,6 @@ eHalStatus sme_UpdateIsEseFeatureEnabled(tHalHandle hHal,
         const v_BOOL_t isEseIniFeatureEnabled);
 
 #endif /* FEATURE_WLAN_ESE */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*--------------------------------------------------------------------------
   \brief sme_UpdateConfigFwRssiMonitoring() - enable/disable firmware RSSI Monitornig at runtime
@@ -3337,11 +3094,7 @@ v_U16_t sme_getNeighborScanPeriod(tHalHandle hHal);
 
 #endif
 
-<<<<<<< HEAD
-#if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR)
-=======
 #if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*--------------------------------------------------------------------------
   \brief sme_getRoamRssiDiff() - get Roam rssi diff
   This is a synchronuous call
@@ -3363,26 +3116,16 @@ v_U8_t sme_getRoamRssiDiff(tHalHandle hHal);
 eHalStatus sme_ChangeRoamScanChannelList(tHalHandle hHal, tANI_U8 *pChannelList,
                                          tANI_U8 numChannels);
 
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX_UPLOAD
-/*--------------------------------------------------------------------------
-  \brief sme_SetCcxRoamScanChannelList() - set ccx roam scan channel list
-=======
 #ifdef FEATURE_WLAN_ESE_UPLOAD
 /*--------------------------------------------------------------------------
   \brief sme_SetEseRoamScanChannelList() - set ese roam scan channel list
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   This is a synchronuous call
   \param hHal - The handle returned by macOpen.
   \return eHAL_STATUS_SUCCESS - SME update config successful.
           Other status means SME is failed to update
   \sa
   --------------------------------------------------------------------------*/
-<<<<<<< HEAD
-eHalStatus sme_SetCcxRoamScanChannelList(tHalHandle hHal,
-=======
 eHalStatus sme_SetEseRoamScanChannelList(tHalHandle hHal,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                                    tANI_U8 *pChannelList,
                                                    tANI_U8 numChannels);
 #endif
@@ -3399,16 +3142,6 @@ eHalStatus sme_getRoamScanChannelList(tHalHandle hHal, tANI_U8 *pChannelList,
                                          tANI_U8 *pNumChannels);
 
 /*--------------------------------------------------------------------------
-<<<<<<< HEAD
-  \brief sme_getIsCcxFeatureEnabled() - get CCX feature enabled or not
-  This is a synchronuous call
-  \param hHal - The handle returned by macOpen.
-  \return TRUE (1) - if the CCX feature is enabled
-          FALSE (0) - if feature is disabled (compile or runtime)
-  \sa
-  --------------------------------------------------------------------------*/
-tANI_BOOLEAN sme_getIsCcxFeatureEnabled(tHalHandle hHal);
-=======
   \brief sme_getIsEseFeatureEnabled() - get ESE feature enabled or not
   This is a synchronuous call
   \param hHal - The handle returned by macOpen.
@@ -3417,7 +3150,6 @@ tANI_BOOLEAN sme_getIsCcxFeatureEnabled(tHalHandle hHal);
   \sa
   --------------------------------------------------------------------------*/
 tANI_BOOLEAN sme_getIsEseFeatureEnabled(tHalHandle hHal);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*--------------------------------------------------------------------------
   \brief sme_getWESMode() - getWES Mode
@@ -3520,11 +3252,6 @@ tANI_U8 sme_IsFeatureSupportedByDriver(tANI_U8 featEnumValue);
     -------------------------------------------------------------------------*/
 
 VOS_STATUS sme_SendTdlsLinkEstablishParams(tHalHandle hHal,
-<<<<<<< HEAD
-                                                   tANI_U8 sessionId,
-                                                   tSirMacAddr peerMac,
-                                                   tCsrTdlsLinkEstablishParams *tdlsLinkEstablishParams);
-=======
                                            tANI_U8 sessionId,
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,18,0))
                                            const tSirMacAddr peerMac,
@@ -3532,7 +3259,6 @@ VOS_STATUS sme_SendTdlsLinkEstablishParams(tHalHandle hHal,
                                            tSirMacAddr peerMac,
 #endif
                                            tCsrTdlsLinkEstablishParams *tdlsLinkEstablishParams);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /* ---------------------------------------------------------------------------
     \fn sme_SendTdlsMgmtFrame
@@ -3542,19 +3268,12 @@ VOS_STATUS sme_SendTdlsLinkEstablishParams(tHalHandle hHal,
     \param frame_type - Type of TDLS mgmt frame to be sent.
     \param dialog - dialog token used in the frame.
     \param status - status to be incuded in the frame.
-<<<<<<< HEAD
-=======
     \param peerCapability - peerCapability to be incuded in the frame.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     \param buf - additional IEs to be included
     \param len - lenght of additional Ies
     \param responder - Tdls request type
     \- return VOS_STATUS_SUCCES
     -------------------------------------------------------------------------*/
-<<<<<<< HEAD
-VOS_STATUS sme_SendTdlsMgmtFrame(tHalHandle hHal, tANI_U8 sessionId, tSirMacAddr peerMac,
-      tANI_U8 frame_type, tANI_U8 dialog, tANI_U16 status, tANI_U8 *buf, tANI_U8 len, tANI_U8 responder);
-=======
 VOS_STATUS sme_SendTdlsMgmtFrame(tHalHandle hHal, tANI_U8 sessionId,
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,18,0))
                                  const tSirMacAddr peerMac,
@@ -3564,7 +3283,6 @@ VOS_STATUS sme_SendTdlsMgmtFrame(tHalHandle hHal, tANI_U8 sessionId,
                                  tANI_U8 frame_type, tANI_U8 dialog,
                                  tANI_U16 status, tANI_U32 peerCapability,
                                  tANI_U8 *buf, tANI_U8 len, tANI_U8 responder);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* ---------------------------------------------------------------------------
     \fn sme_ChangeTdlsPeerSta
     \brief  API to Update TDLS peer sta parameters.
@@ -3573,16 +3291,12 @@ VOS_STATUS sme_SendTdlsMgmtFrame(tHalHandle hHal, tANI_U8 sessionId,
     \param  staParams - Peer Station Parameters.
     \- return VOS_STATUS_SUCCES
     -------------------------------------------------------------------------*/
-<<<<<<< HEAD
-VOS_STATUS sme_ChangeTdlsPeerSta(tHalHandle hHal, tANI_U8 sessionId, tSirMacAddr peerMac,
-=======
 VOS_STATUS sme_ChangeTdlsPeerSta(tHalHandle hHal, tANI_U8 sessionId,
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,18,0))
                                  const tSirMacAddr peerMac,
 #else
                                  tSirMacAddr peerMac,
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                  tCsrStaParams *pstaParams);
 /* ---------------------------------------------------------------------------
     \fn sme_AddTdlsPeerSta
@@ -3591,9 +3305,6 @@ VOS_STATUS sme_ChangeTdlsPeerSta(tHalHandle hHal, tANI_U8 sessionId,
     \param  peerMac - peer's Mac Adress.
     \- return VOS_STATUS_SUCCES
     -------------------------------------------------------------------------*/
-<<<<<<< HEAD
-VOS_STATUS sme_AddTdlsPeerSta(tHalHandle hHal, tANI_U8 sessionId, tSirMacAddr peerMac);
-=======
 VOS_STATUS sme_AddTdlsPeerSta(tHalHandle hHal, tANI_U8 sessionId,
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,18,0))
                               const tSirMacAddr peerMac
@@ -3601,7 +3312,6 @@ VOS_STATUS sme_AddTdlsPeerSta(tHalHandle hHal, tANI_U8 sessionId,
                               tSirMacAddr peerMac
 #endif
                               );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* ---------------------------------------------------------------------------
     \fn sme_DeleteTdlsPeerSta
     \brief  API to Delete TDLS peer sta entry.
@@ -3609,9 +3319,6 @@ VOS_STATUS sme_AddTdlsPeerSta(tHalHandle hHal, tANI_U8 sessionId,
     \param  peerMac - peer's Mac Adress.
     \- return VOS_STATUS_SUCCES
     -------------------------------------------------------------------------*/
-<<<<<<< HEAD
-VOS_STATUS sme_DeleteTdlsPeerSta(tHalHandle hHal, tANI_U8 sessionId, tSirMacAddr peerMac);
-=======
 VOS_STATUS sme_DeleteTdlsPeerSta(tHalHandle hHal, tANI_U8 sessionId,
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,18,0))
                                  const tSirMacAddr peerMac
@@ -3619,7 +3326,6 @@ VOS_STATUS sme_DeleteTdlsPeerSta(tHalHandle hHal, tANI_U8 sessionId,
                                  tSirMacAddr peerMac
 #endif
                                 );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* ---------------------------------------------------------------------------
     \fn sme_SetTdlsPowerSaveProhibited
     \API to set/reset the isTdlsPowerSaveProhibited.
@@ -3636,23 +3342,6 @@ void sme_SetTdlsPowerSaveProhibited(tHalHandle hHal, v_BOOL_t val);
     -------------------------------------------------------------------------*/
 v_BOOL_t sme_IsPmcBmps(tHalHandle hHal);
 
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_TDLS_INTERNAL
-typedef struct smeTdlsDisResult
-{
-      tSirMacAddr tdlsPeerMac;
-          v_S7_t tdlsPeerRssi;
-} tSmeTdlsDisResult;
-
-VOS_STATUS sme_StartTdlsDiscoveryReq(tHalHandle hHal, tANI_U8 sessionId, tSirMacAddr peerMac);
-v_U8_t sme_GetTdlsDiscoveryResult(tHalHandle hHal,
-                                 tSmeTdlsDisResult *disResult, v_U8_t listType);
-VOS_STATUS sme_StartTdlsLinkSetupReq(tHalHandle hHal, tANI_U8 sessionId, tSirMacAddr peerMac);
-VOS_STATUS sme_StartTdlsLinkTeardownReq(tHalHandle hHal, tANI_U8 sessionId, tSirMacAddr peerMac);
-#endif /* FEATURE_WLAN_TDLS */
-eHalStatus sme_UpdateDfsSetting(tHalHandle hHal, tANI_U8 fUpdateEnableDFSChnlScan);
-
-=======
 eHalStatus sme_UpdateDfsSetting(tHalHandle hHal, tANI_U8 fUpdateEnableDFSChnlScan);
 
 /* ---------------------------------------------------------------------------
@@ -3709,7 +3398,6 @@ v_U8_t sme_GetDFSScanMode(tHalHandle hHal);
     -------------------------------------------------------------------------*/
 eHalStatus sme_HandleDFSChanScan(tHalHandle hHal);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*
  * SME API to enable/disable WLAN driver initiated SSR
  */
@@ -3774,8 +3462,6 @@ eHalStatus sme_HandoffRequest(tHalHandle hHal, tCsrHandoffRequest *pHandoffInfo)
   --------------------------------------------------------------------------*/
 VOS_STATUS sme_isSta_p2p_clientConnected(tHalHandle hHal);
 
-<<<<<<< HEAD
-=======
 /*--------------------------------------------------------------------------
   \brief hdd_is_any_session_connected() - a wrapper function to check if there
                                            is any connected session .
@@ -3787,7 +3473,6 @@ VOS_STATUS sme_isSta_p2p_clientConnected(tHalHandle hHal);
   --------------------------------------------------------------------------*/
 VOS_STATUS sme_is_any_session_connected(tHalHandle hHal);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef FEATURE_WLAN_LPHB
 /* ---------------------------------------------------------------------------
     \fn sme_LPHBConfigReq
@@ -3833,8 +3518,6 @@ eHalStatus sme_DelPeriodicTxPtrn(tHalHandle hHal, tSirDelPeriodicTxPtrn
 void sme_enable_disable_split_scan (tHalHandle hHal, tANI_U8 nNumStaChan,
                                     tANI_U8 nNumP2PChan);
 
-<<<<<<< HEAD
-=======
 /* ---------------------------------------------------------------------------
     \fn sme_SendRateUpdateInd
     \brief  API to Update rate
@@ -3844,7 +3527,6 @@ void sme_enable_disable_split_scan (tHalHandle hHal, tANI_U8 nNumStaChan,
   ---------------------------------------------------------------------------*/
 eHalStatus sme_SendRateUpdateInd(tHalHandle hHal, tSirRateUpdateInd *rateUpdateParams);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*
  * sme API to trigger fast BSS roam to a given BSSID independent of RSSI
  * triggers
@@ -3852,13 +3534,6 @@ eHalStatus sme_SendRateUpdateInd(tHalHandle hHal, tSirRateUpdateInd *rateUpdateP
 */
 eHalStatus smeIssueFastRoamNeighborAPEvent (tHalHandle hHal,
                                             tANI_U8 *bssid,
-<<<<<<< HEAD
-                                            tSmeFastRoamTrigger fastRoamTrig);
-
-void smeGetCommandQStatus( tHalHandle hHal );
-
-eHalStatus sme_RoamDelPMKIDfromCache( tHalHandle hHal, tANI_U8 sessionId, tANI_U8 *pBSSId );
-=======
                                             tSmeFastRoamTrigger fastRoamTrig,
                                             tANI_U8 channel);
 
@@ -3872,7 +3547,6 @@ eHalStatus sme_RoamDelPMKIDfromCache( tHalHandle hHal, tANI_U8 sessionId,
 
 void smeGetCommandQStatus( tHalHandle hHal );
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef FEATURE_WLAN_BATCH_SCAN
 /* ---------------------------------------------------------------------------
     \fn sme_SetBatchScanReq
@@ -3927,11 +3601,6 @@ sme_StopBatchScanInd
 
 #endif
 
-<<<<<<< HEAD
-eHalStatus sme_RoamDelPMKIDfromCache( tHalHandle hHal, tANI_U8 sessionId, tANI_U8 *pBSSId );
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef FEATURE_WLAN_CH_AVOID
 /* ---------------------------------------------------------------------------
     \fn sme_AddChAvoidCallback
@@ -3948,8 +3617,6 @@ eHalStatus sme_AddChAvoidCallback
    void (*pCallbackfn)(void *pAdapter, void *indParam)
 );
 #endif /* FEATURE_WLAN_CH_AVOID */
-<<<<<<< HEAD
-=======
 eHalStatus sme_UpdateConnectDebug(tHalHandle hHal, tANI_U32 set_value);
 
 /* ---------------------------------------------------------------------------
@@ -4089,5 +3756,4 @@ eHalStatus sme_fatal_event_logs_req(tHalHandle hHal, tANI_U32 is_fatal,
 eHalStatus sme_enableDisableChanAvoidIndEvent(tHalHandle hHal,
                                               tANI_U8 set_value);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif //#if !defined( __SME_API_H )

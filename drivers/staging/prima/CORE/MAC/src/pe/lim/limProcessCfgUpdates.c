@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,31 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-/*
- * Airgo Networks, Inc proprietary. All rights reserved.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -55,7 +26,6 @@
  */
 
 /*
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file limProcessCfgUpdates.cc contains the utility functions
  * to handle various CFG parameter update events
  * Author:        Chandra Modumudi
@@ -67,11 +37,7 @@
 
 #include "aniGlobal.h"
 
-<<<<<<< HEAD
-#include "wniCfgSta.h"
-=======
 #include "wniCfg.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include "sirMacProtDef.h"
 #include "cfgApi.h"
 #include "limTypes.h"
@@ -400,11 +366,7 @@ limHandleCFGparamUpdate(tpAniSirGlobal pMac, tANI_U32 cfgId)
         status = limPostMsgApi(pMac, &msg);
 
         if (status != TX_SUCCESS)
-<<<<<<< HEAD
-            PELOGE(limLog(pMac, LOGE, FL("Failed limPostMsgApi"), status);)
-=======
             PELOGE(limLog(pMac, LOGE, FL("Failed limPostMsgApi %u"), status);)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         break;
     }
     case WNI_CFG_GREENFIELD_CAPABILITY:
@@ -633,15 +595,6 @@ limHandleCFGparamUpdate(tpAniSirGlobal pMac, tANI_U32 cfgId)
         pMac->lim.gLimAssocStaLimit = (tANI_U16)val1;
         break;
 
-<<<<<<< HEAD
-    case WNI_CFG_DEL_ALL_RX_BA_SESSIONS_2_4_G_BTC:
-        if (wlan_cfgGetInt
-           (pMac, WNI_CFG_DEL_ALL_RX_BA_SESSIONS_2_4_G_BTC, &val1) !=
-                 eSIR_SUCCESS)
-        {
-            limLog(pMac, LOGE,
-                 FL( "Unable to get WNI_CFG_DEL_ALL_RX_BA_SESSIONS_2_4_G_BTC"));
-=======
     case WNI_CFG_DEL_ALL_RX_TX_BA_SESSIONS_2_4_G_BTC:
         if (wlan_cfgGetInt
            (pMac, WNI_CFG_DEL_ALL_RX_TX_BA_SESSIONS_2_4_G_BTC, &val1) !=
@@ -649,7 +602,6 @@ limHandleCFGparamUpdate(tpAniSirGlobal pMac, tANI_U32 cfgId)
         {
             limLog(pMac, LOGE,
                  FL( "Unable to get WNI_CFG_DEL_ALL_RX_TX_BA_SESSIONS_2_4_G_BTC"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
         }
         if (val1)
@@ -661,11 +613,7 @@ limHandleCFGparamUpdate(tpAniSirGlobal pMac, tANI_U32 cfgId)
         else
         {
             limLog(pMac, LOGW,
-<<<<<<< HEAD
-                FL("Resetting the WNI_CFG_DEL_ALL_RX_BA_SESSIONS_2_4_G_BTC"));
-=======
                 FL("Resetting the WNI_CFG_DEL_ALL_RX_TX_BA_SESSIONS_2_4_G_BTC"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
         break;
 
@@ -701,11 +649,7 @@ limApplyConfiguration(tpAniSirGlobal pMac,tpPESession psessionEntry)
 {
     tANI_U32          val=0, phyMode;
 
-<<<<<<< HEAD
-    PELOG2(limLog(pMac, LOG2, FL("Applying config"));)
-=======
     limLog(pMac, LOG2, FL("Applying config"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     limInitWdsInfoParams(pMac);
 
@@ -718,12 +662,8 @@ limApplyConfiguration(tpAniSirGlobal pMac,tpPESession psessionEntry)
 
     limUpdateConfig(pMac,psessionEntry);
 
-<<<<<<< HEAD
-    psessionEntry->shortSlotTimeSupported = limGetShortSlotFromPhyMode(pMac, psessionEntry, phyMode);
-=======
     limGetShortSlotFromPhyMode(pMac, psessionEntry, phyMode,
                                &psessionEntry->shortSlotTimeSupported);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     limSetCfgProtection(pMac, psessionEntry);    
 
@@ -751,16 +691,10 @@ limApplyConfiguration(tpAniSirGlobal pMac,tpPESession psessionEntry)
         return;
     }
 
-<<<<<<< HEAD
-    PELOG1(limLog(pMac, LOG1, FL("pMac->lim.gScanInPowersave = %hu"),
-                pMac->lim.gScanInPowersave);)
-    pMac->lim.gScanInPowersave = (tANI_U8) val;
-=======
     pMac->lim.gScanInPowersave = (tANI_U8) val;
     limLog(pMac, LOG1, FL("pMac->lim.gScanInPowersave = %hu"),
                 pMac->lim.gScanInPowersave);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 } /*** end limApplyConfiguration() ***/
 
@@ -798,12 +732,8 @@ limUpdateConfig(tpAniSirGlobal pMac,tpPESession psessionEntry)
     psessionEntry->beaconParams.fShortPreamble = (val) ? 1 : 0;
 
     /* In STA case this parameter is filled during the join request */
-<<<<<<< HEAD
-    if (psessionEntry->limSystemRole == eLIM_AP_ROLE)
-=======
     if (psessionEntry->limSystemRole == eLIM_AP_ROLE ||
         psessionEntry->limSystemRole == eLIM_STA_IN_IBSS_ROLE )
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
         if (wlan_cfgGetInt(pMac, WNI_CFG_WME_ENABLED, &val) != eSIR_SUCCESS)
             limLog(pMac, LOGP, FL("cfg get wme enabled failed"));
@@ -820,12 +750,8 @@ limUpdateConfig(tpAniSirGlobal pMac,tpPESession psessionEntry)
         psessionEntry->limWsmEnabled = 0;
     }
     /* In STA , this parameter is filled during the join request */
-<<<<<<< HEAD
-    if (psessionEntry->limSystemRole== eLIM_AP_ROLE)
-=======
     if (psessionEntry->limSystemRole== eLIM_AP_ROLE ||
         psessionEntry->limSystemRole == eLIM_STA_IN_IBSS_ROLE)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
         if (wlan_cfgGetInt(pMac, WNI_CFG_QOS_ENABLED, &val) != eSIR_SUCCESS)
             limLog(pMac, LOGP, FL("cfg get qos enabled failed"));

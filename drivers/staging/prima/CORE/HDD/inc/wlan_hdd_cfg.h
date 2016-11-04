@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #if !defined( HDD_CONFIG_H__ )
@@ -60,12 +34,6 @@
 
   \brief Android WLAN Adapter Configuration functions
 
-<<<<<<< HEAD
-               Copyright 2008 (c) Qualcomm, Incorporated.
-               All Rights Reserved.
-               Qualcomm Confidential and Proprietary.
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   ==========================================================================*/
 
@@ -80,11 +48,7 @@
 #include <csrApi.h>
 
 //Number of items that can be configured
-<<<<<<< HEAD
-#define MAX_CFG_INI_ITEMS   320
-=======
 #define MAX_CFG_INI_ITEMS   512
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 // Defines for all of the things we read from the configuration (registry).
 
@@ -139,11 +103,7 @@
 #define CFG_COUNTRY_CODE_PRIORITY_NAME         "gCountryCodePriority"
 #define CFG_COUNTRY_CODE_PRIORITY_MIN          ( 0 )
 #define CFG_COUNTRY_CODE_PRIORITY_MAX          ( 1 )
-<<<<<<< HEAD
-#define CFG_COUNTRY_CODE_PRIORITY_DEFAULT      ( 0 )
-=======
 #define CFG_COUNTRY_CODE_PRIORITY_DEFAULT      ( 1 )
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #define CFG_ENFORCE_COUNTRY_CODE_MATCH_NAME    "gEnforceCountryCodeMatch"
 #define CFG_ENFORCE_COUNTRY_CODE_MATCH_MIN     ( 0 )
@@ -236,15 +196,12 @@
 #define CFG_ENABLE_IMPS_MAX                    ( 1 )
 #define CFG_ENABLE_IMPS_DEFAULT                ( 1 )
 
-<<<<<<< HEAD
-=======
 //SSR = SubSytemRestart
 #define CFG_SSR_PANIC_ON_FAILURE_NAME          "gSsrPanicOnFailure"
 #define CFG_SSR_PANIC_ON_FAILURE_MIN           ( 0 )
 #define CFG_SSR_PANIC_ON_FAILURE_MAX           ( 1 )
 #define CFG_SSR_PANIC_ON_FAILURE_DEFAULT       ( 0 )
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define CFG_IMPS_MINIMUM_SLEEP_TIME_NAME       "gImpsMinSleepTime" 
 #define CFG_IMPS_MINIMUM_SLEEP_TIME_MIN        ( 0 )
 #define CFG_IMPS_MINIMUM_SLEEP_TIME_MAX        ( 65535 )
@@ -260,8 +217,6 @@
 #define CFG_IMPS_MAXIMUM_SLEEP_TIME_MAX        ( 65535 )
 #define CFG_IMPS_MAXIMUM_SLEEP_TIME_DEFAULT    ( 15 )
 
-<<<<<<< HEAD
-=======
 /*If there is scan on STA interface back to back with
  *time diff nDeferScanTimeInterval, driver will not
  *issue a new scan. Driver will return cached result to kernel.
@@ -272,7 +227,6 @@
 #define CFG_DEFER_SCAN_TIME_INTERVAL_MAX        ( 65535 )
 #define CFG_DEFER_SCAN_TIME_INTERVAL_DEFAULT    ( 2000  )
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 //BMPS = BeaconModePowerSave
 #define CFG_ENABLE_BMPS_NAME                   "gEnableBmps"
 #define CFG_ENABLE_BMPS_MIN                    ( 0 )
@@ -310,8 +264,6 @@
 #define CFG_ENABLE_AUTO_BMPS_TIMER_MAX         ( 1 )
 #define CFG_ENABLE_AUTO_BMPS_TIMER_DEFAULT     ( 1 )
 
-<<<<<<< HEAD
-=======
 #define CFG_ENABLE_DYNAMIC_RA_START_RATE_NAME    "gEnableDynamicRAstartRate"
 #define CFG_ENABLE_DYNAMIC_RA_START_RATE_MIN     ( 0 )
 #define CFG_ENABLE_DYNAMIC_RA_START_RATE_MAX     ( 1 )
@@ -329,7 +281,6 @@
 #define CFG_ENABLE_RTSCTS_HTVHT_MAX              ( 0x1f0f )
 #define CFG_ENABLE_RTSCTS_HTVHT_DEFAULT          ( 0x0000 )
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define CFG_AUTO_BMPS_TIMER_VALUE_NAME         "gAutoBmpsTimerValue" 
 #define CFG_AUTO_BMPS_TIMER_VALUE_MIN          ( 1000 )
 #define CFG_AUTO_BMPS_TIMER_VALUE_MAX          ( 4294967295UL )
@@ -347,15 +298,6 @@
 #define CFG_ENABLE_ADAPT_RX_DRAIN_MAX       WNI_CFG_ENABLE_ADAPT_RX_DRAIN_STAMAX
 #define CFG_ENABLE_ADAPT_RX_DRAIN_DEFAULT   WNI_CFG_ENABLE_ADAPT_RX_DRAIN_STADEF
 
-<<<<<<< HEAD
-//Enable Prop IE
-#define CFG_ENABLE_OXYNWK_NAME                   "gEnableOxygenNwk"
-#define CFG_ENABLE_OXYNWK_MIN                    ( 0 )
-#define CFG_ENABLE_OXYNWK_MAX                    ( 1 )
-#define CFG_ENABLE_OXYNWK_DEFAULT                ( 0 )
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 typedef enum
 {
     eHDD_DOT11_MODE_AUTO = 0, //covers all things we support
@@ -382,14 +324,11 @@ typedef enum
 #define CFG_DOT11_MODE_DEFAULT                 eHDD_DOT11_MODE_11n
 #endif
 
-<<<<<<< HEAD
-=======
 #define CFG_SAP_ENABLE_11AC_NAME               "gSapEnable11AC"
 #define CFG_SAP_ENABLE_11AC_MIN                ( 0 )
 #define CFG_SAP_ENABLE_11AC_MAX                ( 1 )
 #define CFG_SAP_ENABLE_11AC_DEFAULT            ( 1 )
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define CFG_CHANNEL_BONDING_MODE_24GHZ_NAME    "gChannelBondingMode24GHz"
 #define CFG_CHANNEL_BONDING_MODE_MIN           WNI_CFG_CHANNEL_BONDING_MODE_STAMIN 
 #define CFG_CHANNEL_BONDING_MODE_MAX           WNI_CFG_CHANNEL_BONDING_MODE_STAMAX 
@@ -447,11 +386,7 @@ typedef enum
 #define CFG_RSSI_CATEGORY_GAP_MAX              ( 100 )  
 #define CFG_RSSI_CATEGORY_GAP_DEFAULT          ( 5 )
 
-<<<<<<< HEAD
-#if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR)
-=======
 #if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define CFG_ROAM_PREFER_5GHZ                   "gRoamPrefer5GHz"
 #define CFG_ROAM_PREFER_5GHZ_MIN              ( 0 )  
 #define CFG_ROAM_PREFER_5GHZ_MAX              ( 1 )  
@@ -538,11 +473,7 @@ typedef enum
 #define CFG_AP_OBSS_PROTECTION_MODE_NAME       "gEnableApOBSSProt" 
 #define CFG_AP_OBSS_PROTECTION_MODE_MIN        ( 0 )
 #define CFG_AP_OBSS_PROTECTION_MODE_MAX        ( 1 ) 
-<<<<<<< HEAD
-#define CFG_AP_OBSS_PROTECTION_MODE_DEFAULT    ( 1 )
-=======
 #define CFG_AP_OBSS_PROTECTION_MODE_DEFAULT    ( 0 )   
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #define CFG_AP_STA_SECURITY_SEPERATION_NAME    "gDisableIntraBssFwd"
 #define CFG_AP_STA_SECURITY_SEPERATION_MIN     ( 0 )
@@ -576,11 +507,7 @@ typedef enum
 
 #define CFG_SAP_CHANNEL_SELECT_OPERATING_BAND "gAPChannelSelectOperatingBand"
 #define CFG_SAP_CHANNEL_SELECT_OPERATING_BAND_MIN       (0)
-<<<<<<< HEAD
-#define CFG_SAP_CHANNEL_SELECT_OPERATING_BAND_MAX               (0x4)
-=======
 #define CFG_SAP_CHANNEL_SELECT_OPERATING_BAND_MAX               (0x5)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define CFG_SAP_CHANNEL_SELECT_OPERATING_BAND_DEFAULT           (0)
 
 #define CFG_DISABLE_PACKET_FILTER "gDisablePacketFilter"
@@ -594,21 +521,6 @@ typedef enum
 #define CFG_ENABLE_LTE_COEX_DEFAULT           ( 0 )
 
 #define CFG_AP_KEEP_ALIVE_PERIOD_NAME          "gApKeepAlivePeriod"
-<<<<<<< HEAD
-#define CFG_AP_KEEP_ALIVE_PERIOD_MIN           ( 0 )
-#define CFG_AP_KEEP_ALIVE_PERIOD_MAX           ( 255)
-#define CFG_AP_KEEP_ALIVE_PERIOD_DEFAULT       ( 20 )
-
-#define CFG_GO_KEEP_ALIVE_PERIOD_NAME          "gGoKeepAlivePeriod"
-#define CFG_GO_KEEP_ALIVE_PERIOD_MIN           ( 0 )
-#define CFG_GO_KEEP_ALIVE_PERIOD_MAX           ( 255)
-#define CFG_GO_KEEP_ALIVE_PERIOD_DEFAULT       ( 20 )
-
-#define CFG_AP_LINK_MONITOR_PERIOD_NAME          "gApLinkMonitorPeriod"
-#define CFG_AP_LINK_MONITOR_PERIOD_MIN           ( 0 )
-#define CFG_AP_LINK_MONITOR_PERIOD_MAX           ( 255)
-#define CFG_AP_LINK_MONITOR_PERIOD_DEFAULT       ( 3 )
-=======
 #define CFG_AP_KEEP_ALIVE_PERIOD_MIN           ( 3 )
 #define CFG_AP_KEEP_ALIVE_PERIOD_MAX           ( 255 )
 #define CFG_AP_KEEP_ALIVE_PERIOD_DEFAULT       ( 5 )
@@ -631,7 +543,6 @@ typedef enum
 #define CFG_GO_LINK_MONITOR_PERIOD_MAX           ( 50 )
 #define CFG_GO_LINK_MONITOR_PERIOD_DEFAULT       ( 10 )
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #define CFG_BEACON_INTERVAL_NAME               "gBeaconInterval"
 #define CFG_BEACON_INTERVAL_MIN                WNI_CFG_BEACON_INTERVAL_STAMIN
@@ -768,11 +679,7 @@ typedef enum
 #define CFG_RSSI_FILTER_PERIOD_NAME            "gRssiFilterPeriod"
 #define CFG_RSSI_FILTER_PERIOD_MIN             WNI_CFG_RSSI_FILTER_PERIOD_STAMIN
 #define CFG_RSSI_FILTER_PERIOD_MAX             WNI_CFG_RSSI_FILTER_PERIOD_STAMAX
-<<<<<<< HEAD
-// Increased this value for Non-CCX AP. This is cause FW RSSI Monitoring
-=======
 // Increased this value for Non-ESE AP. This is cause FW RSSI Monitoring
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 // the consumer of this value is ON by default. So to impact power numbers
 // we are setting this to a high value.
 #define CFG_RSSI_FILTER_PERIOD_DEFAULT         WNI_CFG_RSSI_FILTER_PERIOD_STADEF
@@ -841,13 +748,9 @@ typedef enum
 #define CFG_QOS_WMM_UAPSD_MASK_NAME                        "UapsdMask" // ACs to setup U-APSD for at assoc
 #define CFG_QOS_WMM_UAPSD_MASK_MIN                         (0x00)
 #define CFG_QOS_WMM_UAPSD_MASK_MAX                         (0xFF) 
-<<<<<<< HEAD
-#define CFG_QOS_WMM_UAPSD_MASK_DEFAULT                     (0x00)   
-=======
 #define CFG_QOS_WMM_UAPSD_MASK_DEFAULT                     (0xaa)
 #define CFG_QOS_WMM_UAPSD_MASK_DYMANIC_WMM_PS_DEFAULT      (0x0)
 #define CFG_QOS_WMM_UAPSD_MASK_LEGACY_WMM_PS_DEFAULT       (0x0)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #define CFG_QOS_WMM_INFRA_UAPSD_VO_SRV_INTV_NAME           "InfraUapsdVoSrvIntv"
 #define CFG_QOS_WMM_INFRA_UAPSD_VO_SRV_INTV_MIN             (0)
@@ -889,29 +792,17 @@ typedef enum
 #define CFG_QOS_WMM_INFRA_UAPSD_BK_SUS_INTV_MAX             (4294967295UL)             
 #define CFG_QOS_WMM_INFRA_UAPSD_BK_SUS_INTV_DEFAULT         (2000)
 
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-=======
 #ifdef FEATURE_WLAN_ESE
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define CFG_QOS_WMM_INFRA_INACTIVITY_INTERVAL_NAME         "InfraInactivityInterval"
 #define CFG_QOS_WMM_INFRA_INACTIVITY_INTERVAL_MIN           (0)
 #define CFG_QOS_WMM_INFRA_INACTIVITY_INTERVAL_MAX           (4294967295UL)
 #define CFG_QOS_WMM_INFRA_INACTIVITY_INTERVAL_DEFAULT       (0) //disabled
 
-<<<<<<< HEAD
-#define CFG_CCX_FEATURE_ENABLED_NAME                       "CcxEnabled"
-#define CFG_CCX_FEATURE_ENABLED_MIN                         (0)
-#define CFG_CCX_FEATURE_ENABLED_MAX                         (1)
-#define CFG_CCX_FEATURE_ENABLED_DEFAULT                     (0) //disabled
-#endif // FEATURE_WLAN_CCX
-=======
 #define CFG_ESE_FEATURE_ENABLED_NAME                       "EseEnabled"
 #define CFG_ESE_FEATURE_ENABLED_MIN                         (0)
 #define CFG_ESE_FEATURE_ENABLED_MAX                         (1)
 #define CFG_ESE_FEATURE_ENABLED_DEFAULT                     (0) //disabled
 #endif // FEATURE_WLAN_ESE
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef FEATURE_WLAN_LFR
 #define CFG_LFR_FEATURE_ENABLED_NAME                       "FastRoamEnabled"
@@ -925,30 +816,17 @@ typedef enum
 #define CFG_LFR_MAWC_FEATURE_ENABLED_DEFAULT                (0) /* disabled */
 #endif // FEATURE_WLAN_LFR
 
-<<<<<<< HEAD
-#if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR)
-// This flag will control fasttransition in case of 11r and ccx.
-=======
 #if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
 // This flag will control fasttransition in case of 11r and ESE.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 // Basically with this the whole neighbor roam, pre-auth, reassoc
 // can be turned ON/OFF. 
 // With this turned OFF 11r will completely not work.
 // For 11r this flag has to be ON.
-<<<<<<< HEAD
-// For CCX fastroam will not work.
-#define CFG_FAST_TRANSITION_ENABLED_NAME                    "FastTransitionEnabled"
-#define CFG_FAST_TRANSITION_ENABLED_NAME_MIN                (0)
-#define CFG_FAST_TRANSITION_ENABLED_NAME_MAX                (1)
-#define CFG_FAST_TRANSITION_ENABLED_NAME_DEFAULT            (0) //disabled
-=======
 // For ESE fastroam will not work.
 #define CFG_FAST_TRANSITION_ENABLED_NAME                    "FastTransitionEnabled"
 #define CFG_FAST_TRANSITION_ENABLED_NAME_MIN                (0)
 #define CFG_FAST_TRANSITION_ENABLED_NAME_MAX                (1)
 #define CFG_FAST_TRANSITION_ENABLED_NAME_DEFAULT            (1) //Enabled
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /* This parameter is used to decide whether to Roam or not.
  * AP1 is the currently associated AP and AP2 is chosen for roaming.
@@ -990,11 +868,7 @@ typedef enum
 #define CFG_ROAM_SCAN_HOME_AWAY_TIME_MIN                    (3)
 #define CFG_ROAM_SCAN_HOME_AWAY_TIME_MAX                    (300)
 #define CFG_ROAM_SCAN_HOME_AWAY_TIME_DEFAULT                (CFG_ROAM_SCAN_HOME_AWAY_TIME_MIN)
-<<<<<<< HEAD
-#endif /* (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR) */
-=======
 #endif /* (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR) */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef FEATURE_WLAN_OKC
 #define CFG_OKC_FEATURE_ENABLED_NAME                       "OkcEnabled"
@@ -1145,8 +1019,6 @@ typedef enum
 #define CFG_TL_DELAYED_TRGR_FRM_INT_MAX                     (4294967295UL)
 #define CFG_TL_DELAYED_TRGR_FRM_INT_DEFAULT                 3000
 
-<<<<<<< HEAD
-=======
 #define CFG_REORDER_TIME_BK_NAME                           "BkReorderTime"
 #define CFG_REORDER_TIME_BK_MIN                            30
 #define CFG_REORDER_TIME_BK_MAX                            1000
@@ -1167,7 +1039,6 @@ typedef enum
 #define CFG_REORDER_TIME_VO_MAX                            1000
 #define CFG_REORDER_TIME_VO_DEFAULT                        40
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #if defined WLAN_FEATURE_VOWIFI
 #define CFG_RRM_ENABLE_NAME                              "gRrmEnable"
 #define CFG_RRM_ENABLE_MIN                               (0)
@@ -1351,11 +1222,7 @@ typedef enum
 #define CFG_SAR_POWER_BACKOFF_NAME           "SARPowerBackoff"
 #define CFG_SAR_POWER_BACKOFF_MIN            ( 0 )
 #define CFG_SAR_POWER_BACKOFF_MAX            ( 0xFFFFFFFF )
-<<<<<<< HEAD
-#define CFG_SAR_POWER_BACKOFF_DEFAULT        ( 0 )
-=======
 #define CFG_SAR_POWER_BACKOFF_DEFAULT        ( 13 )
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #if defined WLAN_FEATURE_VOWIFI_11R
 #define CFG_FT_RESOURCE_REQ_NAME                        "gFTResourceReqSupported"
@@ -1389,14 +1256,11 @@ typedef enum
 #define CFG_BCN_EARLY_TERM_WAKE_MAX                  ( 255 )
 #define CFG_BCN_EARLY_TERM_WAKE_DEFAULT              ( 3 )
 
-<<<<<<< HEAD
-=======
 #define CFG_ENABLE_ROAM_DELAY_STATS                  "gEnableRoamDelayStats"
 #define CFG_ENABLE_ROAM_DELAY_STATS_MIN              ( 0 )
 #define CFG_ENABLE_ROAM_DELAY_STATS_MAX              ( 1 )
 #define CFG_ENABLE_ROAM_DELAY_STATS_DEFAULT          ( 0 )
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef WLAN_FEATURE_NEIGHBOR_ROAMING
 #define CFG_NEIGHBOR_SCAN_TIMER_PERIOD_NAME             "gNeighborScanTimerPeriod"
 #define CFG_NEIGHBOR_SCAN_TIMER_PERIOD_MIN              (3)
@@ -1409,17 +1273,11 @@ typedef enum
 #define CFG_NEIGHBOR_REASSOC_RSSI_THRESHOLD_DEFAULT           (83)
 
 #define CFG_NEIGHBOR_LOOKUP_RSSI_THRESHOLD_NAME      "gNeighborLookupThreshold"
-<<<<<<< HEAD
-#define CFG_NEIGHBOR_LOOKUP_RSSI_THRESHOLD_MIN       (10)
-#define CFG_NEIGHBOR_LOOKUP_RSSI_THRESHOLD_MAX       (120)
-#define CFG_NEIGHBOR_LOOKUP_RSSI_THRESHOLD_DEFAULT   (78)
-=======
 #define CFG_NEIGHBOR_LOOKUP_RSSI_THRESHOLD_MIN       (0)
 #define CFG_NEIGHBOR_LOOKUP_RSSI_THRESHOLD_MAX       (120)
 #define CFG_NEIGHBOR_LOOKUP_RSSI_THRESHOLD_DEFAULT   (0) /*A Zero value indicates the host to calculate
                                                            Adaptive thresold based on the minimum
                                                            supported data rate.*/
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #define CFG_NEIGHBOR_SCAN_CHAN_LIST_NAME                      "gNeighborScanChannelList"
 #define CFG_NEIGHBOR_SCAN_CHAN_LIST_DEFAULT                   ""
@@ -1449,15 +1307,12 @@ typedef enum
 #define CFG_EMPTY_SCAN_REFRESH_PERIOD_MIN          (0)
 #define CFG_EMPTY_SCAN_REFRESH_PERIOD_MAX          (60000)
 #define CFG_EMPTY_SCAN_REFRESH_PERIOD_DEFAULT      (0)
-<<<<<<< HEAD
-=======
 
 #define CFG_NEIGHBOR_INITIAL_FORCED_ROAM_TO_5GH_ENABLE_NAME      "gNeighborInitialForcedRoamTo5GhEnable"
 #define CFG_NEIGHBOR_INITIAL_FORCED_ROAM_TO_5GH_ENABLE_MIN       (0)
 #define CFG_NEIGHBOR_INITIAL_FORCED_ROAM_TO_5GH_ENABLE_MAX       (1)
 #define CFG_NEIGHBOR_INITIAL_FORCED_ROAM_TO_5GH_ENABLE_DEFAULT   (0)
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif /* WLAN_FEATURE_NEIGHBOR_ROAMING */
 
 #define CFG_QOS_WMM_BURST_SIZE_DEFN_NAME                        "burstSizeDefinition" 
@@ -1551,15 +1406,6 @@ typedef enum
 #define CFG_ENABLE_BYPASS_11D_NAME                 "gEnableBypass11d"
 #define CFG_ENABLE_BYPASS_11D_MIN                  ( 0 )
 #define CFG_ENABLE_BYPASS_11D_MAX                  ( 1 )
-<<<<<<< HEAD
-#define CFG_ENABLE_BYPASS_11D_DEFAULT              ( 0 )
-
-#define CFG_ENABLE_DFS_CHNL_SCAN_NAME              "gEnableDFSChnlScan"
-#define CFG_ENABLE_DFS_CHNL_SCAN_MIN               ( 0 )
-#define CFG_ENABLE_DFS_CHNL_SCAN_MAX               ( 1 )
-#define CFG_ENABLE_DFS_CHNL_SCAN_DEFAULT           ( 1 )
-
-=======
 #define CFG_ENABLE_BYPASS_11D_DEFAULT              ( 1 )
 
 /*
@@ -1579,7 +1425,6 @@ typedef enum
 #define CFG_ENABLE_DFS_PNO_CHNL_SCAN_MAX               ( 1 )
 #define CFG_ENABLE_DFS_PNO_CHNL_SCAN_DEFAULT           ( 1 )
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 typedef enum
 {
     eHDD_LINK_SPEED_REPORT_ACTUAL = 0,
@@ -1639,8 +1484,6 @@ typedef enum
 #define CFG_ENABLE_SSR_MAX                  ( 1 )
 #define CFG_ENABLE_SSR_DEFAULT              ( 1 )
 
-<<<<<<< HEAD
-=======
 #define CFG_BTC_ACTIVE_WLAN_LEN_NAME           "btcActiveWlanLen"
 #define CFG_BTC_ACTIVE_WLAN_LEN_MIN            ( 0 )
 #define CFG_BTC_ACTIVE_WLAN_LEN_MAX            ( 250000 )
@@ -1729,7 +1572,6 @@ static __inline tANI_U32 defHddRateToDefCfgRate( tANI_U32 defRateIndex )
             return defRateIndex;
     }
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*
  * VOS Trace Enable Control
  * Notes:
@@ -1819,8 +1661,6 @@ static __inline tANI_U32 defHddRateToDefCfgRate( tANI_U32 defRateIndex )
 #define CFG_SAP_AUTO_CHANNEL_SELECTION_MAX        ( 1 )
 #define CFG_SAP_AUTO_CHANNEL_SELECTION_DEFAULT    ( 0 )
 
-<<<<<<< HEAD
-=======
 /* ACS Scan band preference
  * 0 -- No preference
  * 1 -- Scan 2.4G first
@@ -1836,7 +1676,6 @@ static __inline tANI_U32 defHddRateToDefCfgRate( tANI_U32 defRateIndex )
 /* 2 BSS, maximus RSSI -90 */
 #define CFG_ACS_BAND_SWITCH_THRESHOLD_DEFAULT     (296)
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*BMPS Logic
  * Notes:
  * 1 - Then Host driver and above layers control the PS mechanism
@@ -1941,11 +1780,7 @@ static __inline tANI_U32 defHddRateToDefCfgRate( tANI_U32 defRateIndex )
 #define CFG_THERMAL_MIGRATION_ENABLE_NAME      "gThermalMitigationEnable"   
 #define CFG_THERMAL_MIGRATION_ENABLE_MIN       ( 0 ) 
 #define CFG_THERMAL_MIGRATION_ENABLE_MAX       ( 1 ) 
-<<<<<<< HEAD
-#define CFG_THERMAL_MIGRATION_ENABLE_DEFAULT   ( 0 ) 
-=======
 #define CFG_THERMAL_MIGRATION_ENABLE_DEFAULT   ( 1 )
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*
  * Enable/Disable Modulated DTIM feature
@@ -2007,11 +1842,7 @@ static __inline tANI_U32 defHddRateToDefCfgRate( tANI_U32 defRateIndex )
 #define CFG_TDLS_IMPLICIT_TRIGGER_DEFAULT           ( 0 )
 
 #define CFG_TDLS_TX_STATS_PERIOD                    "gTDLSTxStatsPeriod"
-<<<<<<< HEAD
-#define CFG_TDLS_TX_STATS_PERIOD_MIN                ( 2000 )
-=======
 #define CFG_TDLS_TX_STATS_PERIOD_MIN                ( 10 )
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define CFG_TDLS_TX_STATS_PERIOD_MAX                ( 4294967295UL )
 #define CFG_TDLS_TX_STATS_PERIOD_DEFAULT            ( 5000 )
 
@@ -2036,11 +1867,7 @@ static __inline tANI_U32 defHddRateToDefCfgRate( tANI_U32 defRateIndex )
 #define CFG_TDLS_IDLE_TIMEOUT_DEFAULT               ( 5000 )
 
 #define CFG_TDLS_IDLE_PACKET_THRESHOLD              "gTDLSIdlePacketThreshold"
-<<<<<<< HEAD
-#define CFG_TDLS_IDLE_PACKET_THRESHOLD_MIN          ( 1 )
-=======
 #define CFG_TDLS_IDLE_PACKET_THRESHOLD_MIN          ( 0 )
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define CFG_TDLS_IDLE_PACKET_THRESHOLD_MAX          ( 40000 )
 #define CFG_TDLS_IDLE_PACKET_THRESHOLD_DEFAULT      ( 5 )
 
@@ -2078,8 +1905,6 @@ static __inline tANI_U32 defHddRateToDefCfgRate( tANI_U32 defRateIndex )
 #define CFG_TDLS_PUAPSD_RX_FRAME_THRESHOLD_MIN      (10)
 #define CFG_TDLS_PUAPSD_RX_FRAME_THRESHOLD_MAX      (20)
 #define CFG_TDLS_PUAPSD_RX_FRAME_THRESHOLD_DEFAULT  (10)
-<<<<<<< HEAD
-=======
 
 #define CFG_TDLS_EXTERNAL_CONTROL                   "gTDLSExternalControl"
 #define CFG_TDLS_EXTERNAL_CONTROL_MIN               (0)
@@ -2126,7 +1951,6 @@ static __inline tANI_U32 defHddRateToDefCfgRate( tANI_U32 defRateIndex )
 #define CFG_EXTSCAN_ENABLE_MIN              (0)
 #define CFG_EXTSCAN_ENABLE_MAX              (1)
 #define CFG_EXTSCAN_ENABLE_DEFAULT          (0)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 
 #ifdef WLAN_ACTIVEMODE_OFFLOAD_FEATURE
@@ -2140,11 +1964,7 @@ static __inline tANI_U32 defHddRateToDefCfgRate( tANI_U32 defRateIndex )
 #define CFG_ENABLE_LPWR_IMG_TRANSITION_NAME        "gEnableLpwrImgTransition"
 #define CFG_ENABLE_LPWR_IMG_TRANSITION_MIN         ( 0 )
 #define CFG_ENABLE_LPWR_IMG_TRANSITION_MAX         ( 1 )
-<<<<<<< HEAD
-#define CFG_ENABLE_LPWR_IMG_TRANSITION_DEFAULT     ( 0 )
-=======
 #define CFG_ENABLE_LPWR_IMG_TRANSITION_DEFAULT     ( 1 )
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 
 /*
@@ -2182,10 +2002,6 @@ static __inline tANI_U32 defHddRateToDefCfgRate( tANI_U32 defRateIndex )
 
 #define CFG_VHT_CSN_BEAMFORMEE_ANT_SUPPORTED         "gTxBFCsnValue"
 #define CFG_VHT_CSN_BEAMFORMEE_ANT_SUPPORTED_MIN     ( WNI_CFG_VHT_CSN_BEAMFORMEE_ANT_SUPPORTED_STAMIN )
-<<<<<<< HEAD
-#define CFG_VHT_CSN_BEAMFORMEE_ANT_SUPPORTED_MAX     ( WNI_CFG_VHT_CSN_BEAMFORMEE_ANT_SUPPORTED_STAMAX )
-#define CFG_VHT_CSN_BEAMFORMEE_ANT_SUPPORTED_DEFAULT ( WNI_CFG_VHT_CSN_BEAMFORMEE_ANT_SUPPORTED_STAMAX - 1)
-=======
 #define CFG_VHT_CSN_BEAMFORMEE_ANT_SUPPORTED_MAX     ( WNI_CFG_VHT_CSN_BEAMFORMEE_ANT_SUPPORTED_STAMAX - 1 )
 #define CFG_VHT_CSN_BEAMFORMEE_ANT_SUPPORTED_DEFAULT ( WNI_CFG_VHT_CSN_BEAMFORMEE_ANT_SUPPORTED_STAMAX - 1 )
 
@@ -2198,7 +2014,6 @@ static __inline tANI_U32 defHddRateToDefCfgRate( tANI_U32 defRateIndex )
 #define CFG_VHT_AMPDU_LEN_EXP_MIN           ( 0 )
 #define CFG_VHT_AMPDU_LEN_EXP_MAX           ( 7 )
 #define CFG_VHT_AMPDU_LEN_EXP_DEFAULT       ( 7 )
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #endif
 
@@ -2325,14 +2140,6 @@ static __inline tANI_U32 defHddRateToDefCfgRate( tANI_U32 defRateIndex )
 #define CFG_SPLIT_SCAN_TRAFFIC_MONITOR_TIMER_MAX       ( 10000 )
 #define CFG_SPLIT_SCAN_TRAFFIC_MONITOR_TIMER_DEFAULT   ( 5000 )
 
-<<<<<<< HEAD
-#define CFG_AMSDU_SUPPORT_IN_AMPDU_NAME                "gAmsduSupportInAMPDU"
-#define CFG_AMSDU_SUPPORT_IN_AMPDU_MIN                 (0)
-#define CFG_AMSDU_SUPPORT_IN_AMPDU_MAX                 (1)
-#define CFG_AMSDU_SUPPORT_IN_AMPDU_DEFAULT             (0) //disabled
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef FEATURE_WLAN_SCAN_PNO
 #define CFG_PNO_SCAN_SUPPORT                         "gPNOScanSupport"
 #define CFG_PNO_SCAN_SUPPORT_ENABLE                  ( 1 )
@@ -2345,8 +2152,6 @@ static __inline tANI_U32 defHddRateToDefCfgRate( tANI_U32 defRateIndex )
 #define CFG_PNO_SCAN_TIMER_REPEAT_VALUE_MAX          ( 0xffffffff )
 #endif
 
-<<<<<<< HEAD
-=======
 /* Not supporting this feature in pronto */
 #define CFG_AMSDU_SUPPORT_IN_AMPDU_NAME                "gAmsduSupportInAMPDU"
 #define CFG_AMSDU_SUPPORT_IN_AMPDU_MIN                 (0)
@@ -2366,41 +2171,11 @@ This feature requires the dependent cfg.ini "gRoamPrefer5GHz" set to 1 */
 #define CFG_COALESING_IN_IBSS_MAX                 (1)
 #define CFG_COALESING_IN_IBSS_DEFAULT             (0) //disabled
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define CFG_DISABLE_ATH_NAME                       "gAthDisable"
 #define CFG_DISABLE_ATH_MIN                        (0)
 #define CFG_DISABLE_ATH_MAX                        (1)
 #define CFG_DISABLE_ATH_DEFAULT                    (0)
 
-<<<<<<< HEAD
-#define CFG_BTC_ACTIVE_WLAN_LEN_NAME           "btcActiveWlanLen"
-#define CFG_BTC_ACTIVE_WLAN_LEN_MIN            ( 0 )
-#define CFG_BTC_ACTIVE_WLAN_LEN_MAX            ( 250000 )
-#define CFG_BTC_ACTIVE_WLAN_LEN_DEFAULT        ( 60000 )
-
-#define CFG_BTC_ACTIVE_BT_LEN_NAME             "btcActiveBtLen"
-#define CFG_BTC_ACTIVE_BT_LEN_MIN              ( 0 )
-#define CFG_BTC_ACTIVE_BT_LEN_MAX              ( 250000 )
-#define CFG_BTC_ACTIVE_BT_LEN_DEFAULT          ( 90000 )
-
-#define CFG_BTC_SAP_ACTIVE_WLAN_LEN_NAME       "btcSapActiveWlanLen"
-#define CFG_BTC_SAP_ACTIVE_WLAN_LEN_MIN        ( 0 )
-#define CFG_BTC_SAP_ACTIVE_WLAN_LEN_MAX        ( 250000 )
-#define CFG_BTC_SAP_ACTIVE_WLAN_LEN_DEFAULT    ( 60000 )
-
-#define CFG_BTC_SAP_ACTIVE_BT_LEN_NAME         "btcSapActiveBtLen"
-#define CFG_BTC_SAP_ACTIVE_BT_LEN_MIN          ( 0 )
-#define CFG_BTC_SAP_ACTIVE_BT_LEN_MAX          ( 250000 )
-#define CFG_BTC_SAP_ACTIVE_BT_LEN_DEFAULT      ( 90000 )
-
-/* Prefer connecting to 5G AP even if its RSSI is lower by
- gSelect5GHzMargin dBm than 2.4G AP.
-This feature requires the dependent cfg.ini "gRoamPrefer5GHz" set to 1 */
-#define CFG_STRICT_5GHZ_PREF_BY_MARGIN                 "gSelect5GHzMargin"
-#define CFG_STRICT_5GHZ_PREF_BY_MARGIN_MIN             (0)
-#define CFG_STRICT_5GHZ_PREF_BY_MARGIN_MAX             (60)
-#define CFG_STRICT_5GHZ_PREF_BY_MARGIN_DEFAULT         (0) //set 0 to disable
-=======
 //Enable Memory Debug
 #ifdef MEMORY_DEBUG
 #define CFG_ENABLE_MEMORY_DEBUG_NAME             "gEnableMemoryDebug"
@@ -2784,7 +2559,6 @@ This feature requires the dependent cfg.ini "gRoamPrefer5GHz" set to 1 */
 #define CFG_SAR_BOFFSET_SET_CORRECTION_MIN       (0)
 #define CFG_SAR_BOFFSET_SET_CORRECTION_MAX       (1)
 #define CFG_SAR_BOFFSET_SET_CORRECTION_DEFAULT   (0)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*--------------------------------------------------------------------------- 
   Type declarations
@@ -2805,10 +2579,7 @@ typedef struct
    v_BOOL_t      ShortSlotTimeEnabled;
    v_BOOL_t      Is11dSupportEnabled;
    v_BOOL_t      Is11hSupportEnabled;
-<<<<<<< HEAD
-=======
    v_U32_t       nDeferScanTimeInterval;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    v_BOOL_t      fEnforce11dChannels;
    v_BOOL_t      fSupplicantCountryCodeHasPriority;
    v_BOOL_t      fEnforceCountryCodeMatch;
@@ -2828,10 +2599,7 @@ typedef struct
    v_U8_t        nEnableSuspend;
    v_U8_t        nEnableDriverStop;
    v_BOOL_t      fIsImpsEnabled;
-<<<<<<< HEAD
-=======
    v_BOOL_t      fIsSsrPanicOnFailure;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    v_BOOL_t      fIsLogpEnabled;
    v_U8_t        btcExecutionMode;
    v_U8_t        btcConsBtSlotsToBlockDuringDhcp;
@@ -2906,10 +2674,7 @@ typedef struct
    v_U32_t       apKeepAlivePeriod;
    v_U32_t       goKeepAlivePeriod;
    v_U32_t       apLinkMonitorPeriod;
-<<<<<<< HEAD
-=======
    v_U32_t       goLinkMonitorPeriod;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    v_U32_t       nBeaconInterval;
    v_U8_t        nTxPowerCap;   //In dBm
    v_BOOL_t      fIsLowGainOverride;
@@ -2926,10 +2691,7 @@ typedef struct
    v_BOOL_t      fFTResourceReqSupported;
 #endif
 
-<<<<<<< HEAD
-=======
    v_BOOL_t      gEnableRoamDelayStats;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef WLAN_FEATURE_NEIGHBOR_ROAMING
    v_U16_t       nNeighborScanPeriod;
    v_U8_t        nNeighborReassocRssiThreshold;
@@ -2940,10 +2702,7 @@ typedef struct
    v_U16_t       nMaxNeighborReqTries;
    v_U16_t       nNeighborResultsRefreshPeriod;
    v_U16_t       nEmptyScanRefreshPeriod;
-<<<<<<< HEAD
-=======
    v_U8_t        nNeighborInitialForcedRoamTo5GhEnable;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 
    //Additional Handoff params
@@ -2957,11 +2716,8 @@ typedef struct
    v_U32_t        nActiveMinChnTime;     //in units of milliseconds
    v_U32_t        nActiveMaxChnTime;     //in units of milliseconds
 
-<<<<<<< HEAD
-=======
    v_U32_t        nInitialDwellTime;     //in units of milliseconds
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    v_U32_t        nActiveMinChnTimeBtc;     //in units of milliseconds
    v_U32_t        nActiveMaxChnTimeBtc;     //in units of milliseconds
 #ifdef WLAN_AP_STA_CONCURRENCY
@@ -3005,19 +2761,11 @@ typedef struct
    v_BOOL_t                     isFastRoamIniFeatureEnabled;
    v_BOOL_t                     MAWCEnabled;
 #endif
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-   v_U32_t                      InfraInactivityInterval;
-   v_BOOL_t                     isCcxIniFeatureEnabled;
-#endif
-#if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR)
-=======
 #ifdef FEATURE_WLAN_ESE
    v_U32_t                      InfraInactivityInterval;
    v_BOOL_t                     isEseIniFeatureEnabled;
 #endif
 #if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    v_BOOL_t                     isFastTransitionEnabled;
    v_U8_t                       RoamRssiDiff;
    v_U8_t                       nImmediateRoamRssiDiff;
@@ -3066,13 +2814,10 @@ typedef struct
    v_U8_t                       WfqViWeight;
    v_U8_t                       WfqVoWeight;
    v_U32_t                      DelayedTriggerFrmInt;
-<<<<<<< HEAD
-=======
    v_U16_t                      BkReorderAgingTime;
    v_U16_t                      BeReorderAgingTime;
    v_U16_t                      ViReorderAgingTime;
    v_U16_t                      VoReorderAgingTime;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    /* Wowl pattern */
    char                        wowlPattern[1024];         
@@ -3132,20 +2877,13 @@ typedef struct
    v_U32_t                     enableCloseLoop;
    v_U8_t                      enableBypass11d;
    v_U8_t                      enableDFSChnlScan;
-<<<<<<< HEAD
-=======
    v_U8_t                      enableDFSPnoChnlScan;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    v_U8_t                      enableDynamicDTIM;
    v_U8_t                      enableAutomaticTxPowerControl;
    v_U8_t                      ShortGI40MhzEnable;
    eHddLinkSpeedReportType     reportMaxLinkSpeed;
    v_S31_t                     linkSpeedRssiHigh;
-<<<<<<< HEAD
-#if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR)
-=======
 #if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    v_BOOL_t                    nRoamPrefer5GHz;
    v_BOOL_t                    nRoamIntraBand;
    v_U8_t                      nProbes;
@@ -3163,11 +2901,8 @@ typedef struct
    v_U8_t                      vhtTxMCS;
    v_BOOL_t                    enableTxBF;
    v_U8_t                      txBFCsnValue;
-<<<<<<< HEAD
-=======
    v_BOOL_t                    enableMuBformee;
    v_U8_t                      gVhtMaxAmpduLenExp;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
    v_U8_t                      enableModulatedDTIM;
    v_U32_t                     fEnableMCAddrList;
@@ -3193,10 +2928,6 @@ typedef struct
    v_U32_t                     fEnableTDLSBufferSta;
    v_U32_t                     fTDLSPuapsdInactivityTimer;
    v_U32_t                     fTDLSRxFrameThreshold;
-<<<<<<< HEAD
-#endif
-   v_U32_t                     enableLpwrImgTransition;
-=======
    v_BOOL_t                    fTDLSExternalControl;
    v_U32_t                     fEnableTDLSOffChannel;
    v_U32_t                     fEnableTDLSWmmMode;
@@ -3209,17 +2940,13 @@ typedef struct
 #ifdef WLAN_FEATURE_EXTSCAN
    v_BOOL_t                    fEnableEXTScan;
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef WLAN_SOFTAP_VSTA_FEATURE
    v_BOOL_t                    fEnableVSTASupport;
 #endif
 #ifdef WLAN_ACTIVEMODE_OFFLOAD_FEATURE
    v_BOOL_t                    fEnableActiveModeOffload;
 #endif
-<<<<<<< HEAD
-=======
    v_U32_t                     enableLpwrImgTransition;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    v_U8_t                      scanAgingTimeout;
    v_BOOL_t                    enableTxLdpc;
    v_U8_t                      disableLDPCWithTxbfAP;
@@ -3249,38 +2976,23 @@ typedef struct
                                                  //splitscan
    //Traffic monitor timer for split scan
    v_U32_t                     trafficMntrTmrForSplitScan;
-<<<<<<< HEAD
-   v_BOOL_t                    enableOxygenNwk;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    v_U8_t                      flexConnectPowerFactor;
    v_BOOL_t                    enableIbssHeartBeatOffload;
    v_U32_t                     antennaDiversity;
    v_BOOL_t                    fEnableSNRMonitoring;
-<<<<<<< HEAD
-   v_U8_t                      isAmsduSupportInAMPDU;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /*PNO related parameters */
 #ifdef FEATURE_WLAN_SCAN_PNO
    v_BOOL_t                    configPNOScanSupport;
    v_U32_t                     configPNOScanTimerRepeatValue;
 #endif
-<<<<<<< HEAD
-=======
    v_U8_t                      isAmsduSupportInAMPDU;
    v_U8_t                      nSelect5GHzMargin;
    v_U8_t                      isCoalesingInIBSSAllowed;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    v_BOOL_t                    cfgAthDisable;
    v_U32_t                     cfgBtcActiveWlanLen;
    v_U32_t                     cfgBtcActiveBtLen;
    v_U32_t                     cfgBtcSapActiveWlanLen;
    v_U32_t                     cfgBtcSapActiveBtLen;
-<<<<<<< HEAD
-   v_U8_t                      nSelect5GHzMargin;
-} hdd_config_t;
-=======
 #ifdef MEMORY_DEBUG
    v_BOOL_t                    IsMemoryDebugSupportEnabled;
 #endif
@@ -3366,7 +3078,6 @@ typedef struct
    v_U8_t                      boffset_correction_enable;
 } hdd_config_t;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*--------------------------------------------------------------------------- 
   Function declarations and documenation
   -------------------------------------------------------------------------*/ 
@@ -3378,14 +3089,8 @@ eCsrPhyMode hdd_cfg_xlate_to_csr_phy_mode( eHddDot11Mode dot11Mode );
 VOS_STATUS hdd_execute_config_command(hdd_context_t *pHddCtx, char *command);
 tANI_BOOLEAN hdd_is_okc_mode_enabled(hdd_context_t *pHddCtx);
 
-<<<<<<< HEAD
-#define FIELD_OFFSET(__type, __field) ((unsigned int)(&((__type *)0)->__field))
-#define VAR_OFFSET( _Struct, _Var ) ( (unsigned int) FIELD_OFFSET(_Struct, _Var ) )
-#define VAR_SIZE( _Struct, _Var ) sizeof( ((_Struct *)0)->_Var )
-=======
 #define VAR_OFFSET( _Struct, _Var ) (offsetof(_Struct, _Var))
 #define VAR_SIZE( _Struct, _Var ) (sizeof(((_Struct *)0)->_Var))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #define VAR_FLAGS_NONE         (      0 )
 #define VAR_FLAGS_REQUIRED     ( 1 << 0 )   // bit 0 is Required or Optional

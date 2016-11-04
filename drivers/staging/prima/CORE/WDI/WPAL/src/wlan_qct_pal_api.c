@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012,2014-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /**=========================================================================
@@ -60,12 +34,6 @@
                
    Definitions for platform Windows.
   
-<<<<<<< HEAD
-   Copyright 2010 (c) Qualcomm, Incorporated.  All Rights Reserved.
-   
-   Qualcomm Confidential and Proprietary.
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   
   ========================================================================*/
 
@@ -76,19 +44,6 @@
 #ifndef MEMORY_DEBUG
 #include "vos_memory.h"
 #endif /* MEMORY_DEBUG */
-<<<<<<< HEAD
-#include "vos_api.h"
-
-#include "dma-mapping.h"
-#include <mach/subsystem_restart.h>
-#include <linux/wcnss_wlan.h>
-
-typedef struct sPalStruct
-{
-   /*?must check the data type*/
-   void* devHandle;
-} tPalContext;
-=======
 #include "vos_sched.h"
 #include "vos_api.h"
 
@@ -101,7 +56,6 @@ typedef struct sPalStruct
 #endif
 #include <linux/wcnss_wlan.h>
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #define WPAL_GET_NDIS_HANDLE(p)  ( ((tPalContext *)(p))->devHandle )
 
@@ -129,20 +83,6 @@ typedef struct
  *                     is opaque to caller.
  *                    Caller save the returned pointer for future use when
  *                    calling PAL APIs.
-<<<<<<< HEAD
- * @param pOSContext Pointer to a context that is OS specific. This is NULL is a 
-                     particular PAL doesn't use it for that OS.
- * 
- * @return wpt_status eWLAN_PAL_STATUS_SUCCESS - success. Otherwise fail.
- */
-wpt_status wpalOpen(void **ppPalContext, void *pOSContext)
-{
-   wpt_status status;
-
-   gContext.devHandle = pOSContext;
-
-   status = wpalDeviceInit(pOSContext);
-=======
  * @param devHandle pointer to the OS specific device handle.
  * 
  * @return wpt_status eWLAN_PAL_STATUS_SUCCESS - success. Otherwise fail.
@@ -154,7 +94,6 @@ wpt_status wpalOpen(void **ppPalContext, void *devHandle)
    gContext.devHandle = devHandle;
 
    status = wpalDeviceInit(devHandle);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if (!WLAN_PAL_IS_STATUS_SUCCESS(status))
    {
       WPAL_TRACE(eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_FATAL,
@@ -270,23 +209,11 @@ void wpalMemoryFill(void *buf, wpt_uint32 size, wpt_byte bFill)
  */
 void *wpalDmaMemoryAllocate(wpt_uint32 size, void **ppPhysicalAddr)
 {
-<<<<<<< HEAD
-=======
    struct device *wcnss_device = (struct device *) gContext.devHandle;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    void *pv = NULL;
    dma_addr_t PhyAddr;
    wpt_uint32 uAllocLen = size + sizeof(tPalDmaMemInfo);
    
-<<<<<<< HEAD
-   pv = dma_alloc_coherent(NULL, uAllocLen, &PhyAddr, GFP_KERNEL);
-   if ( NULL == pv ) 
-   {
-     WPAL_TRACE(eWLAN_MODULE_PAL, eWLAN_PAL_TRACE_LEVEL_ERROR, 
-                 "%s Unable to allocate DMA buffer\n", __func__);
-     return NULL;
-   }
-=======
    pv = dma_alloc_coherent(wcnss_device, uAllocLen, &PhyAddr, GFP_KERNEL);
    if ( NULL == pv ) 
    {
@@ -295,7 +222,6 @@ void *wpalDmaMemoryAllocate(wpt_uint32 size, void **ppPhysicalAddr)
      return NULL;
    }
    wpalMemoryZero(pv, uAllocLen);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    
    ((tPalDmaMemInfo *)pv)->length  = uAllocLen;
@@ -315,21 +241,14 @@ void *wpalDmaMemoryAllocate(wpt_uint32 size, void **ppPhysicalAddr)
  */
 void wpalDmaMemoryFree(void *pv)
 {
-<<<<<<< HEAD
-=======
    struct device *wcnss_device = (struct device *) gContext.devHandle;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    tPalDmaMemInfo *pMemInfo = (tPalDmaMemInfo *)(((wpt_byte *)pv) -
                                       sizeof(tPalDmaMemInfo));
     if(pv)
     { 
         pv = (wpt_byte *)pv - pMemInfo->offset;
-<<<<<<< HEAD
-        dma_free_coherent(NULL, pMemInfo->length, pv, pMemInfo->phyAddr);
-=======
         dma_free_coherent(wcnss_device, pMemInfo->length, pv, pMemInfo->phyAddr);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
 }/*wpalDmaMemoryFree*/
@@ -491,26 +410,12 @@ void wpalWlanReload(void)
 void wpalWcnssResetIntr(void)
 {
 #ifdef HAVE_WCNSS_RESET_INTR
-<<<<<<< HEAD
-   wcnss_reset_intr();
-=======
    wcnss_reset_fiq(true);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
    return;
 }
 
 /*---------------------------------------------------------------------------
-<<<<<<< HEAD
-    wpalFwDumpReq -  Trigger the dump commands to Firmware
-
-    Param:
-       cmd - Command No. to execute
-       arg1 - argument 1 to cmd
-       arg2 - argument 2 to cmd
-       arg3 - argument 3 to cmd
-       arg4 - argument 4 to cmd
-=======
     wpalWcnssIsProntoHwVer3 -  Check if Pronto Hw ver3
 
     Param:
@@ -576,20 +481,13 @@ wpt_uint8 wpalIsFwLoggingSupported(void)
        arg3 -  argument 3 to cmd
        arg4 -  argument 4 to cmd
        async -asynchronous event. Don't wait for completion.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     Return:
        NONE
 ---------------------------------------------------------------------------*/
 void wpalFwDumpReq(wpt_uint32 cmd, wpt_uint32 arg1, wpt_uint32 arg2,
-<<<<<<< HEAD
-                    wpt_uint32 arg3, wpt_uint32 arg4)
-{
-   vos_fwDumpReq(cmd, arg1, arg2, arg3, arg4);
-=======
                     wpt_uint32 arg3, wpt_uint32 arg4, wpt_boolean async)
 {
    vos_fwDumpReq(cmd, arg1, arg2, arg3, arg4, async);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    return;
 }
 
@@ -605,11 +503,6 @@ void wpalFwDumpReq(wpt_uint32 cmd, wpt_uint32 arg1, wpt_uint32 arg2,
 ---------------------------------------------------------------------------*/
 void wpalDevicePanic(void)
 {
-<<<<<<< HEAD
-   BUG_ON(0);
-   return;
-}
-=======
    BUG_ON(1);
    return;
 }
@@ -648,5 +541,4 @@ int  wpalIsDxeSSREnable(void)
 {
    return vos_get_dxeSSREnable();
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 

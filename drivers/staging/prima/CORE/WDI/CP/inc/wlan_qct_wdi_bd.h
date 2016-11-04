@@ -1,25 +1,4 @@
 /*
-<<<<<<< HEAD
-  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-  *
-  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
-  *
-  *
-  * Permission to use, copy, modify, and/or distribute this software for
-  * any purpose with or without fee is hereby granted, provided that the
-  * above copyright notice and this permission notice appear in all
-  * copies.
-  *
-  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
-  * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
-  * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
-  * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
-  * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
-  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-  * PERFORMANCE OF THIS SOFTWARE.
-*/
-=======
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
@@ -46,7 +25,6 @@
  * to the Linux Foundation.
  */
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifndef WLAN_QCT_WDI_BD_H
 #define WLAN_QCT_WDI_BD_H
 
@@ -59,15 +37,7 @@
                    
 DESCRIPTION
   This file contains the internal BD definition exposed by the DAL Control       
-<<<<<<< HEAD
-  Path Core module to be used by the DAL Data Path Core. 
-  
-      
-  Copyright (c) 2010 Qualcomm Technologies, Inc. All Rights Reserved.
-  Qualcomm Technologies Confidential and Proprietary
-=======
   Path Core module to be used by the DAL Data Path Core.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ===========================================================================*/
 
 
@@ -334,12 +304,6 @@ typedef struct
 #endif
 
 #ifdef WCN_PRONTO
-<<<<<<< HEAD
-        wpt_uint32 reserved3: 1;
-        wpt_uint32 rxDXEPriorityRouting:1;
-#else
-        wpt_uint32 reserved3:2;
-=======
 #ifdef WLAN_FEATURE_EXTSCAN
         wpt_uint32 extscanBuffer:1;
 #else
@@ -353,7 +317,6 @@ typedef struct
 #else
         wpt_uint32 reserved3: 2;
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif //WCN_PRONTO
 
 
@@ -368,11 +331,6 @@ typedef struct
         wpt_uint32 tid:4;
 #ifdef WCN_PRONTO
         wpt_uint32 rxDXEPriorityRouting:1;
-<<<<<<< HEAD
-        wpt_uint32 reserved3: 1;
-#else
-        wpt_uint32 reserved3:2;
-=======
 #ifdef WLAN_FEATURE_EXTSCAN
         wpt_uint32 extscanBuffer:1;
 #else
@@ -385,7 +343,6 @@ typedef struct
 #else
         wpt_uint32 reserved3: 2;
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif //WCN_PRONTO
 #ifdef WLAN_FEATURE_ROAM_SCAN_OFFLOAD
         wpt_uint32 roamCandidateInd:1;
@@ -1194,10 +1151,7 @@ typedef struct
         wpt_uint32 csuTcpUdpStartOffset:10;
 #endif
 #endif /*WCN_PRONTO*/
-<<<<<<< HEAD
-=======
         wpt_uint32 txBdToken;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 } WDI_TxBdType;
 

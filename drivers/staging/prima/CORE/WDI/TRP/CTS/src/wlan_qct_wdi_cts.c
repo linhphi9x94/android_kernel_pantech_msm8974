@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /*===========================================================================
@@ -68,12 +42,6 @@
   Are listed for each API below.
 
 
-<<<<<<< HEAD
-  Copyright (c) 2010-2011 QUALCOMM Incorporated.
-  All Rights Reserved.
-  Qualcomm Confidential and Proprietary
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ===========================================================================*/
 
 /*===========================================================================
@@ -114,15 +82,11 @@
 #include "wlan_qct_wdi.h"
 #include "wlan_qct_wdi_i.h"
 #ifdef CONFIG_ANDROID
-<<<<<<< HEAD
-#include <mach/msm_smd.h>
-=======
 #ifdef EXISTS_MSM_SMD
 #include <mach/msm_smd.h>
 #else
 #include <soc/qcom/smd.h>
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include <linux/delay.h>
 #else
 #include "msm_smd.h"
@@ -170,10 +134,7 @@ typedef struct
    WCTS_RxMsgCBType       wctsRxMsgCB;
    void*                  wctsRxMsgCBData;
    WCTS_StateType         wctsState;
-<<<<<<< HEAD
-=======
    vos_spin_lock_t        wctsStateLock;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    smd_channel_t*         wctsChannel;
    wpt_list               wctsPendingQueue;
    wpt_uint32             wctsMagic;
@@ -205,19 +166,7 @@ typedef struct
 /*----------------------------------------------------------------------------
  * Static Variable Definitions
  * -------------------------------------------------------------------------*/
-<<<<<<< HEAD
-#ifdef FEATURE_R33D
-/* R33D will not close SMD port
- * If receive close request from WDI, just pretend as port closed,
- * Store control block info static memory, and reuse next open */
-static WCTS_ControlBlockType  *ctsCB;
 
-/* If port open once, not try to actual open next time */
-static int                     port_open;
-#endif /* FEATURE_R33D */
-=======
-
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*----------------------------------------------------------------------------
  * Static Function Declarations and Definitions
  * -------------------------------------------------------------------------*/
@@ -351,10 +300,7 @@ WCTS_PALReadCallback
                            pWCTSCb->wctsRxMsgCBData);
 
       /* Free the allocated buffer*/
-<<<<<<< HEAD
-=======
       wpalMemoryZero(buffer, bytes_read);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       wpalMemoryFree(buffer);
    }
 
@@ -439,10 +385,7 @@ WCTS_PALWriteCallback
       }
 
       /* whether we had success or failure, reclaim all memory */
-<<<<<<< HEAD
-=======
       wpalMemoryZero(pBuffer, len);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       wpalMemoryFree(pBuffer);
       wpalMemoryFree(pBufferQueue);
 
@@ -608,19 +551,13 @@ WCTS_NotifyCallback
       /* SMD channel was closed from the remote side,
        * this would happen only when Riva crashed and SMD is
        * closing the channel on behalf of Riva */
-<<<<<<< HEAD
-=======
       vos_spin_lock_acquire(&pWCTSCb->wctsStateLock);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       pWCTSCb->wctsState = WCTS_STATE_REM_CLOSED;
       WPAL_TRACE(eWLAN_MODULE_DAL_CTRL, eWLAN_PAL_TRACE_LEVEL_INFO,
                  "%s: received SMD_EVENT_CLOSE WLAN driver going down now",
                  __func__);
-<<<<<<< HEAD
-=======
       vos_spin_lock_release(&pWCTSCb->wctsStateLock);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       /* subsystem restart: shutdown */
       wpalDriverShutdown();
       return;
@@ -631,11 +568,7 @@ WCTS_NotifyCallback
       return;
 
    case SMD_EVENT_REOPEN_READY:
-<<<<<<< HEAD
-      WPAL_TRACE(eWLAN_MODULE_DAL_CTRL, eWLAN_PAL_TRACE_LEVEL_ERROR,
-=======
       WPAL_TRACE(eWLAN_MODULE_DAL_CTRL, eWLAN_PAL_TRACE_LEVEL_INFO,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  "%s: received SMD_EVENT_REOPEN_READY from SMD", __func__);
 
       /* unlike other events which occur when our kernel threads are
@@ -711,11 +644,7 @@ WCTS_OpenTransport
     * the SMD port was never closed during SSR*/
    if (gwctsHandle) {
        WPAL_TRACE(eWLAN_MODULE_DAL_CTRL, eWLAN_PAL_TRACE_LEVEL_INFO,
-<<<<<<< HEAD
-               "WCTS_OpenTransport port is already open\n");
-=======
                "WCTS_OpenTransport port is already open");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
        pWCTSCb = gwctsHandle;
        if (WCTS_CB_MAGIC != pWCTSCb->wctsMagic) {
@@ -736,22 +665,6 @@ WCTS_OpenTransport
        return (WCTS_HandleType)pWCTSCb;
    }
 
-<<<<<<< HEAD
-#ifdef FEATURE_R33D
-   if(port_open)
-   {
-      /* Port open before, not need to open again */
-      /* notified registered client that the channel is open */
-      ctsCB->wctsState = WCTS_STATE_OPEN;
-      ctsCB->wctsNotifyCB((WCTS_HandleType)ctsCB,
-                           WCTS_EVENT_OPEN,
-                           ctsCB->wctsNotifyCBData);
-      return (WCTS_HandleType)ctsCB;
-   }
-#endif /* FEATURE_R33D */
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* allocate a ControlBlock to hold all context */
    pWCTSCb = wpalMemoryAllocate(sizeof(*pWCTSCb));
    if (NULL == pWCTSCb) {
@@ -766,15 +679,6 @@ WCTS_OpenTransport
       values */
    wpalMemoryZero(pWCTSCb, sizeof(*pWCTSCb));
 
-<<<<<<< HEAD
-#ifdef FEATURE_R33D
-   smd_init(0);
-   port_open = 1;
-   ctsCB = pWCTSCb;
-#endif /* FEATURE_R33D */
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /*Initialise the event*/
    wpalEventInit(&pWCTSCb->wctsEvent);
 
@@ -787,10 +691,7 @@ WCTS_OpenTransport
    /* initialize the remaining fields */
    wpal_list_init(&pWCTSCb->wctsPendingQueue);
    pWCTSCb->wctsMagic   = WCTS_CB_MAGIC;
-<<<<<<< HEAD
-=======
    vos_spin_lock_init(&pWCTSCb->wctsStateLock);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    pWCTSCb->wctsState   = WCTS_STATE_OPEN_PENDING;
    pWCTSCb->wctsChannel = NULL;
 
@@ -891,21 +792,6 @@ WCTS_CloseTransport
       return eWLAN_PAL_STATUS_E_INVAL;
    }
 
-<<<<<<< HEAD
-#ifdef FEATURE_R33D
-   /* Not actually close port, just pretend */
-   /* notified registered client that the channel is closed */
-   pWCTSCb->wctsState = WCTS_STATE_CLOSED;
-   pWCTSCb->wctsNotifyCB((WCTS_HandleType)pWCTSCb,
-                         WCTS_EVENT_CLOSE,
-                         pWCTSCb->wctsNotifyCBData);
-
-   printk(KERN_ERR "R33D Not need to close");
-   return eWLAN_PAL_STATUS_SUCCESS;
-#endif /* FEATURE_R33D */
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /*Free the buffers in the pending queue.*/
    while (eWLAN_PAL_STATUS_SUCCESS ==
           wpal_list_remove_front(&pWCTSCb->wctsPendingQueue, &pNode)) {
@@ -951,11 +837,7 @@ WCTS_CloseTransport
    pWCTSCb->wctsNotifyCB((WCTS_HandleType)pWCTSCb,
                          WCTS_EVENT_CLOSE,
                          pWCTSCb->wctsNotifyCBData);
-<<<<<<< HEAD
-
-=======
    vos_spin_lock_destroy(&pWCTSCb->wctsStateLock);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* release the resource */
    pWCTSCb->wctsMagic = 0;
    wpalMemoryFree(pWCTSCb);
@@ -1041,17 +923,10 @@ WCTS_SendMessage
       WPAL_TRACE(eWLAN_MODULE_DAL_CTRL, eWLAN_PAL_TRACE_LEVEL_ERROR,
                  "WCTS_SendMessage: Failed to send message over the bus.");
       wpalMemoryFree(pMsg);
-<<<<<<< HEAD
-      WPAL_ASSERT(0);
-      return eWLAN_PAL_STATUS_E_FAILURE;
-   } else if (written == len) {
-      /* Message sent! No deferred state, free the buffer*/
-=======
       return eWLAN_PAL_STATUS_E_FAILURE;
    } else if (written == len) {
       /* Message sent! No deferred state, free the buffer*/
       wpalMemoryZero(pMsg, len);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       wpalMemoryFree(pMsg);
    } else {
       /* This much data cannot be written at this time,
@@ -1067,9 +942,6 @@ WCTS_SendMessage
 
       pBufferQueue->bufferSize = len;
       pBufferQueue->pBuffer = pMsg;
-<<<<<<< HEAD
-      wpal_list_insert_back(&pWCTSCb->wctsPendingQueue, &pBufferQueue->node);
-=======
 
       if (eWLAN_PAL_STATUS_E_FAILURE ==
              wpal_list_insert_back(&pWCTSCb->wctsPendingQueue,
@@ -1082,32 +954,21 @@ WCTS_SendMessage
          WPAL_ASSERT(0);
          return eWLAN_PAL_STATUS_E_NOMEM;
       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
       /* if we are not already in the deferred state, then transition
          to that state.  when we do so, we enable the remote read
          interrupt so that we'll be notified when messages are read
          from the remote end */
-<<<<<<< HEAD
-      if (WCTS_STATE_DEFERRED != pWCTSCb->wctsState) {
-
-         /* Mark the state as deferred.
-            Later: We may need to protect wctsState by locks*/
-=======
       vos_spin_lock_acquire(&pWCTSCb->wctsStateLock);
       if ((WCTS_STATE_DEFERRED != pWCTSCb->wctsState) &&
                         (WCTS_STATE_REM_CLOSED != pWCTSCb->wctsState)) {
 
          /* Mark the state as deferred.*/
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          pWCTSCb->wctsState = WCTS_STATE_DEFERRED;
 
          smd_enable_read_intr(pWCTSCb->wctsChannel);
       }
-<<<<<<< HEAD
-=======
       vos_spin_lock_release(&pWCTSCb->wctsStateLock);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
       /*indicate to client that message was placed in deferred queue*/
       return eWLAN_PAL_STATUS_E_RESOURCES;

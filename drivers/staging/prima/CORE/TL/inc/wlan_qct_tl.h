@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,29 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -55,7 +28,6 @@
 
 
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifndef WLAN_QCT_WLANTL_H
 #define WLAN_QCT_WLANTL_H
 
@@ -68,20 +40,6 @@
 DESCRIPTION
   This file contains the external API exposed by the wlan transport layer
   module.
-<<<<<<< HEAD
-<<<<<<< HEAD:CORE/TL/inc/wlan_qct_tl.h
-  
-      
-  Copyright (c) 2008 QUALCOMM Incorporated. All Rights Reserved.
-  Qualcomm Confidential and Proprietary
-=======
-
-
-  Copyright (c) 2008 Qualcomm Technologies, Inc. All Rights Reserved.
-  Qualcomm Technologies Confidential and Proprietary
->>>>>>> 326d6cf... wlan: remove obsolete ANI_CHIPSET_VOLANS featurization:prima/CORE/TL/inc/wlan_qct_tl.h
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ===========================================================================*/
 
 
@@ -144,14 +102,10 @@ when        who    what, where, why
 #define WLANTL_LLC_SNAP_OFFSET                0
 
 /*Size of the LLC/SNAP header*/
-<<<<<<< HEAD
-#define WLANTL_LLC_SNAP_SIZE                   8
-=======
 #define WLANTL_LLC_SNAP_SIZE                  8
 
 /* Number of Tx Queues, this should be same as NUM_TX_QUEUES in HDD */
 #define WLANTL_NUM_TX_QUEUES                  5
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*============================================================================
  *     GENERIC STRUCTURES - not belonging to TL 
@@ -186,8 +140,6 @@ when        who    what, where, why
 // Choose the largest possible value that can be accomodates in 8 bit signed
 // variable.
 #define SNR_HACK_BMPS                         (127)
-<<<<<<< HEAD
-=======
 #define IS_BROADCAST_ADD(_a)              \
     ((_a)[0] == 0xff &&                         \
      (_a)[1] == 0xff &&                         \
@@ -198,21 +150,12 @@ when        who    what, where, why
 
 #define IS_MULTICAST_ADD(_a)  (*(_a) & 0x01)
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*--------------------------------------------------------------------------
   Access category enum used by TL
   - order must be kept as these values are used to setup the AC mask
  --------------------------------------------------------------------------*/
 typedef enum
 {
-<<<<<<< HEAD
-  WLANTL_AC_BK = 0,
-  WLANTL_AC_BE = 1,
-  WLANTL_AC_VI = 2,
-  WLANTL_AC_VO = 3
-}WLANTL_ACEnumType; 
-
-=======
   /* The values from 0-3 correspond both to the TL tx queue
    * id and the also the AC corresponding to the packets queued
    */
@@ -233,7 +176,6 @@ typedef struct
    v_MACADDR_t    spoofMac;
 }WLANTL_SpoofMacAddr;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*---------------------------------------------------------------------------
   STA Type
 ---------------------------------------------------------------------------*/
@@ -356,15 +298,9 @@ typedef struct
  /*Flag to indicate if STA is a WAPI STA*/
   v_U8_t         ucIsWapiSta;
 
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
- /*Flag to indicate if STA is a CCX STA*/
-  v_U8_t         ucIsCcxSta;
-=======
 #ifdef FEATURE_WLAN_ESE
  /*Flag to indicate if STA is a ESE STA*/
   v_U8_t         ucIsEseSta;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 
   /*DPU Signature used for broadcast data - used for data caching*/
@@ -383,11 +319,7 @@ typedef struct
 typedef struct
 {
   /*AC weight for WFQ*/
-<<<<<<< HEAD
-  v_U8_t   ucAcWeights[WLANTL_MAX_AC]; 
-=======
   v_U8_t   ucAcWeights[WLANTL_NUM_TX_QUEUES];
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   /*Delayed trigger frame timmer: - used by TL to send trigger frames less 
     often when it has established that the App is suspended*/
@@ -395,12 +327,9 @@ typedef struct
 
   /* Min Threshold for Processing Frames in TL */
   v_U8_t   uMinFramesProcThres;
-<<<<<<< HEAD
-=======
 
   /* Re-order Aging Time */
   v_U16_t  ucReorderAgingTime[WLANTL_MAX_AC];
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }WLANTL_ConfigInfoType;
 
 /*---------------------------------------------------------------------------
@@ -477,12 +406,9 @@ typedef enum
 ---------------------------------------------------------------------------*/      
 typedef struct
 {
-<<<<<<< HEAD
-=======
   /* Save the AC of the packet */
   WLANTL_ACEnumType ac;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   /* TID of the packet being sent */
   v_U8_t    ucTID;
 
@@ -512,12 +438,9 @@ typedef struct
 
   /* STA has more packets to send */
   v_BOOL_t  bMorePackets;
-<<<<<<< HEAD
-=======
   /* notifying TL if this is an ARP frame or not */
   v_U8_t    ucIsArp;
   v_U32_t   ucTxBdToken;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }WLANTL_MetaInfoType;
 
 /*---------------------------------------------------------------------------
@@ -537,8 +460,6 @@ typedef struct
  #endif
 }WLANTL_RxMetaInfoType;
 
-<<<<<<< HEAD
-=======
 #ifdef WLAN_FEATURE_LINK_LAYER_STATS
 /* per interface per access category statistics */
 typedef PACKED_PRE struct PACKED_POST
@@ -624,7 +545,6 @@ typedef PACKED_PRE struct PACKED_POST
 
 
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*---------------------------------------------------------------------------
   Handoff support and statistics defines and enum types
@@ -686,8 +606,6 @@ typedef tSap_SoftapStats WLANTL_TRANSFER_STA_TYPE;
 #define WLANTL_HS_NUM_CLIENT         2
 #define WLANTL_SINGLE_CLNT_THRESHOLD 4
 
-<<<<<<< HEAD
-=======
 typedef enum
 {
   WLANTL_DEBUG_TX_SNAPSHOT = 1<<0,
@@ -695,7 +613,6 @@ typedef enum
   WLANTL_DEBUG_KICKDXE = 1<<2
 }WLANTL_DebugFlags;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*----------------------------------------------------------------------------
  *   TL callback types
  *--------------------------------------------------------------------------*/
@@ -774,12 +691,9 @@ typedef VOS_STATUS (*WLANTL_STAFetchPktCBType)(
                                             vos_pkt_t**           vosDataBuff,
                                             WLANTL_MetaInfoType*  tlMetaInfo);
 
-<<<<<<< HEAD
-=======
 typedef VOS_STATUS (*WLANTL_MonRxCBType)( v_PVOID_t              pvosGCtx,
                                           vos_pkt_t*             vosDataBuff,
                                           int                    conversion);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*----------------------------------------------------------------------------
 
   DESCRIPTION   
@@ -1126,8 +1040,6 @@ WLANTL_Close
   v_PVOID_t  pvosGCtx 
 );
 
-<<<<<<< HEAD
-=======
 /*===========================================================================
 
   FUNCTION    WLANTL_StartForwarding
@@ -1175,7 +1087,6 @@ WLANTL_StartForwarding
   v_U8_t ucUcastSig,
   v_U8_t ucBcastSig
 );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*----------------------------------------------------------------------------
     INTERACTION WITH HDD
@@ -1207,11 +1118,8 @@ WLANTL_ConfigureSwFrameTXXlationForAll
   v_BOOL_t enableFrameXlation
 );
 
-<<<<<<< HEAD
-=======
 VOS_STATUS WLANTL_SetMonRxCbk(v_PVOID_t pvosGCtx, WLANTL_MonRxCBType pfnMonRx);
 void WLANTL_SetIsConversionReq(v_PVOID_t pvosGCtx, v_BOOL_t isConversionReq);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*===========================================================================
 
   FUNCTION    WLANTL_RegisterSTAClient
@@ -1269,8 +1177,6 @@ WLANTL_RegisterSTAClient
 
 /*===========================================================================
 
-<<<<<<< HEAD
-=======
   FUNCTION    WLANTL_UpdateTdlsSTAClient
 
   DESCRIPTION
@@ -1313,7 +1219,6 @@ WLANTL_UpdateTdlsSTAClient
 
 /*===========================================================================
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   FUNCTION    WLANTL_ClearSTAClient
 
   DESCRIPTION 
@@ -1351,8 +1256,6 @@ WLANTL_ClearSTAClient
   v_U8_t           ucSTAId 
 );
 
-<<<<<<< HEAD
-=======
 #ifdef WLAN_FEATURE_LINK_LAYER_STATS
 /*==========================================================================
 
@@ -1424,7 +1327,6 @@ WLANTL_ClearInterfaceStats
 );
 #endif
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*===========================================================================
 
   FUNCTION    WLANTL_ChangeSTAState
@@ -1934,8 +1836,6 @@ WLANTL_FlushStaTID
 
 /*==========================================================================
 
-<<<<<<< HEAD
-=======
   FUNCTION    WLANTL_updateSpoofMacAddr
 
   DESCRIPTION
@@ -1972,7 +1872,6 @@ WLANTL_updateSpoofMacAddr
 );
 /*==========================================================================
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   FUNCTION    WLANTL_RegisterMgmtFrmClient
 
   DESCRIPTION 
@@ -2109,12 +2008,8 @@ WLANTL_TxMgmtFrm
   v_U8_t               tid,
   WLANTL_TxCompCBType  pfnCompTxFunc,
   v_PVOID_t            voosBDHeader,
-<<<<<<< HEAD
-  v_U8_t               ucAckResponse
-=======
   v_U32_t              ucAckResponse,
   v_U32_t              ucTxBdToken
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 );
 
 
@@ -2330,8 +2225,6 @@ WLANTL_GetRxPktCount
 );
 
 /*==========================================================================
-<<<<<<< HEAD
-=======
 
   FUNCTION    WLANTL_IsEAPOLPending
 
@@ -2367,7 +2260,6 @@ WLANTL_IsEAPOLPending
 );
 
 /*==========================================================================
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     VOSS SCHEDULER INTERACTION
   ==========================================================================*/
 
@@ -2408,8 +2300,6 @@ WLANTL_McProcessMsg
 );
 
 /*==========================================================================
-<<<<<<< HEAD
-=======
   FUNCTION    WLANTL_RxProcessMsg
 
   DESCRIPTION
@@ -2448,7 +2338,6 @@ WLANTL_RxProcessMsg
 );
 
 /*==========================================================================
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   FUNCTION    WLANTL_McFreeMsg
 
   DESCRIPTION 
@@ -2971,8 +2860,6 @@ VOS_STATUS WLANTL_GetSoftAPStatistics(v_PVOID_t pAdapter, WLANTL_TRANSFER_STA_TY
  }
 #endif 
 
-<<<<<<< HEAD
-=======
 /*===========================================================================
 
   FUNCTION    WLANTL_EnableCaching
@@ -2998,7 +2885,6 @@ VOS_STATUS WLANTL_GetSoftAPStatistics(v_PVOID_t pAdapter, WLANTL_TRANSFER_STA_TY
 
 ============================================================================*/
 void WLANTL_EnableCaching(v_U8_t staId);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
  /*===========================================================================
 
@@ -3059,26 +2945,15 @@ void WLANTL_PostResNeeded(v_PVOID_t pvosGCtx);
 
   DESCRIPTION
      This function is used by HDD to notify TL to finish Upper layer authentication
-<<<<<<< HEAD
-     incase the last EAPOL packet is pending in the TL queue. 
-     To avoid the race condition between sme set key and the last EAPOL packet 
-     the HDD module calls this function just before calling the sme_RoamSetKey.
-   
-=======
      incase the last EAPOL packet is pending in the TL queue.
      To avoid the race condition between sme set key and the last EAPOL packet
      the HDD module calls this function just before calling the sme_RoamSetKey.
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   DEPENDENCIES
 
     TL must have been initialized before this gets called.
 
-<<<<<<< HEAD
-   
-=======
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   PARAMETERS
 
    callbackRoutine:   HDD Callback function.
@@ -3087,15 +2962,9 @@ void WLANTL_PostResNeeded(v_PVOID_t pvosGCtx);
   RETURN VALUE
 
    VOS_STATUS_SUCCESS/VOS_STATUS_FAILURE
-<<<<<<< HEAD
-   
-  SIDE EFFECTS
-   
-=======
 
   SIDE EFFECTS
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ============================================================================*/
 
 VOS_STATUS WLANTL_Finish_ULA( void (*callbackRoutine) (void *callbackContext),
@@ -3392,9 +3261,6 @@ WLANTL_TxThreadDebugHandler
 v_VOID_t
 WLANTL_TLDebugMessage
 (
-<<<<<<< HEAD
-  v_BOOL_t displaySnapshot
-=======
   v_U32_t debugFlags
 );
 
@@ -3421,7 +3287,6 @@ v_VOID_t
 WLANTL_FatalError
 (
  v_VOID_t
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 );
 
 #endif /* #ifndef WLAN_QCT_WLANTL_H */

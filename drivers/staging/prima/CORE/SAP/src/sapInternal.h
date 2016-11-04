@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2013, 2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #ifndef WLAN_QCT_WLANSAP_INTERNAL_H
@@ -65,11 +39,6 @@ DESCRIPTION
   module.
 
 
-<<<<<<< HEAD
-  Copyright (c) 2008 QUALCOMM Incorporated. All Rights Reserved.
-  Qualcomm Confidential and Proprietary
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ===========================================================================*/
 
 
@@ -110,11 +79,8 @@ when           who        what, where, why
 #include "sapApi.h"
 #include "sapFsm_ext.h"
 #include "sapChSelect.h"
-<<<<<<< HEAD
-=======
 #include "wlan_hdd_dp_utils.h"
 #include "wlan_hdd_main.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*----------------------------------------------------------------------------
  * Preprocessor Definitions and Constants
@@ -175,8 +141,6 @@ typedef struct sSapQosCfg {
     v_U8_t              WmmIsEnabled;
 } tSapQosCfg;
 
-<<<<<<< HEAD
-=======
 typedef struct sSapAcsChannelInfo {
     v_U32_t             channelNum;
     v_U32_t             weight;
@@ -221,7 +185,6 @@ typedef struct {
 #endif
 } hdd_station_info_t;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 typedef struct sSapContext {
 
     vos_lock_t          SapGlobalLock;
@@ -289,9 +252,6 @@ typedef struct sSapContext {
     v_U32_t           nStaAddIeLength;
     v_U8_t            pStaAddIE[MAX_ASSOC_IND_IE_LEN]; 
     v_U8_t            *channelList;
-<<<<<<< HEAD
-    tSapChannelListInfo SapChnlList;
-=======
     v_U8_t            numofChannel;
     tSapChannelListInfo SapChnlList;
 
@@ -311,7 +271,6 @@ typedef struct sSapContext {
     v_U8_t            ObssScanInterval;
     v_U8_t            ObssTransitionDelayFactor;
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 } *ptSapContext;
 
 
@@ -335,8 +294,6 @@ typedef struct sWLAN_SAPEvent {
 /*----------------------------------------------------------------------------
  * Function Declarations and Documentation
  * -------------------------------------------------------------------------*/
-<<<<<<< HEAD
-=======
 #ifdef WLAN_FEATURE_AP_HT40_24G
 /*==========================================================================
 
@@ -363,7 +320,6 @@ typedef struct sWLAN_SAPEvent {
 eHalStatus sapGet24GOBSSAffectedChannel(tHalHandle halHandle,
                                                 ptSapContext psapCtx);
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*==========================================================================
 
@@ -658,8 +614,6 @@ sapconvertToCsrProfile(tsap_Config_t *pconfig_params, eCsrRoamBssType bssType, t
 ============================================================================*/
 void sapFreeRoamProfile(tCsrRoamProfile *profile);
 
-<<<<<<< HEAD
-=======
 
 #ifdef WLAN_FEATURE_AP_HT40_24G
 /*==========================================================================
@@ -707,7 +661,6 @@ void sapAddHT40IntolerantSta(ptSapContext sapContext, tCsrRoamInfo *pCsrRoamInfo
 void sapRemoveHT40IntolerantSta(ptSapContext sapContext, tCsrRoamInfo *pCsrRoamInfo);
 #endif
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*==========================================================================
 
   FUNCTION    sapIsPeerMacAllowed
@@ -934,8 +887,6 @@ SIDE EFFECTS
 ============================================================================*/
 eCsrPhyMode sapConvertSapPhyModeToCsrPhyMode( eSapPhyMode sapPhyMode );
 
-<<<<<<< HEAD
-=======
 #ifdef WLAN_FEATURE_AP_HT40_24G
 /*==========================================================================
 FUNCTION  sap_ht2040_timer_cb
@@ -957,7 +908,6 @@ SIDE EFFECTS
 eHalStatus sapCheckHT40SecondaryIsNotAllowed(ptSapContext psapCtx);
 #endif
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef __cplusplus
 }
 #endif 

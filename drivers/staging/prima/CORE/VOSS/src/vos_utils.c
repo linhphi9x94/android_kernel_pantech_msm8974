@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,28 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -51,7 +25,6 @@
  * to the Linux Foundation.
  */
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*============================================================================
   FILE:         vos_utils.c
 
@@ -71,12 +44,6 @@
 
   DEPENDENCIES:
 
-<<<<<<< HEAD
-                Copyright (c) 2007 QUALCOMM Incorporated.
-                All Rights Reserved.
-                Qualcomm Confidential and Proprietary
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ============================================================================*/
 
 /*============================================================================
@@ -91,20 +58,14 @@
 #include "vos_trace.h"
 #include "vos_utils.h"
 #include "vos_memory.h"
-<<<<<<< HEAD
-=======
 #include <linux/wcnss_wlan.h>
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #include <linux/err.h>
 #include <linux/random.h>
 #include <linux/crypto.h>
 #include <linux/scatterlist.h>
 #include <linux/completion.h>
-<<<<<<< HEAD
-=======
 #include <linux/vmalloc.h>
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include <crypto/hash.h>
 
 /*----------------------------------------------------------------------------
@@ -164,11 +125,7 @@ VOS_STATUS vos_crypto_init( v_U32_t *phCryptProv )
     VOS_STATUS uResult = VOS_STATUS_E_FAILURE;
 
     // This implementation doesn't require a crypto context
-<<<<<<< HEAD
-    *phCryptProv  = (v_U32_t)NULL;
-=======
     *phCryptProv  = 0;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     uResult = VOS_STATUS_SUCCESS;
     return ( uResult );
 }
@@ -313,11 +270,7 @@ int hmac_sha1(v_U8_t *key, v_U8_t ksize, char *plaintext, v_U8_t psize,
     }
 
     memset(hash_result, 0, 64);
-<<<<<<< HEAD
-    memcpy(hash_buff, plaintext, psize);
-=======
     vos_mem_copy(hash_buff, plaintext, psize);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     sg_init_one(&sg, hash_buff, psize);
 
     if (ksize) {
@@ -344,11 +297,8 @@ int hmac_sha1(v_U8_t *key, v_U8_t ksize, char *plaintext, v_U8_t psize,
     case -EBUSY:
         ret = wait_for_completion_interruptible(&tresult.completion);
         if (!ret && !tresult.err) {
-<<<<<<< HEAD
-=======
             for (i=0; i< outlen; i++)
                 output[i] = hash_result[i];
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             INIT_COMPLETION(tresult.completion);
             break;
         } else {
@@ -477,11 +427,7 @@ int hmac_md5(v_U8_t *key, v_U8_t ksize, char *plaintext, v_U8_t psize,
     }
 
     memset(hash_result, 0, 64);
-<<<<<<< HEAD
-    memcpy(hash_buff, plaintext, psize);
-=======
     vos_mem_copy(hash_buff, plaintext, psize);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     sg_init_one(&sg, hash_buff, psize);
 
     if (ksize) {
@@ -508,15 +454,10 @@ int hmac_md5(v_U8_t *key, v_U8_t ksize, char *plaintext, v_U8_t psize,
         case -EBUSY:
              ret = wait_for_completion_interruptible(&tresult.completion);
              if (!ret && !tresult.err) {
-<<<<<<< HEAD
-                  INIT_COMPLETION(tresult.completion);
-                  break;
-=======
                  for (i=0; i< outlen; i++)
                      output[i] = hash_result[i];
                  INIT_COMPLETION(tresult.completion);
                  break;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
              } else {
                  VOS_TRACE(VOS_MODULE_ID_VOSS,VOS_TRACE_LEVEL_ERROR, "wait_for_completion_interruptible failed");
                  if (!ret)
@@ -775,8 +716,6 @@ err_tfm:
 
     return VOS_STATUS_SUCCESS;
 }
-<<<<<<< HEAD
-=======
 
 v_U8_t vos_chan_to_band(v_U32_t chan)
 {
@@ -1529,4 +1468,3 @@ void vos_dump_roam_time_log_service(void)
          "||== END ====================="
          "===============================||\n");
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver

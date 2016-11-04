@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,31 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-/*
- * Airgo Networks, Inc proprietary. All rights reserved.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -55,7 +26,6 @@
  */
 
 /*
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file limProcessAssocReqFrame.cc contains the code
  * for processing Re/Association Request Frame.
  * Author:        Chandra Modumudi
@@ -68,11 +38,7 @@
  */
 #include "palTypes.h"
 #include "aniGlobal.h"
-<<<<<<< HEAD
-#include "wniCfgSta.h"
-=======
 #include "wniCfg.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include "sirApi.h"
 #include "cfgApi.h"
 
@@ -120,13 +86,8 @@ limConvertSupportedChannels(tpAniSirGlobal pMac,
 
     if(assocReq->supportedChannels.length >= SIR_MAX_SUPPORTED_CHANNEL_LIST)
     {
-<<<<<<< HEAD
-        limLog(pMac, LOG1, FL("Number of supported channels:%d is more than MAX"),
-                              assocReq->supportedChannels.length);
-=======
         limLog(pMac, LOG1, FL("Number of supported channels:%d is more than "
                "MAX"), assocReq->supportedChannels.length);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         pMlmAssocInd->supportedChannels.numChnl = 0;
         return;
     }
@@ -184,12 +145,8 @@ limConvertSupportedChannels(tpAniSirGlobal pMac,
 
     pMlmAssocInd->supportedChannels.numChnl = (tANI_U8) index;
    PELOG2(limLog(pMac, LOG2,
-<<<<<<< HEAD
-        FL("Send AssocInd to WSM: spectrum ON, minPwr %d, maxPwr %d, numChnl %d"),
-=======
         FL("Send AssocInd to WSM: spectrum ON, minPwr %d, maxPwr %d, "
            "numChnl %d"),
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         pMlmAssocInd->powerCap.minTxPower,
         pMlmAssocInd->powerCap.maxTxPower,
         pMlmAssocInd->supportedChannels.numChnl);)
@@ -234,13 +191,10 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
     tSirMacRateSet  basicRates;
     tANI_U8 i = 0, j = 0;
     tANI_BOOLEAN pmfConnection = eANI_BOOLEAN_FALSE;
-<<<<<<< HEAD
-=======
 #ifdef WLAN_FEATURE_11W
     tPmfSaQueryTimerId timerId;
     tANI_U32 retryInterval;
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     limGetPhyMode(pMac, &phyMode, psessionEntry);
 
@@ -249,13 +203,6 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
     pHdr = WDA_GET_RX_MAC_HEADER(pRxPacketInfo);
     framelen = WDA_GET_RX_PAYLOAD_LEN(pRxPacketInfo);
 
-<<<<<<< HEAD
-   if (psessionEntry->limSystemRole == eLIM_STA_ROLE || psessionEntry->limSystemRole == eLIM_BT_AMP_STA_ROLE )
-   {
-        limLog(pMac, LOGE, FL("received unexpected ASSOC REQ subType=%d for role=%d"),
-               subType, psessionEntry->limSystemRole);
-        limPrintMacAddr(pMac, pHdr->sa, LOGE);
-=======
     limLog(pMac, LOG1, FL("Received %s Req Frame on sessionid: %d systemrole %d"
           " limMlmState %d from: "MAC_ADDRESS_STR),
           (LIM_ASSOC == subType) ? "Assoc" : "ReAssoc",
@@ -268,14 +215,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
               "sys subType=%d for role=%d from: "MAC_ADDRESS_STR),
               psessionEntry->peSessionId,
               subType, psessionEntry->limSystemRole, MAC_ADDR_ARRAY(pHdr->sa));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         sirDumpBuf(pMac, SIR_LIM_MODULE_ID, LOG3,
         WDA_GET_RX_MPDU_DATA(pRxPacketInfo), framelen);
         return;
     }
 
-<<<<<<< HEAD
-=======
     /*
      * If a STA is already present in DPH and it
      * is initiating a Assoc re-transmit, do not
@@ -330,7 +274,6 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
         }
     }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     // Get pointer to Re/Association Request frame body
     pBody = WDA_GET_RX_MPDU_DATA(pRxPacketInfo);
 
@@ -338,17 +281,6 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
     {
         // Received Re/Assoc Req frame from a BC/MC address
         // Log error and ignore it
-<<<<<<< HEAD
-        if (subType == LIM_ASSOC)
-            limLog(pMac, LOGW, FL("received Assoc frame from a BC/MC address "MAC_ADDRESS_STR),
-                   MAC_ADDR_ARRAY(pHdr->sa));
-        else
-            limLog(pMac, LOGW, FL("received ReAssoc frame from a BC/MC address "MAC_ADDRESS_STR),
-                   MAC_ADDR_ARRAY(pHdr->sa));
-        return;
-    }
-    limLog(pMac, LOGW, FL("Received AssocReq Frame: "MAC_ADDRESS_STR), MAC_ADDR_ARRAY(pHdr->sa));
-=======
         limLog(pMac, LOGE, FL("Received %s Req on sessionid: %d frame from a "
         "BC/MC address"MAC_ADDRESS_STR),
         (LIM_ASSOC == subType) ? "Assoc" : "ReAssoc",
@@ -356,37 +288,26 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
         MAC_ADDR_ARRAY(pHdr->sa));
         return;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     sirDumpBuf(pMac, SIR_LIM_MODULE_ID, LOG2, (tANI_U8 *) pBody, framelen);
 
     if (vos_mem_compare((tANI_U8* ) pHdr->sa, (tANI_U8 *) pHdr->da,
                         (tANI_U8) (sizeof(tSirMacAddr))))
     {
-<<<<<<< HEAD
-=======
         limLog(pMac, LOGE, FL("Rejected Assoc Req frame Since same mac as"
                               " SAP/GO"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         limSendAssocRspMgmtFrame(pMac,
                     eSIR_MAC_UNSPEC_FAILURE_STATUS,
                     1,
                     pHdr->sa,
                     subType, 0,psessionEntry);
-<<<<<<< HEAD
-        limLog(pMac, LOGE, FL("Rejected Assoc Req frame Since same mac as SAP/GO"));
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return ;
     }
 
     // If TKIP counter measures active send Assoc Rsp frame to station with eSIR_MAC_MIC_FAILURE_REASON
     if ((psessionEntry->bTkipCntrMeasActive) && (psessionEntry->limSystemRole == eLIM_AP_ROLE))
     {
-<<<<<<< HEAD
-=======
         limLog(pMac, LOGE, FL("TKIP counter measure is active"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         limSendAssocRspMgmtFrame(pMac,
                                     eSIR_MAC_MIC_FAILURE_REASON,
                                     1,
@@ -412,14 +333,9 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
 
     if (status != eSIR_SUCCESS)
     {
-<<<<<<< HEAD
-        limLog(pMac, LOGW, FL("Parse error AssocRequest, length=%d from "),framelen);
-        limPrintMacAddr(pMac, pHdr->sa, LOGW);
-=======
         limLog(pMac, LOGW,
                FL("Parse error AssocRequest, length=%d from "MAC_ADDRESS_STR),
                              framelen, MAC_ADDR_ARRAY(pHdr->sa));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         limSendAssocRspMgmtFrame(pMac, eSIR_MAC_UNSPEC_FAILURE_STATUS, 1, pHdr->sa, subType, 0, psessionEntry);
         goto error;
     }
@@ -427,12 +343,8 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
     pAssocReq->assocReqFrame = vos_mem_malloc(framelen);
     if ( NULL == pAssocReq->assocReqFrame )
     {
-<<<<<<< HEAD
-        limLog(pMac, LOGE, FL("Unable to allocate memory for the assoc req, length=%d from "),framelen);
-=======
         limLog(pMac, LOGE, FL("Unable to allocate memory for the assoc req, "
                               "length=%d from "),framelen);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         goto error;
     }
     
@@ -451,14 +363,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                                pAssocReq,
                                &localCapabilities,psessionEntry) == false)
     {
-<<<<<<< HEAD
-=======
         limLog(pMac, LOGE, FL("local caps mismatch received caps"));
         limLog(pMac, LOGE, FL("Received %s Req with unsupported "
         "capabilities from"MAC_ADDRESS_STR),
         (LIM_ASSOC == subType) ? "Assoc" : "ReAssoc",
         MAC_ADDR_ARRAY(pHdr->sa));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         /**
          * Capabilities of requesting STA does not match with
          * local capabilities. Respond with 'unsupported capabilities'
@@ -471,20 +380,6 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                         pHdr->sa,
                         subType, 0,psessionEntry);
 
-<<<<<<< HEAD
-        limLog(pMac, LOGW, FL("local caps 0x%x received 0x%x"), localCapabilities, pAssocReq->capabilityInfo);
-
-        // Log error
-        if (subType == LIM_ASSOC)
-            limLog(pMac, LOGW,
-               FL("received Assoc req with unsupported capabilities "MAC_ADDRESS_STR),
-                  MAC_ADDR_ARRAY(pHdr->sa));
-        else
-            limLog(pMac, LOGW,
-                   FL("received ReAssoc req with unsupported capabilities "MAC_ADDRESS_STR),
-                   MAC_ADDR_ARRAY(pHdr->sa));
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         goto error;
     }
 
@@ -492,15 +387,12 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
 
     if (limCmpSSid(pMac, &pAssocReq->ssId, psessionEntry) == false)
     {
-<<<<<<< HEAD
-=======
         limLog(pMac, LOGE, FL("Received %s Req with unmatched ssid ( Received"
         " SSID: %.*s current SSID: %.*s ) from "MAC_ADDRESS_STR),
         (LIM_ASSOC == subType) ? "Assoc" : "ReAssoc", pAssocReq->ssId.length,
         pAssocReq->ssId.ssId, psessionEntry->ssId.length,
         psessionEntry->ssId.ssId, MAC_ADDR_ARRAY(pHdr->sa));
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         /**
          * Received Re/Association Request with either
          * Broadcast SSID OR with SSID that does not
@@ -513,17 +405,6 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                              pHdr->sa,
                              subType, 0,psessionEntry);
 
-<<<<<<< HEAD
-        // Log error
-        if (subType == LIM_ASSOC)
-            limLog(pMac, LOGW,
-                   FL("received Assoc req with unmatched SSID from "));
-        else
-            limLog(pMac, LOGW,
-                   FL("received ReAssoc req with unmatched SSID from "));
-        limPrintMacAddr(pMac, pHdr->sa, LOGW);
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         goto error;
     }
 
@@ -547,13 +428,10 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
     }
     if (limCheckRxBasicRates(pMac, basicRates, psessionEntry) == false)
     {
-<<<<<<< HEAD
-=======
         limLog(pMac, LOGE, FL("Received %s Req with unsupported "
         "rates from"MAC_ADDRESS_STR),
         (LIM_ASSOC == subType) ? "Assoc" : "ReAssoc",
         MAC_ADDR_ARRAY(pHdr->sa));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         /**
          * Requesting STA does not support ALL BSS basic
          * rates. Respond with 'basic rates not supported'
@@ -566,17 +444,6 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                     pHdr->sa,
                     subType, 0,psessionEntry);
 
-<<<<<<< HEAD
-        // Log error
-        if (subType == LIM_ASSOC)
-            limLog(pMac, LOGW,
-               FL("received Assoc req with unsupported rates from "));
-        else
-            limLog(pMac, LOGW,
-               FL("received ReAssoc req with unsupported rates from"));
-        limPrintMacAddr(pMac, pHdr->sa, LOGW);
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         goto error;
     }
 
@@ -585,16 +452,10 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
        (psessionEntry->dot11mode == WNI_CFG_DOT11_MODE_11G_ONLY) &&
        ((!pAssocReq->extendedRatesPresent ) || (pAssocReq->HTCaps.present)))
     {
-<<<<<<< HEAD
-        limSendAssocRspMgmtFrame( pMac, eSIR_MAC_CAPABILITIES_NOT_SUPPORTED_STATUS, 
-                                  1, pHdr->sa, subType, 0, psessionEntry );
-        limLog(pMac, LOGE, FL("SOFTAP was in 11G only mode, rejecting legacy STA's"));
-=======
         limLog(pMac, LOGE, FL("SOFTAP was in 11G only mode, rejecting legacy "
                               "STA : "MAC_ADDRESS_STR),MAC_ADDR_ARRAY(pHdr->sa));
         limSendAssocRspMgmtFrame( pMac, eSIR_MAC_CAPABILITIES_NOT_SUPPORTED_STATUS, 
                                   1, pHdr->sa, subType, 0, psessionEntry );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         goto error;
 
     }//end if phyMode == 11G_only
@@ -603,16 +464,10 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
        (psessionEntry->dot11mode == WNI_CFG_DOT11_MODE_11N_ONLY) && 
        (!pAssocReq->HTCaps.present))
     {
-<<<<<<< HEAD
-        limSendAssocRspMgmtFrame( pMac, eSIR_MAC_CAPABILITIES_NOT_SUPPORTED_STATUS, 
-                                  1, pHdr->sa, subType, 0, psessionEntry );
-        limLog(pMac, LOGE, FL("SOFTAP was in 11N only mode, rejecting legacy STA's"));
-=======
         limLog(pMac, LOGE, FL("SOFTAP was in 11N only mode, rejecting legacy "
                               "STA : "MAC_ADDRESS_STR),MAC_ADDR_ARRAY(pHdr->sa));
         limSendAssocRspMgmtFrame( pMac, eSIR_MAC_CAPABILITIES_NOT_SUPPORTED_STATUS, 
                                   1, pHdr->sa, subType, 0, psessionEntry );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         goto error;
     }//end if PhyMode == 11N_only
 
@@ -632,21 +487,6 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                 /* One or more required information elements are missing, log the peers error */
                 if (!pAssocReq->powerCapabilityPresent)
                 {
-<<<<<<< HEAD
-                    if(subType == LIM_ASSOC)
-                       limLog(pMac, LOG1, FL("LIM Info: Missing Power capability IE in assoc request"));
-                    else
-                       limLog(pMac, LOG1, FL("LIM Info: Missing Power capability IE in Reassoc request"));
-                }
-                if (!pAssocReq->supportedChannelsPresent)
-                {
-                    if(subType == LIM_ASSOC)
-                        limLog(pMac, LOG1, FL("LIM Info: Missing Supported channel IE in assoc request"));
-                    else
-                        limLog(pMac, LOG1, FL("LIM Info: Missing Supported channel IE in Reassoc request"));
-                }
-                limPrintMacAddr(pMac, pHdr->sa, LOG1);
-=======
                     limLog(pMac, LOG1, FL("LIM Info: Missing Power capability "
                     "IE in %s Req from "MAC_ADDRESS_STR),
                     (LIM_ASSOC == subType) ? "Assoc" : "ReAssoc",
@@ -660,7 +500,6 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                     MAC_ADDR_ARRAY(pHdr->sa));
 
                 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             }
             else
             {
@@ -668,36 +507,20 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                 status = limIsDot11hPowerCapabilitiesInRange(pMac, pAssocReq, psessionEntry);
                 if (eSIR_SUCCESS != status)
                 {
-<<<<<<< HEAD
-                    if (subType == LIM_ASSOC)
-                        limLog(pMac, LOGW, FL("LIM Info: Association MinTxPower(STA) > MaxTxPower(AP)"));
-                    else
-                        limLog(pMac, LOGW, FL("LIM Info: Reassociation MinTxPower(STA) > MaxTxPower(AP)"));
-                    limPrintMacAddr(pMac, pHdr->sa, LOGW);
-=======
                     limLog(pMac, LOGW, FL("LIM Info: MinTxPower(STA) > "
                     "MaxTxPower(AP) in %s Req from "MAC_ADDRESS_STR),
                     (LIM_ASSOC == subType) ? "Assoc" : "ReAssoc",
                     MAC_ADDR_ARRAY(pHdr->sa));
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 }
                 status = limIsDot11hSupportedChannelsValid(pMac, pAssocReq);
                 if (eSIR_SUCCESS != status)
                 {
-<<<<<<< HEAD
-                    if (subType == LIM_ASSOC)
-                        limLog(pMac, LOGW, FL("LIM Info: Association wrong supported channels (STA)"));
-                    else
-                        limLog(pMac, LOGW, FL("LIM Info: Reassociation wrong supported channels (STA)"));
-                    limPrintMacAddr(pMac, pHdr->sa, LOGW);
-=======
                     limLog(pMac, LOGW, FL("LIM Info: wrong supported "
                     "channels (STA) in %s Req from "MAC_ADDRESS_STR),
                     (LIM_ASSOC == subType) ? "Assoc" : "ReAssoc",
                     MAC_ADDR_ARRAY(pHdr->sa));
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 }
                 /* IEs are valid, use them if needed */
             }
@@ -717,14 +540,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
 
     if ( (pAssocReq->HTCaps.present) && (limCheckMCSSet(pMac, pAssocReq->HTCaps.supportedMCSSet) == false))
     {
-<<<<<<< HEAD
-=======
          limLog(pMac, LOGE, FL("received %s req with unsupported"
          "MCS Rate Set from "MAC_ADDRESS_STR),
          (LIM_ASSOC == subType) ? "Assoc" : "ReAssoc",
          MAC_ADDR_ARRAY(pHdr->sa));
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         /**
          * Requesting STA does not support ALL BSS MCS basic Rate set rates.
          * Spec does not define any status code for this scenario.
@@ -736,17 +556,6 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                     pHdr->sa,
                     subType, 0,psessionEntry);
 
-<<<<<<< HEAD
-        // Log error
-        if (subType == LIM_ASSOC)
-            limLog(pMac, LOGW,
-               FL("received Assoc req with unsupported MCS Rate Set from "));
-        else
-            limLog(pMac, LOGW,
-               FL("received ReAssoc req with unsupported MCS Rate Set from"));
-        limPrintMacAddr(pMac, pHdr->sa, LOGW);
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         goto error;
     }
 
@@ -762,11 +571,8 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
 
         if (!pAssocReq->extendedRatesPresent && val)
         {
-<<<<<<< HEAD
-=======
             limLog(pMac, LOGE, FL("Rejecting Re/Assoc req from 11b STA: "
             MAC_ADDRESS_STR),MAC_ADDR_ARRAY(pHdr->sa));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             /**
              * Received Re/Association Request from
              * 11b STA when 11g only policy option
@@ -780,11 +586,6 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                            pHdr->sa,
                            subType, 0,psessionEntry);
 
-<<<<<<< HEAD
-            limLog(pMac, LOGW, FL("Rejecting Re/Assoc req from 11b STA: "));
-            limPrintMacAddr(pMac, pHdr->sa, LOGW);
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             
 #ifdef WLAN_DEBUG    
             pMac->lim.gLim11bStaAssocRejectCount++;
@@ -804,13 +605,10 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
 
         if ((pMac->lim.gWmmApsd.apsdEnable == 0) && (qInfo->ac_be || qInfo->ac_bk || qInfo->ac_vo || qInfo->ac_vi))
         {
-<<<<<<< HEAD
-=======
             limLog(pMac, LOGW,
                    FL("Rejecting Re/Assoc req from STA: "MAC_ADDRESS_STR),
                    MAC_ADDR_ARRAY(pHdr->sa));
             limLog(pMac, LOGE, FL("APSD not enabled, qosInfo - 0x%x"), *qInfo);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
             /**
              * Received Re/Association Request from
@@ -825,13 +623,6 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                            pHdr->sa,
                            subType, 0,psessionEntry);
 
-<<<<<<< HEAD
-            limLog(pMac, LOGW,
-                   FL("Rejecting Re/Assoc req from STA: "));
-            limPrintMacAddr(pMac, pHdr->sa, LOGW);
-            limLog(pMac, LOGE, FL("APSD not enabled, qosInfo - 0x%x"), *qInfo);
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             goto error;
         }
     }
@@ -902,11 +693,7 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
             && psessionEntry->pLimStartBssReq->privacy 
             && psessionEntry->pLimStartBssReq->rsnIE.length)
         {
-<<<<<<< HEAD
-            limLog(pMac, LOGE,
-=======
             limLog(pMac, LOG1,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                    FL("RSN enabled auth, Re/Assoc req from STA: "MAC_ADDRESS_STR),
                        MAC_ADDR_ARRAY(pHdr->sa));
             if(pAssocReq->rsnPresent)
@@ -926,13 +713,10 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                         if(eSIR_SUCCESS != (status = limCheckRxRSNIeMatch(pMac, Dot11fIERSN, psessionEntry,
                                                                           pAssocReq->HTCaps.present, &pmfConnection)))
                         {
-<<<<<<< HEAD
-=======
                             limLog(pMac, LOGE, FL("RSN Mismatch. Rejecting Re/Assoc req from "
                                                   "STA: "MAC_ADDRESS_STR),
                                                     MAC_ADDR_ARRAY(pHdr->sa));
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                             /* some IE is not properly sent */
                             /* received Association req frame with RSN IE but length is 0 */
                             limSendAssocRspMgmtFrame(
@@ -942,25 +726,17 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                                            pHdr->sa,
                                            subType, 0,psessionEntry);
 
-<<<<<<< HEAD
-                            limLog(pMac, LOGW, FL("Rejecting Re/Assoc req from STA: "));
-                            limPrintMacAddr(pMac, pHdr->sa, LOGW);
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                             goto error;
 
                         }
                     }
                     else
                     {
-<<<<<<< HEAD
-=======
                         limLog(pMac, LOGE, FL("RSN Version mismatch. "
                                               "Rejecting Re/Assoc req from "
                                               "STA: "MAC_ADDRESS_STR),
                                               MAC_ADDR_ARRAY(pHdr->sa));
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                         /* received Association req frame with RSN IE version wrong */
                         limSendAssocRspMgmtFrame(
                                        pMac,
@@ -968,25 +744,16 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                                        1,
                                        pHdr->sa,
                                        subType, 0,psessionEntry);
-<<<<<<< HEAD
-
-                        limLog(pMac, LOGW, FL("Rejecting Re/Assoc req from STA: "));
-                        limPrintMacAddr(pMac, pHdr->sa, LOGW);
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                         goto error;
 
                     }
                 }
                 else
                 {
-<<<<<<< HEAD
-=======
                     limLog(pMac, LOGW, FL("RSN length not correct. "
                                           "Rejecting Re/Assoc req from STA:"
                                           MAC_ADDRESS_STR),
                                           MAC_ADDR_ARRAY(pHdr->sa));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     /* received Association req frame with RSN IE but length is 0 */
                     limSendAssocRspMgmtFrame(
                                    pMac,
@@ -995,11 +762,6 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                                    pHdr->sa,
                                    subType, 0,psessionEntry);
 
-<<<<<<< HEAD
-                    limLog(pMac, LOGW, FL("Rejecting Re/Assoc req from STA: "));
-                    limPrintMacAddr(pMac, pHdr->sa, LOGW);
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     goto error;
                     
                 }
@@ -1016,13 +778,10 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                     /* check the groupwise and pairwise cipher suites */
                     if(eSIR_SUCCESS != (status = limCheckRxWPAIeMatch(pMac, Dot11fIEWPA, psessionEntry, pAssocReq->HTCaps.present)))
                     {
-<<<<<<< HEAD
-=======
                         limLog(pMac, LOGW, FL("WPA IE mismatch. "
                                               "Rejecting Re/Assoc req from "
                                               "STA: "MAC_ADDRESS_STR),
                                                MAC_ADDR_ARRAY(pHdr->sa));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                         /* received Association req frame with WPA IE but mismatch */
                         limSendAssocRspMgmtFrame(
                                        pMac,
@@ -1030,25 +789,16 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                                        1,
                                        pHdr->sa,
                                        subType, 0,psessionEntry);
-<<<<<<< HEAD
-
-                        limLog(pMac, LOGW, FL("Rejecting Re/Assoc req from STA: "));
-                        limPrintMacAddr(pMac, pHdr->sa, LOGW);
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                         goto error;
 
                     }
                 }
                 else
                 {
-<<<<<<< HEAD
-=======
                     limLog(pMac, LOGW, FL("WPA len incorrect. "
                                           "Rejecting Re/Assoc req from STA: "
                                           MAC_ADDRESS_STR),
                                           MAC_ADDR_ARRAY(pHdr->sa));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     /* received Association req frame with invalid WPA IE */
                     limSendAssocRspMgmtFrame(
                                    pMac,
@@ -1057,11 +807,6 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                                    pHdr->sa,
                                    subType, 0,psessionEntry);
 
-<<<<<<< HEAD
-                    limLog(pMac, LOGW, FL("Rejecting Re/Assoc req from STA: "));
-                    limPrintMacAddr(pMac, pHdr->sa, LOGW);
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     goto error;
                 }/* end - if(pAssocReq->wpa.length) */
             } /* end - if(pAssocReq->wpaPresent) */
@@ -1088,11 +833,8 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
              * Maximum number of STAs that AP can handle reached.
              * Send Association response to peer MAC entity
              */
-<<<<<<< HEAD
-=======
             limLog(pMac, LOGE, FL("Max Sta count reached : %d"),
                                   pMac->lim.maxStation);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             limRejectAssociation(pMac, pHdr->sa,
                                  subType, false,
                                  (tAniAuthType) 0, 0,
@@ -1121,23 +863,11 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                      eSIR_MAC_STA_NOT_PRE_AUTHENTICATED_REASON, //=9
                      pHdr->sa, psessionEntry, FALSE);
 
-<<<<<<< HEAD
-            // Log error
-            if (subType == LIM_ASSOC)
-                limLog(pMac, LOGW,
-                       FL("received Assoc req from STA that does not have pre-auth context "MAC_ADDRESS_STR),
-                       MAC_ADDR_ARRAY(pHdr->sa));
-            else
-                limLog(pMac, LOGW,
-                       FL("received ReAssoc req from STA that does not have pre-auth context "
-                       MAC_ADDRESS_STR), MAC_ADDR_ARRAY(pHdr->sa));
-=======
             limLog(pMac, LOGE, FL("received %s req on sessionid: %d from STA "
             "that does not have pre-auth context"MAC_ADDRESS_STR),
             (LIM_ASSOC == subType) ? "Assoc" : "ReAssoc",
             psessionEntry->peSessionId,
             MAC_ADDR_ARRAY(pHdr->sa));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             goto error;
         }
 
@@ -1165,24 +895,16 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
 #ifdef WLAN_DEBUG    
                 pMac->lim.gLimNumAssocReqDropInvldState++;
 #endif
-<<<<<<< HEAD
-                limLog(pMac, LOG1, FL("received Assoc req in state %X from "), pStaDs->mlmStaContext.mlmState);
-=======
                 limLog(pMac, LOGE, FL("received Assoc req in state "
                    "%d from "), pStaDs->mlmStaContext.mlmState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             }
             else
             {     
 #ifdef WLAN_DEBUG    
                 pMac->lim.gLimNumReassocReqDropInvldState++;
 #endif
-<<<<<<< HEAD
-                limLog(pMac, LOG1, FL("received ReAssoc req in state %X from "), pStaDs->mlmStaContext.mlmState);
-=======
                 limLog(pMac, LOGE, FL("received ReAssoc req in state %d"
                             " from "), pStaDs->mlmStaContext.mlmState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             }
             limPrintMacAddr(pMac, pHdr->sa, LOG1);
             limPrintMlmState(pMac, LOG1, (tLimMlmStates) pStaDs->mlmStaContext.mlmState);
@@ -1190,11 +912,6 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
             goto error;
         } // if (pStaDs->mlmStaContext.mlmState != eLIM_MLM_LINK_ESTABLISHED_STATE)
 
-<<<<<<< HEAD
-           /* STA sent association Request frame while already in
-            * 'associated' state and no change in the capability
-            *  so drop the frame */
-=======
         /* STA sent association Request frame while already in
          * 'associated' state */
 
@@ -1251,17 +968,12 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
 #endif
 
         /* no change in the capability so drop the frame */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         if ((VOS_TRUE == vos_mem_compare(&pStaDs->mlmStaContext.capabilityInfo,
                                           &pAssocReq->capabilityInfo,
                                           sizeof(tSirMacCapabilityInfo)))&&
                                          (subType == LIM_ASSOC))
         {
-<<<<<<< HEAD
-            limLog(pMac, LOGE, FL(" Received Assoc req in state %X STAid=%d"),
-=======
             limLog(pMac, LOGE, FL(" Received Assoc req in state %d STAid=%d"),
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                        pStaDs->mlmStaContext.mlmState,peerIdx);
             goto error;
         }
@@ -1272,11 +984,8 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
          * 'associated' state. Update STA capabilities and
          * send Association response frame with same AID
          */
-<<<<<<< HEAD
-=======
             limLog(pMac, LOG1, FL("Received Assoc req from STA already connected"
                                   " UpdateConext"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pStaDs->mlmStaContext.capabilityInfo = pAssocReq->capabilityInfo;
             if (pStaPreAuthContext &&
                 (pStaPreAuthContext->mlmState ==
@@ -1316,11 +1025,7 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
             if (limAdmitControlAddTS(pMac, pHdr->sa, &(pAssocReq->addtsReq),
                                      &(pAssocReq->qosCapability), 0, false, NULL, &tspecIdx, psessionEntry) != eSIR_SUCCESS)
             {
-<<<<<<< HEAD
-                limLog(pMac, LOGW, FL("AdmitControl: TSPEC rejected"));
-=======
                 limLog(pMac, LOGE, FL("AdmitControl: TSPEC rejected"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 limSendAssocRspMgmtFrame(
                                pMac,
                                eSIR_MAC_QAP_NO_BANDWIDTH_REASON,
@@ -1336,11 +1041,7 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
         else if (limAdmitControlAddSta(pMac, pHdr->sa, false)
                                                != eSIR_SUCCESS)
         {
-<<<<<<< HEAD
-            limLog(pMac, LOGW, FL("AdmitControl: Sta rejected"));
-=======
             limLog(pMac, LOGE, FL("AdmitControl: Sta rejected"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             limSendAssocRspMgmtFrame(
                     pMac,
                     eSIR_MAC_QAP_NO_BANDWIDTH_REASON,
@@ -1360,17 +1061,8 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
     /**
      * STA is Associated !
      */
-<<<<<<< HEAD
-    if (subType == LIM_ASSOC)
-        limLog(pMac, LOGW, FL("received Assoc req successful "MAC_ADDRESS_STR),
-               MAC_ADDR_ARRAY(pHdr->sa));
-    else
-        limLog(pMac, LOGW, FL("received ReAssoc req successful"MAC_ADDRESS_STR),
-               MAC_ADDR_ARRAY(pHdr->sa));
-=======
     limLog(pMac, LOGE, FL("Received %s Req  successful from "MAC_ADDRESS_STR),
     (LIM_ASSOC == subType) ? "Assoc" : "ReAssoc", MAC_ADDR_ARRAY(pHdr->sa));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     /**
      * AID for this association will be same as the peer Index used in DPH table.
@@ -1385,11 +1077,8 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
     {
         // Could not assign AID
         // Reject association
-<<<<<<< HEAD
-=======
         limLog(pMac, LOGE, FL("PeerIdx not avaialble. Reject associaton"));
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         limRejectAssociation(pMac, pHdr->sa,
                              subType, true, authType,
                              peerIdx, false,
@@ -1408,15 +1097,9 @@ limProcessAssocReqFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
     {
         // Could not add hash table entry at DPH
         limLog(pMac, LOGE,
-<<<<<<< HEAD
-           FL("could not add hash entry at DPH for aid=%d, MacAddr:"),
-           peerIdx);
-        limPrintMacAddr(pMac, pHdr->sa, LOGE);
-=======
            FL("could not add hash entry at DPH for aid=%d, MacAddr:"
            MAC_ADDRESS_STR),
            peerIdx,MAC_ADDR_ARRAY(pHdr->sa));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         // Release AID
         limReleasePeerIdx(pMac, peerIdx, psessionEntry);
@@ -1457,10 +1140,6 @@ sendIndToSme:
             pStaDs->propCapability &= pAssocReq->propIEinfo.capability;
     }
 
-<<<<<<< HEAD
-    pStaDs->mlmStaContext.mlmState = eLIM_MLM_WT_ASSOC_CNF_STATE;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     pStaDs->valid                  = 0;
     pStaDs->mlmStaContext.authType = authType;
     pStaDs->staType = STA_ENTRY_PEER;
@@ -1492,10 +1171,6 @@ sendIndToSme:
         pStaDs->htMaxAmsduLength = (tANI_U8)pAssocReq->HTCaps.maximalAMSDUsize;
         pStaDs->htMaxRxAMpduFactor = pAssocReq->HTCaps.maxRxAMPDUFactor;
         pStaDs->htMIMOPSState = pAssocReq->HTCaps.mimoPowerSave;
-<<<<<<< HEAD
-        pStaDs->htShortGI20Mhz = (tANI_U8)pAssocReq->HTCaps.shortGI20MHz;
-        pStaDs->htShortGI40Mhz = (tANI_U8)pAssocReq->HTCaps.shortGI40MHz;
-=======
 
         /* pAssocReq will be copied to psessionEntry->parsedAssocReq later */
         /* check whether AP is enabled with shortGI */
@@ -1526,7 +1201,6 @@ sendIndToSme:
             pAssocReq->HTCaps.shortGI40MHz = 0;
             pStaDs->htShortGI40Mhz = 0;
         }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         pStaDs->htSupportedChannelWidthSet = (tANI_U8)pAssocReq->HTCaps.supportedChannelWidthSet;
         /* peer just follows AP; so when we are softAP/GO, we just store our session entry's secondary channel offset here in peer INFRA STA
          * However, if peer's 40MHz channel width support is disabled then secondary channel will be zero
@@ -1584,15 +1258,9 @@ if (limPopulateMatchingRateSet(pMac,
     {
         // Could not update hash table entry at DPH with rateset
         limLog(pMac, LOGE,
-<<<<<<< HEAD
-           FL("could not update hash entry at DPH for aid=%d, MacAddr:"),
-           peerIdx);
-        limPrintMacAddr(pMac, pHdr->sa, LOGE);
-=======
            FL("could not update hash entry at DPH for aid=%d, MacAddr: "
            MAC_ADDRESS_STR),
            peerIdx, MAC_ADDR_ARRAY(pHdr->sa));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                 // Release AID
         limReleasePeerIdx(pMac, peerIdx, psessionEntry);
@@ -1645,24 +1313,6 @@ if (limPopulateMatchingRateSet(pMac,
                  * Received Re/Association Request from
                  * STA when UPASD is not supported.
                  */
-<<<<<<< HEAD
-                limLog( pMac, LOGE, FL( "AP do not support UPASD REASSOC Failed" ));
-                /* During wlan fuzz tests for softAP when mal-formed assoc req is
-                 * sent to AP due to delSTA is not done in firmnware UMAC is
-                 * stuck in some bad state.if we set this flag delsta will happen
-                 * and UMAC will recover*/
-                if (updateContext)
-                {
-                    pStaDs->mlmStaContext.updateContext = 1;
-                }
-                limRejectAssociation(pMac, pHdr->sa,
-                                     subType, true, authType, peerIdx, true,
-                                     (tSirResultCodes) eSIR_MAC_WME_REFUSED_STATUS, psessionEntry);
-
-
-                pAssocReq = psessionEntry->parsedAssocReq[pStaDs->assocId];
-                goto error;
-=======
                limLog( pMac, LOGE, FL( "AP do not support UAPSD so reply "
                                        "to STA accordingly" ));
                /* update UAPSD and send it to LIM to add STA */
@@ -1672,7 +1322,6 @@ if (limPopulateMatchingRateSet(pMac,
                pStaDs->qos.capability.qosInfo.acvi_uapsd = 0;
                pStaDs->qos.capability.qosInfo.maxSpLen =   0;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             }
             else
             {
@@ -1698,8 +1347,6 @@ if (limPopulateMatchingRateSet(pMac,
 
 #ifdef WLAN_FEATURE_11W
     pStaDs->rmfEnabled = (pmfConnection) ? 1 : 0;
-<<<<<<< HEAD
-=======
     pStaDs->pmfSaQueryState = DPH_SA_QUERY_NOT_IN_PROGRESS;
     timerId.fields.sessionId = psessionEntry->peSessionId;
     timerId.fields.peerIdx = peerIdx;
@@ -1729,7 +1376,6 @@ if (limPopulateMatchingRateSet(pMac,
                              (tSirResultCodes) eSIR_MAC_UNSPEC_FAILURE_STATUS, psessionEntry);
         goto error;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 
     // BTAMP: Storing the parsed assoc request in the psessionEntry array
@@ -1752,12 +1398,8 @@ if (limPopulateMatchingRateSet(pMac,
         // BTAMP: Add STA context at HW - issue WDA_ADD_STA_REQ to HAL
         if (limAddSta(pMac, pStaDs, false, psessionEntry) != eSIR_SUCCESS)
         {
-<<<<<<< HEAD
-            limLog(pMac, LOGE, FL("could not Add STA with assocId=%d"), pStaDs->assocId);
-=======
             limLog(pMac, LOGE, FL("could not Add STA with assocId=%d"),
                                   pStaDs->assocId);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             limRejectAssociation( pMac, pStaDs->staAddr, pStaDs->mlmStaContext.subType,
                                   true, pStaDs->mlmStaContext.authType, pStaDs->assocId, true,
                                   (tSirResultCodes) eSIR_MAC_UNSPEC_FAILURE_STATUS, psessionEntry);
@@ -1779,12 +1421,8 @@ if (limPopulateMatchingRateSet(pMac,
             pStaDs->mlmStaContext.mlmState = eLIM_MLM_WT_ASSOC_DEL_STA_RSP_STATE;
             if(limDelSta(pMac, pStaDs, true, psessionEntry) != eSIR_SUCCESS)
             {
-<<<<<<< HEAD
-                limLog(pMac, LOGE, FL("could not DEL STA with assocId=%d staId %d"), pStaDs->assocId, pStaDs->staIndex);
-=======
                 limLog(pMac, LOGE, FL("could not DEL STA with assocId=%d staId %d"),
                                        pStaDs->assocId, pStaDs->staIndex);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 limRejectAssociation( pMac, pStaDs->staAddr, pStaDs->mlmStaContext.subType, true, pStaDs->mlmStaContext.authType,
                                       pStaDs->assocId, true,(tSirResultCodes) eSIR_MAC_UNSPEC_FAILURE_STATUS, psessionEntry);
 
@@ -1800,12 +1438,8 @@ if (limPopulateMatchingRateSet(pMac,
             /* use the same AID, already allocated */
             if (limAddSta(pMac, pStaDs, false, psessionEntry) != eSIR_SUCCESS)
             {
-<<<<<<< HEAD
-                    limLog( pMac, LOGE, FL( "AP do not support UPASD REASSOC Failed" ));
-=======
                     limLog(pMac, LOGE, FL( "Could not AddSta with assocId= %d staId %d"),
                                             pStaDs->assocId, pStaDs->staIndex);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     limRejectAssociation( pMac, pStaDs->staAddr, pStaDs->mlmStaContext.subType, true, pStaDs->mlmStaContext.authType,
                                           pStaDs->assocId, true,(tSirResultCodes) eSIR_MAC_WME_REFUSED_STATUS, psessionEntry);
 
@@ -1880,10 +1514,6 @@ void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession p
 
     // Get the phyMode
     limGetPhyMode(pMac, &phyMode, psessionEntry);
-<<<<<<< HEAD
- 
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     // Extract pre-auth context for the peer BTAMP-STA, if any.
  
     // Determiine if its Assoc or ReAssoc Request
@@ -1891,14 +1521,11 @@ void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession p
         subType = LIM_REASSOC;
     else 
         subType = LIM_ASSOC;
-<<<<<<< HEAD
-=======
 
     limLog(pMac, LOG1, FL("Sessionid %d ssid %s subtype %d Associd %d staAddr "
     MAC_ADDRESS_STR), psessionEntry->peSessionId, pAssocReq->ssId.ssId,
     subType,pStaDs->assocId,MAC_ADDR_ARRAY(pStaDs->staAddr));
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (subType == LIM_ASSOC || subType == LIM_REASSOC)
     {
         temp  = sizeof(tLimMlmAssocInd);
@@ -1931,12 +1558,8 @@ void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession p
         }
         if (pAssocReq->rsnPresent && (NULL == wpsIe))
         {
-<<<<<<< HEAD
-            limLog(pMac, LOG2, FL("Assoc Req RSN IE len = %d"), pAssocReq->rsn.length);
-=======
             limLog(pMac, LOG2, FL("Assoc Req RSN IE len = %d"),
                                     pAssocReq->rsn.length);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pMlmAssocInd->rsnIE.length = 2 + pAssocReq->rsn.length;
             pMlmAssocInd->rsnIE.rsnIEdata[0] = SIR_MAC_RSN_EID;
             pMlmAssocInd->rsnIE.rsnIEdata[1] = pAssocReq->rsn.length;
@@ -1962,12 +1585,8 @@ void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession p
         {
             if((pMlmAssocInd->rsnIE.length + pAssocReq->wpa.length) >= SIR_MAC_MAX_IE_LENGTH)
             {
-<<<<<<< HEAD
-                PELOGE(limLog(pMac, LOGE, FL("rsnIEdata index out of bounds %d"), pMlmAssocInd->rsnIE.length);)
-=======
                 PELOGE(limLog(pMac, LOGE, FL("rsnIEdata index out of bounds %d"),
                                               pMlmAssocInd->rsnIE.length);)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 vos_mem_free(pMlmAssocInd);
                 return;
             }
@@ -1994,12 +1613,8 @@ void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession p
         {
 
             if (wlan_cfgGetInt(pMac, (tANI_U16) WNI_CFG_WME_ENABLED, &tmp) != eSIR_SUCCESS)
-<<<<<<< HEAD
-                 limLog(pMac, LOGP, FL("wlan_cfgGetInt failed for id %d"), WNI_CFG_WME_ENABLED );
-=======
                  limLog(pMac, LOGP, FL("wlan_cfgGetInt failed for id %d"),
                                                 WNI_CFG_WME_ENABLED );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
             /* check whether AP is enabled with WMM */
             if(tmp)
@@ -2013,8 +1628,6 @@ void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession p
             /* Note: we are not rejecting association here because IOT will fail */
 
         }
-<<<<<<< HEAD
-=======
 #ifdef WLAN_FEATURE_AP_HT40_24G
         if(pAssocReq->HTCaps.present)
         {
@@ -2024,7 +1637,6 @@ void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession p
                          pAssocReq->HTCaps.stbcControlFrame;
         }
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         // Required for indicating the frames to upper layer
         pMlmAssocInd->assocReqLength = pAssocReq->assocReqFrameLength;
@@ -2044,12 +1656,8 @@ void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession p
         pMlmReassocInd = vos_mem_malloc(temp);
         if (NULL == pMlmReassocInd)
         {
-<<<<<<< HEAD
-            limLog(pMac, LOGP, FL("call to AllocateMemory failed for pMlmReassocInd"));
-=======
             limLog(pMac, LOGP, FL("call to AllocateMemory failed for "
                                   "pMlmReassocInd"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             limReleasePeerIdx(pMac, pStaDs->assocId, psessionEntry);
             return;
         }
@@ -2075,12 +1683,8 @@ void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession p
 
         if (pAssocReq->rsnPresent && (NULL == wpsIe))
         {
-<<<<<<< HEAD
-            limLog(pMac, LOG2, FL("Assoc Req: RSN IE length = %d"), pAssocReq->rsn.length);
-=======
             limLog(pMac, LOG2, FL("Assoc Req: RSN IE length = %d"),
                                             pAssocReq->rsn.length);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pMlmReassocInd->rsnIE.length = 2 + pAssocReq->rsn.length;
             pMlmReassocInd->rsnIE.rsnIEdata[0] = SIR_MAC_RSN_EID;
             pMlmReassocInd->rsnIE.rsnIEdata[1] = pAssocReq->rsn.length;
@@ -2097,12 +1701,8 @@ void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession p
             pMlmReassocInd->supportedChannels.numChnl = (tANI_U8)(pAssocReq->supportedChannels.length / 2);
 
             limLog(pMac, LOG1,
-<<<<<<< HEAD
-                FL("Sending Reassoc Ind: spectrum ON, minPwr %d, maxPwr %d, numChnl %d"),
-=======
                 FL("Sending Reassoc Ind: spectrum ON, minPwr %d, "
                    "maxPwr %d, numChnl %d"),
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 pMlmReassocInd->powerCap.minTxPower,
                 pMlmReassocInd->powerCap.maxTxPower,
                 pMlmReassocInd->supportedChannels.numChnl);
@@ -2122,12 +1722,8 @@ void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession p
         /* This check is to avoid extra Sec IEs present incase of WPS */
         if (pAssocReq->wpaPresent && (NULL == wpsIe))
         {
-<<<<<<< HEAD
-            limLog(pMac, LOG2, FL("Received WPA IE length in Assoc Req is %d"), pAssocReq->wpa.length);
-=======
             limLog(pMac, LOG2, FL("Received WPA IE length in Assoc Req is %d"),
                                    pAssocReq->wpa.length);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pMlmReassocInd->rsnIE.rsnIEdata[pMlmReassocInd->rsnIE.length] = SIR_MAC_WPA_EID;
             pMlmReassocInd->rsnIE.rsnIEdata[pMlmReassocInd->rsnIE.length + 1] = pAssocReq->wpa.length;
             vos_mem_copy(&pMlmReassocInd->rsnIE.rsnIEdata[pMlmReassocInd->rsnIE.length + 2],
@@ -2150,12 +1746,8 @@ void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession p
         {
 
             if (wlan_cfgGetInt(pMac, (tANI_U16) WNI_CFG_WME_ENABLED, &tmp) != eSIR_SUCCESS)
-<<<<<<< HEAD
-                 limLog(pMac, LOGP, FL("wlan_cfgGetInt failed for id %d"), WNI_CFG_WME_ENABLED );
-=======
                  limLog(pMac, LOGP, FL("wlan_cfgGetInt failed for id %d"),
                                                     WNI_CFG_WME_ENABLED );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
             /* check whether AP is enabled with WMM */
             if(tmp)
@@ -2170,8 +1762,6 @@ void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession p
 
         }
 
-<<<<<<< HEAD
-=======
 #ifdef WLAN_FEATURE_AP_HT40_24G
         if(pAssocReq->HTCaps.present)
         {
@@ -2182,7 +1772,6 @@ void limSendMlmAssocInd(tpAniSirGlobal pMac, tpDphHashNode pStaDs, tpPESession p
         }
 #endif
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         // Required for indicating the frames to upper layer
         pMlmReassocInd->assocReqLength = pAssocReq->assocReqFrameLength;
         pMlmReassocInd->assocReqPtr = pAssocReq->assocReqFrame;

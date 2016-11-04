@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /*===========================================================================
@@ -61,11 +35,6 @@ DESCRIPTION
   in the Gen6 host software.
 
 
-<<<<<<< HEAD
-  Copyright (c) 2008 QUALCOMM Incorporated. All Rights Reserved.
-  Qualcomm Confidential and Proprietary
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ===========================================================================*/
 
 /*===========================================================================
@@ -102,10 +71,7 @@ when        who         what, where, why
 #include "wlan_qct_wda.h"
 #include "sme_Api.h"
 #include "macInitApi.h"
-<<<<<<< HEAD
-=======
 #include "vos_sched.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 VOS_STATUS WLANFTM_McProcessMsg (v_VOID_t *message);
 
@@ -133,12 +99,8 @@ typedef struct
 
 } sysContextData;
 
-<<<<<<< HEAD
-
-=======
 // sysStop 20 Seconds timeout
 #define SYS_STOP_TIMEOUT 20000
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 static vos_event_t gStopEvt;
 
 VOS_STATUS sysBuildMessageHeader( SYS_MSG_ID sysMsgId, vos_msg_t *pMsg )
@@ -188,19 +150,11 @@ VOS_STATUS sysStop( v_CONTEXT_t pVosContext )
    /* post a message to SYS module in MC to stop SME and MAC */
    sysBuildMessageHeader( SYS_MSG_ID_MC_STOP, &sysMsg );
 
-<<<<<<< HEAD
-   // Save the user callback and user data to callback in the body pointer
-   // and body data portion of the message.
-   // finished.
-   sysMsg.bodyptr = (void *)sysStopCompleteCb;
-   sysMsg.bodyval = (v_U32_t) &gStopEvt;
-=======
    // Save the user callback and user data
 
    // finished.
    sysMsg.callback = sysStopCompleteCb;
    sysMsg.bodyptr  = (void *) &gStopEvt;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    // post the message..
    vosStatus = vos_mq_post_message( VOS_MQ_ID_SYS, &sysMsg );
@@ -209,11 +163,7 @@ VOS_STATUS sysStop( v_CONTEXT_t pVosContext )
       vosStatus = VOS_STATUS_E_BADMSG;
    }
 
-<<<<<<< HEAD
-   vosStatus = vos_wait_events( &gStopEvt, 1, 0, &evtIndex );
-=======
    vosStatus = vos_wait_events( &gStopEvt, 1, SYS_STOP_TIMEOUT, &evtIndex );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    VOS_ASSERT( VOS_IS_STATUS_SUCCESS ( vosStatus ) );
 
    vosStatus = vos_event_destroy( &gStopEvt );
@@ -254,13 +204,8 @@ typedef struct sPolFileHeader
 {
   tPolFileVersion FileVersion;
   tPolFileVersion HWCapabilities;
-<<<<<<< HEAD
-  unsigned long   FileLength;
-  unsigned long   NumDirectoryEntries;
-=======
   unsigned int   FileLength;
   unsigned int   NumDirectoryEntries;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 } tPolFileHeader;
 
@@ -279,15 +224,9 @@ typedef enum ePolFileDirTypes
 
 typedef struct sPolFileDirEntry
 {
-<<<<<<< HEAD
-  unsigned long DirEntryType;
-  unsigned long DirEntryFileOffset;
-  unsigned long DirEntryLength;
-=======
   unsigned int DirEntryType;
   unsigned int DirEntryFileOffset;
   unsigned int DirEntryLength;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 } tPolFileDirEntry;
 
@@ -406,11 +345,7 @@ VOS_STATUS sysMcProcessMsg( v_CONTEXT_t pVosContext, vos_msg_t *pMsg )
             /* Handling for this message is not needed now so adding 
              *debug print and VOS_ASSERT*/
             VOS_TRACE( VOS_MODULE_ID_SYS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-                       " Received SYS_MSG_ID_MC_START message msgType= %d [0x%08lx]",
-=======
                        " Received SYS_MSG_ID_MC_START message msgType= %d [0x%08x]",
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        pMsg->type, pMsg->type );
             VOS_ASSERT(0);
             break;
@@ -436,11 +371,7 @@ VOS_STATUS sysMcProcessMsg( v_CONTEXT_t pVosContext, vos_msg_t *pMsg )
                vosStatus = macStop( hHal, HAL_STOP_TYPE_SYS_DEEP_SLEEP );
                VOS_ASSERT( VOS_IS_STATUS_SUCCESS( vosStatus ) );
 
-<<<<<<< HEAD
-               ((sysResponseCback)pMsg->bodyptr)((v_VOID_t *)pMsg->bodyval);
-=======
                ((sysResponseCback)pMsg->callback)((v_VOID_t *)pMsg->bodyptr);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                vosStatus = VOS_STATUS_SUCCESS;
             }
@@ -451,33 +382,15 @@ VOS_STATUS sysMcProcessMsg( v_CONTEXT_t pVosContext, vos_msg_t *pMsg )
          // function that is in the message.
          case SYS_MSG_ID_MC_THR_PROBE:
          {
-<<<<<<< HEAD
-            VOS_TRACE(VOS_MODULE_ID_SYS, VOS_TRACE_LEVEL_ERROR,
-                       " Received SYS_MSG_ID_MC_THR_PROBE message msgType = %d [0x%08lx]",
-                       pMsg->type, pMsg->type);
-=======
 #ifdef WLAN_LOGGING_SOCK_SVC_ENABLE
              if(pMsg->callback)
                 ((sysThreadProbeCback)pMsg->callback)(current->pid);
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
          }
 
          case SYS_MSG_ID_MC_TIMER:
          {
-<<<<<<< HEAD
-            vos_timer_callback_t timerCB;
-            // hummmm... note says...
-            // invoke the timer callback and the user data stick
-            // into the bodyval; no body to free.    I think this is
-            // what that means.
-            timerCB = (vos_timer_callback_t)pMsg->bodyptr;
-
-            // make the callback to the timer routine...
-            timerCB( (v_VOID_t *)pMsg->bodyval );
-
-=======
             vos_timer_callback_t timerCB = pMsg->callback;
 
             if (NULL != timerCB)
@@ -486,7 +399,6 @@ VOS_STATUS sysMcProcessMsg( v_CONTEXT_t pVosContext, vos_msg_t *pMsg )
                timerCB(pMsg->bodyptr);
                vos_ssr_unprotect(__func__);
             }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
          }
          case SYS_MSG_ID_FTM_RSP:
@@ -494,18 +406,10 @@ VOS_STATUS sysMcProcessMsg( v_CONTEXT_t pVosContext, vos_msg_t *pMsg )
              WLANFTM_McProcessMsg((v_VOID_t *)pMsg->bodyptr);
              break;
          }
-<<<<<<< HEAD
-
-         default:
-         {
-            VOS_TRACE( VOS_MODULE_ID_SYS, VOS_TRACE_LEVEL_ERROR,
-                       "Unknown message type in sysMcProcessMsg() msgType= %d [0x%08lx]",
-=======
          default:
          {
             VOS_TRACE( VOS_MODULE_ID_SYS, VOS_TRACE_LEVEL_ERROR,
                        "Unknown message type in sysMcProcessMsg() msgType= %d [0x%08x]",
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        pMsg->type, pMsg->type );
             break;
         }
@@ -525,11 +429,7 @@ VOS_STATUS sysMcProcessMsg( v_CONTEXT_t pVosContext, vos_msg_t *pMsg )
 
             VOS_TRACE( VOS_MODULE_ID_SYS, VOS_TRACE_LEVEL_ERROR,
                        "Received SYS message cookie with unidentified "
-<<<<<<< HEAD
-                       "MC message type= %d [0x%08lX]", pMsg->type, pMsg->type );
-=======
                        "MC message type= %d [0x%08X]", pMsg->type, pMsg->type );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
             vosStatus = VOS_STATUS_E_BADMSG;
             if (pMsg->bodyptr) 
@@ -571,56 +471,28 @@ VOS_STATUS sysTxProcessMsg( v_CONTEXT_t pVosContext, vos_msg_t *pMsg )
          // function that is in the message.
          case SYS_MSG_ID_TX_THR_PROBE:
          {
-<<<<<<< HEAD
-           /* Handling for this message is not needed now so adding 
-            * debug print and VOS_ASSERT*/
-            VOS_TRACE( VOS_MODULE_ID_SYS, VOS_TRACE_LEVEL_ERROR,
-                       " Received SYS_MSG_ID_TX_THR_PROBE message msgType= %d [0x%08lx]",
-                       pMsg->type, pMsg->type );
-            VOS_ASSERT(0);
-
-=======
 #ifdef WLAN_LOGGING_SOCK_SVC_ENABLE
             if(pMsg->callback)
                ((sysThreadProbeCback)pMsg->callback)(current->pid);
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
          }
 
          case SYS_MSG_ID_TX_TIMER:
          {
-<<<<<<< HEAD
-            vos_timer_callback_t timerCB;
-
-            // hummmm... note says...
-            // invoke the timer callback and the user data stick
-            // into the bodyval; no body to free.    I think this is
-            // what that means.
-            timerCB = (vos_timer_callback_t)pMsg->bodyptr;
-
-            // make the callback to the timer routine...
-            timerCB( (v_VOID_t *)pMsg->bodyval );
-
-=======
             vos_timer_callback_t timerCB = pMsg->callback;
 
             if (NULL != timerCB)
             {
                timerCB(pMsg->bodyptr);
             }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
          }
 
          default:
          {
             VOS_TRACE( VOS_MODULE_ID_SYS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-                       "Unknown message type in sysTxProcessMsg() msgType= %d [0x%08lx]",
-=======
                        "Unknown message type in sysTxProcessMsg() msgType= %d [0x%08x]",
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        pMsg->type, pMsg->type );
             break;
         }
@@ -633,11 +505,7 @@ VOS_STATUS sysTxProcessMsg( v_CONTEXT_t pVosContext, vos_msg_t *pMsg )
 
       VOS_TRACE( VOS_MODULE_ID_SYS, VOS_TRACE_LEVEL_ERROR,
                  "Received SYS message cookie with unidentified TX message "
-<<<<<<< HEAD
-                 " type= %d [0x%08lX]", pMsg->type, pMsg->type );
-=======
                  " type= %d [0x%08X]", pMsg->type, pMsg->type );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
       vosStatus = VOS_STATUS_E_BADMSG;
    }   // end else
@@ -670,19 +538,6 @@ VOS_STATUS sysRxProcessMsg( v_CONTEXT_t pVosContext, vos_msg_t *pMsg )
       {
          case SYS_MSG_ID_RX_TIMER:
          {
-<<<<<<< HEAD
-            vos_timer_callback_t timerCB;
-
-            // hummmm... note says...
-            // invoke the timer callback and the user data stick
-            // into the bodyval; no body to free.    I think this is
-            // what that means.
-            timerCB = (vos_timer_callback_t)pMsg->bodyptr;
-
-            // make the callback to the timer routine...
-            timerCB( (v_VOID_t *)pMsg->bodyval );
-
-=======
             vos_timer_callback_t timerCB = pMsg->callback;
 
             if (NULL != timerCB)
@@ -698,18 +553,13 @@ VOS_STATUS sysRxProcessMsg( v_CONTEXT_t pVosContext, vos_msg_t *pMsg )
             if(pMsg->callback)
                 ((sysThreadProbeCback)pMsg->callback)(current->pid);
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
          }
 
          default:
          {
             VOS_TRACE( VOS_MODULE_ID_SYS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-                       "Unknown message type in sysRxProcessMsg() msgType= %d [0x%08lx]",
-=======
                        "Unknown message type in sysRxProcessMsg() msgType= %d [0x%08x]",
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        pMsg->type, pMsg->type );
             break;
         }
@@ -722,11 +572,7 @@ VOS_STATUS sysRxProcessMsg( v_CONTEXT_t pVosContext, vos_msg_t *pMsg )
 
       VOS_TRACE( VOS_MODULE_ID_SYS, VOS_TRACE_LEVEL_ERROR,
                  "Received SYS message cookie with unidentified RX message "
-<<<<<<< HEAD
-                 " type= %d [0x%08lX]", pMsg->type, pMsg->type );
-=======
                  " type= %d [0x%08X]", pMsg->type, pMsg->type );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
       vosStatus = VOS_STATUS_E_BADMSG;
    }   // end else

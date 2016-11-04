@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,31 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-/*
- * */
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -55,7 +26,6 @@
  */
 
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifndef _HALMSGAPI_H_
 #define _HALMSGAPI_H_
 
@@ -308,19 +278,12 @@ typedef struct
 
     /*if this is a P2P Capable Sta*/
     tANI_U8     p2pCapableSta;
-<<<<<<< HEAD
-
-=======
     tANI_U32    currentOperChan;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef WLAN_FEATURE_11AC
     tANI_U8    vhtCapable;
     tANI_U8    vhtTxChannelWidthSet;
     tANI_U8    vhtTxBFCapable;
-<<<<<<< HEAD
-=======
     tANI_U8    vhtTxMUBformeeCapable;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 
     tANI_U8    htLdpcCapable;
@@ -896,19 +859,11 @@ typedef struct
     tANI_U16 paramChangeBitmap;
 }tUpdateBeaconParams, *tpUpdateBeaconParams;
 
-<<<<<<< HEAD
-#ifdef WLAN_FEATURE_11AC
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 typedef struct 
 {
    tANI_U16   opMode;
    tANI_U16  staId;
 }tUpdateVHTOpMode, *tpUpdateVHTOpMode;
-<<<<<<< HEAD
-#endif
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 //HAL MSG: SIR_HAL_UPDATE_CF_IND
 typedef struct
@@ -953,8 +908,6 @@ typedef struct
 }tUpdateDtimParams, *tpUpdateDtimParams;
 */
 
-<<<<<<< HEAD
-=======
 typedef enum
 {
     eHAL_CHANNEL_SWITCH_SOURCE_SCAN,
@@ -964,7 +917,6 @@ typedef enum
     eHAL_CHANNEL_SWITCH_SOURCE_MAX = 0x7fffffff
 } eHalChanSwitchSource;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 //HAL MSG: SIR_HAL_CHNL_SWITCH_REQ
 typedef struct
@@ -981,11 +933,8 @@ typedef struct
     tSirMacAddr selfStaMacAddr;
                         //the request has power constraints, this should be applied only to that session
 #endif
-<<<<<<< HEAD
-=======
     eHalChanSwitchSource channelSwitchSrc;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /* VO Wifi comment: BSSID is needed to identify which session issued this request. As the 
        request has power constraints, this should be applied only to that session */
     /* V IMP: Keep bssId field at the end of this msg. It is used to mantain backward compatbility
@@ -1316,11 +1265,7 @@ typedef struct sEnterBmpsParams
     //if association is based on ProbeRsp instead of beacon.
     tANI_U8 dtimPeriod;
 
-<<<<<<< HEAD
-    // For CCX and 11R Roaming
-=======
     // For ESE and 11R Roaming
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tANI_U8  bRssiFilterEnable;
     tANI_U32 rssiFilterPeriod;
     tANI_U32 numBeaconPerRssiAverage;
@@ -1352,15 +1297,12 @@ typedef struct sMaxTxPowerParams
     tPowerdBm  power;
 }tMaxTxPowerParams, *tpMaxTxPowerParams;
 
-<<<<<<< HEAD
-=======
 typedef struct sMaxTxPowerPerBandParams
 {
     eCsrBand   bandInfo;
     tPowerdBm  power;
 }tMaxTxPowerPerBandParams, *tpMaxTxPowerPerBandParams;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 typedef struct sAddStaSelfParams
 {
    tSirMacAddr selfMacAddr;
@@ -1368,14 +1310,11 @@ typedef struct sAddStaSelfParams
    tANI_U32 status;
 }tAddStaSelfParams, *tpAddStaSelfParams;
 
-<<<<<<< HEAD
-=======
 typedef struct sAbortScanParams
 {
    tANI_U8 SessionId;
 }tAbortScanParams, *tpAbortScanParams;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 typedef struct sDelStaSelfParams
 {
    tSirMacAddr selfMacAddr;
@@ -1383,14 +1322,11 @@ typedef struct sDelStaSelfParams
    tANI_U32 status;
 }tDelStaSelfParams, *tpDelStaSelfParams;
 
-<<<<<<< HEAD
-=======
 typedef struct
 {
     tSirMacAddr macAddr;
 } tSpoofMacAddrReqParams, *tpSpoofMacAddrReqParams;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 typedef struct sP2pPsParams
 {
    tANI_U8   opp_ps;
@@ -1402,12 +1338,9 @@ typedef struct sP2pPsParams
    tANI_U8   psSelection;
 }tP2pPsParams, *tpP2pPsParams;
 
-<<<<<<< HEAD
-=======
 #define HAL_MAX_SUPP_CHANNELS 128
 #define HAL_MAX_SUPP_OPER_CLASSES 32
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 typedef struct sTdlsLinkEstablishParams
 {
    tANI_U16  staIdx;
@@ -1415,11 +1348,6 @@ typedef struct sTdlsLinkEstablishParams
    tANI_U8   uapsdQueues;
    tANI_U8   maxSp;
    tANI_U8   isBufsta;
-<<<<<<< HEAD
-   tANI_U32  status;
-}tTdlsLinkEstablishParams, *tpTdlsLinkEstablishParams;
-
-=======
    tANI_U8   isOffChannelSupported;
    tANI_U8   peerCurrOperClass;
    tANI_U8   selfCurrOperClass;
@@ -1441,7 +1369,6 @@ typedef struct sTdlsChanSwitchParams
    tANI_U32  status;
 }tTdlsChanSwitchParams, *tpTdlsChanSwitchParams;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 static inline void halGetTxTSFtimer(tpAniSirGlobal pMac, 
                                                 tSirMacTimeStamp *pTime)
 {
@@ -1484,14 +1411,11 @@ typedef __ani_attr_pre_packed struct sRemBeaconFilterMsg
     tANI_U8  ucRemIeId[1];
 }  __ani_attr_packed tRemBeaconFilterMsg, *tpRemBeaconFilterMsg;
 
-<<<<<<< HEAD
-=======
 typedef struct sNanRequest
 {
     tANI_U16 request_data_len;
     tANI_U8  request_data[1];
 } tNanRequest, *tpNanRequest;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif /* _HALMSGAPI_H_ */
 

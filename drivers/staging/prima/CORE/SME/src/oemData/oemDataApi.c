@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #ifdef FEATURE_OEM_DATA_SUPPORT
@@ -186,13 +160,9 @@ eHalStatus oemData_OemDataReq(tHalHandle hHal,
         pMac->oemData.pContext = pContext;
         pMac->oemData.oemDataReqID = *(pOemDataReqID);
 
-<<<<<<< HEAD
-        vos_mem_copy((v_VOID_t*)(pMac->oemData.oemDataReqConfig.oemDataReq), (v_VOID_t*)(oemDataReqConfig->oemDataReq), OEM_DATA_REQ_SIZE);
-=======
         vos_mem_copy((v_VOID_t*)(pMac->oemData.oemDataReqConfig.oemDataReq),
                      (v_VOID_t*)(oemDataReqConfig->oemDataReq),
                      OEM_DATA_REQ_SIZE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         pMac->oemData.oemDataReqActive = eANI_BOOLEAN_FALSE;
 
@@ -209,12 +179,8 @@ eHalStatus oemData_OemDataReq(tHalHandle hHal,
             //set the oem data request
             pOemDataCmd->u.oemDataCmd.oemDataReq.sessionId = pMac->oemData.oemDataReqConfig.sessionId;
             vos_mem_copy((v_VOID_t*)(pOemDataCmd->u.oemDataCmd.oemDataReq.oemDataReq),
-<<<<<<< HEAD
-                                    (v_VOID_t*)(pMac->oemData.oemDataReqConfig.oemDataReq), OEM_DATA_REQ_SIZE);
-=======
                          (v_VOID_t*)(pMac->oemData.oemDataReqConfig.oemDataReq),
                          OEM_DATA_REQ_SIZE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
         else
         {
@@ -256,24 +222,6 @@ eHalStatus oemData_SendMBOemDataReq(tpAniSirGlobal pMac, tOemDataReq *pOemDataRe
 
     msgLen = (tANI_U16)(sizeof(tSirOemDataReq));
 
-<<<<<<< HEAD
-    status = palAllocateMemory(pMac->hHdd, (void**)&pMsg, msgLen);
-    if(HAL_STATUS_SUCCESS(status))
-    {
-        palZeroMemory(pMac->hHdd, pMsg, msgLen);
-        pMsg->messageType = pal_cpu_to_be16((tANI_U16)eWNI_SME_OEM_DATA_REQ);
-        palCopyMemory(pMac->hHdd, pMsg->selfMacAddr, pSession->selfMacAddr, sizeof(tSirMacAddr) );
-        status = palCopyMemory(pMac->hHdd, pMsg->oemDataReq, pOemDataReq->oemDataReq, OEM_DATA_REQ_SIZE);
-        if(HAL_STATUS_SUCCESS(status))
-        {
-            smsLog(pMac, LOGW, "OEM_DATA: sending message to pe%s", __func__);
-            status = palSendMBMessage(pMac->hHdd, pMsg);
-        }
-        else
-        {
-            palFreeMemory(pMac->hHdd, pMsg);
-        }
-=======
     pMsg = vos_mem_malloc(msgLen);
     if ( NULL == pMsg )
        status = eHAL_STATUS_FAILURE;
@@ -288,7 +236,6 @@ eHalStatus oemData_SendMBOemDataReq(tpAniSirGlobal pMac, tOemDataReq *pOemDataRe
         vos_mem_copy(pMsg->oemDataReq, pOemDataReq->oemDataReq, OEM_DATA_REQ_SIZE);
         smsLog(pMac, LOGW, "OEM_DATA: sending message to pe%s", __func__);
         status = palSendMBMessage(pMac->hHdd, pMsg);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     smsLog(pMac, LOGW, "OEM_DATA: exiting Function %s", __func__);
@@ -325,15 +272,12 @@ eHalStatus oemData_ProcessOemDataReqCommand(tpAniSirGlobal pMac, tSmeCmd *pOemDa
     else
     {
         smsLog(pMac, LOG1, "%s: OEM_DATA REQ not allowed in the current mode", __func__);
-<<<<<<< HEAD
-=======
         status = eHAL_STATUS_FAILURE;
     }
 
     if(!HAL_STATUS_SUCCESS(status))
     {
         smsLog(pMac, LOG1, "%s: OEM_DATA Failure, Release command", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         oemData_ReleaseOemDataReqCommand(pMac, pOemDataReqCmd, eOEM_DATA_REQ_INVALID_MODE);
         pMac->oemData.oemDataReqActive = eANI_BOOLEAN_FALSE;
     }
@@ -397,13 +341,9 @@ eHalStatus sme_HandleOemDataRsp(tHalHandle hHal, tANI_U8* pMsg)
                 }
 
                 smsLog(pMac, LOGE, "Before memory copy");
-<<<<<<< HEAD
-                vos_mem_copy((v_VOID_t*)(pMac->oemData.pOemDataRsp), (v_VOID_t*)(&pOemDataRsp->oemDataRsp), sizeof(tOemDataRsp));
-=======
                 vos_mem_copy((v_VOID_t*)(pMac->oemData.pOemDataRsp),
                              (v_VOID_t*)(&pOemDataRsp->oemDataRsp),
                              sizeof(tOemDataRsp));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 smsLog(pMac, LOGE, "after memory copy");
                 sme_ReleaseGlobalLock(&pMac->sme);
             }

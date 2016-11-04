@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2014 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,30 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -53,7 +25,6 @@
  * to the Linux Foundation.
  */
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**=========================================================================
   
   \file  sme_Qos.c
@@ -78,19 +49,12 @@
 #include "smsDebug.h"
 #include "utilsParser.h"
 #endif
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX) && !defined(FEATURE_WLAN_CCX_UPLOAD)
-#include <csrCcx.h>
-#endif
-
-=======
 #if defined(FEATURE_WLAN_ESE) && !defined(FEATURE_WLAN_ESE_UPLOAD)
 #include <csrEse.h>
 #endif
 
 #include "vos_utils.h"
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifndef WLAN_MDM_CODE_REDUCTION_OPT
 /* TODO : 6Mbps as Cisco APs seem to like only this value; analysis req.   */
 #define SME_QOS_MIN_PHY_RATE         0x5B8D80    
@@ -1138,11 +1102,7 @@ eHalStatus sme_QosCsrEventInd(tpAniSirGlobal pMac,
       case SME_QOS_CSR_PREAUTH_SUCCESS_IND:
          status = sme_QosProcessPreauthSuccessInd(pMac, sessionId, pEvent_info);
          break;
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR)
-=======
 #if defined(FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       case SME_QOS_CSR_SET_KEY_SUCCESS_IND:
          status = sme_QosProcessSetKeySuccessInd(pMac, sessionId, pEvent_info);
          break;
@@ -1542,12 +1502,8 @@ sme_QosStatusType sme_QosInternalSetupReq(tpAniSirGlobal pMac,
                return status;
             }
             /* Flow aggregation */
-<<<<<<< HEAD
-            if(SME_QOS_TSPEC_MASK_BIT_1_2_SET != pACInfo->tspec_mask_status)
-=======
             if(((pACInfo->tspec_mask_status > 0) &&
                 (pACInfo->tspec_mask_status <= SME_QOS_TSPEC_INDEX_MAX)))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             {
               /* Either of upstream, downstream or bidirectional flows are present */
               /* If either of new stream or current stream is for bidirecional, aggregate 
@@ -1576,11 +1532,7 @@ sme_QosStatusType sme_QosInternalSetupReq(tpAniSirGlobal pMac,
                 pACInfo->tspec_mask_status = SME_QOS_TSPEC_MASK_BIT_1_2_SET;
               }
             }
-<<<<<<< HEAD
-            else
-=======
             else if(SME_QOS_TSPEC_MASK_BIT_1_2_SET == pACInfo->tspec_mask_status)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             {
               /* Both uplink and downlink streams are present. */
               /* If new stream is bidirectional, aggregate new stream with all existing
@@ -1605,15 +1557,12 @@ sme_QosStatusType sme_QosInternalSetupReq(tpAniSirGlobal pMac,
                 tmask = SME_QOS_TSPEC_MASK_BIT_1_SET;
               }
             }
-<<<<<<< HEAD
-=======
             else
             {
               VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_INFO_MED,
                 "%s: %d: wrong tmask = %d", __func__, __LINE__,
                 pACInfo->tspec_mask_status );
             }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          }
          else
          {
@@ -1670,8 +1619,6 @@ sme_QosStatusType sme_QosInternalSetupReq(tpAniSirGlobal pMac,
          }
          else
          {
-<<<<<<< HEAD
-=======
             if (!(new_tmask > 0 && new_tmask <= SME_QOS_TSPEC_INDEX_MAX))
             {
                  VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_ERROR,
@@ -1680,7 +1627,6 @@ sme_QosStatusType sme_QosInternalSetupReq(tpAniSirGlobal pMac,
 
                  return SME_QOS_STATUS_SETUP_FAILURE_RSP;
             }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             tmask = new_tmask;
             pACInfo->requested_QoSInfo[tmask-1] = Tspec_Info;
          }
@@ -1698,10 +1644,6 @@ sme_QosStatusType sme_QosInternalSetupReq(tpAniSirGlobal pMac,
          pSession->readyForPowerSave = VOS_TRUE;
          return status;
       }
-<<<<<<< HEAD
-      //although aggregating, make sure to request on the correct UP
-      pACInfo->requested_QoSInfo[tmask - 1].ts_info.up = Tspec_Info.ts_info.up;
-=======
       //although aggregating, make sure to request on the correct UP,TID,PSB
       //and direction
       pACInfo->requested_QoSInfo[tmask - 1].ts_info.up = Tspec_Info.ts_info.up;
@@ -1711,7 +1653,6 @@ sme_QosStatusType sme_QosInternalSetupReq(tpAniSirGlobal pMac,
                                             Tspec_Info.ts_info.direction;
       pACInfo->requested_QoSInfo[tmask - 1].ts_info.psb =
                                             Tspec_Info.ts_info.psb;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       status = sme_QosSetup(pMac, sessionId,
                             &pACInfo->requested_QoSInfo[tmask - 1], ac);
       VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_INFO_HIGH, 
@@ -1796,16 +1737,12 @@ sme_QosStatusType sme_QosInternalSetupReq(tpAniSirGlobal pMac,
             //which index of the AC the request was from
             pACInfo->tspec_pending = tmask;
          }
-<<<<<<< HEAD
-         pACInfo->num_flows[tmask - 1]++;
-=======
          if(tmask)
             pACInfo->num_flows[tmask - 1]++;
          else
             VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_ERROR,
                       "%s: %d: ArrayIndexOutOfBoundsException",
                        __func__, __LINE__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          //indicate on which index the flow entry belongs to & add it to the 
          //Flow List at the end
          pentry->tspec_mask = tmask;
@@ -1953,8 +1890,6 @@ sme_QosStatusType sme_QosInternalModifyReq(tpAniSirGlobal pMac,
 
      return SME_QOS_STATUS_MODIFY_SETUP_INVALID_PARAMS_RSP;
    }
-<<<<<<< HEAD
-=======
 
    //should not be same as previous ioctl parameters
    if ((pQoSInfo->nominal_msdu_size == flow_info->QoSInfo.nominal_msdu_size) &&
@@ -1981,7 +1916,6 @@ sme_QosStatusType sme_QosInternalModifyReq(tpAniSirGlobal pMac,
      return SME_QOS_STATUS_MODIFY_SETUP_FAILURE_RSP;
    }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    // need to vote off powersave for the duration of this request
    pSession->readyForPowerSave = VOS_FALSE;
    // assume we won't have to (re)buffer the command
@@ -2597,11 +2531,7 @@ sme_QosStatusType sme_QosInternalReleaseReq(tpAniSirGlobal pMac,
       {
          // this is the only flow aggregated in this TSPEC
          status = SME_QOS_STATUS_RELEASE_SUCCESS_RSP;
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX) && !defined(FEATURE_WLAN_CCX_UPLOAD)
-=======
 #if defined(FEATURE_WLAN_ESE) && !defined(FEATURE_WLAN_ESE_UPLOAD)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          if (ac == SME_QOS_EDCA_AC_VO)
          {
             // Indicate to neighbor roam logic of the new required VO
@@ -2937,11 +2867,7 @@ sme_QosStatusType sme_QosSetup(tpAniSirGlobal pMac,
    }
 
    VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_DEBUG,
-<<<<<<< HEAD
-             "%s: UAPSD/PSB set %d: ", __func__, __LINE__,
-=======
              "%s: %d: UAPSD/PSB set %d: ", __func__, __LINE__,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
              pTspec_Info->ts_info.psb);
 
    pACInfo = &pSession->ac_info[ac];
@@ -3126,11 +3052,7 @@ sme_QosStatusType sme_QosSetup(tpAniSirGlobal pMac,
    return status;
 }
 
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR)
-=======
 #if defined(FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* This is a dummy function now. But the purpose of me adding this was to 
  * delay the TSPEC processing till SET_KEY completes. This function can be 
  * used to do any SME_QOS processing after the SET_KEY. As of now, it is 
@@ -3146,15 +3068,9 @@ eHalStatus sme_QosProcessSetKeySuccessInd(tpAniSirGlobal pMac, v_U8_t sessionId,
 }
 #endif
 
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-/*--------------------------------------------------------------------------
-  \brief sme_QosCCXSaveTspecResponse() - This function saves the TSPEC
-=======
 #ifdef FEATURE_WLAN_ESE
 /*--------------------------------------------------------------------------
   \brief sme_QosESESaveTspecResponse() - This function saves the TSPEC
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          parameters that came along in the TSPEC IE in the reassoc response
   
   \param pMac - Pointer to the global MAC parameter structure.
@@ -3165,11 +3081,7 @@ eHalStatus sme_QosProcessSetKeySuccessInd(tpAniSirGlobal pMac, v_U8_t sessionId,
   
   \return eHAL_STATUS_SUCCESS - Release is successful.
   --------------------------------------------------------------------------*/
-<<<<<<< HEAD
-eHalStatus sme_QosCCXSaveTspecResponse(tpAniSirGlobal pMac, v_U8_t sessionId, tDot11fIEWMMTSPEC *pTspec, v_U8_t ac, v_U8_t tspecIndex)
-=======
 eHalStatus sme_QosESESaveTspecResponse(tpAniSirGlobal pMac, v_U8_t sessionId, tDot11fIEWMMTSPEC *pTspec, v_U8_t ac, v_U8_t tspecIndex)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
     tpSirAddtsRsp pAddtsRsp = &sme_QosCb.sessionInfo[sessionId].ac_info[ac].addTsRsp[tspecIndex];
 
@@ -3198,15 +3110,9 @@ eHalStatus sme_QosESESaveTspecResponse(tpAniSirGlobal pMac, v_U8_t sessionId, tD
 }
 
 /*--------------------------------------------------------------------------
-<<<<<<< HEAD
-  \brief sme_QosCCXProcessReassocTspecRsp() - This function processes the
-         WMM TSPEC IE in the reassoc response. Reassoc triggered as part of 
-         CCX roaming to another CCX capable AP. If the TSPEC was added before 
-=======
   \brief sme_QosESEProcessReassocTspecRsp() - This function processes the
          WMM TSPEC IE in the reassoc response. Reassoc triggered as part of 
          ESE roaming to another ESE capable AP. If the TSPEC was added before
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          reassoc, as part of Call Admission Control, the reasso req from the
          STA would carry the TSPEC parameters which were already negotiated
          with the older AP.
@@ -3217,11 +3123,7 @@ eHalStatus sme_QosESESaveTspecResponse(tpAniSirGlobal pMac, v_U8_t sessionId, tD
   
   \return eHAL_STATUS_SUCCESS - Release is successful.
   --------------------------------------------------------------------------*/
-<<<<<<< HEAD
-eHalStatus sme_QosCCXProcessReassocTspecRsp(tpAniSirGlobal pMac, v_U8_t sessionId, void* pEvent_info)
-=======
 eHalStatus sme_QosESEProcessReassocTspecRsp(tpAniSirGlobal pMac, v_U8_t sessionId, void* pEvent_info)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
     sme_QosSessionInfo *pSession;
     sme_QosACInfo *pACInfo;
@@ -3245,11 +3147,7 @@ eHalStatus sme_QosESEProcessReassocTspecRsp(tpAniSirGlobal pMac, v_U8_t sessionI
     tspecIeLen = pCsrConnectedInfo->nTspecIeLength;
     if (tspecIeLen < sizeof(tDot11fIEWMMTSPEC)) {
         VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-                FL("CCX Tspec IE len %d less than min %d"),
-=======
                 FL("ESE Tspec IE len %d less than min %d"),
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 tspecIeLen, sizeof(tDot11fIEWMMTSPEC));
         return eHAL_STATUS_FAILURE;
     }
@@ -3271,11 +3169,7 @@ eHalStatus sme_QosESEProcessReassocTspecRsp(tpAniSirGlobal pMac, v_U8_t sessionI
                 if (tspec_mask_status & (1 << tspec_flow_index)) {
                 VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_WARN, 
                 FL("Found Tspec entry flow = %d AC = %d"),tspec_flow_index, ac);
-<<<<<<< HEAD
-                    sme_QosCCXSaveTspecResponse(pMac, sessionId, pTspecIE, ac, tspec_flow_index);
-=======
                     sme_QosESESaveTspecResponse(pMac, sessionId, pTspecIE, ac, tspec_flow_index);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 } else {
                 VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_WARN, 
                 FL("Not found Tspec entry flow = %d AC = %d"),tspec_flow_index, ac);
@@ -3346,11 +3240,7 @@ static void sme_QosCopyTspecInfo(tpAniSirGlobal pMac, sme_QosWmmTspecInfo *pTspe
 }
 
 /*--------------------------------------------------------------------------
-<<<<<<< HEAD
-  \brief sme_QosCCxRetrieveTspecInfo() - This function is called by CSR
-=======
   \brief sme_QosEseRetrieveTspecInfo() - This function is called by CSR
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          when try to create reassoc request message to PE - csrSendSmeReassocReqMsg
          This functions get the existing tspec parameters to be included
          in the reassoc request.
@@ -3361,11 +3251,7 @@ static void sme_QosCopyTspecInfo(tpAniSirGlobal pMac, sme_QosWmmTspecInfo *pTspe
   
   \return v_U8_t - number of existing negotiated TSPECs
   --------------------------------------------------------------------------*/
-<<<<<<< HEAD
-v_U8_t sme_QosCCxRetrieveTspecInfo(tpAniSirGlobal pMac, v_U8_t sessionId, tTspecInfo *pTspecInfo)
-=======
 v_U8_t sme_QosESERetrieveTspecInfo(tpAniSirGlobal pMac, v_U8_t sessionId, tTspecInfo *pTspecInfo)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
     sme_QosSessionInfo *pSession;
     sme_QosACInfo *pACInfo;
@@ -3816,17 +3702,6 @@ eHalStatus sme_QosProcessFTReassocRspEv(tpAniSirGlobal pMac, v_U8_t sessionId, v
     tDot11fIERICDataDesc *pRicDataDesc = NULL;
     eHalStatus            status = eHAL_STATUS_SUCCESS;
     tCsrRoamSession *pCsrSession = CSR_GET_SESSION( pMac, sessionId );
-<<<<<<< HEAD
-    tCsrRoamConnectedInfo *pCsrConnectedInfo = &pCsrSession->connectedInfo;
-    tANI_U32    ricRspLen;
-    /* To silence the KW tool NULL check is added */ 
-    if(pCsrConnectedInfo == NULL)
-    {
-        VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_ERROR, 
-                FL("The connected info pointer is NULL"));
-        return eHAL_STATUS_FAILURE;
-    }
-=======
     tCsrRoamConnectedInfo *pCsrConnectedInfo = NULL;
     tANI_U32    ricRspLen;
 
@@ -3839,7 +3714,6 @@ eHalStatus sme_QosProcessFTReassocRspEv(tpAniSirGlobal pMac, v_U8_t sessionId, v
 
     pCsrConnectedInfo = &pCsrSession->connectedInfo;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     ricRspLen = pCsrConnectedInfo->nRICRspLength;
 
     VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_INFO_HIGH,
@@ -3947,11 +3821,7 @@ eHalStatus sme_QosAddTsReq(tpAniSirGlobal pMac,
    tSirAddtsReq *pMsg = NULL;
    sme_QosSessionInfo *pSession;
    eHalStatus status = eHAL_STATUS_FAILURE;
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-=======
 #ifdef FEATURE_WLAN_ESE
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    tCsrRoamSession *pCsrSession = CSR_GET_SESSION( pMac, sessionId );
 #endif
 #ifdef FEATURE_WLAN_DIAG_SUPPORT
@@ -3969,10 +3839,7 @@ eHalStatus sme_QosAddTsReq(tpAniSirGlobal pMac,
                 __func__, __LINE__, sessionId);
       return eHAL_STATUS_FAILURE;
    }
-<<<<<<< HEAD
-=======
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    pSession = &sme_QosCb.sessionInfo[sessionId];
    pMsg = (tSirAddtsReq *)vos_mem_malloc(sizeof(tSirAddtsReq));
    if (!pMsg)
@@ -4045,13 +3912,8 @@ eHalStatus sme_QosAddTsReq(tpAniSirGlobal pMac,
              __func__, __LINE__, 
              pTspec_Info->ts_info.up,
              pTspec_Info->ts_info.tid);
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-   if(pCsrSession->connectedProfile.isCCXAssoc)
-=======
 #ifdef FEATURE_WLAN_ESE
    if(pCsrSession->connectedProfile.isESEAssoc)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    {
       pMsg->req.tsrsIE.tsid = pTspec_Info->ts_info.up;
       pMsg->req.tsrsPresent = 1;
@@ -4651,15 +4513,6 @@ eHalStatus sme_QosProcessReassocSuccessEv(tpAniSirGlobal pMac, v_U8_t sessionId,
                status = sme_QosProcessFTReassocRspEv(pMac, sessionId, pEvent_info);
            }
        }
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-       // If CCX association check for TSPEC IEs in the reassoc rsp frame
-       if (csrRoamIsCCXAssoc(pMac))
-       {
-           if (pCsrRoamSession && pCsrRoamSession->connectedInfo.nTspecIeLength)
-           {
-               status = sme_QosCCXProcessReassocTspecRsp(pMac, sessionId, pEvent_info);
-=======
 #ifdef FEATURE_WLAN_ESE
        // If ESE association check for TSPEC IEs in the reassoc rsp frame
        if (csrRoamIsESEAssoc(pMac))
@@ -4667,7 +4520,6 @@ eHalStatus sme_QosProcessReassocSuccessEv(tpAniSirGlobal pMac, v_U8_t sessionId,
            if (pCsrRoamSession && pCsrRoamSession->connectedInfo.nTspecIeLength)
            {
                status = sme_QosESEProcessReassocTspecRsp(pMac, sessionId, pEvent_info);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            }
        }
 #endif
@@ -5583,12 +5435,9 @@ eHalStatus sme_QosProcessAddTsSuccessRsp(tpAniSirGlobal pMac,
                                                 pRsp->tspec.surplusBw;
    pACInfo->curr_QoSInfo[tspec_pending - 1].medium_time =
                                                pRsp->tspec.mediumTime;
-<<<<<<< HEAD
-=======
    // Save the expected UAPSD settings by application
    pACInfo->curr_QoSInfo[tspec_pending - 1].expec_psb_byapp =
            pACInfo->requested_QoSInfo[tspec_pending - 1].expec_psb_byapp;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_ERROR,
              "%s: %d: On session %d AddTspec Medium Time %d",
@@ -5679,11 +5528,7 @@ eHalStatus sme_QosProcessAddTsSuccessRsp(tpAniSirGlobal pMac,
    }
    WLAN_VOS_DIAG_LOG_REPORT(log_ptr);
 #endif //FEATURE_WLAN_DIAG_SUPPORT
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX) && !defined(FEATURE_WLAN_CCX_UPLOAD)
-=======
 #if defined(FEATURE_WLAN_ESE) && !defined(FEATURE_WLAN_ESE_UPLOAD)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if (ac == SME_QOS_EDCA_AC_VO)
    {
       // Indicate to neighbor roam logic of the new required VO
@@ -5776,11 +5621,7 @@ eHalStatus sme_QosAggregateParams(
    if(pCurrent_Tspec_Info->ts_info.direction != 
       pInput_Tspec_Info->ts_info.direction)
    {
-<<<<<<< HEAD
-      TspecInfo.ts_info.direction = SME_QOS_WMM_TS_DIR_BOTH;
-=======
       TspecInfo.ts_info.direction = pInput_Tspec_Info->ts_info.direction;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
    /*-------------------------------------------------------------------------
      Max MSDU size : these sizes are `maxed'
@@ -5846,11 +5687,7 @@ eHalStatus sme_QosAggregateParams(
      spec it is less than or equal to inactivity interval
      This is not provided by app since we currently don't support the HCCA
      mode of operation
-<<<<<<< HEAD
-     Currently set it to 0 to avoid confusion: Cisco CCX needs ~0; spec 
-=======
      Currently set it to 0 to avoid confusion: Cisco ESE needs ~0; spec
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
      requires inactivity interval to be > suspension interval: this could
      be tricky!
    -------------------------------------------------------------------------*/
@@ -6309,11 +6146,7 @@ static eHalStatus sme_QosBufferExistingFlows(tpAniSirGlobal pMac,
    pEntry = csrLLPeekHead( &sme_QosCb.flow_list, VOS_FALSE );
    if(!pEntry)
    {
-<<<<<<< HEAD
-      VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_ERROR, 
-=======
       VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_INFO_HIGH,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 "%s: %d: Flow List empty, nothing to buffer",
                 __func__, __LINE__);
       return eHAL_STATUS_FAILURE;
@@ -7120,8 +6953,6 @@ eHalStatus sme_QosAddTsFailureFnp(tpAniSirGlobal pMac, tListElem *pEntry)
    case SME_QOS_REASON_MODIFY:
       flow_info->reason = SME_QOS_REASON_REQ_SUCCESS;
    case SME_QOS_REASON_REQ_SUCCESS:
-<<<<<<< HEAD
-=======
       if(flow_info->hoRenewal == VOS_TRUE)
       {
         // This case will occur when re-requesting AddTs during BT Coex
@@ -7133,7 +6964,6 @@ eHalStatus sme_QosAddTsFailureFnp(tpAniSirGlobal pMac, tListElem *pEntry)
         inform_hdd = VOS_TRUE;
         break;
       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    default:
       inform_hdd = VOS_FALSE;
       break;
@@ -7342,11 +7172,6 @@ eHalStatus sme_QosAddTsSuccessFnp(tpAniSirGlobal pMac, tListElem *pEntry)
       }
       else
       {
-<<<<<<< HEAD
-         flow_info->hoRenewal = VOS_FALSE;
-      }
-   }
-=======
          //For downgrading purpose Hdd set WmmTspecValid to false during roaming
          //So need to set that flag we need to call the hdd in successful case.
          if(hdd_status == SME_QOS_STATUS_SETUP_SUCCESS_IND)
@@ -7378,7 +7203,6 @@ eHalStatus sme_QosAddTsSuccessFnp(tpAniSirGlobal pMac, tListElem *pEntry)
        }
    }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if(delete_entry)
    {
       VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_INFO_HIGH, 
@@ -7428,8 +7252,6 @@ static v_BOOL_t sme_QosIsRspPending(v_U8_t sessionId, sme_QosEdcaAcType ac)
    }
    return status;
 }
-<<<<<<< HEAD
-=======
 
 /*--------------------------------------------------------------------------
   \brief sme_QosUpdateHandOff() - Function which can be called to update
@@ -7454,7 +7276,6 @@ void sme_QosUpdateHandOff(v_U8_t sessionId,
 
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*--------------------------------------------------------------------------
   \brief sme_QosIsUapsdActive() - Function which can be called to determine
   if any sessions require PMC to be in U-APSD mode.
@@ -7614,30 +7435,17 @@ void sme_QosPmcDeviceStateUpdateInd(void *callbackContext, tPmcState pmcState)
       break;
    default:
       status = eHAL_STATUS_SUCCESS;
-<<<<<<< HEAD
-      VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_ERROR, 
-                "%s: %d: nothing to process in PMC state %d",
-                __func__, __LINE__,
-                pmcState);
-=======
       VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_INFO,
                 "%s: %d: nothing to process in PMC state %s (%d)",
                 __func__, __LINE__,
                 sme_PmcStatetoString(pmcState), pmcState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
    if(!HAL_STATUS_SUCCESS(status))
    {
       VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_INFO_HIGH, 
-<<<<<<< HEAD
-                "%s: %d: ignoring Device(PMC) state change to %d",
-                __func__, __LINE__,
-                pmcState);
-=======
                 "%s: %d: ignoring Device(PMC) state change to %s (%d)",
                 __func__, __LINE__,
                 sme_PmcStatetoString(pmcState), pmcState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
 }
@@ -7831,8 +7639,6 @@ v_BOOL_t sme_QosIsTSInfoAckPolicyValid(tpAniSirGlobal pMac,
   return VOS_TRUE;
 }
 
-<<<<<<< HEAD
-=======
 /*--------------------------------------------------------------------------
   \brief sme_QosTspecActive() - The SME QoS API exposed to HDD to
   check no of active Tspecs
@@ -7926,7 +7732,6 @@ v_BOOL_t sme_QosTspecActive(tpAniSirGlobal pMac,
   return VOS_TRUE;
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 v_BOOL_t sme_QosValidateRequestedParams(tpAniSirGlobal pMac,
     sme_QosWmmTspecInfo * pQoSInfo,
     v_U8_t sessionId)
@@ -8203,8 +8008,6 @@ sme_QosStatusType sme_QosTriggerUapsdChange( tpAniSirGlobal pMac )
 }
 
 /*
-<<<<<<< HEAD
-=======
   sme_QoSUpdateUapsdBTEvent
   Invoked by BTC when there is a need to disable/enable UAPSD
   The driver in turn must come out of UAPSD and re-negotiate Tspec
@@ -8352,7 +8155,6 @@ void sme_QoSUpdateUapsdBTEvent(tpAniSirGlobal pMac)
 }
 
 /*
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     sme_QosReRequestAddTS to re-send AddTS for the combined QoS request
 */
 static sme_QosStatusType sme_QosReRequestAddTS(tpAniSirGlobal pMac,

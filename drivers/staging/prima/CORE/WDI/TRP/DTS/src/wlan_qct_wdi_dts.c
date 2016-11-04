@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2011-2016 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /**=========================================================================
@@ -62,11 +36,6 @@
  *  This file contains the external API implemntation exposed by the 
  *   wlan device abstarction layer module.
  *
-<<<<<<< HEAD
- *   Copyright (c) 2008 QUALCOMM Incorporated. All Rights Reserved.
- *   Qualcomm Confidential and Proprietary
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 
@@ -77,11 +46,8 @@
 #include "wlan_qct_wdi_dts.h"
 #include "wlan_qct_wdi_dp.h"
 #include "wlan_qct_wdi_sta.h"
-<<<<<<< HEAD
-=======
 #include "vos_utils.h"
 #include "vos_api.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 static WDTS_TransportDriverTrype gTransportDriver = {
   WLANDXE_Open, 
@@ -91,18 +57,12 @@ static WDTS_TransportDriverTrype gTransportDriver = {
   WLANDXE_CompleteTX,
   WLANDXE_SetPowerState,
   WLANDXE_ChannelDebug,
-<<<<<<< HEAD
-  WLANDXE_Stop,
-  WLANDXE_Close,
-  WLANDXE_GetFreeTxDataResNumber
-=======
   WLANDXE_KickDxe,
   WLANDXE_Stop,
   WLANDXE_Close,
   WLANDXE_GetFreeTxDataResNumber,
   WLANDXE_SetupLogTransfer,
   WLANDXE_StartLogTransfer
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 };
 
 static WDTS_SetPowerStateCbInfoType gSetPowerStateCbInfo;
@@ -115,8 +75,6 @@ typedef struct
    uint32 tputBpus;  //unit in Bytes per usec: round off to integral value
 }WDTS_RateInfo;
 
-<<<<<<< HEAD
-=======
 #define WDTS_MAX_NUMBER_OF_RX_PKT 5
 #define WDTS_MAX_PAGE_SIZE 4096
 #define WDTS_MAX_RXDB_DATA_SIZE 128
@@ -136,7 +94,6 @@ static struct WDTS_PktInfoBuff
     uint8 current_position;
 }WDTS_Pkt_Data_Buff = { .current_position = 0, .current_count = 0 };
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define WDTS_MAX_RATE_NUM               137
 #define WDTS_MAX_11B_RATE_NUM           8
 #define MB_PER_SEC_TO_BYTES_PER_MSEC    13
@@ -353,11 +310,7 @@ void WDTS_FillRateInfo(wpt_uint8 macEff, wpt_int16 startRateIndex, wpt_int16 end
 {
     int i;
 
-<<<<<<< HEAD
-    DTI_TRACE( DTI_TRACE_LEVEL_ERROR, "Change only 11ac rates\n");
-=======
     DTI_TRACE( DTI_TRACE_LEVEL_ERROR, "Change only 11ac rates");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     for (i=startRateIndex; i<=endRateIndex; i++)
     {
@@ -479,12 +432,9 @@ wpt_status WDTS_TxPacketComplete(void *pContext, wpt_packet *pFrame, wpt_status 
 
   // Do Sanity checks
   if(NULL == pContext || NULL == pFrame){
-<<<<<<< HEAD
-=======
     VOS_TRACE(VOS_MODULE_ID_WDI, VOS_TRACE_LEVEL_WARN,
                  "%s: Tx complete cannot proceed(%p:%p)",
                  __func__, pContext, pFrame);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return eWLAN_PAL_STATUS_E_FAILURE;
   }
 
@@ -523,11 +473,8 @@ wpt_status WDTS_TxPacketComplete(void *pContext, wpt_packet *pFrame, wpt_status 
     // intentional fall-through to handle eapol packet as mgmt
     case WDI_MAC_MGMT_FRAME:
       WDI_DS_MemPoolFree(&(pClientData->mgmtMemPool), pvBDHeader, physBDHeader);
-<<<<<<< HEAD
-=======
       VOS_TRACE(VOS_MODULE_ID_WDI, VOS_TRACE_LEVEL_INFO,
                    "%s: Management frame Tx complete status: %d", __func__, status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       break;
   }
   WDI_SetBDPointers(pFrame, 0, 0);
@@ -587,8 +534,6 @@ WDTS_GetReplayCounterFromRxBD
 #endif
 }
 
-<<<<<<< HEAD
-=======
 /* Store RXBD, skb lenght, skb head, and skb end offset to global buffer.
  * This function should  be invoked when MPDU lenght + MPDU herader Offset
  * if higher then 3872 bytes.
@@ -639,7 +584,6 @@ WDTS_StoreMetaInfo(wpt_packet *pFrame, wpt_uint8 *pBDHeader)
 
     return;
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /* DTS Rx packet function. 
  * This function should be invoked by the transport device to indicate 
@@ -668,8 +612,6 @@ wpt_status WDTS_RxPacket (void *pContext, wpt_packet *pFrame, WDTS_ChannelType c
     return eWLAN_PAL_STATUS_E_FAILURE;
   }
 
-<<<<<<< HEAD
-=======
   // Normal DMA transfer does not contain RxBD
   if (WDTS_CHANNEL_RX_FW_LOG == channel)
   {
@@ -678,7 +620,6 @@ wpt_status WDTS_RxPacket (void *pContext, wpt_packet *pFrame, WDTS_ChannelType c
       return eWLAN_PAL_STATUS_SUCCESS;
   }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   /*------------------------------------------------------------------------
     Extract BD header and check if valid
     ------------------------------------------------------------------------*/
@@ -725,8 +666,6 @@ wpt_status WDTS_RxPacket (void *pContext, wpt_packet *pFrame, WDTS_ChannelType c
       ucMPDUHOffset, usMPDUDOffset, usMPDULen, ucMPDUHLen, ucTid,
       WDI_RX_BD_HEADER_SIZE);
 
-<<<<<<< HEAD
-=======
   pRxMetadata = WDI_DS_ExtractRxMetaData(pFrame);
 
   // Special handling for frames which contain logging information
@@ -774,7 +713,6 @@ wpt_status WDTS_RxPacket (void *pContext, wpt_packet *pFrame, WDTS_ChannelType c
       pRxMetadata->loggingData = 0;
   }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   if(!isFcBd)
   {
       if(usMPDUDOffset <= ucMPDUHOffset || usMPDULen < ucMPDUHLen) {
@@ -799,20 +737,6 @@ wpt_status WDTS_RxPacket (void *pContext, wpt_packet *pFrame, WDTS_ChannelType c
         ucMPDUHOffset = usMPDUDOffset;
       }
 
-<<<<<<< HEAD
-      if(VPKT_SIZE_BUFFER < (usMPDULen+ucMPDUHOffset)){
-        DTI_TRACE( DTI_TRACE_LEVEL_FATAL,
-                   "Invalid Frame size, might memory corrupted");
-
-        /* Size of the packet tranferred by the DMA engine is
-         * greater than the the memory allocated for the skb
-         */
-        WPAL_BUG(0);
-
-        wpalPacketFree(pFrame);
-        return eWLAN_PAL_STATUS_SUCCESS;
-      }
-=======
       if (VPKT_SIZE_BUFFER_ALIGNED < (usMPDULen+ucMPDUHOffset))
       {
           /* Size of the packet tranferred by the DMA engine is
@@ -838,7 +762,6 @@ wpt_status WDTS_RxPacket (void *pContext, wpt_packet *pFrame, WDTS_ChannelType c
           return eWLAN_PAL_STATUS_SUCCESS;
       }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       if(eWLAN_PAL_STATUS_SUCCESS != wpalPacketSetRxLength(pFrame, usMPDULen+ucMPDUHOffset))
       {
           DTI_TRACE( DTI_TRACE_LEVEL_ERROR, "Invalid Frame Length, Frame dropped..");
@@ -851,12 +774,6 @@ wpt_status WDTS_RxPacket (void *pContext, wpt_packet *pFrame, WDTS_ChannelType c
           wpalPacketFree(pFrame);
           return eWLAN_PAL_STATUS_SUCCESS;
       }
-<<<<<<< HEAD
-     
-
-      pRxMetadata = WDI_DS_ExtractRxMetaData(pFrame);
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
       pRxMetadata->fc = isFcBd;
       pRxMetadata->staId = WDI_RX_BD_GET_STA_ID(pBDHeader);
@@ -883,13 +800,9 @@ wpt_status WDTS_RxPacket (void *pContext, wpt_packet *pFrame, WDTS_ChannelType c
       pRxMetadata->offloadScanLearn = WDI_RX_BD_GET_OFFLOADSCANLEARN(pBDHeader);
       pRxMetadata->roamCandidateInd = WDI_RX_BD_GET_ROAMCANDIDATEIND(pBDHeader);
 #endif
-<<<<<<< HEAD
-
-=======
 #ifdef WLAN_FEATURE_EXTSCAN
       pRxMetadata->extscanBuffer = WDI_RX_BD_GET_EXTSCANFULLSCANRESIND(pBDHeader);
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       /* typeSubtype in BD doesn't look like correct. Fill from frame ctrl
          TL does it for Volans but TL does not know BD for Prima. WDI should do it */
       if ( 0 == WDI_RX_BD_GET_FT(pBDHeader) ) {
@@ -954,13 +867,10 @@ wpt_status WDTS_RxPacket (void *pContext, wpt_packet *pFrame, WDTS_ChannelType c
       WPAL_PACKET_SET_BD_POINTER(pFrame, pBDHeader);
       WPAL_PACKET_SET_BD_LENGTH(pFrame, sizeof(WDI_RxBdType));
 
-<<<<<<< HEAD
-=======
       if (((WDI_ControlBlockType *)pClientData->pcontext)->roamDelayStatsEnabled)
       {
           vos_record_roam_event(e_DXE_RX_PKT_TIME, (void *)pFrame, pRxMetadata->type);
       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       // Invoke Rx complete callback
       pClientData->receiveFrameCB(pClientData->pCallbackContext, pFrame);  
   }
@@ -969,10 +879,6 @@ wpt_status WDTS_RxPacket (void *pContext, wpt_packet *pFrame, WDTS_ChannelType c
       wpalPacketSetRxLength(pFrame, usMPDULen+ucMPDUHOffset);
       wpalPacketRawTrimHead(pFrame, ucMPDUHOffset);
 
-<<<<<<< HEAD
-      pRxMetadata = WDI_DS_ExtractRxMetaData(pFrame);
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       //flow control related
       pRxMetadata->fc = isFcBd;
       pRxMetadata->mclkRxTimestamp = WDI_RX_BD_GET_TIMESTAMP(pBDHeader);
@@ -1033,8 +939,6 @@ wpt_status WDTS_OOResourceNotification(void *pContext, WDTS_ChannelType channel,
 
 }
 
-<<<<<<< HEAD
-=======
 void WDTS_MbReceiveMsg(void *pContext)
 {
   tpLoggingMailBox pLoggingMb;
@@ -1105,7 +1009,6 @@ void WDTS_LogRxDone(void *pContext)
   return;
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* DTS open  function. 
  * On open the transport device should initialize itself.
  * Parameters:
@@ -1121,10 +1024,7 @@ wpt_status WDTS_openTransport( void *pContext)
   void *pDTDriverContext; 
   WDI_DS_ClientDataType *pClientData;
   WDI_Status sWdiStatus = WDI_STATUS_SUCCESS;
-<<<<<<< HEAD
-=======
   WDTS_ClientCallbacks WDTSCb;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   pClientData = (WDI_DS_ClientDataType*) wpalMemoryAllocate(sizeof(WDI_DS_ClientDataType));
   if (!pClientData){
@@ -1141,10 +1041,6 @@ wpt_status WDTS_openTransport( void *pContext)
      return eWLAN_PAL_STATUS_E_FAILURE;
   }
   WDT_AssignTransportDriverContext(pContext, pDTDriverContext);
-<<<<<<< HEAD
-  gTransportDriver.register_client(pDTDriverContext, WDTS_RxPacket, WDTS_TxPacketComplete, 
-    WDTS_OOResourceNotification, (void*)pClientData);
-=======
 
   WDTSCb.rxFrameReadyCB = WDTS_RxPacket;
   WDTSCb.txCompleteCB = WDTS_TxPacketComplete;
@@ -1152,7 +1048,6 @@ wpt_status WDTS_openTransport( void *pContext)
   WDTSCb.receiveMbMsgCB = WDTS_MbReceiveMsg;
   WDTSCb.receiveLogCompleteCB = WDTS_LogRxDone;
   gTransportDriver.register_client(pDTDriverContext, WDTSCb, (void*)pClientData);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   /* Create a memory pool for Mgmt BDheaders.*/
   sWdiStatus = WDI_DS_MemPoolCreate(&pClientData->mgmtMemPool, WDI_DS_MAX_CHUNK_SIZE, 
@@ -1170,13 +1065,10 @@ wpt_status WDTS_openTransport( void *pContext)
 
   wpalMemoryZero(&gDsTrafficStats, sizeof(gDsTrafficStats));
 
-<<<<<<< HEAD
-=======
   sWdiStatus = WDI_DS_LoggingMbCreate(&pClientData->loggingMbContext, sizeof(tLoggingMailBox));
   if (WDI_STATUS_SUCCESS != sWdiStatus)
     return eWLAN_PAL_STATUS_E_NOMEM;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   return eWLAN_PAL_STATUS_SUCCESS;
 
 }
@@ -1251,13 +1143,10 @@ wpt_status WDTS_TxPacket(void *pContext, wpt_packet *pFrame)
 #endif
   // Send packet to  Transport Driver. 
   status =  gTransportDriver.xmit(pDTDriverContext, pFrame, channel);
-<<<<<<< HEAD
-=======
   if (((WDI_ControlBlockType *)pContext)->roamDelayStatsEnabled)
   {
       vos_record_roam_event(e_DXE_FIRST_XMIT_TIME, (void *)pFrame, pTxMetadata->frmType);
   }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   return status;
 }
 
@@ -1340,11 +1229,6 @@ wpt_status WDTS_SetPowerState(void *pContext, WDTS_PowerStateType  powerState,
  * Return Value: NONE
  *
  */
-<<<<<<< HEAD
-void WDTS_ChannelDebug(wpt_boolean displaySnapshot, wpt_boolean toggleStallDetect)
-{
-   gTransportDriver.channelDebug(displaySnapshot, toggleStallDetect);
-=======
 void WDTS_ChannelDebug(wpt_boolean displaySnapshot, wpt_uint8 debugFlags)
 {
    gTransportDriver.channelDebug(displaySnapshot, debugFlags);
@@ -1361,7 +1245,6 @@ void WDTS_ChannelDebug(wpt_boolean displaySnapshot, wpt_uint8 debugFlags)
 void WDTS_ChannelKickDxe()
 {
    gTransportDriver.kickDxe();
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    return;
 }
 
@@ -1404,13 +1287,9 @@ wpt_status WDTS_Close(void *pContext)
   
   /*Destroy the mem pool for mgmt BD headers*/
   WDI_DS_MemPoolDestroy(&pClientData->dataMemPool);
-<<<<<<< HEAD
-  
-=======
 
   WDI_DS_LoggingMbDestroy(&pClientData->loggingMbContext);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   status =  gTransportDriver.close(pDTDriverContext);
 
   wpalMemoryFree(pClientData);

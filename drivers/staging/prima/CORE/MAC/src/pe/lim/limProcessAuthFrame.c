@@ -1,34 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2011-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
-<<<<<<< HEAD
- * Airgo Networks, Inc proprietary. All rights reserved.
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -47,9 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-
-
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -57,7 +25,6 @@
  * to the Linux Foundation.
  */
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*
  * This file limProcessAuthFrame.cc contains the code
  * for processing received Authentication Frame.
@@ -71,11 +38,7 @@
  */
 
 #include "wniApi.h"
-<<<<<<< HEAD
-#include "wniCfgSta.h"
-=======
 #include "wniCfg.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include "aniGlobal.h"
 #include "cfgApi.h"
 
@@ -193,20 +156,13 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
     tANI_U8                 challengeTextArray[SIR_MAC_AUTH_CHALLENGE_LENGTH];
     tpDphHashNode           pStaDs = NULL;
     tANI_U16                assocId = 0;
-<<<<<<< HEAD
-=======
     tANI_U16                currSeqNo = 0;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /* Added For BT -AMP support */
     // Get pointer to Authentication frame header and body
  
 
     pHdr = WDA_GET_RX_MAC_HEADER(pRxPacketInfo);
     frameLen = WDA_GET_RX_PAYLOAD_LEN(pRxPacketInfo);
-<<<<<<< HEAD
-    
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (!frameLen)
     {
@@ -222,19 +178,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
     {
         // Received Auth frame from a BC/MC address
         // Log error and ignore it
-<<<<<<< HEAD
-        PELOG1(limLog(pMac, LOG1,
-               FL("received Auth frame from a BC/MC address - "));)
-       PELOG1( limPrintMacAddr(pMac, pHdr->sa, LOG1);)
-
-        return;
-    }
-
-    VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_DEBUG,
-              FL("Auth Frame Received: BSSID " MAC_ADDRESS_STR " (RSSI %d)"),
-              MAC_ADDR_ARRAY(pHdr->bssId),
-              (uint)abs((tANI_S8)WDA_GET_RX_RSSI_DB(pRxPacketInfo)));
-=======
        limLog(pMac, LOGE,
                FL("received Auth frame from a BC/MC address - "));
        limPrintMacAddr(pMac, pHdr->sa, LOGE);
@@ -248,7 +191,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                psessionEntry->peSessionId, psessionEntry->limSystemRole,
                psessionEntry->limMlmState, MAC_ADDR_ARRAY(pHdr->bssId),
                (uint)abs((tANI_S8)WDA_GET_RX_RSSI_DB(pRxPacketInfo)));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     pBody = WDA_GET_RX_MPDU_DATA(pRxPacketInfo);
 
@@ -257,10 +199,7 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
     //Restore default failure timeout
     if (VOS_P2P_CLIENT_MODE == psessionEntry->pePersona && psessionEntry->defaultAuthFailureTimeout)
     {
-<<<<<<< HEAD
-=======
         limLog(pMac, LOG1, FL("Restore default failure timeout"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         ccmCfgSetInt(pMac,WNI_CFG_AUTHENTICATE_FAILURE_TIMEOUT ,
                           psessionEntry->defaultAuthFailureTimeout, NULL, eANI_BOOLEAN_FALSE);
     }
@@ -302,17 +241,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
             authFrame.authAlgoNumber = eSIR_SHARED_KEY;
             authFrame.authTransactionSeqNumber = SIR_MAC_AUTH_FRAME_4;
             authFrame.authStatusCode = eSIR_MAC_CHALLENGE_FAILURE_STATUS;
-<<<<<<< HEAD
-
-            limSendAuthMgmtFrame(pMac, &authFrame,
-                                 pHdr->sa,
-                                 LIM_NO_WEP_IN_FC,psessionEntry);
-            // Log error
-            PELOGE(limLog(pMac, LOGE,
-                   FL("received Authentication frame with wep bit set on role=%d "MAC_ADDRESS_STR),
-                   psessionEntry->limSystemRole, MAC_ADDR_ARRAY(pHdr->sa) );)
-
-=======
             // Log error
             PELOGE(limLog(pMac, LOGE,
                    FL("received Authentication frame with wep bit set on "
@@ -322,7 +250,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                                  pHdr->sa,
                                  LIM_NO_WEP_IN_FC,
                                  psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             return;
         }
 
@@ -365,15 +292,12 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
             if (pAuthNode == NULL)
             {
-<<<<<<< HEAD
-=======
                 // Log error
                 PELOGE(limLog(pMac, LOGE,
                        FL("received Authentication frame from peer that has "
                        "no preauth context with WEP bit set "MAC_ADDRESS_STR),
                        MAC_ADDR_ARRAY(pHdr->sa));)
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 /**
                  * No 'pre-auth' context exists for this STA that sent
                  * an Authentication frame with FC bit set.
@@ -387,18 +311,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
                 limSendAuthMgmtFrame(pMac, &authFrame,
                                      pHdr->sa,
-<<<<<<< HEAD
-                                     LIM_NO_WEP_IN_FC,psessionEntry);
-
-                // Log error
-                PELOGE(limLog(pMac, LOGE,
-                       FL("received Authentication frame from peer that has "
-                       "no preauth context with WEP bit set "MAC_ADDRESS_STR),
-                       MAC_ADDR_ARRAY(pHdr->sa));)
-=======
                                      LIM_NO_WEP_IN_FC,
                                      psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                 return;
             }
@@ -415,15 +329,12 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                     (pAuthNode->mlmState !=
                      eLIM_MLM_AUTH_RSP_TIMEOUT_STATE))
                 {
-<<<<<<< HEAD
-=======
                     // Log error
                     PELOGE(limLog(pMac, LOGE,
                            FL("received Authentication frame from peer that is "
                            "in state %d "MAC_ADDRESS_STR),
                             pAuthNode->mlmState, MAC_ADDR_ARRAY(pHdr->sa));)
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     /**
                      * Should not have received Authentication frame
                      * with WEP bit set in FC in other states.
@@ -439,17 +350,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
                     limSendAuthMgmtFrame(pMac, &authFrame,
                                          pHdr->sa,
-<<<<<<< HEAD
-                                         LIM_NO_WEP_IN_FC,psessionEntry);
-
-                    // Log error
-                    PELOGE(limLog(pMac, LOGE,
-                           FL("received Authentication frame from peer that is in state %d "
-                           MAC_ADDRESS_STR), pAuthNode->mlmState, MAC_ADDR_ARRAY(pHdr->sa));)
-=======
                                          LIM_NO_WEP_IN_FC,
                                          psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                     return;
                 }
@@ -465,15 +367,12 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
             {
                 if (!pKeyMapEntry->wepOn)
                 {
-<<<<<<< HEAD
-=======
                     // Log error
                     PELOGE(limLog(pMac, LOGE,
                            FL("received Auth frame3 from peer that has NULL "
                            "key map entry "
                            MAC_ADDRESS_STR),MAC_ADDR_ARRAY(pHdr->sa));)
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     /**
                      * Key Mapping entry has null key.
                      * Send Authentication frame
@@ -487,17 +386,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
                     limSendAuthMgmtFrame(pMac, &authFrame,
                                          pHdr->sa,
-<<<<<<< HEAD
-                                         LIM_NO_WEP_IN_FC,psessionEntry);
-
-                    // Log error
-                    PELOGE(limLog(pMac, LOGE,
-                           FL("received Auth frame3 from peer that has NULL key map entry "
-                           MAC_ADDRESS_STR),MAC_ADDR_ARRAY(pHdr->sa));)
-=======
                                          LIM_NO_WEP_IN_FC,
                                          psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                     return;
                 } // if (!pKeyMapEntry->wepOn)
@@ -511,9 +401,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                     if (decryptResult == LIM_DECRYPT_ICV_FAIL)
                     {
                         /// ICV failure
-<<<<<<< HEAD
-                        PELOGW(limLog(pMac, LOGW, FL("=====> decryptResult == LIM_DECRYPT_ICV_FAIL ..."));)
-=======
                         PELOGW(limLog(pMac, LOGW, FL("=====> decryptResult == "
                         "LIM_DECRYPT_ICV_FAIL ..."));)
                         // Log error
@@ -522,7 +409,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                                "that failed decryption, Addr "
                                MAC_ADDRESS_STR), MAC_ADDR_ARRAY(pHdr->sa));)
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                         limDeletePreAuthNode(pMac,
                                              pHdr->sa);
                         authFrame.authAlgoNumber = eSIR_SHARED_KEY;
@@ -534,26 +420,13 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                         limSendAuthMgmtFrame(
                                             pMac, &authFrame,
                                             pHdr->sa,
-<<<<<<< HEAD
-                                            LIM_NO_WEP_IN_FC,psessionEntry);
-
-                        // Log error
-                        PELOGE(limLog(pMac, LOGE,
-                               FL("received Authentication frame from peer that failed decryption, Addr "
-                               MAC_ADDRESS_STR), MAC_ADDR_ARRAY(pHdr->sa));)
-=======
                                             LIM_NO_WEP_IN_FC,
                                             psessionEntry, eSIR_FALSE);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                         return;
                     }
 
-<<<<<<< HEAD
-                    if ((sirConvertAuthFrame2Struct(pMac, plainBody, frameLen-8, &rxAuthFrame)!=eSIR_SUCCESS)||(!isAuthValid(pMac, &rxAuthFrame,psessionEntry)))
-                        return;
-=======
                     if ( ( sirConvertAuthFrame2Struct(pMac, plainBody, frameLen-8,
                          &rxAuthFrame)!=eSIR_SUCCESS ) ||
                          ( !isAuthValid(pMac, &rxAuthFrame,psessionEntry) ) )
@@ -563,7 +436,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                                "or Auth is not valid "));)
                         return;
                     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 
                 } // end if (pKeyMapEntry->key == NULL)
@@ -602,12 +474,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
                     limSendAuthMgmtFrame(pMac, &authFrame,
                                          pHdr->sa,
-<<<<<<< HEAD
-                                         LIM_NO_WEP_IN_FC,psessionEntry);
-=======
                                          LIM_NO_WEP_IN_FC,
                                          psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                     return;
                 }
@@ -621,9 +489,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                                                         (tANI_U16) (frameLen-SIR_MAC_WEP_IV_LENGTH));
                     if (decryptResult == LIM_DECRYPT_ICV_FAIL)
                     {
-<<<<<<< HEAD
-                        PELOGW(limLog(pMac, LOGW, FL("=====> decryptResult == LIM_DECRYPT_ICV_FAIL ..."));)
-=======
                         PELOGW(limLog(pMac, LOGW, FL("=====> decryptResult == "
                         "LIM_DECRYPT_ICV_FAIL ..."));)
                         // Log error
@@ -631,7 +496,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                                FL("received Authentication frame from peer that "
                                "failed decryption: "
                                MAC_ADDRESS_STR), MAC_ADDR_ARRAY(pHdr->sa));)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                         /// ICV failure
                         limDeletePreAuthNode(pMac,
                                              pHdr->sa);
@@ -644,20 +508,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                         limSendAuthMgmtFrame(
                                             pMac, &authFrame,
                                             pHdr->sa,
-<<<<<<< HEAD
-                                            LIM_NO_WEP_IN_FC,psessionEntry);
-
-                        // Log error
-                        PELOGE(limLog(pMac, LOGE,
-                               FL("received Authentication frame from peer that failed decryption: "
-                               MAC_ADDRESS_STR), MAC_ADDR_ARRAY(pHdr->sa));)
-
-                        return;
-                    }
-                    if ((sirConvertAuthFrame2Struct(pMac, plainBody, frameLen-8, &rxAuthFrame)!=eSIR_SUCCESS)||(!isAuthValid(pMac, &rxAuthFrame,psessionEntry)))
-                        return;
-
-=======
                                             LIM_NO_WEP_IN_FC,
                                             psessionEntry, eSIR_FALSE);
 
@@ -672,19 +522,15 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                                "or Auth is not valid "));
                         return;
                     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             } // End of check for Key Mapping/Default key presence
         }
         else
         {
-<<<<<<< HEAD
-=======
             // Log error
             PELOGE(limLog(pMac, LOGE,
                    FL("received Authentication frame3 from peer that while "
                    "privacy option is turned OFF "
                    MAC_ADDRESS_STR), MAC_ADDR_ARRAY(pHdr->sa));)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             /**
              * Privacy option is not implemented.
              * So reject Authentication frame received with
@@ -702,17 +548,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
             limSendAuthMgmtFrame(pMac, &authFrame,
                                  pHdr->sa,
-<<<<<<< HEAD
-                                 LIM_NO_WEP_IN_FC,psessionEntry);
-
-            // Log error
-            PELOGE(limLog(pMac, LOGE,
-                   FL("received Authentication frame3 from peer that while privacy option is turned OFF "
-                   MAC_ADDRESS_STR), MAC_ADDR_ARRAY(pHdr->sa));)
-=======
                                  LIM_NO_WEP_IN_FC,
                                  psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
             return;
         } // else if (wlan_cfgGetInt(CFG_PRIVACY_OPTION_IMPLEMENTED))
@@ -721,10 +558,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
     {
 
 
-<<<<<<< HEAD
-        if ((sirConvertAuthFrame2Struct(pMac, pBody, frameLen, &rxAuthFrame)!=eSIR_SUCCESS)||(!isAuthValid(pMac, &rxAuthFrame,psessionEntry)))
-            return;
-=======
         if ( ( sirConvertAuthFrame2Struct(pMac, pBody,
             frameLen, &rxAuthFrame)!=eSIR_SUCCESS ) ||
             ( !isAuthValid(pMac, &rxAuthFrame,psessionEntry) ) )
@@ -734,7 +567,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                    "not valid "));)
             return;
         }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
 
@@ -755,15 +587,10 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                     &assocId, &psessionEntry->dph.dphHashTable);
             if (pStaDs)
             {
-<<<<<<< HEAD
-                tLimMlmDisassocReq       *pMlmDisassocReq = NULL;
-                tLimMlmDeauthReq        *pMlmDeauthReq = NULL;
-=======
                 tLimMlmDisassocReq      *pMlmDisassocReq = NULL;
                 tLimMlmDeauthReq        *pMlmDeauthReq = NULL;
                 tAniBool                 isConnected = eSIR_TRUE;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 pMlmDisassocReq = pMac->lim.limDisassocDeauthCnfReq.pMlmDisassocReq;
                 if (pMlmDisassocReq &&
                         (vos_mem_compare((tANI_U8 *) pHdr->sa,
@@ -775,10 +602,7 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                                 MAC_ADDRESS_STR),
                                 MAC_ADDR_ARRAY(pMlmDisassocReq->peerMacAddr));)
                     limProcessDisassocAckTimeout(pMac);
-<<<<<<< HEAD
-=======
                     isConnected = eSIR_FALSE;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 }
                 pMlmDeauthReq = pMac->lim.limDisassocDeauthCnfReq.pMlmDeauthReq;
                 if (pMlmDeauthReq &&
@@ -791,8 +615,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                                 MAC_ADDRESS_STR),
                                 MAC_ADDR_ARRAY(pMlmDeauthReq->peerMacAddr));)
                     limProcessDeauthAckTimeout(pMac);
-<<<<<<< HEAD
-=======
                     isConnected = eSIR_FALSE;
                 }
 
@@ -821,7 +643,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                             (tANI_U8 *) pHdr->sa, psessionEntry, FALSE);
                     limTriggerSTAdeletion(pMac, pStaDs, psessionEntry);
                     return;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 }
             }
 
@@ -830,11 +651,7 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
             if (pAuthNode)
             {
                 /// Pre-auth context exists for the STA
-<<<<<<< HEAD
-                if (pHdr->fc.retry == 0)
-=======
                 if (pHdr->fc.retry == 0 || pAuthNode->seqNo != currSeqNo)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 {
                     /**
                      * STA is initiating brand-new Authentication
@@ -848,12 +665,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                                                     eLIM_AUTH_RSP_TIMER,
                                                     pAuthNode->authNodeIdx);
                     }
-<<<<<<< HEAD
-                    PELOGE(limLog(pMac, LOGE, FL("STA is initiating brand-new Authentication ..."));)
-=======
                     PELOGE(limLog(pMac, LOGE, FL("STA is initiating brand-new "
                     "Authentication ..."));)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     limDeletePreAuthNode(pMac,
                                          pHdr->sa);
                     /**
@@ -876,13 +689,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                                       (tANI_U8 *) &(pHdr->sa), (tANI_U8) (sizeof(tSirMacAddr))) )
                                   break;
                         }
-<<<<<<< HEAD
-                    }
-
-                    if (NULL != pStaDs)
-                    {
-                        PELOGE(limLog(pMac, LOGE, FL("lim Delete Station Context (staId: %d, assocId: %d) "),pStaDs->staIndex, assocId);)
-=======
 
                         pStaDs = NULL;
                     }
@@ -896,7 +702,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                         PELOGE(limLog(pMac, LOGE, FL("lim Delete Station "
                         "Context (staId: %d, assocId: %d) "),pStaDs->staIndex,
                         assocId);)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                         limSendDeauthMgmtFrame(pMac,
                                eSIR_MAC_UNSPEC_FAILURE_REASON, (tANI_U8 *) pAuthNode->peerMacAddr, psessionEntry, FALSE);
                         limTriggerSTAdeletion(pMac, pStaDs, psessionEntry);
@@ -910,12 +715,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                      * but ACK lost at STA side, in this case 2nd auth frame is already 
                      * in transmission queue
                      * */
-<<<<<<< HEAD
-                    PELOGE(limLog(pMac, LOGE, FL("STA is initiating Authentication after ACK lost..."));)
-=======
                     PELOGE(limLog(pMac, LOGE, FL("STA is initiating "
                     "Authentication after ACK lost..."));)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     return;
                 }
             }
@@ -929,17 +730,12 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                 limLog(pMac, LOGP,
                        FL("could not retrieve MaxNumPreAuth"));
             }
-<<<<<<< HEAD
-            if (pMac->lim.gLimNumPreAuthContexts == maxNumPreAuth)
-            {
-=======
 
             if (pMac->lim.gLimNumPreAuthContexts == maxNumPreAuth &&
                 !limDeleteOpenAuthPreAuthNode(pMac))
             {
                 PELOGE(limLog(pMac, LOGE, FL("Max number of "
                     "preauth context reached"));)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 /**
                  * Maximum number of pre-auth contexts
                  * reached. Send Authentication frame
@@ -954,12 +750,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
                 limSendAuthMgmtFrame(pMac, &authFrame,
                                      pHdr->sa,
-<<<<<<< HEAD
-                                     LIM_NO_WEP_IN_FC,psessionEntry);
-=======
                                      LIM_NO_WEP_IN_FC,
                                      psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                 return;
             }
@@ -985,14 +777,9 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                             return;
                         }
 
-<<<<<<< HEAD
-                        PELOG1(limLog(pMac, LOG1, FL("Alloc new data: %x peer "), pAuthNode);
-                        limPrintMacAddr(pMac, pHdr->sa, LOG1);)
-=======
                         limLog(pMac, LOG1,
                                FL("Alloc new data: peer "MAC_ADDRESS_STR),
                                                  MAC_ADDR_ARRAY(pHdr->sa));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                         vos_mem_copy((tANI_U8 *) pAuthNode->peerMacAddr,
                                       pHdr->sa,
@@ -1004,12 +791,9 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                                               pRxAuthFrameBody->authAlgoNumber;
                         pAuthNode->fSeen = 0;
                         pAuthNode->fTimerStarted = 0;
-<<<<<<< HEAD
-=======
                         pAuthNode->seqNo = ((pHdr->seqControl.seqNumHi << 4) |
                                             (pHdr->seqControl.seqNumLo));
                         pAuthNode->timestamp = vos_timer_get_system_ticks();
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                         limAddPreAuthNode(pMac, pAuthNode);
 
                         /**
@@ -1025,12 +809,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                         limSendAuthMgmtFrame(
                                             pMac, &authFrame,
                                             pHdr->sa,
-<<<<<<< HEAD
-                                            LIM_NO_WEP_IN_FC,psessionEntry);
-=======
                                             LIM_NO_WEP_IN_FC,
                                             psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                         /// Send Auth indication to SME
 
@@ -1066,15 +846,12 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                         cfgPrivacyOptImp = (tANI_U8)val;
                         if (!cfgPrivacyOptImp)
                         {
-<<<<<<< HEAD
-=======
                             // Log error
                             PELOGE(limLog(pMac, LOGE,
                                    FL("received Auth frame for unsupported auth algorithm %d "
                                    MAC_ADDRESS_STR), pRxAuthFrameBody->authAlgoNumber,
                                    MAC_ADDR_ARRAY(pHdr->sa));)
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                             /**
                              * Authenticator does not have WEP
                              * implemented.
@@ -1093,18 +870,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                             limSendAuthMgmtFrame(
                                                 pMac, &authFrame,
                                                 pHdr->sa,
-<<<<<<< HEAD
-                                                LIM_NO_WEP_IN_FC,psessionEntry);
-
-                            // Log error
-                            PELOGE(limLog(pMac, LOGE,
-                                   FL("received Auth frame for unsupported auth algorithm %d "
-                                   MAC_ADDRESS_STR), pRxAuthFrameBody->authAlgoNumber, 
-                                   MAC_ADDR_ARRAY(pHdr->sa));)
-=======
                                                 LIM_NO_WEP_IN_FC,
                                                 psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                             return;
                         }
@@ -1134,13 +901,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                             pRxAuthFrameBody->authAlgoNumber;
                             pAuthNode->fSeen = 0;
                             pAuthNode->fTimerStarted = 0;
-<<<<<<< HEAD
-                            limAddPreAuthNode(pMac, pAuthNode);
-
-                            PELOG1(limLog(pMac, LOG1, FL("Alloc new data: %x id %d peer "),
-                                          pAuthNode, pAuthNode->authNodeIdx);)
-                            PELOG1(limPrintMacAddr(pMac, pHdr->sa, LOG1);)
-=======
                             pAuthNode->seqNo = ((pHdr->seqControl.seqNumHi << 4) |
                                                 (pHdr->seqControl.seqNumLo));
                             pAuthNode->timestamp = vos_timer_get_system_ticks();
@@ -1149,7 +909,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                             limLog(pMac, LOG1,
                                    FL("Alloc new data: id %d peer "MAC_ADDRESS_STR),
                                     pAuthNode->authNodeIdx, MAC_ADDR_ARRAY(pHdr->sa));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                             /// Create and activate Auth Response timer
                             if (tx_timer_change_context(&pAuthNode->timer, pAuthNode->authNodeIdx) != TX_SUCCESS)
@@ -1174,12 +933,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
                                 limSendAuthMgmtFrame(pMac, &authFrame,
                                                      pHdr->sa,
-<<<<<<< HEAD
-                                                     LIM_NO_WEP_IN_FC,psessionEntry);
-=======
                                                      LIM_NO_WEP_IN_FC,
                                                      psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                                 limDeletePreAuthNode(pMac, pHdr->sa);
                                 return;
@@ -1194,12 +949,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                             // TODO
                             //if( !VOS_IS_STATUS_SUCCESS( vos_rand_get_bytes( 0, (tANI_U8 *)challengeTextArray, SIR_MAC_AUTH_CHALLENGE_LENGTH ) ) )
                             {
-<<<<<<< HEAD
-                               limLog(pMac, LOGE,FL("Challenge text preparation failed in limProcessAuthFrame"));
-=======
                                limLog(pMac, LOGE,FL("Challenge text "
                                "preparation failed in limProcessAuthFrame"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                             }
                             
                             pChallenge = pAuthNode->challengeText;
@@ -1227,19 +978,13 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                             limSendAuthMgmtFrame(
                                                 pMac, &authFrame,
                                                 pHdr->sa,
-<<<<<<< HEAD
-                                                LIM_NO_WEP_IN_FC,psessionEntry);
-=======
                                                 LIM_NO_WEP_IN_FC,
                                                 psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                         } // if (wlan_cfgGetInt(CFG_PRIVACY_OPTION_IMPLEMENTED))
 
                         break;
 
                     default:
-<<<<<<< HEAD
-=======
                          // Log error
                        PELOGE( limLog(pMac, LOGE,
                                FL("received Auth frame for unsupported auth "
@@ -1247,7 +992,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                                pRxAuthFrameBody->authAlgoNumber,
                                MAC_ADDR_ARRAY(pHdr->sa));)
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                         /**
                          * Responding party does not support the
                          * authentication algorithm requested by
@@ -1266,26 +1010,14 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                         limSendAuthMgmtFrame(
                                             pMac, &authFrame,
                                             pHdr->sa,
-<<<<<<< HEAD
-                                            LIM_NO_WEP_IN_FC,psessionEntry);
-
-                        // Log error
-                       PELOGE( limLog(pMac, LOGE,
-                               FL("received Auth frame for unsupported auth algorithm %d "
-                               MAC_ADDRESS_STR), pRxAuthFrameBody->authAlgoNumber, 
-                               MAC_ADDR_ARRAY(pHdr->sa));)
-=======
                                             LIM_NO_WEP_IN_FC,
                                             psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                         return;
                 } // end switch(pRxAuthFrameBody->authAlgoNumber)
             } // if (limIsAuthAlgoSupported(pRxAuthFrameBody->authAlgoNumber))
             else
             {
-<<<<<<< HEAD
-=======
                 // Log error
                 PELOGE(limLog(pMac, LOGE,
                        FL("received Authentication frame for unsupported auth "
@@ -1293,7 +1025,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                        pRxAuthFrameBody->authAlgoNumber,
                        MAC_ADDR_ARRAY(pHdr->sa));)
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 /**
                  * Responding party does not support the
                  * authentication algorithm requested by sending party.
@@ -1308,19 +1039,9 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
                 limSendAuthMgmtFrame(pMac, &authFrame,
                                      pHdr->sa,
-<<<<<<< HEAD
-                                     LIM_NO_WEP_IN_FC,psessionEntry);
-
-                // Log error
-                PELOGE(limLog(pMac, LOGE,
-                       FL("received Authentication frame for unsupported auth algorithm %d "
-                       MAC_ADDRESS_STR), pRxAuthFrameBody->authAlgoNumber, 
-                       MAC_ADDR_ARRAY(pHdr->sa));)
-=======
                                      LIM_NO_WEP_IN_FC,
                                      psessionEntry, eSIR_FALSE);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 return;
             } //end if (limIsAuthAlgoSupported(pRxAuthFrameBody->authAlgoNumber))
             break;
@@ -1336,17 +1057,10 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                  */
 
                 // Log error
-<<<<<<< HEAD
-                PELOG1(limLog(pMac, LOG1,
-                       FL("received Auth frame2 from peer in state %d, addr "),
-                       psessionEntry->limMlmState);)
-                PELOG1(limPrintMacAddr(pMac, pHdr->sa, LOG1);)
-=======
                 limLog(pMac, LOG1,
                        FL("received Auth frame2 from peer in state %d, addr "),
                        psessionEntry->limMlmState);
                 limPrintMacAddr(pMac, pHdr->sa, LOG1);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                 return;
             }
@@ -1363,12 +1077,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
                 // Log error
                 PELOGW(limLog(pMac, LOGW,
-<<<<<<< HEAD
-                       FL("received Auth frame2 from unexpected peer "MAC_ADDRESS_STR),
-=======
                        FL("received Auth frame2 from unexpected peer "
                        MAC_ADDRESS_STR),
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        MAC_ADDR_ARRAY(pHdr->sa));)
 
                 break;
@@ -1404,11 +1114,7 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                 // Log error
                 PELOGW(limLog(pMac, LOGW,
                        FL("received Auth frame2 for unexpected auth algo number %d "
-<<<<<<< HEAD
-                       MAC_ADDRESS_STR), pRxAuthFrameBody->authAlgoNumber, 
-=======
                        MAC_ADDRESS_STR), pRxAuthFrameBody->authAlgoNumber,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        MAC_ADDR_ARRAY(pHdr->sa));)
 
                 break;
@@ -1434,26 +1140,18 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                         return;
                     }
 
-<<<<<<< HEAD
-                    PELOG1(limLog(pMac, LOG1, FL("Alloc new data: %x peer "), pAuthNode);)
-                    PELOG1(limPrintMacAddr(pMac, pHdr->sa, LOG1);)
-=======
                     limLog(pMac, LOG1,
                               FL("Alloc new data: peer "MAC_ADDRESS_STR),
                                                  MAC_ADDR_ARRAY(pHdr->sa));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                     vos_mem_copy((tANI_U8 *) pAuthNode->peerMacAddr,
                                  pMac->lim.gpLimMlmAuthReq->peerMacAddr,
                                  sizeof(tSirMacAddr));
                     pAuthNode->fTimerStarted = 0;
                     pAuthNode->authType = pMac->lim.gpLimMlmAuthReq->authType;
-<<<<<<< HEAD
-=======
                     pAuthNode->seqNo = ((pHdr->seqControl.seqNumHi << 4) |
                                         (pHdr->seqControl.seqNumLo));
                     pAuthNode->timestamp = vos_timer_get_system_ticks();
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     limAddPreAuthNode(pMac, pAuthNode);
 
                     limRestoreFromAuthState(pMac, eSIR_SME_SUCCESS,
@@ -1489,14 +1187,9 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
                         // Log error
                        PELOGE( limLog(pMac, LOGE,
-<<<<<<< HEAD
-                               FL("received Auth frame from peer for unsupported auth algo %d "
-                               MAC_ADDRESS_STR), pRxAuthFrameBody->authAlgoNumber, 
-=======
                                FL("received Auth frame from peer for "
                                "unsupported auth algo %d "
                                MAC_ADDRESS_STR), pRxAuthFrameBody->authAlgoNumber,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                MAC_ADDR_ARRAY(pHdr->sa));)
 
                         authFrame.authAlgoNumber =
@@ -1508,12 +1201,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
                         limSendAuthMgmtFrame(pMac, &authFrame,
                                             pHdr->sa,
-<<<<<<< HEAD
-                                            LIM_NO_WEP_IN_FC,psessionEntry);
-=======
                                             LIM_NO_WEP_IN_FC,
                                             psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                         return;
                     }
                     else
@@ -1524,12 +1213,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                         {
                             // Log error
                             PELOGE(limLog(pMac, LOGE,
-<<<<<<< HEAD
-                                   FL("received Auth frame with invalid challenge text IE"));)
-=======
                                    FL("received Auth frame with invalid "
                                    "challenge text IE"));)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                             return;
                         }
@@ -1545,15 +1230,12 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                         {
                             if (pKeyMapEntry->key == NULL)
                             {
-<<<<<<< HEAD
-=======
                                 // Log error
                                 PELOGE(limLog(pMac, LOGE,
                                        FL("received Auth frame from peer when "
                                        "key mapping key is NULL"MAC_ADDRESS_STR),
                                        MAC_ADDR_ARRAY(pHdr->sa));)
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                 /**
                                  * Key Mapping entry has null key.
                                  * Send Auth frame with
@@ -1568,17 +1250,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
                                 limSendAuthMgmtFrame(pMac, &authFrame,
                                                      pHdr->sa,
-<<<<<<< HEAD
-                                                     LIM_NO_WEP_IN_FC,psessionEntry);
-
-                                // Log error
-                                PELOGE(limLog(pMac, LOGE,
-                                       FL("received Auth frame from peer when key mapping key is NULL"
-                                       MAC_ADDRESS_STR),MAC_ADDR_ARRAY(pHdr->sa));)
-=======
                                                      LIM_NO_WEP_IN_FC,
                                                      psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                                 limRestoreFromAuthState(pMac, eSIR_SME_NO_KEY_MAPPING_KEY_FOR_PEER,
                                                               eSIR_MAC_UNSPEC_FAILURE_REASON,psessionEntry);
@@ -1609,12 +1282,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                                 limSendAuthMgmtFrame(pMac,
                                                      (tpSirMacAuthFrameBody) encrAuthFrame,
                                                      pHdr->sa,
-<<<<<<< HEAD
-                                                     LIM_WEP_IN_FC,psessionEntry);
-=======
                                                      LIM_WEP_IN_FC,
                                                      psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                                 break;
                             } // end if (pKeyMapEntry->key == NULL)
@@ -1662,12 +1331,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                                 limSendAuthMgmtFrame(
                                                     pMac, &authFrame,
                                                     pHdr->sa,
-<<<<<<< HEAD
-                                                    LIM_NO_WEP_IN_FC,psessionEntry);
-=======
                                                     LIM_NO_WEP_IN_FC,
                                                     psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                                 limRestoreFromAuthState(pMac, eSIR_SME_INVALID_WEP_DEFAULT_KEY,
                                                               eSIR_MAC_UNSPEC_FAILURE_REASON,psessionEntry);
@@ -1698,12 +1363,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                                 limSendAuthMgmtFrame(pMac,
                                                      (tpSirMacAuthFrameBody) encrAuthFrame,
                                                      pHdr->sa,
-<<<<<<< HEAD
-                                                     LIM_WEP_IN_FC,psessionEntry);
-=======
                                                      LIM_WEP_IN_FC,
                                                      psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                                 break;
                         } // end if (pKeyMapEntry)
@@ -1734,8 +1395,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
             if (pRxAuthFrameBody->authAlgoNumber != eSIR_SHARED_KEY)
             {
-<<<<<<< HEAD
-=======
                 // Log error
                 PELOGE(limLog(pMac, LOGE,
                        FL("received Auth frame3 from peer with auth algo "
@@ -1743,7 +1402,6 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                        pRxAuthFrameBody->authAlgoNumber,
                        MAC_ADDR_ARRAY(pHdr->sa));)
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 /**
                  * Received Authentication frame3 with algorithm other than
                  * Shared Key authentication type. Reject with Auth frame4
@@ -1757,18 +1415,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
                 limSendAuthMgmtFrame(pMac, &authFrame,
                                      pHdr->sa,
-<<<<<<< HEAD
-                                     LIM_NO_WEP_IN_FC,psessionEntry);
-
-                // Log error
-                PELOGE(limLog(pMac, LOGE,
-                       FL("received Auth frame3 from peer with auth algo number %d "
-                       MAC_ADDRESS_STR), pRxAuthFrameBody->authAlgoNumber, 
-                       MAC_ADDR_ARRAY(pHdr->sa));)
-=======
                                      LIM_NO_WEP_IN_FC,
                                      psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                 return;
             }
@@ -1783,15 +1431,12 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                  */
                 if (!pHdr->fc.wep)
                 {
-<<<<<<< HEAD
-=======
                     // Log error
                     PELOGE(limLog(pMac, LOGE,
                            FL("received Auth frame3 from peer with no WEP bit "
                            "set "MAC_ADDRESS_STR),
                            MAC_ADDR_ARRAY(pHdr->sa));)
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     /// WEP bit is not set in FC of Auth Frame3
                     authFrame.authAlgoNumber = eSIR_SHARED_KEY;
                     authFrame.authTransactionSeqNumber =
@@ -1801,17 +1446,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
                     limSendAuthMgmtFrame(pMac, &authFrame,
                                          pHdr->sa,
-<<<<<<< HEAD
-                                         LIM_NO_WEP_IN_FC,psessionEntry);
-
-                    // Log error
-                    PELOGE(limLog(pMac, LOGE,
-                           FL("received Auth frame3 from peer with no WEP bit set "MAC_ADDRESS_STR),
-                           MAC_ADDR_ARRAY(pHdr->sa));)
-=======
                                          LIM_NO_WEP_IN_FC,
                                          psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                     return;
                 }
@@ -1820,15 +1456,12 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                                                 pHdr->sa);
                 if (pAuthNode == NULL)
                 {
-<<<<<<< HEAD
-=======
                      // Log error
                     PELOGE(limLog(pMac, LOGW,
                            FL("received AuthFrame3 from peer that has no "
                            "preauth context "MAC_ADDRESS_STR),
                             MAC_ADDR_ARRAY(pHdr->sa));)
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     /**
                      * No 'pre-auth' context exists for
                      * this STA that sent an Authentication
@@ -1844,30 +1477,18 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
                     limSendAuthMgmtFrame(pMac, &authFrame,
                                          pHdr->sa,
-<<<<<<< HEAD
-                                         LIM_NO_WEP_IN_FC,psessionEntry);
-
-                    // Log error
-                    PELOGE(limLog(pMac, LOGW,
-                           FL("received AuthFrame3 from peer that has no preauth context "
-                           MAC_ADDRESS_STR), MAC_ADDR_ARRAY(pHdr->sa));)
-=======
                                          LIM_NO_WEP_IN_FC,
                                          psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                     return;
                 }
 
                 if (pAuthNode->mlmState == eLIM_MLM_AUTH_RSP_TIMEOUT_STATE)
                 {
-<<<<<<< HEAD
-=======
                     // Log error
                     limLog(pMac, LOGW,
                            FL("auth response timer timedout for peer "
                            MAC_ADDRESS_STR),MAC_ADDR_ARRAY(pHdr->sa));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     /**
                      * Received Auth Frame3 after Auth Response timeout.
                      * Reject by sending Auth Frame4 with
@@ -1882,17 +1503,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                     limSendAuthMgmtFrame(
                                         pMac, &authFrame,
                                         pHdr->sa,
-<<<<<<< HEAD
-                                        LIM_NO_WEP_IN_FC,psessionEntry);
-
-                    // Log error
-                    limLog(pMac, LOGW,
-                           FL("auth response timer timedout for peer "));
-                    limPrintMacAddr(pMac, pHdr->sa, LOGW);
-=======
                                         LIM_NO_WEP_IN_FC,
                                         psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                     /// Delete pre-auth context of STA
                     limDeletePreAuthNode(pMac,
@@ -1947,12 +1559,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
                     limSendAuthMgmtFrame(pMac, &authFrame,
                                          pHdr->sa,
-<<<<<<< HEAD
-                                         LIM_NO_WEP_IN_FC,psessionEntry);
-=======
                                          LIM_NO_WEP_IN_FC,
                                          psessionEntry, eSIR_FALSE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                     /// Send Auth indication to SME
                     vos_mem_copy((tANI_U8 *) mlmAuthInd.peerMacAddr,
@@ -1970,14 +1578,11 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                 }
                 else
                 {
-<<<<<<< HEAD
-=======
                      // Log error
                     PELOGE( limLog(pMac, LOGW,
                                    FL("Challenge failure for peer "
                                    MAC_ADDRESS_STR),
                                    MAC_ADDR_ARRAY(pHdr->sa));)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     /**
                      * Challenge Failure.
                      * Send Authentication frame4 with 'challenge failure'
@@ -1994,18 +1599,9 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
                     limSendAuthMgmtFrame(pMac, &authFrame,
                                          pHdr->sa,
-<<<<<<< HEAD
-                                         LIM_NO_WEP_IN_FC,psessionEntry);
-
-                    // Log error
-                    PELOGE( limLog(pMac, LOGW,
-                                   FL("Challenge failure for peer "MAC_ADDRESS_STR),
-                                   MAC_ADDR_ARRAY(pHdr->sa));)
-=======
                                          LIM_NO_WEP_IN_FC,
                                          psessionEntry, eSIR_FALSE);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     return;
                 }
             } // if (pMac->lim.gLimSystemRole == eLIM_AP_ROLE || ...
@@ -2022,17 +1618,10 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                  */
 
                 // Log error
-<<<<<<< HEAD
-                PELOG1(limLog(pMac, LOG1,
-                       FL("received unexpected Auth frame4 from peer in state %d, addr "),
-                       psessionEntry->limMlmState);)
-               PELOG1( limPrintMacAddr(pMac, pHdr->sa, LOG1);)
-=======
                 limLog(pMac, LOG1,
                        FL("received unexpected Auth frame4 from peer in state "
                        "%d, addr "MAC_ADDRESS_STR), psessionEntry->limMlmState,
                        MAC_ADDR_ARRAY(pHdr->sa));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                 return;
             }
@@ -2048,13 +1637,8 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
                 // Log error
                 PELOGE(limLog(pMac, LOGE,
-<<<<<<< HEAD
-                       FL("received Auth frame4 from peer with invalid auth algo %d "
-                       MAC_ADDRESS_STR), pRxAuthFrameBody->authAlgoNumber, 
-=======
                        FL("received Auth frame4 from peer with invalid auth "
                        "algo %d "MAC_ADDRESS_STR), pRxAuthFrameBody->authAlgoNumber,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        MAC_ADDR_ARRAY(pHdr->sa));)
 
                 return;
@@ -2088,14 +1672,9 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
                  */
 
                 PELOGE(limLog(pMac, LOGE,
-<<<<<<< HEAD
-                       FL("received Authentication frame from peer with invalid auth seq number %d "
-                       MAC_ADDRESS_STR), pRxAuthFrameBody->authTransactionSeqNumber, 
-=======
                        FL("received Authentication frame from peer with "
                        "invalid auth seq number %d "
                        MAC_ADDRESS_STR), pRxAuthFrameBody->authTransactionSeqNumber,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        MAC_ADDR_ARRAY(pHdr->sa));)
 
                 break;
@@ -2120,26 +1699,18 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
                     return;
                 }
-<<<<<<< HEAD
-                PELOG1(limLog(pMac, LOG1, FL("Alloc new data: %x peer "), pAuthNode);
-                limPrintMacAddr(pMac, pHdr->sa, LOG1);)
-=======
                 limLog(pMac, LOG1,
                          FL("Alloc new data: peer " MAC_ADDRESS_STR),
                                               MAC_ADDR_ARRAY(pHdr->sa));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                 vos_mem_copy((tANI_U8 *) pAuthNode->peerMacAddr,
                              pMac->lim.gpLimMlmAuthReq->peerMacAddr,
                              sizeof(tSirMacAddr));
                 pAuthNode->fTimerStarted = 0;
                 pAuthNode->authType = pMac->lim.gpLimMlmAuthReq->authType;
-<<<<<<< HEAD
-=======
                 pAuthNode->seqNo = ((pHdr->seqControl.seqNumHi << 4) |
                                     (pHdr->seqControl.seqNumLo));
                 pAuthNode->timestamp = vos_timer_get_system_ticks();
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 limAddPreAuthNode(pMac, pAuthNode);
 
                 limRestoreFromAuthState(pMac, eSIR_SME_SUCCESS,
@@ -2168,14 +1739,9 @@ limProcessAuthFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession pse
 
             // Log error
             PELOGE(limLog(pMac, LOGE,
-<<<<<<< HEAD
-                   FL("received Auth frame from peer with invalid auth seq number %d "
-                   MAC_ADDRESS_STR), pRxAuthFrameBody->authTransactionSeqNumber, 
-=======
                    FL("received Auth frame from peer with invalid auth seq "
                    "number %d " MAC_ADDRESS_STR),
                    pRxAuthFrameBody->authTransactionSeqNumber,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                    MAC_ADDR_ARRAY(pHdr->sa));)
 
             break;
@@ -2213,46 +1779,28 @@ tSirRetStatus limProcessAuthFrameNoSession(tpAniSirGlobal pMac, tANI_U8 *pBd, vo
     pBody = WDA_GET_RX_MPDU_DATA(pBd);
     frameLen = WDA_GET_RX_PAYLOAD_LEN(pBd);
 
-<<<<<<< HEAD
-    VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_DEBUG,
-              FL("Auth Frame Received: BSSID " MAC_ADDRESS_STR " (RSSI %d)"),
-              MAC_ADDR_ARRAY(pHdr->bssId),
-              (uint)abs((tANI_S8)WDA_GET_RX_RSSI_DB(pBd)));
-
-=======
     limLog(pMac, LOG1, FL("Auth Frame Received: BSSID " MAC_ADDRESS_STR
     " (RSSI %d)"),MAC_ADDR_ARRAY(pHdr->bssId),
     (uint)abs((tANI_S8)WDA_GET_RX_RSSI_DB(pBd)));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     // Check for the operating channel and see what needs to be done next.
     psessionEntry = pMac->ft.ftPEContext.psavedsessionEntry;
     if (psessionEntry == NULL) 
     {
-<<<<<<< HEAD
-        limLog(pMac, LOGW, FL("Error: Unable to find session id while in pre-auth phase for FT"));
-=======
         limLog(pMac, LOGE, FL("Error: Unable to find session id while in "
         "pre-auth phase for FT"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eSIR_FAILURE;
     }
 
     if (pMac->ft.ftPEContext.pFTPreAuthReq == NULL)
     {
-<<<<<<< HEAD
-=======
         limLog(pMac, LOGE, FL("Error: No FT"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         // No FT in progress.
         return eSIR_FAILURE;
     }
 
     if (frameLen == 0) 
     {
-<<<<<<< HEAD
-=======
         limLog(pMac, LOGE, FL("Error: Frame len = 0"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eSIR_FAILURE;
     }
 #ifdef WLAN_FEATURE_VOWIFI_11R_DEBUG
@@ -2268,10 +1816,7 @@ tSirRetStatus limProcessAuthFrameNoSession(tpAniSirGlobal pMac, tANI_U8 *pBd, vo
     if (!vos_mem_compare(pMac->ft.ftPEContext.pFTPreAuthReq->preAuthbssId,
                          pHdr->bssId, sizeof( tSirMacAddr )))
     {
-<<<<<<< HEAD
-=======
         limLog(pMac, LOGE, FL("Error: NOT same bssid as preauth BSSID"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         // In this case SME if indeed has triggered a 
         // pre auth it will time out.
         return eSIR_FAILURE;
@@ -2323,10 +1868,7 @@ tSirRetStatus limProcessAuthFrameNoSession(tpAniSirGlobal pMac, tANI_U8 *pBd, vo
     // Save off the auth resp.
     if ((sirConvertAuthFrame2Struct(pMac, pBody, frameLen, &rxAuthFrame) != eSIR_SUCCESS))
     {
-<<<<<<< HEAD
-=======
         limLog(pMac, LOGE, FL("failed to convert Auth frame to struct"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         limHandleFTPreAuthRsp(pMac, eSIR_FAILURE, NULL, 0, psessionEntry);
         return eSIR_FAILURE;
     }

@@ -1,34 +1,24 @@
 comment "Qualcomm Atheros Prima WLAN module"
-<<<<<<< HEAD
-config PRIMA_WLAN
-=======
 
 config PRIMA_WLAN
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 	tristate "Qualcomm Atheros Prima WLAN module"
 	default n
 	help
 	Add support for the Qualcomm Atheros Prima WLAN module
 
 config PRONTO_WLAN
-<<<<<<< HEAD
-=======
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 	tristate "Qualcomm Atheros Pronto WLAN module"
 	default n
 	help
 	Add support for the Qualcomm Atheros Pronto WLAN module
 
-<<<<<<< HEAD
-=======
 
 #	depends on WLAN
 #	depends on CFG80211
 #        depends on WCNSS_CORE
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 if PRIMA_WLAN != n || PRONTO_WLAN != n
 
 config PRIMA_WLAN_BTAMP
@@ -57,14 +47,10 @@ config QCOM_VOWIFI_11R
 
 config ENABLE_LINUX_REG
 	bool "Enable linux regulatory feature"
-<<<<<<< HEAD
-	default y
-=======
 	default n
 
 config QCOM_TDLS
     bool "Enable TDLS feature"
     default n
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 endif # PRIMA_WLAN || PRONTO_WLAN

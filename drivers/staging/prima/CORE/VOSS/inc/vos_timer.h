@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2014, 2016 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #if !defined( __VOS_TIMER_H )
@@ -62,12 +36,6 @@
                
    Definitions for vOSS Timer services
   
-<<<<<<< HEAD
-   Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
-   
-   Qualcomm Confidential and Proprietary.
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   
   ========================================================================*/
 
@@ -224,15 +192,6 @@ VOS_TIMER_STATE vos_timer_getCurrentState( vos_timer_t *pTimer );
 ---------------------------------------------------------------------------*/
 #ifdef TIMER_MANAGER
 #define vos_timer_init(timer, timerType, callback, userdata) \
-<<<<<<< HEAD
-      vos_timer_init_debug(timer, timerType, callback, userdata, __FILE__, __LINE__)
-      
-VOS_STATUS vos_timer_init_debug( vos_timer_t *timer, VOS_TIMER_TYPE timerType, 
-                           vos_timer_callback_t callback, v_PVOID_t userData, 
-                           char* fileName, v_U32_t lineNum );      
-#else
-VOS_STATUS vos_timer_init( vos_timer_t *timer, VOS_TIMER_TYPE timerType, 
-=======
       vos_timer_init_debug(timer, timerType, callback, userdata, \
       __FILE__, __LINE__)
 
@@ -253,7 +212,6 @@ VOS_STATUS vos_timer_init( vos_timer_t *timer, VOS_TIMER_TYPE timerType,
                            vos_timer_callback_t callback, v_PVOID_t userData );
 VOS_STATUS vos_timer_init_deferrable( vos_timer_t *timer,
                            VOS_TIMER_TYPE timerType,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                            vos_timer_callback_t callback, v_PVOID_t userData );
 #endif
 
@@ -383,10 +341,6 @@ v_TIME_t vos_timer_get_system_ticks( v_VOID_t );
   ------------------------------------------------------------------------*/
 v_TIME_t vos_timer_get_system_time( v_VOID_t );
 
-<<<<<<< HEAD
-
-=======
 v_BOOL_t vos_timer_is_initialized(vos_timer_t *timer);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #endif // #if !defined __VOSS_TIMER_H

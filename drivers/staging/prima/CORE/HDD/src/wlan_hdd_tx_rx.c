@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /**===========================================================================
@@ -56,12 +30,6 @@
   \file  wlan_hdd_tx_rx.c
   
   \brief Linux HDD Tx/RX APIs
-<<<<<<< HEAD
-         Copyright 2008 (c) Qualcomm, Incorporated.
-         All Rights Reserved.
-         Qualcomm Confidential and Proprietary.
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   
   ==========================================================================*/
   
@@ -75,38 +43,28 @@
 #include <linux/netdevice.h>
 #include <linux/skbuff.h>
 #include <linux/etherdevice.h>
-<<<<<<< HEAD
-=======
 #include <linux/ratelimit.h>
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,10,0))
 #include <soc/qcom/subsystem_restart.h>
 #else
 #include <mach/subsystem_restart.h>
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #include <wlan_hdd_p2p.h>
 #include <linux/wireless.h>
 #include <net/cfg80211.h>
 #include <net/ieee80211_radiotap.h>
 #include "sapApi.h"
-<<<<<<< HEAD
-
-=======
 #include <vos_sched.h>
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef FEATURE_WLAN_TDLS
 #include "wlan_hdd_tdls.h"
 #endif
 
-<<<<<<< HEAD
-=======
 #include "vos_diag_core_event.h"
 #include "vos_utils.h"
 #include  "sapInternal.h"
 #include  "wlan_hdd_trace.h"
 #include  "wlan_qct_wda.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*--------------------------------------------------------------------------- 
   Preprocessor definitions and constants
   -------------------------------------------------------------------------*/ 
@@ -124,10 +82,6 @@ const v_U8_t hdd_QdiscAcToTlAC[] = {
    WLANTL_AC_VI,
    WLANTL_AC_BE,
    WLANTL_AC_BK,
-<<<<<<< HEAD
-};
-
-=======
    WLANTL_AC_HIGH_PRIO,
 };
 
@@ -177,7 +131,6 @@ static DEFINE_RATELIMIT_STATE(hdd_tx_timeout_rs,                 \
                               HDD_TX_TIMEOUT_RATELIMIT_INTERVAL, \
                               HDD_TX_TIMEOUT_RATELIMIT_BURST);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 static struct sk_buff* hdd_mon_tx_fetch_pkt(hdd_adapter_t* pAdapter);
 
 /*--------------------------------------------------------------------------- 
@@ -192,20 +145,6 @@ static struct sk_buff* hdd_mon_tx_fetch_pkt(hdd_adapter_t* pAdapter);
 //Utility function to dump an sk_buff
 static void dump_sk_buff(struct sk_buff * skb)
 {
-<<<<<<< HEAD
-  VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: head = %p ", __func__, skb->head);
-  VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: data = %p ", __func__, skb->data);
-  VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: tail = %p ", __func__, skb->tail);
-  VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: end = %p ", __func__, skb->end);
-  VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: len = %d ", __func__, skb->len);
-  VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: data_len = %d ", __func__, skb->data_len);
-  VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: mac_len = %d\n", __func__, skb->mac_len);
-
-  VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x ", 
-     skb->data[0], skb->data[1], skb->data[2], skb->data[3], skb->data[4], 
-     skb->data[5], skb->data[6], skb->data[7]); 
-  VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x \n", 
-=======
   VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,"%s: head = %p", __func__, skb->head);
   VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,"%s: data = %p", __func__, skb->data);
   VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,"%s: tail = %p", __func__, skb->tail);
@@ -218,7 +157,6 @@ static void dump_sk_buff(struct sk_buff * skb)
      skb->data[0], skb->data[1], skb->data[2], skb->data[3], skb->data[4], 
      skb->data[5], skb->data[6], skb->data[7]); 
   VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,"0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x",
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
      skb->data[8], skb->data[9], skb->data[10], skb->data[11], skb->data[12],
      skb->data[13], skb->data[14], skb->data[15]); 
 }
@@ -234,8 +172,6 @@ static void transport_thread(hdd_adapter_t *pAdapter)
    WLANTL_RxMetaInfoType pktRxMetaInfo;
    VOS_STATUS status = VOS_STATUS_E_FAILURE;
 
-<<<<<<< HEAD
-=======
    if (NULL == pAdapter)
    {
        VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
@@ -244,30 +180,12 @@ static void transport_thread(hdd_adapter_t *pAdapter)
        return;
    }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    status = hdd_tx_fetch_packet_cbk( pAdapter->pvosContext,
                                      &staId,
                                      &ac,
                                      &pVosPacket,
                                      &pktMetaInfo );
   if (status != VOS_STATUS_SUCCESS && status != VOS_STATUS_E_EMPTY)
-<<<<<<< HEAD
-     VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: Test FAIL hdd_tx_fetch_packet_cbk", __func__);
-  else
-     VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: Test PASS hdd_tx_fetch_packet_cbk", __func__);
-
-  status = hdd_tx_complete_cbk(pAdapter->pvosContext, &dummyPacket, VOS_STATUS_SUCCESS);
-  if (status != VOS_STATUS_SUCCESS)
-     VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: Test FAIL hdd_tx_complete_cbk", __func__);
-  else
-     VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: Test PASS hdd_tx_complete_cbk", __func__);
-
-  status = hdd_tx_low_resource_cbk(pVosPacket, pAdapter);
-  if (status != VOS_STATUS_SUCCESS)
-     VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: Test FAIL hdd_tx_low_resource_cbk", __func__);
-  else
-     VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: Test PASS hdd_tx_low_resource_cbk", __func__);
-=======
      VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
                 "%s: Test FAIL hdd_tx_fetch_packet_cbk", __func__);
   else
@@ -289,24 +207,17 @@ static void transport_thread(hdd_adapter_t *pAdapter)
   else
      VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
                 "%s: Test PASS hdd_tx_low_resource_cbk", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   
   status = hdd_rx_packet_cbk( pAdapter->pvosContext,
                               &dummyPacket,
                               staId,
                               &pktRxMetaInfo);
   if (status != VOS_STATUS_SUCCESS)
-<<<<<<< HEAD
-     VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: Test FAIL hdd_rx_packet_cbk", __func__);
-  else
-     VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: Test PASS hdd_rx_packet_cbk", __func__);
-=======
      VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
                 "%s: Test FAIL hdd_rx_packet_cbk", __func__);
   else
      VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
                 "%s: Test PASS hdd_rx_packet_cbk", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 }
 #endif
@@ -329,12 +240,9 @@ static VOS_STATUS hdd_flush_tx_queues( hdd_adapter_t *pAdapter )
 
    pAdapter->isVosLowResource = VOS_FALSE;
 
-<<<<<<< HEAD
-=======
    MTRACE(vos_trace(VOS_MODULE_ID_HDD, TRACE_CODE_HDD_FLUSH_TX_QUEUES,
                     pAdapter->sessionId, 0));
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    while (++i != NUM_TX_QUEUES) 
    {
       //Free up any packets in the Tx queue
@@ -363,8 +271,6 @@ static VOS_STATUS hdd_flush_tx_queues( hdd_adapter_t *pAdapter )
    return status;
 }
 
-<<<<<<< HEAD
-=======
 /**============================================================================
   @brief hdd_flush_ibss_tx_queues() - Utility function to flush the TX queues
                                       in IBSS mode
@@ -407,7 +313,6 @@ void hdd_flush_ibss_tx_queues( hdd_adapter_t *pAdapter, v_U8_t STAId)
    }
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 static struct sk_buff* hdd_mon_tx_fetch_pkt(hdd_adapter_t* pAdapter)
 {
    skb_list_node_t *pktNode = NULL;
@@ -417,15 +322,10 @@ static struct sk_buff* hdd_mon_tx_fetch_pkt(hdd_adapter_t* pAdapter)
    VOS_STATUS status = VOS_STATUS_E_FAILURE;
    hdd_list_node_t *anchor = NULL;
 
-<<<<<<< HEAD
-   if( NULL == pAdapter )
-   {
-=======
    if (NULL == pAdapter)
    {
       VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
        FL("pAdapter is NULL"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       VOS_ASSERT(0);
       return NULL;
    }
@@ -434,11 +334,7 @@ static struct sk_buff* hdd_mon_tx_fetch_pkt(hdd_adapter_t* pAdapter)
    hdd_list_size( &pAdapter->wmm_tx_queue[ac], &size ); 
    if( size == 0 )
    {
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-=======
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  "%s: NO Packet Pending", __func__);
       return NULL;
    }
@@ -456,11 +352,7 @@ static struct sk_buff* hdd_mon_tx_fetch_pkt(hdd_adapter_t* pAdapter)
    }
    else
    {
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-=======
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 "%s: Not able to remove Packet from the list",
                   __func__);
 
@@ -471,18 +363,11 @@ static struct sk_buff* hdd_mon_tx_fetch_pkt(hdd_adapter_t* pAdapter)
    if ( (pAdapter->isTxSuspended[ac]) &&
         (size <= HDD_TX_QUEUE_LOW_WATER_MARK) )
    {
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,
-                 "%s: TX queue[%d] re-enabled", __func__, ac);
-      pAdapter->isTxSuspended[ac] = VOS_FALSE;      
-      /* Enable Queues which we have disabled earlier */
-=======
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_WARN,
                  "%s: TX queue[%d] re-enabled", __func__, ac);
       pAdapter->isTxSuspended[ac] = VOS_FALSE;      
       /* Enable Queues which we have disabled earlier */
       hddLog(VOS_TRACE_LEVEL_INFO, FL("Enabling queues"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       netif_tx_start_all_queues( pAdapter->dev ); 
    }
 
@@ -495,18 +380,6 @@ void hdd_mon_tx_mgmt_pkt(hdd_adapter_t* pAdapter)
    struct sk_buff* skb;
    hdd_adapter_t* pMonAdapter = NULL;
    struct ieee80211_hdr *hdr;
-<<<<<<< HEAD
-
-   if (pAdapter == NULL )
-   {
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-       "%s: pAdapter is NULL", __func__);
-      return;
-   }
-
-   pMonAdapter = hdd_get_adapter( pAdapter->pHddCtx, WLAN_HDD_MONITOR );
-
-=======
    hdd_context_t *pHddCtx;
    int ret = 0;
 
@@ -531,16 +404,11 @@ void hdd_mon_tx_mgmt_pkt(hdd_adapter_t* pAdapter)
               "%s: pMonAdapter is NULL", __func__);
        return;
    }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    cfgState = WLAN_HDD_GET_CFG_STATE_PTR( pAdapter );
 
    if( NULL != cfgState->buf )
    {
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-=======
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
           "%s: Already one MGMT packet Tx going on", __func__);
       return;
    }
@@ -549,11 +417,7 @@ void hdd_mon_tx_mgmt_pkt(hdd_adapter_t* pAdapter)
 
    if (NULL == skb)
    {
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-=======
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        "%s: No Packet Pending", __func__);
       return;
    }
@@ -561,11 +425,7 @@ void hdd_mon_tx_mgmt_pkt(hdd_adapter_t* pAdapter)
    cfgState->buf = vos_mem_malloc( skb->len ); //buf;
    if( cfgState->buf == NULL )
    {
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-=======
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
           "%s: Failed to Allocate memory", __func__);
       goto fail;
    }
@@ -575,11 +435,7 @@ void hdd_mon_tx_mgmt_pkt(hdd_adapter_t* pAdapter)
    vos_mem_copy( cfgState->buf, skb->data, skb->len);
 
    cfgState->skb = skb; //buf;
-<<<<<<< HEAD
-   cfgState->action_cookie = (tANI_U32)cfgState->buf;
-=======
    cfgState->action_cookie = (uintptr_t)cfgState->buf;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    hdr = (struct ieee80211_hdr *)skb->data;
    if( (hdr->frame_control & HDD_FRAME_TYPE_MASK)
@@ -588,9 +444,6 @@ void hdd_mon_tx_mgmt_pkt(hdd_adapter_t* pAdapter)
        if( (hdr->frame_control & HDD_FRAME_SUBTYPE_MASK)
                                        == HDD_FRAME_SUBTYPE_DEAUTH )
        {
-<<<<<<< HEAD
-          hdd_softap_sta_deauth( pAdapter, hdr->addr1 ); 
-=======
           struct tagCsrDelStaParams delStaParams;
 
           WLANSAP_PopulateDelStaParams(hdr->addr1,
@@ -598,7 +451,6 @@ void hdd_mon_tx_mgmt_pkt(hdd_adapter_t* pAdapter)
                                  (SIR_MAC_MGMT_DEAUTH >> 4), &delStaParams);
 
           hdd_softap_sta_deauth(pAdapter, &delStaParams);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
           goto mgmt_handled;
        }
        else if( (hdr->frame_control & HDD_FRAME_SUBTYPE_MASK) 
@@ -608,26 +460,13 @@ void hdd_mon_tx_mgmt_pkt(hdd_adapter_t* pAdapter)
           goto mgmt_handled;
        }
    }
-<<<<<<< HEAD
-   VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-=======
    VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_INFO,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       "%s: Sending action frame to SAP to TX, Len %d", __func__, skb->len);
 
    if (VOS_STATUS_SUCCESS != 
       WLANSAP_SendAction( (WLAN_HDD_GET_CTX(pAdapter))->pvosContext,
                            skb->data, skb->len, 0) )
    {
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-          "%s: WLANSAP_SendAction returned fail", __func__);
-      hdd_sendActionCnf( pAdapter, FALSE );
-   }
-   return;
-
-mgmt_handled:
-=======
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
           "%s: WLANSAP_SendAction returned fail", __func__);
       hdd_sendActionCnf( pAdapter, FALSE );
@@ -637,7 +476,6 @@ mgmt_handled:
 
 mgmt_handled:
    EXIT();
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    hdd_sendActionCnf( pAdapter, TRUE );
    return;
 fail:
@@ -646,174 +484,12 @@ fail:
    return;
 }
 
-<<<<<<< HEAD
-void hdd_mon_tx_work_queue(struct work_struct *work)
-=======
 void __hdd_mon_tx_work_queue(struct work_struct *work)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
    hdd_adapter_t* pAdapter = container_of(work, hdd_adapter_t, monTxWorkQueue);
    hdd_mon_tx_mgmt_pkt(pAdapter);
 }
 
-<<<<<<< HEAD
-int hdd_mon_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
-{
-   v_U16_t rt_hdr_len;
-   struct ieee80211_hdr *hdr;
-   hdd_adapter_t *pPgBkAdapter, *pAdapter =  WLAN_HDD_GET_PRIV_PTR(dev);
-   struct ieee80211_radiotap_header *rtap_hdr =
-                        (struct ieee80211_radiotap_header *)skb->data;
-
-   /*Supplicant sends the EAPOL packet on monitor interface*/
-   pPgBkAdapter = pAdapter->sessionCtx.monitor.pAdapterForTx;    
-   if(pPgBkAdapter == NULL)
-   {
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-           "%s: No Adapter to piggy back. Dropping the pkt on monitor inf",
-                                                                 __func__);
-      goto fail; /* too short to be possibly valid */
-   }
- 
-   /* check if toal skb length is greater then radio tab header length of not */
-   if (unlikely(skb->len < sizeof(struct ieee80211_radiotap_header)))
-      goto fail; /* too short to be possibly valid */
-   
-   /* check if radio tap header version is correct or not */
-   if (unlikely(rtap_hdr->it_version))
-      goto fail; /* only version 0 is supported */
- 
-   /*Strip off the radio tap header*/
-   rt_hdr_len = ieee80211_get_radiotap_len(skb->data);
- 
-   /* check if skb length if greator then total radio tap header length ot not*/
-   if (unlikely(skb->len < rt_hdr_len))
-      goto fail;
- 
-   /* Update the trans_start for this netdev */  
-   dev->trans_start = jiffies;
-   /*
-    * fix up the pointers accounting for the radiotap
-    * header still being in there.
-    */
-   skb_set_mac_header(skb, rt_hdr_len);
-   skb_set_network_header(skb, rt_hdr_len);
-   skb_set_transport_header(skb, rt_hdr_len); 
-
-   /* Pull rtap header out of the skb */
-   skb_pull(skb, rt_hdr_len);
-  
-   /*Supplicant adds: radiotap Hdr + radiotap data + 80211 Header. So after 
-    * radio tap header and 802.11 header starts 
-    */
-   hdr = (struct ieee80211_hdr *)skb->data;
- 
-   /* Send data frames through the normal Data path. In this path we will 
-    * conver rcvd 802.11 packet to 802.3 packet */
-   if ( (hdr->frame_control & HDD_FRAME_TYPE_MASK)  == HDD_FRAME_TYPE_DATA)
-   { 
-      v_U8_t da[6];
-      v_U8_t sa[6];
-
-      memcpy (da, hdr->addr1, VOS_MAC_ADDR_SIZE);
-      memcpy (sa, hdr->addr2, VOS_MAC_ADDR_SIZE);
- 
-      /* Pull 802.11 MAC header */ 
-      skb_pull(skb, HDD_80211_HEADER_LEN);
- 
-      if ( HDD_FRAME_SUBTYPE_QOSDATA == 
-          (hdr->frame_control & HDD_FRAME_SUBTYPE_MASK))
-      {
-         skb_pull(skb, HDD_80211_HEADER_QOS_CTL);
-      }
-
-      /* Pull LLC header */ 
-      skb_pull(skb, HDD_LLC_HDR_LEN);
-
-      /* Create space for Ethernet header */ 
-      skb_push(skb, HDD_MAC_HDR_SIZE*2);
-      memcpy(&skb->data[0], da, HDD_MAC_HDR_SIZE);
-      memcpy(&skb->data[HDD_DEST_ADDR_OFFSET], sa, HDD_MAC_HDR_SIZE);
-
-      /* Only EAPOL Data packets are allowed through monitor interface */ 
-      if (vos_be16_to_cpu(
-         (*(unsigned short*)&skb->data[HDD_ETHERTYPE_802_1_X_FRAME_OFFSET]) ) 
-                                                     != HDD_ETHERTYPE_802_1_X)
-      {
-         VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-           "%s: Not a Eapol packet. Drop this frame", __func__);
-         //If not EAPOL frames, drop them.
-         kfree_skb(skb);
-         return NETDEV_TX_OK;
-      }
-
-      skb->protocol = htons(HDD_ETHERTYPE_802_1_X);
- 
-      hdd_hostapd_select_queue(pPgBkAdapter->dev, skb);
-      return hdd_softap_hard_start_xmit( skb, pPgBkAdapter->dev );
-   }
-   else
-   {
-      VOS_STATUS status;
-      WLANTL_ACEnumType ac = 0;
-      skb_list_node_t *pktNode = NULL;
-      v_SIZE_t pktListSize = 0;
-
-      spin_lock(&pAdapter->wmm_tx_queue[ac].lock);
-      //If we have already reached the max queue size, disable the TX queue
-      if ( pAdapter->wmm_tx_queue[ac].count == pAdapter->wmm_tx_queue[ac].max_size)
-      {
-         /* We want to process one packet at a time, so lets disable all TX queues
-           * and re-enable the queues once we get TX feedback for this packet */
-         netif_tx_stop_all_queues(pAdapter->dev);
-         pAdapter->isTxSuspended[ac] = VOS_TRUE;
-         spin_unlock(&pAdapter->wmm_tx_queue[ac].lock);      
-         return NETDEV_TX_BUSY;   
-      }
-      spin_unlock(&pAdapter->wmm_tx_queue[ac].lock);      
-
-      //Use the skb->cb field to hold the list node information
-      pktNode = (skb_list_node_t *)&skb->cb;
-
-      //Stick the OS packet inside this node.
-      pktNode->skb = skb;
-
-      INIT_LIST_HEAD(&pktNode->anchor);
-
-      //Insert the OS packet into the appropriate AC queue
-      spin_lock(&pAdapter->wmm_tx_queue[ac].lock);
-      status = hdd_list_insert_back_size( &pAdapter->wmm_tx_queue[ac],
-                                          &pktNode->anchor, &pktListSize );
-      spin_unlock(&pAdapter->wmm_tx_queue[ac].lock);
-
-      if ( !VOS_IS_STATUS_SUCCESS( status ) )
-      {
-         VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-                "%s:Insert Tx queue failed. Pkt dropped", __func__);
-         kfree_skb(skb);
-         return NETDEV_TX_OK;
-      }
-
-      if ( pktListSize == 1 )
-      {
-         /* In this context we cannot acquire any mutex etc. And to transmit 
-          * this packet we need to call SME API. So to take care of this we will
-          * schedule a workqueue 
-          */
-         schedule_work(&pPgBkAdapter->monTxWorkQueue);
-      }
-      return NETDEV_TX_OK;
-   }
- 
-fail:
-   VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,
-           "%s: Packet Rcvd at Monitor interface is not proper,"
-           " Dropping the packet",
-            __func__);
-   kfree_skb(skb);
-   return NETDEV_TX_OK;
-}
-=======
 void hdd_mon_tx_work_queue(struct work_struct *work)
 {
    vos_ssr_protect(__func__);
@@ -1115,7 +791,6 @@ void hdd_dump_dhcp_pkt(struct sk_buff *skb, int path)
     return NETDEV_TX_OK;
  }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**============================================================================
   @brief hdd_hard_start_xmit() - Function registered with the Linux OS for
   transmitting packets. There are 2 versions of this function. One that uses
@@ -1131,11 +806,7 @@ void hdd_dump_dhcp_pkt(struct sk_buff *skb, int path)
 int hdd_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
 {
    VOS_STATUS status;
-<<<<<<< HEAD
-   WLANTL_ACEnumType ac;
-=======
    WLANTL_ACEnumType qid, ac;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    sme_QosWmmUpType up;
    skb_list_node_t *pktNode = NULL;
    hdd_list_node_t *anchor = NULL;
@@ -1144,49 +815,6 @@ int hdd_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
    v_BOOL_t granted;
    v_U8_t STAId = WLAN_MAX_STA_COUNT;
    hdd_station_ctx_t *pHddStaCtx = &pAdapter->sessionCtx.station;
-<<<<<<< HEAD
-   
-   v_BOOL_t txSuspended = VOS_FALSE;
-
-   ++pAdapter->hdd_stats.hddTxRxStats.txXmitCalled;
-
-   if (unlikely(netif_queue_stopped(dev))) {
-       VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,
-                  "%s is called when netif TX is disabled", __func__);
-       return NETDEV_TX_BUSY;
-   }
-
-   if (WLAN_HDD_IBSS == pAdapter->device_mode)
-   {
-      v_MACADDR_t *pDestMacAddress = (v_MACADDR_t*)skb->data;
-
-      STAId = *(v_U8_t *)(((v_U8_t *)(skb->data)) - 1);
-
-      if ((STAId == HDD_WLAN_INVALID_STA_ID) &&
-          (vos_is_macaddr_broadcast( pDestMacAddress ) ||
-           vos_is_macaddr_group(pDestMacAddress)))
-      {
-         STAId = IBSS_BROADCAST_STAID;
-         VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_LOW,
-                 "%s: BC/MC packet", __func__);
-      }
-      else if (STAId == HDD_WLAN_INVALID_STA_ID)
-      {
-         VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,
-                   "%s: Received Unicast frame with invalid staID", __func__);
-         ++pAdapter->stats.tx_dropped;
-         ++pAdapter->hdd_stats.hddTxRxStats.txXmitDropped;
-         kfree_skb(skb);
-         return NETDEV_TX_OK;
-      }
-   }
-   else
-   {
-      STAId = pHddStaCtx->conn_info.staId[0];
-   }
-   //Get TL AC corresponding to Qdisc queue index/AC.
-   ac = hdd_QdiscAcToTlAC[skb->queue_mapping];
-=======
    hdd_context_t *pHddCtx = WLAN_HDD_GET_CTX(pAdapter);
    v_BOOL_t txSuspended = VOS_FALSE;
    struct sk_buff *skb1;
@@ -1230,22 +858,11 @@ int hdd_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
          return NETDEV_TX_OK;
       }
       STAId = pHddStaCtx->conn_info.staId[0];
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    //user priority from IP header, which is already extracted and set from
    //select_queue call back function
    up = skb->priority;
 
-<<<<<<< HEAD
-   ++pAdapter->hdd_stats.hddTxRxStats.txXmitClassifiedAC[ac];
-
-#ifdef HDD_WMM_DEBUG
-   VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-              "%s: Classified as ac %d up %d", __func__, ac, up);
-#endif // HDD_WMM_DEBUG
-
-   spin_lock(&pAdapter->wmm_tx_queue[ac].lock);
-=======
    ++pAdapter->hdd_stats.hddTxRxStats.txXmitClassifiedAC[qid];
 
 #ifdef HDD_WMM_DEBUG
@@ -1259,32 +876,10 @@ int hdd_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
    }
 
    spin_lock(&pAdapter->wmm_tx_queue[qid].lock);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /*CR 463598,384996*/
    /*For every increment of 10 pkts in the queue, we inform TL about pending pkts.
     *We check for +1 in the logic,to take care of Zero count which
     *occurs very frequently in low traffic cases */
-<<<<<<< HEAD
-   if((pAdapter->wmm_tx_queue[ac].count + 1) % 10 == 0)
-   {
-      /* Use the following debug statement during Engineering Debugging.There are chance that this will lead to a Watchdog Bark
-            * if it is in the mainline code and if the log level is enabled by someone for debugging
-           VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,"%s:Queue is Filling up.Inform TL again about pending packets", __func__);*/
-
-       WLANTL_STAPktPending( (WLAN_HDD_GET_CTX(pAdapter))->pvosContext,
-                              STAId, ac
-                             );
-   }
-   //If we have already reached the max queue size, disable the TX queue
-   if ( pAdapter->wmm_tx_queue[ac].count == pAdapter->wmm_tx_queue[ac].max_size)
-   {
-      ++pAdapter->hdd_stats.hddTxRxStats.txXmitBackPressured;
-      ++pAdapter->hdd_stats.hddTxRxStats.txXmitBackPressuredAC[ac];
-
-      netif_tx_stop_queue(netdev_get_tx_queue(dev, skb_get_queue_mapping(skb)));
-      pAdapter->isTxSuspended[ac] = VOS_TRUE;
-      txSuspended = VOS_TRUE;
-=======
    if((pAdapter->wmm_tx_queue[qid].count + 1) % 10 == 0)
    {
       /* Use the following debug statement during Engineering Debugging.There are chance that this will lead to a Watchdog Bark
@@ -1318,24 +913,14 @@ int hdd_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
          txSuspended = VOS_TRUE;
          MTRACE(vos_trace(VOS_MODULE_ID_HDD, TRACE_CODE_HDD_STOP_NETDEV,
                           pAdapter->sessionId, qid));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    /* If 3/4th of the max queue size is used then enable the flag.
     * This flag indicates to place the DHCP packets in VOICE AC queue.*/
-<<<<<<< HEAD
-   if (WLANTL_AC_BE == ac)
-   {
-      if (pAdapter->wmm_tx_queue[ac].count >= HDD_TX_QUEUE_LOW_WATER_MARK)
-      {
-          VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-                     "%s: Best Effort AC Tx queue is 3/4th full", __func__);
-=======
    if (WLANTL_AC_BE == qid)
    {
       if (pAdapter->wmm_tx_queue[qid].count >= HDD_TX_QUEUE_LOW_WATER_MARK)
       {
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
           pAdapter->isVosLowResource = VOS_TRUE;
       }
       else
@@ -1344,14 +929,6 @@ int hdd_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
       }
    }
 
-<<<<<<< HEAD
-   spin_unlock(&pAdapter->wmm_tx_queue[ac].lock);
-   if (VOS_TRUE == txSuspended)
-   {
-       VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-                  "%s: TX queue full for AC=%d Disable OS TX queue",
-                  __func__, ac );
-=======
    spin_unlock(&pAdapter->wmm_tx_queue[qid].lock);
 
    if (( NULL != pHddCtx ) &&
@@ -1365,7 +942,6 @@ int hdd_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
        VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_INFO,
                   "%s: TX queue full for QId=%d Disable OS TX queue",
                   __func__, qid );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return NETDEV_TX_BUSY;
    }
 
@@ -1382,17 +958,6 @@ int hdd_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
    INIT_LIST_HEAD(&pktNode->anchor);
 
    //Insert the OS packet into the appropriate AC queue
-<<<<<<< HEAD
-   spin_lock(&pAdapter->wmm_tx_queue[ac].lock);
-   status = hdd_list_insert_back_size( &pAdapter->wmm_tx_queue[ac], &pktNode->anchor, &pktListSize );
-   spin_unlock(&pAdapter->wmm_tx_queue[ac].lock);
-
-   if ( !VOS_IS_STATUS_SUCCESS( status ) )
-   {
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,"%s:Insert Tx queue failed. Pkt dropped", __func__);
-      ++pAdapter->hdd_stats.hddTxRxStats.txXmitDropped;
-      ++pAdapter->hdd_stats.hddTxRxStats.txXmitDroppedAC[ac];
-=======
    spin_lock(&pAdapter->wmm_tx_queue[qid].lock);
    status = hdd_list_insert_back_size( &pAdapter->wmm_tx_queue[qid], &pktNode->anchor, &pktListSize );
    spin_unlock(&pAdapter->wmm_tx_queue[qid].lock);
@@ -1402,18 +967,13 @@ int hdd_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_WARN,"%s:Insert Tx queue failed. Pkt dropped", __func__);
       ++pAdapter->hdd_stats.hddTxRxStats.txXmitDropped;
       ++pAdapter->hdd_stats.hddTxRxStats.txXmitDroppedAC[qid];
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       ++pAdapter->stats.tx_dropped;
       kfree_skb(skb);
       return NETDEV_TX_OK;
    }
 
    ++pAdapter->hdd_stats.hddTxRxStats.txXmitQueued;
-<<<<<<< HEAD
-   ++pAdapter->hdd_stats.hddTxRxStats.txXmitQueuedAC[ac];
-=======
    ++pAdapter->hdd_stats.hddTxRxStats.txXmitQueuedAC[qid];
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    ++pAdapter->hdd_stats.hddTxRxStats.pkt_tx_count;
 
    if (HDD_PSB_CHANGED == pAdapter->psbChanged)
@@ -1436,28 +996,6 @@ int hdd_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
       status = hdd_wmm_acquire_access( pAdapter, ac, &granted );
       pAdapter->psbChanged |= (1 << ac);
    }
-<<<<<<< HEAD
-   if ( granted && ( pktListSize == 1 ))
-   {
-      //Let TL know we have a packet to send for this AC
-      //VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s:Indicating Packet to TL", __func__);
-      status = WLANTL_STAPktPending(
-                                  (WLAN_HDD_GET_CTX(pAdapter))->pvosContext,
-                                   STAId, ac );
-      if ( !VOS_IS_STATUS_SUCCESS( status ) )
-      {
-         VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN, "%s: Failed to signal TL for AC=%d", __func__, ac );
-
-         //Remove the packet from queue. It must be at the back of the queue, as TX thread cannot preempt us in the middle
-         //as we are in a soft irq context. Also it must be the same packet that we just allocated.
-         spin_lock(&pAdapter->wmm_tx_queue[ac].lock);
-         status = hdd_list_remove_back( &pAdapter->wmm_tx_queue[ac], &anchor );
-         spin_unlock(&pAdapter->wmm_tx_queue[ac].lock);
-         ++pAdapter->stats.tx_dropped;
-         ++pAdapter->hdd_stats.hddTxRxStats.txXmitDropped;
-         ++pAdapter->hdd_stats.hddTxRxStats.txXmitDroppedAC[ac];
-         kfree_skb(skb);
-=======
 
    if ( (granted && ( pktListSize == 1 )) ||
         (qid == WLANTL_AC_HIGH_PRIO))
@@ -1491,7 +1029,6 @@ int hdd_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
          ++pAdapter->stats.tx_dropped;
          ++pAdapter->hdd_stats.hddTxRxStats.txXmitDropped;
          ++pAdapter->hdd_stats.hddTxRxStats.txXmitDroppedAC[qid];
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          return NETDEV_TX_OK;
       }
    }
@@ -1528,19 +1065,6 @@ VOS_STATUS hdd_Ibss_GetStaId(hdd_station_ctx_t *pHddStaCtx, v_MACADDR_t *pMacAdd
 }
 
 /**============================================================================
-<<<<<<< HEAD
-  @brief hdd_tx_timeout() - Function called by OS if there is any
-  timeout during transmission. Since HDD simply enqueues packet
-  and returns control to OS right away, this would never be invoked
-
-  @param dev : [in] pointer to Libra network device
-  @return    : None
-  ===========================================================================*/
-void hdd_tx_timeout(struct net_device *dev)
-{
-   VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-      "%s: Transmission timeout occurred", __func__);
-=======
   @brief __hdd_tx_timeout() - Function handles timeout during transmission.
 
   @param dev : [in] pointer to network device
@@ -1586,18 +1110,10 @@ void __hdd_tx_timeout(struct net_device *dev)
 
    ++pAdapter->hdd_stats.hddTxRxStats.txTimeoutCount;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    //Getting here implies we disabled the TX queues for too long. Queues are 
    //disabled either because of disassociation or low resource scenarios. In
    //case of disassociation it is ok to ignore this. But if associated, we have
    //do possible recovery here
-<<<<<<< HEAD
-} 
-
-
-/**============================================================================
-  @brief hdd_stats() - Function registered with the Linux OS for 
-=======
 
    VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
               "num_bytes AC0: %d AC1: %d AC2: %d AC3: %d",
@@ -1748,18 +1264,12 @@ void hdd_tx_timeout(struct net_device *dev)
 
 /**============================================================================
   @brief __hdd_stats() - Function registered with the Linux OS for
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   device TX/RX statistic
 
   @param dev      : [in] pointer to Libra network device
   
   @return         : pointer to net_device_stats structure
   ===========================================================================*/
-<<<<<<< HEAD
-struct net_device_stats* hdd_stats(struct net_device *dev)
-{
-   hdd_adapter_t *pAdapter =  WLAN_HDD_GET_PRIV_PTR(dev);
-=======
 struct net_device_stats* __hdd_stats(struct net_device *dev)
 {
    hdd_adapter_t *pAdapter =  WLAN_HDD_GET_PRIV_PTR(dev);
@@ -1771,13 +1281,10 @@ struct net_device_stats* __hdd_stats(struct net_device *dev)
       VOS_ASSERT(0);
       return NULL;
    }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    
    return &pAdapter->stats;
 }
 
-<<<<<<< HEAD
-=======
 struct net_device_stats* hdd_stats(struct net_device *dev)
 {
     struct net_device_stats* dev_stats;
@@ -1887,7 +1394,6 @@ VOS_STATUS hdd_ibss_deinit_tx_rx( hdd_adapter_t *pAdapter )
 
    return status;
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /**============================================================================
   @brief hdd_init_tx_rx() - Init function to initialize Tx/RX
@@ -1902,8 +1408,6 @@ VOS_STATUS hdd_init_tx_rx( hdd_adapter_t *pAdapter )
    VOS_STATUS status = VOS_STATUS_SUCCESS;
    v_SINT_t i = -1;
 
-<<<<<<< HEAD
-=======
    if ( NULL == pAdapter )
    {
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
@@ -1912,7 +1416,6 @@ VOS_STATUS hdd_init_tx_rx( hdd_adapter_t *pAdapter )
       return VOS_STATUS_E_FAILURE;
    }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    pAdapter->isVosOutOfResource = VOS_FALSE;
    pAdapter->isVosLowResource = VOS_FALSE;
 
@@ -1942,9 +1445,6 @@ VOS_STATUS hdd_deinit_tx_rx( hdd_adapter_t *pAdapter )
    VOS_STATUS status = VOS_STATUS_SUCCESS;
    v_SINT_t i = -1;
 
-<<<<<<< HEAD
-   status = hdd_flush_tx_queues(pAdapter);
-=======
    if ( NULL == pAdapter )
    {
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
@@ -1958,7 +1458,6 @@ VOS_STATUS hdd_deinit_tx_rx( hdd_adapter_t *pAdapter )
        VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_WARN,
           FL("failed to flush tx queues"));
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    while (++i != NUM_TX_QUEUES) 
    {
       //Free up actual list elements in the Tx queue
@@ -2000,16 +1499,10 @@ v_BOOL_t hdd_IsEAPOLPacket( vos_pkt_t *pVosPacket )
     
     vosStatus = vos_pkt_peek_data( pVosPacket, (v_SIZE_t)HDD_ETHERTYPE_802_1_X_FRAME_OFFSET,
                           &pBuffer, HDD_ETHERTYPE_802_1_X_SIZE );
-<<<<<<< HEAD
-    if (VOS_IS_STATUS_SUCCESS( vosStatus ) )
-    {
-       if ( vos_be16_to_cpu( *(unsigned short*)pBuffer ) == HDD_ETHERTYPE_802_1_X )
-=======
     if ( VOS_IS_STATUS_SUCCESS( vosStatus ) )
     {
        if ( pBuffer && *(unsigned short*)pBuffer ==
                              vos_cpu_to_be16(HDD_ETHERTYPE_802_1_X) )
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        {
           fEAPOL = VOS_TRUE;
        }
@@ -2018,8 +1511,6 @@ v_BOOL_t hdd_IsEAPOLPacket( vos_pkt_t *pVosPacket )
    return fEAPOL;
 }
 
-<<<<<<< HEAD
-=======
 /**============================================================================
   @brief hdd_IsARP() - Checks the packet is ARP or not.
 
@@ -2049,7 +1540,6 @@ v_BOOL_t hdd_IsARP( vos_pkt_t *pVosPacket )
 
    return fIsARP;
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef FEATURE_WLAN_WAPI // Need to update this function
 /**============================================================================
@@ -2072,12 +1562,8 @@ v_BOOL_t hdd_IsWAIPacket( vos_pkt_t *pVosPacket )
 
     if (VOS_IS_STATUS_SUCCESS( vosStatus ) )
     {
-<<<<<<< HEAD
-       if ( vos_be16_to_cpu( *(unsigned short*)pBuffer ) == HDD_ETHERTYPE_WAI)
-=======
        if ( pBuffer && *(unsigned short*)pBuffer ==
                                vos_cpu_to_be16(HDD_ETHERTYPE_WAI) )
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        {
           fIsWAI = VOS_TRUE;
        }
@@ -2087,71 +1573,6 @@ v_BOOL_t hdd_IsWAIPacket( vos_pkt_t *pVosPacket )
 }
 #endif /* FEATURE_WLAN_WAPI */
 
-<<<<<<< HEAD
-/**============================================================================
-  @brief hdd_tx_complete_cbk() - Callback function invoked by TL
-  to indicate that a packet has been transmitted across the SDIO bus
-  succesfully. OS packet resources can be released after this cbk.
-
-  @param vosContext   : [in] pointer to VOS context   
-  @param pVosPacket   : [in] pointer to VOS packet (containing skb) 
-  @param vosStatusIn  : [in] status of the transmission 
-
-  @return             : VOS_STATUS_E_FAILURE if any errors encountered 
-                      : VOS_STATUS_SUCCESS otherwise
-  ===========================================================================*/
-VOS_STATUS hdd_tx_complete_cbk( v_VOID_t *vosContext, 
-                                vos_pkt_t *pVosPacket, 
-                                VOS_STATUS vosStatusIn )
-{
-   VOS_STATUS status = VOS_STATUS_SUCCESS;
-   hdd_adapter_t *pAdapter = NULL;   
-   hdd_context_t *pHddCtx = NULL;
-   void* pOsPkt = NULL;
-   
-   if( ( NULL == vosContext ) || ( NULL == pVosPacket )  )
-   {
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: Null params being passed", __func__);
-      return VOS_STATUS_E_FAILURE; 
-   }
-
-   //Return the skb to the OS
-   status = vos_pkt_get_os_packet( pVosPacket, &pOsPkt, VOS_TRUE );
-   if(!VOS_IS_STATUS_SUCCESS( status ))
-   {
-      //This is bad but still try to free the VOSS resources if we can
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: Failure extracting skb from vos pkt", __func__);
-      vos_pkt_return_packet( pVosPacket );
-      return VOS_STATUS_E_FAILURE;
-   }
-   
-   //Get the HDD context.
-   pHddCtx = (hdd_context_t *)vos_get_context( VOS_MODULE_ID_HDD, vosContext );
-   //Get the Adapter context.
-   pAdapter = hdd_get_adapter(pHddCtx,WLAN_HDD_INFRA_STATION);
-   if(pAdapter == NULL)
-   {
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,"%s: HDD adapter context is Null", __func__);
-   }
-   else
-   {
-      ++pAdapter->hdd_stats.hddTxRxStats.txCompleted;
-   }
-
-   kfree_skb((struct sk_buff *)pOsPkt); 
-
-   //Return the VOS packet resources.
-   status = vos_pkt_return_packet( pVosPacket );
-   if(!VOS_IS_STATUS_SUCCESS( status ))
-   {
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: Could not return VOS packet to the pool", __func__);
-   }
-
-   return status;
-}
-
-
-=======
 /**============================================================================
   @brief hdd_tx_complete_cbk() - Callback function invoked by TL
   to indicate that a packet has been transmitted across the SDIO bus
@@ -2462,7 +1883,6 @@ VOS_STATUS hdd_ibss_tx_fetch_packet_cbk( v_VOID_t *vosContext,
    return status;
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**============================================================================
   @brief hdd_tx_fetch_packet_cbk() - Callback function invoked by TL to 
   fetch a packet for transmission.
@@ -2494,14 +1914,10 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
    v_TIME_t timestamp;
    WLANTL_ACEnumType newAc;
    v_SIZE_t size = 0;
-<<<<<<< HEAD
-   tANI_U8   acAdmitted, i;
-=======
    v_U16_t packet_size;
    tANI_U8   acAdmitted, i;
    v_U8_t proto_type = 0;
    WLANTL_ACEnumType actualAC;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    //Sanity check on inputs
    if ( ( NULL == vosContext ) || 
@@ -2509,12 +1925,8 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
         ( NULL == ppVosPacket ) ||
         ( NULL == pPktMetaInfo ) )
    {
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: Null Params being passed", __func__);
-=======
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
                           "%s: Null Params being passed", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return VOS_STATUS_E_FAILURE;
    }
 
@@ -2522,15 +1934,6 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
    pHddCtx = (hdd_context_t *)vos_get_context( VOS_MODULE_ID_HDD, vosContext );
    if(pHddCtx == NULL)
    {
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: HDD adapter context is Null", __func__);
-      return VOS_STATUS_E_FAILURE;
-   }
- 
-   pAdapter = pHddCtx->sta_to_adapter[*pStaId];
-   if ((NULL == pAdapter) || (WLAN_HDD_ADAPTER_MAGIC != pAdapter->magic))
-   {
-=======
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
                         "%s: HDD adapter context is Null", __func__);
       return VOS_STATUS_E_FAILURE;
@@ -2540,7 +1943,6 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
    {
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
               FL("invalid adapter:%p for staId:%u"), pAdapter, *pStaId);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       VOS_ASSERT(0);
       return VOS_STATUS_E_FAILURE;
    }
@@ -2550,60 +1952,27 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
    *ppVosPacket = NULL;
 
    //Make sure the AC being asked for is sane
-<<<<<<< HEAD
-   if( ac >= WLANTL_MAX_AC || ac < 0)
-   {
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: Invalid AC %d passed by TL", __func__, ac);
-=======
    if (ac > WLANTL_AC_HIGH_PRIO || ac < 0)
    {
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
                             "%s: Invalid QId %d passed by TL", __func__, ac);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return VOS_STATUS_E_FAILURE;
    }
 
    ++pAdapter->hdd_stats.hddTxRxStats.txFetchedAC[ac];
 
 #ifdef HDD_WMM_DEBUG
-<<<<<<< HEAD
-   VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,"%s: AC %d passed by TL", __func__, ac);
-#endif // HDD_WMM_DEBUG
-
-   // We find an AC with packets
-   // or we determine we have no more packets to send
-   // HDD is not allowed to change AC.
-
-   // has this AC been admitted? or 
-   // To allow EAPOL packets when not authenticated
-   if (unlikely((0==pAdapter->hddWmmStatus.wmmAcStatus[ac].wmmAcAccessAllowed) &&
-                (WLAN_HDD_GET_STATION_CTX_PTR(pAdapter))->conn_info.uIsAuthenticated))
-   {
-      ++pAdapter->hdd_stats.hddTxRxStats.txFetchEmpty;
-#ifdef HDD_WMM_DEBUG
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-                 "%s: no packets pending", __func__);
-#endif // HDD_WMM_DEBUG
-      return VOS_STATUS_E_FAILURE;
-   }
-      
-=======
    VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_FATAL,
                               "%s: AC %d passed by TL", __func__, ac);
 #endif // HDD_WMM_DEBUG
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    // do we have any packets pending in this AC?
    hdd_list_size( &pAdapter->wmm_tx_queue[ac], &size ); 
    if( size >  0 )
    {
        // yes, so process it
 #ifdef HDD_WMM_DEBUG
-<<<<<<< HEAD
-       VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-=======
        VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_FATAL,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        "%s: AC %d has packets pending", __func__, ac);
 #endif // HDD_WMM_DEBUG
    }
@@ -2611,18 +1980,12 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
    {
       ++pAdapter->hdd_stats.hddTxRxStats.txFetchEmpty;
 #ifdef HDD_WMM_DEBUG
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-=======
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_FATAL,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                    "%s: no packets pending", __func__);
 #endif // HDD_WMM_DEBUG
       return VOS_STATUS_E_FAILURE;
    }
 
-<<<<<<< HEAD
-=======
    // Note here that we are not checking "wmmAcAccessAllowed" for packets
    // in new queue since there is no one AC associated to the new queue.
    // Since there will be either eapol or dhcp pkts in new queue overlooking
@@ -2647,7 +2010,6 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
       }
    }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    //Get the vos packet. I don't want to dequeue and enqueue again if we are out of VOS resources 
    //This simplifies the locking and unlocking of Tx queue
    status = vos_pkt_wrap_data_packet( &pVosPacket, 
@@ -2661,11 +2023,7 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
       //Remember VOS is in a low resource situation
       pAdapter->isVosOutOfResource = VOS_TRUE;
       ++pAdapter->hdd_stats.hddTxRxStats.txFetchLowResources;
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,"%s: VOSS in Low Resource scenario", __func__);
-=======
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_WARN,"%s: VOSS in Low Resource scenario", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       //TL will now think we have no more packets in this AC
       return VOS_STATUS_E_FAILURE;
    }
@@ -2680,8 +2038,6 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
       //If success then we got a valid packet from some AC
       pktNode = list_entry(anchor, skb_list_node_t, anchor);
       skb = pktNode->skb;
-<<<<<<< HEAD
-=======
       actualAC = hddWmmUpToAcMap[pktNode->userPriority];
       if (actualAC >= WLANTL_MAX_AC)
       {
@@ -2690,33 +2046,20 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
          "%s: Invalid AC for packet:%d", __func__, actualAC);
          actualAC = WLANTL_AC_BE;
       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
    else
    {
       ++pAdapter->hdd_stats.hddTxRxStats.txFetchDequeueError;
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN, "%s: Error in de-queuing "
-=======
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_WARN, "%s: Error in de-queuing "
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          "skb from Tx queue status = %d", __func__, status );
       vos_pkt_return_packet(pVosPacket);
       return VOS_STATUS_E_FAILURE;
    }
-<<<<<<< HEAD
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    //Attach skb to VOS packet.
    status = vos_pkt_set_os_packet( pVosPacket, skb );
    if (status != VOS_STATUS_SUCCESS)
    {
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,"%s: Error attaching skb", __func__);
-=======
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_WARN,"%s: Error attaching skb", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       vos_pkt_return_packet(pVosPacket);
       ++pAdapter->stats.tx_dropped;
       ++pAdapter->hdd_stats.hddTxRxStats.txFetchDequeueError;
@@ -2727,19 +2070,13 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
    //Just being paranoid. To be removed later
    if(pVosPacket == NULL)
    {
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,"%s: VOS packet returned by VOSS is NULL", __func__);
-=======
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_WARN,"%s: VOS packet returned by VOSS is NULL", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       ++pAdapter->stats.tx_dropped;
       ++pAdapter->hdd_stats.hddTxRxStats.txFetchDequeueError;
       kfree_skb(skb);
       return VOS_STATUS_E_FAILURE;
    }
 
-<<<<<<< HEAD
-=======
 #ifdef WLAN_FEATURE_LINK_LAYER_STATS
    if (vos_is_macaddr_multicast((v_MACADDR_t*)skb->data))
    {
@@ -2748,7 +2085,6 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
 
 #endif
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef FEATURE_WLAN_TDLS
     if (eTDLS_SUPPORT_ENABLED == pHddCtx->tdls_mode)
     {
@@ -2758,29 +2094,17 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
         wlan_hdd_tdls_extract_da(skb, mac);
 
         if (vos_is_macaddr_group((v_MACADDR_t *)mac)) {
-<<<<<<< HEAD
-            VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_MED,
-                      "broadcast packet, not adding to peer list");
-        } else if (memcmp(pHddStaCtx->conn_info.bssId,
-                            mac, 6) != 0) {
-            VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_MED,
-=======
             VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_INFO_MED,
                       "broadcast packet, not adding to peer list");
         } else if (memcmp(pHddStaCtx->conn_info.bssId,
                             mac, 6) != 0) {
             VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_INFO_MED,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       "extract mac: " MAC_ADDRESS_STR,
                       MAC_ADDR_ARRAY(mac) );
 
             wlan_hdd_tdls_increment_pkt_count(pAdapter, mac, 1);
         } else {
-<<<<<<< HEAD
-            VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_MED,
-=======
             VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_INFO_MED,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        "packet da is bssid, not adding to peer list");
         }
     }
@@ -2796,51 +2120,6 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
    
    if(pAdapter->sessionCtx.station.conn_info.uIsAuthenticated == VOS_TRUE)
       pPktMetaInfo->ucIsEapol = 0;       
-<<<<<<< HEAD
-   else 
-      pPktMetaInfo->ucIsEapol = hdd_IsEAPOLPacket( pVosPacket ) ? 1 : 0;
-
-#ifdef FEATURE_WLAN_WAPI
-   // Override usIsEapol value when its zero for WAPI case
-      pPktMetaInfo->ucIsWai = hdd_IsWAIPacket( pVosPacket ) ? 1 : 0;
-#endif /* FEATURE_WLAN_WAPI */
-
-   if ((HDD_WMM_USER_MODE_NO_QOS == pHddCtx->cfg_ini->WmmMode) ||
-       (!pAdapter->hddWmmStatus.wmmQap))
-   {
-      // either we don't want QoS or the AP doesn't support QoS
-      pPktMetaInfo->ucUP = 0;
-      pPktMetaInfo->ucTID = 0;
-   }
-   else
-   {
-      /* 1. Check if ACM is set for this AC 
-       * 2. If set, check if this AC had already admitted 
-       * 3. If not already admitted, downgrade the UP to next best UP */
-      if(!pAdapter->hddWmmStatus.wmmAcStatus[ac].wmmAcAccessRequired ||
-         pAdapter->hddWmmStatus.wmmAcStatus[ac].wmmAcTspecValid)
-      {
-        pPktMetaInfo->ucUP = pktNode->userPriority;
-        pPktMetaInfo->ucTID = pPktMetaInfo->ucUP;
-      }
-      else
-      {
-        //Downgrade the UP
-        acAdmitted = pAdapter->hddWmmStatus.wmmAcStatus[ac].wmmAcTspecValid;
-        newAc = WLANTL_AC_BK;
-        for (i=ac-1; i>0; i--)
-        {
-            if (pAdapter->hddWmmStatus.wmmAcStatus[i].wmmAcAccessRequired == 0)
-            {
-                newAc = i;
-                break;
-            }
-        }
-        pPktMetaInfo->ucUP = hddWmmAcToHighestUp[newAc];
-        pPktMetaInfo->ucTID = pPktMetaInfo->ucUP;
-        VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_LOW,"Downgrading UP %d to UP %d ", pktNode->userPriority, pPktMetaInfo->ucUP);
-      }
-=======
    else
       pPktMetaInfo->ucIsEapol = hdd_IsEAPOLPacket( pVosPacket ) ? 1 : 0;
 
@@ -2920,7 +2199,6 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
    if (pHddCtx->cfg_ini->gEnableRoamDelayStats)
    {
        vos_record_roam_event(e_TL_FIRST_XMIT_TIME, NULL, 0);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    pPktMetaInfo->ucType = 0;          //FIXME Don't know what this is
@@ -2947,20 +2225,13 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
    {
       ++pAdapter->hdd_stats.hddTxRxStats.txFetchDePressured;
       ++pAdapter->hdd_stats.hddTxRxStats.txFetchDePressuredAC[ac];
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-=======
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_INFO,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  "%s: TX queue[%d] re-enabled", __func__, ac);
       pAdapter->isTxSuspended[ac] = VOS_FALSE;      
       netif_tx_wake_queue(netdev_get_tx_queue(pAdapter->dev, 
                                         skb_get_queue_mapping(skb) ));
-<<<<<<< HEAD
-=======
       MTRACE(vos_trace(VOS_MODULE_ID_HDD, TRACE_CODE_HDD_WAKE_NETDEV,
                        pAdapter->sessionId, ac));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
 
@@ -2977,21 +2248,14 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
    ++pAdapter->stats.tx_packets;
    ++pAdapter->hdd_stats.hddTxRxStats.txFetchDequeued;
    ++pAdapter->hdd_stats.hddTxRxStats.txFetchDequeuedAC[ac];
-<<<<<<< HEAD
-=======
    pAdapter->hdd_stats.hddTxRxStats.continuousTxTimeoutCount = 0;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    if((pHddCtx->cfg_ini->thermalMitigationEnable) &&
       (WLAN_HDD_INFRA_STATION == pAdapter->device_mode))
    {
       if(mutex_lock_interruptible(&pHddCtx->tmInfo.tmOperationLock))
       {
-<<<<<<< HEAD
-         VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-=======
          VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     "%s: Tm Lock fail", __func__);
          return VOS_STATUS_E_FAILURE;
       }
@@ -3009,10 +2273,7 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
          {
             /* During TX open duration, TX frame count is larger than threshold
              * Block TX during Sleep time */
-<<<<<<< HEAD
-=======
             hddLog(VOS_TRACE_LEVEL_INFO, FL("Disabling queues"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             netif_tx_stop_all_queues(pAdapter->dev);
             pHddCtx->tmInfo.qBlocked = VOS_TRUE;
             pHddCtx->tmInfo.lastblockTs = timestamp;
@@ -3040,11 +2301,7 @@ VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
 
 
 #ifdef HDD_WMM_DEBUG
-<<<<<<< HEAD
-   VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,"%s: Valid VOS PKT returned to TL", __func__);
-=======
    VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_FATAL,"%s: Valid VOS PKT returned to TL", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif // HDD_WMM_DEBUG
 
    return status;
@@ -3071,16 +2328,10 @@ VOS_STATUS hdd_tx_low_resource_cbk( vos_pkt_t *pVosPacket,
    v_SIZE_t size = 0;
    hdd_adapter_t* pAdapter = (hdd_adapter_t *)userData;
    
-<<<<<<< HEAD
-   if(pAdapter == NULL)
-   {
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: HDD adapter context is Null", __func__);
-=======
    if (NULL == pAdapter || WLAN_HDD_ADAPTER_MAGIC != pAdapter->magic)
    {
       VOS_TRACE(VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
                  FL("Invalid adapter %p"), pAdapter);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return VOS_STATUS_E_FAILURE;
    }
 
@@ -3103,12 +2354,8 @@ VOS_STATUS hdd_tx_low_resource_cbk( vos_pkt_t *pVosPacket,
                                         (WLANTL_ACEnumType)i );
          if( !VOS_IS_STATUS_SUCCESS( status ) )
          {
-<<<<<<< HEAD
-            VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: Failure in indicating pkt to TL for ac=%d", __func__,i); 
-=======
             VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
                            "%s: Failure in indicating pkt to TL for ac=%d", __func__, i);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          }
       }
    }
@@ -3116,8 +2363,6 @@ VOS_STATUS hdd_tx_low_resource_cbk( vos_pkt_t *pVosPacket,
    return VOS_STATUS_SUCCESS;
 }
 
-<<<<<<< HEAD
-=======
 static void hdd_mon_add_rx_radiotap_hdr (struct sk_buff *skb,
              int rtap_len,  v_PVOID_t  pRxPacket, hdd_mon_ctx_t *pMonCtx)
 {
@@ -3278,7 +2523,6 @@ VOS_STATUS  hdd_rx_packet_monitor_cbk(v_VOID_t *vosContext,vos_pkt_t *pVosPacket
 
 return status;
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /**============================================================================
   @brief hdd_rx_packet_cbk() - Receive callback registered with TL.
@@ -3305,49 +2549,31 @@ VOS_STATUS hdd_rx_packet_cbk( v_VOID_t *vosContext,
    struct sk_buff *skb = NULL;
    vos_pkt_t* pVosPacket;
    vos_pkt_t* pNextVosPacket;
-<<<<<<< HEAD
-=======
    v_U8_t proto_type;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    //Sanity check on inputs
    if ( ( NULL == vosContext ) || 
         ( NULL == pVosPacketChain ) ||
         ( NULL == pRxMetaInfo ) )
    {
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: Null params being passed", __func__);
-=======
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
                          "%s: Null params being passed", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return VOS_STATUS_E_FAILURE;
    }
 
    pHddCtx = (hdd_context_t *)vos_get_context( VOS_MODULE_ID_HDD, vosContext );
    if ( NULL == pHddCtx )
    {
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: HDD adapter context is Null", __func__);
-=======
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
                            "%s: HDD adapter context is Null", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return VOS_STATUS_E_FAILURE;
    }
 
    pAdapter = pHddCtx->sta_to_adapter[staId];
-<<<<<<< HEAD
-   if( NULL == pAdapter )
-   {
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: pAdapter is Null for staId %u",
-                 __func__, staId);
-=======
    if ((NULL == pAdapter)  || (WLAN_HDD_ADAPTER_MAGIC != pAdapter->magic) )
    {
       VOS_TRACE(VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
                  FL("Invalid adapter %p for staId %u"), pAdapter, staId);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return VOS_STATUS_E_FAILURE;
    }
 
@@ -3365,30 +2591,12 @@ VOS_STATUS hdd_rx_packet_cbk( v_VOID_t *vosContext,
       if (!((status == VOS_STATUS_SUCCESS) || (status == VOS_STATUS_E_EMPTY)))
       {
          ++pAdapter->hdd_stats.hddTxRxStats.rxDropped;
-<<<<<<< HEAD
-         VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: Failure walking packet chain", __func__);
-=======
          VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
                          "%s: Failure walking packet chain", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          return VOS_STATUS_E_FAILURE;
       }
 
       // Extract the OS packet (skb).
-<<<<<<< HEAD
-      // Tell VOS to detach the OS packet from the VOS packet
-      status = vos_pkt_get_os_packet( pVosPacket, (v_VOID_t **)&skb, VOS_TRUE );
-      if(!VOS_IS_STATUS_SUCCESS( status ))
-      {
-         ++pAdapter->hdd_stats.hddTxRxStats.rxDropped;
-         VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: Failure extracting skb from vos pkt", __func__);
-         return VOS_STATUS_E_FAILURE;
-      }
-
-      if (WLAN_HDD_ADAPTER_MAGIC != pAdapter->magic)
-      {
-         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-=======
       status = vos_pkt_get_os_packet( pVosPacket, (v_VOID_t **)&skb, VOS_FALSE );
       if(!VOS_IS_STATUS_SUCCESS( status ))
       {
@@ -3406,7 +2614,6 @@ VOS_STATUS hdd_rx_packet_cbk( v_VOID_t *vosContext,
       if (WLAN_HDD_ADAPTER_MAGIC != pAdapter->magic)
       {
          VOS_TRACE(VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_FATAL,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            "Magic cookie(%x) for adapter sanity verification is invalid", pAdapter->magic);
          return eHAL_STATUS_FAILURE;
       }
@@ -3418,29 +2625,6 @@ VOS_STATUS hdd_rx_packet_cbk( v_VOID_t *vosContext,
         hdd_station_ctx_t *pHddStaCtx = &pAdapter->sessionCtx.station;
         u8 mac[6];
 
-<<<<<<< HEAD
-        wlan_hdd_tdls_extract_sa(skb, mac);
-
-        if (vos_is_macaddr_group((v_MACADDR_t *)mac)) {
-            VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_MED,
-                      "rx broadcast packet, not adding to peer list");
-        } else if (memcmp(pHddStaCtx->conn_info.bssId,
-                            mac, 6) != 0) {
-            hddTdlsPeer_t *curr_peer;
-            VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_MED,
-                      "rx extract mac:" MAC_ADDRESS_STR,
-                      MAC_ADDR_ARRAY(mac) );
-            curr_peer = wlan_hdd_tdls_find_peer(pAdapter, mac);
-            if ((NULL != curr_peer) && (eTDLS_LINK_CONNECTED == curr_peer->link_status)
-                 && (TRUE == pRxMetaInfo->isStaTdls))
-            {
-                wlan_hdd_tdls_increment_pkt_count(pAdapter, mac, 0);
-                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,"rssi is %d", pRxMetaInfo->rssiAvg);
-                wlan_hdd_tdls_set_rssi (pAdapter, mac, pRxMetaInfo->rssiAvg);
-            }
-        } else {
-            VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_MED,
-=======
         memcpy(mac, skb->data+6, 6);
 
         if (vos_is_macaddr_group((v_MACADDR_t *)mac)) {
@@ -3452,13 +2636,10 @@ VOS_STATUS hdd_rx_packet_cbk( v_VOID_t *vosContext,
                     pRxMetaInfo->rssiAvg);
         } else {
             VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_INFO_MED,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        "rx packet sa is bssid, not adding to peer list");
         }
     }
 #endif
-<<<<<<< HEAD
-=======
       if (pHddCtx->cfg_ini->gEnableDebugLog)
       {
          proto_type = vos_pkt_get_proto_type(skb,
@@ -3489,7 +2670,6 @@ VOS_STATUS hdd_rx_packet_cbk( v_VOID_t *vosContext,
       {
           hdd_dump_dhcp_pkt(skb, RX_PATH);
       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
       skb->dev = pAdapter->dev;
       skb->protocol = eth_type_trans(skb, skb->dev);
@@ -3497,17 +2677,10 @@ VOS_STATUS hdd_rx_packet_cbk( v_VOID_t *vosContext,
       ++pAdapter->hdd_stats.hddTxRxStats.rxPackets;
       ++pAdapter->stats.rx_packets;
       pAdapter->stats.rx_bytes += skb->len;
-<<<<<<< HEAD
-#ifdef WLAN_OPEN_SOURCE
-#ifdef WLAN_FEATURE_HOLD_RX_WAKELOCK
-      wake_lock_timeout(&pHddCtx->rx_wake_lock, msecs_to_jiffies(HDD_WAKE_LOCK_DURATION));
-#endif
-=======
 #ifdef WLAN_FEATURE_HOLD_RX_WAKELOCK
        vos_wake_lock_timeout_release(&pHddCtx->rx_wake_lock,
                           HDD_WAKE_LOCK_DURATION,
                           WIFI_POWER_EVENT_WAKELOCK_HOLD_RX);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
       rxstat = netif_rx_ni(skb);
       if (NET_RX_SUCCESS == rxstat)
@@ -3528,11 +2701,7 @@ VOS_STATUS hdd_rx_packet_cbk( v_VOID_t *vosContext,
    status = vos_pkt_return_packet( pVosPacketChain );
    if(!VOS_IS_STATUS_SUCCESS( status ))
    {
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,"%s: Failure returning vos pkt", __func__);
-=======
       VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,"%s: Failure returning vos pkt", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
    
    pAdapter->dev->last_rx = jiffies;
@@ -3556,11 +2725,6 @@ void hdd_tx_rx_pkt_cnt_stat_timer_handler( void *phddctx)
     v_U8_t staId = 0;
     v_U8_t fconnected = 0;
 
-<<<<<<< HEAD
-    if (!cfg_param->dynSplitscan)
-    {
-        hddLog(VOS_TRACE_LEVEL_INFO,
-=======
     ENTER();
     if (0 != (wlan_hdd_validate_context(pHddCtx)))
     {
@@ -3569,7 +2733,6 @@ void hdd_tx_rx_pkt_cnt_stat_timer_handler( void *phddctx)
     if (!cfg_param->dynSplitscan)
     {
         VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_INFO,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 "%s: Error : Dynamic split scan is not Enabled : %d",
                 __func__, pHddCtx->cfg_ini->dynSplitscan);
         return;
@@ -3580,15 +2743,9 @@ void hdd_tx_rx_pkt_cnt_stat_timer_handler( void *phddctx)
     {
         pAdapter = pAdapterNode->pAdapter;
 
-<<<<<<< HEAD
-        if ( pAdapter )
-        {
-            hddLog(VOS_TRACE_LEVEL_INFO,
-=======
         if ((NULL != pAdapter) && (WLAN_HDD_ADAPTER_MAGIC == pAdapter->magic))
         {
             VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_INFO,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     "%s: Adapter with device mode %d exists",
                     __func__, pAdapter->device_mode);
 
@@ -3606,13 +2763,6 @@ void hdd_tx_rx_pkt_cnt_stat_timer_handler( void *phddctx)
             else if ((WLAN_HDD_SOFTAP == pAdapter->device_mode) ||
                      (WLAN_HDD_P2P_GO == pAdapter->device_mode))
             {
-<<<<<<< HEAD
-                for (staId = 0; staId < WLAN_MAX_STA_COUNT; staId++)
-                {
-                    if ((pAdapter->aStaInfo[staId].isUsed) &&
-                        (WLANTL_STA_AUTHENTICATED ==
-                                          pAdapter->aStaInfo[staId].tlSTAState))
-=======
                 v_CONTEXT_t pVosContext = ( WLAN_HDD_GET_CTX(pAdapter))->pvosContext;
                 ptSapContext pSapCtx = VOS_GET_SAP_CB(pVosContext);
                 if(pSapCtx == NULL){
@@ -3625,7 +2775,6 @@ void hdd_tx_rx_pkt_cnt_stat_timer_handler( void *phddctx)
                     if ((pSapCtx->aStaInfo[staId].isUsed) &&
                         (WLANTL_STA_AUTHENTICATED ==
                                           pSapCtx->aStaInfo[staId].tlSTAState))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     {
                         fconnected = TRUE;
                     }
@@ -3633,15 +2782,6 @@ void hdd_tx_rx_pkt_cnt_stat_timer_handler( void *phddctx)
             }
             if ( fconnected )
             {
-<<<<<<< HEAD
-                hddLog(VOS_TRACE_LEVEL_INFO,
-                        "%s: One of the interface is connected check for scan",
-                        __func__);
-                hddLog(VOS_TRACE_LEVEL_INFO,
-                       "%s: pkt_tx_count: %d, pkt_rx_count: %d", __func__,
-                                 pAdapter->hdd_stats.hddTxRxStats.pkt_tx_count,
-                                 pAdapter->hdd_stats.hddTxRxStats.pkt_rx_count);
-=======
                 VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_INFO,
                         "%s: One of the interface is connected check for scan",
                         __func__);
@@ -3651,7 +2791,6 @@ void hdd_tx_rx_pkt_cnt_stat_timer_handler( void *phddctx)
                         pAdapter->hdd_stats.hddTxRxStats.pkt_tx_count,
                         pAdapter->hdd_stats.hddTxRxStats.pkt_rx_count,
                         pHddCtx->drvr_miracast);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                 vos_timer_start(&pHddCtx->tx_rx_trafficTmr,
                                  cfg_param->trafficMntrTmrForSplitScan);
@@ -3660,12 +2799,8 @@ void hdd_tx_rx_pkt_cnt_stat_timer_handler( void *phddctx)
                                        cfg_param->txRxThresholdForSplitScan) ||
                     (pAdapter->hdd_stats.hddTxRxStats.pkt_rx_count >
                                        cfg_param->txRxThresholdForSplitScan) ||
-<<<<<<< HEAD
-                    pHddCtx->drvr_miracast)
-=======
                     pHddCtx->drvr_miracast ||
                     (WLAN_HDD_P2P_GO == pAdapter->device_mode))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 {
                     pAdapter->hdd_stats.hddTxRxStats.pkt_tx_count = 0;
                     pAdapter->hdd_stats.hddTxRxStats.pkt_rx_count = 0;
@@ -3692,11 +2827,6 @@ void hdd_tx_rx_pkt_cnt_stat_timer_handler( void *phddctx)
         pAdapterNode = pNext;
     }
 
-<<<<<<< HEAD
-    if (pHddCtx->issplitscan_enabled)
-    {
-       hddLog(VOS_TRACE_LEVEL_ERROR,
-=======
     /* If TDLSScanCoexistence is enabled, then the TDLS module shall take care
      * of disabling the split scan and thus do not disable the same when the
      * low TXRX condition is met.
@@ -3704,7 +2834,6 @@ void hdd_tx_rx_pkt_cnt_stat_timer_handler( void *phddctx)
     if ((pHddCtx->isTdlsScanCoexistence == FALSE) && (pHddCtx->issplitscan_enabled))
     {
        VOS_TRACE( VOS_MODULE_ID_HDD_DATA, VOS_TRACE_LEVEL_ERROR,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                         "%s: Disable split scan", __func__);
        pHddCtx->issplitscan_enabled = FALSE;
        sme_enable_disable_split_scan(
@@ -3712,11 +2841,6 @@ void hdd_tx_rx_pkt_cnt_stat_timer_handler( void *phddctx)
                                   SME_DISABLE_SPLIT_SCAN,
                                   SME_DISABLE_SPLIT_SCAN);
     }
-<<<<<<< HEAD
-    return;
-}
-
-=======
     EXIT();
     return;
 }
@@ -3820,4 +2944,3 @@ void wlan_hdd_log_eapol(struct sk_buff *skb,
                eapol_params.event_sub_type,eapol_params.eapol_key_info);
 }
 #endif /* FEATURE_WLAN_DIAG_SUPPORT */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver

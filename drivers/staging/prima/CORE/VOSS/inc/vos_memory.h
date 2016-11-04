@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #if !defined( __VOS_MEMORY_H )
@@ -62,12 +36,6 @@
                
    Memory management functions
   
-<<<<<<< HEAD
-   Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
-   
-   Qualcomm Confidential and Proprietary.
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   
   ========================================================================*/
 
@@ -77,11 +45,7 @@
   Include Files
   ------------------------------------------------------------------------*/
 #include <vos_types.h>
-<<<<<<< HEAD
-
-=======
 #include <linux/version.h>
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*-------------------------------------------------------------------------- 
   Preprocessor definitions and constants
   ------------------------------------------------------------------------*/
@@ -246,9 +210,6 @@ v_VOID_t vos_mem_move( v_VOID_t *pDst, const v_VOID_t *pSrc, v_SIZE_t numBytes )
                        locations are equal or not equal. 
     
   -------------------------------------------------------------------------------*/
-<<<<<<< HEAD
-v_BOOL_t vos_mem_compare( v_VOID_t *pMemory1, v_VOID_t *pMemory2, v_U32_t numBytes ); 
-=======
 v_BOOL_t vos_mem_compare(
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,18,0))
                           const v_VOID_t *pMemory1,
@@ -261,7 +222,6 @@ v_BOOL_t vos_mem_compare(
                           v_VOID_t *pMemory2,
 #endif
                           v_U32_t numBytes);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 
 /** ---------------------------------------------------------------------------
@@ -352,8 +312,6 @@ v_VOID_t vos_mem_dma_free( v_VOID_t *ptr );
   --------------------------------------------------------------------------*/
 v_VOID_t vos_mem_set_dma_ptr(unsigned char *dmaBuffer);
 #endif /* DMA_DIRECT_ACCESS */
-<<<<<<< HEAD
-=======
 
 
 /*----------------------------------------------------------------------------
@@ -382,5 +340,4 @@ v_VOID_t * vos_mem_vmalloc(v_SIZE_t size);
   --------------------------------------------------------------------------*/
 v_VOID_t vos_mem_vfree(void *addr);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif // __VOSS_LOCK_H

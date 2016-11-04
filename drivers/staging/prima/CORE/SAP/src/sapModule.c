@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,30 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -53,7 +25,6 @@
  * to the Linux Foundation.
  */
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*===========================================================================
 
                       s a p M o d u l e . C
@@ -67,13 +38,6 @@
   DEPENDENCIES:
 
   Are listed for each API below.
-<<<<<<< HEAD
-
-  Copyright (c) 2010 Qualcomm Technologies, Inc.
-  All Rights Reserved.
-  Qualcomm Technologies Confidential and Proprietary
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ===========================================================================*/
 
 /*===========================================================================
@@ -194,11 +158,6 @@ WLANSAP_Open
         return VOS_STATUS_E_FAULT;
     }
 
-<<<<<<< HEAD
-    vos_mem_zero(pSapCtx, sizeof(tSapContext));
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /*------------------------------------------------------------------------
         Clean up SAP control block, initialize all values
     ------------------------------------------------------------------------*/
@@ -206,8 +165,6 @@ WLANSAP_Open
 
     WLANSAP_CleanCB(pSapCtx, 0 /*do not empty*/);
 
-<<<<<<< HEAD
-=======
     if (!VOS_IS_STATUS_SUCCESS(vos_spin_lock_init(&pSapCtx->staInfo_lock)))
     {
         VOS_TRACE( VOS_MODULE_ID_SAP, VOS_TRACE_LEVEL_ERROR,
@@ -216,7 +173,6 @@ WLANSAP_Open
         return VOS_STATUS_E_FAULT;
     }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     // Setup the "link back" to the VOSS context
     pSapCtx->pvosGCtx = pvosGCtx;
 
@@ -309,11 +265,6 @@ WLANSAP_Start
         return VOS_STATUS_E_FAULT;
     }
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return VOS_STATUS_SUCCESS;
 }/* WLANSAP_Start */
 
@@ -645,21 +596,12 @@ WLANSAP_StartBss
 
         /* Channel selection is auto or configured */
         pSapCtx->channel = pConfig->channel;
-<<<<<<< HEAD
-=======
         pSapCtx->scanBandPreference = pConfig->scanBandPreference;
         pSapCtx->acsBandSwitchThreshold = pConfig->acsBandSwitchThreshold;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         pSapCtx->pUsrContext = pUsrContext;
 
         //Set the BSSID to your "self MAC Addr" read the mac address from Configuation ITEM received from HDD
         pSapCtx->csrRoamProfile.BSSIDs.numOfBSSIDs = 1;
-<<<<<<< HEAD
-        vos_mem_copy(pSapCtx->csrRoamProfile.BSSIDs.bssid,
-                     pSapCtx->self_mac_addr,
-                     sizeof( tCsrBssid ) );
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         //Save a copy to SAP context
         vos_mem_copy(pSapCtx->csrRoamProfile.BSSIDs.bssid,
@@ -1284,15 +1226,11 @@ VOS_STATUS
 WLANSAP_DisassocSta
 (
     v_PVOID_t  pvosGCtx,
-<<<<<<< HEAD
-    v_U8_t *pPeerStaMac
-=======
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,18,0))
     const v_U8_t *pPeerStaMac
 #else
     v_U8_t *pPeerStaMac
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 )
 {
     ptSapContext  pSapCtx = VOS_GET_SAP_CB(pvosGCtx);
@@ -1327,12 +1265,8 @@ WLANSAP_DisassocSta
 
     IN
     pvosGCtx            : Pointer to vos global context structure
-<<<<<<< HEAD
-    pPeerStaMac         : Mac address of the station to deauthenticate
-=======
     pDelStaParams       : Pointer to parameters of the station to
                           deauthenticate
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   RETURN VALUE
     The VOS_STATUS code associated with performing the operation
@@ -1345,11 +1279,7 @@ VOS_STATUS
 WLANSAP_DeauthSta
 (
     v_PVOID_t  pvosGCtx,
-<<<<<<< HEAD
-    v_U8_t *pPeerStaMac
-=======
     struct tagCsrDelStaParams *pDelStaParams
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 )
 {
     eHalStatus halStatus = eHAL_STATUS_FAILURE;
@@ -1367,13 +1297,8 @@ WLANSAP_DeauthSta
         return vosStatus;
     }
 
-<<<<<<< HEAD
-    halStatus = sme_RoamDeauthSta(VOS_GET_HAL_CB(pSapCtx->pvosGCtx), pSapCtx->sessionId,
-                            pPeerStaMac);
-=======
     halStatus = sme_RoamDeauthSta(VOS_GET_HAL_CB(pSapCtx->pvosGCtx),
                                   pSapCtx->sessionId, pDelStaParams);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (halStatus == eHAL_STATUS_SUCCESS)
     {
@@ -1406,11 +1331,7 @@ WLANSAP_DeauthSta
 ============================================================================*/
 VOS_STATUS
 WLANSAP_SetChannelRange(tHalHandle hHal,v_U8_t startChannel, v_U8_t endChannel,
-<<<<<<< HEAD
-                              v_U8_t operatingBand)
-=======
                               eSapOperatingBand operatingBand)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
 
     v_U8_t    validChannelFlag =0;
@@ -1449,29 +1370,17 @@ WLANSAP_SetChannelRange(tHalHandle hHal,v_U8_t startChannel, v_U8_t endChannel,
     }
     switch(operatingBand)
     {
-<<<<<<< HEAD
-       case RF_SUBBAND_2_4_GHZ:
-=======
        case eSAP_RF_SUBBAND_2_4_GHZ:
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
           bandStartChannel = RF_CHAN_1;
           bandEndChannel = RF_CHAN_14;
           break;
 
-<<<<<<< HEAD
-       case RF_SUBBAND_5_LOW_GHZ:
-=======
        case eSAP_RF_SUBBAND_5_LOW_GHZ:
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
           bandStartChannel = RF_CHAN_36;
           bandEndChannel = RF_CHAN_64;
           break;
 
-<<<<<<< HEAD
-       case RF_SUBBAND_5_MID_GHZ:
-=======
        case eSAP_RF_SUBBAND_5_MID_GHZ:
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
           bandStartChannel = RF_CHAN_100;
 #ifndef FEATURE_WLAN_CH144
           bandEndChannel = RF_CHAN_140;
@@ -1480,23 +1389,16 @@ WLANSAP_SetChannelRange(tHalHandle hHal,v_U8_t startChannel, v_U8_t endChannel,
 #endif /* FEATURE_WLAN_CH144 */
           break;
 
-<<<<<<< HEAD
-       case RF_SUBBAND_5_HIGH_GHZ:
-=======
        case eSAP_RF_SUBBAND_5_HIGH_GHZ:
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
           bandStartChannel = RF_CHAN_149;
           bandEndChannel = RF_CHAN_165;
           break;
 
-<<<<<<< HEAD
-=======
        case eSAP_RF_SUBBAND_5_ALL_GHZ:
           bandStartChannel = RF_CHAN_36;
           bandEndChannel = RF_CHAN_165;
           break;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        default:
           VOS_TRACE( VOS_MODULE_ID_SAP, VOS_TRACE_LEVEL_ERROR,
                    "Invalid operatingBand value on WLANSAP_SetChannelRange");
@@ -2471,8 +2373,6 @@ VOS_STATUS WLANSAP_DeRegisterMgmtFrame( v_PVOID_t pvosGCtx, tANI_U16 frameType,
 
     return VOS_STATUS_E_FAULT;
 }
-<<<<<<< HEAD
-=======
 
 /*==========================================================================
   FUNCTION    WLANSAP_PopulateDelStaParams
@@ -2519,4 +2419,3 @@ void WLANSAP_PopulateDelStaParams(const v_U8_t *mac,
                    pDelStaParams->reason_code, pDelStaParams->subtype,
                    MAC_ADDR_ARRAY(pDelStaParams->peerMacAddr));
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver

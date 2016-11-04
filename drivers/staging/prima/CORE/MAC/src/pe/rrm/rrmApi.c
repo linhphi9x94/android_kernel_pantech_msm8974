@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,32 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-
-
-
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -55,7 +25,6 @@
  * to the Linux Foundation.
  */
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**=========================================================================
   
   \file  rrmApi.c
@@ -76,11 +45,7 @@
 #include "wniApi.h"
 #include "sirApi.h"
 #include "aniGlobal.h"
-<<<<<<< HEAD
-#include "wniCfgSta.h"
-=======
 #include "wniCfg.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include "limTypes.h"
 #include "limUtils.h"
 #include "limSendSmeRspMessages.h"
@@ -90,12 +55,8 @@
 #include "rrmApi.h"
 
 tANI_U8
-<<<<<<< HEAD
-rrmGetMinOfMaxTxPower(tPowerdBm regMax, tPowerdBm apTxPower)
-=======
 rrmGetMinOfMaxTxPower(tpAniSirGlobal pMac,
                          tPowerdBm regMax, tPowerdBm apTxPower)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
     tANI_U8 maxTxPower = 0;
     tANI_U8 txPower = VOS_MIN( regMax, (apTxPower) );
@@ -106,12 +67,9 @@ rrmGetMinOfMaxTxPower(tpAniSirGlobal pMac,
     else
         maxTxPower = RRM_MAX_TX_PWR_CAP;
 
-<<<<<<< HEAD
-=======
     limLog( pMac, LOG3,
                   "%s: regulatoryMax = %d, apTxPwr = %d, maxTxpwr = %d",
                   __func__, regMax, apTxPower, maxTxPower );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return maxTxPower;
 }
 
@@ -133,13 +91,6 @@ rrmGetMinOfMaxTxPower(tpAniSirGlobal pMac,
 void
 rrmCacheMgmtTxPower ( tpAniSirGlobal pMac, tPowerdBm txPower, tpPESession pSessionEntry )
 {
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
-   PELOGE(limLog( pMac, LOGE, "Cache Mgmt Tx Power = %d", txPower );)
-#endif
-   if( pSessionEntry == NULL )
-       pMac->rrm.rrmPEContext.txMgmtPower = txPower;
-=======
    limLog( pMac, LOG3, "Cache Mgmt Tx Power = %d", txPower );
 
    if( pSessionEntry == NULL )
@@ -147,7 +98,6 @@ rrmCacheMgmtTxPower ( tpAniSirGlobal pMac, tPowerdBm txPower, tpPESession pSessi
        limLog( pMac, LOG3, "%s: pSessionEntry is NULL", __func__);
        pMac->rrm.rrmPEContext.txMgmtPower = txPower;
    }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    else
        pSessionEntry->txMgmtPower = txPower;
 }
@@ -170,14 +120,6 @@ rrmCacheMgmtTxPower ( tpAniSirGlobal pMac, tPowerdBm txPower, tpPESession pSessi
 tPowerdBm
 rrmGetMgmtTxPower ( tpAniSirGlobal pMac, tpPESession pSessionEntry )
 {
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
-   PELOGE(limLog( pMac, LOGE, "RrmGetMgmtTxPower called" );)
-#endif
-   if( pSessionEntry == NULL )
-      return pMac->rrm.rrmPEContext.txMgmtPower;
-   
-=======
    limLog( pMac, LOG3, "RrmGetMgmtTxPower called" );
 
    if( pSessionEntry == NULL )
@@ -187,7 +129,6 @@ rrmGetMgmtTxPower ( tpAniSirGlobal pMac, tpPESession pSessionEntry )
       return pMac->rrm.rrmPEContext.txMgmtPower;
    }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    return pSessionEntry->txMgmtPower;
 }
 
@@ -226,13 +167,7 @@ rrmSendSetMaxTxPowerReq ( tpAniSirGlobal pMac, tPowerdBm txPower, tpPESession pS
       return eSIR_MEM_ALLOC_FAILED;
 
    }
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
-   PELOGE(limLog( pMac, LOGE, FL(" Allocated memory for pMaxTxParams...will be freed in other module") );)
-#endif
-=======
    /* Allocated memory for pMaxTxParams...will be freed in other module */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    pMaxTxParams->power = txPower;
    vos_mem_copy(pMaxTxParams->bssId, pSessionEntry->bssId, sizeof(tSirMacAddr));
    vos_mem_copy(pMaxTxParams->selfStaMacAddr, pSessionEntry->selfMacAddr, sizeof(tSirMacAddr));
@@ -243,13 +178,9 @@ rrmSendSetMaxTxPowerReq ( tpAniSirGlobal pMac, tPowerdBm txPower, tpPESession pS
    msgQ.bodyptr = pMaxTxParams;
    msgQ.bodyval = 0;
 
-<<<<<<< HEAD
-   PELOGW(limLog(pMac, LOGW, FL( "Sending WDA_SET_MAX_TX_POWER_REQ to HAL"));)
-=======
    limLog(pMac, LOG3,
           FL( "Sending WDA_SET_MAX_TX_POWER_REQ with power(%d) to HAL"),
           txPower);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
       MTRACE(macTraceMsgTx(pMac, pSessionEntry->peSessionId, msgQ.type));
    if( eSIR_SUCCESS != (retCode = wdaPostCtrlMsg( pMac, &msgQ )))
@@ -333,11 +264,7 @@ rrmSetMaxTxPowerRsp ( tpAniSirGlobal pMac, tpSirMsgQ limMsgQ )
  * @return None
  */
 tSirRetStatus
-<<<<<<< HEAD
-rrmProcessLinkMeasurementRequest( tpAniSirGlobal pMac, 
-=======
 rrmProcessLinkMeasurementRequest( tpAniSirGlobal pMac,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                   tANI_U8 *pRxPacketInfo,
                                   tDot11fLinkMeasurementRequest *pLinkReq,
                                   tpPESession pSessionEntry )
@@ -346,21 +273,12 @@ rrmProcessLinkMeasurementRequest( tpAniSirGlobal pMac,
    tpSirMacMgmtHdr   pHdr;
    v_S7_t            currentRSSI = 0;
 
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
-   PELOG1(limLog( pMac, LOG1, "Received Link measurement request");)
-#endif
-   if( pRxPacketInfo == NULL || pLinkReq == NULL || pSessionEntry == NULL )
-   {
-      PELOGE(limLog( pMac, LOGE, "%s:%d: Invalid parameters - Ignoring the request");)
-=======
    limLog( pMac, LOG3, "Received Link measurement request");
 
    if( pRxPacketInfo == NULL || pLinkReq == NULL || pSessionEntry == NULL )
    {
       PELOGE(limLog( pMac, LOGE,
              "%s Invalid parameters - Ignoring the request", __func__);)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return eSIR_FAILURE;
    }
    pHdr = WDA_GET_RX_MAC_HEADER( pRxPacketInfo );
@@ -422,28 +340,6 @@ rrmProcessLinkMeasurementRequest( tpAniSirGlobal pMac,
    LinkReport.txAntenna = 0;
    currentRSSI = WDA_GET_RX_RSSI_DB(pRxPacketInfo);
 
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
-   PELOG1(limLog( pMac, LOG1, "Received Link report frame with %d", currentRSSI);)
-#endif
-
-   // 2008 11k spec reference: 18.4.8.5 RCPI Measurement
-   if ((currentRSSI) <= RCPI_LOW_RSSI_VALUE)
-       LinkReport.rcpi = 0; 
-   else if ((currentRSSI > RCPI_LOW_RSSI_VALUE) && (currentRSSI <= 0))
-       LinkReport.rcpi = CALCULATE_RCPI(currentRSSI);
-   else 
-       LinkReport.rcpi = RCPI_MAX_VALUE; 
-
-   LinkReport.rsni = WDA_GET_RX_SNR(pRxPacketInfo); 
-   
-#if defined WLAN_VOWIFI_DEBUG
-   PELOG1(limLog( pMac, LOG1, "Sending Link report frame");)
-#endif
-   return limSendLinkReportActionFrame( pMac, &LinkReport, pHdr->sa, pSessionEntry ); 
-
-
-=======
    limLog( pMac, LOG1,
           "Received Link report frame with %d", currentRSSI);
 
@@ -460,7 +356,6 @@ rrmProcessLinkMeasurementRequest( tpAniSirGlobal pMac,
    limLog( pMac, LOG3, "Sending Link report frame");
 
    return limSendLinkReportActionFrame( pMac, &LinkReport, pHdr->sa, pSessionEntry );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 // --------------------------------------------------------------------
@@ -496,23 +391,13 @@ rrmProcessNeighborReportResponse( tpAniSirGlobal pMac,
       return status;
    }
 
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
-   PELOGE(limLog( pMac, LOGE, FL("Neighbor report response received ") );)
-#endif
-=======
    limLog( pMac, LOG3, FL("Neighbor report response received ") );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    // Dialog token
    if( pMac->rrm.rrmPEContext.DialogToken != pNeighborRep->DialogToken.token )
    {
-<<<<<<< HEAD
-      PELOGE(limLog( pMac, LOGE, "Dialog token mismatch in the received Neighbor report");)
-=======
       PELOGE(limLog( pMac, LOGE,
              "Dialog token mismatch in the received Neighbor report");)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return eSIR_FAILURE;
    }
    if( pNeighborRep->num_NeighborReport == 0 )
@@ -521,13 +406,8 @@ rrmProcessNeighborReportResponse( tpAniSirGlobal pMac,
       return eSIR_FAILURE;
    }
    length = (sizeof( tSirNeighborReportInd )) +
-<<<<<<< HEAD
-            (sizeof( tSirNeighborBssDescription ) * (pNeighborRep->num_NeighborReport - 1) ) ; 
-            
-=======
             (sizeof( tSirNeighborBssDescription ) * (pNeighborRep->num_NeighborReport - 1) ) ;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    //Prepare the request to send to SME.
    pSmeNeighborRpt = vos_mem_malloc(length);
    if( NULL == pSmeNeighborRpt )
@@ -537,14 +417,8 @@ rrmProcessNeighborReportResponse( tpAniSirGlobal pMac,
 
    }
    vos_mem_set(pSmeNeighborRpt, length, 0);
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
-   PELOGE(limLog( pMac, LOGE, FL(" Allocated memory for pSmeNeighborRpt...will be freed by other module") );)
-#endif
-=======
 
    /* Allocated memory for pSmeNeighborRpt...will be freed by other module */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    for( i = 0 ; i < pNeighborRep->num_NeighborReport ; i++ )
    {
@@ -576,12 +450,8 @@ rrmProcessNeighborReportResponse( tpAniSirGlobal pMac,
    //Send request to SME.
    mmhMsg.type    = pSmeNeighborRpt->messageType;
    mmhMsg.bodyptr = pSmeNeighborRpt;
-<<<<<<< HEAD
-   MTRACE(macTraceMsgTx(pMac, pSessionEntry->peSessionId, mmhMsg.type));
-=======
    MTRACE(macTrace(pMac, TRACE_CODE_TX_SME_MSG, pSessionEntry->peSessionId,
                                                            mmhMsg.type));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    status = limSysProcessMmhMsgApi(pMac, &mmhMsg, ePROT);
 
    return status;
@@ -592,11 +462,7 @@ rrmProcessNeighborReportResponse( tpAniSirGlobal pMac,
 /**
  * rrmProcessNeighborReportReq
  *
-<<<<<<< HEAD
- * FUNCTION:  
-=======
  * FUNCTION:
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * LOGIC: Create a Neighbor report request and send it to peer.
  *
@@ -627,33 +493,16 @@ rrmProcessNeighborReportReq( tpAniSirGlobal pMac,
       return eSIR_FAILURE;
    }
 
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
-   PELOGE(limLog( pMac, LOGE, FL("Neighbor Request received ") );)
-   PELOGE(limLog( pMac, LOGE, "SSID present = %d ", pNeighborReq->noSSID );)
-#endif
-=======
    limLog( pMac, LOG1, FL("SSID present = %d "), pNeighborReq->noSSID );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    vos_mem_set(&NeighborReportReq,sizeof( tSirMacNeighborReportReq ), 0);
 
    NeighborReportReq.dialogToken = ++pMac->rrm.rrmPEContext.DialogToken;
-<<<<<<< HEAD
-   NeighborReportReq.ssid_present = !pNeighborReq->noSSID; 
-   if( NeighborReportReq.ssid_present )
-   {
-      vos_mem_copy(&NeighborReportReq.ssid, &pNeighborReq->ucSSID, sizeof(tSirMacSSid));
-#if defined WLAN_VOWIFI_DEBUG
-      PELOGE(sirDumpBuf( pMac, SIR_LIM_MODULE_ID, LOGE, (tANI_U8*) NeighborReportReq.ssid.ssId, NeighborReportReq.ssid.length );)
-#endif
-=======
    NeighborReportReq.ssid_present = !pNeighborReq->noSSID;
    if( NeighborReportReq.ssid_present )
    {
       vos_mem_copy(&NeighborReportReq.ssid, &pNeighborReq->ucSSID, sizeof(tSirMacSSid));
       PELOGE(sirDumpBuf( pMac, SIR_LIM_MODULE_ID, LOGE, (tANI_U8*) NeighborReportReq.ssid.ssId, NeighborReportReq.ssid.length );)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    status = limSendNeighborReportRequestFrame( pMac, &NeighborReportReq, pNeighborReq->bssId, pSessionEntry );
@@ -680,11 +529,7 @@ rrmProcessNeighborReportReq( tpAniSirGlobal pMac,
  * @return None
  */
 static tRrmRetStatus
-<<<<<<< HEAD
-rrmProcessBeaconReportReq( tpAniSirGlobal pMac, 
-=======
 rrmProcessBeaconReportReq( tpAniSirGlobal pMac,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                            tpRRMReq pCurrentReq,
                            tDot11fIEMeasurementRequest *pBeaconReq,
                            tpPESession pSessionEntry )
@@ -696,11 +541,7 @@ rrmProcessBeaconReportReq( tpAniSirGlobal pMac,
    tANI_S8  maxDuration;
    tANI_U8  sign;
 
-<<<<<<< HEAD
-   if( pBeaconReq->measurement_request.Beacon.BeaconReporting.present && 
-=======
    if( pBeaconReq->measurement_request.Beacon.BeaconReporting.present &&
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        (pBeaconReq->measurement_request.Beacon.BeaconReporting.reportingCondition != 0) )
    {
       //Repeated measurement is not supported. This means number of repetitions should be zero.(Already checked)
@@ -713,21 +554,12 @@ rrmProcessBeaconReportReq( tpAniSirGlobal pMac,
    }
 
    /* The logic here is to check the measurement duration passed in the beacon request. Following are the cases handled.
-<<<<<<< HEAD
-      Case 1: If measurement duration received in the beacon request is greater than the max measurement duration advertised 
-                in the RRM capabilities(Assoc Req), and Duration Mandatory bit is set to 1, REFUSE the beacon request
-      Case 2: If measurement duration received in the beacon request is greater than the max measurement duration advertised 
-                in the RRM capabilities(Assoc Req), and Duration Mandatory bit is set to 0, perform measurement for 
-                the duration advertised in the RRM capabilities
-      
-=======
       Case 1: If measurement duration received in the beacon request is greater than the max measurement duration advertised
                 in the RRM capabilities(Assoc Req), and Duration Mandatory bit is set to 1, REFUSE the beacon request
       Case 2: If measurement duration received in the beacon request is greater than the max measurement duration advertised
                 in the RRM capabilities(Assoc Req), and Duration Mandatory bit is set to 0, perform measurement for
                 the duration advertised in the RRM capabilities
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       maxMeasurementDuration = 2^(nonOperatingChanMax - 4) * BeaconInterval
     */
    maxDuration = pMac->rrm.rrmPEContext.rrmEnabledCaps.nonOperatingChanMax - 4;
@@ -738,30 +570,17 @@ rrmProcessBeaconReportReq( tpAniSirGlobal pMac,
    else
       maxMeasduration = pSessionEntry->beaconParams.beaconInterval / maxDuration;
 
-<<<<<<< HEAD
-   measDuration = pBeaconReq->measurement_request.Beacon.meas_duration; 
-
-#if defined WLAN_VOWIFI_DEBUG
-   limLog( pMac, LOGE, "maxDuration = %d sign = %d maxMeasduration = %d measDuration = %d",
-        maxDuration, sign, maxMeasduration, measDuration ); 
-#endif
-=======
    measDuration = pBeaconReq->measurement_request.Beacon.meas_duration;
 
    limLog( pMac, LOG3,
           "maxDuration = %d sign = %d maxMeasduration = %d measDuration = %d",
           maxDuration, sign, maxMeasduration, measDuration );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    if( maxMeasduration < measDuration )
    {
       if( pBeaconReq->durationMandatory )
       {
-<<<<<<< HEAD
-         limLog( pMac, LOGE, "Dropping the request: duration mandatory and maxduration > measduration");
-=======
          PELOGE(limLog( pMac, LOGE, "Dropping the request: duration mandatory and maxduration > measduration");)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          return eRRM_REFUSED;
       }
       else
@@ -783,14 +602,8 @@ rrmProcessBeaconReportReq( tpAniSirGlobal pMac,
                FL( "Unable to allocate memory for request IEs buffer" ));
             return eRRM_FAILURE;
       }
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
-      PELOGE(limLog( pMac, LOGE, FL(" Allocated memory for pElementIds") );)
-#endif
-=======
       limLog( pMac, LOG3, FL(" Allocated memory for pElementIds") );
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       pCurrentReq->request.Beacon.reqIes.num = pBeaconReq->measurement_request.Beacon.RequestedInfo.num_requested_eids;
       vos_mem_copy(pCurrentReq->request.Beacon.reqIes.pElementIds,
                    pBeaconReq->measurement_request.Beacon.RequestedInfo.requested_eids,
@@ -816,29 +629,17 @@ rrmProcessBeaconReportReq( tpAniSirGlobal pMac,
 
    vos_mem_set(pSmeBcnReportReq,sizeof( tSirBeaconReportReqInd ),0);
 
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
-   PELOGE(limLog( pMac, LOGE, FL(" Allocated memory for pSmeBcnReportReq....will be freed by other module") );)
-#endif
-=======
    /* Allocated memory for pSmeBcnReportReq....will be freed by other modulea*/
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    vos_mem_copy(pSmeBcnReportReq->bssId, pSessionEntry->bssId, sizeof(tSirMacAddr));
    pSmeBcnReportReq->messageType = eWNI_SME_BEACON_REPORT_REQ_IND;
    pSmeBcnReportReq->length = sizeof( tSirBeaconReportReqInd );
    pSmeBcnReportReq->uDialogToken = pBeaconReq->measurement_token;
-<<<<<<< HEAD
-   pSmeBcnReportReq->randomizationInterval = SYS_TU_TO_MS (pBeaconReq->measurement_request.Beacon.randomization);
-   pSmeBcnReportReq->channelInfo.regulatoryClass = pBeaconReq->measurement_request.Beacon.regClass;
-   pSmeBcnReportReq->channelInfo.channelNum = pBeaconReq->measurement_request.Beacon.channel;
-=======
    pSmeBcnReportReq->msgSource = eRRM_MSG_SOURCE_11K;
    pSmeBcnReportReq->randomizationInterval = SYS_TU_TO_MS (pBeaconReq->measurement_request.Beacon.randomization);
    pSmeBcnReportReq->channelInfo.regulatoryClass = pBeaconReq->measurement_request.Beacon.regClass;
    pSmeBcnReportReq->channelInfo.channelNum = pBeaconReq->measurement_request.Beacon.channel;
    pSmeBcnReportReq->measurementDuration[0] = SYS_TU_TO_MS(measDuration);
    pSmeBcnReportReq->fMeasurementtype[0]    = pBeaconReq->measurement_request.Beacon.meas_mode;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    vos_mem_copy(pSmeBcnReportReq->macaddrBssid, pBeaconReq->measurement_request.Beacon.BSSID,
                 sizeof(tSirMacAddr));
 
@@ -863,23 +664,14 @@ rrmProcessBeaconReportReq( tpAniSirGlobal pMac,
           pBeaconReq->measurement_request.Beacon.APChannelReport[num_APChanReport].num_channelList);
 
          pChanList += pBeaconReq->measurement_request.Beacon.APChannelReport[num_APChanReport].num_channelList;
-<<<<<<< HEAD
-         pSmeBcnReportReq->measurementDuration[num_APChanReport] = SYS_TU_TO_MS(measDuration /*pBeaconReq->measurement_request.Beacon.meas_duration*/);
-         pSmeBcnReportReq->fMeasurementtype[num_APChanReport] = pBeaconReq->measurement_request.Beacon.meas_mode;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
    }
 
    //Send request to SME.
    mmhMsg.type    = eWNI_SME_BEACON_REPORT_REQ_IND;
    mmhMsg.bodyptr = pSmeBcnReportReq;
-<<<<<<< HEAD
-   MTRACE(macTraceMsgTx(pMac, pSessionEntry->peSessionId, mmhMsg.type));
-=======
    MTRACE(macTrace(pMac, TRACE_CODE_TX_SME_MSG, pSessionEntry->peSessionId,
                                                            mmhMsg.type));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    return limSysProcessMmhMsgApi(pMac, &mmhMsg, ePROT);
 }
 
@@ -887,11 +679,7 @@ rrmProcessBeaconReportReq( tpAniSirGlobal pMac,
 /**
  * rrmFillBeaconIes
  *
-<<<<<<< HEAD
- * FUNCTION:  
-=======
  * FUNCTION:
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * LOGIC: Fills Fixed fields and Ies in bss description to an array of tANI_U8.
  *
@@ -908,13 +696,8 @@ rrmProcessBeaconReportReq( tpAniSirGlobal pMac,
  * @return None
  */
 static void
-<<<<<<< HEAD
-rrmFillBeaconIes( tpAniSirGlobal pMac, 
-                  tANI_U8 *pIes, tANI_U8 *pNumIes, tANI_U8 pIesMaxSize, 
-=======
 rrmFillBeaconIes( tpAniSirGlobal pMac,
                   tANI_U8 *pIes, tANI_U8 *pNumIes, tANI_U8 pIesMaxSize,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                   tANI_U8 *eids, tANI_U8 numEids,
                   tpSirBssDescription pBssDesc )
 {
@@ -943,24 +726,6 @@ rrmFillBeaconIes( tpAniSirGlobal pMac,
    *((tANI_U16*)pIes) = pBssDesc->capabilityInfo;
    *pNumIes+=sizeof(tANI_U16); pIes+=sizeof(tANI_U16);
 
-<<<<<<< HEAD
-   while ( BcnNumIes > 0 ) 
-   {
-      len = *(pBcnIes + 1) + 2; //element id + length.
-#if defined WLAN_VOWIFI_DEBUG
-      PELOGE(limLog( pMac, LOGE, "EID = %d, len = %d total = %d", *pBcnIes, *(pBcnIes+1), len );)
-#endif
-
-      i = 0;
-      do
-      {  
-         if( ( (eids == NULL) || ( *pBcnIes == eids[i] ) )  &&
-             ( (*pNumIes) + len) < pIesMaxSize )
-         {
-#if defined WLAN_VOWIFI_DEBUG
-            PELOGE(limLog( pMac, LOGE, "Adding Eid %d, len=%d", *pBcnIes, len );)
-#endif
-=======
    while ( BcnNumIes > 0 )
    {
       len = *(pBcnIes + 1) + 2; //element id + length.
@@ -975,7 +740,6 @@ rrmFillBeaconIes( tpAniSirGlobal pMac,
          {
             limLog( pMac, LOG3, "Adding Eid %d, len=%d", *pBcnIes, len );
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             vos_mem_copy(pIes, pBcnIes, len);
             pIes += len;
             *pNumIes += len;
@@ -988,26 +752,14 @@ rrmFillBeaconIes( tpAniSirGlobal pMac,
       pBcnIes += len;
       BcnNumIes -= len;
    }
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
-   PELOGE(limLog( pMac, LOGE, "Total length of Ies added = %d", *pNumIes );)
-#endif
-}
-      
-=======
    limLog( pMac, LOG1, "Total length of Ies added = %d", *pNumIes );
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 // --------------------------------------------------------------------
 /**
  * rrmProcessBeaconReportXmit
  *
-<<<<<<< HEAD
- * FUNCTION:  
-=======
  * FUNCTION:
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * LOGIC: Create a Radio measurement report action frame and send it to peer.
  *
@@ -1023,25 +775,13 @@ rrmProcessBeaconReportXmit( tpAniSirGlobal pMac,
                             tpSirBeaconReportXmitInd pBcnReport)
 {
    tSirRetStatus status = eSIR_SUCCESS;
-<<<<<<< HEAD
-   tSirMacRadioMeasureReport *pReport;
-   tpRRMReq pCurrentReq = pMac->rrm.rrmPEContext.pCurrentReq; 
-=======
    tSirMacRadioMeasureReport *pReport = NULL;
    tpRRMReq pCurrentReq = pMac->rrm.rrmPEContext.pCurrentReq;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    tpPESession pSessionEntry ;
    tANI_U8 sessionId;
    v_U8_t flagBSSPresent = FALSE, bssDescCnt = 0;
 
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
-   PELOGE(limLog( pMac, LOGE, "Received beacon report xmit indication");)
-#endif
-
-=======
    limLog( pMac, LOG1, "Received beacon report xmit indication");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    if (NULL == pBcnReport)
    {
@@ -1050,12 +790,6 @@ rrmProcessBeaconReportXmit( tpAniSirGlobal pMac,
       return eSIR_FAILURE;
    }
 
-<<<<<<< HEAD
-   pBcnReport->numBssDesc = (pBcnReport->numBssDesc == RRM_BCN_RPT_NO_BSS_INFO)?
-                            RRM_BCN_RPT_MIN_RPT : pBcnReport->numBssDesc;
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if (NULL == pCurrentReq)
    {
       PELOGE(limLog( pMac, LOGE,
@@ -1063,50 +797,6 @@ rrmProcessBeaconReportXmit( tpAniSirGlobal pMac,
       return eSIR_FAILURE;
    }
 
-<<<<<<< HEAD
-   if (NULL == (pSessionEntry = peFindSessionByBssid(pMac,
-                                                     pBcnReport->bssId,
-                                                     &sessionId)))
-   {
-      PELOGE(limLog(pMac, LOGE,FL("session does not exist for given bssId"));)
-      return eSIR_FAILURE;
-   }
-
-   pReport = vos_mem_malloc(pBcnReport->numBssDesc *
-                           sizeof(tSirMacRadioMeasureReport));
-
-   if (NULL == pReport)
-   {
-      PELOGE(limLog(pMac, LOGE,FL("RRM Report is NULL, allocation failed"));)
-      return eSIR_FAILURE;
-   }
-
-   vos_mem_zero( pReport,
-                 pBcnReport->numBssDesc * sizeof(tSirMacRadioMeasureReport) );
-
-   for (bssDescCnt = 0; bssDescCnt < pBcnReport->numBssDesc; bssDescCnt++)
-   {
-       //Prepare the beacon report and send it to the peer.
-       pReport[bssDescCnt].token = pBcnReport->uDialogToken;
-       pReport[bssDescCnt].refused = 0;
-       pReport[bssDescCnt].incapable = 0;
-       pReport[bssDescCnt].type = SIR_MAC_RRM_BEACON_TYPE;
-
-       //If the scan result is NULL then send report request with
-       //option subelement as NULL..
-       if ( NULL != pBcnReport->pBssDescription[bssDescCnt] )
-       {
-           flagBSSPresent = TRUE;
-       }
-
-       //Valid response is included if the size of beacon xmit
-       //is == size of beacon xmit ind + ies
-       if ( pBcnReport->length >= sizeof( tSirBeaconReportXmitInd ) )
-       {
-           pReport[bssDescCnt].report.beaconReport.regClass =  pBcnReport->regClass;
-           if ( flagBSSPresent )
-           {
-=======
    if( (pBcnReport->numBssDesc) ||
        (!pBcnReport->numBssDesc && pCurrentReq->sendEmptyBcnRpt) )
    {
@@ -1155,7 +845,6 @@ rrmProcessBeaconReportXmit( tpAniSirGlobal pMac,
             pReport[bssDescCnt].report.beaconReport.regClass =  pBcnReport->regClass;
             if ( flagBSSPresent )
             {
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                pReport[bssDescCnt].report.beaconReport.channel =
                                  pBcnReport->pBssDescription[bssDescCnt]->channelId;
                vos_mem_copy( pReport[bssDescCnt].report.beaconReport.measStartTime,
@@ -1177,24 +866,6 @@ rrmProcessBeaconReportXmit( tpAniSirGlobal pMac,
                vos_mem_copy( pReport[bssDescCnt].report.beaconReport.bssid,
                              pBcnReport->pBssDescription[bssDescCnt]->bssId,
                              sizeof(tSirMacAddr));
-<<<<<<< HEAD
-           }
-
-           switch ( pCurrentReq->request.Beacon.reportingDetail )
-           {
-               case BEACON_REPORTING_DETAIL_NO_FF_IE:
-               //0 No need to include any elements.
-#if defined WLAN_VOWIFI_DEBUG
-               PELOGE(limLog(pMac, LOGE, "No reporting detail requested");)
-#endif
-               break;
-               case BEACON_REPORTING_DETAIL_ALL_FF_REQ_IE:
-               //1: Include all FFs and Requested Ies.
-#if defined WLAN_VOWIFI_DEBUG
-               PELOGE(limLog(pMac, LOGE,
-               "Only requested IEs in reporting detail requested");)
-#endif
-=======
             }
 
             switch ( pCurrentReq->request.Beacon.reportingDetail )
@@ -1207,7 +878,6 @@ rrmProcessBeaconReportXmit( tpAniSirGlobal pMac,
                //1: Include all FFs and Requested Ies.
                limLog(pMac, LOG3,
                "Only requested IEs in reporting detail requested");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                if ( flagBSSPresent )
                {
@@ -1224,13 +894,7 @@ rrmProcessBeaconReportXmit( tpAniSirGlobal pMac,
                case BEACON_REPORTING_DETAIL_ALL_FF_IE:
                //2 / default - Include all FFs and all Ies.
                default:
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
-               PELOGE(limLog(pMac, LOGE, "Default all IEs and FFs");)
-#endif
-=======
                limLog(pMac, LOG3, "Default all IEs and FFs");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                if ( flagBSSPresent )
                {
                    rrmFillBeaconIes( pMac,
@@ -1241,26 +905,6 @@ rrmProcessBeaconReportXmit( tpAniSirGlobal pMac,
                       pBcnReport->pBssDescription[bssDescCnt] );
                }
                break;
-<<<<<<< HEAD
-          }
-       }
-   }
-
-#if defined WLAN_VOWIFI_DEBUG
-   PELOGE(limLog( pMac, LOGE, "Sending Action frame ");)
-#endif
-   limSendRadioMeasureReportActionFrame( pMac,
-                                         pCurrentReq->dialog_token,
-                                         bssDescCnt,
-                                         pReport,
-                                         pBcnReport->bssId,
-                                         pSessionEntry );
-
-
-   if( pBcnReport->fMeasureDone )
-   {
-      PELOGE(limLog( pMac, LOGE, "Measurement done....cleanup the context");)
-=======
             }
          }
       }
@@ -1279,34 +923,21 @@ rrmProcessBeaconReportXmit( tpAniSirGlobal pMac,
    if( pBcnReport->fMeasureDone )
    {
       limLog( pMac, LOG3, "Measurement done....cleanup the context");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
       rrmCleanup(pMac);
    }
 
-<<<<<<< HEAD
-   vos_mem_free(pReport);
-=======
    if( NULL != pReport )
       vos_mem_free(pReport);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    return status;
 }
 
-<<<<<<< HEAD
-void rrmProcessBeaconRequestFailure(tpAniSirGlobal pMac, tpPESession pSessionEntry, 
-                                                tSirMacAddr peer, tRrmRetStatus status)
-{
-    tpSirMacRadioMeasureReport pReport = NULL;
-    tpRRMReq pCurrentReq = pMac->rrm.rrmPEContext.pCurrentReq; 
-=======
 void rrmProcessBeaconRequestFailure(tpAniSirGlobal pMac, tpPESession pSessionEntry,
                                                 tSirMacAddr peer, tRrmRetStatus status)
 {
     tpSirMacRadioMeasureReport pReport = NULL;
     tpRRMReq pCurrentReq = pMac->rrm.rrmPEContext.pCurrentReq;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     pReport = vos_mem_malloc(sizeof( tSirMacRadioMeasureReport ));
     if ( NULL == pReport )
@@ -1323,41 +954,23 @@ void rrmProcessBeaconRequestFailure(tpAniSirGlobal pMac, tpPESession pSessionEnt
     {
         case eRRM_REFUSED:
             pReport->refused = 1;
-<<<<<<< HEAD
-            break;            
-=======
             break;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         case eRRM_INCAPABLE:
             pReport->incapable = 1;
             break;
         default:
-<<<<<<< HEAD
-            PELOGE(limLog( pMac, LOGE, FL(" Beacon request processing failed no report sent with status %d "), status););
-=======
             PELOGE(limLog( pMac, LOGE,
              FL(" Beacon request processing failed no report sent with status %d "),
              status););
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             vos_mem_free(pReport);
             return;
     }
 
-<<<<<<< HEAD
-    limSendRadioMeasureReportActionFrame( pMac, pCurrentReq->dialog_token, 1, 
-                                                        pReport, peer, pSessionEntry );
-
-    vos_mem_free(pReport);
-#if defined WLAN_VOWIFI_DEBUG
-    PELOGE(limLog( pMac, LOGE, FL(" Free memory for pReport") );)
-#endif
-=======
     limSendRadioMeasureReportActionFrame( pMac, pCurrentReq->dialog_token, 1,
                                                         pReport, peer, pSessionEntry );
 
     vos_mem_free(pReport);
     limLog( pMac, LOG3, FL(" Free memory for pReport") );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return;
 }
 
@@ -1368,11 +981,7 @@ void rrmProcessBeaconRequestFailure(tpAniSirGlobal pMac, tpPESession pSessionEnt
  * FUNCTION:  Processes the Radio Resource Measurement request.
  *
  * LOGIC:
-<<<<<<< HEAD
- 
-=======
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 *
  * ASSUMPTIONS:
@@ -1394,11 +1003,7 @@ rrmProcessRadioMeasurementRequest( tpAniSirGlobal pMac,
    tSirRetStatus status = eSIR_SUCCESS;
    tpSirMacRadioMeasureReport pReport = NULL;
    tANI_U8 num_report = 0;
-<<<<<<< HEAD
-   tpRRMReq pCurrentReq = pMac->rrm.rrmPEContext.pCurrentReq; 
-=======
    tpRRMReq pCurrentReq = pMac->rrm.rrmPEContext.pCurrentReq;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    tRrmRetStatus    rrmStatus = eRRM_SUCCESS;
 
    if( !pRRMReq->num_MeasurementRequest )
@@ -1413,36 +1018,23 @@ rrmProcessRadioMeasurementRequest( tpAniSirGlobal pMac,
          return eSIR_MEM_ALLOC_FAILED;
       }
       vos_mem_set(pReport, sizeof(tSirMacRadioMeasureReport),0);
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
-      PELOGE(limLog( pMac, LOGE, FL(" Allocated memory for pReport") );)
-#endif
-=======
       PELOGE(limLog( pMac, LOGE,
       FL("No requestIes in the measurement request, sending incapable report"));)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       pReport->incapable = 1;
       num_report = 1;
       limSendRadioMeasureReportActionFrame( pMac, pRRMReq->DialogToken.token, num_report,
                   pReport, peer, pSessionEntry );
       vos_mem_free(pReport);
-<<<<<<< HEAD
-      PELOGE(limLog( pMac, LOGE, "No requestIes in the measurement request" );)
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return eSIR_FAILURE;
    }
 
    // PF Fix
    if( pRRMReq->NumOfRepetitions.repetitions > 0 )
    {
-<<<<<<< HEAD
-=======
       limLog( pMac, LOG1,
                      FL(" number of repetitions %d"),
                      pRRMReq->NumOfRepetitions.repetitions );
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       //Send a report with incapable bit set. Not supporting repetitions.
       pReport = vos_mem_malloc(sizeof( tSirMacRadioMeasureReport ));
       if ( NULL == pReport )
@@ -1452,13 +1044,7 @@ rrmProcessRadioMeasurementRequest( tpAniSirGlobal pMac,
          return eSIR_MEM_ALLOC_FAILED;
       }
       vos_mem_set(pReport, sizeof(tSirMacRadioMeasureReport), 0);
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
       PELOGE(limLog( pMac, LOGE, FL(" Allocated memory for pReport") );)
-#endif
-=======
-      PELOGE(limLog( pMac, LOGE, FL(" Allocated memory for pReport") );)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       pReport->incapable = 1;
       pReport->type = pRRMReq->MeasurementRequest[0].measurement_type;
       num_report = 1;
@@ -1488,15 +1074,9 @@ rrmProcessRadioMeasurementRequest( tpAniSirGlobal pMac,
                               sizeof( tSirMacRadioMeasureReport )
                               * (pRRMReq->num_MeasurementRequest - i),
                               0);
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
-                  limLog( pMac, LOGE, FL(" Allocated memory for pReport") );
-#endif
-=======
                   limLog( pMac, LOG3,
                          FL(" rrm beacon type refused of %d report in beacon table"),
                          num_report );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                }
                pReport[num_report].refused = 1;
@@ -1515,20 +1095,11 @@ rrmProcessRadioMeasurementRequest( tpAniSirGlobal pMac,
                   vos_mem_free(pReport);
                   return eSIR_MEM_ALLOC_FAILED;
                }
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
-               PELOGE(limLog( pMac, LOGE, FL(" Allocated memory for pCurrentReq") );)
-#endif
-                vos_mem_set(pCurrentReq, sizeof( *pCurrentReq ), 0);
-               pCurrentReq->dialog_token = pRRMReq->DialogToken.token;
-               pCurrentReq->token = pRRMReq->MeasurementRequest[i].measurement_token;
-=======
                limLog( pMac, LOG3, FL(" Processing Beacon Report request") );
                 vos_mem_set(pCurrentReq, sizeof( *pCurrentReq ), 0);
                pCurrentReq->dialog_token = pRRMReq->DialogToken.token;
                pCurrentReq->token = pRRMReq->MeasurementRequest[i].measurement_token;
                pCurrentReq->sendEmptyBcnRpt = true;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                pMac->rrm.rrmPEContext.pCurrentReq = pCurrentReq;
                rrmStatus = rrmProcessBeaconReportReq( pMac, pCurrentReq, &pRRMReq->MeasurementRequest[i], pSessionEntry );
                if (eRRM_SUCCESS != rrmStatus)
@@ -1537,11 +1108,7 @@ rrmProcessRadioMeasurementRequest( tpAniSirGlobal pMac,
                    rrmCleanup(pMac);
                }
             }
-<<<<<<< HEAD
-            break;            
-=======
             break;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          default:
             //Send a report with incapabale bit set.
             if ( pReport == NULL ) //Allocate memory to send reports for any subsequent requests.
@@ -1558,16 +1125,9 @@ rrmProcessRadioMeasurementRequest( tpAniSirGlobal pMac,
                            sizeof( tSirMacRadioMeasureReport )
                            * (pRRMReq->num_MeasurementRequest - i),
                            0);
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
-               PELOGE(limLog( pMac, LOGE, FL(" Allocated memory for pReport") );)
-#endif
-
-=======
                   limLog( pMac, LOG3,
                          FL(" rrm beacon type incapble of %d report "),
                          num_report );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             }
             pReport[num_report].incapable = 1;
             pReport[num_report].type = pRRMReq->MeasurementRequest[i].measurement_type;
@@ -1580,21 +1140,11 @@ rrmProcessRadioMeasurementRequest( tpAniSirGlobal pMac,
 end:
    if( pReport )
    {
-<<<<<<< HEAD
-      limSendRadioMeasureReportActionFrame( pMac, pRRMReq->DialogToken.token, num_report, 
-            pReport, peer, pSessionEntry );
-
-      vos_mem_free(pReport);
-#if defined WLAN_VOWIFI_DEBUG
-      PELOGE(limLog( pMac, LOGE, FL(" Free memory for pReport") );)
-#endif
-=======
       limSendRadioMeasureReportActionFrame( pMac, pRRMReq->DialogToken.token, num_report,
             pReport, peer, pSessionEntry );
 
       vos_mem_free(pReport);
       limLog( pMac, LOG3, FL(" Free memory for pReport") );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
    return status;
 
@@ -1648,11 +1198,7 @@ rrmGetStartTSF ( tpAniSirGlobal pMac, tANI_U32 *pStartTSF )
 #endif
    pStartTSF[0] = pMac->rrm.rrmPEContext.startTSF[0];
    pStartTSF[1] = pMac->rrm.rrmPEContext.startTSF[1];
-<<<<<<< HEAD
-   
-=======
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 // --------------------------------------------------------------------
 /**
@@ -1694,11 +1240,7 @@ tpRRMCaps rrmGetCapabilities ( tpAniSirGlobal pMac,
  */
 void rrmUpdateConfig ( tpAniSirGlobal pMac,
                                tpPESession pSessionEntry )
-<<<<<<< HEAD
-{      
-=======
 {
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    tANI_U32 val;
    tpRRMCaps pRRMCaps = &pMac->rrm.rrmPEContext.rrmEnabledCaps;
 
@@ -1707,11 +1249,7 @@ void rrmUpdateConfig ( tpAniSirGlobal pMac,
        limLog(pMac, LOGP, FL("cfg get rrm enabled failed"));
        return;
    }
-<<<<<<< HEAD
-   pMac->rrm.rrmPEContext.rrmEnable = (val) ? 1 : 0;    
-=======
    pMac->rrm.rrmPEContext.rrmEnable = (val) ? 1 : 0;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    if (wlan_cfgGetInt(pMac, WNI_CFG_RRM_OPERATING_CHAN_MAX, &val) != eSIR_SUCCESS)
    {
@@ -1727,17 +1265,10 @@ void rrmUpdateConfig ( tpAniSirGlobal pMac,
    }
    pRRMCaps->nonOperatingChanMax =(tANI_U8) val;
 
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
-   PELOGE(limLog( pMac, LOGE, "RRM enabled = %d  OperatingChanMax = %d  NonOperatingMax = %d", pMac->rrm.rrmPEContext.rrmEnable,
-                     pRRMCaps->operatingChanMax, pRRMCaps->nonOperatingChanMax );)
-#endif
-=======
    limLog( pMac, LOG1,
           "RRM enabled = %d  OperatingChanMax = %d  NonOperatingMax = %d",
           pMac->rrm.rrmPEContext.rrmEnable,
           pRRMCaps->operatingChanMax, pRRMCaps->nonOperatingChanMax );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 // --------------------------------------------------------------------
 /**
@@ -1760,11 +1291,7 @@ rrmInitialize(tpAniSirGlobal pMac)
 {
    tpRRMCaps pRRMCaps = &pMac->rrm.rrmPEContext.rrmEnabledCaps;
 
-<<<<<<< HEAD
-   pMac->rrm.rrmPEContext.pCurrentReq = NULL; 
-=======
    pMac->rrm.rrmPEContext.pCurrentReq = NULL;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    pMac->rrm.rrmPEContext.txMgmtPower = 0;
    pMac->rrm.rrmPEContext.DialogToken = 0;
 
@@ -1812,20 +1339,6 @@ rrmCleanup(tpAniSirGlobal pMac)
       if( pMac->rrm.rrmPEContext.pCurrentReq->request.Beacon.reqIes.pElementIds )
       {
          vos_mem_free(pMac->rrm.rrmPEContext.pCurrentReq->request.Beacon.reqIes.pElementIds);
-<<<<<<< HEAD
-#if defined WLAN_VOWIFI_DEBUG
-         PELOGE(limLog( pMac, LOGE, FL(" Free memory for pElementIds") );)
-#endif
-      }
-
-      vos_mem_free(pMac->rrm.rrmPEContext.pCurrentReq);
-#if defined WLAN_VOWIFI_DEBUG
-      PELOGE(limLog( pMac, LOGE, FL(" Free memory for pCurrentReq") );)
-#endif
-   }
-
-   pMac->rrm.rrmPEContext.pCurrentReq = NULL; 
-=======
          limLog( pMac, LOG4, FL(" Free memory for pElementIds") );
       }
 
@@ -1834,7 +1347,6 @@ rrmCleanup(tpAniSirGlobal pMac)
    }
 
    pMac->rrm.rrmPEContext.pCurrentReq = NULL;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    return eSIR_SUCCESS;
 }
 

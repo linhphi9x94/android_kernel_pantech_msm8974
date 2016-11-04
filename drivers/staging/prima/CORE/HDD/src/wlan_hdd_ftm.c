@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /**========================================================================
@@ -57,12 +31,6 @@
 
   \brief This file contains the WLAN factory test mode implementation
 
-<<<<<<< HEAD
-   Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
-
-   Qualcomm Confidential and Proprietary.
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   ========================================================================*/
 
@@ -100,10 +68,6 @@
 #include "i_vos_packet.h"
 #include "vos_nvitem.h"
 #include "wlan_hdd_main.h"
-<<<<<<< HEAD
-#include "vos_power.h"
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include "qwlan_version.h"
 
 #include "wlan_nv.h"
@@ -111,10 +75,7 @@
 #include "cfgApi.h"
 #include "pttMsgApi.h"
 #include "wlan_qct_pal_device.h"
-<<<<<<< HEAD
-=======
 #include "linux/wcnss_wlan.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #define RXMODE_DISABLE_ALL 0
 #define RXMODE_ENABLE_ALL  1
@@ -125,52 +86,6 @@
 #define FTM_CHAIN_SEL_R0_ON         1
 #define FTM_CHAIN_SEL_T0_ON         2
 #define FTM_CHAIN_SEL_R0_T0_ON      3
-<<<<<<< HEAD
-#define FTM_CHAIN_SEL_MAX           3
-
-#ifndef QWLAN_PHYDBG_BASE
-#define QWLAN_PHYDBG_BASE                   0x03004000
-#endif /* QWLAN_PHYDBG_BASE */
-
-#ifndef QWLAN_PHYDBG_TXPKT_CNT_REG
-#define QWLAN_PHYDBG_TXPKT_CNT_REG          (QWLAN_PHYDBG_BASE + 0x6C)
-#define QWLAN_PHYDBG_TXPKT_CNT_CNT_MASK     0xFFFF
-#endif
-
-#ifndef QWLAN_AGC_BASE
-#define QWLAN_AGC_BASE                      0x03013C00
-#endif /* QWLAN_AGC_BASE */
-
-#ifndef QWLAN_AGC_CHANNEL_FREQ_REG
-#define QWLAN_AGC_CHANNEL_FREQ_REG          (QWLAN_AGC_BASE + 0x34)
-#define QWLAN_AGC_CHANNEL_FREQ_FREQ_MASK    0x1FFF
-#endif /* QWLAN_AGC_CHANNEL_FREQ_REG */
-
-#ifndef QWLAN_AGC_SUBBAND_CONFIG_REG
-#define QWLAN_AGC_SUBBAND_CONFIG_REG        (QWLAN_AGC_BASE + 0x30)
-#define QWLAN_AGC_SUBBAND_CONFIG_STG2_SUBBAND_MASK  0x03
-#endif /* QWLAN_AGC_SUBBAND_CONFIG_REG */
-
-#ifndef QWLAN_RFAPB_BASE
-#define QWLAN_RFAPB_BASE                    0x0E02F800
-#endif /* QWLAN_RFAPB_BASE */
-
-#ifndef QWLAN_RFAPB_REV_ID_REG
-#define QWLAN_RFAPB_REV_ID_REG              (QWLAN_RFAPB_BASE + 0x00)
-#endif /* QWLAN_RFAPB_REV_ID_REG */
-
-#ifndef QWLAN_TXCTL_BASE
-#define QWLAN_TXCTL_BASE                    0x03012000
-#endif /* QWLAN_TXCTL_BASE */
-
-#ifndef QWLAN_TXCTL_FSHIFT_REG
-#define QWLAN_TXCTL_FSHIFT_REG              (QWLAN_TXCTL_BASE + 0x20)
-#define QWLAN_TXCTL_FSHIFT_BW14_OFFSET      0x02
-#define QWLAN_TXCTL_FSHIFT_BW14_MASK        0x1C
-#define QWLAN_TXCTL_FSHIFT_BW12_OFFSET      0x00
-#define QWLAN_TXCTL_FSHIFT_BW12_MASK        0x03
-#endif /* QWLAN_TXCTL_FSHIFT_REG */
-=======
 #define FTM_CHAIN_SEL_ANTENNA_0     7
 #define FTM_CHAIN_SEL_ANTENNA_1     8
 #define FTM_CHAIN_SEL_MAX           8
@@ -184,7 +99,6 @@
 #define QWLAN_AGC_CHANNEL_FREQ_FREQ_MASK    0x1FFF
 #endif /* QWLAN_AGC_CHANNEL_FREQ_REG_OFFSET */
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /* To set 4MAC addresses from given first MAC address,
  * Last byte value within given MAC address must less than 0xFF - 3 */
@@ -213,18 +127,6 @@ static int wlan_ftm_register_wext(hdd_adapter_t *pAdapter);
 static int wlan_ftm_stop(hdd_context_t *pHddCtx);
 VOS_STATUS wlan_write_to_efs (v_U8_t *pData, v_U16_t data_len);
 
-<<<<<<< HEAD
-/* for PRIMA: all the available frequency, channal pair i the table are defined for channel frequency @ RF center frequency
-   Since it is associated to agc.channel_freq register for mapping.
-   For channel bonding, the channel number is +2 or -2 for CB with primary high, or with primary low respectively.
-*/
-static const freq_chan_t  freq_chan_tbl[] = {
-     {2412, 1}, {2417, 2},{2422, 3}, {2427, 4}, {2432, 5}, {2437, 6}, {2442, 7},
-     {2447, 8}, {2452, 9},{2457, 10},{2462, 11},{2467 ,12},{2472, 13},{2484, 14}
-};
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 static rateStr2rateIndex_t rateName_rateIndex_tbl[] =
 {
    { HAL_PHY_RATE_11B_LONG_1_MBPS,       "11B_LONG_1_MBPS"},
@@ -253,20 +155,6 @@ static rateStr2rateIndex_t rateName_rateIndex_tbl[] =
    { HAL_PHY_RATE_MCS_1NSS_52_MBPS,    "MCS_52_MBPS"},
    { HAL_PHY_RATE_MCS_1NSS_58_5_MBPS,  "MCS_58_5_MBPS"},
    { HAL_PHY_RATE_MCS_1NSS_65_MBPS,    "MCS_65_MBPS"},
-<<<<<<< HEAD
-   { HAL_PHY_RATE_MCS_1NSS_MM_SG_72_2_MBPS, "MCS_72_2_MBPS"},
-
-//MCS Index #8-15 (40MHz)
-
-   { HAL_PHY_RATE_MCS_1NSS_CB_13_5_MBPS,      "MCS_CB_13_B_MBPS" },
-   { HAL_PHY_RATE_MCS_1NSS_CB_27_MBPS,        "MCS_CB_27_MBPS" },
-   { HAL_PHY_RATE_MCS_1NSS_CB_40_5_MBPS,      "MCS_CB_40_5_MBPS" },
-   { HAL_PHY_RATE_MCS_1NSS_CB_54_MBPS,        "MCS_CB_54_MBPS"},
-   { HAL_PHY_RATE_MCS_1NSS_CB_81_MBPS,        "MCS_CB_81_MBPS"},
-   { HAL_PHY_RATE_MCS_1NSS_CB_108_MBPS,       "MCS_CB_108_MBPS"},
-   { HAL_PHY_RATE_MCS_1NSS_CB_121_5_MBPS,     "MCS_CB_121_5_MBPS"},
-   { HAL_PHY_RATE_MCS_1NSS_CB_135_MBPS,       "MCS_CB_135_MBPS"},
-=======
    { HAL_PHY_RATE_MCS_1NSS_MM_SG_7_2_MBPS,   "MCS_SG_7_2_MBPS"},
    { HAL_PHY_RATE_MCS_1NSS_MM_SG_14_4_MBPS,  "MCS_SG_14_4_MBPS"},
    { HAL_PHY_RATE_MCS_1NSS_MM_SG_21_7_MBPS,  "MCS_SG_21_7_MBPS"},
@@ -286,7 +174,6 @@ static rateStr2rateIndex_t rateName_rateIndex_tbl[] =
    { HAL_PHY_RATE_MCS_1NSS_CB_108_MBPS, "MCS_CB_108_MBPS"},
    { HAL_PHY_RATE_MCS_1NSS_CB_121_5_MBPS, "MCS_CB_121_5_MBPS"},
    { HAL_PHY_RATE_MCS_1NSS_CB_135_MBPS,   "MCS_CB_135_MBPS"},
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    { HAL_PHY_RATE_MCS_1NSS_MM_SG_CB_15_MBPS,  "MCS_CB_15_MBPS"},
    { HAL_PHY_RATE_MCS_1NSS_MM_SG_CB_30_MBPS,  "MCS_CB_30_MBPS"},
    { HAL_PHY_RATE_MCS_1NSS_MM_SG_CB_45_MBPS,  "MCS_CB_45_MBPS"},
@@ -294,10 +181,6 @@ static rateStr2rateIndex_t rateName_rateIndex_tbl[] =
    { HAL_PHY_RATE_MCS_1NSS_MM_SG_CB_90_MBPS,  "MCS_CB_90_MBPS"},
    { HAL_PHY_RATE_MCS_1NSS_MM_SG_CB_120_MBPS, "MCS_CB_120_MBPS"},
    { HAL_PHY_RATE_MCS_1NSS_MM_SG_CB_135_MBPS, "MCS_CB_135_MBPS"},
-<<<<<<< HEAD
-   { HAL_PHY_RATE_MCS_1NSS_MM_SG_CB_150_MBPS, "MCS_CB_150_MBPS"}
-
-=======
    { HAL_PHY_RATE_MCS_1NSS_MM_SG_CB_150_MBPS, "MCS_CB_150_MBPS"},
 
 #ifdef WLAN_FEATURE_11AC
@@ -417,7 +300,6 @@ static rateStr2rateIndex_t rateName_rateIndex_tbl[] =
    { HAL_PHY_RATE_VHT_80MHZ_MCS_1NSS_CB_SGI_433_3_MBPS,
        "MCS_VHT80_SGI_CB_433_3_MBPS"},
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 };
 
 static rateIndex2Preamble_t rate_index_2_preamble_table[] =
@@ -486,10 +368,6 @@ static rateIndex2Preamble_t rate_index_2_preamble_table[] =
    { HAL_PHY_RATE_MCS_1NSS_MM_SG_CB_90_MBPS, PHYDBG_PREAMBLE_MIXED},
    { HAL_PHY_RATE_MCS_1NSS_MM_SG_CB_120_MBPS, PHYDBG_PREAMBLE_MIXED},
    { HAL_PHY_RATE_MCS_1NSS_MM_SG_CB_135_MBPS, PHYDBG_PREAMBLE_MIXED},
-<<<<<<< HEAD
-   { HAL_PHY_RATE_MCS_1NSS_MM_SG_CB_150_MBPS, PHYDBG_PREAMBLE_MIXED}
-
-=======
    { HAL_PHY_RATE_MCS_1NSS_MM_SG_CB_150_MBPS, PHYDBG_PREAMBLE_MIXED},
 
 #ifdef WLAN_FEATURE_11AC
@@ -568,7 +446,6 @@ static rateIndex2Preamble_t rate_index_2_preamble_table[] =
    { HAL_PHY_RATE_VHT_80MHZ_MCS_1NSS_CB_SGI_390_MBPS,  PHYDBG_PREAMBLE_MIXED},
    { HAL_PHY_RATE_VHT_80MHZ_MCS_1NSS_CB_SGI_433_3_MBPS,PHYDBG_PREAMBLE_MIXED},
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 };
 
 static unsigned int valid_channel[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
@@ -590,16 +467,10 @@ static unsigned int valid_channel_cb80[] = { 7, 42, 46, 50, 54, 58, 106, 110,
 typedef struct
 {
     tANI_BOOLEAN frameGenEnabled;
-<<<<<<< HEAD
-    tANI_BOOLEAN wfmEnabled;
-    sPttFrameGenParams frameParams;
-    v_U16_t txpower;
-=======
     tANI_BOOLEAN wfRfGenEnabled;
     tANI_BOOLEAN wfmEnabled;
     sPttFrameGenParams frameParams;
     v_U16_t powerCtlMode;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     v_U16_t rxmode;
     v_U16_t chainSelect;
     ePhyChanBondState cbmode;
@@ -618,20 +489,12 @@ static void _ftm_status_init(void)
 
     ftm_status.wfmEnabled = eANI_BOOLEAN_FALSE;
     ftm_status.frameGenEnabled = eANI_BOOLEAN_FALSE;
-<<<<<<< HEAD
-    ftm_status.frameParams.numTestPackets = 0;   //Continuous
-    ftm_status.frameParams.interFrameSpace = 10;
-    ftm_status.frameParams.rate = HAL_PHY_RATE_11A_6_MBPS;
-    ftm_status.frameParams.payloadContents = TEST_PAYLOAD_RANDOM;
-    ftm_status.frameParams.payloadLength = 2000;
-=======
     ftm_status.wfRfGenEnabled = eANI_BOOLEAN_FALSE;
     ftm_status.frameParams.numTestPackets = 0;   //Continuous
     ftm_status.frameParams.interFrameSpace = 200;
     ftm_status.frameParams.rate = HAL_PHY_RATE_11A_6_MBPS;
     ftm_status.frameParams.payloadContents = TEST_PAYLOAD_RANDOM;
     ftm_status.frameParams.payloadLength = 1000;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     ftm_status.frameParams.payloadFillByte = 0xA5;
     ftm_status.frameParams.pktAutoSeqNum = eANI_BOOLEAN_FALSE;
     ftm_status.frameParams.tx_mode = 0;
@@ -640,11 +503,7 @@ static void _ftm_status_init(void)
     memcpy(&ftm_status.frameParams.addr1[0], addr1, ANI_MAC_ADDR_SIZE);
     memcpy(&ftm_status.frameParams.addr2[0], addr2, ANI_MAC_ADDR_SIZE);
     memcpy(&ftm_status.frameParams.addr3[0], addr3, ANI_MAC_ADDR_SIZE);
-<<<<<<< HEAD
-    ftm_status.txpower = 2 ;
-=======
     ftm_status.powerCtlMode= 2 ; //CLPC mode
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     ftm_status.rxmode = RXMODE_ENABLE_ALL; /* macStart() enables all receive pkt types */
     ftm_status.chainSelect = FTM_CHAIN_SEL_R0_T0_ON;
     ftm_status.cbmode = 0 ; //none channel bonding
@@ -683,11 +542,7 @@ static v_U32_t wlan_ftm_postmsg(v_U8_t *cmd_ptr, v_U16_t cmd_len)
     if (VOS_STATUS_SUCCESS != vos_mq_post_message(
         VOS_MODULE_ID_WDA,
                                     (vos_msg_t *)&ftmMsg)) {
-<<<<<<< HEAD
-        hddLog(VOS_TRACE_LEVEL_ERROR,"%s: : Failed to post Msg to HAL\n",__func__);
-=======
         hddLog(VOS_TRACE_LEVEL_ERROR,"%s: : Failed to post Msg to HAL",__func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         return VOS_STATUS_E_FAILURE;
     }
@@ -711,11 +566,7 @@ static v_U32_t wlan_ftm_postmsg(v_U8_t *cmd_ptr, v_U16_t cmd_len)
        MAC.
 
 
-<<<<<<< HEAD
-  \param  hddContextSize: Size of the HDD context to allocate.
-=======
   \param  devHandle: pointer to the OS specific device handle.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 
   \return VOS_STATUS_SUCCESS - Scheduler was successfully initialized and
@@ -730,11 +581,7 @@ static v_U32_t wlan_ftm_postmsg(v_U8_t *cmd_ptr, v_U16_t cmd_len)
   \sa wlan_ftm_vos_open()
 
 ---------------------------------------------------------------------------*/
-<<<<<<< HEAD
-static VOS_STATUS wlan_ftm_vos_open( v_CONTEXT_t pVosContext, v_SIZE_t hddContextSize )
-=======
 static VOS_STATUS wlan_ftm_vos_open( v_CONTEXT_t pVosContext, v_PVOID_t devHandle )
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
    VOS_STATUS vStatus      = VOS_STATUS_SUCCESS;
    int iter                = 0;
@@ -771,8 +618,6 @@ static VOS_STATUS wlan_ftm_vos_open( v_CONTEXT_t pVosContext, v_PVOID_t devHandl
       goto err_probe_event;
    }
 
-<<<<<<< HEAD
-=======
    if(vos_event_init(&(gpVosContext->fwLogsComplete)) != VOS_STATUS_SUCCESS )
    {
       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
@@ -782,26 +627,16 @@ static VOS_STATUS wlan_ftm_vos_open( v_CONTEXT_t pVosContext, v_PVOID_t devHandl
       goto err_wda_complete_event;
    }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* Initialize the free message queue */
    vStatus = vos_mq_init(&gpVosContext->freeVosMq);
    if (! VOS_IS_STATUS_SUCCESS(vStatus))
    {
-<<<<<<< HEAD
-
-      /* Critical Error ...  Cannot proceed further */
-      VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-                "%s: Failed to initialize VOS free message queue",__func__);
-      VOS_ASSERT(0);
-      goto err_wda_complete_event;
-=======
       /* Critical Error ...  Cannot proceed further */
       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
                 "%s: Failed to initialize VOS free message queue %d",
                  __func__, vStatus);
       VOS_ASSERT(0);
       goto err_fw_logs_complete_event;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    for (iter = 0; iter < VOS_CORE_MAX_MESSAGES; iter++)
@@ -820,11 +655,7 @@ static VOS_STATUS wlan_ftm_vos_open( v_CONTEXT_t pVosContext, v_PVOID_t devHandl
    {
       /* Critical Error ...  Cannot proceed further */
       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-                "%s: Failed to open VOS Scheduler", __func__);
-=======
                 "%s: Failed to open VOS Scheduler %d", __func__, vStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       VOS_ASSERT(0);
       goto err_msg_queue;
    }
@@ -836,11 +667,7 @@ static VOS_STATUS wlan_ftm_vos_open( v_CONTEXT_t pVosContext, v_PVOID_t devHandl
    {
       /* Critical Error ...  Cannot proceed further */
       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-                "%s: Failed to open SYS module",__func__);
-=======
                 "%s: Failed to open SYS module %d", __func__, vStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       VOS_ASSERT(0);
       goto err_sched_close;
    }
@@ -848,20 +675,12 @@ static VOS_STATUS wlan_ftm_vos_open( v_CONTEXT_t pVosContext, v_PVOID_t devHandl
    /*Open the WDA module */
    vos_mem_set(&macOpenParms, sizeof(macOpenParms), 0);
    macOpenParms.driverType = eDRIVER_TYPE_MFG;
-<<<<<<< HEAD
-   vStatus = WDA_open(gpVosContext, gpVosContext->pHDDContext, &macOpenParms);
-=======
    vStatus = WDA_open(gpVosContext, devHandle, &macOpenParms);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if (!VOS_IS_STATUS_SUCCESS(vStatus))
    {
       /* Critical Error ...  Cannot proceed further */
       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-                "%s: Failed to open WDA module",__func__);
-=======
                 "%s: Failed to open WDA module %d", __func__, vStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       VOS_ASSERT(0);
       goto err_sys_close;
    }
@@ -873,11 +692,7 @@ static VOS_STATUS wlan_ftm_vos_open( v_CONTEXT_t pVosContext, v_PVOID_t devHandl
      // NV module cannot be initialized, however the driver is allowed
      // to proceed
      VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-                "%s: Failed to initialize the NV module", __func__);
-=======
                 "%s: Failed to initialize the NV module %d", __func__, vStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
      goto err_wda_close;
    }
 
@@ -886,12 +701,8 @@ static VOS_STATUS wlan_ftm_vos_open( v_CONTEXT_t pVosContext, v_PVOID_t devHandl
    if (!VOS_IS_STATUS_SUCCESS(vStatus))
    {
       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-                "%s : failed to get dictionary data for NV", __func__);
-=======
                 "%s : failed to get dictionary data for NV %d",
                  __func__, vStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       goto err_wda_close;
    }
 
@@ -909,11 +720,7 @@ static VOS_STATUS wlan_ftm_vos_open( v_CONTEXT_t pVosContext, v_PVOID_t devHandl
    {
      /* Critical Error ...  Cannot proceed further */
      VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-               "%s: Failed to open MAC", __func__);
-=======
                "%s: Failed to open MAC %d", __func__, sirStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
      VOS_ASSERT(0);
      goto err_nv_close;
    }
@@ -924,11 +731,7 @@ static VOS_STATUS wlan_ftm_vos_open( v_CONTEXT_t pVosContext, v_PVOID_t devHandl
    {
       /* Critical Error ...  Cannot proceed further */
       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-                "%s: Failed to open SME",__func__);
-=======
                 "%s: Failed to open SME %d", __func__, vStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       goto err_mac_close;
    }
    return VOS_STATUS_SUCCESS;
@@ -955,12 +758,9 @@ err_sched_close:
 err_msg_queue:
    vos_mq_deinit(&gpVosContext->freeVosMq);
 
-<<<<<<< HEAD
-=======
 err_fw_logs_complete_event:
    vos_event_destroy(&gpVosContext->fwLogsComplete);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 err_wda_complete_event:
    vos_event_destroy(&gpVosContext->wdaCompleteEvent);
 
@@ -994,11 +794,7 @@ static VOS_STATUS wlan_ftm_vos_close( v_CONTEXT_t vosContext )
   if (!VOS_IS_STATUS_SUCCESS(vosStatus))
   {
      VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-         "%s: Failed to close BAL",__func__);
-=======
          "%s: Failed to close SME %d", __func__, vosStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
      VOS_ASSERT( VOS_IS_STATUS_SUCCESS( vosStatus ) );
   }
 
@@ -1006,11 +802,7 @@ static VOS_STATUS wlan_ftm_vos_close( v_CONTEXT_t vosContext )
   if (!VOS_IS_STATUS_SUCCESS(vosStatus))
   {
      VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-         "%s: Failed to close MAC",__func__);
-=======
          "%s: Failed to close MAC %d", __func__, vosStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
      VOS_ASSERT( VOS_IS_STATUS_SUCCESS( vosStatus ) );
   }
 
@@ -1020,11 +812,7 @@ static VOS_STATUS wlan_ftm_vos_close( v_CONTEXT_t vosContext )
   if (!VOS_IS_STATUS_SUCCESS(vosStatus))
   {
      VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-         "%s: Failed to close NV",__func__);
-=======
          "%s: Failed to close NV %d", __func__, vosStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
      VOS_ASSERT( VOS_IS_STATUS_SUCCESS( vosStatus ) );
   }
 
@@ -1033,18 +821,6 @@ static VOS_STATUS wlan_ftm_vos_close( v_CONTEXT_t vosContext )
   if (!VOS_IS_STATUS_SUCCESS(vosStatus))
   {
      VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-         "%s: Failed to close SYS",__func__);
-     VOS_ASSERT( VOS_IS_STATUS_SUCCESS( vosStatus ) );
-  }
-
-  vosStatus = WDA_close( vosContext );
-  if (!VOS_IS_STATUS_SUCCESS(vosStatus))
-  {
-     VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-         "%s: Failed to close WDA",__func__);
-     VOS_ASSERT( VOS_IS_STATUS_SUCCESS( vosStatus ) );
-=======
          "%s: Failed to close SYS %d", __func__, vosStatus);
      VOS_ASSERT( VOS_IS_STATUS_SUCCESS( vosStatus ) );
   }
@@ -1069,7 +845,6 @@ static VOS_STATUS wlan_ftm_vos_close( v_CONTEXT_t vosContext )
             "%s: Failed to close WDA %d", __func__, vosStatus);
         VOS_ASSERT(VOS_IS_STATUS_SUCCESS(vosStatus));
      }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   }
 
   vos_mq_deinit(&((pVosContextType)vosContext)->freeVosMq);
@@ -1078,11 +853,7 @@ static VOS_STATUS wlan_ftm_vos_close( v_CONTEXT_t vosContext )
   if (!VOS_IS_STATUS_SUCCESS(vosStatus))
   {
      VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-         "%s: Failed to destroy ProbeEvent",__func__);
-=======
          "%s: Failed to destroy ProbeEvent %d", __func__, vosStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
      VOS_ASSERT( VOS_IS_STATUS_SUCCESS( vosStatus ) );
   }
 
@@ -1090,9 +861,6 @@ static VOS_STATUS wlan_ftm_vos_close( v_CONTEXT_t vosContext )
   if (!VOS_IS_STATUS_SUCCESS(vosStatus))
   {
      VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-         "%s: Failed to destroy wdaCompleteEvent",__func__);
-=======
          "%s: Failed to destroy wdaCompleteEvent %d", __func__, vosStatus);
      VOS_ASSERT( VOS_IS_STATUS_SUCCESS( vosStatus ) );
   }
@@ -1102,7 +870,6 @@ static VOS_STATUS wlan_ftm_vos_close( v_CONTEXT_t vosContext )
   {
      VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
          "%s: Failed to destroy fwLogsComplete %d", __func__, vosStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
      VOS_ASSERT( VOS_IS_STATUS_SUCCESS( vosStatus ) );
   }
 
@@ -1142,12 +909,8 @@ static VOS_STATUS wlan_ftm_priv_set_txifs(hdd_adapter_t *pAdapter,v_U32_t ifs)
 
     if (ifs > 100000) //max = (MSK_24 / ONE_MICROSECOND)
     {
-<<<<<<< HEAD
-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL, "%s:ifs value is invalid ",__func__);
-=======
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
                     "%s:ifs value is invalid %x", __func__, ifs);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return VOS_STATUS_E_FAILURE;
     }
 
@@ -1187,12 +950,8 @@ static VOS_STATUS wlan_ftm_priv_set_txpktcnt(hdd_adapter_t *pAdapter,v_U32_t cnt
 
     if (cnt > QWLAN_PHYDBG_TXPKT_CNT_CNT_MASK) //0xFFFF
     {
-<<<<<<< HEAD
-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL, "%s:pktcnt value is invalid",__func__);
-=======
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
                   "%s:pktcnt value is invalid %08x", __func__, cnt);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return VOS_STATUS_E_FAILURE;
     }
 
@@ -1219,12 +978,8 @@ static VOS_STATUS wlan_ftm_priv_set_txpktlen(hdd_adapter_t *pAdapter,v_U32_t len
 
     if (len > 4095) //4096
     {
-<<<<<<< HEAD
-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL, "%s:payload len is invalid",__func__);
-=======
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
                    "%s:payload len is invalid %08x", __func__, len);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return VOS_STATUS_E_FAILURE;
     }
 
@@ -1234,8 +989,6 @@ static VOS_STATUS wlan_ftm_priv_set_txpktlen(hdd_adapter_t *pAdapter,v_U32_t len
 }
 
 
-<<<<<<< HEAD
-=======
 static VOS_STATUS wlan_ftm_priv_start_stop_tx_pktgen(hdd_adapter_t *pAdapter,v_U16_t startStop);
 /**---------------------------------------------------------------------------
 <FTM_Command>set_tx_wf_gain
@@ -1410,17 +1163,13 @@ done:
 }
 
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 static VOS_STATUS wlan_ftm_priv_enable_chain(hdd_adapter_t *pAdapter,v_U16_t chainSelect)
 {
     uPttMsgs *pMsgBody;
     VOS_STATUS status;
     v_U16_t chainSelect_save = chainSelect;
     hdd_context_t *pHddCtx = (hdd_context_t *)pAdapter->pHddCtx;
-<<<<<<< HEAD
-=======
     long ret;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if(pHddCtx->ftm.ftm_state != WLAN_FTM_STARTED)
     {
@@ -1428,11 +1177,6 @@ static VOS_STATUS wlan_ftm_priv_enable_chain(hdd_adapter_t *pAdapter,v_U16_t cha
         return VOS_STATUS_E_FAILURE;
     }
 
-<<<<<<< HEAD
-    if (chainSelect > FTM_CHAIN_SEL_MAX)
-    {
-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL, "%s:Invalid chain",__func__);
-=======
     if (NULL == pMsgBuf)
     {
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
@@ -1444,7 +1188,6 @@ static VOS_STATUS wlan_ftm_priv_enable_chain(hdd_adapter_t *pAdapter,v_U16_t cha
     {
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
                    "%s:Invalid chain %08x", __func__, chainSelect);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return VOS_STATUS_E_FAILURE;
     }
 
@@ -1468,8 +1211,6 @@ static VOS_STATUS wlan_ftm_priv_enable_chain(hdd_adapter_t *pAdapter,v_U16_t cha
         case FTM_CHAIN_SEL_T0_ON:
             chainSelect = PHY_CHAIN_SEL_T0_ON;
             break;
-<<<<<<< HEAD
-=======
 
         case FTM_CHAIN_SEL_ANTENNA_0:
             chainSelect = PHY_CHAIN_SEL_ANT_0;
@@ -1478,7 +1219,6 @@ static VOS_STATUS wlan_ftm_priv_enable_chain(hdd_adapter_t *pAdapter,v_U16_t cha
         case FTM_CHAIN_SEL_ANTENNA_1:
             chainSelect = PHY_CHAIN_SEL_ANT_1;
             break;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     vos_mem_set(pMsgBuf, sizeof(tPttMsgbuffer), 0);
@@ -1498,10 +1238,6 @@ static VOS_STATUS wlan_ftm_priv_enable_chain(hdd_adapter_t *pAdapter,v_U16_t cha
         status = VOS_STATUS_E_FAILURE;
         goto done;
     }
-<<<<<<< HEAD
-    wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
-                                msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
-=======
     ret = wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
                                 msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
     if (0 >= ret)
@@ -1509,7 +1245,6 @@ static VOS_STATUS wlan_ftm_priv_enable_chain(hdd_adapter_t *pAdapter,v_U16_t cha
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                    FL("wait on ftm_comp_var failed %ld"), ret);
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (pMsgBuf->msgResponse != PTT_STATUS_SUCCESS)
     {
@@ -1558,21 +1293,14 @@ static VOS_STATUS wlan_ftm_priv_get_status(hdd_adapter_t *pAdapter,char *buf)
     }
 
     lenRes = snprintf(buf, lenBuf, "\n chainSelect: %s\n rxmode: %s\n "
-<<<<<<< HEAD
-                                   "txpktgen: %s\n  txifs: %ld\n  txrate: ",
-=======
                                    "txpktgen: %s\n  txifs: %d\n  txrate: ",
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       chain[ftm_status.chainSelect], rx[ftm_status.rxmode],
                       tx[ftm_status.frameGenEnabled],
                       ftm_status.frameParams.interFrameSpace);
     if ((lenRes < 0) || (lenRes >= lenBuf))
     {
-<<<<<<< HEAD
-=======
        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                    FL("failed to copy data into buf %d"), lenRes);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        return VOS_STATUS_E_FAILURE;
     }
 
@@ -1595,34 +1323,23 @@ static VOS_STATUS wlan_ftm_priv_get_status(hdd_adapter_t *pAdapter,char *buf)
     }
     if ((lenRes < 0) || (lenRes >= lenBuf))
     {
-<<<<<<< HEAD
-=======
        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
          FL("failed to copy data into buf %d"), lenRes);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        return VOS_STATUS_E_FAILURE;
     }
 
     buf += lenRes;
     lenBuf -= lenRes;
 
-<<<<<<< HEAD
-    lenRes = snprintf(buf, lenBuf, "\n  txpower: %d\n  txpktcnt: %ld\n  "
-                                   "txpktlen: %d\n", ftm_status.txpower,
-=======
     lenRes = snprintf(buf, lenBuf, "\n  power ctl mode: %d\n  txpktcnt: %d\n  "
                                    "txpktlen: %d\n", ftm_status.powerCtlMode,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       ftm_status.frameParams.numTestPackets,
                       ftm_status.frameParams.payloadLength);
 
     if ((lenRes < 0) || (lenRes >= lenBuf))
     {
-<<<<<<< HEAD
-=======
        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
          FL("failed to copy data into buf %d"), lenRes);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        return VOS_STATUS_E_FAILURE;
     }
 
@@ -1728,20 +1445,12 @@ VOS_STATUS vos_ftm_preStart( v_CONTEXT_t vosContext )
       if ( vStatus == VOS_STATUS_E_TIMEOUT )
       {
          VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-          "%s: Timeout occurred before WDA complete\n",__func__);
-=======
           "%s: Timeout occurred before WDA complete",__func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
       else
       {
          VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-           "%s: WDA_preStart reporting  other error \n",__func__);
-=======
            "%s: WDA_preStart reporting  other error",__func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
       VOS_ASSERT( 0 );
       return VOS_STATUS_E_FAILURE;
@@ -1782,11 +1491,7 @@ int wlan_hdd_ftm_open(hdd_context_t *pHddCtx)
     }
 
    // Open VOSS
-<<<<<<< HEAD
-   vStatus = wlan_ftm_vos_open( pVosContext, 0);
-=======
    vStatus = wlan_ftm_vos_open( pVosContext, pHddCtx->parent_dev);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    if ( !VOS_IS_STATUS_SUCCESS( vStatus ))
    {
@@ -1803,11 +1508,7 @@ int wlan_hdd_ftm_open(hdd_context_t *pHddCtx)
     if ( NULL == pHddCtx->hHal )
     {
        hddLog(VOS_TRACE_LEVEL_ERROR,"%s: HAL context is null", __func__);
-<<<<<<< HEAD
-       goto err_sal_close;
-=======
        goto err_ftm_vos_close;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     pAdapter = hdd_open_adapter( pHddCtx, WLAN_HDD_FTM, "wlan%d",
@@ -1815,21 +1516,13 @@ int wlan_hdd_ftm_open(hdd_context_t *pHddCtx)
     if( NULL == pAdapter )
     {
        hddLog(VOS_TRACE_LEVEL_ERROR,"%s: hdd_open_adapter failed", __func__);
-<<<<<<< HEAD
-               goto err_adapter_open_failure;
-=======
        goto err_adapter_open_failure;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     if( wlan_ftm_register_wext(pAdapter)!= 0 )
     {
        hddLog(VOS_TRACE_LEVEL_ERROR,"%s: hdd_register_wext failed", __func__);
-<<<<<<< HEAD
-       goto err_sal_close;
-=======
        goto err_adapter_close;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
        //Initialize the nlink service
@@ -1851,21 +1544,6 @@ int wlan_hdd_ftm_open(hdd_context_t *pHddCtx)
        goto err_nl_srv_init;
     }
 #endif
-<<<<<<< HEAD
-    if (!VOS_IS_STATUS_SUCCESS(vos_chipVoteOnXOBuffer(NULL, NULL, NULL)))
-    {
-        hddLog(VOS_TRACE_LEVEL_FATAL, "%s: Failed to configure 19.2 MHz Clock", __func__);
-        goto err_nl_srv_init;
-    }
-#ifdef HDD_SESSIONIZE
-    //Turn off carrier state
-    netif_carrier_off(pAdapter->dev);
-
-    //Stop the Interface TX queue. Just being safe
-    netif_tx_disable(pAdapter->dev);
-#endif
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    pHddCtx->ftm.processingNVTable    = NV_MAX_TABLE;
    pHddCtx->ftm.targetNVTableSize    = 0;
@@ -1893,10 +1571,7 @@ int wlan_hdd_ftm_open(hdd_context_t *pHddCtx)
     }
 
     pHddCtx->ftm.ftm_state = WLAN_FTM_INITIALIZED;
-<<<<<<< HEAD
-=======
     init_completion(&pHddCtx->ftm.startCmpVar);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     return VOS_STATUS_SUCCESS;
 
@@ -1909,20 +1584,12 @@ nl_srv_exit();
 err_ftm_register_wext_close:
 hdd_UnregisterWext(pAdapter->dev);
 
-<<<<<<< HEAD
-err_adapter_open_failure:
-hdd_close_all_adapters( pHddCtx );
-
-err_sal_close:
-
-=======
 err_adapter_close:
 err_adapter_open_failure:
 hdd_close_all_adapters( pHddCtx );
 
 err_ftm_vos_close:
     wlan_ftm_vos_close(pVosContext);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 err_vos_status_failure:
 
     return VOS_STATUS_E_FAILURE;
@@ -1943,8 +1610,6 @@ int wlan_hdd_ftm_close(hdd_context_t *pHddCtx)
         return VOS_STATUS_E_NOMEM;
     }
 
-<<<<<<< HEAD
-=======
     /*release the wlan_hdd_process_ftm_cmd(), if waiting for any response.*/
     if (pHddCtx->ftm.IsCmdPending == TRUE)
     {
@@ -1954,7 +1619,6 @@ int wlan_hdd_ftm_close(hdd_context_t *pHddCtx)
                                       "%s: vos_event_set failed", __func__);
         }
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if(WLAN_FTM_STARTED == pHddCtx->ftm.ftm_state)
     {
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
@@ -1962,18 +1626,6 @@ int wlan_hdd_ftm_close(hdd_context_t *pHddCtx)
         wlan_ftm_stop(pHddCtx);
     }
 
-<<<<<<< HEAD
-    //Assert Deep sleep signal now to put Libra HW in lowest power state
-    vosStatus = vos_chipAssertDeepSleep( NULL, NULL, NULL );
-       VOS_ASSERT( VOS_IS_STATUS_SUCCESS( vosStatus ) );
-
-    //Vote off any PMIC voltage supplies
-    vos_chipPowerDown(NULL, NULL, NULL);
-
-    vos_chipVoteOffXOBuffer(NULL, NULL, NULL);
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef WLAN_KD_READY_NOTIFIER
     nl_srv_exit(pHddCtx->ptt_pid);
 #else
@@ -2013,16 +1665,7 @@ int wlan_hdd_ftm_close(hdd_context_t *pHddCtx)
     }
     vos_mem_free(pHddCtx->ftm.tempNVTableBuffer);
 
-<<<<<<< HEAD
-    //Free up dynamically allocated members inside HDD Adapter
-    kfree(pHddCtx->cfg_ini);
-    pHddCtx->cfg_ini= NULL;
-
     return 0;
-
-=======
-    return 0;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 /**---------------------------------------------------------------------------
@@ -2039,16 +1682,10 @@ int wlan_hdd_ftm_close(hdd_context_t *pHddCtx)
 
 static VOS_STATUS wlan_ftm_send_response(hdd_context_t *pHddCtx){
 
-<<<<<<< HEAD
-   if( ptt_sock_send_msg_to_app(&pHddCtx->ftm.wnl->wmsg, 0, ANI_NL_MSG_PUMAC, pHddCtx->ftm.wnl->nlh.nlmsg_pid) < 0) {
-
-       VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR, ("Ptt Socket error sending message to the app!!\n"));
-=======
    if( ptt_sock_send_msg_to_app(&pHddCtx->ftm.wnl->wmsg, 0,
                    ANI_NL_MSG_PUMAC, pHddCtx->ftm.wnl->nlh.nlmsg_pid, 0) < 0) {
 
        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR, ("Ptt Socket error sending message to the app!!"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        return VOS_STATUS_E_FAILURE;
    }
    return VOS_STATUS_SUCCESS;
@@ -2083,11 +1720,8 @@ static int wlan_hdd_ftm_start(hdd_context_t *pHddCtx)
        return VOS_STATUS_SUCCESS;
     }
 
-<<<<<<< HEAD
-=======
     pHddCtx->ftm.ftm_state = WLAN_FTM_STARTING;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
             "%s: Starting Libra SW", __func__);
 
@@ -2128,36 +1762,22 @@ static int wlan_hdd_ftm_start(hdd_context_t *pHddCtx)
        return VOS_STATUS_E_FAILURE;
     }
 
-<<<<<<< HEAD
-    vStatus = vos_wait_single_event(&(pVosContext->wdaCompleteEvent), 1000);
-=======
     vStatus = vos_wait_single_event(&(pVosContext->wdaCompleteEvent), 1000 * 30);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if ( vStatus != VOS_STATUS_SUCCESS )
     {
        if ( vStatus == VOS_STATUS_E_TIMEOUT )
        {
           VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-                     "%s: Timeout occurred before WDA_NVDownload_Start complete\n",__func__);
-=======
                      "%s: Timeout occurred before WDA_NVDownload_Start complete",__func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        }
        else
        {
          VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-                    "%s: WDA_NVDownload_Start reporting  other error \n",__func__);
-       }
-       VOS_ASSERT(0);
-=======
                     "%s: WDA_NVDownload_Start reporting  other error",__func__);
        }
        VOS_ASSERT(0);
        WDA_setNeedShutdown(pHddCtx->pvosContext);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        goto err_status_failure;
     }
 
@@ -2205,31 +1825,20 @@ err_wda_stop:
       if(vStatus == VOS_STATUS_E_TIMEOUT)
       {
          VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-                   "%s: Timeout occurred before WDA_stop complete\n",__func__);
-=======
                    "%s: Timeout occurred before WDA_stop complete",__func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
       }
       else
       {
         VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-                  "%s: WDA_stop reporting  other error \n",__func__);
-=======
                   "%s: WDA_stop reporting  other error",__func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
       VOS_ASSERT(0);
    }
 
 err_status_failure:
 
-<<<<<<< HEAD
-=======
     pHddCtx->ftm.ftm_state = WLAN_FTM_INITIALIZED;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return VOS_STATUS_E_FAILURE;
 
 }
@@ -2320,13 +1929,8 @@ int wlan_hdd_ftm_get_nv_table
       nvStatus = vos_nv_getNVBuffer((void **)&nvContents, &nvSize);
       if ((VOS_STATUS_SUCCESS != nvStatus) || (NULL == nvContents))
       {
-<<<<<<< HEAD
-         VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_FATAL,
-                    "Fail to get cached NV value Status %d", nvStatus);
-=======
          VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
                 FL("Fail to get cached NV value Status %d"), nvStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          return -EIO;
       }
 
@@ -2399,11 +2003,7 @@ int wlan_hdd_ftm_get_nv_table
          /* Invalid table size, discard and initialize data */
          VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_FATAL,
                     "Invalid Table Size %d for Table %d"
-<<<<<<< HEAD
-                    " expected size %d\n", nvTable->tableSize, nvTable->nvTable,
-=======
                     " expected size %d", nvTable->tableSize, nvTable->nvTable,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     pHddCtx->ftm.targetNVTableSize);
          pHddCtx->ftm.processingNVTable    = NV_MAX_TABLE;
          pHddCtx->ftm.targetNVTableSize    = 0;
@@ -2501,13 +2101,8 @@ int wlan_hdd_ftm_set_nv_table
       nvStatus = vos_nv_getNVBuffer((void **)&nvContents, &nvSize);
       if ((VOS_STATUS_SUCCESS != nvStatus) || (NULL == nvContents))
       {
-<<<<<<< HEAD
-         VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_FATAL,
-                    "Fail to get cached NV value Status %d", nvStatus);
-=======
          VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
                 FL("Fail to get cached NV value Status %d"), nvStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          return -EINVAL;
       }
 
@@ -2646,13 +2241,8 @@ int wlan_hdd_ftm_blank_nv_table
    nvStatus = vos_nv_getNVBuffer((void **)&nvContents, &nvSize);
    if((VOS_STATUS_SUCCESS != nvStatus) || (NULL == nvContents))
    {
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
-                 "Fail to get cached NV value Status %d", nvStatus);
-=======
       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
                 FL("Fail to get cached NV value Status %d"), nvStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return -EIO;
    }
 
@@ -2745,13 +2335,8 @@ int wlan_hdd_ftm_delete_nv_table
    nvStatus = vos_nv_getNVBuffer((void **)&nvContents, &nvSize);
    if ((VOS_STATUS_SUCCESS != nvStatus) || (NULL == nvContents))
    {
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
-                 "Fail to get cached NV value Status %d", nvStatus);
-=======
       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
                 FL("Fail to get cached NV value Status %d"), nvStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return -EIO;
    }
 
@@ -2878,13 +2463,8 @@ int wlan_hdd_ftm_get_nv_field
    nvStatus = vos_nv_getNVBuffer((void **)&nvContents, &nvSize);
    if ((VOS_STATUS_SUCCESS != nvStatus) || (NULL == nvContents))
    {
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
-                 "Fail to get cached NV value Status %d", nvStatus);
-=======
       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
                 FL("Fail to get cached NV value Status %d"), nvStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return -EIO;
    }
    memcpy(&nvFieldDataBuffer, &nvContents->fields, sizeof(sNvFields));
@@ -2997,13 +2577,8 @@ int wlan_hdd_ftm_set_nv_field
    nvStatus = vos_nv_getNVBuffer((void **)&nvContents, &nvSize);
    if((VOS_STATUS_SUCCESS != nvStatus) || (NULL == nvContents))
    {
-<<<<<<< HEAD
-      VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
-                 "Fail to get cached NV value Status %d", nvStatus);
-=======
       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
                 FL("Fail to get cached NV value Status %d"), nvStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return -EIO;
    }
 
@@ -3121,11 +2696,8 @@ int wlan_hdd_ftm_store_nv_table
    nvStatus = vos_nv_getNVBuffer((void **)&nvContents, &nvSize);
    if((VOS_STATUS_SUCCESS != nvStatus) || (NULL == nvContents))
    {
-<<<<<<< HEAD
-=======
       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
                 FL("Fail to get cached NV value Status %d"), nvStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return -EIO;
    }
 
@@ -3227,11 +2799,8 @@ int wlan_hdd_ftm_store_nv_table
                            tableSize);
    if(VOS_STATUS_SUCCESS != nvStatus)
    {
-<<<<<<< HEAD
-=======
       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
                  "Failed update nv item %d", nvStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return -EIO;
    }
 
@@ -3285,13 +2854,8 @@ static int wlan_hdd_ftm_get_nv_bin
 
       if ((VOS_STATUS_SUCCESS != nvStatus) || (NULL == nvContents))
       {
-<<<<<<< HEAD
-         VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_FATAL,
-                    "Fail to get cached NV value Status %d", nvStatus);
-=======
          VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
                   FL("Fail to get cached NV value Status %d"), nvStatus);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          return -EIO;
       }
 
@@ -3671,10 +3235,7 @@ void wlan_hdd_process_ftm_cmd
     pVosContextType pVosContext = (pVosContextType)(pHddCtx->pvosContext);
     int hostState;
     tPttMsgbuffer *tempRspBuffer = NULL;
-<<<<<<< HEAD
-=======
     static int count;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     ENTER();
 
@@ -3683,11 +3244,6 @@ void wlan_hdd_process_ftm_cmd
 
     if (!pRequestBuf) {
 
-<<<<<<< HEAD
-        hddLog(VOS_TRACE_LEVEL_ERROR,"%s: request buffer is null\n",__func__);
-        return ;
-    }
-=======
         hddLog(VOS_TRACE_LEVEL_ERROR,"%s: request buffer is null",__func__);
         return ;
     }
@@ -3700,7 +3256,6 @@ void wlan_hdd_process_ftm_cmd
         return ;
     }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /*Save the received request*/
     pHddCtx->ftm.pRequestBuf = pRequestBuf;
 
@@ -3709,10 +3264,6 @@ void wlan_hdd_process_ftm_cmd
     pHddCtx->ftm.wnl = wnl;
     if (pRequestBuf->module_type != QUALCOMM_MODULE_TYPE) {
 
-<<<<<<< HEAD
-        hddLog(VOS_TRACE_LEVEL_ERROR,"%s: Invalid Module Type =%d\n",__func__,pRequestBuf->module_type);
-
-=======
         hddLog(VOS_TRACE_LEVEL_ERROR,"%s: Invalid Module Type =%d",__func__,pRequestBuf->module_type);
 
         pHddCtx->ftm.pResponseBuf->ftm_err_code = WLAN_FTM_FAILURE;
@@ -3728,7 +3279,6 @@ void wlan_hdd_process_ftm_cmd
             hddLog(VOS_TRACE_LEVEL_ERROR,"%s: Driver not loaded in FTM"
                 " mode, current mode: %d ",__func__, hdd_get_conparam());
         }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         pHddCtx->ftm.pResponseBuf->ftm_err_code = WLAN_FTM_FAILURE;
         wlan_ftm_send_response(pHddCtx);
         return ;
@@ -3739,11 +3289,7 @@ void wlan_hdd_process_ftm_cmd
     case WLAN_FTM_START:
         if (pHddCtx->ftm.ftm_state == WLAN_FTM_STARTED) {
 
-<<<<<<< HEAD
-            hddLog(VOS_TRACE_LEVEL_ERROR,"%s: FTM has already started =%d\n",__func__,pRequestBuf->ftmpkt.ftm_cmd_type);
-=======
             hddLog(VOS_TRACE_LEVEL_ERROR,"%s: FTM has already started =%d",__func__,pRequestBuf->ftmpkt.ftm_cmd_type);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pHddCtx->ftm.pResponseBuf->ftm_hdr.data_len -= 1;
             pHddCtx->ftm.pResponseBuf->ftm_err_code = WLAN_FTM_SUCCESS;
             wlan_ftm_send_response(pHddCtx);
@@ -3756,10 +3302,7 @@ void wlan_hdd_process_ftm_cmd
                    ,__func__);
             pHddCtx->ftm.pResponseBuf->ftm_err_code = WLAN_FTM_FAILURE;
             wlan_ftm_send_response(pHddCtx);
-<<<<<<< HEAD
-=======
             complete(&pHddCtx->ftm.startCmpVar);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             return;
         }
         /* Ptt application running on the host PC expects the length to be one byte less that what we have received*/
@@ -3768,21 +3311,13 @@ void wlan_hdd_process_ftm_cmd
         pHddCtx->ftm.pResponseBuf->ftmpkt.ftm_cmd_type = 0;
 
         wlan_ftm_send_response(pHddCtx);
-<<<<<<< HEAD
-
-=======
         complete(&pHddCtx->ftm.startCmpVar);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         break;
 
     case WLAN_FTM_STOP:
         if (pHddCtx->ftm.ftm_state != WLAN_FTM_STARTED) {
 
-<<<<<<< HEAD
-            hddLog(VOS_TRACE_LEVEL_ERROR,"%s:: FTM has not started\n",__func__);
-=======
             hddLog(VOS_TRACE_LEVEL_ERROR,"%s:: FTM has not started",__func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pHddCtx->ftm.pResponseBuf->ftm_err_code = WLAN_FTM_SUCCESS;
             wlan_ftm_send_response(pHddCtx);
             return;
@@ -3806,20 +3341,12 @@ void wlan_hdd_process_ftm_cmd
     case WLAN_FTM_CMD:
         /* if it is regular FTM command, pass it to HAL PHY */
         if(pHddCtx->ftm.IsCmdPending == TRUE) {
-<<<<<<< HEAD
-            hddLog(VOS_TRACE_LEVEL_ERROR,"%s:: FTM command pending for process\n",__func__);
-=======
             hddLog(VOS_TRACE_LEVEL_ERROR,"%s:: FTM command pending for process",__func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             return;
         }
         if (pHddCtx->ftm.ftm_state != WLAN_FTM_STARTED) {
 
-<<<<<<< HEAD
-            hddLog(VOS_TRACE_LEVEL_ERROR,"%s:: FTM has not started\n",__func__);
-=======
             hddLog(VOS_TRACE_LEVEL_ERROR,"%s:: FTM has not started",__func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
             pHddCtx->ftm.pResponseBuf->ftm_err_code = WLAN_FTM_FAILURE;
             wlan_ftm_send_response(pHddCtx);
@@ -3838,11 +3365,7 @@ void wlan_hdd_process_ftm_cmd
            if (NULL == tempRspBuffer)
            {
               hddLog(VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-                     "%s:: temp Mem Alloc Fail\n",__func__);
-=======
                      "%s:: temp Mem Alloc Fail",__func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
               pHddCtx->ftm.pResponseBuf->ftm_err_code = WLAN_FTM_FAILURE;
               wlan_ftm_send_response(pHddCtx);
               return;
@@ -3867,27 +3390,10 @@ void wlan_hdd_process_ftm_cmd
 
         //HEXDUMP("Request:",(char*)pftm_data,cmd_len);
 
-<<<<<<< HEAD
-        pHddCtx->ftm.IsCmdPending = TRUE;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         /*Post the command to the HAL*/
         if (wlan_ftm_postmsg(pftm_data, cmd_len) != VOS_STATUS_SUCCESS) {
 
-<<<<<<< HEAD
-            hddLog(VOS_TRACE_LEVEL_ERROR,"%s:: FTM command failed\n",__func__);
-            return;
-
-        }
-        /*Wait here until you get the response from HAL*/
-        if (vos_wait_single_event(&pHddCtx->ftm.ftm_vos_event, FTM_VOS_EVENT_WAIT_TIME)!= VOS_STATUS_SUCCESS)
-        {
-            hddLog(VOS_TRACE_LEVEL_ERROR,
-               "%s: vos_wait_single_event failed",__func__);
-            return;
-        }
-=======
             hddLog(VOS_TRACE_LEVEL_ERROR,"%s:: FTM command failed",__func__);
             return;
 
@@ -3917,7 +3423,6 @@ void wlan_hdd_process_ftm_cmd
             pHddCtx->ftm.IsCmdPending = FALSE;
             return ;
         }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         cmd_len = be16_to_cpu(pHddCtx->ftm.wnl->wmsg.length);
 
@@ -3929,11 +3434,7 @@ void wlan_hdd_process_ftm_cmd
 
     default:
 
-<<<<<<< HEAD
-        hddLog(VOS_TRACE_LEVEL_ERROR,"%s:: Command not supported \n",__func__);
-=======
         hddLog(VOS_TRACE_LEVEL_ERROR,"%s:: Command not supported",__func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return;
     }
 
@@ -4018,15 +3519,11 @@ static VOS_STATUS validate_channel(unsigned int channel,unsigned int cb)
         table = valid_channel_cb80;
 
     if (NULL == table)
-<<<<<<< HEAD
-        return VOS_STATUS_E_FAILURE;
-=======
     {
         hddLog(VOS_TRACE_LEVEL_ERROR, "%s failed to find channel table %d",
                 __func__, cb);
         return VOS_STATUS_E_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     while (table[index] != 0)
     {
@@ -4044,12 +3541,6 @@ static unsigned int get_primary_channel(unsigned int center_channel,unsigned int
 {
     unsigned int primary_channel = center_channel;
 
-<<<<<<< HEAD
-        if (center_channel <= 14)
-                return primary_channel ;
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     switch (cb)
     {
         case PHY_DOUBLE_CHANNEL_LOW_PRIMARY:
@@ -4095,10 +3586,7 @@ static VOS_STATUS wlan_ftm_priv_set_channel(hdd_adapter_t *pAdapter,v_U16_t chan
 {
     uPttMsgs *pMsgBody;
     VOS_STATUS status;
-<<<<<<< HEAD
-=======
     long ret;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     hdd_context_t *pHddCtx = (hdd_context_t *)pAdapter->pHddCtx;
 
     if (pHddCtx->ftm.ftm_state != WLAN_FTM_STARTED)
@@ -4108,8 +3596,6 @@ static VOS_STATUS wlan_ftm_priv_set_channel(hdd_adapter_t *pAdapter,v_U16_t chan
         return VOS_STATUS_E_FAILURE;
     }
 
-<<<<<<< HEAD
-=======
     if (NULL == pMsgBuf)
     {
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
@@ -4117,7 +3603,6 @@ static VOS_STATUS wlan_ftm_priv_set_channel(hdd_adapter_t *pAdapter,v_U16_t chan
         return VOS_STATUS_E_NOMEM;
     }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (VOS_STATUS_SUCCESS != validate_channel(channel, ftm_status.cbmode))
     {
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
@@ -4134,11 +3619,7 @@ static VOS_STATUS wlan_ftm_priv_set_channel(hdd_adapter_t *pAdapter,v_U16_t chan
 
     pMsgBody->SetChannel.chId = get_primary_channel(channel, ftm_status.cbmode);
 
-<<<<<<< HEAD
-    VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_HIGH, "Channel =%d\n",pMsgBody->SetChannel.chId);
-=======
     VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_HIGH, "Channel =%d",pMsgBody->SetChannel.chId);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     pMsgBody->SetChannel.cbState = ftm_status.cbmode ;
 
     status = wlan_ftm_postmsg((v_U8_t*)pMsgBuf,pMsgBuf->msgBodyLength);
@@ -4151,10 +3632,6 @@ static VOS_STATUS wlan_ftm_priv_set_channel(hdd_adapter_t *pAdapter,v_U16_t chan
         goto done;
 
     }
-<<<<<<< HEAD
-    wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
-                                msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
-=======
     ret = wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
                                 msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
     if (0 >= ret )
@@ -4162,7 +3639,6 @@ static VOS_STATUS wlan_ftm_priv_set_channel(hdd_adapter_t *pAdapter,v_U16_t chan
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                    FL("wait on ftm_comp_var failed %ld"), ret);
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (pMsgBuf->msgResponse != PTT_STATUS_SUCCESS)
     {
@@ -4196,10 +3672,7 @@ static VOS_STATUS wlan_ftm_priv_set_pwr_cntl_mode(hdd_adapter_t *pAdapter,
 {
     uPttMsgs *pMsgBody;
     VOS_STATUS status;
-<<<<<<< HEAD
-=======
     long ret;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     hdd_context_t *pHddCtx = (hdd_context_t *)pAdapter->pHddCtx;
 
     if (pHddCtx->ftm.ftm_state != WLAN_FTM_STARTED)
@@ -4209,12 +3682,6 @@ static VOS_STATUS wlan_ftm_priv_set_pwr_cntl_mode(hdd_adapter_t *pAdapter,
         return VOS_STATUS_E_FAILURE;
     }
 
-<<<<<<< HEAD
-    if (pwr_mode > 2)
-    {
-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-                   "%s:invalid control mode.valid mode is 0 , 1, 2.", __func__);
-=======
     if (NULL == pMsgBuf)
     {
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
@@ -4226,7 +3693,6 @@ static VOS_STATUS wlan_ftm_priv_set_pwr_cntl_mode(hdd_adapter_t *pAdapter,
     {
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
                    "%s:invalid control mode.valid mode is 0 , 1, 2.", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return VOS_STATUS_E_FAILURE;
     }
 
@@ -4246,10 +3712,6 @@ static VOS_STATUS wlan_ftm_priv_set_pwr_cntl_mode(hdd_adapter_t *pAdapter,
         status = VOS_STATUS_E_FAILURE;
         goto done;
     }
-<<<<<<< HEAD
-    wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
-                                 msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
-=======
     ret = wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
                                  msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
     if (0 >= ret )
@@ -4257,7 +3719,6 @@ static VOS_STATUS wlan_ftm_priv_set_pwr_cntl_mode(hdd_adapter_t *pAdapter,
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                    FL("wait on ftm_comp_var failed %ld"), ret);
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (pMsgBuf->msgResponse != PTT_STATUS_SUCCESS)
     {
@@ -4267,11 +3728,8 @@ static VOS_STATUS wlan_ftm_priv_set_pwr_cntl_mode(hdd_adapter_t *pAdapter,
         goto done;
     }
 
-<<<<<<< HEAD
-=======
     ftm_status.powerCtlMode= pwr_mode;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  done:
     return status;
 
@@ -4295,10 +3753,7 @@ static VOS_STATUS wlan_ftm_priv_set_txpower(hdd_adapter_t *pAdapter,
 {
     uPttMsgs *pMsgBody;
     VOS_STATUS status;
-<<<<<<< HEAD
-=======
     long ret;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     hdd_context_t *pHddCtx = (hdd_context_t *)pAdapter->pHddCtx;
 
     if (pHddCtx->ftm.ftm_state != WLAN_FTM_STARTED)
@@ -4308,8 +3763,6 @@ static VOS_STATUS wlan_ftm_priv_set_txpower(hdd_adapter_t *pAdapter,
         return VOS_STATUS_E_FAILURE;
     }
 
-<<<<<<< HEAD
-=======
     if (NULL == pMsgBuf)
     {
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
@@ -4317,7 +3770,6 @@ static VOS_STATUS wlan_ftm_priv_set_txpower(hdd_adapter_t *pAdapter,
         return VOS_STATUS_E_NOMEM;
     }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /* do not allow to change setting when tx pktgen is enabled, although halphy does allow changing tx power
      * when tx pktgen is enabled
      */
@@ -4352,10 +3804,6 @@ static VOS_STATUS wlan_ftm_priv_set_txpower(hdd_adapter_t *pAdapter,
         status = VOS_STATUS_E_FAILURE;
         goto done;
     }
-<<<<<<< HEAD
-    wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
-                              msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
-=======
     ret = wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
                               msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
     if (0 >= ret )
@@ -4363,7 +3811,6 @@ static VOS_STATUS wlan_ftm_priv_set_txpower(hdd_adapter_t *pAdapter,
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                    FL("wait on ftm_comp_var failed %ld"), ret);
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (pMsgBuf->msgResponse != PTT_STATUS_SUCCESS)
     {
@@ -4373,10 +3820,6 @@ static VOS_STATUS wlan_ftm_priv_set_txpower(hdd_adapter_t *pAdapter,
         goto done;
     }
 
-<<<<<<< HEAD
-    ftm_status.txpower = txpower ;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  done:
 
     return status;
@@ -4390,10 +3833,7 @@ static VOS_STATUS wlan_ftm_priv_enable_dpd(hdd_adapter_t *pAdapter,
     tANI_U32 value = 0;
     tANI_U32 reg_addr;
     hdd_context_t *pHddCtx = (hdd_context_t *)pAdapter->pHddCtx;
-<<<<<<< HEAD
-=======
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (pHddCtx->ftm.ftm_state != WLAN_FTM_STARTED)
     {
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
@@ -4401,16 +3841,8 @@ static VOS_STATUS wlan_ftm_priv_enable_dpd(hdd_adapter_t *pAdapter,
         return VOS_STATUS_E_FAILURE;
     }
 
-<<<<<<< HEAD
-#ifdef WCN_PRONTO
-    reg_addr = 0xfb018000;
-#else
-    reg_addr = 0x03018000;
-#endif
-=======
     reg_addr = WCNSS_TXFIR_OFFSET;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     wpalReadRegister(reg_addr, &value);
     if (enable)
     {
@@ -4465,11 +3897,7 @@ static VOS_STATUS wlan_ftm_priv_set_txrate(hdd_adapter_t *pAdapter,char *txrate)
     }
     if(ii >= SIZE_OF_TABLE(rateName_rateIndex_tbl))
     {
-<<<<<<< HEAD
-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL, "%s:Invalid Rate String\n",__func__);
-=======
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL, "%s:Invalid Rate String",__func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return VOS_STATUS_E_FAILURE;
     }
 
@@ -4479,8 +3907,6 @@ static VOS_STATUS wlan_ftm_priv_set_txrate(hdd_adapter_t *pAdapter,char *txrate)
     return VOS_STATUS_SUCCESS;
 }
 
-<<<<<<< HEAD
-=======
 
 
 static VOS_STATUS wlan_ftm_priv_set_power_index(hdd_adapter_t *pAdapter,
@@ -4539,7 +3965,6 @@ done:
 }
 
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**---------------------------------------------------------------------------
 
   \brief wlan_ftm_priv_start_stop_tx_pktgen() -
@@ -4557,11 +3982,8 @@ static VOS_STATUS wlan_ftm_priv_start_stop_tx_pktgen(hdd_adapter_t *pAdapter,v_U
 {
     uPttMsgs *pMsgBody;
     VOS_STATUS status;
-<<<<<<< HEAD
-=======
     long ret;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     hdd_context_t *pHddCtx = (hdd_context_t *)pAdapter->pHddCtx;
 
     if (pHddCtx->ftm.ftm_state != WLAN_FTM_STARTED)
@@ -4571,8 +3993,6 @@ static VOS_STATUS wlan_ftm_priv_start_stop_tx_pktgen(hdd_adapter_t *pAdapter,v_U
         return VOS_STATUS_E_FAILURE;
     }
 
-<<<<<<< HEAD
-=======
     if (NULL == pMsgBuf)
     {
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
@@ -4580,7 +4000,6 @@ static VOS_STATUS wlan_ftm_priv_start_stop_tx_pktgen(hdd_adapter_t *pAdapter,v_U
         return VOS_STATUS_E_NOMEM;
     }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (startStop != 1 && startStop != 0)
     {
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
@@ -4612,10 +4031,6 @@ static VOS_STATUS wlan_ftm_priv_start_stop_tx_pktgen(hdd_adapter_t *pAdapter,v_U
             goto done;
         }
 
-<<<<<<< HEAD
-        wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
-                                   msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
-=======
         ret = wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
                                    msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
         if (0 >= ret )
@@ -4623,7 +4038,6 @@ static VOS_STATUS wlan_ftm_priv_start_stop_tx_pktgen(hdd_adapter_t *pAdapter,v_U
             VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                  FL("wait on ftm_comp_var failed %ld"), ret);
         }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         if (pMsgBuf->msgResponse != PTT_STATUS_SUCCESS)
         {
             VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
@@ -4631,8 +4045,6 @@ static VOS_STATUS wlan_ftm_priv_start_stop_tx_pktgen(hdd_adapter_t *pAdapter,v_U
             status = VOS_STATUS_E_FAILURE;
             goto done;
         }
-<<<<<<< HEAD
-=======
 
         if (ftm_status.powerCtlMode == 2) //only for CLPC mode
         {
@@ -4642,7 +4054,6 @@ static VOS_STATUS wlan_ftm_priv_start_stop_tx_pktgen(hdd_adapter_t *pAdapter,v_U
               goto done;
            }
         }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     init_completion(&pHddCtx->ftm.ftm_comp_var);
@@ -4659,9 +4070,6 @@ static VOS_STATUS wlan_ftm_priv_start_stop_tx_pktgen(hdd_adapter_t *pAdapter,v_U
         goto done;
     }
 
-<<<<<<< HEAD
-    wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var, msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
-=======
     ret  = wait_for_completion_interruptible_timeout(
                   &pHddCtx->ftm.ftm_comp_var,
                    msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
@@ -4670,7 +4078,6 @@ static VOS_STATUS wlan_ftm_priv_start_stop_tx_pktgen(hdd_adapter_t *pAdapter,v_U
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                    FL("wait on ftm_comp_var failed %ld"), ret);
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if(pMsgBuf->msgResponse != PTT_STATUS_SUCCESS)
     {
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL, "%s:Ptt response status failed",__func__);
@@ -4741,10 +4148,7 @@ static VOS_STATUS wlan_ftm_priv_rx_mode(hdd_adapter_t *pAdapter,v_U16_t rxmode)
 {
     uPttMsgs *pMsgBody;
     VOS_STATUS status;
-<<<<<<< HEAD
-=======
     long ret;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     hdd_context_t *pHddCtx = (hdd_context_t *)pAdapter->pHddCtx;
     if (pHddCtx->ftm.ftm_state != WLAN_FTM_STARTED)
@@ -4754,8 +4158,6 @@ static VOS_STATUS wlan_ftm_priv_rx_mode(hdd_adapter_t *pAdapter,v_U16_t rxmode)
         return VOS_STATUS_E_FAILURE;
     }
 
-<<<<<<< HEAD
-=======
     if (NULL == pMsgBuf)
     {
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
@@ -4763,7 +4165,6 @@ static VOS_STATUS wlan_ftm_priv_rx_mode(hdd_adapter_t *pAdapter,v_U16_t rxmode)
         return VOS_STATUS_E_NOMEM;
     }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (rxmode > 3)
     {
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
@@ -4816,10 +4217,6 @@ static VOS_STATUS wlan_ftm_priv_rx_mode(hdd_adapter_t *pAdapter,v_U16_t rxmode)
         status = VOS_STATUS_E_FAILURE;
         goto done;
     }
-<<<<<<< HEAD
-    wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
-                                msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
-=======
     ret = wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
                                 msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
     if (0 >= ret )
@@ -4827,7 +4224,6 @@ static VOS_STATUS wlan_ftm_priv_rx_mode(hdd_adapter_t *pAdapter,v_U16_t rxmode)
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                    FL(" wait on ftm_comp_var failed %ld"), ret);
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (pMsgBuf->msgResponse != PTT_STATUS_SUCCESS)
     {
@@ -4858,11 +4254,8 @@ done:
 static VOS_STATUS wlan_ftm_priv_rx_pkt_clear(hdd_adapter_t *pAdapter,v_U16_t rx_pkt_clear)
 {
     VOS_STATUS status;
-<<<<<<< HEAD
-=======
     long ret;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     hdd_context_t *pHddCtx = (hdd_context_t *)pAdapter->pHddCtx;
 
     if (pHddCtx->ftm.ftm_state != WLAN_FTM_STARTED)
@@ -4872,8 +4265,6 @@ static VOS_STATUS wlan_ftm_priv_rx_pkt_clear(hdd_adapter_t *pAdapter,v_U16_t rx_
         return VOS_STATUS_E_FAILURE;
     }
 
-<<<<<<< HEAD
-=======
     if (NULL == pMsgBuf)
     {
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
@@ -4881,7 +4272,6 @@ static VOS_STATUS wlan_ftm_priv_rx_pkt_clear(hdd_adapter_t *pAdapter,v_U16_t rx_
         return VOS_STATUS_E_NOMEM;
     }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (rx_pkt_clear != 1)
     {
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
@@ -4892,11 +4282,7 @@ static VOS_STATUS wlan_ftm_priv_rx_pkt_clear(hdd_adapter_t *pAdapter,v_U16_t rx_
     vos_mem_set(pMsgBuf, sizeof(tPttMsgbuffer), 0);
     init_completion(&pHddCtx->ftm.ftm_comp_var);
     pMsgBuf->msgId = PTT_MSG_RESET_RX_PACKET_STATISTICS;
-<<<<<<< HEAD
-    pMsgBuf->msgBodyLength = sizeof(tMsgPttResetRxPacketStatistics) + PTT_HEADER_LENGTH;
-=======
     pMsgBuf->msgBodyLength = /*sizeof(tMsgPttResetRxPacketStatistics) + */PTT_HEADER_LENGTH;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     status = wlan_ftm_postmsg((v_U8_t*)pMsgBuf,pMsgBuf->msgBodyLength);
 
@@ -4907,10 +4293,6 @@ static VOS_STATUS wlan_ftm_priv_rx_pkt_clear(hdd_adapter_t *pAdapter,v_U16_t rx_
         status = VOS_STATUS_E_FAILURE;
         goto done;
     }
-<<<<<<< HEAD
-    wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
-                                 msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
-=======
     ret = wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
                                  msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
     if (0 >= ret )
@@ -4918,7 +4300,6 @@ static VOS_STATUS wlan_ftm_priv_rx_pkt_clear(hdd_adapter_t *pAdapter,v_U16_t rx_
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                    FL("wait on ftm_comp_var failed %ld"), ret);
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (pMsgBuf->msgResponse != PTT_STATUS_SUCCESS)
     {
@@ -4951,27 +4332,18 @@ static VOS_STATUS wlan_ftm_priv_get_channel(hdd_adapter_t *pAdapter,v_U16_t *pCh
     uPttMsgs *pMsgBody;
     VOS_STATUS status;
     v_U16_t  freq;
-<<<<<<< HEAD
-    v_U8_t indx=0;
-
-    hdd_context_t *pHddCtx = (hdd_context_t *)pAdapter->pHddCtx;
-
-=======
     long ret;
 
     hdd_context_t *pHddCtx = (hdd_context_t *)pAdapter->pHddCtx;
     v_PVOID_t devHandle = pHddCtx->parent_dev;
     struct device *wcnss_device = (struct device *)devHandle;
     struct resource *wcnss_memory;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (pHddCtx->ftm.ftm_state != WLAN_FTM_STARTED)
     {
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
                    "%s:Ftm has not started. Please start the ftm. ", __func__);
         return VOS_STATUS_E_FAILURE;
     }
-<<<<<<< HEAD
-=======
 
     if (NULL == pMsgBuf)
     {
@@ -4980,17 +4352,12 @@ static VOS_STATUS wlan_ftm_priv_get_channel(hdd_adapter_t *pAdapter,v_U16_t *pCh
         return VOS_STATUS_E_NOMEM;
     }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     vos_mem_set(pMsgBuf, sizeof(tPttMsgbuffer), 0);
     init_completion(&pHddCtx->ftm.ftm_comp_var);
     pMsgBuf->msgId = PTT_MSG_DBG_READ_REGISTER;
     pMsgBuf->msgBodyLength = sizeof(tMsgPttDbgReadRegister) + PTT_HEADER_LENGTH;
 
     pMsgBody = &pMsgBuf->msgBody;
-<<<<<<< HEAD
-    pMsgBody->DbgReadRegister.regAddr = QWLAN_AGC_CHANNEL_FREQ_REG;
-
-=======
     wcnss_memory = wcnss_wlan_get_memory_map(wcnss_device);
     if (NULL == wcnss_memory)
     {
@@ -5003,7 +4370,6 @@ static VOS_STATUS wlan_ftm_priv_get_channel(hdd_adapter_t *pAdapter,v_U16_t *pCh
         pMsgBody->DbgReadRegister.regAddr = wcnss_memory->start
                                           + QWLAN_AGC_CHANNEL_FREQ_REG_OFFSET;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     status = wlan_ftm_postmsg((v_U8_t*)pMsgBuf,pMsgBuf->msgBodyLength);
 
     if (status != VOS_STATUS_SUCCESS)
@@ -5014,10 +4380,6 @@ static VOS_STATUS wlan_ftm_priv_get_channel(hdd_adapter_t *pAdapter,v_U16_t *pCh
         goto done;
 
     }
-<<<<<<< HEAD
-    wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
-                                 msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
-=======
     ret = wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
                                  msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
     if (0 >= ret )
@@ -5025,7 +4387,6 @@ static VOS_STATUS wlan_ftm_priv_get_channel(hdd_adapter_t *pAdapter,v_U16_t *pCh
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                    FL("wait on ftm_comp_var failed %ld"), ret);
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (pMsgBuf->msgResponse != PTT_STATUS_SUCCESS)
     {
@@ -5037,25 +4398,10 @@ static VOS_STATUS wlan_ftm_priv_get_channel(hdd_adapter_t *pAdapter,v_U16_t *pCh
 
     freq = ((v_U16_t)pMsgBody->DbgReadRegister.regValue & QWLAN_AGC_CHANNEL_FREQ_FREQ_MASK);
 
-<<<<<<< HEAD
-    while ((indx <  SIZE_OF_TABLE(freq_chan_tbl)) && (freq != freq_chan_tbl[indx].freq))
-            indx++;
-    if (indx >= SIZE_OF_TABLE(freq_chan_tbl))
-    {
-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL, "%s:Invalid Frequency!!!",__func__);
-        status = VOS_STATUS_E_FAILURE;
-        goto done;
-    }
-
-    *pChannel = freq_chan_tbl[indx].chan;
-
-     VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_HIGH, "Channel = %d  freq = %d\n",*pChannel, freq);
-=======
     *pChannel = vos_freq_to_chan(freq);
     (*pChannel) ? (status = VOS_STATUS_SUCCESS) : (status = VOS_STATUS_E_FAILURE);
 
      VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_HIGH, "Channel = %d  freq = %d",*pChannel, freq);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  done:
 
      return status;
@@ -5079,10 +4425,7 @@ static VOS_STATUS wlan_ftm_priv_get_txpower(hdd_adapter_t *pAdapter,v_U16_t *pTx
 {
     uPttMsgs *pMsgBody;
     VOS_STATUS status;
-<<<<<<< HEAD
-=======
     long ret;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     hdd_context_t *pHddCtx = (hdd_context_t *)pAdapter->pHddCtx;
 
     if (pHddCtx->ftm.ftm_state != WLAN_FTM_STARTED)
@@ -5091,78 +4434,6 @@ static VOS_STATUS wlan_ftm_priv_get_txpower(hdd_adapter_t *pAdapter,v_U16_t *pTx
                    "%s:Ftm has not started. Please start the ftm. ", __func__);
         return VOS_STATUS_E_FAILURE;
     }
-<<<<<<< HEAD
-    vos_mem_set(pMsgBuf, sizeof(tPttMsgbuffer), 0);
-    init_completion(&pHddCtx->ftm.ftm_comp_var);
-    pMsgBuf->msgId = PTT_MSG_GET_TX_POWER_REPORT;
-    pMsgBuf->msgBodyLength = sizeof(tMsgPttGetTxPowerReport) + PTT_HEADER_LENGTH;
-
-    pMsgBody = &pMsgBuf->msgBody;
-
-    status = wlan_ftm_postmsg((v_U8_t*)pMsgBuf,pMsgBuf->msgBodyLength);
-
-    if (status != VOS_STATUS_SUCCESS)
-    {
-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-                   "%s:wlan_ftm_postmsg failed", __func__);
-        status = VOS_STATUS_E_FAILURE;
-        goto done;
-    }
-    wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
-                                 msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
-
-    if (pMsgBuf->msgResponse != PTT_STATUS_SUCCESS)
-    {
-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-                   "%s: PTT_MSG_GET_TX_POWER_REPORT failed", __func__);
-        status = VOS_STATUS_E_FAILURE;
-        goto done;
-    }
-    *pTxPwr = ((((pMsgBody->GetTxPowerReport.pwrTemplateIndex & 0x1F) + 4)*50)/100);
-
- done:
-
-     return status;
-}
-
-/**---------------------------------------------------------------------------
-
-  \brief wlan_ftm_priv_get_ftm_version() -
-
-   This function gets ftm driver and firmware version.
-
-  \param  - pAdapter - Pointer HDD Context.
-              - pTxRate   -  Poniter to get the Tx rate.
-
-  \return - 0 for success, non zero for failure
-
-  --------------------------------------------------------------------------*/
-
-VOS_STATUS wlan_ftm_priv_get_ftm_version(hdd_adapter_t *pAdapter,char *pftmVer)
-{
-    uPttMsgs *pMsgBody;
-    VOS_STATUS status;
-    v_U32_t reg_val;
-    char *buf = pftmVer;
-    hdd_context_t *pHddCtx = (hdd_context_t *)pAdapter->pHddCtx;
-    int lenRes = 0;
-    int lenBuf = WE_FTM_MAX_STR_LEN;
-
-    if (pHddCtx->ftm.ftm_state != WLAN_FTM_STARTED)
-    {
-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-                   "%s:Ftm has not started. Please start the ftm. ", __func__);
-        return VOS_STATUS_E_FAILURE;
-    }
-
-    vos_mem_set(pMsgBuf, sizeof(tPttMsgbuffer), 0);
-    init_completion(&pHddCtx->ftm.ftm_comp_var);
-    pMsgBuf->msgId = PTT_MSG_DBG_READ_REGISTER;
-    pMsgBuf->msgBodyLength = sizeof(tMsgPttDbgReadRegister) + PTT_HEADER_LENGTH;
-
-    pMsgBody = &pMsgBuf->msgBody;
-    pMsgBody->DbgReadRegister.regAddr = QWLAN_RFAPB_REV_ID_REG;
-=======
 
     if (NULL == pMsgBuf)
     {
@@ -5176,7 +4447,6 @@ VOS_STATUS wlan_ftm_priv_get_ftm_version(hdd_adapter_t *pAdapter,char *pftmVer)
     pMsgBuf->msgBodyLength = sizeof(tMsgPttGetTxPowerReport) + PTT_HEADER_LENGTH;
 
     pMsgBody = &pMsgBuf->msgBody;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     status = wlan_ftm_postmsg((v_U8_t*)pMsgBuf,pMsgBuf->msgBodyLength);
 
@@ -5186,79 +4456,6 @@ VOS_STATUS wlan_ftm_priv_get_ftm_version(hdd_adapter_t *pAdapter,char *pftmVer)
                    "%s:wlan_ftm_postmsg failed", __func__);
         status = VOS_STATUS_E_FAILURE;
         goto done;
-<<<<<<< HEAD
-
-    }
-    wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
-                                 msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
-
-    if (pMsgBuf->msgResponse != PTT_STATUS_SUCCESS)
-    {
-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-                   "%s:Ptt response status failed", __func__);
-        status = VOS_STATUS_E_FAILURE;
-        goto done;
-    }
-
-    reg_val = (v_U16_t)pMsgBody->DbgReadRegister.regValue;
-
-    init_completion(&pHddCtx->ftm.ftm_comp_var);
-
-    pMsgBuf->msgId = PTT_MSG_GET_BUILD_RELEASE_NUMBER;
-    pMsgBuf->msgBodyLength = sizeof(tMsgPttGetBuildReleaseNumber) + PTT_HEADER_LENGTH;
-
-    pMsgBody = &pMsgBuf->msgBody;
-
-    status = wlan_ftm_postmsg((v_U8_t*)pMsgBuf,pMsgBuf->msgBodyLength);
-
-    if (status != VOS_STATUS_SUCCESS)
-    {
-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-                   "%s:wlan_ftm_postmsg failed", __func__);
-        status = VOS_STATUS_E_FAILURE;
-        goto done;
-    }
-    wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
-                                msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
-
-
-    lenRes = snprintf(buf, lenBuf, "%s_",WLAN_CHIP_VERSION);
-    if(lenRes < 0 || lenRes >= lenBuf)
-    {
-        status = VOS_STATUS_E_FAILURE;
-        goto done;
-    }
-
-    buf += lenRes;
-    lenBuf -= lenRes;
-
-    /*Read the RevID*/
-    lenRes = snprintf(buf, lenBuf, "%x.%x-",(v_U8_t)(reg_val >> 8), (v_U8_t)(reg_val &0x000000FF));
-    if(lenRes < 0 || lenRes >= lenBuf)
-    {
-        status = VOS_STATUS_E_FAILURE;
-        goto done;
-    }
-
-    buf += lenRes;
-    lenBuf -= lenRes;
-
-    lenRes = snprintf(buf, lenBuf, "%s-", QWLAN_VERSIONSTR);
-    if(lenRes < 0 || lenRes >= lenBuf)
-    {
-        status = VOS_STATUS_E_FAILURE;
-        goto done;
-    }
-
-    buf += lenRes;
-    lenBuf -= lenRes;
-
-
-done:
-
-    return status;
-
-=======
     }
     ret = wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
                                  msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
@@ -5280,7 +4477,6 @@ done:
  done:
 
      return status;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 /**---------------------------------------------------------------------------
@@ -5299,14 +4495,8 @@ done:
 
 static VOS_STATUS wlan_ftm_priv_get_txrate(hdd_adapter_t *pAdapter,char *pTxRate)
 {
-<<<<<<< HEAD
-    uPttMsgs *pMsgBody;
-    VOS_STATUS status;
-    v_U16_t rate_index,ii;
-=======
     VOS_STATUS status = VOS_STATUS_SUCCESS;
     v_U16_t ii;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     hdd_context_t *pHddCtx = (hdd_context_t *)pAdapter->pHddCtx;
 
     if (pHddCtx->ftm.ftm_state != WLAN_FTM_STARTED)
@@ -5316,65 +4506,19 @@ static VOS_STATUS wlan_ftm_priv_get_txrate(hdd_adapter_t *pAdapter,char *pTxRate
         return VOS_STATUS_E_FAILURE;
     }
 
-<<<<<<< HEAD
-    vos_mem_set(pMsgBuf, sizeof(tPttMsgbuffer), 0);
-    init_completion(&pHddCtx->ftm.ftm_comp_var);
-    pMsgBuf->msgId = PTT_MSG_GET_TX_POWER_REPORT;
-    pMsgBuf->msgBodyLength = sizeof(tMsgPttGetTxPowerReport) + PTT_HEADER_LENGTH;
-
-    pMsgBody = &pMsgBuf->msgBody;
-
-    status = wlan_ftm_postmsg((v_U8_t*)pMsgBuf,pMsgBuf->msgBodyLength);
-
-    if (status != VOS_STATUS_SUCCESS)
-    {
-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-                   "%s:wlan_ftm_postmsg failed", __func__);
-        status = VOS_STATUS_E_FAILURE;
-        goto done;
-    }
-    wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
-                                msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
-
-    if (pMsgBuf->msgResponse == PTT_STATUS_SUCCESS) {
-
-       rate_index = pMsgBody->GetTxPowerReport.rate;
-    }
-    else {
-       /*Return the default rate*/
-       //rate_index = HAL_PHY_RATE_11A_6_MBPS;
-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-                   "%s: PTT_MSG_GET_TX_POWER_REPORT failed", __func__);
-        status = VOS_STATUS_E_FAILURE;
-        goto done;
-    }
-
-    for(ii = 0; ii < SIZE_OF_TABLE(rateName_rateIndex_tbl); ii++) {
-        if(rateName_rateIndex_tbl[ii].rate_index == rate_index)
-=======
     for(ii = 0; ii < SIZE_OF_TABLE(rateName_rateIndex_tbl); ii++) {
         if(rateName_rateIndex_tbl[ii].rate_index == ftm_status.frameParams.rate)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
           break;
     }
     if(ii >= SIZE_OF_TABLE(rateName_rateIndex_tbl))
     {
-<<<<<<< HEAD
-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL, "%s:Invalid Rate Index\n",__func__);
-=======
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL, "%s:Invalid Rate Index",__func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         status = VOS_STATUS_E_FAILURE;
         goto done;
     }
     strlcpy(pTxRate,rateName_rateIndex_tbl[ii].rate_str, WE_FTM_MAX_STR_LEN);
-<<<<<<< HEAD
-done:
-
-=======
 
 done:
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return status;
 
 }
@@ -5397,10 +4541,7 @@ static VOS_STATUS wlan_ftm_priv_get_rx_pkt_count(hdd_adapter_t *pAdapter,v_U16_t
 {
     uPttMsgs *pMsgBody;
     VOS_STATUS status;
-<<<<<<< HEAD
-=======
     long ret;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     hdd_context_t *pHddCtx = (hdd_context_t *)pAdapter->pHddCtx;
 
     if (pHddCtx->ftm.ftm_state != WLAN_FTM_STARTED)
@@ -5409,8 +4550,6 @@ static VOS_STATUS wlan_ftm_priv_get_rx_pkt_count(hdd_adapter_t *pAdapter,v_U16_t
                    "%s:Ftm has not started. Please start the ftm. ", __func__);
         return VOS_STATUS_E_FAILURE;
     }
-<<<<<<< HEAD
-=======
 
     if (NULL == pMsgBuf)
     {
@@ -5419,7 +4558,6 @@ static VOS_STATUS wlan_ftm_priv_get_rx_pkt_count(hdd_adapter_t *pAdapter,v_U16_t
         return VOS_STATUS_E_NOMEM;
     }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     vos_mem_set(pMsgBuf, sizeof(tPttMsgbuffer), 0);
     init_completion(&pHddCtx->ftm.ftm_comp_var);
     pMsgBuf->msgId = PTT_MSG_GET_RX_PKT_COUNTS;
@@ -5436,10 +4574,6 @@ static VOS_STATUS wlan_ftm_priv_get_rx_pkt_count(hdd_adapter_t *pAdapter,v_U16_t
         status = VOS_STATUS_E_FAILURE;
         goto done;
     }
-<<<<<<< HEAD
-    wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
-                                 msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
-=======
     ret = wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
                                  msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
     if (0 >= ret )
@@ -5447,7 +4581,6 @@ static VOS_STATUS wlan_ftm_priv_get_rx_pkt_count(hdd_adapter_t *pAdapter,v_U16_t
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                    FL("wait on ftm_comp_var failed %ld"), ret);
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (pMsgBuf->msgResponse != PTT_STATUS_SUCCESS)
     {
@@ -5481,11 +4614,7 @@ static VOS_STATUS wlan_ftm_priv_get_rx_rssi(hdd_adapter_t *pAdapter,char *buf)
     uPttMsgs *pMsgBody;
     VOS_STATUS status;
     hdd_context_t *pHddCtx = (hdd_context_t *)pAdapter->pHddCtx;
-<<<<<<< HEAD
-   int ret;
-=======
     long ret;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (pHddCtx->ftm.ftm_state != WLAN_FTM_STARTED)
     {
@@ -5493,8 +4622,6 @@ static VOS_STATUS wlan_ftm_priv_get_rx_rssi(hdd_adapter_t *pAdapter,char *buf)
                    "%s:Ftm has not started. Please start the ftm. ", __func__);
         return VOS_STATUS_E_FAILURE;
     }
-<<<<<<< HEAD
-=======
 
     if (NULL == pMsgBuf)
     {
@@ -5502,7 +4629,6 @@ static VOS_STATUS wlan_ftm_priv_get_rx_rssi(hdd_adapter_t *pAdapter,char *buf)
                    "%s:pMsgBuf is NULL", __func__);
         return VOS_STATUS_E_NOMEM;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     vos_mem_set(pMsgBuf, sizeof(tPttMsgbuffer), 0);
     init_completion(&pHddCtx->ftm.ftm_comp_var);
     pMsgBuf->msgId = PTT_MSG_GET_RX_RSSI;
@@ -5519,10 +4645,6 @@ static VOS_STATUS wlan_ftm_priv_get_rx_rssi(hdd_adapter_t *pAdapter,char *buf)
         status = VOS_STATUS_E_FAILURE;
         goto done;
     }
-<<<<<<< HEAD
-    wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
-                                msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
-=======
     ret = wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
                                 msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
     if (0 >= ret )
@@ -5530,7 +4652,6 @@ static VOS_STATUS wlan_ftm_priv_get_rx_rssi(hdd_adapter_t *pAdapter,char *buf)
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                    FL("wait on ftm_comp_var failed %ld"), ret);
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (pMsgBuf->msgResponse != PTT_STATUS_SUCCESS)
     {
@@ -5635,10 +4756,7 @@ static VOS_STATUS wlan_ftm_priv_set_mac_address(hdd_adapter_t *pAdapter,char *bu
     v_U8_t *pMacAddress;
     v_U8_t  ii;
     hdd_context_t *pHddCtx = (hdd_context_t *)pAdapter->pHddCtx;
-<<<<<<< HEAD
-=======
     long ret;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (pHddCtx->ftm.ftm_state != WLAN_FTM_STARTED)
     {
@@ -5683,10 +4801,6 @@ static VOS_STATUS wlan_ftm_priv_set_mac_address(hdd_adapter_t *pAdapter,char *bu
         status = VOS_STATUS_E_FAILURE;
         goto done;
     }
-<<<<<<< HEAD
-    wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
-                                msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
-=======
     ret = wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
                                 msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
     if (0 >= ret )
@@ -5694,7 +4808,6 @@ static VOS_STATUS wlan_ftm_priv_set_mac_address(hdd_adapter_t *pAdapter,char *bu
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                    FL("wait on ftm_comp_var failed %ld"), ret);
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (pMsgBuf->msgResponse != PTT_STATUS_SUCCESS)
     {
@@ -5704,11 +4817,7 @@ static VOS_STATUS wlan_ftm_priv_set_mac_address(hdd_adapter_t *pAdapter,char *bu
         goto done;
     }
 
-<<<<<<< HEAD
-    VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_HIGH, "NV_COMMON_MAC_ADDR Success!!!\n");
-=======
     VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_HIGH, "NV_COMMON_MAC_ADDR Success!!!");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     init_completion(&pHddCtx->ftm.ftm_comp_var);
     memset( pMsgBuf,0,sizeof(tPttMsgbuffer));
@@ -5730,10 +4839,6 @@ static VOS_STATUS wlan_ftm_priv_set_mac_address(hdd_adapter_t *pAdapter,char *bu
         goto done;
     }
 
-<<<<<<< HEAD
-    wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
-                                msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
-=======
     ret = wait_for_completion_interruptible_timeout(&pHddCtx->ftm.ftm_comp_var,
                                 msecs_to_jiffies(WLAN_FTM_COMMAND_TIME_OUT));
     if (0 >= ret )
@@ -5741,44 +4846,17 @@ static VOS_STATUS wlan_ftm_priv_set_mac_address(hdd_adapter_t *pAdapter,char *bu
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                    FL("wait on ftm_comp_var failed %ld"), ret);
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 done:
 
     return VOS_STATUS_SUCCESS;
 }
 
 /* set param sub-ioctls */
-<<<<<<< HEAD
-static int iw_ftm_setchar_getnone(struct net_device *dev, struct iw_request_info *info,
-=======
 static int __iw_ftm_setchar_getnone(struct net_device *dev, struct iw_request_info *info,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        union iwreq_data *wrqu, char *extra)
 {
     int ret,sub_cmd;
     unsigned int length;
-<<<<<<< HEAD
-    VOS_STATUS status;
-    hdd_adapter_t *pAdapter;
-
-    ret =0;
-    length = wrqu->data.length;
-    sub_cmd = wrqu->data.flags;
-    pAdapter = (hdd_adapter_t *)netdev_priv(dev);
-
-    /*we can only accept input falling between 1 and length bytes,
-     *and ensure extra is null delimited string
-     */
-    if (wrqu->data.length>=512)
-        return -EINVAL;
-    vos_mem_zero(extra + length,512 - length);
-
-    VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-              "%s: Received length %d", __func__, length);
-
-    VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-              "%s: Received data %s", __func__, extra);
-=======
     char *param;
     VOS_STATUS status;
     hdd_adapter_t *pAdapter;
@@ -5843,7 +4921,6 @@ static int __iw_ftm_setchar_getnone(struct net_device *dev, struct iw_request_in
 
     VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
               "%s: Received length %d, parameters: %s", __func__, length, param);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     switch(sub_cmd)
     {
@@ -5851,79 +4928,41 @@ static int __iw_ftm_setchar_getnone(struct net_device *dev, struct iw_request_in
        {
 
           VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-<<<<<<< HEAD
-                    "SET MAC ADDRESS\n");
-
-          status  = wlan_ftm_priv_set_mac_address(pAdapter,extra);
-=======
                     "SET MAC ADDRESS");
 
           status  = wlan_ftm_priv_set_mac_address(pAdapter,param);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
           if(status != VOS_STATUS_SUCCESS)
           {
              hddLog(VOS_TRACE_LEVEL_FATAL,
-<<<<<<< HEAD
-                    "wlan_ftm_priv_set_mac_address Failed =%d\n",status);
-=======
                     "wlan_ftm_priv_set_mac_address Failed =%d",status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
              ret = -EINVAL;
           }
 
-<<<<<<< HEAD
-       }
-       break;
-       case WE_SET_TX_RATE:
-       {
-            status  = wlan_ftm_priv_set_txrate(pAdapter,extra);
-=======
           break;
        }
        case WE_SET_TX_RATE:
        {
             status  = wlan_ftm_priv_set_txrate(pAdapter,param);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
             if(status != VOS_STATUS_SUCCESS)
             {
                hddLog(VOS_TRACE_LEVEL_FATAL,
-<<<<<<< HEAD
-                      "wlan_ftm_priv_set_txrate Failed =%d\n",status);
-=======
                       "wlan_ftm_priv_set_txrate Failed =%d",status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                 ret = -EINVAL;
             }
 
             break;
-<<<<<<< HEAD
-        }
-       default:
-       {
-           hddLog(LOGE, "%s: Invalid sub command %d\n",__func__, sub_cmd);
-=======
        }
        default:
        {
            hddLog(LOGE, "%s: Invalid sub command %d",__func__, sub_cmd);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            ret = -EINVAL;
            break;
        }
     }
-<<<<<<< HEAD
-    return ret;
-}
-
-static int iw_ftm_setint_getnone(struct net_device *dev, struct iw_request_info *info,
-                       union iwreq_data *wrqu, char *extra)
-{
-    hdd_adapter_t *pAdapter = (netdev_priv(dev));
-=======
 
 OUT:
     kfree(param);
@@ -5948,15 +4987,12 @@ static int __iw_ftm_setint_getnone(struct net_device *dev, struct iw_request_inf
 {
     hdd_adapter_t *pAdapter;
     hdd_context_t *pHddCtx;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     int *value = (int *)extra;
     int sub_cmd = value[0];
     int set_value = value[1];
     int ret = 0; /* success */
     VOS_STATUS status;
 
-<<<<<<< HEAD
-=======
     ENTER();
 
     pAdapter = (netdev_priv(dev));
@@ -5971,7 +5007,6 @@ static int __iw_ftm_setint_getnone(struct net_device *dev, struct iw_request_inf
     {
         return ret;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     switch(sub_cmd)
     {
         case WE_FTM_ON_OFF:
@@ -5980,11 +5015,7 @@ static int __iw_ftm_setint_getnone(struct net_device *dev, struct iw_request_inf
 
             if(status != VOS_STATUS_SUCCESS)
             {
-<<<<<<< HEAD
-               hddLog(VOS_TRACE_LEVEL_FATAL,"%s Failed =%d\n",__func__, status);
-=======
                hddLog(VOS_TRACE_LEVEL_FATAL,"%s Failed =%d",__func__, status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                ret = -EINVAL;
             }
 
@@ -5996,11 +5027,7 @@ static int __iw_ftm_setint_getnone(struct net_device *dev, struct iw_request_inf
 
             if(status != VOS_STATUS_SUCCESS)
             {
-<<<<<<< HEAD
-               hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_start_stop_tx_pktgen Failed =%d\n",status);
-=======
                hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_start_stop_tx_pktgen Failed =%d",status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                ret = -EINVAL;
             }
             break;
@@ -6010,11 +5037,7 @@ static int __iw_ftm_setint_getnone(struct net_device *dev, struct iw_request_inf
 
             if(status != VOS_STATUS_SUCCESS)
             {
-<<<<<<< HEAD
-               hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_set_txifs Failed =%d\n",status);
-=======
                hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_set_txifs Failed =%d",status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                ret = -EINVAL;
             }
             break;
@@ -6024,11 +5047,7 @@ static int __iw_ftm_setint_getnone(struct net_device *dev, struct iw_request_inf
 
             if(status != VOS_STATUS_SUCCESS)
             {
-<<<<<<< HEAD
-               hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_set_txpktcnt Failed =%d\n",status);
-=======
                hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_set_txpktcnt Failed =%d",status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                ret = -EINVAL;
             }
             break;
@@ -6038,17 +5057,11 @@ static int __iw_ftm_setint_getnone(struct net_device *dev, struct iw_request_inf
 
             if(status != VOS_STATUS_SUCCESS)
             {
-<<<<<<< HEAD
-               hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_set_txpktlen Failed =%d\n",status);
-=======
                hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_set_txpktlen Failed =%d",status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                ret = -EINVAL;
             }
             break;
 
-<<<<<<< HEAD
-=======
         case WE_TX_CW_RF_GEN:
             status = wlan_ftm_priv_cw_rf_gen(pAdapter,set_value);
 
@@ -6059,18 +5072,13 @@ static int __iw_ftm_setint_getnone(struct net_device *dev, struct iw_request_inf
             }
             break;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         case WE_SET_CHANNEL:
         {
             status  = wlan_ftm_priv_set_channel(pAdapter,set_value);
 
             if(status != VOS_STATUS_SUCCESS)
             {
-<<<<<<< HEAD
-               hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_set_channel Failed =%d\n",status);
-=======
                hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_set_channel Failed =%d",status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                ret = -EINVAL;
             }
             break;
@@ -6081,11 +5089,7 @@ static int __iw_ftm_setint_getnone(struct net_device *dev, struct iw_request_inf
 
             if(status != VOS_STATUS_SUCCESS)
             {
-<<<<<<< HEAD
-               hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_set_txpower Failed =%d\n",status);
-=======
                hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_set_txpower Failed =%d",status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                ret = -EINVAL;
             }
             break;
@@ -6096,11 +5100,7 @@ static int __iw_ftm_setint_getnone(struct net_device *dev, struct iw_request_inf
 
             if(status != VOS_STATUS_SUCCESS)
             {
-<<<<<<< HEAD
-               hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_rx_pkt_clear Failed =%d\n",status);
-=======
                hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_rx_pkt_clear Failed =%d",status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                ret = -EINVAL;
             }
             break;
@@ -6111,11 +5111,7 @@ static int __iw_ftm_setint_getnone(struct net_device *dev, struct iw_request_inf
 
             if(status != VOS_STATUS_SUCCESS)
             {
-<<<<<<< HEAD
-               hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_rx_mode Failed =%d\n",status);
-=======
                hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_rx_mode Failed =%d",status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                ret = -EINVAL;
             }
             break;
@@ -6126,11 +5122,7 @@ static int __iw_ftm_setint_getnone(struct net_device *dev, struct iw_request_inf
 
             if(status != VOS_STATUS_SUCCESS)
             {
-<<<<<<< HEAD
-               hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_enable_chain Failed =%d\n",status);
-=======
                hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_enable_chain Failed =%d",status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                ret = -EINVAL;
             }
             break;
@@ -6172,26 +5164,12 @@ static int __iw_ftm_setint_getnone(struct net_device *dev, struct iw_request_inf
 
         default:
         {
-<<<<<<< HEAD
-            hddLog(LOGE, "Invalid IOCTL setvalue command %d value %d \n",
-=======
             hddLog(LOGE, "Invalid IOCTL setvalue command %d value %d",
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 sub_cmd, set_value);
             break;
         }
     }
 
-<<<<<<< HEAD
-    return ret;
-}
-
-/* get param sub-ioctls */
-static int iw_ftm_setnone_getint(struct net_device *dev, struct iw_request_info *info,
-                       union iwreq_data *wrqu, char *extra)
-{
-    hdd_adapter_t *pAdapter = (netdev_priv(dev));
-=======
     EXIT();
     return ret;
 }
@@ -6213,13 +5191,10 @@ static int __iw_ftm_setnone_getint(struct net_device *dev, struct iw_request_inf
 {
     hdd_adapter_t *pAdapter;
     hdd_context_t *pHddCtx;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     int *value = (int *)extra;
     int ret = 0; /* success */
     VOS_STATUS status;
 
-<<<<<<< HEAD
-=======
     ENTER();
 
     pAdapter = (netdev_priv(dev));
@@ -6235,7 +5210,6 @@ static int __iw_ftm_setnone_getint(struct net_device *dev, struct iw_request_inf
         return ret;
     }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     switch (value[0])
     {
         case WE_GET_CHANNEL:
@@ -6244,11 +5218,7 @@ static int __iw_ftm_setnone_getint(struct net_device *dev, struct iw_request_inf
 
            if(status != VOS_STATUS_SUCCESS)
            {
-<<<<<<< HEAD
-              hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_get_channel Failed =%d\n",status);
-=======
               hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_get_channel Failed =%d",status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
               ret = -EINVAL;
            }
            break;
@@ -6259,11 +5229,7 @@ static int __iw_ftm_setnone_getint(struct net_device *dev, struct iw_request_inf
 
            if(status != VOS_STATUS_SUCCESS)
            {
-<<<<<<< HEAD
-              hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_get_txpower Failed =%d\n",status);
-=======
               hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_get_txpower Failed =%d",status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
               ret = -EINVAL;
            }
            break;
@@ -6274,11 +5240,7 @@ static int __iw_ftm_setnone_getint(struct net_device *dev, struct iw_request_inf
 
            if(status != VOS_STATUS_SUCCESS)
            {
-<<<<<<< HEAD
-              hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_get_rx_pkt_count Failed =%d\n",status);
-=======
               hddLog(VOS_TRACE_LEVEL_FATAL,"wlan_ftm_priv_get_rx_pkt_count Failed =%d",status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
               ret = -EINVAL;
            }
            break;
@@ -6290,12 +5252,6 @@ static int __iw_ftm_setnone_getint(struct net_device *dev, struct iw_request_inf
         }
     }
 
-<<<<<<< HEAD
-    return ret;
-}
-
-static int iw_ftm_get_char_setnone(struct net_device *dev, struct iw_request_info *info,
-=======
     EXIT();
     return ret;
 }
@@ -6313,15 +5269,10 @@ static int iw_ftm_setnone_getint(struct net_device *dev, struct iw_request_info 
 }
 
 static int __iw_ftm_get_char_setnone(struct net_device *dev, struct iw_request_info *info,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        union iwreq_data *wrqu, char *extra)
 {
     int sub_cmd = wrqu->data.flags;
     VOS_STATUS status;
-<<<<<<< HEAD
-    hdd_adapter_t *pAdapter = (netdev_priv(dev));
-
-=======
     hdd_adapter_t *pAdapter;
     hdd_context_t *pHddCtx;
     int ret = 0;
@@ -6340,7 +5291,6 @@ static int __iw_ftm_get_char_setnone(struct net_device *dev, struct iw_request_i
     {
         return ret;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     switch(sub_cmd)
     {
         case WE_GET_MAC_ADDRESS:
@@ -6349,11 +5299,7 @@ static int __iw_ftm_get_char_setnone(struct net_device *dev, struct iw_request_i
 
             if(status != VOS_STATUS_SUCCESS)
             {
-<<<<<<< HEAD
-                hddLog(VOS_TRACE_LEVEL_FATAL, "wlan_ftm_priv_get_mac_address failed =%d\n",status);
-=======
                 hddLog(VOS_TRACE_LEVEL_FATAL, "wlan_ftm_priv_get_mac_address failed =%d",status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 return -EINVAL;
             }
             wrqu->data.length = strlen(extra)+1;
@@ -6365,43 +5311,20 @@ static int __iw_ftm_get_char_setnone(struct net_device *dev, struct iw_request_i
 
             if(status != VOS_STATUS_SUCCESS)
             {
-<<<<<<< HEAD
-                hddLog(VOS_TRACE_LEVEL_FATAL, "wlan_ftm_priv_get_txrate failed =%d\n",status);
-=======
                 hddLog(VOS_TRACE_LEVEL_FATAL, "wlan_ftm_priv_get_txrate failed =%d",status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 return -EINVAL;
             }
 
             wrqu->data.length = strlen(extra)+1;
             break;
         }
-<<<<<<< HEAD
-        case WE_GET_FTM_VERSION:
-        {
-            status = wlan_ftm_priv_get_ftm_version(pAdapter, extra);
-
-            if(status != VOS_STATUS_SUCCESS)
-            {
-                hddLog(VOS_TRACE_LEVEL_FATAL, "wlan_ftm_priv_get_mac_address failed =%d\n",status);
-                return -EINVAL;
-            }
-            wrqu->data.length = strlen(extra)+1;
-            break;
-        }
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         case WE_GET_FTM_STATUS:
         {
             status = wlan_ftm_priv_get_status(pAdapter, extra);
 
             if(status != VOS_STATUS_SUCCESS)
             {
-<<<<<<< HEAD
-                hddLog(VOS_TRACE_LEVEL_FATAL, "wlan_ftm_priv_get_status failed =%d\n",status);
-=======
                 hddLog(VOS_TRACE_LEVEL_FATAL, "wlan_ftm_priv_get_status failed =%d",status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 return -EINVAL;
             }
 
@@ -6414,11 +5337,7 @@ static int __iw_ftm_get_char_setnone(struct net_device *dev, struct iw_request_i
 
             if(status != VOS_STATUS_SUCCESS)
             {
-<<<<<<< HEAD
-                hddLog(VOS_TRACE_LEVEL_FATAL, "wlan_ftm_priv_get_rx_rssi failed =%d\n",status);
-=======
                 hddLog(VOS_TRACE_LEVEL_FATAL, "wlan_ftm_priv_get_rx_rssi failed =%d",status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 return -EINVAL;
             }
 
@@ -6427,20 +5346,11 @@ static int __iw_ftm_get_char_setnone(struct net_device *dev, struct iw_request_i
         }
         default:
         {
-<<<<<<< HEAD
-            hddLog(LOGE, "Invalid IOCTL command %d  \n",  sub_cmd );
-=======
             hddLog(LOGE, "%s: Invalid IOCTL command %d", __func__, sub_cmd );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
         }
     }
 
-<<<<<<< HEAD
-    return 0;
-}
-
-=======
     EXIT();
     return 0;
 }
@@ -6458,7 +5368,6 @@ static int iw_ftm_get_char_setnone(struct net_device *dev, struct iw_request_inf
     return ret;
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 VOS_STATUS wlan_write_to_efs (v_U8_t *pData, v_U16_t data_len)
 {
 #if defined(MSM_PLATFORM)
@@ -6494,31 +5403,19 @@ VOS_STATUS wlan_write_to_efs (v_U8_t *pData, v_U16_t data_len)
     memcpy(pBuf, pData,data_len);
 
    if(pHddCtx->ftm.cmd_iwpriv == TRUE) {
-<<<<<<< HEAD
-       if( ptt_sock_send_msg_to_app(wmsg, 0, ANI_NL_MSG_PUMAC, pHddCtx->ptt_pid) < 0) {
-
-           VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR, ("Ptt Socket error sending message to the app!!\n"));
-=======
        if( ptt_sock_send_msg_to_app(wmsg, 0,
                       ANI_NL_MSG_PUMAC, pHddCtx->ptt_pid, 0) < 0) {
 
            VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR, ("Ptt Socket error sending message to the app!!"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            vos_mem_free((v_VOID_t*)wmsg);
            return VOS_STATUS_E_FAILURE;
        }
    }
    else {
-<<<<<<< HEAD
-    if( ptt_sock_send_msg_to_app(wmsg, 0, ANI_NL_MSG_PUMAC, pHddCtx->ftm.wnl->nlh.nlmsg_pid) < 0) {
-
-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR, ("Ptt Socket error sending message to the app!!\n"));
-=======
     if( ptt_sock_send_msg_to_app(wmsg, 0,
                     ANI_NL_MSG_PUMAC, pHddCtx->ftm.wnl->nlh.nlmsg_pid, 0) < 0) {
 
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR, ("Ptt Socket error sending message to the app!!"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         vos_mem_free((v_VOID_t*)wmsg);
         return VOS_STATUS_E_FAILURE;
     }
@@ -6531,11 +5428,7 @@ VOS_STATUS wlan_write_to_efs (v_U8_t *pData, v_U16_t data_len)
 }
 
 /*  action sub-ioctls */
-<<<<<<< HEAD
-static int iw_ftm_setnone_getnone(struct net_device *dev, struct iw_request_info *info,
-=======
 static int __iw_ftm_setnone_getnone(struct net_device *dev, struct iw_request_info *info,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                        union iwreq_data *wrqu, char *extra)
 {
     int sub_cmd = wrqu->data.flags;
@@ -6548,11 +5441,7 @@ static int __iw_ftm_setnone_getnone(struct net_device *dev, struct iw_request_in
             v_U8_t *pu8buf,*pTempBuf;
             v_U16_t size;
             size = sizeof(v_U32_t) + sizeof(sHalNv);
-<<<<<<< HEAD
-            hddLog(VOS_TRACE_LEVEL_INFO_HIGH,"HAL NV Size =%d\n",size);
-=======
             hddLog(VOS_TRACE_LEVEL_INFO_HIGH,"HAL NV Size =%d",size);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pu8buf = vos_mem_malloc(size);
             if(pu8buf == NULL)
             {
@@ -6579,8 +5468,6 @@ static int __iw_ftm_setnone_getnone(struct net_device *dev, struct iw_request_in
     return ret;
 }
 
-<<<<<<< HEAD
-=======
 static int iw_ftm_setnone_getnone(struct net_device *dev, struct iw_request_info *info,
                        union iwreq_data *wrqu, char *extra)
 {
@@ -6674,7 +5561,6 @@ static int iw_ftm_set_var_ints_getnone(struct net_device *dev, struct iw_request
    return ret;
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 static const iw_handler we_ftm_private[] = {
 
    [WLAN_FTM_PRIV_SET_INT_GET_NONE      - SIOCIWFIRSTPRIV]   = iw_ftm_setint_getnone,  //set priv ioctl
@@ -6682,10 +5568,7 @@ static const iw_handler we_ftm_private[] = {
    [WLAN_FTM_PRIV_SET_CHAR_GET_NONE     - SIOCIWFIRSTPRIV]   = iw_ftm_setchar_getnone, //get priv ioctl
    [WLAN_FTM_PRIV_GET_CHAR_SET_NONE     - SIOCIWFIRSTPRIV]   = iw_ftm_get_char_setnone,
    [WLAN_FTM_PRIV_SET_NONE_GET_NONE     - SIOCIWFIRSTPRIV]   = iw_ftm_setnone_getnone, //action priv ioctl
-<<<<<<< HEAD
-=======
    [WLAN_FTM_PRIV_SET_VAR_INT_GET_NONE  - SIOCIWFIRSTPRIV]   = iw_ftm_set_var_ints_getnone,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 };
 
 /*Maximum command length can be only 15 */
@@ -6722,8 +5605,6 @@ static const struct iw_priv_args we_ftm_private_args[] = {
         0,
         "set_txpktlen" },
 
-<<<<<<< HEAD
-=======
     {   WE_SET_TX_WF_GAIN,
         IW_PRIV_TYPE_INT | MAX_FTM_VAR_ARGS,
         0,
@@ -6733,7 +5614,6 @@ static const struct iw_priv_args we_ftm_private_args[] = {
         IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1,
         0,
         "tx_cw_rf_gen" },
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {   WE_SET_CHANNEL,
         IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1,
         0,
@@ -6822,14 +5702,6 @@ static const struct iw_priv_args we_ftm_private_args[] = {
         IW_PRIV_TYPE_CHAR| WE_FTM_MAX_STR_LEN,
         "get_mac_address" },
 
-<<<<<<< HEAD
-    {   WE_GET_FTM_VERSION,
-        0,
-        IW_PRIV_TYPE_CHAR| WE_FTM_MAX_STR_LEN,
-        "ftm_version" },
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {   WE_GET_TX_RATE,
         0,
         IW_PRIV_TYPE_CHAR| WE_FTM_MAX_STR_LEN,
@@ -6845,13 +5717,10 @@ static const struct iw_priv_args we_ftm_private_args[] = {
         IW_PRIV_TYPE_CHAR| WE_FTM_MAX_STR_LEN,
         "get_rx_rssi" },
 
-<<<<<<< HEAD
-=======
     {   WLAN_FTM_PRIV_SET_VAR_INT_GET_NONE,
         IW_PRIV_TYPE_INT | MAX_FTM_VAR_ARGS,
         0,
         "" },
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /* handlers for main ioctl */
     {   WLAN_FTM_PRIV_SET_NONE_GET_NONE,
         0,
@@ -6941,11 +5810,7 @@ VOS_STATUS WLANFTM_McProcessMsg (v_VOID_t *message)
 
     if (!VOS_IS_STATUS_SUCCESS(vos_status))
     {
-<<<<<<< HEAD
-       VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR, ("ERROR: HDD vos_event_set failed!!\n"));
-=======
        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR, ("ERROR: HDD vos_event_set failed!!"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        return VOS_STATUS_E_FAILURE;
     }
     }

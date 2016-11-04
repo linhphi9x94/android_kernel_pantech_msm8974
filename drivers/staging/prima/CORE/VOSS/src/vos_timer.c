@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2013, 2015-2016 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /**=========================================================================
@@ -58,22 +32,6 @@
   \brief virtual Operating System Servies (vOS)
 
    Definitions for vOSS Timer services
-<<<<<<< HEAD
-<<<<<<< HEAD:CORE/VOSS/src/vos_timer.c
-  
-   Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
-   
-   Qualcomm Confidential and Proprietary.
-  
-=======
-
-   Copyright 2008 (c) Qualcomm Technologies, Inc.  All Rights Reserved.
-
-   Qualcomm Technologies Confidential and Proprietary.
-
->>>>>>> f7413b6... wlan: voss: remove obsolete "INTEGRATED_SOC" featurization:prima/CORE/VOSS/src/vos_timer.c
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   ========================================================================*/
 
 /* $Header$ */
@@ -131,32 +89,6 @@ static void tryAllowingSleep( VOS_TIMER_TYPE type )
 
 
 /*----------------------------------------------------------------------------
-<<<<<<< HEAD
-  
-  \brief  vos_linux_timer_callback() - internal vos entry point which is 
-          called when the timer interval expires 
-
-  This function in turn calls the vOS client callback and changes the 
-  state of the timer from running (ACTIVE) to expired (INIT). 
-  
-  
-  \param uTimerID - return value of the timeSetEvent() from the 
-      vos_timer_start() API which 
-
-  \param dwUser - this is supplied by the fourth parameter of the timeSetEvent()
-      which is the timer structure being passed as the userData
-
-  \param uMsg - Reserved / Not Used
-
-  \param dw1  - Reserved / Not Used
-
-  \param dw2  - Reserved / Not Used
-  
-  \return  nothing
-  --------------------------------------------------------------------------*/
-
-static void vos_linux_timer_callback ( v_U32_t data ) 
-=======
 
   \brief  vos_linux_timer_callback() - internal vos entry point which is
           called when the timer interval expires
@@ -178,7 +110,6 @@ static void vos_linux_timer_callback ( v_U32_t data )
   --------------------------------------------------------------------------*/
 
 static void vos_linux_timer_callback (unsigned long data)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
    vos_timer_t *timer = ( vos_timer_t *)data; 
    vos_msg_t msg;
@@ -263,14 +194,9 @@ static void vos_linux_timer_callback (unsigned long data)
          
       //Serialize to the Tx thread
       sysBuildMessageHeader( SYS_MSG_ID_TX_TIMER, &msg );
-<<<<<<< HEAD
-      msg.bodyptr  = callback;
-      msg.bodyval  = (v_U32_t)userData; 
-=======
       msg.callback = callback;
       msg.bodyptr  = userData;
       msg.bodyval  = 0;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        
       if(vos_tx_mq_serialize( VOS_MQ_ID_SYS, &msg ) == VOS_STATUS_SUCCESS)
          return;
@@ -282,21 +208,13 @@ static void vos_linux_timer_callback (unsigned long data)
          
       //Serialize to the Rx thread
       sysBuildMessageHeader( SYS_MSG_ID_RX_TIMER, &msg );
-<<<<<<< HEAD
-      msg.bodyptr  = callback;
-      msg.bodyval  = (v_U32_t)userData; 
-=======
       msg.callback = callback;
       msg.bodyptr  = userData;
       msg.bodyval  = 0;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        
       if(vos_rx_mq_serialize( VOS_MQ_ID_SYS, &msg ) == VOS_STATUS_SUCCESS)
          return;
    }
-<<<<<<< HEAD
-   else 
-=======
 #ifdef WLAN_LOGGING_SOCK_SVC_ENABLE
    else if (vos_is_wd_thread(threadId))
    {
@@ -307,21 +225,12 @@ static void vos_linux_timer_callback (unsigned long data)
    }
 #endif
    else
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    {
       VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_INFO,
           "TIMER callback: running on MC thread");
                     
       // Serialize to the MC thread
       sysBuildMessageHeader( SYS_MSG_ID_MC_TIMER, &msg );
-<<<<<<< HEAD
-      msg.bodyptr  = callback;
-      msg.bodyval  = (v_U32_t)userData; 
-       
-      if(vos_mq_post_message( VOS_MQ_ID_SYS, &msg ) == VOS_STATUS_SUCCESS)
-        return;
-   }     
-=======
       msg.callback = callback;
       msg.bodyptr  = userData;
       msg.bodyval  = 0;
@@ -329,7 +238,6 @@ static void vos_linux_timer_callback (unsigned long data)
       if(vos_mq_post_message( VOS_MQ_ID_SYS, &msg ) == VOS_STATUS_SUCCESS)
         return;
    }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR, 
              "%s: Could not enqueue timer to any queue", __func__);
@@ -501,11 +409,6 @@ void vos_timer_exit()
   
 ---------------------------------------------------------------------------*/
 #ifdef TIMER_MANAGER
-<<<<<<< HEAD
-VOS_STATUS vos_timer_init_debug( vos_timer_t *timer, VOS_TIMER_TYPE timerType, 
-                           vos_timer_callback_t callback, v_PVOID_t userData, 
-                           char* fileName, v_U32_t lineNum )
-=======
 static inline VOS_STATUS __vos_timer_init_debug(vos_timer_t *timer,
                         VOS_TIMER_TYPE timerType,
                         vos_timer_callback_t callback,
@@ -513,20 +416,13 @@ static inline VOS_STATUS __vos_timer_init_debug(vos_timer_t *timer,
                         bool deferrable,
                         char* fileName,
                         v_U32_t lineNum)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
    VOS_STATUS vosStatus;
     unsigned long flags;
    // Check for invalid pointer
-<<<<<<< HEAD
-   if ((timer == NULL) || (callback == NULL)) 
-   {
-      VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR, 
-=======
    if ((timer == NULL) || (callback == NULL))
    {
       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 "%s: Null params being passed",__func__);
       VOS_ASSERT(0);
       return VOS_STATUS_E_FAULT;
@@ -534,18 +430,11 @@ static inline VOS_STATUS __vos_timer_init_debug(vos_timer_t *timer,
 
    timer->ptimerNode = vos_mem_malloc(sizeof(timer_node_t));
 
-<<<<<<< HEAD
-   if(timer->ptimerNode == NULL)
-   {
-      VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR, 
-                "%s: Not able to allocate memory for timeNode",__func__);
-=======
    if (timer->ptimerNode == NULL)
    {
       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR, 
                 "%s: Not able to allocate memory for timeNode",
                 __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       VOS_ASSERT(0);
       return VOS_STATUS_E_FAULT;
    }
@@ -559,18 +448,6 @@ static inline VOS_STATUS __vos_timer_init_debug(vos_timer_t *timer,
     spin_lock_irqsave(&vosTimerList.lock, flags);
     vosStatus = hdd_list_insert_front(&vosTimerList, &timer->ptimerNode->pNode);
     spin_unlock_irqrestore(&vosTimerList.lock, flags);
-<<<<<<< HEAD
-    if(VOS_STATUS_SUCCESS != vosStatus)
-    {
-         VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR, 
-             "%s: Unable to insert node into List vosStatus %d\n", __func__, vosStatus);
-    }
-   
-   // set the various members of the timer structure 
-   // with arguments passed or with default values
-   spin_lock_init(&timer->platformInfo.spinlock);
-   init_timer(&(timer->platformInfo.Timer));
-=======
     if (VOS_STATUS_SUCCESS != vosStatus)
     {
          VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR, 
@@ -586,7 +463,6 @@ static inline VOS_STATUS __vos_timer_init_debug(vos_timer_t *timer,
      init_timer_deferrable(&(timer->platformInfo.Timer));
    else
      init_timer(&(timer->platformInfo.Timer));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    timer->platformInfo.Timer.function = vos_linux_timer_callback;
    timer->platformInfo.Timer.data = (unsigned long)timer;
    timer->callback = callback;
@@ -595,19 +471,6 @@ static inline VOS_STATUS __vos_timer_init_debug(vos_timer_t *timer,
    timer->platformInfo.cookie = LINUX_TIMER_COOKIE;
    timer->platformInfo.threadID = 0;
    timer->state = VOS_TIMER_STATE_STOPPED;
-<<<<<<< HEAD
-   
-   return VOS_STATUS_SUCCESS;
-}
-#else
-VOS_STATUS vos_timer_init( vos_timer_t *timer, VOS_TIMER_TYPE timerType, 
-                           vos_timer_callback_t callback, v_PVOID_t userData )
-{
-   // Check for invalid pointer
-   if ((timer == NULL) || (callback == NULL)) 
-   {
-      VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR, 
-=======
 
    return VOS_STATUS_SUCCESS;
 }
@@ -644,18 +507,10 @@ static inline VOS_STATUS __vos_timer_init(vos_timer_t *timer,
    if ((timer == NULL) || (callback == NULL))
    {
       VOS_TRACE(VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 "%s: Null params being passed",__func__);
       VOS_ASSERT(0);
       return VOS_STATUS_E_FAULT;
    }
-<<<<<<< HEAD
-   
-   // set the various members of the timer structure 
-   // with arguments passed or with default values
-   spin_lock_init(&timer->platformInfo.spinlock);
-   init_timer(&(timer->platformInfo.Timer));
-=======
 
    /* set the various members of the timer structure
     * with arguments passed or with default values
@@ -665,7 +520,6 @@ static inline VOS_STATUS __vos_timer_init(vos_timer_t *timer,
      init_timer_deferrable(&(timer->platformInfo.Timer));
    else
      init_timer(&(timer->platformInfo.Timer));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    timer->platformInfo.Timer.function = vos_linux_timer_callback;
    timer->platformInfo.Timer.data = (unsigned long)timer;
    timer->callback = callback;
@@ -677,8 +531,6 @@ static inline VOS_STATUS __vos_timer_init(vos_timer_t *timer,
    
    return VOS_STATUS_SUCCESS;
 }
-<<<<<<< HEAD
-=======
 VOS_STATUS vos_timer_init(vos_timer_t *timer,
                      VOS_TIMER_TYPE timerType,
                      vos_timer_callback_t callback,
@@ -697,7 +549,6 @@ VOS_STATUS vos_timer_init_deferrable(vos_timer_t *timer,
    return __vos_timer_init(timer, timerType,
                    callback, userData, true);
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 
 
@@ -1085,8 +936,6 @@ v_TIME_t vos_timer_get_system_time( v_VOID_t )
    do_gettimeofday(&tv);
    return tv.tv_sec*1000 + tv.tv_usec/1000;  
 }
-<<<<<<< HEAD
-=======
 
 /*--------------------------------------------------------------------------
 
@@ -1108,4 +957,3 @@ v_BOOL_t vos_timer_is_initialized(vos_timer_t *timer)
         return VOS_FALSE;
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver

@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2013-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -23,15 +19,12 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-<<<<<<< HEAD
-=======
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
  */
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /***********************************************************************
    sme_Trace.h
 
@@ -39,15 +32,6 @@
 
   \author Kiran Kumar Reddy CH L V
 
-<<<<<<< HEAD
-   Copyright (c) 2013 Qualcomm Atheros, Inc.
-
-   All Rights Reserved.
-
-   Qualcomm Atheros Confidential and Proprietary.
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   ========================================================================*/
 
 #ifndef __SME_TRACE_H__
@@ -57,11 +41,6 @@
 #include "macTrace.h"
 
 #define NO_SESSION 0xFF
-<<<<<<< HEAD
-#define TRACE_CODE_SME_COMMAND 0xFF
-enum {
-    TRACE_CODE_SME_RX_HDD_MSG_SCAN_REQ,
-=======
 enum {
      TRACE_CODE_SME_COMMAND,
      TRACE_CODE_SME_TX_WDA_MSG,
@@ -72,7 +51,6 @@ enum {
      * three enums in smeTraceDump()
      */
     TRACE_CODE_SME_RX_HDD_MSG_SCAN_REQ = 3,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     TRACE_CODE_SME_RX_HDD_MSG_SCAN_GET_RESULTS,
     TRACE_CODE_SME_RX_HDD_MSG_CONNECT,
     TRACE_CODE_SME_RX_HDD_MSG_SET_11DINFO,
@@ -91,10 +69,7 @@ enum {
     TRACE_CODE_SME_RX_HDD_ROAM_GET_CONNECTPROFILE,
     TRACE_CODE_SME_RX_HDD_ROAM_FREE_CONNECTPROFILE,
     TRACE_CODE_SME_RX_HDD_ROAM_SET_PMKIDCACHE,
-<<<<<<< HEAD
-=======
     TRACE_CODE_SME_RX_HDD_ROAM_DEL_PMKIDCACHE,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     TRACE_CODE_SME_RX_HDD_GET_CONFIGPARAM,
     TRACE_CODE_SME_RX_HDD_GET_MODPROFFIELDS,
     TRACE_CODE_SME_RX_HDD_SET_CONFIG_PWRSAVE,
@@ -158,8 +133,6 @@ enum {
     TRACE_CODE_SME_RX_HDD_UPDATE_FTENABLED,
     TRACE_CODE_SME_RX_HDD_UPDATE_WESMODE,
     TRACE_CODE_SME_RX_HDD_SET_SCANCTRL,
-<<<<<<< HEAD
-=======
     TRACE_CODE_SME_RX_HDD_EXTSCAN_GET_CAPABILITIES,
     TRACE_CODE_SME_RX_HDD_EXTSCAN_START,
     TRACE_CODE_SME_RX_HDD_EXTSCAN_STOP,
@@ -181,7 +154,6 @@ enum {
 #ifdef FEATURE_WLAN_LPHB
     TRACE_CODE_SME_RX_HDD_LPHB_CONFIG_REQ,
 #endif /* FEATURE_WLAN_LPHB */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 };
 
 void smeTraceInit(tpAniSirGlobal pMac);

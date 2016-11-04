@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,32 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-/*
- * Airgo Networks, Inc proprietary. All rights reserved. 
- * 
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -57,7 +27,6 @@
 
 /*
  *
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file limSerDesUtils.cc contains the serializer/deserializer
  * utility functions LIM uses while communicating with upper layer
  * software entities
@@ -260,11 +229,7 @@ limGetBssDescription( tpAniSirGlobal pMac, tSirBssDescription *pBssDescription,
 #endif
 #endif
 
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-=======
 #ifdef FEATURE_WLAN_ESE
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     pBssDescription->QBSSLoad_present = limGetU16(pBuf);
     pBuf += sizeof(tANI_U16);
     len  -= sizeof(tANI_U16);
@@ -681,15 +646,12 @@ limStartBssReqSerDes(tpAniSirGlobal pMac, tpSirSmeStartBssReq pStartBssReq, tANI
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
         return eSIR_FAILURE;
 
-<<<<<<< HEAD
-=======
     // Extract isCoalesingInIBSSAllowed
     pStartBssReq->isCoalesingInIBSSAllowed = *pBuf++;
     len--;
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
         return eSIR_FAILURE;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     // Extract bssPersona
     pStartBssReq->bssPersona = *pBuf++;
     len--;
@@ -703,13 +665,6 @@ limStartBssReqSerDes(tpAniSirGlobal pMac, tpSirSmeStartBssReq pStartBssReq, tANI
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
         return eSIR_FAILURE;
 
-<<<<<<< HEAD
-    // Extract oxygenNwkIniFeatureEnabled
-    pStartBssReq->oxygenNwkIniFeatureEnabled = *pBuf++;
-    len--;
-    if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-       return eSIR_FAILURE;
-=======
 #ifdef WLAN_FEATURE_11W
     // Extract MFP capable/required
     pStartBssReq->pmfCapable = *pBuf++;
@@ -721,7 +676,6 @@ limStartBssReqSerDes(tpAniSirGlobal pMac, tpSirSmeStartBssReq pStartBssReq, tANI
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
        return eSIR_FAILURE;
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     // Extract rsnIe
     pStartBssReq->rsnIE.length = limGetU16(pBuf);
@@ -785,15 +739,11 @@ limStartBssReqSerDes(tpAniSirGlobal pMac, tpSirSmeStartBssReq pStartBssReq, tANI
         len  -= pStartBssReq->extendedRateSet.numRates;
     }
 
-<<<<<<< HEAD
-
-=======
 #ifdef WLAN_FEATURE_AP_HT40_24G
     /* extract apHT40_24GEnabled */
     pStartBssReq->apHT40_24GEnabled = *pBuf++;
     len--;
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (len)
     {
         limLog(pMac, LOGW, FL("Extra bytes left in SME_START_BSS_REQ, len=%d"), len);
@@ -918,11 +868,7 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
 
     if (!pJoinReq || !pBuf)
     {
-<<<<<<< HEAD
-        PELOGE(limLog(pMac, LOGE, FL("NULL ptr received"));)
-=======
         PELOGE(limLog(pMac, LOGE, FL("pJoinReq or pBuf is NULL"));)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eSIR_FAILURE;
     }
 
@@ -937,62 +883,40 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
     if (pJoinReq->messageType == eWNI_SME_JOIN_REQ)
         PELOG1(limLog(pMac, LOG3, FL("SME_JOIN_REQ length %d bytes is:"), len);)
     else
-<<<<<<< HEAD
-        PELOG1(limLog(pMac, LOG3, FL("SME_REASSOC_REQ length %d bytes is:"), len);)
-=======
         PELOG1(limLog(pMac, LOG3, FL("SME_REASSOC_REQ length %d bytes is:"),
                       len);)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     PELOG1(sirDumpBuf(pMac, SIR_LIM_MODULE_ID, LOG3, pTemp, len);)
 
     if (len < (tANI_S16) sizeof(tANI_U32))
     {
-<<<<<<< HEAD
-        PELOGE(limLog(pMac, LOGE, FL("len too short %d"), len);)
-=======
         PELOGE(limLog(pMac, LOGE, FL("len %d is too short"), len);)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eSIR_FAILURE;
     }
 
     len -= sizeof(tANI_U32); // skip message header
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;
-
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     // Extract sessionId
     pJoinReq->sessionId = *pBuf++;
     len--;
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;
-
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     // Extract transactionId
     pJoinReq->transactionId = limGetU16(pBuf);
     pBuf += sizeof(tANI_U16);
     len  -= sizeof(tANI_U16);
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     // Extract ssId
     pJoinReq->ssId.length = *pBuf++;
@@ -1001,63 +925,44 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
     pBuf += pJoinReq->ssId.length;
     len -= pJoinReq->ssId.length;
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     // Extract selfMacAddr
     vos_mem_copy( pJoinReq->selfMacAddr, pBuf, sizeof(tSirMacAddr));
     pBuf += sizeof(tSirMacAddr);
     len -= sizeof(tSirMacAddr);
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     // Extract bsstype
     pJoinReq->bsstype = (tSirBssType) limGetU32(pBuf);
     pBuf += sizeof(tANI_U32);
     len  -= sizeof(tANI_U32);
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     // Extract dot11mode
     pJoinReq->dot11mode= *pBuf++;
     len--;
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     // Extract bssPersona
     pJoinReq->staPersona = *pBuf++;
     len--;
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
@@ -1070,33 +975,24 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     // Extract cbMode
     pJoinReq->cbMode = *pBuf++;
     len--;
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     // Extract uapsdPerAcBitmask
     pJoinReq->uapsdPerAcBitmask = *pBuf++;
     len--;
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 
     // Extract operationalRateSet
@@ -1109,14 +1005,10 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
         pBuf += pJoinReq->operationalRateSet.numRates;
         len -= pJoinReq->operationalRateSet.numRates;
         if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-            return eSIR_FAILURE;
-=======
         {
             limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
             return eSIR_FAILURE;
         }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     // Extract extendedRateSet
@@ -1128,11 +1020,6 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
         pBuf += pJoinReq->extendedRateSet.numRates;
         len  -= pJoinReq->extendedRateSet.numRates;
         if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-            return eSIR_FAILURE;
-    }
-
-=======
         {
             limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
             return eSIR_FAILURE;
@@ -1144,7 +1031,6 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
     pBuf += sizeof(tANI_U16);
     len -= sizeof(tANI_U16);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     // Extract RSN IE
     pJoinReq->rsnIE.length = limGetU16(pBuf);
     pBuf += sizeof(tANI_U16);
@@ -1166,12 +1052,6 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
         pBuf += pJoinReq->rsnIE.length;
         len  -= pJoinReq->rsnIE.length; // skip RSN IE
         if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-            return eSIR_FAILURE;
-    }
-
-#ifdef FEATURE_WLAN_CCX
-=======
         {
             limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
             return eSIR_FAILURE;
@@ -1179,7 +1059,6 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
     }
 
 #ifdef FEATURE_WLAN_ESE
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     // Extract CCKM IE
     pJoinReq->cckmIE.length = limGetU16(pBuf);
     pBuf += sizeof(tANI_U16);
@@ -1200,14 +1079,10 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
         pBuf += pJoinReq->cckmIE.length;
         len  -= pJoinReq->cckmIE.length; // skip CCKM IE
         if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-            return eSIR_FAILURE;
-=======
         {
             limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
             return eSIR_FAILURE;
         }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 #endif
 
@@ -1219,11 +1094,7 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
     if (pJoinReq->addIEScan.length)
     {
         // Check for IE length (that includes length of type & length)
-<<<<<<< HEAD
-        if (pJoinReq->addIEScan.length > SIR_MAC_MAX_IE_LENGTH + 2)
-=======
         if (pJoinReq->addIEScan.length > SIR_MAC_MAX_ADD_IE_LENGTH + 2)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         {
             limLog(pMac, LOGE,
                    FL("Invalid addIE Scan length %d in SME_JOIN_REQ"),
@@ -1236,14 +1107,10 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
         pBuf += pJoinReq->addIEScan.length;
         len  -= pJoinReq->addIEScan.length; // skip add IE
         if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-            return eSIR_FAILURE;
-=======
         {
             limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
             return eSIR_FAILURE;
         }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     pJoinReq->addIEAssoc.length = limGetU16(pBuf);
@@ -1267,55 +1134,38 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
         pBuf += pJoinReq->addIEAssoc.length;
         len  -= pJoinReq->addIEAssoc.length; // skip add IE
         if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-            return eSIR_FAILURE;
-=======
         {
             limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
             return eSIR_FAILURE;
         }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     pJoinReq->UCEncryptionType = limGetU32(pBuf);
     pBuf += sizeof(tANI_U32);
     len -= sizeof(tANI_U32);
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;    
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     
     pJoinReq->MCEncryptionType = limGetU32(pBuf);
     pBuf += sizeof(tANI_U32);
     len -= sizeof(tANI_U32);
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;    
-    
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef WLAN_FEATURE_11W
     pJoinReq->MgmtEncryptionType = limGetU32(pBuf);
     pBuf += sizeof(tANI_U32);
     len -= sizeof(tANI_U32);
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 
 #ifdef WLAN_FEATURE_VOWIFI_11R
@@ -1324,38 +1174,6 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
     pBuf += sizeof(tAniBool);
     len -= sizeof(tAniBool);
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;    
-#endif
-
-#ifdef FEATURE_WLAN_CCX
-    //CCX version IE
-    pJoinReq->isCCXFeatureIniEnabled = (tAniBool)limGetU32(pBuf);
-    pBuf += sizeof(tAniBool);
-    len -= sizeof(tAniBool);
-    if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-       return eSIR_FAILURE;
-
-    //isCCXconnection;
-    pJoinReq->isCCXconnection = (tAniBool)limGetU32(pBuf);
-    pBuf += sizeof(tAniBool);
-    len -= sizeof(tAniBool);
-    if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-        return eSIR_FAILURE;    
-
-    // TSPEC information
-    pJoinReq->ccxTspecInfo.numTspecs = *pBuf++;
-    len -= sizeof(tANI_U8);
-    vos_mem_copy((void*)&pJoinReq->ccxTspecInfo.tspec[0], pBuf,
-                 (sizeof(tTspecInfo)* pJoinReq->ccxTspecInfo.numTspecs));
-    pBuf += sizeof(tTspecInfo)*SIR_CCX_MAX_TSPEC_IES;
-    len  -= sizeof(tTspecInfo)*SIR_CCX_MAX_TSPEC_IES;
-    if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-        return eSIR_FAILURE;
-#endif
-    
-#if defined WLAN_FEATURE_VOWIFI_11R || defined FEATURE_WLAN_CCX || defined(FEATURE_WLAN_LFR)
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
@@ -1398,20 +1216,15 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
 #endif
     
 #if defined WLAN_FEATURE_VOWIFI_11R || defined FEATURE_WLAN_ESE || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     //isFastTransitionEnabled;
     pJoinReq->isFastTransitionEnabled = (tAniBool)limGetU32(pBuf);
     pBuf += sizeof(tAniBool);
     len -= sizeof(tAniBool);
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;    
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 
 #ifdef FEATURE_WLAN_LFR
@@ -1420,50 +1233,34 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
     pBuf += sizeof(tAniBool);
     len -= sizeof(tAniBool);
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;    
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 
     //txLdpcIniFeatureEnabled
     pJoinReq->txLdpcIniFeatureEnabled= *pBuf++;
     len--;
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;
-
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
     }
 #ifdef WLAN_FEATURE_11AC
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     //txBFIniFeatureEnabled
     pJoinReq->txBFIniFeatureEnabled= *pBuf++;
     len--;
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     //txBFCsnValue
     pJoinReq->txBFCsnValue= *pBuf++;
     len--;
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
@@ -1478,19 +1275,14 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
         return eSIR_FAILURE;
     }
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     pJoinReq->isAmsduSupportInAMPDU= *pBuf++;
     len--;
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     pJoinReq->isWMEenabled = (tAniBool)limGetU32(pBuf);
     pBuf += sizeof(tAniBool);
@@ -1521,10 +1313,6 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
     pJoinReq->powerCap.minTxPower = *pBuf++;
     pJoinReq->powerCap.maxTxPower = *pBuf++;
     len -=2;
-<<<<<<< HEAD
-    limLog(pMac, LOG1, FL("Power Caps: Min power = %d, Max power = %d"), pJoinReq->powerCap.minTxPower, pJoinReq->powerCap.maxTxPower);
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     pJoinReq->supportedChannels.numChnl = *pBuf++;
     len--;
@@ -1533,32 +1321,20 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
     pBuf += pJoinReq->supportedChannels.numChnl;
     len-= pJoinReq->supportedChannels.numChnl;
 
-<<<<<<< HEAD
-    PELOG2(limLog(pMac, LOG2,
-            FL("spectrumInd ON: minPower %d, maxPower %d , numChnls %d"),
-            pJoinReq->powerCap.minTxPower,
-            pJoinReq->powerCap.maxTxPower,
-            pJoinReq->supportedChannels.numChnl);)
-=======
     limLog(pMac, LOG1,
             FL("spectrumInd ON: minPower %d, maxPower %d , numChnls %d"),
             pJoinReq->powerCap.minTxPower,
             pJoinReq->powerCap.maxTxPower,
             pJoinReq->supportedChannels.numChnl);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     // Extract uapsdPerAcBitmask
     pJoinReq->uapsdPerAcBitmask = *pBuf++;
     len--;
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;
-=======
     {
         limLog(pMac, LOGE, FL("remaining len %d is too short"), len);
         return eSIR_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     //
     // NOTE - tSirBssDescription is now moved to the end
@@ -1571,13 +1347,9 @@ limJoinReqSerDes(tpAniSirGlobal pMac, tpSirSmeJoinReq pJoinReq, tANI_U8 *pBuf)
         PELOGE(limLog(pMac, LOGE, FL("get bss description failed"));)
         return eSIR_FAILURE;
     }
-<<<<<<< HEAD
-    PELOG3(sirDumpBuf(pMac, SIR_LIM_MODULE_ID, LOG3, (tANI_U8 *) &(pJoinReq->bssDescription), pJoinReq->bssDescription.length + 2);)
-=======
     PELOG3(sirDumpBuf(pMac, SIR_LIM_MODULE_ID, LOG3,
                       (tANI_U8 *) &(pJoinReq->bssDescription),
                        pJoinReq->bssDescription.length + 2);)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     pBuf += lenUsed;
     len -= lenUsed;
 
@@ -1682,8 +1454,6 @@ limAssocIndSerDes(tpAniSirGlobal pMac, tpLimMlmAssocInd pAssocInd, tANI_U8 *pBuf
     limCopyU32(pBuf, pAssocInd->WmmStaInfoPresent);
     pBuf += sizeof(tANI_U32);
     mLen += sizeof(tANI_U32);
-<<<<<<< HEAD
-=======
 
 #ifdef WLAN_FEATURE_AP_HT40_24G
     limCopyU32(pBuf, pAssocInd->HT40MHzIntoPresent);
@@ -1691,7 +1461,6 @@ limAssocIndSerDes(tpAniSirGlobal pMac, tpLimMlmAssocInd pAssocInd, tANI_U8 *pBuf
     mLen += sizeof(tANI_U32);
 #endif
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
      // Fill in length of SME_ASSOC_IND message
     limCopyU16(pLen, mLen);
 
@@ -2143,10 +1912,7 @@ limSetContextReqSerDes(tpAniSirGlobal pMac, tpSirSmeSetContextReq pSetContextReq
         do {
             tANI_U32 keySize   = limGetKeysInfo(pMac, (tpSirKeys) pKeys,
                                        pBuf);
-<<<<<<< HEAD
-=======
             vos_mem_zero(pBuf, keySize);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pBuf         += keySize;
             pKeys        += sizeof(tSirKeys);
             totalKeySize += (tANI_U16) keySize;
@@ -2633,58 +2399,24 @@ limIsSmeGetAssocSTAsReqValid(tpAniSirGlobal pMac, tpSirSmeGetAssocSTAsReq pGetAs
     pBuf += sizeof(tANI_U16);
 
     if (len < (tANI_S16) sizeof(tANI_U32))
-<<<<<<< HEAD
-        return eSIR_FAILURE;
-
-    len -= sizeof(tANI_U32); // skip message header
-    if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-        return eSIR_FAILURE;
-=======
         return eANI_BOOLEAN_FALSE;
 
     len -= sizeof(tANI_U32); // skip message header
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
         return eANI_BOOLEAN_FALSE;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     // Extract bssId
     vos_mem_copy( (tANI_U8 *) pGetAssocSTAsReq->bssId, pBuf, sizeof(tSirMacAddr));
     pBuf += sizeof(tSirMacAddr);
     len  -= sizeof(tSirMacAddr);
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;
-=======
         return eANI_BOOLEAN_FALSE;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     // Extract modId
     pGetAssocSTAsReq->modId = limGetU16(pBuf);
     pBuf += sizeof(tANI_U16);
     len  -= sizeof(tANI_U16);
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-<<<<<<< HEAD
-        return eSIR_FAILURE;
-
-    // Extract pUsrContext
-    pGetAssocSTAsReq->pUsrContext = (void *)limGetU32(pBuf);
-    pBuf += sizeof(tANI_U32);
-    len  -= sizeof(tANI_U32);
-    if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-        return eSIR_FAILURE;
-
-    // Extract pSapEventCallback
-    pGetAssocSTAsReq->pSapEventCallback = (void *)limGetU32(pBuf);
-    pBuf += sizeof(tANI_U32);
-    len  -= sizeof(tANI_U32);
-    if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
-        return eSIR_FAILURE;
-
-    // Extract pAssocStasArray
-    pGetAssocSTAsReq->pAssocStasArray = (void *)limGetU32(pBuf);
-    pBuf += sizeof(tANI_U32);
-    len  -= sizeof(tANI_U32);
-=======
         return eANI_BOOLEAN_FALSE;
 
     // Extract pUsrContext
@@ -2705,7 +2437,6 @@ limIsSmeGetAssocSTAsReqValid(tpAniSirGlobal pMac, tpSirSmeGetAssocSTAsReq pGetAs
     vos_mem_copy((tANI_U8 *)pGetAssocSTAsReq->pAssocStasArray, pBuf, sizeof(void*));
     pBuf += sizeof(void*);
     len  -= sizeof(void*);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     PELOG1(limLog(pMac, LOG1, FL("SME_GET_ASSOC_STAS_REQ length consumed %d bytes "), len);)
 
@@ -2842,28 +2573,16 @@ limIsSmeGetWPSPBCSessionsReqValid(tpAniSirGlobal pMac, tSirSmeGetWPSPBCSessionsR
         return eSIR_FAILURE;
 
    // Extract pUsrContext
-<<<<<<< HEAD
-    pGetWPSPBCSessionsReq->pUsrContext = (void *)limGetU32(pBuf);
-    pBuf += sizeof(tANI_U32);
-    len  -= sizeof(tANI_U32);
-=======
     vos_mem_copy((tANI_U8 *)pGetWPSPBCSessionsReq->pUsrContext, pBuf, sizeof(void*));
     pBuf += sizeof(void*);
     len  -= sizeof(void*);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
         return eSIR_FAILURE;
 
     // Extract pSapEventCallback
-<<<<<<< HEAD
-    pGetWPSPBCSessionsReq->pSapEventCallback = (void *)limGetU32(pBuf);
-    pBuf += sizeof(tANI_U32);
-    len  -= sizeof(tANI_U32);
-=======
     vos_mem_copy((tANI_U8 *)pGetWPSPBCSessionsReq->pSapEventCallback, pBuf, sizeof(void*));
     pBuf += sizeof(void*);
     len  -= sizeof(void*);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (limCheckRemainingLength(pMac, len) == eSIR_FAILURE)
         return eSIR_FAILURE;
 

@@ -1,25 +1,4 @@
 /*
-<<<<<<< HEAD
-  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-  *
-  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
-  *
-  *
-  * Permission to use, copy, modify, and/or distribute this software for
-  * any purpose with or without fee is hereby granted, provided that the
-  * above copyright notice and this permission notice appear in all
-  * copies.
-  *
-  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
-  * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
-  * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
-  * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
-  * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
-  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-  * PERFORMANCE OF THIS SOFTWARE.
-*/
-=======
  * Copyright (c) 2011-2014 The Linux Foundation. All rights reserved.
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
@@ -46,7 +25,6 @@
  * to the Linux Foundation.
  */
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*
  * DO NOT EDIT - This file is generated automatically
  */
@@ -285,11 +263,7 @@ unsigned char *gCfgParamName[] = {
     (unsigned char *)"MAX_BA_SESSIONS",
     (unsigned char *)"BA_AUTO_SETUP",
     (unsigned char *)"ADDBA_REQ_DECLINE",
-<<<<<<< HEAD
-    (unsigned char *)"DEL_ALL_RX_BA_SESSIONS_2_4_G_BTC",
-=======
     (unsigned char *)"DEL_ALL_RX_TX_BA_SESSIONS_2_4_G_BTC",
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     (unsigned char *)"BG_SCAN_CHANNEL_LIST",
     (unsigned char *)"MAX_MEDIUM_TIME",
     (unsigned char *)"MAX_MPDUS_IN_AMPDU",
@@ -364,22 +338,14 @@ unsigned char *gCfgParamName[] = {
     (unsigned char *)"TDLS_PUAPSD_INACT_TIME",
     (unsigned char *)"TDLS_RX_FRAME_THRESHOLD",
     (unsigned char *)"ENABLE_ADAPT_RX_DRAIN",
-<<<<<<< HEAD
-    (unsigned char *)"OXYGEN_NETWORK_DATA",
-    (unsigned char *)"FLEX_CONNECT_POWER_FACTOR",
-    (unsigned char *)"ANTENNA_DIVESITY",
-=======
     (unsigned char *)"FLEX_CONNECT_POWER_FACTOR",
     (unsigned char *)"ANTENNA_DIVESITY",
     (unsigned char *)"GO_LINK_MONITOR_TIMEOUT",
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     (unsigned char *)"ATH_DISABLE",
     (unsigned char *)"BTC_ACTIVE_WLAN_LEN",
     (unsigned char *)"BTC_ACTIVE_BT_LEN",
     (unsigned char *)"BTC_SAP_ACTIVE_WLAN_LEN",
     (unsigned char *)"BTC_SAP_ACTIVE_BT_LEN",
-<<<<<<< HEAD
-=======
     (unsigned char *)"RMC_ACTION_PERIOD_FREQUENCY",
     (unsigned char *)"ASD_PROBE_INTERVAL",
     (unsigned char *)"ASD_TRIGGER_THRESHOLD",
@@ -405,7 +371,6 @@ unsigned char *gCfgParamName[] = {
     (unsigned char *)"BTC_DYN_OPP_TX_QUEUE_THOLD",
     (unsigned char *)"TDLS_WMM_MODE_ENABLED",
     (unsigned char *)"BURST_MODE_BE_TXOP_VALUE",
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 };
 
 

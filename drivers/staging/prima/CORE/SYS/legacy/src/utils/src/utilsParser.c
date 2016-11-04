@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2011-2014 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,31 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-/*
- * Airgo Networks, Inc proprietary. All rights reserved.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -55,7 +26,6 @@
  */
 
 /*
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file utilsParser.cc contains the code for parsing
  * 802.11 messages.
  * Author:        Pierre Vandwalle
@@ -470,17 +440,10 @@ tSirRetStatus ConvertTCLAS(tpAniSirGlobal  pMac,
         if ( 4 == pNew->info.IpParams.version )
         {
             pOld->tclasParams.ipv4.version = 4;
-<<<<<<< HEAD
-            vos_mem_copy( ( tANI_U8* )&pOld->tclasParams.ipv4.srcIpAddr,
-                          ( tANI_U8* )pNew->info.IpParams.params.IpV4Params.source, 4 );
-            vos_mem_copy( ( tANI_U8* )&pOld->tclasParams.ipv4.dstIpAddr,
-                          ( tANI_U8* )pNew->info.IpParams.params.IpV4Params.dest, 4 );
-=======
             vos_mem_copy( pOld->tclasParams.ipv4.srcIpAddr,
                           pNew->info.IpParams.params.IpV4Params.source, 4 );
             vos_mem_copy( pOld->tclasParams.ipv4.dstIpAddr,
                           pNew->info.IpParams.params.IpV4Params.dest, 4 );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pOld->tclasParams.ipv4.srcPort  = pNew->info.IpParams.params.IpV4Params.src_port;
             pOld->tclasParams.ipv4.dstPort  = pNew->info.IpParams.params.IpV4Params.dest_port;
             pOld->tclasParams.ipv4.dscp     = pNew->info.IpParams.params.IpV4Params.DSCP;
@@ -572,17 +535,10 @@ tSirRetStatus ConvertWMMTCLAS(tpAniSirGlobal    pMac,
         if ( 4 == pNew->info.IpParams.version )
         {
             pOld->tclasParams.ipv4.version = 4;
-<<<<<<< HEAD
-            vos_mem_copy( ( tANI_U8* )&pOld->tclasParams.ipv4.srcIpAddr,
-                          ( tANI_U8* )pNew->info.IpParams.params.IpV4Params.source, 4 );
-            vos_mem_copy( ( tANI_U8* )&pOld->tclasParams.ipv4.dstIpAddr,
-                          ( tANI_U8* )pNew->info.IpParams.params.IpV4Params.dest, 4 );
-=======
             vos_mem_copy( pOld->tclasParams.ipv4.srcIpAddr,
                           pNew->info.IpParams.params.IpV4Params.source, 4 );
             vos_mem_copy( pOld->tclasParams.ipv4.dstIpAddr,
                           pNew->info.IpParams.params.IpV4Params.dest, 4 );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pOld->tclasParams.ipv4.srcPort  = pNew->info.IpParams.params.IpV4Params.src_port;
             pOld->tclasParams.ipv4.dstPort  = pNew->info.IpParams.params.IpV4Params.dest_port;
             pOld->tclasParams.ipv4.dscp     = pNew->info.IpParams.params.IpV4Params.DSCP;
@@ -730,13 +686,6 @@ void CreateScanCtsFrame(tpAniSirGlobal pMac, tSirMacMgmtHdr *macMgmtHdr, tSirMac
     return;
 }
 
-<<<<<<< HEAD
-
-
-
-
-
-=======
 void ConvertQosMapsetFrame(tpAniSirGlobal pMac, tSirQosMapSet* Qos, tDot11fIEQosMapSet* dot11fIE)
 {
     tANI_U8 i,j=0;
@@ -756,7 +705,6 @@ void ConvertQosMapsetFrame(tpAniSirGlobal pMac, tSirQosMapSet* Qos, tDot11fIEQos
         j++;
     }
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /**
     @brief    :    This functions creates a DATA_NULL/CTS2SELF frame in Big endian format 

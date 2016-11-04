@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /**========================================================================
@@ -57,12 +31,6 @@
 
   \brief WLAN Host Device Driver implementation
 
-<<<<<<< HEAD
-   Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
-
-   Qualcomm Confidential and Proprietary.
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   ========================================================================*/
 
@@ -99,13 +67,7 @@
 
 #include <linux/wireless.h>
 #include <net/cfg80211.h>
-<<<<<<< HEAD
-
-#define GET_IE_LEN_IN_BSS(lenInBss) ( lenInBss + sizeof(lenInBss) - \
-              ((int) OFFSET_OF( tSirBssDescription, ieFields)))
-=======
 #include <vos_sched.h>
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #define WEXT_CSCAN_HEADER               "CSCAN S\x01\x00\x00S\x00"
 #define WEXT_CSCAN_HEADER_SIZE          12
@@ -157,10 +119,7 @@ static eHalStatus hdd_AddIwStreamEvent(int cmd, int length, char* data, hdd_scan
     if(*last_event == *current_event)
     {
             /* no space to add event */
-<<<<<<< HEAD
-=======
         hddLog( LOGW, "%s: no space left to add event", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return -E2BIG; /* Error code, may be E2BIG */
     }
 
@@ -275,11 +234,7 @@ static eHalStatus hdd_IndicateScanResult(hdd_scan_info_t *scanInfo, tCsrScanResu
    {
       /* no space to add event */
       /* Error code may be E2BIG */
-<<<<<<< HEAD
-       hddLog( LOGW, "hdd_IndicateScanResult: no space for SIOCGIWAP ");
-=======
        hddLog(LOGE, "hdd_IndicateScanResult: no space for SIOCGIWAP ");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        return -E2BIG;
    }
 
@@ -315,11 +270,7 @@ static eHalStatus hdd_IndicateScanResult(hdd_scan_info_t *scanInfo, tCsrScanResu
 
    if (last_event == current_event)
    { /* no space to add event */
-<<<<<<< HEAD
-       hddLog( LOGW, "hdd_IndicateScanResult: no space for SIOCGIWNAME");
-=======
        hddLog( LOGE, "hdd_IndicateScanResult: no space for SIOCGIWNAME");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       /* Error code, may be E2BIG */
        return -E2BIG;
    }
@@ -338,10 +289,7 @@ static eHalStatus hdd_IndicateScanResult(hdd_scan_info_t *scanInfo, tCsrScanResu
 
    if (last_event == current_event)
    { /* no space to add event */
-<<<<<<< HEAD
-=======
        hddLog( LOGE, "hdd_IndicateScanResult: no space for SIOCGIWFREQ");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        return -E2BIG;
    }
 
@@ -372,11 +320,7 @@ static eHalStatus hdd_IndicateScanResult(hdd_scan_info_t *scanInfo, tCsrScanResu
 
    if (last_event == current_event)
    { /* no space to add event */
-<<<<<<< HEAD
-       hddLog( LOGW, "hdd_IndicateScanResult: no space for SIOCGIWMODE");
-=======
        hddLog(LOGE, "hdd_IndicateScanResult: no space for SIOCGIWMODE");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        return -E2BIG;
    }
    /* To extract SSID */
@@ -416,22 +360,14 @@ static eHalStatus hdd_IndicateScanResult(hdd_scan_info_t *scanInfo, tCsrScanResu
 
           if(last_event == current_event)
           { /* no space to add event */
-<<<<<<< HEAD
-             hddLog( LOGW, "hdd_IndicateScanResult: no space for SIOCGIWESSID");
-=======
              hddLog( LOGE, "hdd_IndicateScanResult: no space for SIOCGIWESSID");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
              return -E2BIG;
           }
        }
 
       if( hdd_GetWPARSNIEs( ( tANI_U8 *) descriptor->ieFields, ie_length, &last_event, &current_event, scanInfo )  < 0    )
       {
-<<<<<<< HEAD
-          hddLog( LOGW, "hdd_IndicateScanResult: no space for SIOCGIWESSID");
-=======
           hddLog( LOGE, "hdd_IndicateScanResult: no space for SIOCGIWESSID");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
           return -E2BIG;
       }
 
@@ -507,11 +443,7 @@ static eHalStatus hdd_IndicateScanResult(hdd_scan_info_t *scanInfo, tCsrScanResu
       {
           if (last_event == current_event)
           { /* no space to add event */
-<<<<<<< HEAD
-              hddLog( LOGW, "hdd_IndicateScanResult: no space for SIOCGIWRATE");
-=======
               hddLog( LOGE, "hdd_IndicateScanResult: no space for SIOCGIWRATE");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
               return -E2BIG;
           }
       }
@@ -538,10 +470,7 @@ static eHalStatus hdd_IndicateScanResult(hdd_scan_info_t *scanInfo, tCsrScanResu
       if(last_event == current_event)
       { /* no space to add event
                Error code, may be E2BIG */
-<<<<<<< HEAD
-=======
           hddLog( LOGE, "hdd_IndicateScanResult: no space for SIOCGIWENCODE");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
           return -E2BIG;
       }
    }
@@ -576,11 +505,7 @@ static eHalStatus hdd_IndicateScanResult(hdd_scan_info_t *scanInfo, tCsrScanResu
 
    if(last_event == current_event)
    { /* no space to add event */
-<<<<<<< HEAD
-       hddLog( LOGW, "hdd_IndicateScanResult: no space for IWEVQUAL");
-=======
        hddLog( LOGE, "hdd_IndicateScanResult: no space for IWEVQUAL");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        return -E2BIG;
    }
 
@@ -595,11 +520,7 @@ static eHalStatus hdd_IndicateScanResult(hdd_scan_info_t *scanInfo, tCsrScanResu
                                          &event, custom);
    if(last_event == current_event)
    { /* no space to add event */
-<<<<<<< HEAD
-      hddLog( LOGW, "hdd_IndicateScanResult: no space for IWEVCUSTOM (age)");
-=======
       hddLog( LOGE, "hdd_IndicateScanResult: no space for IWEVCUSTOM (age)");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return -E2BIG;
    }
 
@@ -610,8 +531,6 @@ static eHalStatus hdd_IndicateScanResult(hdd_scan_info_t *scanInfo, tCsrScanResu
 
 /**---------------------------------------------------------------------------
 
-<<<<<<< HEAD
-=======
   \brief hdd_processSpoofMacAddrRequest() -
 
    The function is called from scan completion callback and from
@@ -670,7 +589,6 @@ VOS_STATUS hdd_processSpoofMacAddrRequest(hdd_context_t *pHddCtx)
 
 /**---------------------------------------------------------------------------
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   \brief hdd_ScanRequestCallback() -
 
    The sme module calls this callback function once it finish the scan request
@@ -737,11 +655,7 @@ static eHalStatus hdd_ScanRequestCallback(tHalHandle halHandle, void *pContext,
 
 /**---------------------------------------------------------------------------
 
-<<<<<<< HEAD
-  \brief iw_set_scan() -
-=======
   \brief __iw_set_scan() -
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    This function process the scan request from the wpa_supplicant
    and set the scan request to the SME
@@ -755,36 +669,22 @@ static eHalStatus hdd_ScanRequestCallback(tHalHandle halHandle, void *pContext,
   --------------------------------------------------------------------------*/
 
 
-<<<<<<< HEAD
-int iw_set_scan(struct net_device *dev, struct iw_request_info *info,
-                 union iwreq_data *wrqu, char *extra)
-{
-   hdd_adapter_t *pAdapter = WLAN_HDD_GET_PRIV_PTR(dev) ;
-   hdd_context_t *pHddCtx = WLAN_HDD_GET_CTX(pAdapter);
-   hdd_wext_state_t *pwextBuf = WLAN_HDD_GET_WEXT_STATE_PTR(pAdapter);
-=======
 int __iw_set_scan(struct net_device *dev, struct iw_request_info *info,
                  union iwreq_data *wrqu, char *extra)
 {
    hdd_adapter_t *pAdapter;
    hdd_context_t *pHddCtx;
    hdd_wext_state_t *pwextBuf;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    tCsrScanRequest scanRequest;
    v_U32_t scanId = 0;
    eHalStatus status = eHAL_STATUS_SUCCESS;
    struct iw_scan_req *scanReq = (struct iw_scan_req *)extra;
-<<<<<<< HEAD
-=======
    int ret = 0;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    ENTER();
 
    VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO, "%s: enter !!!",__func__);
 
-<<<<<<< HEAD
-=======
    pAdapter = WLAN_HDD_GET_PRIV_PTR(dev);
    if (NULL == pAdapter)
    {
@@ -806,7 +706,6 @@ int __iw_set_scan(struct net_device *dev, struct iw_request_info *info,
                  "%s: pwextBuf is NULL",__func__);
        return -EINVAL;
    }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef WLAN_BTAMP_FEATURE
    //Scan not supported when AMP traffic is on.
    if( VOS_TRUE == WLANBAP_AmpSessionOn() ) 
@@ -821,13 +720,6 @@ int __iw_set_scan(struct net_device *dev, struct iw_request_info *info,
        return eHAL_STATUS_SUCCESS;
    }
 
-<<<<<<< HEAD
-   if ((WLAN_HDD_GET_CTX(pAdapter))->isLogpInProgress) {
-      VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL, "%s:LOGP in Progress. Ignore!!!",__func__);
-      return eHAL_STATUS_SUCCESS;
-   }
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    vos_mem_zero( &scanRequest, sizeof(scanRequest));
 
    if (NULL != wrqu->data.pointer)
@@ -848,12 +740,8 @@ int __iw_set_scan(struct net_device *dev, struct iw_request_info *info,
 
       if (wrqu->data.flags & IW_SCAN_THIS_ESSID)  {
 
-<<<<<<< HEAD
-          if(scanReq->essid_len) {
-=======
           if(scanReq->essid_len  &&
                (scanReq->essid_len <= SIR_MAC_MAX_SSID_LENGTH)) {
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
               scanRequest.SSIDs.numOfSSIDs = 1;
               scanRequest.SSIDs.SSIDList =( tCsrSSIDInfo *)vos_mem_malloc(sizeof(tCsrSSIDInfo));
               if(scanRequest.SSIDs.SSIDList) {
@@ -867,13 +755,10 @@ int __iw_set_scan(struct net_device *dev, struct iw_request_info *info,
                 VOS_ASSERT(0);
               }
           }
-<<<<<<< HEAD
-=======
           else
           {
             hddLog(LOGE, FL("Invalid essid length : %d"), scanReq->essid_len);
           }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
 
        /* set min and max channel time */
@@ -915,12 +800,6 @@ int __iw_set_scan(struct net_device *dev, struct iw_request_info *info,
        memcpy( pHddCtx->scan_info.scanAddIE.addIEdata, pwextBuf->genIE.addIEdata, 
            pwextBuf->genIE.length );
        pHddCtx->scan_info.scanAddIE.length = pwextBuf->genIE.length;
-<<<<<<< HEAD
-
-       pwextBuf->roamProfile.pAddIEScan = pHddCtx->scan_info.scanAddIE.addIEdata;
-       pwextBuf->roamProfile.nAddIEScanLength = pHddCtx->scan_info.scanAddIE.length;
-   
-=======
       /* Maximum length of each IE is SIR_MAC_MAX_IE_LENGTH */
        if (SIR_MAC_MAX_IE_LENGTH  >=  pwextBuf->genIE.length)
        {
@@ -935,7 +814,6 @@ int __iw_set_scan(struct net_device *dev, struct iw_request_info *info,
            VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                      "Invalid ScanIE, Length is %d", pwextBuf->genIE.length);
        }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        /* clear previous genIE after use it */
        memset( &pwextBuf->genIE, 0, sizeof(pwextBuf->genIE) );
    }
@@ -956,10 +834,7 @@ int __iw_set_scan(struct net_device *dev, struct iw_request_info *info,
    }
 
    pHddCtx->scan_info.mScanPending = TRUE;
-<<<<<<< HEAD
-=======
    pHddCtx->scan_info.sessionId = pAdapter->sessionId;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    pHddCtx->scan_info.scanId = scanId;
 
@@ -968,16 +843,6 @@ error:
        vos_mem_free(scanRequest.SSIDs.SSIDList);
 
    EXIT();
-<<<<<<< HEAD
-
-   VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO, "%s: exit !!!",__func__);
-   return status;
-}
-
-/**---------------------------------------------------------------------------
-
-  \brief iw_get_scan() -
-=======
    return status;
 }
 
@@ -996,7 +861,6 @@ int iw_set_scan(struct net_device *dev, struct iw_request_info *info,
 /**---------------------------------------------------------------------------
 
   \brief __iw_get_scan() -
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    This function returns the scan results to the wpa_supplicant
 
@@ -1009,15 +873,6 @@ int iw_set_scan(struct net_device *dev, struct iw_request_info *info,
   --------------------------------------------------------------------------*/
 
 
-<<<<<<< HEAD
-int iw_get_scan(struct net_device *dev,
-                         struct iw_request_info *info,
-                         union iwreq_data *wrqu, char *extra)
-{
-   hdd_adapter_t *pAdapter = WLAN_HDD_GET_PRIV_PTR(dev) ;
-   hdd_context_t *pHddCtx = WLAN_HDD_GET_CTX(pAdapter);
-   tHalHandle hHal = WLAN_HDD_GET_HAL_CTX(pAdapter);
-=======
 int __iw_get_scan(struct net_device *dev,
                 struct iw_request_info *info,
                 union iwreq_data *wrqu, char *extra)
@@ -1025,30 +880,10 @@ int __iw_get_scan(struct net_device *dev,
    hdd_adapter_t *pAdapter;
    hdd_context_t *pHddCtx;
    tHalHandle hHal;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    tCsrScanResultInfo *pScanResult;
    eHalStatus status = eHAL_STATUS_SUCCESS;
    hdd_scan_info_t scanInfo;
    tScanResultHandle pResult;
-<<<<<<< HEAD
-   int i = 0;
-
-   VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO, "%s: enter buffer length %d!!!",
-       __func__, (wrqu->data.length)?wrqu->data.length:IW_SCAN_MAX_DATA);
-   ENTER();
-
-   if (TRUE == pHddCtx->scan_info.mScanPending)
-   {
-       VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL, "%s:mScanPending is TRUE !!!",__func__);
-       return -EAGAIN;
-   }
-
-   if ((WLAN_HDD_GET_CTX(pAdapter))->isLogpInProgress) {
-      VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL, "%s:LOGP in Progress. Ignore!!!",__func__);
-      return -EAGAIN;
-   }
-
-=======
    int i = 0, ret = 0;
 
    ENTER();
@@ -1082,7 +917,6 @@ int __iw_get_scan(struct net_device *dev,
        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL, "%s:mScanPending is TRUE !!!",__func__);
        return -EAGAIN;
    }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    scanInfo.dev = dev;
    scanInfo.start = extra;
    scanInfo.info = info;
@@ -1101,11 +935,7 @@ int __iw_get_scan(struct net_device *dev,
    if (NULL == pResult)
    {
        // no scan results
-<<<<<<< HEAD
-       hddLog(LOG1,"iw_get_scan: NULL Scan Result ");
-=======
        hddLog(LOG1,"__iw_get_scan: NULL Scan Result ");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        return 0;
    }
 
@@ -1124,13 +954,6 @@ int __iw_get_scan(struct net_device *dev,
 
    sme_ScanResultPurge(hHal, pResult);
 
-<<<<<<< HEAD
-   EXIT();
-   VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO, "%s: exit total %d BSS reported !!!",__func__, i);
-   return status;
-}
-
-=======
    VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO, "%s: exit total %d BSS reported !!!",__func__, i);
    EXIT();
    return status;
@@ -1149,7 +972,6 @@ int iw_get_scan(struct net_device *dev,
     return ret;
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #if 0
 static eHalStatus hdd_CscanRequestCallback(tHalHandle halHandle, void *pContext,
                          tANI_U32 scanId, eCsrScanStatus status)
@@ -1316,11 +1138,7 @@ int iw_set_cscan(struct net_device *dev, struct iw_request_info *info,
                 /* get the ssid length */
                 SsidInfo->SSID.length = str_ptr[ssid_start++];
                 vos_mem_copy(SsidInfo->SSID.ssId, &str_ptr[ssid_start], SsidInfo->SSID.length);
-<<<<<<< HEAD
-                hddLog(VOS_TRACE_LEVEL_INFO_HIGH, "SSID number %d:  %s\n", j, SsidInfo->SSID.ssId);
-=======
                 hddLog(VOS_TRACE_LEVEL_INFO_HIGH, "SSID number %d:  %s", j, SsidInfo->SSID.ssId);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
              }
                 /* skipping length */
              ssid_start += str_ptr[ssid_start - 1] + 1;
@@ -1347,11 +1165,7 @@ int iw_set_cscan(struct net_device *dev, struct iw_request_info *info,
                 scanRequest.ChannelInfo.ChannelList = vos_mem_malloc(scanRequest.ChannelInfo.numOfChannels * sizeof(v_U8_t));
                 if(NULL == scanRequest.ChannelInfo.ChannelList) 
                 {
-<<<<<<< HEAD
-                    hddLog(VOS_TRACE_LEVEL_INFO_HIGH, "memory alloc failed for channel list creation");
-=======
                     hddLog(LOGE, "memory alloc failed for channel list creation");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     status = -ENOMEM;
                     goto exit_point;
                 }
@@ -1416,11 +1230,6 @@ int iw_set_cscan(struct net_device *dev, struct iw_request_info *info,
             memcpy( pHddCtx->scan_info.scanAddIE.addIEdata, pwextBuf->genIE.addIEdata, 
                 pwextBuf->genIE.length );
             pHddCtx->scan_info.scanAddIE.length = pwextBuf->genIE.length;
-<<<<<<< HEAD
-
-            pwextBuf->roamProfile.pAddIEScan = pHddCtx->scan_info.scanAddIE.addIEdata;
-            pwextBuf->roamProfile.nAddIEScanLength = pHddCtx->scan_info.scanAddIE.length;
-=======
             if (SIR_MAC_MAX_IE_LENGTH  >=  pwextBuf->genIE.length)
             {
                 memcpy( pwextBuf->roamProfile.addIEScan,
@@ -1435,7 +1244,6 @@ int iw_set_cscan(struct net_device *dev, struct iw_request_info *info,
                          "Invalid ScanIE, Length is %d",
                           pwextBuf->genIE.length);
             }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
             /* clear previous genIE after use it */
             memset( &pwextBuf->genIE, 0, sizeof(pwextBuf->genIE) );
@@ -1460,10 +1268,7 @@ int iw_set_cscan(struct net_device *dev, struct iw_request_info *info,
         }
 
         pHddCtx->scan_info.scanId = scanId;
-<<<<<<< HEAD
-=======
         pHddCtx->scan_info.sessionId = pAdapter->sessionId;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     } //end of data->pointer
     else {
@@ -1489,16 +1294,10 @@ exit_point:
 }
 
 /* Abort any MAC scan if in progress */
-<<<<<<< HEAD
-void hdd_abort_mac_scan(hdd_context_t* pHddCtx)
-{
-    sme_AbortMacScan(pHddCtx->hHal);
-=======
 tSirAbortScanStatus hdd_abort_mac_scan(hdd_context_t* pHddCtx,
                                        tANI_U8 sessionId,
                                        eCsrAbortReason reason)
 {
     return sme_AbortMacScan(pHddCtx->hHal, sessionId, reason);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 

@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /**========================================================================
@@ -56,12 +30,6 @@
   \file  wlan_hdd_hostapd.c
   \brief WLAN Host Device Driver implementation
                
-<<<<<<< HEAD
-   Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
-   
-   Qualcomm Confidential and Proprietary.
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   
   ========================================================================*/
 /**========================================================================= 
@@ -89,11 +57,8 @@
 #include <linux/init.h>
 #include <linux/wireless.h>
 #include <linux/semaphore.h>
-<<<<<<< HEAD
-=======
 #include <linux/compat.h>
 #include <linux/rtnetlink.h>
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include <vos_api.h>
 #include <vos_sched.h>
 #include <linux/etherdevice.h>
@@ -110,26 +75,17 @@
 #include "wlan_nlink_common.h"
 #include "wlan_btc_svc.h"
 #include <bap_hdd_main.h>
-<<<<<<< HEAD
-#include "wlan_hdd_p2p.h"
-#include "cfgApi.h"
-#include "wniCfgAp.h"
-=======
 #include "wlan_hdd_tdls.h"
 #include "wlan_hdd_p2p.h"
 #include "cfgApi.h"
 #include "wniCfg.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef FEATURE_WLAN_CH_AVOID
 #include "wcnss_wlan.h"
 #endif /* FEATURE_WLAN_CH_AVOID */
-<<<<<<< HEAD
-=======
 #include "wlan_hdd_trace.h"
 #include "vos_types.h"
 #include "vos_trace.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #define    IS_UP(_dev) \
     (((_dev)->flags & (IFF_RUNNING|IFF_UP)) == (IFF_RUNNING|IFF_UP))
@@ -142,511 +98,7 @@
  */
 #define WE_SAP_MAX_STA_INFO 0x7FF
 
-<<<<<<< HEAD
-#define SAP_24GHZ_CH_COUNT (14) 
-
-#define SAP_MAX_GET_ASSOC_STAS_TIMEOUT    500
-/* Max possible supported rate count
- * Legacy 14 + 11N MCS 8 + 11AC MCS 10 */
-#define SAP_MAX_SUPPORTED_RATE_COUNT      32
-#define SAP_LEGACY_RATE_MASK              0x007F
-#define SAP_GET_STAS_RATE_TIMEOUT         1000
-#define SAP_AC_MCS_MAP_MASK               0x03
-#define SAP_AC_MCS_MAP_OFFSET             7
-
-#define SAP_LEGACY_RATE_COUNT             SIR_NUM_11B_RATES + SIR_NUM_11A_RATES
-#define SAP_11N_RATE_COUNT                8
-
-#define SAP_RATE_SUPPORT_MAP_LEGACY_MASK  0x0001
-#define SAP_RATE_SUPPORT_MAP_N_MASK       0x001E
-#define SAP_RATE_SUPPORT_MAP_AC_MASK      0x07E0
-
-#define SAP_MAX_24_CHANNEL_NUMBER         14
-#define SAP_GET_STAS_COOKIE               0xC000C1EE
-
-/* Temp put here, will locate correct location
- * work on progress with UMAC */
-/* Should syn with FW definition */
-typedef enum
-{
-   WNI_CFG_FIXED_RATE_SAP_AUTO,
-   WNI_CFG_FIXED_RATE_11B_LONG_1_MBPS,
-   WNI_CFG_FIXED_RATE_11B_LONG_2_MBPS,
-   WNI_CFG_FIXED_RATE_11B_LONG_5_5_MBPS,
-   WNI_CFG_FIXED_RATE_11B_LONG_11_MBPS,
-   WNI_CFG_FIXED_RATE_11A_6_MBPS,
-   WNI_CFG_FIXED_RATE_11A_9_MBPS,
-   WNI_CFG_FIXED_RATE_11A_12_MBPS,
-   WNI_CFG_FIXED_RATE_11A_18_MBPS,
-   WNI_CFG_FIXED_RATE_11A_24_MBPS,
-   WNI_CFG_FIXED_RATE_11A_36_MBPS,
-   WNI_CFG_FIXED_RATE_11A_48_MBPS,
-   WNI_CFG_FIXED_RATE_11A_54_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_1NSS_MM_6_5_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_1NSS_MM_13_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_1NSS_MM_19_5_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_1NSS_MM_26_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_1NSS_MM_39_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_1NSS_MM_52_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_1NSS_MM_58_5_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_1NSS_MM_65_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_1NSS_MM_SG_7_2_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_1NSS_MM_SG_14_4_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_1NSS_MM_SG_21_7_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_1NSS_MM_SG_28_9_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_1NSS_MM_SG_43_3_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_1NSS_MM_SG_57_8_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_1NSS_MM_SG_65_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_1NSS_MM_SG_72_2_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_13_5_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_27_MBPS,                     /* 30 */
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_40_5_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_54_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_81_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_108_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_121_5_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_135_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_15_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_30_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_45_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_60_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_90_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_120_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_135_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_150_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_GF_13_5_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_GF_27_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_GF_40_5_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_GF_54_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_GF_81_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_GF_108_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_GF_121_5_MBPS,
-   WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_GF_135_MBPS,
-   WNI_CFG_FIXED_RATE_VHT_SIMO_CB_NGI_6_5MBPS,
-   WNI_CFG_FIXED_RATE_VHT_SIMO_CB_NGI_13MBPS,
-   WNI_CFG_FIXED_RATE_VHT_SIMO_CB_NGI_19_5MBPS,
-   WNI_CFG_FIXED_RATE_VHT_SIMO_CB_NGI_26MBPS,
-   WNI_CFG_FIXED_RATE_VHT_SIMO_CB_NGI_39MBPS,
-   WNI_CFG_FIXED_RATE_VHT_SIMO_CB_NGI_52MBPS,
-   WNI_CFG_FIXED_RATE_VHT_SIMO_CB_NGI_58_5MBPS,
-   WNI_CFG_FIXED_RATE_VHT_SIMO_CB_NGI_65MBPS,                        /* 60 */
-   WNI_CFG_FIXED_RATE_VHT_SIMO_CB_NGI_78MBPS,
-   WNI_CFG_FIXED_RATE_VHT_SIMO_CB_NGI_86_5_MBPS,
-   WNI_CFG_FIXED_RATE_VHT_SIMO_CB_SGI_21_667MBPS,
-   WNI_CFG_FIXED_RATE_VHT_SIMO_CB_SGI_28_889MBPS,
-   WNI_CFG_FIXED_RATE_VHT_SIMO_CB_SGI_43_333MBPS,
-   WNI_CFG_FIXED_RATE_VHT_SIMO_CB_SGI_57_778MBPS,
-   WNI_CFG_FIXED_RATE_VHT_SIMO_CB_SGI_65MBPS,
-   WNI_CFG_FIXED_RATE_VHT_SIMO_CB_SGI_72_222MBPS,
-   WNI_CFG_FIXED_RATE_VHT_SIMO_CB_SGI_86_667MBPS,
-   WNI_CFG_FIXED_RATE_VHT_SIMO_CB_SGI_96_1_MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_13_5MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_27MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_40_5MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_54MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_81MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_108MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_121_5MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_135MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_RESERVED,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_162MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_180MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_15MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_30MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_45MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_60MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_90MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_120MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_135MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_150MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_RESERVED,                /* 90 */
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_180MBPS,
-   WNI_CFG_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_200MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_29_25MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_58_5MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_87_75MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_117MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_175_5MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_234MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_263_25MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_292_5MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_RESERVED,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_351MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_390MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_32_5MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_65MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_97_5MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_130MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_195MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_260MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_292_5MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_325MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_RESERVED,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_390MBPS,
-   WNI_CFG_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_433_33MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_6_5MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_13MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_19_5MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_26MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_39MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_52MBPS,                   /* 120 */
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_58_5MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_65MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_78MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_86_5_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_7_2222MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_14_444MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_21_667MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_28_889MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_43_333MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_57_778MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_65MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_72_222MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_86_667MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_96_1_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_13_5MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_27MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_40_5MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_54MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_81MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_108MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_121_5MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_135MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_RESERVED,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_162MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_180MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_15MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_30MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_45MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_60MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_90MBPS,             /* 150 */
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_120MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_135MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_150MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_RESERVED,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_180MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_200MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_29_25MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_58_5MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_87_75MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_117MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_175_5MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_234MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_263_25MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_292_5MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_RESERVED,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_351MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_390MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_32_5MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_65MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_97_5MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_130MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_195MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_260MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_292_5MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_325MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_RESERVED,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_390MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_433_33MBPS,
-   WNI_CFG_FIXED_RATE_11A_DUP_6_MBPS,
-   WNI_CFG_FIXED_RATE_11A_DUP_9_MBPS,                                /* 180 */
-   WNI_CFG_FIXED_RATE_11A_DUP_12_MBPS,
-   WNI_CFG_FIXED_RATE_11A_DUP_18_MBPS,
-   WNI_CFG_FIXED_RATE_11A_DUP_24_MBPS,
-   WNI_CFG_FIXED_RATE_11A_DUP_36_MBPS,
-   WNI_CFG_FIXED_RATE_11A_DUP_48_MBPS,
-   WNI_CFG_FIXED_RATE_11A_DUP_54_MBPS,
-   WNI_CFG_FIXED_RATE_11A_80MHZ_DUP_6_MBPS,
-   WNI_CFG_FIXED_RATE_11A_80MHZDUP_9_MBPS,
-   WNI_CFG_FIXED_RATE_11A_80MHZ_DUP_12_MBPS,
-   WNI_CFG_FIXED_RATE_11A_80MHZ_DUP_18_MBPS,
-   WNI_CFG_FIXED_RATE_11A_80MHZ_DUP_24_MBPS,
-   WNI_CFG_FIXED_RATE_11A_80MHZ_DUP_36_MBPS,
-   WNI_CFG_FIXED_RATE_11A_80MHZ_DUP_48_MBPS,
-   WNI_CFG_FIXED_RATE_11A_80MHZ_DUP_54_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_1NSS_MM_6_5_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_1NSS_MM_13_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_1NSS_MM_19_5_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_1NSS_MM_26_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_1NSS_MM_39_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_1NSS_MM_52_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_1NSS_MM_58_5_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_1NSS_MM_65_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_1NSS_MM_SG_7_2_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_1NSS_MM_SG_14_4_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_1NSS_MM_SG_21_7_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_1NSS_MM_SG_28_9_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_1NSS_MM_SG_43_3_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_1NSS_MM_SG_57_8_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_1NSS_MM_SG_65_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_1NSS_MM_SG_72_2_MBPS,                 /* 210 */
-   WNI_CFG_LDPC_FIXED_RATE_MCS_40MHZ_1NSS_MM_13_5_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_40MHZ_1NSS_MM_27_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_40MHZ_1NSS_MM_40_5_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_40MHZ_1NSS_MM_54_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_40MHZ_1NSS_MM_81_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_40MHZ_1NSS_MM_108_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_40MHZ_1NSS_MM_121_5_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_40MHZ_1NSS_MM_135_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_15_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_30_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_45_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_60_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_90_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_120_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_135_MBPS,
-   WNI_CFG_LDPC_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_150_MBPS
-} eCfgFixedRateCfgType;
-
-/* Legacy IDX based rate table */
-typedef struct
-{
-   v_U16_t   legacy_rate_index;
-   v_U32_t   legacy_rate;
-} supported_legacy_rate_t;
-static const supported_legacy_rate_t legacy_rate[] =
-{
-/* IDX   Rate, 100kbps */
-   {2,   10},
-   {4,   20},
-   {11,  55},
-   {12,  60},
-   {18,  90},
-   {24,  120},
-   {36,  180},
-   {48,  240},
-   {66,  330},
-   {72,  360},
-   {96,  480},
-   {108, 540}
-};
-
-/* 11N MCS based rate table */
-typedef struct
-{
-   v_U8_t   mcs_index_11n;
-   v_U32_t  rate_11n[4];
-} supported_11n_rate_t;
-static const supported_11n_rate_t mcs_rate_11n[] =
-{
-/* MCS  L20   L40   S20  S40 */
-   {0,  {65,  135,  72,  150}},
-   {1,  {130, 270,  144, 300}},
-   {2,  {195, 405,  217, 450}},
-   {3,  {260, 540,  289, 600}},
-   {4,  {390, 810,  433, 900}},
-   {5,  {520, 1080, 578, 1200}},
-   {6,  {585, 1215, 650, 1350}},
-   {7,  {650, 1350, 722, 1500}}
-};
-
-/* 11AC MCS based rate table */
-typedef struct
-{
-   v_U8_t   mcs_index_11ac;
-   v_U16_t  cb80_rate_11ac[2];
-   v_U16_t  cb40_rate_11ac[2];
-   v_U16_t  cb20_rate_11ac[2];
-} supported_11ac_rate_t;
-static const supported_11ac_rate_t mcs_rate_11ac[] =
-{
-/* MCS  L80    S80     L40   S40    L20   S40*/
-   {0,  {293,  325},  {135,  150},  {65,   72}},
-   {1,  {585,  650},  {270,  300},  {130,  144}},
-   {2,  {878,  975},  {405,  450},  {195,  217}},
-   {3,  {1170, 1300}, {540,  600},  {260,  289}},
-   {4,  {1755, 1950}, {810,  900},  {390,  433}},
-   {5,  {2340, 2600}, {1080, 1200}, {520,  578}},
-   {6,  {2633, 2925}, {1215, 1350}, {585,  650}},
-   {7,  {2925, 3250}, {1350, 1500}, {650,  722}},
-   {8,  {3510, 3900}, {1620, 1800}, {780,  867}},
-   {9,  {3900, 4333}, {1800, 2000}, {860,  867}}
-};
-
-typedef struct
-{
-   eCfgFixedRateCfgType  eRateCfg;
-   v_U16_t               rate;
-} rate_cfg_item_mapping_t;
-
-static rate_cfg_item_mapping_t legacy_rate_mapping[] =
-{
-   {WNI_CFG_FIXED_RATE_11B_LONG_1_MBPS,                               10},
-   {WNI_CFG_FIXED_RATE_11B_LONG_2_MBPS,                               20},
-   {WNI_CFG_FIXED_RATE_11B_LONG_5_5_MBPS,                             55},
-   {WNI_CFG_FIXED_RATE_11B_LONG_11_MBPS,                              110},
-   {WNI_CFG_FIXED_RATE_11A_6_MBPS,                                    60},
-   {WNI_CFG_FIXED_RATE_11A_9_MBPS,                                    90},
-   {WNI_CFG_FIXED_RATE_11A_12_MBPS,                                   120},
-   {WNI_CFG_FIXED_RATE_11A_18_MBPS,                                   180},
-   {WNI_CFG_FIXED_RATE_11A_24_MBPS,                                   240},
-   {WNI_CFG_FIXED_RATE_11A_36_MBPS,                                   360},
-   {WNI_CFG_FIXED_RATE_11A_48_MBPS,                                   480},
-   {WNI_CFG_FIXED_RATE_11A_54_MBPS,                                   540}
-};
-static rate_cfg_item_mapping_t n_l20_rate_mapping[] =
-{
-   {WNI_CFG_FIXED_RATE_MCS_1NSS_MM_6_5_MBPS,                          65},
-   {WNI_CFG_FIXED_RATE_MCS_1NSS_MM_13_MBPS,                           130},
-   {WNI_CFG_FIXED_RATE_MCS_1NSS_MM_19_5_MBPS,                         195},
-   {WNI_CFG_FIXED_RATE_MCS_1NSS_MM_26_MBPS,                           260},
-   {WNI_CFG_FIXED_RATE_MCS_1NSS_MM_39_MBPS,                           390},
-   {WNI_CFG_FIXED_RATE_MCS_1NSS_MM_52_MBPS,                           520},
-   {WNI_CFG_FIXED_RATE_MCS_1NSS_MM_58_5_MBPS,                         585},
-   {WNI_CFG_FIXED_RATE_MCS_1NSS_MM_65_MBPS,                           650}
-};
-static rate_cfg_item_mapping_t n_s20_rate_mapping[] =
-{
-   {WNI_CFG_FIXED_RATE_MCS_1NSS_MM_SG_7_2_MBPS,                       72},
-   {WNI_CFG_FIXED_RATE_MCS_1NSS_MM_SG_14_4_MBPS,                      144},
-   {WNI_CFG_FIXED_RATE_MCS_1NSS_MM_SG_21_7_MBPS,                      217},
-   {WNI_CFG_FIXED_RATE_MCS_1NSS_MM_SG_28_9_MBPS,                      289},
-   {WNI_CFG_FIXED_RATE_MCS_1NSS_MM_SG_43_3_MBPS,                      433},
-   {WNI_CFG_FIXED_RATE_MCS_1NSS_MM_SG_57_8_MBPS,                      578},
-   {WNI_CFG_FIXED_RATE_MCS_1NSS_MM_SG_65_MBPS,                        650},
-   {WNI_CFG_FIXED_RATE_MCS_1NSS_MM_SG_72_2_MBPS,                      722}
-};
-static rate_cfg_item_mapping_t n_l40_rate_mapping[] =
-{
-   {WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_13_5_MBPS,                   135},
-   {WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_27_MBPS,                     270},
-   {WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_40_5_MBPS,                   405},
-   {WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_54_MBPS,                     540},
-   {WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_81_MBPS,                     810},
-   {WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_108_MBPS,                    1080},
-   {WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_121_5_MBPS,                  1215},
-   {WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_135_MBPS,                    1350}
-};
-static rate_cfg_item_mapping_t n_s40_rate_mapping[] =
-{
-   {WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_15_MBPS,                  150},
-   {WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_30_MBPS,                  300},
-   {WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_45_MBPS,                  450},
-   {WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_60_MBPS,                  600},
-   {WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_90_MBPS,                  900},
-   {WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_120_MBPS,                 1200},
-   {WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_135_MBPS,                 1350},
-   {WNI_CFG_FIXED_RATE_MCS_40MHZ_1NSS_MM_SG_150_MBPS,                 1500}
-};
-
-#ifdef WLAN_FEATURE_11AC
-static rate_cfg_item_mapping_t ac_l20_rate_mapping[] =
-{
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_6_5MBPS,                  65},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_13MBPS,                   130},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_19_5MBPS,                 195},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_26MBPS,                   260},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_39MBPS,                   390},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_52MBPS,                   520},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_58_5MBPS,                 585},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_65MBPS,                   650},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_78MBPS,                   780},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_NGI_86_5_MBPS,                865}
-};
-static rate_cfg_item_mapping_t ac_s20_rate_mapping[] =
-{
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_7_2222MBPS,               72},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_14_444MBPS,               144},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_21_667MBPS,               217},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_28_889MBPS,               289},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_43_333MBPS,               433},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_57_778MBPS,               578},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_65MBPS,                   650},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_72_222MBPS,               722},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_86_667MBPS,               867},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_SIMO_CB_SGI_96_1_MBPS,                961}
-};
-static rate_cfg_item_mapping_t ac_l40_rate_mapping[] =
-{
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_13_5MBPS,           135},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_27MBPS,             270},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_40_5MBPS,           405},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_54MBPS,             540},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_81MBPS,             810},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_108MBPS,            1080},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_121_5MBPS,          1215},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_135MBPS,            1350},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_162MBPS,            1620},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_NGI_180MBPS,            1800}
-};
-static rate_cfg_item_mapping_t ac_s40_rate_mapping[] =
-{
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_15MBPS,             150},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_30MBPS,             300},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_45MBPS,             450},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_60MBPS,             600},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_90MBPS,             900},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_120MBPS,            1200},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_135MBPS,            1350},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_150MBPS,            1500},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_180MBPS,            1800},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_40MHZ_SIMO_CB_SGI_200MBPS,            2000}
-};
-static rate_cfg_item_mapping_t ac_l80_rate_mapping[] =
-{
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_29_25MBPS,          293},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_58_5MBPS,           585},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_87_75MBPS,          878},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_117MBPS,            1170},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_175_5MBPS,          1755},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_234MBPS,            2340},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_263_25MBPS,         2633},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_292_5MBPS,          2925},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_351MBPS,            3510},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_NGI_390MBPS,            3900}
-};
-static rate_cfg_item_mapping_t ac_s80_rate_mapping[] =
-{
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_32_5MBPS,           325},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_65MBPS,             650},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_97_5MBPS,           975},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_130MBPS,            1300},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_195MBPS,            1950},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_260MBPS,            2600},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_292_5MBPS,          2925},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_325MBPS,            3250},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_390MBPS,            3900},
-   {WNI_CFG_LDPC_FIXED_RATE_VHT_80MHZ_SIMO_CB_SGI_433_33MBPS,         4333}
-};
-#endif /* WLAN_FEATURE_11AC */
-
-typedef enum
-{
-   RATE_CFG_RATE_LEGACY,
-   RATE_CFG_RATE_11N_MCS_LGI_20,
-   RATE_CFG_RATE_11N_MCS_SGI_20,
-   RATE_CFG_RATE_11N_MCS_LGI_40,
-   RATE_CFG_RATE_11N_MCS_SGI_40,
-   RATE_CFG_RATE_11AC_MCS_LGI_20,
-   RATE_CFG_RATE_11AC_MCS_SGI_20,
-   RATE_CFG_RATE_11AC_MCS_LGI_40,
-   RATE_CFG_RATE_11AC_MCS_SGI_40,
-   RATE_CFG_RATE_11AC_MCS_LGI_80,
-   RATE_CFG_RATE_11AC_MCS_SGI_80
-} rate_cfg_supported_rate_t;
-
-typedef enum
-{
-   RATE_CFG_RATE_11AC_MAX_MCS_7,
-   RATE_CFG_RATE_11AC_MAX_MCS_8,
-   RATE_CFG_RATE_11AC_MAX_MCS_9
-} rate_cfg_11ac_max_mcs_t;
-
-typedef enum
-{
-   RATE_CFG_RATE_BW_20,
-   RATE_CFG_RATE_BW_40,
-   RATE_CFG_RATE_BW_80
-} rate_cfg_supported_bw_t;
-
-typedef enum
-{
-   RATE_CFG_RATE_GI_LONG,
-   RATE_CFG_RATE_GI_SHORT
-} rate_cfg_gi_t;
-=======
 #define SAP_24GHZ_CH_COUNT (14)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef FEATURE_WLAN_CH_AVOID
 /* Channle/Freqency table */
@@ -702,15 +154,6 @@ safeChannelType safeChannels[NUM_20MHZ_RF_CHANNELS] =
 };
 #endif /* FEATURE_WLAN_CH_AVOID */
 
-<<<<<<< HEAD
-/*--------------------------------------------------------------------------- 
- *   Function definitions
- *-------------------------------------------------------------------------*/
-/**---------------------------------------------------------------------------
-  
-  \brief hdd_hostapd_open() - HDD Open function for hostapd interface
-  
-=======
 /*---------------------------------------------------------------------------
  *   Function definitions
  *-------------------------------------------------------------------------*/
@@ -718,7 +161,6 @@ safeChannelType safeChannels[NUM_20MHZ_RF_CHANNELS] =
 
   \brief __hdd_hostapd_open() - HDD Open function for hostapd interface
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   This is called in response to ifconfig up
   
   \param  - dev Pointer to net_device structure
@@ -726,23 +168,6 @@ safeChannelType safeChannels[NUM_20MHZ_RF_CHANNELS] =
   \return - 0 for success non-zero for failure
               
   --------------------------------------------------------------------------*/
-<<<<<<< HEAD
-int hdd_hostapd_open (struct net_device *dev)
-{
-   ENTER();
-
-   //Turn ON carrier state
-   netif_carrier_on(dev);
-   //Enable all Tx queues  
-   netif_tx_start_all_queues(dev);
-   
-   EXIT();
-   return 0;
-}
-/**---------------------------------------------------------------------------
-  
-  \brief hdd_hostapd_stop() - HDD stop function for hostapd interface
-=======
 int __hdd_hostapd_open (struct net_device *dev)
 {
    hdd_adapter_t *pAdapter =  WLAN_HDD_GET_PRIV_PTR(dev);
@@ -783,7 +208,6 @@ int hdd_hostapd_open (struct net_device *dev)
 /**---------------------------------------------------------------------------
   
   \brief __hdd_hostapd_stop() - HDD stop function for hostapd interface
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   
   This is called in response to ifconfig down
   
@@ -792,17 +216,6 @@ int hdd_hostapd_open (struct net_device *dev)
   \return - 0 for success non-zero for failure
               
   --------------------------------------------------------------------------*/
-<<<<<<< HEAD
-int hdd_hostapd_stop (struct net_device *dev)
-{
-   ENTER();
-
-   //Stop all tx queues
-   netif_tx_disable(dev);
-   
-   //Turn OFF carrier state
-   netif_carrier_off(dev);
-=======
 int __hdd_hostapd_stop (struct net_device *dev)
 {
    ENTER();
@@ -815,16 +228,10 @@ int __hdd_hostapd_stop (struct net_device *dev)
        //Turn OFF carrier state
        netif_carrier_off(dev);
    }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    EXIT();
    return 0;
 }
-<<<<<<< HEAD
-/**---------------------------------------------------------------------------
-
-  \brief hdd_hostapd_uninit() - HDD uninit function
-=======
 
 int hdd_hostapd_stop (struct net_device *dev)
 {
@@ -840,7 +247,6 @@ int hdd_hostapd_stop (struct net_device *dev)
 /**---------------------------------------------------------------------------
 
   \brief __hdd_hostapd_uninit() - HDD uninit function
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   This is called during the netdev unregister to uninitialize all data
 associated with the device
@@ -850,26 +256,6 @@ associated with the device
   \return - void
 
   --------------------------------------------------------------------------*/
-<<<<<<< HEAD
-static void hdd_hostapd_uninit (struct net_device *dev)
-{
-   hdd_adapter_t *pHostapdAdapter = netdev_priv(dev);
-
-   ENTER();
-
-   if (pHostapdAdapter && pHostapdAdapter->pHddCtx)
-   {
-      hdd_deinit_adapter(pHostapdAdapter->pHddCtx, pHostapdAdapter);
-
-      /* after uninit our adapter structure will no longer be valid */
-      pHostapdAdapter->dev = NULL;
-   }
-
-   EXIT();
-}
-
-
-=======
 static void __hdd_hostapd_uninit (struct net_device *dev)
 {
    hdd_adapter_t *pHostapdAdapter = netdev_priv(dev);
@@ -908,7 +294,6 @@ static void hdd_hostapd_uninit (struct net_device *dev)
 
    return;
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**============================================================================
   @brief hdd_hostapd_hard_start_xmit() - Function registered with the Linux OS for 
   transmitting packets. There are 2 versions of this function. One that uses
@@ -924,118 +309,12 @@ int hdd_hostapd_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
 {
     return 0;    
 }
-<<<<<<< HEAD
-int hdd_hostapd_change_mtu(struct net_device *dev, int new_mtu)
-=======
 
 int __hdd_hostapd_change_mtu(struct net_device *dev, int new_mtu)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
     return 0;
 }
 
-<<<<<<< HEAD
-int hdd_hostapd_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
-{
-    hdd_adapter_t *pAdapter = WLAN_HDD_GET_PRIV_PTR(dev);
-    hdd_priv_data_t priv_data;
-    tANI_U8 *command = NULL;
-    int ret = 0;
-
-    if (NULL == pAdapter)
-    {
-       VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-          "%s: HDD adapter context is Null", __func__);
-       ret = -ENODEV;
-       goto exit;
-    }
-
-    if ((!ifr) || (!ifr->ifr_data))
-    {
-        ret = -EINVAL;
-        goto exit;
-    }
-
-    if (copy_from_user(&priv_data, ifr->ifr_data, sizeof(hdd_priv_data_t)))
-    {
-        ret = -EFAULT;
-        goto exit;
-    }
-
-    if (priv_data.total_len <= 0 ||
-        priv_data.total_len == INT_MAX)
-    {
-        /* below we allocate one more byte for command buffer.
-         * To avoid addition overflow total_len should be
-         * smaller than INT_MAX. */
-        VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-           "%s: integer out of range\n", __func__);
-        ret = -EFAULT;
-        goto exit;
-    }
-
-    command = kmalloc((priv_data.total_len + 1), GFP_KERNEL);
-    if (!command)
-    {
-        VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-           "%s: failed to allocate memory\n", __func__);
-        ret = -ENOMEM;
-        goto exit;
-    }
-
-    if (copy_from_user(command, priv_data.buf, priv_data.total_len))
-    {
-        ret = -EFAULT;
-        goto exit;
-    }
-
-    command[priv_data.total_len] = '\0';
-
-    if ((SIOCDEVPRIVATE + 1) == cmd)
-    {
-        VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-           "***HOSTAPD*** : Received %s cmd from Wi-Fi GUI***", command);
-
-        if(strncmp(command, "P2P_SET_NOA", 11) == 0 )   
-        {
-            hdd_setP2pNoa(dev, command);
-        }
-        else if( strncmp(command, "P2P_SET_PS", 10) == 0 )
-        {
-            hdd_setP2pOpps(dev, command);
-        }
-
-#ifdef FEATURE_WLAN_BATCH_SCAN
-        else if( strncmp(command, "WLS_BATCHING", 12) == 0 )
-        {
-           ret = hdd_handle_batch_scan_ioctl(pAdapter, &priv_data, command);
-        }
-#endif
-
-        /*
-           command should be a string having format
-           SET_SAP_CHANNEL_LIST <num of channels> <the channels seperated by spaces>
-        */
-        if(strncmp(command, "SET_SAP_CHANNEL_LIST", 20) == 0)
-        {
-            VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-                       " Received Command to Set Preferred Channels for SAP in %s", __func__);
-
-            ret = sapSetPreferredChannel(command);
-        }
-    }
-exit:
-   if (command)
-   {
-       kfree(command);
-   }
-   return ret;
-}
-
-/**---------------------------------------------------------------------------
-  
-  \brief hdd_hostapd_set_mac_address() - 
-=======
 int hdd_hostapd_change_mtu(struct net_device *dev, int new_mtu)
 {
     int ret;
@@ -1303,7 +582,6 @@ static int hdd_hostapd_ioctl(struct net_device *dev,
 /**---------------------------------------------------------------------------
   
   \brief __hdd_hostapd_set_mac_address() -
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    This function sets the user specified mac address using 
    the command ifconfig wlanX hw ether <mac adress>.
    
@@ -1313,12 +591,6 @@ static int hdd_hostapd_ioctl(struct net_device *dev,
   
   --------------------------------------------------------------------------*/
 
-<<<<<<< HEAD
-static int hdd_hostapd_set_mac_address(struct net_device *dev, void *addr)
-{
-   struct sockaddr *psta_mac_addr = addr;
-   ENTER();
-=======
 static int __hdd_hostapd_set_mac_address(struct net_device *dev, void *addr)
 {
    struct sockaddr *psta_mac_addr = addr;
@@ -1340,13 +612,10 @@ static int __hdd_hostapd_set_mac_address(struct net_device *dev, void *addr)
    {
        return ret;
    }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    memcpy(dev->dev_addr, psta_mac_addr->sa_data, ETH_ALEN);
    EXIT();
    return 0;
 }
-<<<<<<< HEAD
-=======
 
 static int hdd_hostapd_set_mac_address(struct net_device *dev, void *addr)
 {
@@ -1359,22 +628,15 @@ static int hdd_hostapd_set_mac_address(struct net_device *dev, void *addr)
    return ret;
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 void hdd_hostapd_inactivity_timer_cb(v_PVOID_t usrDataForCallback)
 {
     struct net_device *dev = (struct net_device *)usrDataForCallback;
     v_BYTE_t we_custom_event[64];
     union iwreq_data wrqu;
-<<<<<<< HEAD
-#ifdef DISABLE_CONCURRENCY_AUTOSAVE    
-    VOS_STATUS vos_status;
-    hdd_adapter_t *pHostapdAdapter;
-=======
     hdd_adapter_t *pHostapdAdapter;
     hdd_context_t *pHddCtx;
 #ifdef DISABLE_CONCURRENCY_AUTOSAVE
     VOS_STATUS vos_status;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     hdd_ap_ctx_t *pHddApCtx;
 #endif /*DISABLE_CONCURRENCY_AUTOSAVE */
 
@@ -1385,20 +647,6 @@ void hdd_hostapd_inactivity_timer_cb(v_PVOID_t usrDataForCallback)
 
     ENTER();
 
-<<<<<<< HEAD
-#ifdef DISABLE_CONCURRENCY_AUTOSAVE    
-    if (vos_concurrent_sessions_running())
-    {  
-       /*
-              This timer routine is going to be called only when AP
-              persona is up.
-              If there are concurrent sessions running we do not want
-              to shut down the Bss.Instead we run the timer again so
-              that if Autosave is enabled next time and other session
-              was down only then we bring down AP 
-             */
-        pHostapdAdapter = netdev_priv(dev);
-=======
     pHostapdAdapter = netdev_priv(dev);
     if ((NULL == pHostapdAdapter) ||
         (WLAN_HDD_ADAPTER_MAGIC != pHostapdAdapter->magic))
@@ -1422,7 +670,6 @@ void hdd_hostapd_inactivity_timer_cb(v_PVOID_t usrDataForCallback)
               that if Autosave is enabled next time and other session
               was down only then we bring down AP 
              */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         pHddApCtx = WLAN_HDD_GET_AP_CTX_PTR(pHostapdAdapter);
         vos_status = vos_timer_start(
          &pHddApCtx->hdd_ap_inactivity_timer, 
@@ -1487,18 +734,6 @@ void hdd_clear_all_sta(hdd_adapter_t *pHostapdAdapter, v_PVOID_t usrDataForCallb
 {
     v_U8_t staId = 0;
     struct net_device *dev;
-<<<<<<< HEAD
-    dev = (struct net_device *)usrDataForCallback;
-
-    hddLog(LOGE, FL("Clearing all the STA entry....\n"));
-    for (staId = 0; staId < WLAN_MAX_STA_COUNT; staId++)
-    {
-        if ( pHostapdAdapter->aStaInfo[staId].isUsed && 
-           ( staId != (WLAN_HDD_GET_AP_CTX_PTR(pHostapdAdapter))->uBCStaId))
-        {
-            //Disconnect all the stations
-            hdd_softap_sta_disassoc(pHostapdAdapter, &pHostapdAdapter->aStaInfo[staId].macAddrSTA.bytes[0]);
-=======
     v_CONTEXT_t pVosContext = ( WLAN_HDD_GET_CTX(pHostapdAdapter))->pvosContext;
     ptSapContext pSapCtx = NULL;
 
@@ -1517,19 +752,10 @@ void hdd_clear_all_sta(hdd_adapter_t *pHostapdAdapter, v_PVOID_t usrDataForCallb
         {
             //Disconnect all the stations
             hdd_softap_sta_disassoc(pHostapdAdapter, &pSapCtx->aStaInfo[staId].macAddrSTA.bytes[0]);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
     }
 }
 
-<<<<<<< HEAD
-static int hdd_stop_p2p_link(hdd_adapter_t *pHostapdAdapter,v_PVOID_t usrDataForCallback)
-{
-    struct net_device *dev;
-    VOS_STATUS status = VOS_STATUS_SUCCESS;
-    dev = (struct net_device *)usrDataForCallback;
-    ENTER();
-=======
 static int hdd_stop_bss_link(hdd_adapter_t *pHostapdAdapter,v_PVOID_t usrDataForCallback)
 {
     struct net_device *dev;
@@ -1546,21 +772,14 @@ static int hdd_stop_bss_link(hdd_adapter_t *pHostapdAdapter,v_PVOID_t usrDataFor
         return status;
     }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if(test_bit(SOFTAP_BSS_STARTED, &pHostapdAdapter->event_flags)) 
     {
         if ( VOS_STATUS_SUCCESS == (status = WLANSAP_StopBss((WLAN_HDD_GET_CTX(pHostapdAdapter))->pvosContext) ) )
         {
-<<<<<<< HEAD
-            VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR, FL("Deleting P2P link!!!!!!"));
-        }
-        clear_bit(SOFTAP_BSS_STARTED, &pHostapdAdapter->event_flags);
-=======
             VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR, FL("Deleting SAP/P2P link!!!!!!"));
         }
         clear_bit(SOFTAP_BSS_STARTED, &pHostapdAdapter->event_flags);
         wlan_hdd_decr_active_session(pHddCtx, pHostapdAdapter->device_mode);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
     EXIT();
     return (status == VOS_STATUS_SUCCESS) ? 0 : -EBUSY;
@@ -1590,12 +809,9 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
     hdd_context_t *pHddCtx;
     hdd_scaninfo_t *pScanInfo  = NULL;
     struct iw_michaelmicfailure msg;
-<<<<<<< HEAD
-=======
     v_CONTEXT_t pVosContext = NULL;
     ptSapContext pSapCtx = NULL;
     hdd_config_t *cfg_param;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     dev = (struct net_device *)usrDataForCallback;
     pHostapdAdapter = netdev_priv(dev);
@@ -1607,9 +823,6 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
                 "invalid adapter or adapter has invalid magic");
         return eHAL_STATUS_FAILURE;
     }
-<<<<<<< HEAD
-
-=======
     pVosContext = ( WLAN_HDD_GET_CTX(pHostapdAdapter))->pvosContext;
     pSapCtx = VOS_GET_SAP_CB(pVosContext);
     if(pSapCtx == NULL){
@@ -1617,47 +830,24 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
                  FL("psapCtx is NULL"));
         return eHAL_STATUS_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     pHostapdState = WLAN_HDD_GET_HOSTAP_STATE_PTR(pHostapdAdapter); 
     pHddApCtx = WLAN_HDD_GET_AP_CTX_PTR(pHostapdAdapter);
     sapEvent = pSapEvent->sapHddEventCode;
     memset(&wrqu, '\0', sizeof(wrqu));
     pHddCtx = (hdd_context_t*)(pHostapdAdapter->pHddCtx);
-<<<<<<< HEAD
-=======
     cfg_param = pHddCtx->cfg_ini;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     switch(sapEvent)
     {
         case eSAP_START_BSS_EVENT :
-<<<<<<< HEAD
-            hddLog(LOG1, FL("BSS configured status = %s, channel = %lu, bc sta Id = %d\n"),
-=======
             hddLog(LOG1, FL("BSS configured status = %s, channel = %u, bc sta Id = %d"),
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                             pSapEvent->sapevt.sapStartBssCompleteEvent.status ? "eSAP_STATUS_FAILURE" : "eSAP_STATUS_SUCCESS",
                             pSapEvent->sapevt.sapStartBssCompleteEvent.operatingChannel,
                               pSapEvent->sapevt.sapStartBssCompleteEvent.staId);
 
             pHostapdState->vosStatus = pSapEvent->sapevt.sapStartBssCompleteEvent.status;
             vos_status = vos_event_set(&pHostapdState->vosEvent);
-<<<<<<< HEAD
-   
-            if (!VOS_IS_STATUS_SUCCESS(vos_status) || pHostapdState->vosStatus)
-            {     
-                VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR, ("ERROR: startbss event failed!!\n"));
-                goto stopbss;
-            }
-            else
-            {                
-                pHddApCtx->uBCStaId = pSapEvent->sapevt.sapStartBssCompleteEvent.staId;
-                //@@@ need wep logic here to set privacy bit
-                hdd_softap_Register_BC_STA(pHostapdAdapter, pHddApCtx->uPrivacy);
-            }
-            
-=======
 
             if (!VOS_IS_STATUS_SUCCESS(vos_status) || pHostapdState->vosStatus)
             {
@@ -1689,26 +879,17 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
                 }
             }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             if (0 != (WLAN_HDD_GET_CTX(pHostapdAdapter))->cfg_ini->nAPAutoShutOff)
             {
                 // AP Inactivity timer init and start
                 vos_status = vos_timer_init( &pHddApCtx->hdd_ap_inactivity_timer, VOS_TIMER_TYPE_SW, 
                                             hdd_hostapd_inactivity_timer_cb, (v_PVOID_t)dev );
                 if (!VOS_IS_STATUS_SUCCESS(vos_status))
-<<<<<<< HEAD
-                   hddLog(LOGE, FL("Failed to init AP inactivity timer\n"));
-
-                vos_status = vos_timer_start( &pHddApCtx->hdd_ap_inactivity_timer, (WLAN_HDD_GET_CTX(pHostapdAdapter))->cfg_ini->nAPAutoShutOff * 1000);
-                if (!VOS_IS_STATUS_SUCCESS(vos_status))
-                   hddLog(LOGE, FL("Failed to init AP inactivity timer\n"));
-=======
                    hddLog(LOGE, FL("Failed to init AP inactivity timer"));
 
                 vos_status = vos_timer_start( &pHddApCtx->hdd_ap_inactivity_timer, (WLAN_HDD_GET_CTX(pHostapdAdapter))->cfg_ini->nAPAutoShutOff * 1000);
                 if (!VOS_IS_STATUS_SUCCESS(vos_status))
                    hddLog(LOGE, FL("Failed to init AP inactivity timer"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
             }
             pHddApCtx->operatingChannel = pSapEvent->sapevt.sapStartBssCompleteEvent.operatingChannel;
@@ -1756,23 +937,13 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
             break; //Event will be sent after Switch-Case stmt 
 
         case eSAP_STOP_BSS_EVENT:
-<<<<<<< HEAD
-            hddLog(LOG1, FL("BSS stop status = %s\n"),pSapEvent->sapevt.sapStopBssCompleteEvent.status ? 
-=======
             hddLog(LOG1, FL("BSS stop status = %s"),pSapEvent->sapevt.sapStopBssCompleteEvent.status ?
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                              "eSAP_STATUS_FAILURE" : "eSAP_STATUS_SUCCESS");
 
             //Free up Channel List incase if it is set
             sapCleanupChannelList();
 
             pHddApCtx->operatingChannel = 0; //Invalidate the channel info.
-<<<<<<< HEAD
-            goto stopbss;
-        case eSAP_STA_SET_KEY_EVENT:
-            //TODO: forward the message to hostapd once implementtation is done for now just print
-            hddLog(LOG1, FL("SET Key: configured status = %s\n"),pSapEvent->sapevt.sapStationSetKeyCompleteEvent.status ? 
-=======
 
             if (pHostapdAdapter->device_mode == WLAN_HDD_P2P_GO)
             {
@@ -1785,27 +956,18 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
         case eSAP_STA_SET_KEY_EVENT:
             //TODO: forward the message to hostapd once implementtation is done for now just print
             hddLog(LOG1, FL("SET Key: configured status = %s"),pSapEvent->sapevt.sapStationSetKeyCompleteEvent.status ?
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                             "eSAP_STATUS_FAILURE" : "eSAP_STATUS_SUCCESS");
             return VOS_STATUS_SUCCESS;
         case eSAP_STA_DEL_KEY_EVENT:
            //TODO: forward the message to hostapd once implementtation is done for now just print
-<<<<<<< HEAD
-           hddLog(LOG1, FL("Event received %s\n"),"eSAP_STA_DEL_KEY_EVENT");
-=======
            hddLog(LOG1, FL("Event received %s"),"eSAP_STA_DEL_KEY_EVENT");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            return VOS_STATUS_SUCCESS;
         case eSAP_STA_MIC_FAILURE_EVENT:
         {
             memset(&msg, '\0', sizeof(msg));
             msg.src_addr.sa_family = ARPHRD_ETHER;
             memcpy(msg.src_addr.sa_data, &pSapEvent->sapevt.sapStationMICFailureEvent.staMac, sizeof(v_MACADDR_t));
-<<<<<<< HEAD
-            hddLog(LOG1, "MIC MAC "MAC_ADDRESS_STR"\n", MAC_ADDR_ARRAY(msg.src_addr.sa_data));
-=======
             hddLog(LOG1, "MIC MAC "MAC_ADDRESS_STR, MAC_ADDR_ARRAY(msg.src_addr.sa_data));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             if(pSapEvent->sapevt.sapStationMICFailureEvent.multicast == eSAP_TRUE)
              msg.flags = IW_MICFAILURE_GROUP;
             else 
@@ -1832,11 +994,7 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
             wrqu.addr.sa_family = ARPHRD_ETHER;
             memcpy(wrqu.addr.sa_data, &pSapEvent->sapevt.sapStationAssocReassocCompleteEvent.staMac, 
                 sizeof(v_MACADDR_t));
-<<<<<<< HEAD
-            hddLog(LOG1, " associated "MAC_ADDRESS_STR"\n", MAC_ADDR_ARRAY(wrqu.addr.sa_data));
-=======
             hddLog(LOG1, " associated "MAC_ADDRESS_STR, MAC_ADDR_ARRAY(wrqu.addr.sa_data));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             we_event = IWEVREGISTERED;
             
             WLANSAP_Get_WPS_State((WLAN_HDD_GET_CTX(pHostapdAdapter))->pvosContext, &bWPSState);
@@ -1850,11 +1008,7 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
 
             if (bAuthRequired || bWPSState == eANI_BOOLEAN_TRUE )
             {
-<<<<<<< HEAD
-                hdd_softap_RegisterSTA( pHostapdAdapter,
-=======
                 vos_status = hdd_softap_RegisterSTA( pHostapdAdapter,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                        TRUE,
                                        pHddApCtx->uPrivacy,
                                        pSapEvent->sapevt.sapStationAssocReassocCompleteEvent.staId,
@@ -1862,12 +1016,6 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
                                        0,
                                        (v_MACADDR_t *)wrqu.addr.sa_data,
                                        pSapEvent->sapevt.sapStationAssocReassocCompleteEvent.wmmEnabled);
-<<<<<<< HEAD
-            }
-            else
-            {
-                hdd_softap_RegisterSTA( pHostapdAdapter,
-=======
 
                 if (!VOS_IS_STATUS_SUCCESS(vos_status))
                     hddLog(LOGW, FL("Failed to register STA %d "MAC_ADDRESS_STR""),
@@ -1876,7 +1024,6 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
             else
             {
                 vos_status = hdd_softap_RegisterSTA( pHostapdAdapter,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                        FALSE,
                                        pHddApCtx->uPrivacy,
                                        pSapEvent->sapevt.sapStationAssocReassocCompleteEvent.staId,
@@ -1884,12 +1031,9 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
                                        0,
                                        (v_MACADDR_t *)wrqu.addr.sa_data,
                                        pSapEvent->sapevt.sapStationAssocReassocCompleteEvent.wmmEnabled);
-<<<<<<< HEAD
-=======
                 if (!VOS_IS_STATUS_SUCCESS(vos_status))
                     hddLog(LOGW, FL("Failed to register STA %d "MAC_ADDRESS_STR""),
                                      vos_status, MAC_ADDR_ARRAY(wrqu.addr.sa_data));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             }
 
             // Stop AP inactivity timer
@@ -1897,20 +1041,11 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
             {
                 vos_status = vos_timer_stop(&pHddApCtx->hdd_ap_inactivity_timer);
                 if (!VOS_IS_STATUS_SUCCESS(vos_status))
-<<<<<<< HEAD
-                   hddLog(LOGE, FL("Failed to start AP inactivity timer\n"));
-=======
                    hddLog(LOGE, FL("Failed to start AP inactivity timer"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             }
 #ifdef WLAN_OPEN_SOURCE
             if (wake_lock_active(&pHddCtx->sap_wake_lock))
             {
-<<<<<<< HEAD
-               wake_unlock(&pHddCtx->sap_wake_lock);
-            }
-            wake_lock_timeout(&pHddCtx->sap_wake_lock, msecs_to_jiffies(HDD_SAP_WAKE_LOCK_DURATION));
-=======
                vos_wake_lock_release(&pHddCtx->sap_wake_lock,
                                       WIFI_POWER_EVENT_WAKELOCK_SAP);
             }
@@ -1918,7 +1053,6 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
                                           HDD_SAP_WAKE_LOCK_DURATION,
                                           WIFI_POWER_EVENT_WAKELOCK_SAP);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,38))
             {
@@ -1940,11 +1074,7 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
                 }
                 else
                 {
-<<<<<<< HEAD
-                    hddLog(LOGE, FL(" Assoc Ie length is too long \n"));
-=======
                     hddLog(LOGE, FL(" Assoc Ie length is too long"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 }
              }
 #endif
@@ -1952,23 +1082,15 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
             // Lets do abort scan to ensure smooth authentication for client
             if ((pScanInfo != NULL) && pScanInfo->mScanPending)
             {
-<<<<<<< HEAD
-                hdd_abort_mac_scan(pHddCtx);
-=======
                 hdd_abort_mac_scan(pHddCtx, pScanInfo->sessionId,
                                    eCSR_SCAN_ABORT_DEFAULT);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             }
 
             break;
         case eSAP_STA_DISASSOC_EVENT:
             memcpy(wrqu.addr.sa_data, &pSapEvent->sapevt.sapStationDisassocCompleteEvent.staMac,
                    sizeof(v_MACADDR_t));
-<<<<<<< HEAD
-            hddLog(LOG1, " disassociated "MAC_ADDRESS_STR"\n", MAC_ADDR_ARRAY(wrqu.addr.sa_data));
-=======
             hddLog(LOG1, " disassociated "MAC_ADDRESS_STR, MAC_ADDR_ARRAY(wrqu.addr.sa_data));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             if (pSapEvent->sapevt.sapStationDisassocCompleteEvent.reason == eSAP_USR_INITATED_DISASSOC)
                 hddLog(LOG1," User initiated disassociation");
             else
@@ -1984,29 +1106,17 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
 
             if (0 != (WLAN_HDD_GET_CTX(pHostapdAdapter))->cfg_ini->nAPAutoShutOff)
             {
-<<<<<<< HEAD
-                spin_lock_bh( &pHostapdAdapter->staInfo_lock );
-                // Start AP inactivity timer if no stations associated with it
-                for (i = 0; i < WLAN_MAX_STA_COUNT; i++)
-                {
-                    if (pHostapdAdapter->aStaInfo[i].isUsed && i != (WLAN_HDD_GET_AP_CTX_PTR(pHostapdAdapter))->uBCStaId)
-=======
                 spin_lock_bh( &pSapCtx->staInfo_lock );
                 // Start AP inactivity timer if no stations associated with it
                 for (i = 0; i < WLAN_MAX_STA_COUNT; i++)
                 {
                     if (pSapCtx->aStaInfo[i].isUsed && i != (WLAN_HDD_GET_AP_CTX_PTR(pHostapdAdapter))->uBCStaId)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     {
                         bApActive = TRUE;
                         break;
                     }
                 }
-<<<<<<< HEAD
-                spin_unlock_bh( &pHostapdAdapter->staInfo_lock );
-=======
                 spin_unlock_bh( &pSapCtx->staInfo_lock );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                 if (bApActive == FALSE)
                 {
@@ -2014,11 +1124,7 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
                     {
                         vos_status = vos_timer_start(&pHddApCtx->hdd_ap_inactivity_timer, (WLAN_HDD_GET_CTX(pHostapdAdapter))->cfg_ini->nAPAutoShutOff * 1000);
                         if (!VOS_IS_STATUS_SUCCESS(vos_status))
-<<<<<<< HEAD
-                            hddLog(LOGE, FL("Failed to init AP inactivity timer\n"));
-=======
                             hddLog(LOGE, FL("Failed to init AP inactivity timer"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     }
                     else
                         VOS_ASSERT(vos_timer_getCurrentState(&pHddApCtx->hdd_ap_inactivity_timer) == VOS_TIMER_STATE_STOPPED);
@@ -2030,16 +1136,12 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
                             GFP_KERNEL);
 #endif
             //Update the beacon Interval if it is P2P GO
-<<<<<<< HEAD
-            hdd_change_mcc_go_beacon_interval(pHostapdAdapter);
-=======
             vos_status = hdd_change_mcc_go_beacon_interval(pHostapdAdapter);
             if (VOS_STATUS_SUCCESS != vos_status)
             {
                 hddLog(LOGE, "%s: failed to update Beacon interval %d",
                         __func__, vos_status);
             }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
         case eSAP_WPS_PBC_PROBE_REQ_EVENT:
         {
@@ -2053,11 +1155,7 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
                     pHddApCtx->WPSPBCProbeReq.probeReqIELen);
                      
                 vos_mem_copy(pHddApCtx->WPSPBCProbeReq.peerMacAddr, pSapEvent->sapevt.sapPBCProbeReqEvent.WPSPBCProbeReq.peerMacAddr, sizeof(v_MACADDR_t));
-<<<<<<< HEAD
-                hddLog(LOG1, "WPS PBC probe req "MAC_ADDRESS_STR"\n", MAC_ADDR_ARRAY(pHddApCtx->WPSPBCProbeReq.peerMacAddr));
-=======
                 hddLog(LOG1, "WPS PBC probe req "MAC_ADDRESS_STR, MAC_ADDR_ARRAY(pHddApCtx->WPSPBCProbeReq.peerMacAddr));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 memset(&wreq, 0, sizeof(wreq));
                 wreq.data.length = strlen(message); // This is length of message
                 wireless_send_event(dev, IWEVCUSTOM, &wreq, (char *)message); 
@@ -2081,16 +1179,6 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
             vos_mem_free(pSapEvent->sapevt.sapAssocStaListEvent.pAssocStas);// Release caller allocated memory here
             pSapEvent->sapevt.sapAssocStaListEvent.pAssocStas = NULL;
             return VOS_STATUS_SUCCESS;
-<<<<<<< HEAD
-        case eSAP_INDICATE_MGMT_FRAME:
-           hdd_indicateMgmtFrame( pHostapdAdapter, 
-                                 pSapEvent->sapevt.sapManagementFrameInfo.nFrameLength,
-                                 pSapEvent->sapevt.sapManagementFrameInfo.pbFrames,
-                                 pSapEvent->sapevt.sapManagementFrameInfo.frameType, 
-                                 pSapEvent->sapevt.sapManagementFrameInfo.rxChan, 0);
-           return VOS_STATUS_SUCCESS;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         case eSAP_REMAIN_CHAN_READY:
            hdd_remainChanReadyHandler( pHostapdAdapter );
            return VOS_STATUS_SUCCESS;
@@ -2112,11 +1200,7 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
             wrqu.data.pointer = unknownSTAEvent;
             wrqu.data.length = strlen(unknownSTAEvent);
             we_custom_event_generic = (v_BYTE_t *)unknownSTAEvent;
-<<<<<<< HEAD
-            hddLog(LOG1,"%s\n", unknownSTAEvent);
-=======
             hddLog(LOGE,"%s", unknownSTAEvent);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
 
         case eSAP_MAX_ASSOC_EXCEEDED:
@@ -2133,32 +1217,17 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
             wrqu.data.pointer = maxAssocExceededEvent;
             wrqu.data.length = strlen(maxAssocExceededEvent);
             we_custom_event_generic = (v_BYTE_t *)maxAssocExceededEvent;
-<<<<<<< HEAD
-            hddLog(LOG1,"%s\n", maxAssocExceededEvent);
-=======
             hddLog(LOG1,"%s", maxAssocExceededEvent);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
         case eSAP_STA_ASSOC_IND:
             return VOS_STATUS_SUCCESS;
 
         case eSAP_DISCONNECT_ALL_P2P_CLIENT:
-<<<<<<< HEAD
-            hddLog(LOG1, FL(" Disconnecting all the P2P Clients....\n"));
-=======
             hddLog(LOG1, FL(" Disconnecting all the P2P Clients...."));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             hdd_clear_all_sta(pHostapdAdapter, usrDataForCallback);
             return VOS_STATUS_SUCCESS;
 
         case eSAP_MAC_TRIG_STOP_BSS_EVENT :
-<<<<<<< HEAD
-            hdd_stop_p2p_link(pHostapdAdapter, usrDataForCallback);
-            return VOS_STATUS_SUCCESS;
-
-        default:
-            hddLog(LOG1,"SAP message is not handled\n");
-=======
             vos_status = hdd_stop_bss_link(pHostapdAdapter, usrDataForCallback);
             if (!VOS_IS_STATUS_SUCCESS(vos_status))
             {
@@ -2168,7 +1237,6 @@ VOS_STATUS hdd_hostapd_SAPEventCB( tpSap_Event pSapEvent, v_PVOID_t usrDataForCa
 
         default:
             hddLog(LOG1,"SAP message is not handled");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             goto stopbss;
             return VOS_STATUS_SUCCESS;
     }
@@ -2208,13 +1276,9 @@ stopbss :
         hdd_hostapd_stop(dev);
 
         /* reclaim all resources allocated to the BSS */
-<<<<<<< HEAD
-        hdd_softap_stop_bss(pHostapdAdapter);
-=======
         vos_status = hdd_softap_stop_bss(pHostapdAdapter);
         if (!VOS_IS_STATUS_SUCCESS(vos_status))
              hddLog(LOGW, FL("hdd_softap_stop_bss failed %d"), vos_status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         /* once the event is set, structure dev/pHostapdAdapter should
          * not be touched since they are now subject to being deleted
@@ -2234,14 +1298,6 @@ stopbss :
     }
     return VOS_STATUS_SUCCESS;
 }
-<<<<<<< HEAD
-int hdd_softap_unpackIE( 
-                tHalHandle halHandle,
-                eCsrEncryptionType *pEncryptType, 
-                eCsrEncryptionType *mcEncryptType, 
-                eCsrAuthType *pAuthType, 
-                u_int16_t gen_ie_len, 
-=======
 
 int hdd_softap_unpackIE(
                 tHalHandle halHandle,
@@ -2251,7 +1307,6 @@ int hdd_softap_unpackIE(
                 v_BOOL_t *pMFPCapable,
                 v_BOOL_t *pMFPRequired,
                 u_int16_t gen_ie_len,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 u_int8_t *gen_ie )
 {
     tDot11fIERSN dot11RSNIE; 
@@ -2262,11 +1317,7 @@ int hdd_softap_unpackIE(
     
     if (NULL == halHandle)
     {
-<<<<<<< HEAD
-        hddLog(LOGE, FL("Error haHandle returned NULL\n"));
-=======
         hddLog(LOGE, FL("Error haHandle returned NULL"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return -EINVAL;
     }
     
@@ -2293,15 +1344,9 @@ int hdd_softap_unpackIE(
                             RSNIeLen, 
                             &dot11RSNIE);
         // Copy out the encryption and authentication types 
-<<<<<<< HEAD
-        hddLog(LOG1, FL("%s: pairwise cipher suite count: %d\n"), 
-                __func__, dot11RSNIE.pwise_cipher_suite_count );
-        hddLog(LOG1, FL("%s: authentication suite count: %d\n"), 
-=======
         hddLog(LOG1, FL("%s: pairwise cipher suite count: %d"),
                 __func__, dot11RSNIE.pwise_cipher_suite_count );
         hddLog(LOG1, FL("%s: authentication suite count: %d"),
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 __func__, dot11RSNIE.akm_suite_count);
         /*Here we have followed the apple base code, 
           but probably I suspect we can do something different*/
@@ -2313,11 +1358,8 @@ int hdd_softap_unpackIE(
         //dot11RSNIE.gp_cipher_suite_count 
         *mcEncryptType = hdd_TranslateRSNToCsrEncryptionType(dot11RSNIE.gp_cipher_suite);                     
         // Set the PMKSA ID Cache for this interface
-<<<<<<< HEAD
-=======
         *pMFPCapable = 0 != (dot11RSNIE.RSN_Cap[0] & 0x80);
         *pMFPRequired = 0 != (dot11RSNIE.RSN_Cap[0] & 0x40);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
           
         // Calling csrRoamSetPMKIDCache to configure the PMKIDs into the cache
     } else 
@@ -2339,15 +1381,9 @@ int hdd_softap_unpackIE(
                             RSNIeLen, 
                             &dot11WPAIE);
         // Copy out the encryption and authentication types 
-<<<<<<< HEAD
-        hddLog(LOG1, FL("%s: WPA unicast cipher suite count: %d\n"), 
-                __func__, dot11WPAIE.unicast_cipher_count );
-        hddLog(LOG1, FL("%s: WPA authentication suite count: %d\n"), 
-=======
         hddLog(LOG1, FL("%s: WPA unicast cipher suite count: %d"),
                 __func__, dot11WPAIE.unicast_cipher_count );
         hddLog(LOG1, FL("%s: WPA authentication suite count: %d"),
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 __func__, dot11WPAIE.auth_suite_count);
         //dot11WPAIE.auth_suite_count
         // Just translate the FIRST one 
@@ -2356,488 +1392,17 @@ int hdd_softap_unpackIE(
         *pEncryptType = hdd_TranslateWPAToCsrEncryptionType(dot11WPAIE.unicast_ciphers[0]);                       
         //dot11WPAIE.unicast_cipher_count 
         *mcEncryptType = hdd_TranslateWPAToCsrEncryptionType(dot11WPAIE.multicast_cipher);                       
-<<<<<<< HEAD
-    } 
-    else 
-    { 
-        hddLog(LOGW, FL("%s: gen_ie[0]: %d\n"), __func__, gen_ie[0]);
-=======
         *pMFPCapable = VOS_FALSE;
         *pMFPRequired = VOS_FALSE;
     } 
     else 
     { 
         hddLog(LOGW, FL("%s: gen_ie[0]: %d"), __func__, gen_ie[0]);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return VOS_STATUS_E_FAILURE; 
     }
     return VOS_STATUS_SUCCESS;
 }
 
-<<<<<<< HEAD
-/**---------------------------------------------------------------------------
-
-  \brief hdd_hostapd_set_mc_rate_cb() -
-
-  This is called to notify associated stas information ready
-
-  \param  - sapEvent Pointer to get associated stas event
-  \param  - apDriver SoftAP context
-
-  \return - none
-
-  --------------------------------------------------------------------------*/
-void hdd_hostapd_set_mc_rate_cb
-(
-   tSap_Event      *sapEvent,
-   void            *apDriver
-)
-{
-   hdd_ap_ctx_t    *apCtxt;
-
-   if ((NULL == apDriver) || (NULL == sapEvent))
-   {
-      VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-             "%s : Invalid arguments", __func__);
-      return;
-   }
-
-   apCtxt = (hdd_ap_ctx_t *)apDriver;
-
-   /* there is a race condition that exists between this callback function
-      and the caller since the caller could time out either before or
-      while this code is executing.  we'll assume the timeout hasn't
-      occurred, but we'll verify that right before complete our work */
-   if (SAP_GET_STAS_COOKIE == apCtxt->getStasCookie)
-   {
-      vos_mem_copy((void *)&apCtxt->getStasEventBuffer,
-                   (void *)sapEvent,
-                   sizeof(tSap_Event));
-      complete(&apCtxt->sap_get_associated_stas_complete);
-   }
-   else
-   {
-      VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-             "%s : Invalid cookie", __func__);
-   }
-   return;
-}
-
-/**---------------------------------------------------------------------------
-
-  \brief hdd_hostapd_set_mc_rate_update
-
-  This is called to find rate and send cfg command to FW
-
-  \param  - sapEvent Pointer to get associated stas event
-  \param  - pHostapdAdapter SoftAP Adapter Context
-
-  \return - int, 0 success
-                 negative fail
-
-  --------------------------------------------------------------------------*/
-static int hdd_hostapd_set_mc_rate_update
-(
-   tSap_Event      *sapEvent,
-   hdd_adapter_t   *pHostapdAdapter
-)
-{
-   tHalHandle               hHal;
-   hdd_ap_ctx_t            *apCtxt;
-   tSap_AssocMacAddr       *assocSta;
-   rate_cfg_11ac_max_mcs_t  supportedAcMaxMcs = RATE_CFG_RATE_11AC_MAX_MCS_7;
-   rate_cfg_supported_bw_t  bandWidth;
-   rate_cfg_gi_t            gi;
-   rate_cfg_item_mapping_t *nMappingTable = NULL;
-   rate_cfg_item_mapping_t *acMappingTable = NULL;
-   v_U8_t                   stasLoop, ratesLoop;
-   v_U8_t                   rateArrayOrder;
-   v_U8_t                   mcsTable11n;
-   v_U16_t                  targetCfgId = 0;
-   v_U16_t                  targetCfgValue = 0;
-   v_U16_t                  currentRate;
-   v_U16_t                  combinedSupportMap = 0xFFFF;
-   v_U16_t                  supportMap = 0x0000;
-   v_U16_t                  supportedChannelCount = 0;
-   v_U32_t                  legacyRates[SAP_LEGACY_RATE_COUNT];
-   int                      rc = 0;
-   tSirRetStatus            cfdStat;
-
-   if ((NULL == pHostapdAdapter) || (NULL == sapEvent))
-   {
-      VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-             "%s : Invalid arguments", __func__);
-      return -1;
-   }
-
-   apCtxt = WLAN_HDD_GET_AP_CTX_PTR(pHostapdAdapter);
-   hHal   = WLAN_HDD_GET_HAL_CTX(pHostapdAdapter);
-   VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-             "setMcRateCB NUM SAT %d, targetMCRate %d, current channel %d",
-             sapEvent->sapevt.sapAssocStaListEvent.noOfAssocSta,
-             apCtxt->targetMCRate,
-             apCtxt->operatingChannel);
-
-   if (!sapEvent->sapevt.sapAssocStaListEvent.noOfAssocSta)
-   {
-      VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-                "Not connected any STA yet");
-      return -1;
-   }
-
-   for (stasLoop = 0;
-        stasLoop < sapEvent->sapevt.sapAssocStaListEvent.noOfAssocSta;
-        stasLoop++)
-   {
-      vos_mem_zero((v_U8_t *)legacyRates,
-                   SAP_LEGACY_RATE_COUNT * sizeof(legacyRates));
-      rateArrayOrder = 0;
-      mcsTable11n    = 0;
-      supportedChannelCount = 0;
-      assocSta = sapEvent->sapevt.sapAssocStaListEvent.pAssocStas++;
-      VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-                "ASSOSID %d, OPM %d, nBM %d, SGI40 %d, SGI20 %d, S40 %d",
-                assocSta->assocId,
-                assocSta->supportedRates.opRateMode,
-                assocSta->supportedRates.aniEnhancedRateBitmap,
-                assocSta->ShortGI40Mhz,
-                assocSta->ShortGI20Mhz,
-                assocSta->Support40Mhz);
-
-      /* Legacy Rate */
-      for (ratesLoop = 0; ratesLoop < SIR_NUM_11B_RATES; ratesLoop++)
-      {
-         currentRate = assocSta->supportedRates.llbRates[ratesLoop] &
-                       SAP_LEGACY_RATE_MASK;
-
-         /* To fix KW error report */
-         if (SAP_LEGACY_RATE_COUNT <= rateArrayOrder)
-         {
-            VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-                      "%s, Invalid array Size, break", __func__);
-            break;
-         }
-
-         /* Make 100kbps order */
-         legacyRates[rateArrayOrder] = (currentRate * 100) / 20;
-         rateArrayOrder++;
-         if (currentRate)
-         {
-            supportedChannelCount++;
-         }
-      }
-      for (ratesLoop = 0; ratesLoop < SIR_NUM_11A_RATES; ratesLoop++)
-      {
-         currentRate = assocSta->supportedRates.llaRates[ratesLoop] &
-                       SAP_LEGACY_RATE_MASK;
-         /* To fix KW error report */
-         if (SAP_LEGACY_RATE_COUNT <= rateArrayOrder)
-         {
-            VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-                      "%s, Invalid array Size, break", __func__);
-            break;
-         }
-
-         /* Make 100kbps order */
-         legacyRates[rateArrayOrder] = (currentRate * 100) / 20;
-         rateArrayOrder++;
-         if (currentRate)
-         {
-            supportedChannelCount++;
-         }
-      }
-      if (supportedChannelCount)
-      {
-         for (ratesLoop = 0; ratesLoop < SAP_LEGACY_RATE_COUNT; ratesLoop++)
-         {
-            if (legacyRates[ratesLoop] == apCtxt->targetMCRate)
-            {
-               supportMap |= (1 << RATE_CFG_RATE_LEGACY);
-               break;
-            }
-         }
-      }
-
-      /* 11N */
-      if (eSTA_11n <= assocSta->supportedRates.opRateMode)
-      {
-         if (assocSta->Support40Mhz)
-         {
-            mcsTable11n |= 0x01;
-            if (assocSta->ShortGI40Mhz)
-            {
-               mcsTable11n |= 0x02;
-               supportMap |= (1 << RATE_CFG_RATE_11N_MCS_SGI_40);
-               nMappingTable = n_s40_rate_mapping;
-            }
-            else
-            {
-               supportMap |= (1 << RATE_CFG_RATE_11N_MCS_LGI_40);
-               nMappingTable = n_l40_rate_mapping;
-            }
-         }
-         else
-         {
-            if (assocSta->ShortGI20Mhz)
-            {
-               mcsTable11n |= 0x02;
-               supportMap |= (1 << RATE_CFG_RATE_11N_MCS_SGI_20);
-               nMappingTable = n_s20_rate_mapping;
-            }
-            else
-            {
-               supportMap |= (1 << RATE_CFG_RATE_11N_MCS_LGI_20);
-               nMappingTable = n_l20_rate_mapping;
-            }
-         }
-      }
-
-#ifdef WLAN_FEATURE_11AC
-      /* 11AC */
-      if (eSTA_11ac <= assocSta->supportedRates.opRateMode)
-      {
-         /* Find supported MAX MCS */
-         supportedAcMaxMcs = assocSta->supportedRates.vhtRxMCSMap &
-                             SAP_AC_MCS_MAP_MASK;
-         supportedAcMaxMcs += SAP_AC_MCS_MAP_OFFSET;
-         /* Find channel characteristics from MAX rate */
-         if (mcs_rate_11ac[supportedAcMaxMcs].cb80_rate_11ac[0] ==
-             assocSta->supportedRates.vhtRxHighestDataRate)
-         {
-            supportMap |= (1 << RATE_CFG_RATE_11AC_MCS_LGI_80);
-            bandWidth = RATE_CFG_RATE_BW_80;
-            gi = RATE_CFG_RATE_GI_LONG;
-            acMappingTable = ac_l80_rate_mapping;
-         }
-         else if (mcs_rate_11ac[supportedAcMaxMcs].cb80_rate_11ac[1] ==
-                  assocSta->supportedRates.vhtRxHighestDataRate)
-         {
-            supportMap |= (1 << RATE_CFG_RATE_11AC_MCS_SGI_80);
-            bandWidth = RATE_CFG_RATE_BW_80;
-            gi = RATE_CFG_RATE_GI_SHORT;
-            acMappingTable = ac_s80_rate_mapping;
-         }
-         else if (mcs_rate_11ac[supportedAcMaxMcs].cb40_rate_11ac[0] ==
-                  assocSta->supportedRates.vhtRxHighestDataRate)
-         {
-            supportMap |= (1 << RATE_CFG_RATE_11AC_MCS_LGI_40);
-            bandWidth = RATE_CFG_RATE_BW_40;
-            gi = RATE_CFG_RATE_GI_LONG;
-            acMappingTable = ac_l40_rate_mapping;
-         }
-         else if (mcs_rate_11ac[supportedAcMaxMcs].cb40_rate_11ac[1] ==
-                  assocSta->supportedRates.vhtRxHighestDataRate)
-         {
-            supportMap |= (1 << RATE_CFG_RATE_11AC_MCS_SGI_40);
-            bandWidth = RATE_CFG_RATE_BW_40;
-            gi = RATE_CFG_RATE_GI_SHORT;
-            acMappingTable = ac_s40_rate_mapping;
-         }
-         else if (mcs_rate_11ac[supportedAcMaxMcs].cb20_rate_11ac[0] ==
-                  assocSta->supportedRates.vhtRxHighestDataRate)
-         {
-            supportMap |= (1 << RATE_CFG_RATE_11AC_MCS_LGI_20);
-            bandWidth = RATE_CFG_RATE_BW_20;
-            gi = RATE_CFG_RATE_GI_LONG;
-            acMappingTable = ac_l20_rate_mapping;
-         }
-         else if (mcs_rate_11ac[supportedAcMaxMcs].cb20_rate_11ac[1] ==
-                  assocSta->supportedRates.vhtRxHighestDataRate)
-         {
-            supportMap |= (1 << RATE_CFG_RATE_11AC_MCS_SGI_20);
-            bandWidth = RATE_CFG_RATE_BW_20;
-            gi = RATE_CFG_RATE_GI_SHORT;
-            acMappingTable = ac_s20_rate_mapping;
-         }
-      }
-#endif /* WLAN_FEATURE_11AC */
-      combinedSupportMap &= supportMap;
-   }
-
-   if ((!combinedSupportMap) &&
-       (!sapEvent->sapevt.sapAssocStaListEvent.noOfAssocSta))
-   {
-      VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-                "%s, No Common supported rate, discard", __func__);
-      return -1;
-   }
-
-   /* Select target band */
-   if (apCtxt->operatingChannel <=
-       SAP_MAX_24_CHANNEL_NUMBER)
-   {
-      targetCfgId = WNI_CFG_FIXED_RATE_MULTICAST_24GHZ;
-   }
-   else
-   {
-      targetCfgId = WNI_CFG_FIXED_RATE_MULTICAST_5GHZ;
-   }
-
-   /* First find from legacy */
-   if (combinedSupportMap & SAP_RATE_SUPPORT_MAP_LEGACY_MASK)
-   {
-      for (ratesLoop = 0; ratesLoop < SAP_LEGACY_RATE_COUNT; ratesLoop++)
-      {
-         if (apCtxt->targetMCRate ==
-             legacy_rate_mapping[ratesLoop].rate)
-         {
-            targetCfgValue = legacy_rate_mapping[ratesLoop].eRateCfg;
-            break;
-         }
-      }
-   }
-
-   /* If available same on 11N, update target rate */
-   if ((combinedSupportMap & SAP_RATE_SUPPORT_MAP_N_MASK) &&
-       (NULL != nMappingTable))
-   {
-      for (ratesLoop = 0; ratesLoop < SAP_11N_RATE_COUNT; ratesLoop++)
-      {
-         if (apCtxt->targetMCRate == nMappingTable[ratesLoop].rate)
-         {
-            targetCfgValue = nMappingTable[ratesLoop].eRateCfg;
-            break;
-         }
-      }
-   }
-
-#ifdef WLAN_FEATURE_11AC
-   /* If available same on 11AC, update target rate */
-   if ((combinedSupportMap & SAP_RATE_SUPPORT_MAP_AC_MASK) &&
-       (NULL != acMappingTable))
-   {
-      for (ratesLoop = 0; ratesLoop < supportedAcMaxMcs; ratesLoop++)
-      {
-         if (apCtxt->targetMCRate == acMappingTable[ratesLoop].rate)
-         {
-            targetCfgValue = acMappingTable[ratesLoop].eRateCfg;
-            break;
-         }
-      }
-   }
-#endif /* WLAN_FEATURE_11AC */
-
-   /* Finally send config to FW */
-   if (targetCfgId && targetCfgValue)
-   {
-      VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-                "%s, Target Band %d, cfg value %d",
-                __func__, targetCfgId, targetCfgValue);
-      cfdStat = cfgSetInt((tpAniSirGlobal)hHal,
-                          targetCfgId,
-                          targetCfgValue);
-      if (eSIR_SUCCESS != cfdStat)
-      {
-         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-                   "%s, CFG Fail %d",
-                   __func__, cfdStat);
-         rc = -1;
-      }
-   }
-
-   return rc;
-};
-
-/**---------------------------------------------------------------------------
-
-  \brief hdd_hostapd_set_mc_rate() -
-
-  This is called user application set forcefully MC rate
-
-  \param  - pHostapdAdapter Pointer to adapter structure
-  \param  - targetRateHkbps MC rate to set, hundreds kbps order
-
-  \return - int, 0 success
-                 negative fail
-
-  --------------------------------------------------------------------------*/
-int hdd_hostapd_set_mc_rate
-(
-   hdd_adapter_t *pHostapdAdapter,
-   int            targetRateHkbps
-)
-{
-   tHalHandle      hHal;
-   hdd_ap_ctx_t   *apCtxt;
-   eHalStatus      smeStatus;
-   int             rc;
-
-   if ((NULL == pHostapdAdapter) || (0 == targetRateHkbps))
-   {
-      VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-             "%s : Invalid arguments", __func__);
-      return -1;
-   }
-
-   apCtxt = WLAN_HDD_GET_AP_CTX_PTR(pHostapdAdapter);
-   hHal = WLAN_HDD_GET_HAL_CTX(pHostapdAdapter);
-   VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-             "hdd_hostapd_setMcRate %d", targetRateHkbps);
-
-   init_completion(&apCtxt->sap_get_associated_stas_complete);
-
-   apCtxt->getStasCookie = SAP_GET_STAS_COOKIE;
-   apCtxt->targetMCRate = targetRateHkbps;
-   apCtxt->getStasEventBuffer.sapevt.sapAssocStaListEvent.noOfAssocSta = 0;
-   apCtxt->assocStasBuffer = (tSap_AssocMacAddr *)vos_mem_malloc(
-                    sizeof(tSap_AssocMacAddr) * HAL_NUM_ASSOC_STA);
-   if (NULL == apCtxt->assocStasBuffer)
-   {
-      VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-             "%s : Buffer Alloc fail", __func__);
-      return -1;
-   }
-   smeStatus = sme_RoamGetAssociatedStas(hHal,
-                             pHostapdAdapter->sessionId,
-                             VOS_MODULE_ID_HDD,
-                             (void *)apCtxt,
-                             hdd_hostapd_set_mc_rate_cb,
-                             (tANI_U8 *)apCtxt->assocStasBuffer);
-   if (smeStatus)
-   {
-      apCtxt->getStasCookie = 0;
-      vos_mem_free(apCtxt->assocStasBuffer);
-      apCtxt->assocStasBuffer = NULL;
-      VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-             "%s : SME Issue fail", __func__);
-      return -1;
-   }
-
-   /* Wait for completion */
-   rc = wait_for_completion_interruptible_timeout(
-                       &apCtxt->sap_get_associated_stas_complete,
-                       msecs_to_jiffies(SAP_MAX_GET_ASSOC_STAS_TIMEOUT));
-
-   /* either we have a response or we timed out
-      either way, first invalidate our cookie */
-   apCtxt->getStasCookie = 0;
-   if (0 >= rc)
-   {
-      VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-             "%s : Wait timeout or interrupted", __func__);
-
-      /* there is a race condition such that the callback
-         function could be executing at the same time we are. of
-         primary concern is if the callback function had already
-         verified the "magic" but hasn't yet set the completion
-         variable. Since the completion variable is on our
-         stack, we'll delay just a bit to make sure the data is
-         still valid if that is the case */
-      vos_sleep(50);
-      /* we'll now try to test memory */
-   }
-
-   rc = hdd_hostapd_set_mc_rate_update(
-         &apCtxt->getStasEventBuffer,
-         pHostapdAdapter);
-   vos_mem_free(apCtxt->assocStasBuffer);
-   apCtxt->assocStasBuffer = NULL;
-
-   return rc;
-}
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef FEATURE_WLAN_CH_AVOID
 /**---------------------------------------------------------------------------
 
@@ -2899,8 +1464,6 @@ void hdd_hostapd_update_unsafe_channel_list(hdd_context_t *pHddCtx,
    }
    else
    {
-<<<<<<< HEAD
-=======
       if (unsafeChannelCount > NUM_20MHZ_RF_CHANNELS)
       {
           VOS_TRACE(VOS_MODULE_ID_SAP, VOS_TRACE_LEVEL_ERROR,
@@ -2908,7 +1471,6 @@ void hdd_hostapd_update_unsafe_channel_list(hdd_context_t *pHddCtx,
                         unsafeChannelCount, NUM_20MHZ_RF_CHANNELS);
           unsafeChannelCount = NUM_20MHZ_RF_CHANNELS;
       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       vos_mem_copy((void *)pHddCtx->unsafeChannelList,
                    unsafeChannelList,
                    unsafeChannelCount * sizeof(tANI_U16));
@@ -2972,8 +1534,6 @@ void hdd_hostapd_ch_avoid_cb
    v_U16_t             unsafeChannelCount = 0;
    v_U16_t             unsafeChannelList[NUM_20MHZ_RF_CHANNELS];
    v_CONTEXT_t         pVosContext;
-<<<<<<< HEAD
-=======
    tHddAvoidFreqList   hddAvoidFreqList;
    tANI_U32            i;
 #ifdef WLAN_FEATURE_AP_HT40_24G
@@ -2983,7 +1543,6 @@ void hdd_hostapd_ch_avoid_cb
    VOS_STATUS  vosStatus = VOS_STATUS_SUCCESS;
    v_U32_t delay;
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    /* Basic sanity */
    if ((NULL == pAdapter) || (NULL == indParam))
@@ -3034,14 +1593,6 @@ void hdd_hostapd_ch_avoid_cb
          }
          if (dupCheck == unsafeChannelCount)
          {
-<<<<<<< HEAD
-            unsafeChannelList[unsafeChannelCount] = channelLoop;
-            unsafeChannelCount++;
-            VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-                      "%s : unsafe channel %d, count %d",
-                      __func__,
-                      channelLoop, unsafeChannelCount);
-=======
              int ii;
              for(ii=0; ii<NUM_20MHZ_RF_CHANNELS; ii++)
              {
@@ -3055,7 +1606,6 @@ void hdd_hostapd_ch_avoid_cb
                            channelLoop, unsafeChannelCount);
                  }
              }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          }
          else
          {
@@ -3078,12 +1628,6 @@ void hdd_hostapd_ch_avoid_cb
                                           unsafeChannelList,
                                           unsafeChannelCount);
 
-<<<<<<< HEAD
-   /* Get SAP context first
-    * SAP and P2PGO would not concurrent */
-   pHostapdAdapter = hdd_get_adapter(hddCtxt, WLAN_HDD_SOFTAP);
-   if ((pHostapdAdapter) && (unsafeChannelCount))
-=======
    /* generate vendor specific event */
    vos_mem_zero((void *)&hddAvoidFreqList, sizeof(tHddAvoidFreqList));
    for (i = 0; i < chAvoidInd->avoidRangeCount; i++)
@@ -3109,7 +1653,6 @@ void hdd_hostapd_ch_avoid_cb
    if ((pHostapdAdapter) &&
        (test_bit(SOFTAP_BSS_STARTED, &pHostapdAdapter->event_flags)) &&
        (unsafeChannelCount))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    {
       VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
                 "%s : Current operation channel %d",
@@ -3117,28 +1660,6 @@ void hdd_hostapd_ch_avoid_cb
                 pHostapdAdapter->sessionCtx.ap.operatingChannel);
       for (channelLoop = 0; channelLoop < unsafeChannelCount; channelLoop++)
       {
-<<<<<<< HEAD
-         if (((unsafeChannelList[channelLoop] ==
-               pHostapdAdapter->sessionCtx.ap.operatingChannel)) &&
-             (AUTO_CHANNEL_SELECT ==
-               pHostapdAdapter->sessionCtx.ap.sapConfig.channel))
-         {
-            /* current operating channel is un-safe channel
-             * restart driver */
-            hdd_hostapd_stop(pHostapdAdapter->dev);
-            break;
-         }
-      }
-   }
-
-   return;
-}
-
-#endif /* FEATURE_WLAN_CH_AVOID */
-
-int
-static iw_softap_setparam(struct net_device *dev, 
-=======
           if ((unsafeChannelList[channelLoop] ==
                 pHostapdAdapter->sessionCtx.ap.operatingChannel))
           {
@@ -3282,25 +1803,17 @@ static iw_softap_setparam(struct net_device *dev,
 
 int
 static __iw_softap_setparam(struct net_device *dev,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                           struct iw_request_info *info,
                           union iwreq_data *wrqu, char *extra)
 {
     hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-<<<<<<< HEAD
-    tHalHandle hHal = WLAN_HDD_GET_HAL_CTX(pHostapdAdapter);
-=======
     tHalHandle hHal;
     hdd_context_t *pHddCtx = NULL;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     int *value = (int *)extra;
     int sub_cmd = value[0];
     int set_value = value[1];
     eHalStatus status;
     int ret = 0; /* success */
-<<<<<<< HEAD
-    v_CONTEXT_t pVosContext = (WLAN_HDD_GET_CTX(pHostapdAdapter))->pvosContext; 
-=======
     v_CONTEXT_t pVosContext;
 
     ENTER();
@@ -3335,7 +1848,6 @@ static __iw_softap_setparam(struct net_device *dev,
                   "%s: Vos ctx is null", __func__);
         return -1;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     switch(sub_cmd)
     {
@@ -3343,20 +1855,12 @@ static __iw_softap_setparam(struct net_device *dev,
         case QCSAP_PARAM_CLR_ACL:
             if ( VOS_STATUS_SUCCESS != WLANSAP_ClearACL( pVosContext ))
             {
-<<<<<<< HEAD
-               ret = -EIO;            
-=======
                ret = -EIO;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             }
             break;
 
         case QCSAP_PARAM_ACL_MODE:
-<<<<<<< HEAD
-            if ((eSAP_ALLOW_ALL < (eSapMacAddrACL)set_value) || 
-=======
             if ((eSAP_ALLOW_ALL < (eSapMacAddrACL)set_value) ||
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 (eSAP_ACCEPT_UNLESS_DENIED > (eSapMacAddrACL)set_value))
             {
                 hddLog(LOGE, FL("Invalid ACL Mode value %d"), set_value);
@@ -3367,8 +1871,6 @@ static __iw_softap_setparam(struct net_device *dev,
                 WLANSAP_SetMode(pVosContext, set_value);
             }
             break;
-<<<<<<< HEAD
-=======
 
         case QCSAP_PARAM_SET_AUTO_CHANNEL:
             if ((0 != set_value) && (1 != set_value))
@@ -3382,7 +1884,6 @@ static __iw_softap_setparam(struct net_device *dev,
             }
             break;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         case QCSAP_PARAM_MAX_ASSOC:
             if (WNI_CFG_ASSOC_STA_LIMIT_STAMIN > set_value)
             {
@@ -3425,12 +1926,6 @@ static __iw_softap_setparam(struct net_device *dev,
 
         case QCSAP_PARAM_SET_MC_RATE:
             {
-<<<<<<< HEAD
-                if (hdd_hostapd_set_mc_rate(pHostapdAdapter, set_value))
-                {
-                   hddLog(VOS_TRACE_LEVEL_ERROR,
-                          "%s: SET_MC_RATE failed", __func__);
-=======
                 tSirRateUpdateInd *rateUpdate;
 
                 rateUpdate = (tSirRateUpdateInd *)
@@ -3467,7 +1962,6 @@ static __iw_softap_setparam(struct net_device *dev,
                          != VOS_STATUS_SUCCESS)
                 {
                     ret = -EINVAL;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 }
                 break;
             }
@@ -3479,19 +1973,6 @@ static __iw_softap_setparam(struct net_device *dev,
             break;
     }
 
-<<<<<<< HEAD
-    return ret;
-}
-
-
-int
-static iw_softap_getparam(struct net_device *dev, 
-                          struct iw_request_info *info,
-                          union iwreq_data *wrqu, char *extra)
-{
-    hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-    tHalHandle hHal = WLAN_HDD_GET_HAL_CTX(pHostapdAdapter);
-=======
     EXIT();
     return ret;
 }
@@ -3518,15 +1999,10 @@ static __iw_softap_getparam(struct net_device *dev,
     hdd_adapter_t *pHostapdAdapter;
     tHalHandle hHal;
     hdd_context_t *pHddCtx;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     int *value = (int *)extra;
     int sub_cmd = value[0];
     eHalStatus status;
     int ret = 0; /* success */
-<<<<<<< HEAD
-    v_CONTEXT_t pVosContext = (WLAN_HDD_GET_CTX(pHostapdAdapter))->pvosContext; 
-
-=======
     v_CONTEXT_t pVosContext;
 
     ENTER();
@@ -3558,40 +2034,12 @@ static __iw_softap_getparam(struct net_device *dev,
                   "%s: pVosContext Context is NULL",__func__);
         return -EINVAL;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     switch (sub_cmd)
     {
     case QCSAP_PARAM_MAX_ASSOC:
         status = ccmCfgGetInt(hHal, WNI_CFG_ASSOC_STA_LIMIT, (tANI_U32 *)value);
         if (eHAL_STATUS_SUCCESS != status)
         {
-<<<<<<< HEAD
-            ret = -EIO;
-        }
-        break;
-        
-    case QCSAP_PARAM_CLR_ACL:
-        if ( VOS_STATUS_SUCCESS != WLANSAP_ClearACL( pVosContext ))
-        {
-               ret = -EIO;            
-        }               
-        *value = 0;
-        break;
-        
-    case QCSAP_PARAM_MODULE_DOWN_IND:
-        {
-            VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-                "%s: sending WLAN_MODULE_DOWN_IND", __func__);
-            send_btc_nlink_msg(WLAN_MODULE_DOWN_IND, 0);
-#ifdef WLAN_BTAMP_FEATURE 
-            VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-                "%s: Take down AMP PAL", __func__);
-            BSL_Deinit(vos_get_global_context(VOS_MODULE_ID_HDD, NULL));
-#endif            
-            *value = 0;
-            break;
-        }
-=======
             VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                 FL("failed to get WNI_CFG_ASSOC_STA_LIMIT from cfg %d"),status);
             ret = -EIO;
@@ -3638,7 +2086,6 @@ static __iw_softap_getparam(struct net_device *dev,
         }
         *value = 0;
         break;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     case QCSAP_PARAM_GET_WLAN_DBG:
         {
@@ -3660,11 +2107,6 @@ static __iw_softap_getparam(struct net_device *dev,
 
     }
 
-<<<<<<< HEAD
-    return ret;
-}
-
-=======
     EXIT();
     return ret;
 }
@@ -3682,7 +2124,6 @@ static iw_softap_getparam(struct net_device *dev,
 
     return ret;
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* Usage:
     BLACK_LIST  = 0
     WHITE_LIST  = 1 
@@ -3703,13 +2144,6 @@ static iw_softap_getparam(struct net_device *dev,
     eg 2. to delete a mac addr 00:0a:f5:89:89:90 from white list
     iwpriv softap.0 modify_acl 0x00 0x0a 0xf5 0x89 0x89 0x90 1 1
 */
-<<<<<<< HEAD
-int iw_softap_modify_acl(struct net_device *dev, struct iw_request_info *info,
-        union iwreq_data *wrqu, char *extra)
-{
-    hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-    v_CONTEXT_t pVosContext = (WLAN_HDD_GET_CTX(pHostapdAdapter))->pvosContext; 
-=======
 int __iw_softap_modify_acl(struct net_device *dev,
                          struct iw_request_info *info,
                          union iwreq_data *wrqu, char *extra)
@@ -3717,15 +2151,12 @@ int __iw_softap_modify_acl(struct net_device *dev,
     hdd_adapter_t *pHostapdAdapter;
     v_CONTEXT_t pVosContext;
     hdd_context_t *pHddCtx;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     v_BYTE_t *value = (v_BYTE_t*)extra;
     v_U8_t pPeerStaMac[VOS_MAC_ADDR_SIZE];
     int listType, cmd, i;
     int ret = 0; /* success */
 
     ENTER();
-<<<<<<< HEAD
-=======
     pHostapdAdapter = (netdev_priv(dev));
     if (NULL == pHostapdAdapter)
     {
@@ -3746,7 +2177,6 @@ int __iw_softap_modify_acl(struct net_device *dev,
                  "%s: Vos Context is NULL",__func__);
         return -EINVAL;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     for (i=0; i<VOS_MAC_ADDR_SIZE; i++)
     {
         pPeerStaMac[i] = *(value+i);
@@ -3761,44 +2191,13 @@ int __iw_softap_modify_acl(struct net_device *dev,
     if (WLANSAP_ModifyACL(pVosContext, pPeerStaMac,(eSapACLType)listType,(eSapACLCmdType)cmd)
             != VOS_STATUS_SUCCESS)
     {
-<<<<<<< HEAD
-        hddLog(LOGE, FL("Modify ACL failed\n"));
-=======
         hddLog(LOGE, FL("Modify ACL failed"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         ret = -EIO;
     }
     EXIT();
     return ret;
 }
 
-<<<<<<< HEAD
-int
-static iw_softap_getchannel(struct net_device *dev,
-                        struct iw_request_info *info,
-                        union iwreq_data *wrqu, char *extra)
-{
-    hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-
-    int *value = (int *)extra;
-
-    *value = (WLAN_HDD_GET_AP_CTX_PTR(pHostapdAdapter))->operatingChannel;
-    return 0;
-}
-
-int
-static iw_softap_set_max_tx_power(struct net_device *dev,
-                        struct iw_request_info *info,
-                        union iwreq_data *wrqu, char *extra)
-{
-    hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-    tHalHandle hHal = WLAN_HDD_GET_HAL_CTX(pHostapdAdapter);
-    int *value = (int *)extra;
-    int set_value;
-    tSirMacAddr bssid = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
-    tSirMacAddr selfMac = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
-
-=======
 int iw_softap_modify_acl(struct net_device *dev,
                          struct iw_request_info *info,
                          union iwreq_data *wrqu, char *extra)
@@ -3896,7 +2295,6 @@ static __iw_softap_set_max_tx_power(struct net_device *dev,
                   "%s: Hal Context is NULL",__func__);
         return -EINVAL;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (NULL == value)
         return -ENOMEM;
 
@@ -3914,19 +2312,11 @@ static __iw_softap_set_max_tx_power(struct net_device *dev,
         return -EIO;
     }
 
-<<<<<<< HEAD
-=======
     EXIT();
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return 0;
 }
 
 int
-<<<<<<< HEAD
-static iw_display_data_path_snapshot(struct net_device *dev,
-                        struct iw_request_info *info,
-                        union iwreq_data *wrqu, char *extra)
-=======
 static iw_softap_set_max_tx_power(struct net_device *dev,
                                   struct iw_request_info *info,
                                   union iwreq_data *wrqu, char *extra)
@@ -3945,7 +2335,6 @@ int
 static __iw_display_data_path_snapshot(struct net_device *dev,
                                        struct iw_request_info *info,
                                        union iwreq_data *wrqu, char *extra)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
 
     /* Function intitiating dumping states of
@@ -3953,12 +2342,6 @@ static __iw_display_data_path_snapshot(struct net_device *dev,
      *  TL State (with Per Client infor)
      *  DXE Snapshot (Called at the end of TL Snapshot)
      */
-<<<<<<< HEAD
-    hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-    hddLog(LOGE, "%s: called for SAP",__func__);
-    hdd_wmm_tx_snapshot(pHostapdAdapter);
-    WLANTL_TLDebugMessage(VOS_TRUE);
-=======
     hdd_adapter_t *pHostapdAdapter;
     hdd_context_t *pHddCtx;
     int ret = 0;
@@ -3982,24 +2365,10 @@ static __iw_display_data_path_snapshot(struct net_device *dev,
     WLANTL_TLDebugMessage(WLANTL_DEBUG_TX_SNAPSHOT);
 
     EXIT();
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return 0;
 }
 
 int
-<<<<<<< HEAD
-static iw_softap_set_tx_power(struct net_device *dev,
-                        struct iw_request_info *info,
-                        union iwreq_data *wrqu, char *extra)
-{
-    hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-    v_CONTEXT_t pVosContext = (WLAN_HDD_GET_CTX(pHostapdAdapter))->pvosContext;
-    tHalHandle hHal = WLAN_HDD_GET_HAL_CTX(pHostapdAdapter);
-    int *value = (int *)extra;
-    int set_value;
-    ptSapContext  pSapCtx = NULL;
-
-=======
 static iw_display_data_path_snapshot(struct net_device *dev,
                                      struct iw_request_info *info,
                                      union iwreq_data *wrqu, char *extra)
@@ -4055,7 +2424,6 @@ static __iw_softap_set_tx_power(struct net_device *dev,
                   "%s: Hal Context is NULL",__func__);
         return -EINVAL;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (NULL == value)
         return -ENOMEM;
 
@@ -4075,11 +2443,6 @@ static __iw_softap_set_tx_power(struct net_device *dev,
         return -EIO;
     }
 
-<<<<<<< HEAD
-    return 0;
-}
-
-=======
     EXIT();
     return 0;
 }
@@ -4098,7 +2461,6 @@ static iw_softap_set_tx_power(struct net_device *dev,
     return ret;
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**---------------------------------------------------------------------------
 
   \brief iw_softap_set_trafficmonitor() -
@@ -4111,17 +2473,6 @@ static iw_softap_set_tx_power(struct net_device *dev,
 
   --------------------------------------------------------------------------*/
 
-<<<<<<< HEAD
-static int iw_softap_set_trafficmonitor(struct net_device *dev,
-        struct iw_request_info *info,
-        union iwreq_data *wrqu, char *extra)
-{
-    hdd_adapter_t *pAdapter = WLAN_HDD_GET_PRIV_PTR(dev);
-    int *isSetTrafficMon = (int *)wrqu->data.pointer;
-    hdd_context_t *pHddCtx;
-    int status;
-
-=======
 static int __iw_softap_set_trafficmonitor(struct net_device *dev,
                                           struct iw_request_info *info,
                                           union iwreq_data *wrqu, char *extra)
@@ -4134,7 +2485,6 @@ static int __iw_softap_set_trafficmonitor(struct net_device *dev,
     ENTER();
 
     pAdapter = WLAN_HDD_GET_PRIV_PTR(dev);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (NULL == pAdapter)
     {
         VOS_TRACE( VOS_MODULE_ID_SAP, VOS_TRACE_LEVEL_ERROR,
@@ -4145,16 +2495,8 @@ static int __iw_softap_set_trafficmonitor(struct net_device *dev,
     pHddCtx = WLAN_HDD_GET_CTX(pAdapter);
 
     status = wlan_hdd_validate_context(pHddCtx);
-<<<<<<< HEAD
-
     if (0 != status)
     {
-        VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-                   "%s: HDD context is not valid", __func__);
-=======
-    if (0 != status)
-    {
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return status;
     }
 
@@ -4188,58 +2530,6 @@ static int __iw_softap_set_trafficmonitor(struct net_device *dev,
         }
 
     }
-<<<<<<< HEAD
-    return 0;
-}
-
-#define IS_BROADCAST_MAC(x) (((x[0] & x[1] & x[2] & x[3] & x[4] & x[5]) == 0xff) ? 1 : 0)
-
-int
-static iw_softap_getassoc_stamacaddr(struct net_device *dev,
-                        struct iw_request_info *info,
-                        union iwreq_data *wrqu, char *extra)
-{
-    hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-    unsigned int maclist_index;
-    hdd_station_info_t *pStaInfo = pHostapdAdapter->aStaInfo;
-    char maclist_null = '\0';
-    int cnt = 0, len;
-
-
-    maclist_index = sizeof(unsigned long int);
-    len = wrqu->data.length;
-
-    spin_lock_bh( &pHostapdAdapter->staInfo_lock );
-    while((cnt < WLAN_MAX_STA_COUNT) && (len > (sizeof(v_MACADDR_t)+1))) {
-        if (TRUE == pStaInfo[cnt].isUsed) {
-            
-            if(!IS_BROADCAST_MAC(pStaInfo[cnt].macAddrSTA.bytes)) {
-                if (copy_to_user((void *)wrqu->data.pointer + maclist_index,
-                    (void *)&(pStaInfo[cnt].macAddrSTA), sizeof(v_MACADDR_t)))
-                {
-                    hddLog(LOG1, "%s: failed to copy data to user buffer", __func__);
-                    return -EFAULT;
-                }
-                maclist_index += sizeof(v_MACADDR_t);
-                len -= sizeof(v_MACADDR_t);
-            }
-        }
-        cnt++;
-    } 
-    spin_unlock_bh( &pHostapdAdapter->staInfo_lock );
-
-    if (copy_to_user((void *)wrqu->data.pointer + maclist_index,
-                     (void *)&maclist_null, sizeof(maclist_null)) ||
-        copy_to_user((void *)wrqu->data.pointer,
-                     (void *)&wrqu->data.length, sizeof(wrqu->data.length)))
-    {
-        hddLog(LOG1, "%s: failed to copy data to user buffer", __func__);
-        return -EFAULT;
-    }
-    wrqu->data.length -= len;
-
-    return 0;
-=======
 
     EXIT();
     return 0;
@@ -4371,7 +2661,6 @@ static iw_softap_getassoc_stamacaddr(struct net_device *dev,
     vos_ssr_unprotect(__func__);
 
     return ret;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 /* Usage:
@@ -4388,16 +2677,6 @@ static iw_softap_getassoc_stamacaddr(struct net_device *dev,
 */
 
 int
-<<<<<<< HEAD
-static iw_softap_disassoc_sta(struct net_device *dev,
-                        struct iw_request_info *info,
-                        union iwreq_data *wrqu, char *extra)
-{
-    hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-    v_U8_t *peerMacAddr;    
-    
-    ENTER();
-=======
 static __iw_softap_disassoc_sta(struct net_device *dev,
                                 struct iw_request_info *info,
                                 union iwreq_data *wrqu, char *extra)
@@ -4428,7 +2707,6 @@ static __iw_softap_disassoc_sta(struct net_device *dev,
     {
         return ret;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /* iwpriv tool or framework calls this ioctl with
      * data passed in extra (less than 16 octets);
      */
@@ -4442,285 +2720,6 @@ static __iw_softap_disassoc_sta(struct net_device *dev,
 }
 
 int
-<<<<<<< HEAD
-static iw_softap_ap_stats(struct net_device *dev,
-                        struct iw_request_info *info,
-                        union iwreq_data *wrqu, char *extra)
-{
-    hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-    WLANTL_TRANSFER_STA_TYPE  statBuffer;
-    char *pstatbuf;
-    int len = wrqu->data.length;
-    pstatbuf = wrqu->data.pointer;
-
-    WLANSAP_GetStatistics((WLAN_HDD_GET_CTX(pHostapdAdapter))->pvosContext,
-                           &statBuffer, (v_BOOL_t)wrqu->data.flags);
-
-    pstatbuf = kmalloc(wrqu->data.length, GFP_KERNEL);
-    if(NULL == pstatbuf) {
-        hddLog(LOG1, "unable to allocate memory");
-        return -ENOMEM;
-    }
-    len = scnprintf(pstatbuf, wrqu->data.length,
-                    "RUF=%d RMF=%d RBF=%d "
-                    "RUB=%d RMB=%d RBB=%d "
-                    "TUF=%d TMF=%d TBF=%d "
-                    "TUB=%d TMB=%d TBB=%d",
-                    (int)statBuffer.rxUCFcnt, (int)statBuffer.rxMCFcnt,
-                    (int)statBuffer.rxBCFcnt, (int)statBuffer.rxUCBcnt,
-                    (int)statBuffer.rxMCBcnt, (int)statBuffer.rxBCBcnt,
-                    (int)statBuffer.txUCFcnt, (int)statBuffer.txMCFcnt,
-                    (int)statBuffer.txBCFcnt, (int)statBuffer.txUCBcnt,
-                    (int)statBuffer.txMCBcnt, (int)statBuffer.txBCBcnt);
-
-    if (len > wrqu->data.length ||
-        copy_to_user((void *)wrqu->data.pointer, (void *)pstatbuf, len))
-    {
-        hddLog(LOG1, "%s: failed to copy data to user buffer", __func__);
-        kfree(pstatbuf);
-        return -EFAULT;
-    }
-    wrqu->data.length -= len;
-    kfree(pstatbuf);
-    return 0;
-}
-
-int
-static iw_softap_commit(struct net_device *dev,
-                        struct iw_request_info *info,
-                        union iwreq_data *wrqu, char *extra)
-{
-    VOS_STATUS vos_status = VOS_STATUS_SUCCESS;
-    hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-    hdd_hostapd_state_t *pHostapdState;
-    v_CONTEXT_t pVosContext = (WLAN_HDD_GET_CTX(pHostapdAdapter))->pvosContext; 
-    tpWLAN_SAPEventCB pSapEventCallback;
-    tsap_Config_t *pConfig;
-    s_CommitConfig_t *pCommitConfig;
-    struct qc_mac_acl_entry *acl_entry = NULL;
-    v_SINT_t i = 0, num_mac = 0;
-    v_U32_t status = 0;
-    eCsrAuthType RSNAuthType;
-    eCsrEncryptionType RSNEncryptType;
-    eCsrEncryptionType mcRSNEncryptType;
-
-    pHostapdState = WLAN_HDD_GET_HOSTAP_STATE_PTR(pHostapdAdapter);
-    pCommitConfig = (s_CommitConfig_t *)extra;
-    
-    pConfig = kmalloc(sizeof(tsap_Config_t), GFP_KERNEL);
-    if(NULL == pConfig) {
-        hddLog(LOG1, "VOS unable to allocate memory\n");
-        return -ENOMEM;
-    }
-    pConfig->beacon_int =  pCommitConfig->beacon_int;
-    pConfig->channel = pCommitConfig->channel;
-
-    /*Protection parameter to enable or disable*/
-    pConfig->protEnabled = (WLAN_HDD_GET_CTX(pHostapdAdapter))->cfg_ini->apProtEnabled;
-    pConfig->dtim_period = pCommitConfig->dtim_period;
-    switch(pCommitConfig->hw_mode )
-    {
-        case eQC_DOT11_MODE_11A:
-        pConfig->SapHw_mode = eSAP_DOT11_MODE_11a; 
-            break;
-        case eQC_DOT11_MODE_11B:
-        pConfig->SapHw_mode = eSAP_DOT11_MODE_11b; 
-            break;
-        case eQC_DOT11_MODE_11G:
-        pConfig->SapHw_mode = eSAP_DOT11_MODE_11g;
-            break;
-       
-        case eQC_DOT11_MODE_11N:
-        pConfig->SapHw_mode = eSAP_DOT11_MODE_11n;
-            break;
-        case eQC_DOT11_MODE_11G_ONLY:
-            pConfig->SapHw_mode = eSAP_DOT11_MODE_11g_ONLY;
-            break;
-        case eQC_DOT11_MODE_11N_ONLY:
-            pConfig->SapHw_mode = eSAP_DOT11_MODE_11n_ONLY;
-            break;
-        default:
-        pConfig->SapHw_mode = eSAP_DOT11_MODE_11n;
-            break;
-            
-    }
-  
-    pConfig->ieee80211d = pCommitConfig->qcsap80211d;
-    vos_mem_copy(pConfig->countryCode, pCommitConfig->countryCode, 3);
-    if(pCommitConfig->authType == eQC_AUTH_TYPE_SHARED_KEY)
-        pConfig->authType = eSAP_SHARED_KEY;
-    else if(pCommitConfig->authType == eQC_AUTH_TYPE_OPEN_SYSTEM) 
-        pConfig->authType = eSAP_OPEN_SYSTEM;
-    else
-        pConfig->authType = eSAP_AUTO_SWITCH;
-    
-    pConfig->privacy = pCommitConfig->privacy;
-    (WLAN_HDD_GET_AP_CTX_PTR(pHostapdAdapter))->uPrivacy = pCommitConfig->privacy;
-    pConfig->wps_state = pCommitConfig->wps_state;
-    pConfig->fwdWPSPBCProbeReq  = 1; // Forward WPS PBC probe request frame up 
-    pConfig->RSNWPAReqIELength = pCommitConfig->RSNWPAReqIELength;
-    if(pConfig->RSNWPAReqIELength){
-        pConfig->pRSNWPAReqIE = &pCommitConfig->RSNWPAReqIE[0];
-        if ((pConfig->pRSNWPAReqIE[0] == DOT11F_EID_RSN) || (pConfig->pRSNWPAReqIE[0] == DOT11F_EID_WPA)){
-            // The actual processing may eventually be more extensive than this.
-            // Right now, just consume any PMKIDs that are  sent in by the app.
-            status = hdd_softap_unpackIE( 
-                                  vos_get_context( VOS_MODULE_ID_PE, pVosContext),
-                                  &RSNEncryptType,
-                                  &mcRSNEncryptType,
-                                  &RSNAuthType,
-                                  pConfig->pRSNWPAReqIE[1]+2,
-                                  pConfig->pRSNWPAReqIE );
-             
-            if( VOS_STATUS_SUCCESS == status )
-            {
-                 // Now copy over all the security attributes you have parsed out
-                 //TODO: Need to handle mixed mode     
-                 pConfig->RSNEncryptType = RSNEncryptType; // Use the cipher type in the RSN IE
-                 pConfig->mcRSNEncryptType = mcRSNEncryptType;
-                 hddLog( LOG1, FL("CSR AuthType = %d, EncryptionType = %d mcEncryptionType = %d\n"),
-                                  RSNAuthType, RSNEncryptType, mcRSNEncryptType);
-             } 
-        }
-    }
-    else
-    {
-        /* If no RSNIE, set encrypt type to NONE*/
-        pConfig->RSNEncryptType = eCSR_ENCRYPT_TYPE_NONE;
-        pConfig->mcRSNEncryptType =  eCSR_ENCRYPT_TYPE_NONE;
-        hddLog( LOG1, FL("EncryptionType = %d mcEncryptionType = %d\n"), 
-                         pConfig->RSNEncryptType, pConfig->mcRSNEncryptType);
-    }
-
-    if (pConfig->RSNWPAReqIELength > QCSAP_MAX_OPT_IE) {
-        hddLog(LOGE, FL("RSNWPAReqIELength: %d too large"), pConfig->RSNWPAReqIELength);
-        kfree(pConfig);
-        return -EIO;
-    }
-
-    pConfig->SSIDinfo.ssidHidden = pCommitConfig->SSIDinfo.ssidHidden; 
-    pConfig->SSIDinfo.ssid.length = pCommitConfig->SSIDinfo.ssid.length;
-    vos_mem_copy(pConfig->SSIDinfo.ssid.ssId, pCommitConfig->SSIDinfo.ssid.ssId, pConfig->SSIDinfo.ssid.length);
-    vos_mem_copy(pConfig->self_macaddr.bytes, pHostapdAdapter->macAddressCurrent.bytes, sizeof(v_MACADDR_t));
-    
-    pConfig->SapMacaddr_acl = pCommitConfig->qc_macaddr_acl;
-
-    // ht_capab is not what the name conveys,this is used for protection bitmap
-    pConfig->ht_capab = (WLAN_HDD_GET_CTX(pHostapdAdapter))->cfg_ini->apProtection;
-
-    if (pCommitConfig->num_accept_mac > MAX_ACL_MAC_ADDRESS)
-        num_mac = pConfig->num_accept_mac = MAX_ACL_MAC_ADDRESS;
-    else
-        num_mac = pConfig->num_accept_mac = pCommitConfig->num_accept_mac;
-    acl_entry = pCommitConfig->accept_mac;
-    for (i = 0; i < num_mac; i++)
-    {
-        vos_mem_copy(&pConfig->accept_mac[i], acl_entry->addr, sizeof(v_MACADDR_t));
-        acl_entry++;
-    }
-    if (pCommitConfig->num_deny_mac > MAX_ACL_MAC_ADDRESS)
-        num_mac = pConfig->num_deny_mac = MAX_ACL_MAC_ADDRESS;
-    else
-        num_mac = pConfig->num_deny_mac = pCommitConfig->num_deny_mac;
-    acl_entry = pCommitConfig->deny_mac;
-    for (i = 0; i < num_mac; i++)
-    {
-        vos_mem_copy(&pConfig->deny_mac[i], acl_entry->addr, sizeof(v_MACADDR_t));
-        acl_entry++;
-    }
-    //Uapsd Enabled Bit
-    pConfig->UapsdEnable =  (WLAN_HDD_GET_CTX(pHostapdAdapter))->cfg_ini->apUapsdEnabled;
-    //Enable OBSS protection
-    pConfig->obssProtEnabled = (WLAN_HDD_GET_CTX(pHostapdAdapter))->cfg_ini->apOBSSProtEnabled; 
-    (WLAN_HDD_GET_AP_CTX_PTR(pHostapdAdapter))->apDisableIntraBssFwd = (WLAN_HDD_GET_CTX(pHostapdAdapter))->cfg_ini->apDisableIntraBssFwd;
-    
-    hddLog(LOGW, FL("SOftAP macaddress : "MAC_ADDRESS_STR"\n"), MAC_ADDR_ARRAY(pHostapdAdapter->macAddressCurrent.bytes));
-    hddLog(LOGW,FL("ssid =%s\n"), pConfig->SSIDinfo.ssid.ssId);  
-    hddLog(LOGW,FL("beaconint=%d, channel=%d\n"), (int)pConfig->beacon_int, (int)pConfig->channel);
-    hddLog(LOGW,FL("hw_mode=%x\n"),  pConfig->SapHw_mode);
-    hddLog(LOGW,FL("privacy=%d, authType=%d\n"), pConfig->privacy, pConfig->authType); 
-    hddLog(LOGW,FL("RSN/WPALen=%d, \n"),(int)pConfig->RSNWPAReqIELength);
-    hddLog(LOGW,FL("Uapsd = %d\n"),pConfig->UapsdEnable); 
-    hddLog(LOGW,FL("ProtEnabled = %d, OBSSProtEnabled = %d\n"),pConfig->protEnabled, pConfig->obssProtEnabled); 
-    hddLog(LOGW,FL("DisableIntraBssFwd = %d\n"),(WLAN_HDD_GET_AP_CTX_PTR(pHostapdAdapter))->apDisableIntraBssFwd); 
-            
-    pSapEventCallback = hdd_hostapd_SAPEventCB;
-    pConfig->persona = pHostapdAdapter->device_mode;
-    if(WLANSAP_StartBss(pVosContext, pSapEventCallback, pConfig,(v_PVOID_t)dev) != VOS_STATUS_SUCCESS)
-    {
-           hddLog(LOGE,FL("SAP Start Bss fail\n"));
-    }
-    
-    kfree(pConfig);
-    
-    hddLog(LOG1, FL("Waiting for Scan to complete(auto mode) and BSS to start"));
-    vos_status = vos_wait_single_event(&pHostapdState->vosEvent, 10000);
-   
-    if (!VOS_IS_STATUS_SUCCESS(vos_status))
-    {  
-       VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR, ("ERROR: HDD vos wait for single_event failed!!\n"));
-       VOS_ASSERT(0);
-    }
- 
-    pHostapdState->bCommit = TRUE;
-    if(pHostapdState->vosStatus)
-    {
-      return -EIO;
-    }
-    else
-    {
-        set_bit(SOFTAP_BSS_STARTED, &pHostapdAdapter->event_flags);
-        WLANSAP_Update_WpsIe ( pVosContext );            
-        return 0;
-    }
-}
-static 
-int iw_softap_setmlme(struct net_device *dev,
-                        struct iw_request_info *info,
-                        union iwreq_data *wrqu, char *extra)
-{
-    struct sQcSapreq_mlme *pmlme;
-    hdd_adapter_t *pHostapdAdapter = (hdd_adapter_t*)(netdev_priv(dev));
-    v_MACADDR_t destAddress;
-    pmlme = (struct sQcSapreq_mlme *)(wrqu->name);
-    /* NOTE: this address is not valid incase of TKIP failure, since not filled */
-    vos_mem_copy(&destAddress.bytes, pmlme->im_macaddr, sizeof(v_MACADDR_t));
-    switch(pmlme->im_op)
-    {
-        case QCSAP_MLME_AUTHORIZE:
-                    hdd_softap_change_STA_state( pHostapdAdapter, &destAddress, WLANTL_STA_AUTHENTICATED);
-        break;
-        case QCSAP_MLME_ASSOC:
-        //TODO:inform to TL after associating (not needed  as we do in sapCallback)
-        break;
-        case QCSAP_MLME_UNAUTHORIZE:
-        //TODO: send the disassoc to station
-        //hdd_softap_change_STA_state( pHostapdAdapter, pmlme->im_macaddr, WLANTL_STA_AUTHENTICATED);
-        break;
-        case QCSAP_MLME_DISASSOC:
-            hdd_softap_sta_disassoc(pHostapdAdapter,pmlme->im_macaddr);
-        break;
-        case QCSAP_MLME_DEAUTH:
-            hdd_softap_sta_deauth(pHostapdAdapter,pmlme->im_macaddr);
-        break;
-        case QCSAP_MLME_MICFAILURE:
-            hdd_softap_tkip_mic_fail_counter_measure(pHostapdAdapter,pmlme->im_reason);
-        break;
-        default:
-        break;
-    }
-    return 0;
-}
-
-static int iw_softap_set_channel_range(struct net_device *dev, 
-                          struct iw_request_info *info,
-                          union iwreq_data *wrqu, char *extra)
-{
-    hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-    tHalHandle hHal = WLAN_HDD_GET_HAL_CTX(pHostapdAdapter);
-    hdd_context_t *pHddCtx = WLAN_HDD_GET_CTX(pHostapdAdapter);
-
-=======
 static iw_softap_disassoc_sta(struct net_device *dev,
                               struct iw_request_info *info,
                               union iwreq_data *wrqu, char *extra)
@@ -4817,7 +2816,6 @@ static int __iw_softap_set_channel_range(struct net_device *dev,
     hdd_adapter_t *pHostapdAdapter;
     tHalHandle hHal;
     hdd_context_t *pHddCtx;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     int *value = (int *)extra;
     int startChannel = value[0];
     int endChannel = value[1];
@@ -4825,12 +2823,6 @@ static int __iw_softap_set_channel_range(struct net_device *dev,
     VOS_STATUS status;
     int ret = 0; /* success */
 
-<<<<<<< HEAD
-    status = WLANSAP_SetChannelRange(hHal,startChannel,endChannel,band);
-    if(status != VOS_STATUS_SUCCESS)
-    {
-      hddLog( LOGE, FL("iw_softap_set_channel_range:  startChannel = %d, endChannel = %d band = %d\n"), 
-=======
     ENTER();
 
     if (!capable(CAP_NET_ADMIN))
@@ -4864,21 +2856,12 @@ static int __iw_softap_set_channel_range(struct net_device *dev,
     if(status != VOS_STATUS_SUCCESS)
     {
       hddLog( LOGE, FL("iw_softap_set_channel_range:  startChannel = %d, endChannel = %d band = %d"),
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                   startChannel,endChannel, band);
       ret = -EINVAL;
     }
 
     pHddCtx->is_dynamic_channel_range_set = 1;
 
-<<<<<<< HEAD
-    return ret;
-}
-
-int iw_softap_get_channel_list(struct net_device *dev, 
-                          struct iw_request_info *info,
-                          union iwreq_data *wrqu, char *extra)
-=======
     EXIT();
     return ret;
 }
@@ -4900,24 +2883,12 @@ static int iw_softap_set_channel_range(struct net_device *dev,
 int __iw_softap_get_channel_list(struct net_device *dev,
                                struct iw_request_info *info,
                                union iwreq_data *wrqu, char *extra)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
     v_U32_t num_channels = 0;
     v_U8_t i = 0;
     v_U8_t bandStartChannel = RF_CHAN_1;
     v_U8_t bandEndChannel = RF_CHAN_165;
     v_U32_t temp_num_channels = 0;
-<<<<<<< HEAD
-    hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-    tHalHandle hHal = WLAN_HDD_GET_HAL_CTX(pHostapdAdapter);
-    v_REGDOMAIN_t domainIdCurrentSoftap;
-    tpChannelListInfo channel_list = (tpChannelListInfo) extra;
-    eCsrBand curBand = eCSR_BAND_ALL;
-
-    if (eHAL_STATUS_SUCCESS != sme_GetFreqBand(hHal, &curBand))
-    {
-        hddLog(LOGE,FL("not able get the current frequency band\n"));
-=======
     hdd_adapter_t *pHostapdAdapter;
     tHalHandle hHal;
     v_REGDOMAIN_t domainIdCurrentSoftap;
@@ -4951,7 +2922,6 @@ int __iw_softap_get_channel_list(struct net_device *dev,
     if (eHAL_STATUS_SUCCESS != sme_GetFreqBand(hHal, &curBand))
     {
         hddLog(LOGE,FL("not able get the current frequency band"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return -EIO;
     }
     wrqu->data.length = sizeof(tChannelListInfo);
@@ -4968,11 +2938,7 @@ int __iw_softap_get_channel_list(struct net_device *dev,
         bandEndChannel = RF_CHAN_165;
     }
 
-<<<<<<< HEAD
-    hddLog(LOG1, FL("\n curBand = %d, bandStartChannel = %hu, "
-=======
     hddLog(LOG1, FL("curBand = %d, bandStartChannel = %hu, "
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 "bandEndChannel = %hu "), curBand,
                 bandStartChannel, bandEndChannel );
 
@@ -4991,20 +2957,12 @@ int __iw_softap_get_channel_list(struct net_device *dev,
 
     if(eHAL_STATUS_SUCCESS != sme_getSoftApDomain(hHal,(v_REGDOMAIN_t *) &domainIdCurrentSoftap))
     {
-<<<<<<< HEAD
-        hddLog(LOG1,FL("Failed to get Domain ID, %d \n"),domainIdCurrentSoftap);
-        return -EIO;
-    }
-
-    if(REGDOMAIN_FCC == domainIdCurrentSoftap)
-=======
         hddLog(LOGE,FL("Failed to get Domain ID, %d"),domainIdCurrentSoftap);
         return -EIO;
     }
 
     if(REGDOMAIN_FCC == domainIdCurrentSoftap &&
              pHddCtx->cfg_ini->gEnableStrictRegulatoryForFCC )
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
         for(i = 0; i < temp_num_channels; i++)
         {
@@ -5022,11 +2980,7 @@ int __iw_softap_get_channel_list(struct net_device *dev,
         }
     }
 
-<<<<<<< HEAD
-    hddLog(LOG1,FL(" number of channels %d\n"), num_channels); 
-=======
     hddLog(LOG1,FL(" number of channels %d"), num_channels);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (num_channels > IW_MAX_FREQUENCIES)
     {
@@ -5039,20 +2993,6 @@ int __iw_softap_get_channel_list(struct net_device *dev,
     return 0;
 }
 
-<<<<<<< HEAD
-static 
-int iw_get_genie(struct net_device *dev,
-                        struct iw_request_info *info,
-                        union iwreq_data *wrqu, char *extra)
-{
-    hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-    v_CONTEXT_t pVosContext = (WLAN_HDD_GET_CTX(pHostapdAdapter))->pvosContext; 
-    eHalStatus status;
-    v_U32_t length = DOT11F_IE_RSN_MAX_LEN;
-    v_U8_t genIeBytes[DOT11F_IE_RSN_MAX_LEN];
-    ENTER();
-    hddLog(LOG1,FL("getGEN_IE ioctl\n"));
-=======
 int iw_softap_get_channel_list(struct net_device *dev,
                                struct iw_request_info *info,
                                union iwreq_data *wrqu, char *extra)
@@ -5102,7 +3042,6 @@ int __iw_get_genie(struct net_device *dev,
         return -EINVAL;
     }
     hddLog(LOG1,FL("getGEN_IE ioctl"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     // Actually retrieve the RSN IE from CSR.  (We previously sent it down in the CSR Roam Profile.)
     status = WLANSap_getstationIE_information(pVosContext, 
                                    &length,
@@ -5117,29 +3056,12 @@ int __iw_get_genie(struct net_device *dev,
     }
     wrqu->data.length = length;
     
-<<<<<<< HEAD
-    hddLog(LOG1,FL(" RSN IE of %d bytes returned\n"), wrqu->data.length ); 
-=======
     hddLog(LOG1,FL(" RSN IE of %d bytes returned"), wrqu->data.length );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     
    
     EXIT();
     return 0;
 }
-<<<<<<< HEAD
-static 
-int iw_get_WPSPBCProbeReqIEs(struct net_device *dev,
-                        struct iw_request_info *info,
-                        union iwreq_data *wrqu, char *extra)
-{
-    hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));    
-    sQcSapreq_WPSPBCProbeReqIES_t WPSPBCProbeReqIEs;
-    hdd_ap_ctx_t *pHddApCtx = WLAN_HDD_GET_AP_CTX_PTR(pHostapdAdapter);
-    ENTER();
-
-    hddLog(LOG1,FL("get_WPSPBCProbeReqIEs ioctl\n"));
-=======
 
 static
 int iw_get_genie(struct net_device *dev,
@@ -5190,7 +3112,6 @@ int __iw_get_WPSPBCProbeReqIEs(struct net_device *dev,
     }
 
     hddLog(LOG1,FL("get_WPSPBCProbeReqIEs ioctl"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     memset((void*)&WPSPBCProbeReqIEs, 0, sizeof(WPSPBCProbeReqIEs));
 
     WPSPBCProbeReqIEs.probeReqIELen = pHddApCtx->WPSPBCProbeReq.probeReqIELen;
@@ -5208,22 +3129,13 @@ int __iw_get_WPSPBCProbeReqIEs(struct net_device *dev,
          return -EFAULT;
     }
     wrqu->data.length = 12 + WPSPBCProbeReqIEs.probeReqIELen;
-<<<<<<< HEAD
-    hddLog(LOG1, FL("Macaddress : "MAC_ADDRESS_STR"\n"),
-=======
     hddLog(LOG1, FL("Macaddress : "MAC_ADDRESS_STR),
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            MAC_ADDR_ARRAY(WPSPBCProbeReqIEs.macaddr));
     up(&pHddApCtx->semWpsPBCOverlapInd);
     EXIT();
     return 0;
 }
 
-<<<<<<< HEAD
-/**---------------------------------------------------------------------------
-  
-  \brief iw_set_auth_hostap() - 
-=======
 static
 int iw_get_WPSPBCProbeReqIEs(struct net_device *dev,
                              struct iw_request_info *info,
@@ -5241,7 +3153,6 @@ int iw_get_WPSPBCProbeReqIEs(struct net_device *dev,
 /**---------------------------------------------------------------------------
   
   \brief __iw_set_auth_hostap() -
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    This function sets the auth type received from the wpa_supplicant.
    
   \param  - dev - Pointer to the net device.
@@ -5251,15 +3162,6 @@ int iw_get_WPSPBCProbeReqIEs(struct net_device *dev,
   \return - 0 for success, non zero for failure
   
   --------------------------------------------------------------------------*/
-<<<<<<< HEAD
-int iw_set_auth_hostap(struct net_device *dev,struct iw_request_info *info,
-                        union iwreq_data *wrqu,char *extra)
-{
-   hdd_adapter_t *pAdapter = WLAN_HDD_GET_PRIV_PTR(dev);
-   hdd_wext_state_t *pWextState = WLAN_HDD_GET_WEXT_STATE_PTR(pAdapter); 
-
-   ENTER();
-=======
 int __iw_set_auth_hostap(struct net_device *dev,
                          struct iw_request_info *info,
                          union iwreq_data *wrqu,char *extra)
@@ -5292,7 +3194,6 @@ int __iw_set_auth_hostap(struct net_device *dev,
                  "%s: pWextState is NULL",__func__);
        return -EINVAL;
    }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    switch(wrqu->param.flags & IW_AUTH_INDEX)
    {
       case IW_AUTH_TKIP_COUNTERMEASURES:
@@ -5301,13 +3202,8 @@ int __iw_set_auth_hostap(struct net_device *dev,
             hddLog(VOS_TRACE_LEVEL_INFO_HIGH,
                    "Counter Measure started %d", wrqu->param.value);
             pWextState->mTKIPCounterMeasures = TKIP_COUNTER_MEASURE_STARTED;
-<<<<<<< HEAD
-         }  
-         else {   
-=======
          }
          else {
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             hddLog(VOS_TRACE_LEVEL_INFO_HIGH,
                    "Counter Measure stopped=%d", wrqu->param.value);
             pWextState->mTKIPCounterMeasures = TKIP_COUNTER_MEASURE_STOPED;
@@ -5315,41 +3211,20 @@ int __iw_set_auth_hostap(struct net_device *dev,
 
          hdd_softap_tkip_mic_fail_counter_measure(pAdapter,
                                                   wrqu->param.value);
-<<<<<<< HEAD
-      }   
-      break;
-         
-      default:
-         
-=======
       }
       break;
 
       default:
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          hddLog(LOGW, "%s called with unsupported auth type %d", __func__, 
                wrqu->param.flags & IW_AUTH_INDEX);
       break;
    }
-<<<<<<< HEAD
-   
-=======
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    EXIT();
    return 0;
 }
 
-<<<<<<< HEAD
-static int iw_set_ap_encodeext(struct net_device *dev, 
-                        struct iw_request_info *info,
-                        union iwreq_data *wrqu, char *extra)
-{
-    hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-    v_CONTEXT_t pVosContext = (WLAN_HDD_GET_CTX(pHostapdAdapter))->pvosContext;    
-    hdd_ap_ctx_t *pHddApCtx = WLAN_HDD_GET_AP_CTX_PTR(pHostapdAdapter);
-=======
 int iw_set_auth_hostap(struct net_device *dev,
                        struct iw_request_info *info,
                        union iwreq_data *wrqu,char *extra)
@@ -5371,25 +3246,12 @@ static int __iw_set_ap_encodeext(struct net_device *dev,
     v_CONTEXT_t pVosContext;
     hdd_context_t *pHddCtx;
     hdd_ap_ctx_t *pHddApCtx;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     int retval = 0;
     VOS_STATUS vstatus;
     struct iw_encode_ext *ext = (struct iw_encode_ext*)extra;
     v_U8_t groupmacaddr[WNI_CFG_BSSID_LEN] = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
     int key_index;
     struct iw_point *encoding = &wrqu->encoding;
-<<<<<<< HEAD
-    tCsrRoamSetKey  setKey;   
-//    tCsrRoamRemoveKey RemoveKey;
-    int i;
-
-    ENTER();    
-   
-    key_index = encoding->flags & IW_ENCODE_INDEX;
-   
-    if(key_index > 0) {
-      
-=======
     tCsrRoamSetKey  setKey;
 //    tCsrRoamRemoveKey RemoveKey;
     int i;
@@ -5428,25 +3290,16 @@ static int __iw_set_ap_encodeext(struct net_device *dev,
 
     if(key_index > 0) {
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          /*Convert from 1-based to 0-based keying*/
         key_index--;
     }
     if(!ext->key_len) {
-<<<<<<< HEAD
-#if 0     
-=======
 #if 0
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       /*Set the encrytion type to NONE*/
 #if 0
        pRoamProfile->EncryptionType.encryptionType[0] = eCSR_ENCRYPT_TYPE_NONE;
 #endif
-<<<<<<< HEAD
-     
-=======
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          RemoveKey.keyId = key_index;
          if(ext->ext_flags & IW_ENCODE_EXT_GROUP_KEY) {
               /*Key direction for group is RX only*/
@@ -5473,15 +3326,9 @@ static int __iw_set_ap_encodeext(struct net_device *dev,
               RemoveKey.encType = eCSR_ENCRYPT_TYPE_NONE;
               break;
          }
-<<<<<<< HEAD
-         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO, "%s: Remove key cipher_alg:%d key_len%d *pEncryptionType :%d \n",
-                    __func__,(int)ext->alg,(int)ext->key_len,RemoveKey.encType);
-         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO, "%s: Peer Mac = "MAC_ADDRESS_STR"\n",
-=======
          VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO, "%s: Remove key cipher_alg:%d key_len%d *pEncryptionType :%d",
                     __func__,(int)ext->alg,(int)ext->key_len,RemoveKey.encType);
          VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO, "%s: Peer Mac = "MAC_ADDRESS_STR,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     __func__, MAC_ADDR_ARRAY(RemoveKey.peerMac));
           );
          vstatus = WLANSAP_DelKeySta( pVosContext, &RemoveKey);
@@ -5586,11 +3433,6 @@ static int __iw_set_ap_encodeext(struct net_device *dev,
     for(i=0; i< ext->key_len; i++)
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
           ("%02x"), setKey.Key[i]);    
-<<<<<<< HEAD
-    VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-          ("\n"));
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     vstatus = WLANSAP_SetKeySta( pVosContext, &setKey);
     if ( vstatus != VOS_STATUS_SUCCESS )
@@ -5599,17 +3441,6 @@ static int __iw_set_ap_encodeext(struct net_device *dev,
                    "[%4d] WLANSAP_SetKeySta returned ERROR status= %d", __LINE__, vstatus );
        retval = -EINVAL;
     }
-<<<<<<< HEAD
-   
-   return retval;
-}
-
-
-static int iw_set_ap_mlme(struct net_device *dev,
-                       struct iw_request_info *info,
-                       union iwreq_data *wrqu,
-                       char *extra)
-=======
 
     EXIT();
     return retval;
@@ -5632,7 +3463,6 @@ static int __iw_set_ap_mlme(struct net_device *dev,
                             struct iw_request_info *info,
                             union iwreq_data *wrqu,
                             char *extra)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
 #if 0
     hdd_adapter_t *pAdapter = (netdev_priv(dev));
@@ -5657,11 +3487,7 @@ static int __iw_set_ap_mlme(struct net_device *dev,
                 //clear all the reason codes
                 if (status != 0)
                 {
-<<<<<<< HEAD
-                    hddLog(LOGE,"%s %d Command Disassociate/Deauthenticate : csrRoamDisconnect failure returned %d \n", __func__, (int)mlme->cmd, (int)status );
-=======
                     hddLog(LOGE,"%s %d Command Disassociate/Deauthenticate : csrRoamDisconnect failure returned %d", __func__, (int)mlme->cmd, (int)status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 }
                 
                netif_stop_queue(dev);
@@ -5669,17 +3495,10 @@ static int __iw_set_ap_mlme(struct net_device *dev,
             }
             else
             {
-<<<<<<< HEAD
-                hddLog(LOGE,"%s %d Command Disassociate/Deauthenticate called but station is not in associated state \n", __func__, (int)mlme->cmd );
-            }
-        default:
-            hddLog(LOGE,"%s %d Command should be Disassociate/Deauthenticate \n", __func__, (int)mlme->cmd );
-=======
                 hddLog(LOGE,"%s %d Command Disassociate/Deauthenticate called but station is not in associated state", __func__, (int)mlme->cmd);
             }
         default:
             hddLog(LOGE,"%s %d Command should be Disassociate/Deauthenticate", __func__, (int)mlme->cmd);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             return -EINVAL;
     }//end of switch
     EXIT();
@@ -5688,23 +3507,6 @@ static int __iw_set_ap_mlme(struct net_device *dev,
 //    return status;
 }
 
-<<<<<<< HEAD
-static int iw_get_ap_rts_threshold(struct net_device *dev,
-            struct iw_request_info *info,
-            union iwreq_data *wrqu, char *extra)
-{
-   hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-   v_U32_t status = 0;
-
-   status = hdd_wlan_get_rts_threshold(pHostapdAdapter, wrqu);
-
-   return status;
-}
-
-static int iw_get_ap_frag_threshold(struct net_device *dev,
-                                 struct iw_request_info *info,
-                                 union iwreq_data *wrqu, char *extra)
-=======
 static int iw_set_ap_mlme(struct net_device *dev,
                             struct iw_request_info *info,
                             union iwreq_data *wrqu,
@@ -5747,7 +3549,6 @@ static int iw_get_ap_rts_threshold(struct net_device *dev,
 static int __iw_get_ap_frag_threshold(struct net_device *dev,
                                       struct iw_request_info *info,
                                       union iwreq_data *wrqu, char *extra)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
     hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
     v_U32_t status = 0;
@@ -5757,28 +3558,6 @@ static int __iw_get_ap_frag_threshold(struct net_device *dev,
     return status;
 }
 
-<<<<<<< HEAD
-static int iw_get_ap_freq(struct net_device *dev, struct iw_request_info *info,
-             struct iw_freq *fwrq, char *extra)
-{
-   v_U32_t status = FALSE, channel = 0, freq = 0;
-   hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-   tHalHandle hHal;
-   hdd_hostapd_state_t *pHostapdState;
-   hdd_ap_ctx_t *pHddApCtx = WLAN_HDD_GET_AP_CTX_PTR(pHostapdAdapter);
-
-   ENTER();
-
-   if ((WLAN_HDD_GET_CTX(pHostapdAdapter))->isLogpInProgress) {
-      VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-                                  "%s:LOGP in Progress. Ignore!!!",__func__);
-      return status;
-   }
-
-   pHostapdState = WLAN_HDD_GET_HOSTAP_STATE_PTR(pHostapdAdapter);
-   hHal = WLAN_HDD_GET_HAL_CTX(pHostapdAdapter);
-
-=======
 static int iw_get_ap_frag_threshold(struct net_device *dev,
                                     struct iw_request_info *info,
                                     union iwreq_data *wrqu, char *extra)
@@ -5840,17 +3619,13 @@ static int __iw_get_ap_freq(struct net_device *dev,
                  "%s: AP context is NULL",__func__);
        return -EINVAL;
    }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if(pHostapdState->bssState == BSS_STOP )
    {
        if (ccmCfgGetInt(hHal, WNI_CFG_CURRENT_CHANNEL, &channel)
                                                   != eHAL_STATUS_SUCCESS)
        {
-<<<<<<< HEAD
-=======
             VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                 FL("failed to get WNI_CFG_CURRENT_CHANNEL from cfg"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            return -EIO;
        }
        else
@@ -5879,30 +3654,6 @@ static int __iw_get_ap_freq(struct net_device *dev,
            fwrq->e = MHZ;
        }
     }
-<<<<<<< HEAD
-   return 0;
-}
-
-static int iw_get_mode(struct net_device *dev,
-        struct iw_request_info *info,
-        union iwreq_data *wrqu,
-        char *extra)
-{
-    int status = 0;
-
-    wrqu->mode = IW_MODE_MASTER;
-
-    return status;
-}
-
-static int iw_softap_setwpsie(struct net_device *dev,
-        struct iw_request_info *info,
-        union iwreq_data *wrqu, 
-        char *extra)
-{
-   hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-   v_CONTEXT_t pVosContext = (WLAN_HDD_GET_CTX(pHostapdAdapter))->pvosContext;
-=======
 
     EXIT();
     return 0;
@@ -5972,7 +3723,6 @@ static int __iw_softap_setwpsie(struct net_device *dev,
    hdd_adapter_t *pHostapdAdapter;
    hdd_context_t *pHddCtx;
    v_CONTEXT_t pVosContext;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    hdd_hostapd_state_t *pHostapdState;
    eHalStatus halStatus= eHAL_STATUS_SUCCESS;
    u_int8_t *wps_genie;
@@ -5980,33 +3730,6 @@ static int __iw_softap_setwpsie(struct net_device *dev,
    u_int8_t *pos;
    tpSap_WPSIE pSap_WPSIe;
    u_int8_t WPSIeType;
-<<<<<<< HEAD
-   u_int16_t length;   
-   ENTER();
-
-   if(!wrqu->data.length || wrqu->data.length <= QCSAP_MAX_WSC_IE)
-      return 0;
-
-   wps_genie = kmalloc(wrqu->data.length, GFP_KERNEL);
-
-   if(NULL == wps_genie) {
-       hddLog(LOG1, "unable to allocate memory");
-       return -ENOMEM;
-   }
-   fwps_genie = wps_genie;
-   if (copy_from_user((void *)wps_genie,
-       wrqu->data.pointer, wrqu->data.length))
-   {
-       hddLog(LOG1, "%s: failed to copy data to user buffer", __func__);
-       kfree(fwps_genie);
-       return -EFAULT;
-   }
-
-   pSap_WPSIe = vos_mem_malloc(sizeof(tSap_WPSIE));
-   if (NULL == pSap_WPSIe) 
-   {
-      hddLog(LOGE, "VOS unable to allocate memory\n");
-=======
    u_int16_t length;
    struct iw_point s_priv_data;
    int ret = 0;
@@ -6067,17 +3790,12 @@ static int __iw_softap_setwpsie(struct net_device *dev,
    if (NULL == pSap_WPSIe) 
    {
       hddLog(LOGE, "VOS unable to allocate memory");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       kfree(fwps_genie);
       return -ENOMEM;
    }
    vos_mem_zero(pSap_WPSIe, sizeof(tSap_WPSIE));
  
-<<<<<<< HEAD
-   hddLog(LOG1,"%s WPS IE type[0x%X] IE[0x%X], LEN[%d]\n", __func__, wps_genie[0], wps_genie[1], wps_genie[2]);
-=======
    hddLog(LOG1,"%s WPS IE type[0x%X] IE[0x%X], LEN[%d]", __func__, wps_genie[0], wps_genie[1], wps_genie[2]);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    WPSIeType = wps_genie[0];
    if ( wps_genie[0] == eQC_WPS_BEACON_IE)
    {
@@ -6088,14 +3806,8 @@ static int __iw_softap_setwpsie(struct net_device *dev,
          case DOT11F_EID_WPA: 
             if (wps_genie[1] < 2 + 4)
             {
-<<<<<<< HEAD
-               vos_mem_free(pSap_WPSIe); 
-               kfree(fwps_genie);
-               return -EINVAL;
-=======
                ret = -EINVAL;
                goto exit;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             }
             else if (memcmp(&wps_genie[2], "\x00\x50\xf2\x04", 4) == 0) 
             {
@@ -6108,11 +3820,7 @@ static int __iw_softap_setwpsie(struct net_device *dev,
                    case HDD_WPS_ELEM_VERSION:
                       pos += 4;
                       pSap_WPSIe->sapwpsie.sapWPSBeaconIE.Version = *pos;   
-<<<<<<< HEAD
-                      hddLog(LOG1, "WPS version %d\n", pSap_WPSIe->sapwpsie.sapWPSBeaconIE.Version);
-=======
                       hddLog(LOG1, "WPS version %d", pSap_WPSIe->sapwpsie.sapWPSBeaconIE.Version);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pSap_WPSIe->sapwpsie.sapWPSBeaconIE.FieldPresent |= WPS_BEACON_VER_PRESENT;   
                       pos += 1;
                       break;
@@ -6120,55 +3828,35 @@ static int __iw_softap_setwpsie(struct net_device *dev,
                    case HDD_WPS_ELEM_WPS_STATE:
                       pos +=4;
                       pSap_WPSIe->sapwpsie.sapWPSBeaconIE.wpsState = *pos;
-<<<<<<< HEAD
-                      hddLog(LOG1, "WPS State %d\n", pSap_WPSIe->sapwpsie.sapWPSBeaconIE.wpsState);
-=======
                       hddLog(LOG1, "WPS State %d", pSap_WPSIe->sapwpsie.sapWPSBeaconIE.wpsState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pSap_WPSIe->sapwpsie.sapWPSBeaconIE.FieldPresent |= WPS_BEACON_STATE_PRESENT;
                       pos += 1;
                       break;
                    case HDD_WPS_ELEM_APSETUPLOCK:
                       pos += 4;
                       pSap_WPSIe->sapwpsie.sapWPSBeaconIE.APSetupLocked = *pos;
-<<<<<<< HEAD
-                      hddLog(LOG1, "AP setup lock %d\n", pSap_WPSIe->sapwpsie.sapWPSBeaconIE.APSetupLocked);
-=======
                       hddLog(LOG1, "AP setup lock %d", pSap_WPSIe->sapwpsie.sapWPSBeaconIE.APSetupLocked);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pSap_WPSIe->sapwpsie.sapWPSBeaconIE.FieldPresent |= WPS_BEACON_APSETUPLOCK_PRESENT;
                       pos += 1;
                       break;
                    case HDD_WPS_ELEM_SELECTEDREGISTRA:
                       pos += 4;
                       pSap_WPSIe->sapwpsie.sapWPSBeaconIE.SelectedRegistra = *pos;
-<<<<<<< HEAD
-                      hddLog(LOG1, "Selected Registra %d\n", pSap_WPSIe->sapwpsie.sapWPSBeaconIE.SelectedRegistra);
-=======
                       hddLog(LOG1, "Selected Registra %d", pSap_WPSIe->sapwpsie.sapWPSBeaconIE.SelectedRegistra);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pSap_WPSIe->sapwpsie.sapWPSBeaconIE.FieldPresent |= WPS_BEACON_SELECTEDREGISTRA_PRESENT;
                       pos += 1;
                       break;
                    case HDD_WPS_ELEM_DEVICE_PASSWORD_ID:
                       pos += 4;
                       pSap_WPSIe->sapwpsie.sapWPSBeaconIE.DevicePasswordID = (*pos<<8) | *(pos+1);
-<<<<<<< HEAD
-                      hddLog(LOG1, "Password ID: %x\n", pSap_WPSIe->sapwpsie.sapWPSBeaconIE.DevicePasswordID);
-=======
                       hddLog(LOG1, "Password ID: %x", pSap_WPSIe->sapwpsie.sapWPSBeaconIE.DevicePasswordID);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pSap_WPSIe->sapwpsie.sapWPSBeaconIE.FieldPresent |= WPS_BEACON_DEVICEPASSWORDID_PRESENT;
                       pos += 2; 
                       break;
                    case HDD_WPS_ELEM_REGISTRA_CONF_METHODS:
                       pos += 4;
                       pSap_WPSIe->sapwpsie.sapWPSBeaconIE.SelectedRegistraCfgMethod = (*pos<<8) | *(pos+1);
-<<<<<<< HEAD
-                      hddLog(LOG1, "Select Registra Config Methods: %x\n", pSap_WPSIe->sapwpsie.sapWPSBeaconIE.SelectedRegistraCfgMethod);
-=======
                       hddLog(LOG1, "Select Registra Config Methods: %x", pSap_WPSIe->sapwpsie.sapWPSBeaconIE.SelectedRegistraCfgMethod);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pSap_WPSIe->sapwpsie.sapWPSBeaconIE.FieldPresent |= WPS_BEACON_SELECTEDREGISTRACFGMETHOD_PRESENT;
                       pos += 2; 
                       break;
@@ -6177,14 +3865,11 @@ static int __iw_softap_setwpsie(struct net_device *dev,
                       pos += 2; 
                       length = *pos<<8 | *(pos+1);
                       pos += 2;
-<<<<<<< HEAD
-=======
                       if (length > sizeof(pSap_WPSIe->sapwpsie.sapWPSBeaconIE.UUID_E))
                       {
                           ret = -EINVAL;
                           goto exit;
                       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       vos_mem_copy(pSap_WPSIe->sapwpsie.sapWPSBeaconIE.UUID_E, pos, length);
                       pSap_WPSIe->sapwpsie.sapWPSBeaconIE.FieldPresent |= WPS_BEACON_UUIDE_PRESENT; 
                       pos += length;
@@ -6192,26 +3877,15 @@ static int __iw_softap_setwpsie(struct net_device *dev,
                    case HDD_WPS_ELEM_RF_BANDS:
                       pos += 4;
                       pSap_WPSIe->sapwpsie.sapWPSBeaconIE.RFBand = *pos;
-<<<<<<< HEAD
-                      hddLog(LOG1, "RF band: %d\n", pSap_WPSIe->sapwpsie.sapWPSBeaconIE.RFBand);
-=======
                       hddLog(LOG1, "RF band: %d", pSap_WPSIe->sapwpsie.sapWPSBeaconIE.RFBand);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pSap_WPSIe->sapwpsie.sapWPSBeaconIE.FieldPresent |= WPS_BEACON_RF_BANDS_PRESENT;
                       pos += 1;
                       break;
                    
                    default:
-<<<<<<< HEAD
-                      hddLog (LOGW, "UNKNOWN TLV in WPS IE(%x)\n", (*pos<<8 | *(pos+1)));
-                      vos_mem_free(pSap_WPSIe);
-                      kfree(fwps_genie);
-                      return -EINVAL; 
-=======
                       hddLog (LOGW, "UNKNOWN TLV in WPS IE(%x)", (*pos<<8 | *(pos+1)));
                       ret = -EINVAL;
                       goto exit;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 }
               }  
             }
@@ -6223,14 +3897,8 @@ static int __iw_softap_setwpsie(struct net_device *dev,
                  
          default:
             hddLog (LOGE, "%s Set UNKNOWN IE %X",__func__, wps_genie[0]);
-<<<<<<< HEAD
-            vos_mem_free(pSap_WPSIe);
-            kfree(fwps_genie);
-            return 0;
-=======
             ret = -EINVAL;
             goto exit;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
     } 
     else if( wps_genie[0] == eQC_WPS_PROBE_RSP_IE)
@@ -6242,14 +3910,8 @@ static int __iw_softap_setwpsie(struct net_device *dev,
          case DOT11F_EID_WPA: 
             if (wps_genie[1] < 2 + 4)
             {
-<<<<<<< HEAD
-               vos_mem_free(pSap_WPSIe); 
-               kfree(fwps_genie);
-               return -EINVAL;
-=======
                 ret = -EINVAL;
                 goto exit;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             }
             else if (memcmp(&wps_genie[2], "\x00\x50\xf2\x04", 4) == 0) 
             {
@@ -6262,11 +3924,7 @@ static int __iw_softap_setwpsie(struct net_device *dev,
                    case HDD_WPS_ELEM_VERSION:
                       pos += 4;
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.Version = *pos;   
-<<<<<<< HEAD
-                      hddLog(LOG1, "WPS version %d\n", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.Version); 
-=======
                       hddLog(LOG1, "WPS version %d", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.Version);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.FieldPresent |= WPS_PROBRSP_VER_PRESENT;   
                       pos += 1;
                       break;
@@ -6274,66 +3932,42 @@ static int __iw_softap_setwpsie(struct net_device *dev,
                    case HDD_WPS_ELEM_WPS_STATE:
                       pos +=4;
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.wpsState = *pos;
-<<<<<<< HEAD
-                      hddLog(LOG1, "WPS State %d\n", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.wpsState);
-=======
                       hddLog(LOG1, "WPS State %d", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.wpsState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.FieldPresent |= WPS_PROBRSP_STATE_PRESENT;
                       pos += 1;
                       break;
                    case HDD_WPS_ELEM_APSETUPLOCK:
                       pos += 4;
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.APSetupLocked = *pos;
-<<<<<<< HEAD
-                      hddLog(LOG1, "AP setup lock %d\n", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.APSetupLocked);
-=======
                       hddLog(LOG1, "AP setup lock %d", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.APSetupLocked);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.FieldPresent |= WPS_PROBRSP_APSETUPLOCK_PRESENT;
                       pos += 1;
                       break;
                    case HDD_WPS_ELEM_SELECTEDREGISTRA:
                       pos += 4;
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.SelectedRegistra = *pos;
-<<<<<<< HEAD
-                      hddLog(LOG1, "Selected Registra %d\n", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.SelectedRegistra);
-=======
                       hddLog(LOG1, "Selected Registra %d", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.SelectedRegistra);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.FieldPresent |= WPS_PROBRSP_SELECTEDREGISTRA_PRESENT;                      
                       pos += 1;
                       break;
                    case HDD_WPS_ELEM_DEVICE_PASSWORD_ID:
                       pos += 4;
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.DevicePasswordID = (*pos<<8) | *(pos+1);
-<<<<<<< HEAD
-                      hddLog(LOG1, "Password ID: %d\n", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.DevicePasswordID);
-=======
                       hddLog(LOG1, "Password ID: %d", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.DevicePasswordID);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.FieldPresent |= WPS_PROBRSP_DEVICEPASSWORDID_PRESENT;
                       pos += 2; 
                       break;
                    case HDD_WPS_ELEM_REGISTRA_CONF_METHODS:
                       pos += 4;
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.SelectedRegistraCfgMethod = (*pos<<8) | *(pos+1);
-<<<<<<< HEAD
-                      hddLog(LOG1, "Select Registra Config Methods: %x\n", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.SelectedRegistraCfgMethod);
-=======
                       hddLog(LOG1, "Select Registra Config Methods: %x", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.SelectedRegistraCfgMethod);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.FieldPresent |= WPS_PROBRSP_SELECTEDREGISTRACFGMETHOD_PRESENT;
                       pos += 2; 
                       break;
                   case HDD_WPS_ELEM_RSP_TYPE:
                       pos += 4;
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.ResponseType = *pos;
-<<<<<<< HEAD
-                      hddLog(LOG1, "Config Methods: %d\n", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.ResponseType);
-=======
                       hddLog(LOG1, "Config Methods: %d", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.ResponseType);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.FieldPresent |= WPS_PROBRSP_RESPONSETYPE_PRESENT;
                       pos += 1;
                       break;
@@ -6341,14 +3975,11 @@ static int __iw_softap_setwpsie(struct net_device *dev,
                       pos += 2; 
                       length = *pos<<8 | *(pos+1);
                       pos += 2;
-<<<<<<< HEAD
-=======
                       if (length > (sizeof(pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.UUID_E)))
                       {
                           ret = -EINVAL;
                           goto exit;
                       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       vos_mem_copy(pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.UUID_E, pos, length);
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.FieldPresent |= WPS_PROBRSP_UUIDE_PRESENT;
                       pos += length;
@@ -6358,14 +3989,11 @@ static int __iw_softap_setwpsie(struct net_device *dev,
                       pos += 2;
                       length = *pos<<8 | *(pos+1);
                       pos += 2;
-<<<<<<< HEAD
-=======
                       if (length >  (sizeof(pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.Manufacture.name)))
                       {
                           ret = -EINVAL;
                           goto exit;
                       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.Manufacture.num_name = length;
                       vos_mem_copy(pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.Manufacture.name, pos, length);
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.FieldPresent |= WPS_PROBRSP_MANUFACTURE_PRESENT;
@@ -6376,14 +4004,11 @@ static int __iw_softap_setwpsie(struct net_device *dev,
                       pos += 2;
                       length = *pos<<8 | *(pos+1);
                       pos += 2;
-<<<<<<< HEAD
-=======
                       if (length > (sizeof(pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.ModelName.text)))
                       {
                           ret = -EINVAL;
                           goto exit;
                       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.ModelName.num_text = length;
                       vos_mem_copy(pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.ModelName.text, pos, length);
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.FieldPresent |= WPS_PROBRSP_MODELNAME_PRESENT;
@@ -6393,14 +4018,11 @@ static int __iw_softap_setwpsie(struct net_device *dev,
                       pos += 2;
                       length = *pos<<8 | *(pos+1);
                       pos += 2;
-<<<<<<< HEAD
-=======
                       if (length > (sizeof(pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.ModelNumber.text)))
                       {
                           ret = -EINVAL;
                           goto exit;
                       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.ModelNumber.num_text = length;
                       vos_mem_copy(pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.ModelNumber.text, pos, length);
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.FieldPresent |= WPS_PROBRSP_MODELNUMBER_PRESENT;
@@ -6410,14 +4032,11 @@ static int __iw_softap_setwpsie(struct net_device *dev,
                       pos += 2;
                       length = *pos<<8 | *(pos+1);
                       pos += 2;
-<<<<<<< HEAD
-=======
                       if (length > (sizeof(pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.SerialNumber.text)))
                       {
                           ret = -EINVAL;
                           goto exit;
                       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.SerialNumber.num_text = length;
                       vos_mem_copy(pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.SerialNumber.text, pos, length);
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.FieldPresent |= WPS_PROBRSP_SERIALNUMBER_PRESENT;
@@ -6426,16 +4045,6 @@ static int __iw_softap_setwpsie(struct net_device *dev,
                    case HDD_WPS_ELEM_PRIMARY_DEVICE_TYPE:
                       pos += 4;
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.PrimaryDeviceCategory = (*pos<<8 | *(pos+1));
-<<<<<<< HEAD
-                      hddLog(LOG1, "primary dev category: %d\n", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.PrimaryDeviceCategory);  
-                      pos += 2;
-                      
-                      vos_mem_copy(pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.PrimaryDeviceOUI, pos, HDD_WPS_DEVICE_OUI_LEN);
-                      hddLog(LOG1, "primary dev oui: %02x, %02x, %02x, %02x\n", pos[0], pos[1], pos[2], pos[3]);
-                      pos += 4;
-                      pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.DeviceSubCategory = (*pos<<8 | *(pos+1));
-                      hddLog(LOG1, "primary dev sub category: %d\n", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.DeviceSubCategory);  
-=======
                       hddLog(LOG1, "primary dev category: %d", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.PrimaryDeviceCategory);
                       pos += 2;
                       
@@ -6444,7 +4053,6 @@ static int __iw_softap_setwpsie(struct net_device *dev,
                       pos += 4;
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.DeviceSubCategory = (*pos<<8 | *(pos+1));
                       hddLog(LOG1, "primary dev sub category: %d", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.DeviceSubCategory);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pos += 2;
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.FieldPresent |= WPS_PROBRSP_PRIMARYDEVICETYPE_PRESENT;                      
                       break;
@@ -6452,14 +4060,11 @@ static int __iw_softap_setwpsie(struct net_device *dev,
                       pos += 2;
                       length = *pos<<8 | *(pos+1);
                       pos += 2;
-<<<<<<< HEAD
-=======
                       if (length > (sizeof(pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.DeviceName.text)))
                       {
                           ret = -EINVAL;
                           goto exit;
                       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.DeviceName.num_text = length;
                       vos_mem_copy(pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.DeviceName.text, pos, length);
                       pos += length;
@@ -6468,11 +4073,7 @@ static int __iw_softap_setwpsie(struct net_device *dev,
                    case HDD_WPS_ELEM_CONFIG_METHODS:
                       pos += 4;
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.ConfigMethod = (*pos<<8) | *(pos+1);
-<<<<<<< HEAD
-                      hddLog(LOG1, "Config Methods: %d\n", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.SelectedRegistraCfgMethod);
-=======
                       hddLog(LOG1, "Config Methods: %d", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.SelectedRegistraCfgMethod);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pos += 2; 
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.FieldPresent |= WPS_PROBRSP_CONFIGMETHODS_PRESENT;
                       break;
@@ -6480,11 +4081,7 @@ static int __iw_softap_setwpsie(struct net_device *dev,
                    case HDD_WPS_ELEM_RF_BANDS:
                       pos += 4;
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.RFBand = *pos;
-<<<<<<< HEAD
-                      hddLog(LOG1, "RF band: %d\n", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.RFBand);
-=======
                       hddLog(LOG1, "RF band: %d", pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.RFBand);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       pos += 1;
                       pSap_WPSIe->sapwpsie.sapWPSProbeRspIE.FieldPresent |= WPS_PROBRSP_RF_BANDS_PRESENT;
                       break;
@@ -6499,11 +4096,8 @@ static int __iw_softap_setwpsie(struct net_device *dev,
       } // switch
     }
     halStatus = WLANSAP_Set_WpsIe(pVosContext, pSap_WPSIe);
-<<<<<<< HEAD
-=======
     if (halStatus != eHAL_STATUS_SUCCESS)
         ret = -EINVAL;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     pHostapdState = WLAN_HDD_GET_HOSTAP_STATE_PTR(pHostapdAdapter);
     if( pHostapdState->bCommit && WPSIeType == eQC_WPS_PROBE_RSP_IE)
     {
@@ -6512,23 +4106,6 @@ static int __iw_softap_setwpsie(struct net_device *dev,
         WLANSAP_Update_WpsIe ( pVosContext );
     }
  
-<<<<<<< HEAD
-    vos_mem_free(pSap_WPSIe);   
-    kfree(fwps_genie);
-    EXIT();
-    return halStatus;
-}
-
-static int iw_softap_stopbss(struct net_device *dev,
-        struct iw_request_info *info,
-        union iwreq_data *wrqu, 
-        char *extra)
-{
-    hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-    VOS_STATUS status = VOS_STATUS_SUCCESS;
-    ENTER();
-    if(test_bit(SOFTAP_BSS_STARTED, &pHostapdAdapter->event_flags)) 
-=======
 exit:
     vos_mem_free(pSap_WPSIe);   
     kfree(fwps_genie);
@@ -6574,49 +4151,27 @@ static int __iw_softap_stopbss(struct net_device *dev,
     }
 
     if(test_bit(SOFTAP_BSS_STARTED, &pHostapdAdapter->event_flags))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
         if ( VOS_STATUS_SUCCESS == (status = WLANSAP_StopBss((WLAN_HDD_GET_CTX(pHostapdAdapter))->pvosContext) ) )
         {
             hdd_hostapd_state_t *pHostapdState = WLAN_HDD_GET_HOSTAP_STATE_PTR(pHostapdAdapter);
 
             status = vos_wait_single_event(&pHostapdState->vosEvent, 10000);
-<<<<<<< HEAD
-   
-            if (!VOS_IS_STATUS_SUCCESS(status))
-            {  
-                VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR, 
-                         ("ERROR: HDD vos wait for single_event failed!!\n"));
-=======
 
             if (!VOS_IS_STATUS_SUCCESS(status))
             {
                 VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                          ("ERROR: HDD vos wait for single_event failed!!"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 VOS_ASSERT(0);
             }
         }
         clear_bit(SOFTAP_BSS_STARTED, &pHostapdAdapter->event_flags);
-<<<<<<< HEAD
-=======
         wlan_hdd_decr_active_session(pHddCtx, pHostapdAdapter->device_mode);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
     EXIT();
     return (status == VOS_STATUS_SUCCESS) ? 0 : -EBUSY;
 }
 
-<<<<<<< HEAD
-static int iw_softap_version(struct net_device *dev,
-        struct iw_request_info *info,
-        union iwreq_data *wrqu,
-        char *extra)
-{
-    hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-
-    ENTER();
-=======
 static int iw_softap_stopbss(struct net_device *dev,
                              struct iw_request_info *info,
                              union iwreq_data *wrqu,
@@ -6654,14 +4209,11 @@ static int __iw_softap_version(struct net_device *dev,
     {
         return ret;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     hdd_wlan_get_version(pHostapdAdapter, wrqu, extra);
     EXIT();
     return 0;
 }
 
-<<<<<<< HEAD
-=======
 static int iw_softap_version(struct net_device *dev,
                              struct iw_request_info *info,
                              union iwreq_data *wrqu,
@@ -6676,14 +4228,11 @@ static int iw_softap_version(struct net_device *dev,
     return ret;
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 VOS_STATUS hdd_softap_get_sta_info(hdd_adapter_t *pAdapter, v_U8_t *pBuf, int buf_len)
 {
     v_U8_t i;
     int len = 0;
     const char sta_info_header[] = "staId staAddress\n";
-<<<<<<< HEAD
-=======
     v_CONTEXT_t pVosContext;
     hdd_context_t *pHddCtx;
     ptSapContext pSapCtx = NULL;
@@ -6715,7 +4264,6 @@ VOS_STATUS hdd_softap_get_sta_info(hdd_adapter_t *pAdapter, v_U8_t *pBuf, int bu
                  FL("psapCtx is NULL"));
         return VOS_STATUS_E_FAULT;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     len = scnprintf(pBuf, buf_len, sta_info_header);
     pBuf += len;
@@ -6723,19 +4271,6 @@ VOS_STATUS hdd_softap_get_sta_info(hdd_adapter_t *pAdapter, v_U8_t *pBuf, int bu
 
     for (i = 0; i < WLAN_MAX_STA_COUNT; i++)
     {
-<<<<<<< HEAD
-        if(pAdapter->aStaInfo[i].isUsed)
-        {
-            len = scnprintf(pBuf, buf_len, "%*d .%02x:%02x:%02x:%02x:%02x:%02x\n",
-                                       strlen("staId"),
-                                       pAdapter->aStaInfo[i].ucSTAId,
-                                       pAdapter->aStaInfo[i].macAddrSTA.bytes[0],
-                                       pAdapter->aStaInfo[i].macAddrSTA.bytes[1],
-                                       pAdapter->aStaInfo[i].macAddrSTA.bytes[2],
-                                       pAdapter->aStaInfo[i].macAddrSTA.bytes[3],
-                                       pAdapter->aStaInfo[i].macAddrSTA.bytes[4],
-                                       pAdapter->aStaInfo[i].macAddrSTA.bytes[5]);
-=======
         if(pSapCtx->aStaInfo[i].isUsed)
         {
             len = scnprintf(pBuf, buf_len, "%5d .%02x:%02x:%02x:%02x:%02x:%02x\n",
@@ -6746,7 +4281,6 @@ VOS_STATUS hdd_softap_get_sta_info(hdd_adapter_t *pAdapter, v_U8_t *pBuf, int bu
                                        pSapCtx->aStaInfo[i].macAddrSTA.bytes[3],
                                        pSapCtx->aStaInfo[i].macAddrSTA.bytes[4],
                                        pSapCtx->aStaInfo[i].macAddrSTA.bytes[5]);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pBuf += len;
             buf_len -= len;
         }
@@ -6755,15 +4289,6 @@ VOS_STATUS hdd_softap_get_sta_info(hdd_adapter_t *pAdapter, v_U8_t *pBuf, int bu
             break;
         }
     }
-<<<<<<< HEAD
-    return VOS_STATUS_SUCCESS;
-}
-
-static int iw_softap_get_sta_info(struct net_device *dev,
-        struct iw_request_info *info,
-        union iwreq_data *wrqu, 
-        char *extra)
-=======
     EXIT();
     return VOS_STATUS_SUCCESS;
 }
@@ -6772,18 +4297,13 @@ static int __iw_softap_get_sta_info(struct net_device *dev,
                                     struct iw_request_info *info,
                                     union iwreq_data *wrqu,
                                     char *extra)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
     hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
     VOS_STATUS status;
     ENTER();
     status = hdd_softap_get_sta_info(pHostapdAdapter, extra, WE_SAP_MAX_STA_INFO);
     if ( !VOS_IS_STATUS_SUCCESS( status ) ) {
-<<<<<<< HEAD
-       hddLog(VOS_TRACE_LEVEL_ERROR, "%s Failed!!!\n",__func__);
-=======
        hddLog(VOS_TRACE_LEVEL_ERROR, "%s Failed!!!",__func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        return -EINVAL;
     }
     wrqu->data.length = strlen(extra);
@@ -6791,21 +4311,6 @@ static int __iw_softap_get_sta_info(struct net_device *dev,
     return 0;
 }
 
-<<<<<<< HEAD
-static int iw_set_ap_genie(struct net_device *dev,
-        struct iw_request_info *info,
-        union iwreq_data *wrqu, 
-        char *extra)
-{
- 
-    hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-    v_CONTEXT_t pVosContext = (WLAN_HDD_GET_CTX(pHostapdAdapter))->pvosContext;
-    eHalStatus halStatus= eHAL_STATUS_SUCCESS;
-    u_int8_t *genie = (u_int8_t *)extra;
-    
-    ENTER();
-    
-=======
 static int iw_softap_get_sta_info(struct net_device *dev,
                                   struct iw_request_info *info,
                                   union iwreq_data *wrqu,
@@ -6853,49 +4358,29 @@ static int __iw_set_ap_genie(struct net_device *dev,
                   "%s: VOS Context is NULL",__func__);
         return -EINVAL;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if(!wrqu->data.length)
     {
         EXIT();
         return 0;
     }
 
-<<<<<<< HEAD
-    switch (genie[0]) 
-    {
-        case DOT11F_EID_WPA: 
-=======
     switch (genie[0])
     {
         case DOT11F_EID_WPA:
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         case DOT11F_EID_RSN:
             if((WLAN_HDD_GET_AP_CTX_PTR(pHostapdAdapter))->uPrivacy == 0)
             {
                 hdd_softap_Deregister_BC_STA(pHostapdAdapter);
                 hdd_softap_Register_BC_STA(pHostapdAdapter, 1);
-<<<<<<< HEAD
-            }   
-            (WLAN_HDD_GET_AP_CTX_PTR(pHostapdAdapter))->uPrivacy = 1;
-            halStatus = WLANSAP_Set_WPARSNIes(pVosContext, genie, wrqu->data.length);
-            break;
-            
-=======
             }
             (WLAN_HDD_GET_AP_CTX_PTR(pHostapdAdapter))->uPrivacy = 1;
             halStatus = WLANSAP_Set_WPARSNIes(pVosContext, genie, wrqu->data.length);
             break;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         default:
             hddLog (LOGE, "%s Set UNKNOWN IE %X",__func__, genie[0]);
             halStatus = 0;
     }
-<<<<<<< HEAD
-    
-    EXIT();
-    return halStatus; 
-=======
 
     EXIT();
     return halStatus;
@@ -6912,7 +4397,6 @@ static int iw_set_ap_genie(struct net_device *dev,
     vos_ssr_unprotect(__func__);
 
     return ret;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 static VOS_STATUS  wlan_hdd_get_classAstats_for_station(hdd_adapter_t *pAdapter, u8 staid)
@@ -6923,11 +4407,7 @@ static VOS_STATUS  wlan_hdd_get_classAstats_for_station(hdd_adapter_t *pAdapter,
 
    if (NULL == pAdapter)
    {
-<<<<<<< HEAD
-      hddLog(VOS_TRACE_LEVEL_ERROR,"%s: Padapter is NULL", __func__);
-=======
       hddLog(VOS_TRACE_LEVEL_ERROR,"%s: pAdapter is NULL", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return VOS_STATUS_E_FAULT;
    }
 
@@ -6978,15 +4458,6 @@ static VOS_STATUS  wlan_hdd_get_classAstats_for_station(hdd_adapter_t *pAdapter,
    return VOS_STATUS_SUCCESS;
 }
 
-<<<<<<< HEAD
-int iw_get_softap_linkspeed(struct net_device *dev,
-        struct iw_request_info *info,
-        union iwreq_data *wrqu,
-        char *extra)
-
-{
-   hdd_adapter_t *pHostapdAdapter = (netdev_priv(dev));
-=======
 int __iw_get_softap_linkspeed(struct net_device *dev,
                             struct iw_request_info *info,
                             union iwreq_data *wrqu,
@@ -6994,7 +4465,6 @@ int __iw_get_softap_linkspeed(struct net_device *dev,
 
 {
    hdd_adapter_t *pHostapdAdapter;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    hdd_context_t *pHddCtx;
    char *pLinkSpeed = (char*)extra;
    char *pmacAddress;
@@ -7002,52 +4472,6 @@ int __iw_get_softap_linkspeed(struct net_device *dev,
    unsigned short staId;
    int len = sizeof(v_U32_t)+1;
    v_BYTE_t macAddress[VOS_MAC_ADDR_SIZE];
-<<<<<<< HEAD
-   VOS_STATUS status;
-   int rc, valid;
-
-   pHddCtx = WLAN_HDD_GET_CTX(pHostapdAdapter);
-
-   valid = wlan_hdd_validate_context(pHddCtx);
-
-   if (0 != valid)
-   {
-       hddLog(VOS_TRACE_LEVEL_ERROR, FL("HDD context not valid"));
-       return valid;
-   }
-
-   hddLog(VOS_TRACE_LEVEL_INFO, "%s wrqu->data.length= %d\n", __func__, wrqu->data.length);
-   if (wrqu->data.length != MAC_ADDRESS_STR_LEN)
-   {
-       hddLog(LOG1, "Invalid length");
-       return -EINVAL;
-   }
-   pmacAddress = kmalloc(MAC_ADDRESS_STR_LEN, GFP_KERNEL);
-   if(NULL == pmacAddress) {
-       hddLog(LOG1, "unable to allocate memory");
-       return -ENOMEM;
-   }
-   if (copy_from_user((void *)pmacAddress,
-       wrqu->data.pointer, wrqu->data.length))
-   {
-       hddLog(LOG1, "%s: failed to copy data to user buffer", __func__);
-       kfree(pmacAddress);
-       return -EFAULT;
-   }
-
-   status = hdd_string_to_hex (pmacAddress, wrqu->data.length, macAddress );
-   kfree(pmacAddress);
-
-   if (!VOS_IS_STATUS_SUCCESS(status ))
-   {
-      hddLog(VOS_TRACE_LEVEL_ERROR, FL("String to Hex conversion Failed"));
-   }
-
-   /* If no mac address is passed and/or its length is less than 17,
-    * link speed for first connected client will be returned.
-    */
-   if (!VOS_IS_STATUS_SUCCESS(status ) || wrqu->data.length < 17)
-=======
    VOS_STATUS status = VOS_STATUS_E_FAILURE;
    int rc, valid;
 
@@ -7097,7 +4521,6 @@ int __iw_get_softap_linkspeed(struct net_device *dev,
     * link speed for first connected client will be returned.
     */
    if (wrqu->data.length < 17 || !VOS_IS_STATUS_SUCCESS(status ))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    {
       status = hdd_softap_GetConnectedStaId(pHostapdAdapter, (void *)(&staId));
    }
@@ -7139,11 +4562,7 @@ int __iw_get_softap_linkspeed(struct net_device *dev,
    }
 
    wrqu->data.length = len;
-<<<<<<< HEAD
-   rc = snprintf(pLinkSpeed, len, "%lu", link_speed);
-=======
    rc = snprintf(pLinkSpeed, len, "%u", link_speed);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    if ((rc < 0) || (rc >= len))
    {
@@ -7152,11 +4571,6 @@ int __iw_get_softap_linkspeed(struct net_device *dev,
       return -EIO;
    }
 
-<<<<<<< HEAD
-   return 0;
-}
-
-=======
    EXIT();
    return 0;
 }
@@ -7176,7 +4590,6 @@ int iw_get_softap_linkspeed(struct net_device *dev,
 }
 
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 static const iw_handler      hostapd_handler[] =
 {
    (iw_handler) NULL,           /* SIOCSIWCOMMIT */
@@ -7236,29 +4649,20 @@ static const iw_handler      hostapd_handler[] =
    (iw_handler) NULL,           /* SIOCSIWPMKSA */
 };
 
-<<<<<<< HEAD
-#define    IW_PRIV_TYPE_OPTIE    (IW_PRIV_TYPE_BYTE | QCSAP_MAX_OPT_IE)
-#define    IW_PRIV_TYPE_MLME \
-  (IW_PRIV_TYPE_BYTE | sizeof(struct ieee80211req_mlme))
-=======
 /*
  * Note that the following ioctls were defined with semantics which
  * cannot be handled by the "iwpriv" userspace application and hence
  * they are not included in the hostapd_private_args array
  *     QCSAP_IOCTL_ASSOC_STA_MACADDR
  */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 static const struct iw_priv_args hostapd_private_args[] = {
   { QCSAP_IOCTL_SETPARAM,
       IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 2, 0, "setparam" },
   { QCSAP_IOCTL_SETPARAM,
       IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1, 0, "" },
-<<<<<<< HEAD
-=======
   { QCSAP_PARAM_GET_FRAME_LOGS,
       IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1, 0, "getFrameLogs" },
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   { QCSAP_PARAM_MAX_ASSOC,
       IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1, 0, "setMaxAssoc" },
    { QCSAP_PARAM_HIDE_SSID,
@@ -7276,24 +4680,12 @@ static const struct iw_priv_args hostapd_private_args[] = {
       IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1,    "getwlandbg" },
   { QCSAP_PARAM_AUTO_CHANNEL, 0,
       IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1,    "getAutoChannel" },
-<<<<<<< HEAD
-  { QCSAP_PARAM_MODULE_DOWN_IND, 0,
-      IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1,    "moduleDownInd" },
-=======
   { QCSAP_PARAM_SET_AUTO_CHANNEL,
       IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1, 0, "setAutoChannel" },
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   { QCSAP_PARAM_CLR_ACL, 0,
       IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1, "setClearAcl" },
   { QCSAP_PARAM_ACL_MODE,
       IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1, 0, "setAclMode" },
-<<<<<<< HEAD
-  { QCSAP_IOCTL_COMMIT,
-      IW_PRIV_TYPE_BYTE | sizeof(struct s_CommitConfig) | IW_PRIV_SIZE_FIXED, 0, "commit" },
-  { QCSAP_IOCTL_SETMLME,
-      IW_PRIV_TYPE_BYTE | sizeof(struct sQcSapreq_mlme)| IW_PRIV_SIZE_FIXED, 0, "setmlme" },
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   { QCSAP_IOCTL_GET_STAWPAIE,
       IW_PRIV_TYPE_BYTE | IW_PRIV_SIZE_FIXED | 1, 0, "get_staWPAIE" },
   { QCSAP_IOCTL_SETWPAIE,
@@ -7305,17 +4697,6 @@ static const struct iw_priv_args hostapd_private_args[] = {
   { QCSAP_IOCTL_GET_STA_INFO, 0,
       IW_PRIV_TYPE_CHAR | WE_SAP_MAX_STA_INFO, "get_sta_info" },
   { QCSAP_IOCTL_GET_WPS_PBC_PROBE_REQ_IES,
-<<<<<<< HEAD
-      IW_PRIV_TYPE_BYTE | sizeof(sQcSapreq_WPSPBCProbeReqIES_t) | IW_PRIV_SIZE_FIXED | 1, 0, "getProbeReqIEs" },
-  { QCSAP_IOCTL_GET_CHANNEL, 0,
-      IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1, "getchannel" },
-  { QCSAP_IOCTL_ASSOC_STA_MACADDR, 0,
-      IW_PRIV_TYPE_BYTE | /*((WLAN_MAX_STA_COUNT*6)+100)*/1 , "get_assoc_stamac" },
-    { QCSAP_IOCTL_DISASSOC_STA,
-        IW_PRIV_TYPE_BYTE | IW_PRIV_SIZE_FIXED | 6 , 0, "disassoc_sta" },
-  { QCSAP_IOCTL_AP_STATS,
-        IW_PRIV_TYPE_BYTE | QCSAP_MAX_WSC_IE, 0, "ap_stats" },
-=======
       IW_PRIV_TYPE_BYTE | sizeof(sQcSapreq_WPSPBCProbeReqIES_t) | IW_PRIV_SIZE_FIXED, 0, "getProbeReqIEs" },
   { QCSAP_IOCTL_GET_CHANNEL, 0,
       IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1, "getchannel" },
@@ -7323,7 +4704,6 @@ static const struct iw_priv_args hostapd_private_args[] = {
         IW_PRIV_TYPE_BYTE | IW_PRIV_SIZE_FIXED | 6 , 0, "disassoc_sta" },
   { QCSAP_IOCTL_AP_STATS, 0,
         IW_PRIV_TYPE_CHAR | QCSAP_MAX_WSC_IE, "ap_stats" },
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   { QCSAP_IOCTL_PRIV_GET_SOFTAP_LINK_SPEED,
         IW_PRIV_TYPE_CHAR | 18,
         IW_PRIV_TYPE_CHAR | 5, "getLinkSpeed" },
@@ -7404,11 +4784,6 @@ static const struct iw_priv_args hostapd_private_args[] = {
 static const iw_handler hostapd_private[] = {
    [QCSAP_IOCTL_SETPARAM - SIOCIWFIRSTPRIV] = iw_softap_setparam,  //set priv ioctl
    [QCSAP_IOCTL_GETPARAM - SIOCIWFIRSTPRIV] = iw_softap_getparam,  //get priv ioctl   
-<<<<<<< HEAD
-   [QCSAP_IOCTL_COMMIT   - SIOCIWFIRSTPRIV] = iw_softap_commit, //get priv ioctl   
-   [QCSAP_IOCTL_SETMLME  - SIOCIWFIRSTPRIV] = iw_softap_setmlme,
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    [QCSAP_IOCTL_GET_STAWPAIE - SIOCIWFIRSTPRIV] = iw_get_genie, //get station genIE
    [QCSAP_IOCTL_SETWPAIE - SIOCIWFIRSTPRIV] = iw_softap_setwpsie,
    [QCSAP_IOCTL_STOPBSS - SIOCIWFIRSTPRIV] = iw_softap_stopbss,       // stop bss
@@ -7418,11 +4793,7 @@ static const iw_handler hostapd_private[] = {
    [QCSAP_IOCTL_ASSOC_STA_MACADDR - SIOCIWFIRSTPRIV] = iw_softap_getassoc_stamacaddr,
    [QCSAP_IOCTL_DISASSOC_STA - SIOCIWFIRSTPRIV] = iw_softap_disassoc_sta,
    [QCSAP_IOCTL_AP_STATS - SIOCIWFIRSTPRIV] = iw_softap_ap_stats,
-<<<<<<< HEAD
-   [QCSAP_IOCTL_PRIV_SET_THREE_INT_GET_NONE - SIOCIWFIRSTPRIV]  = iw_set_three_ints_getnone,   
-=======
    [QCSAP_IOCTL_PRIV_SET_THREE_INT_GET_NONE - SIOCIWFIRSTPRIV]  = iw_set_three_ints_getnone,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    [QCSAP_IOCTL_PRIV_SET_VAR_INT_GET_NONE - SIOCIWFIRSTPRIV]     = iw_set_var_ints_getnone,
    [QCSAP_IOCTL_SET_CHANNEL_RANGE - SIOCIWFIRSTPRIV] = iw_softap_set_channel_range,
    [QCSAP_IOCTL_MODIFY_ACL - SIOCIWFIRSTPRIV]   = iw_softap_modify_acl,
@@ -7480,30 +4851,16 @@ void hdd_set_ap_ops( struct net_device *pWlanHostapdDev )
 }
 
 VOS_STATUS hdd_init_ap_mode( hdd_adapter_t *pAdapter )
-<<<<<<< HEAD
-{   
-=======
 {
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     hdd_hostapd_state_t * phostapdBuf;
     struct net_device *dev = pAdapter->dev;
     hdd_context_t *pHddCtx = WLAN_HDD_GET_CTX(pAdapter);
     VOS_STATUS status;
 #ifdef FEATURE_WLAN_CH_AVOID
-<<<<<<< HEAD
-    v_CONTEXT_t pVosContext = (WLAN_HDD_GET_CTX(pAdapter))->pvosContext;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     v_U16_t unsafeChannelList[NUM_20MHZ_RF_CHANNELS];
     v_U16_t unsafeChannelCount;
 #endif /* FEATURE_WLAN_CH_AVOID */
 
-<<<<<<< HEAD
-    ENTER();
-       // Allocate the Wireless Extensions state structure   
-    phostapdBuf = WLAN_HDD_GET_HOSTAP_STATE_PTR( pAdapter );
- 
-=======
     if (pHddCtx->isLogpInProgress) {
        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
                        "%s:LOGP in Progress. Ignore!!!",__func__);
@@ -7517,7 +4874,6 @@ VOS_STATUS hdd_init_ap_mode( hdd_adapter_t *pAdapter )
     spin_lock_init(&pAdapter->sta_hash_lock);
     pAdapter->is_sta_id_hash_initialized = VOS_FALSE;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     sme_SetCurrDeviceMode(pHddCtx->hHal, pAdapter->device_mode);
 
 #ifdef FEATURE_WLAN_CH_AVOID
@@ -7528,11 +4884,7 @@ VOS_STATUS hdd_init_ap_mode( hdd_adapter_t *pAdapter )
     VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
               "%s : Unsafe Channel count %d",
               __func__, unsafeChannelCount);
-<<<<<<< HEAD
-    hdd_hostapd_update_unsafe_channel_list(pVosContext,
-=======
     hdd_hostapd_update_unsafe_channel_list(pHddCtx,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                   unsafeChannelList,
                                   unsafeChannelCount);
 #endif /* FEATURE_WLAN_CH_AVOID */
@@ -7544,30 +4896,17 @@ VOS_STATUS hdd_init_ap_mode( hdd_adapter_t *pAdapter )
     // NOP
     status = hdd_set_hostapd(pAdapter);
     if(!VOS_IS_STATUS_SUCCESS(status)) {
-<<<<<<< HEAD
-         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR, ("ERROR: hdd_set_hostapd failed!!\n"));
-=======
          VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR, ("ERROR: hdd_set_hostapd failed!!"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          return status;
     }
  
     status = vos_event_init(&phostapdBuf->vosEvent);
     if (!VOS_IS_STATUS_SUCCESS(status))
     {
-<<<<<<< HEAD
-         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR, ("ERROR: Hostapd HDD vos event init failed!!\n"));
-         return status;
-    }
-    
-    init_completion(&pAdapter->session_close_comp_var);
-    init_completion(&pAdapter->session_open_comp_var);
-=======
          VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR, ("ERROR: Hostapd HDD vos event init failed!!"));
          return status;
     }
     
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     sema_init(&(WLAN_HDD_GET_AP_CTX_PTR(pAdapter))->semWpsPBCOverlapInd, 1);
  
@@ -7585,22 +4924,13 @@ VOS_STATUS hdd_init_ap_mode( hdd_adapter_t *pAdapter )
     if (!VOS_IS_STATUS_SUCCESS(status))
     {
        hddLog(VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-             "hdd_wmm_adapter_init() failed with status code %08d [x%08lx]",
-=======
              "hdd_wmm_adapter_init() failed with status code %08d [x%08x]",
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                              status, status );
        goto error_wmm_init;
     }
 
     set_bit(WMM_INIT_DONE, &pAdapter->event_flags);
 
-<<<<<<< HEAD
-    wlan_hdd_set_monitor_tx_adapter( WLAN_HDD_GET_CTX(pAdapter), pAdapter );
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return status;
 
 error_wmm_init:
@@ -7615,16 +4945,11 @@ hdd_adapter_t* hdd_wlan_create_ap_dev( hdd_context_t *pHddCtx, tSirMacAddr macAd
     hdd_adapter_t *pHostapdAdapter = NULL;
     v_CONTEXT_t pVosContext= NULL;
 
-<<<<<<< HEAD
-   pWlanHostapdDev = alloc_netdev_mq(sizeof(hdd_adapter_t), iface_name, ether_setup, NUM_TX_QUEUES);
-
-=======
     pWlanHostapdDev = alloc_netdev_mq(sizeof(hdd_adapter_t), iface_name,
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,17,0))
                                       NET_NAME_UNKNOWN,
 #endif
                                       ether_setup, NUM_TX_QUEUES);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (pWlanHostapdDev != NULL)
     {
         pHostapdAdapter = netdev_priv(pWlanHostapdDev);
@@ -7648,10 +4973,6 @@ hdd_adapter_t* hdd_wlan_create_ap_dev( hdd_context_t *pHddCtx, tSirMacAddr macAd
 
         hdd_set_ap_ops( pHostapdAdapter->dev );
 
-<<<<<<< HEAD
-        pWlanHostapdDev->tx_queue_len = NET_DEV_TX_QUEUE_LEN;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         pWlanHostapdDev->watchdog_timeo = HDD_TX_TIMEOUT;
         pWlanHostapdDev->mtu = HDD_DEFAULT_MTU;
     
@@ -7662,15 +4983,6 @@ hdd_adapter_t* hdd_wlan_create_ap_dev( hdd_context_t *pHddCtx, tSirMacAddr macAd
         pWlanHostapdDev->ieee80211_ptr = &pHostapdAdapter->wdev ;
         pHostapdAdapter->wdev.wiphy = pHddCtx->wiphy;  
         pHostapdAdapter->wdev.netdev =  pWlanHostapdDev;
-<<<<<<< HEAD
-        init_completion(&pHostapdAdapter->tx_action_cnf_event);
-        init_completion(&pHostapdAdapter->cancel_rem_on_chan_var);
-        init_completion(&pHostapdAdapter->rem_on_chan_ready_event);
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,38))
-        init_completion(&pHostapdAdapter->offchannel_tx_event);
-#endif
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         SET_NETDEV_DEV(pWlanHostapdDev, pHddCtx->parent_dev);
     }
@@ -7714,11 +5026,7 @@ VOS_STATUS hdd_register_hostapd( hdd_adapter_t *pAdapter, tANI_U8 rtnl_lock_held
    return status;
 }
     
-<<<<<<< HEAD
-VOS_STATUS hdd_unregister_hostapd(hdd_adapter_t *pAdapter)
-=======
 VOS_STATUS hdd_unregister_hostapd(hdd_adapter_t *pAdapter, tANI_U8 rtnl_held)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
    ENTER();
    
@@ -7729,9 +5037,6 @@ VOS_STATUS hdd_unregister_hostapd(hdd_adapter_t *pAdapter, tANI_U8 rtnl_held)
       detatch the wireless device handlers */
    if (pAdapter->dev)
    {
-<<<<<<< HEAD
-      pAdapter->dev->wireless_handlers = NULL;
-=======
        if (TRUE == rtnl_held)
        {
            pAdapter->dev->wireless_handlers = NULL;
@@ -7742,7 +5047,6 @@ VOS_STATUS hdd_unregister_hostapd(hdd_adapter_t *pAdapter, tANI_U8 rtnl_held)
            pAdapter->dev->wireless_handlers = NULL;
            rtnl_unlock();
        }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
    EXIT();
    return 0;

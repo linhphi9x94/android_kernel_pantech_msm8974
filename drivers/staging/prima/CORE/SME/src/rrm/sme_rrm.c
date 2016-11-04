@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2014 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /**=========================================================================
@@ -57,12 +31,6 @@
   
   \brief implementation for SME RRM APIs
   
-<<<<<<< HEAD
-   Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
-   
-   Qualcomm Confidential and Proprietary.
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   
   ========================================================================*/
 
@@ -87,13 +55,8 @@
 
 #include "rrmGlobal.h"
 
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX) && !defined(FEATURE_WLAN_CCX_UPLOAD)
-#include "csrCcx.h"
-=======
 #if defined(FEATURE_WLAN_ESE) && !defined(FEATURE_WLAN_ESE_UPLOAD)
 #include "csrEse.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 
 /* Roam score for a neighbor AP will be calculated based on the below definitions.
@@ -109,11 +72,7 @@
 #define RRM_ROAM_SCORE_NEIGHBOR_REPORT_CAPABILITY_IMMEDIATE_BA  3
 #define RRM_ROAM_SCORE_NEIGHBOR_REPORT_MOBILITY_DOMAIN          30
 
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-=======
 #ifdef FEATURE_WLAN_ESE
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define RRM_ROAM_SCORE_NEIGHBOR_IAPP_LIST                       30
 #endif
 /**---------------------------------------------------------------------------
@@ -183,21 +142,12 @@ void rrmIndicateNeighborReportResult(tpAniSirGlobal pMac, VOS_STATUS vosStatus)
     /* Call the callback with the status received from caller */
     if (callback)
         callback(callbackContext, vosStatus);
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX) && !defined(FEATURE_WLAN_CCX_UPLOAD)
-    // We came here with IAPP AP List
-    // Make sure we inform CSR of the neighbor list
-    // for CCX Associations. First clear the cache.
-    else
-    if (csrNeighborRoamIsCCXAssoc(pMac))
-=======
 #if defined(FEATURE_WLAN_ESE) && !defined(FEATURE_WLAN_ESE_UPLOAD)
     // We came here with IAPP AP List
     // Make sure we inform CSR of the neighbor list
     // for ESE Associations. First clear the cache.
     else
     if (csrNeighborRoamIsESEAssoc(pMac))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
         ProcessIAPPNeighborAPList(pMac);
     }
@@ -262,10 +212,7 @@ static eHalStatus sme_RrmSendBeaconReportXmitInd( tpAniSirGlobal pMac,
        pBeaconRep->messageType = eWNI_SME_BEACON_REPORT_RESP_XMIT_IND;
        pBeaconRep->length = length;
        pBeaconRep->uDialogToken = pSmeRrmContext->token;
-<<<<<<< HEAD
-=======
        pBeaconRep->duration = pSmeRrmContext->duration[0];
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        pBeaconRep->regClass = pSmeRrmContext->regClass;
        vos_mem_copy( pBeaconRep->bssId, pSmeRrmContext->sessionBssId, sizeof(tSirMacAddr) );
 
@@ -280,11 +227,8 @@ static eHalStatus sme_RrmSendBeaconReportXmitInd( tpAniSirGlobal pMac,
                                             ie_len+sizeof(tSirBssDescription));
                if (NULL == pBeaconRep->pBssDescription[msgCounter])
                    break;
-<<<<<<< HEAD
-=======
                vos_mem_zero(pBeaconRep->pBssDescription[msgCounter],
                             ie_len+sizeof(tSirBssDescription));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                vos_mem_copy( pBeaconRep->pBssDescription[msgCounter],
                              pBssDesc,
                              sizeof(tSirBssDescription) );
@@ -337,17 +281,10 @@ static eHalStatus sme_RrmSendBeaconReportXmitInd( tpAniSirGlobal pMac,
    return status;
 }
 
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX_UPLOAD)
-/**---------------------------------------------------------------------------
-
-  \brief sme_CcxSendBeaconReqScanResults()
-=======
 #if defined(FEATURE_WLAN_ESE_UPLOAD)
 /**---------------------------------------------------------------------------
 
   \brief sme_EseSendBeaconReqScanResults()
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    This function sends up the scan results received as a part of
    beacon request scanning.
@@ -356,17 +293,6 @@ static eHalStatus sme_RrmSendBeaconReportXmitInd( tpAniSirGlobal pMac,
    beacon report information in one custom event;
 
   \param  - pMac -      Pointer to the Hal Handle.
-<<<<<<< HEAD
-          - sessionId  - Session id
-          - channel     - scan results belongs to this channel
-          - pResultArr - scan result.
-          - measurementDone - flag to indicate that the measurement is done.
-          - bss_count - number of bss found
-  \return - 0 for success, non zero for failure
-
-  --------------------------------------------------------------------------*/
-static eHalStatus sme_CcxSendBeaconReqScanResults(tpAniSirGlobal pMac,
-=======
               - sessionId  - Session id
               - channel     - scan results belongs to this channel
               - pResultArr - scan result.
@@ -376,7 +302,6 @@ static eHalStatus sme_CcxSendBeaconReqScanResults(tpAniSirGlobal pMac,
 
   --------------------------------------------------------------------------*/
 static eHalStatus sme_EseSendBeaconReqScanResults(tpAniSirGlobal pMac,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                                   tANI_U32       sessionId,
                                                   tANI_U8        channel,
                                                   tCsrScanResultInfo **pResultArr,
@@ -393,15 +318,9 @@ static eHalStatus sme_EseSendBeaconReqScanResults(tpAniSirGlobal pMac,
    tANI_U8                 msgCounter     = 0;
    tpRrmSMEContext         pSmeRrmContext = &pMac->rrm.rrmSmeContext;
    tCsrRoamInfo            roamInfo;
-<<<<<<< HEAD
-   tSirCcxBcnReportRsp     bcnReport;
-   tpSirCcxBcnReportRsp    pBcnReport     = &bcnReport;
-   tpCsrCcxBeaconReqParams pCurMeasReqIe  = NULL;
-=======
    tSirEseBcnReportRsp     bcnReport;
    tpSirEseBcnReportRsp    pBcnReport     = &bcnReport;
    tpCsrEseBeaconReqParams pCurMeasReqIe  = NULL;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    tANI_U8                 i              = 0;
 
    if (NULL == pSmeRrmContext)
@@ -419,21 +338,6 @@ static eHalStatus sme_EseSendBeaconReqScanResults(tpAniSirGlobal pMac,
    if (pResultArr)
        pCurResult=pResultArr[bssCounter];
 
-<<<<<<< HEAD
-   vos_mem_zero(&bcnReport, sizeof(tSirCcxBcnReportRsp));
-   do
-   {
-       pCurMeasReqIe = NULL;
-       for (i = 0; i < pSmeRrmContext->ccxBcnReqInfo.numBcnReqIe; i++)
-       {
-           if(pSmeRrmContext->ccxBcnReqInfo.bcnReq[i].channel == channel)
-           {
-               pCurMeasReqIe = &pSmeRrmContext->ccxBcnReqInfo.bcnReq[i];
-               break;
-           }
-       }
-       pBcnReport->measurementToken = pCurMeasReqIe->measurementToken;
-=======
    vos_mem_zero(&bcnReport, sizeof(tSirEseBcnReportRsp));
    do
    {
@@ -448,7 +352,6 @@ static eHalStatus sme_EseSendBeaconReqScanResults(tpAniSirGlobal pMac,
        }
        if(NULL != pCurMeasReqIe)
            pBcnReport->measurementToken = pCurMeasReqIe->measurementToken;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        smsLog( pMac, LOG1, "Channel(%d) MeasToken(%d)", channel, pBcnReport->measurementToken);
 
        msgCounter=0;
@@ -460,12 +363,8 @@ static eHalStatus sme_EseSendBeaconReqScanResults(tpAniSirGlobal pMac,
                ie_len = GET_IE_LEN_IN_BSS( pBssDesc->length );
                pBcnReport->bcnRepBssInfo[msgCounter].bcnReportFields.ChanNum = pBssDesc->channelId;
                pBcnReport->bcnRepBssInfo[msgCounter].bcnReportFields.Spare = 0;
-<<<<<<< HEAD
-               pBcnReport->bcnRepBssInfo[msgCounter].bcnReportFields.MeasDuration = pCurMeasReqIe->measurementDuration;
-=======
                if(NULL != pCurMeasReqIe)
                    pBcnReport->bcnRepBssInfo[msgCounter].bcnReportFields.MeasDuration = pCurMeasReqIe->measurementDuration;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                pBcnReport->bcnRepBssInfo[msgCounter].bcnReportFields.PhyType = pBssDesc->nwType;
                pBcnReport->bcnRepBssInfo[msgCounter].bcnReportFields.RecvSigPower = pBssDesc->rssi;
                pBcnReport->bcnRepBssInfo[msgCounter].bcnReportFields.ParentTsf = pBssDesc->parentTSF;
@@ -476,11 +375,7 @@ static eHalStatus sme_EseSendBeaconReqScanResults(tpAniSirGlobal pMac,
                vos_mem_copy(pBcnReport->bcnRepBssInfo[msgCounter].bcnReportFields.Bssid,
                                       pBssDesc->bssId, sizeof(tSirMacAddr));
 
-<<<<<<< HEAD
-               fillIeStatus = sirFillBeaconMandatoryIEforCcxBcnReport(pMac,
-=======
                fillIeStatus = sirFillBeaconMandatoryIEforEseBcnReport(pMac,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                                                       (tANI_U8 *)pBssDesc->ieFields,
                                                                       ie_len,
                                                                       &(pBcnReport->bcnRepBssInfo[msgCounter].pBuf),
@@ -526,21 +421,12 @@ static eHalStatus sme_EseSendBeaconReqScanResults(tpAniSirGlobal pMac,
        pBcnReport->flag = (measurementDone << 1)|((pCurResult)?true:false);
 
        smsLog(pMac, LOG1, "SME Sending BcnRep to HDD numBss(%d)"
-<<<<<<< HEAD
-               " msgCounter(%d) bssCounter(%d)",
-                pBcnReport->numBss, msgCounter, bssCounter, pBcnReport->flag);
-
-       roamInfo.pCcxBcnReportRsp = pBcnReport;
-       status = csrRoamCallCallback(pMac, sessionId, &roamInfo,
-                           0, eCSR_ROAM_CCX_BCN_REPORT_IND, 0);
-=======
                " msgCounter(%d) bssCounter(%d) flag(%d)",
                 pBcnReport->numBss, msgCounter, bssCounter, pBcnReport->flag);
 
        roamInfo.pEseBcnReportRsp = pBcnReport;
        status = csrRoamCallCallback(pMac, sessionId, &roamInfo,
                            0, eCSR_ROAM_ESE_BCN_REPORT_IND, 0);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
        /* Free the memory allocated to IE */
        for (i = 0; i < msgCounter; i++)
@@ -552,11 +438,7 @@ static eHalStatus sme_EseSendBeaconReqScanResults(tpAniSirGlobal pMac,
    return status;
 }
 
-<<<<<<< HEAD
-#endif /* FEATURE_WLAN_CCX_UPLOAD */
-=======
 #endif /* FEATURE_WLAN_ESE_UPLOAD */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /**---------------------------------------------------------------------------
   
@@ -650,30 +532,19 @@ static eHalStatus sme_RrmSendScanResult( tpAniSirGlobal pMac,
       // so that PE can clean any context allocated.
       if( measurementDone )
       {
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX_UPLOAD)
-         status = sme_CcxSendBeaconReqScanResults(pMac,
-=======
 #if defined(FEATURE_WLAN_ESE_UPLOAD)
          if (eRRM_MSG_SOURCE_ESE_UPLOAD == pSmeRrmContext->msgSource)
          {
              status = sme_EseSendBeaconReqScanResults(pMac,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                                   sessionId,
                                                   chanList[0],
                                                   NULL,
                                                   measurementDone,
                                                   0);
-<<<<<<< HEAD
-#else
-         status = sme_RrmSendBeaconReportXmitInd( pMac, NULL, measurementDone, 0);
-#endif /*FEATURE_WLAN_CCX_UPLOAD*/
-=======
          }
          else
 #endif /*FEATURE_WLAN_ESE_UPLOAD*/
              status = sme_RrmSendBeaconReportXmitInd( pMac, NULL, measurementDone, 0);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
       return status;
    }
@@ -682,30 +553,19 @@ static eHalStatus sme_RrmSendScanResult( tpAniSirGlobal pMac,
 
    if( NULL == pScanResult && measurementDone )
    {
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX_UPLOAD)
-        status = sme_CcxSendBeaconReqScanResults(pMac,
-=======
 #if defined(FEATURE_WLAN_ESE_UPLOAD)
        if (eRRM_MSG_SOURCE_ESE_UPLOAD == pSmeRrmContext->msgSource)
        {
            status = sme_EseSendBeaconReqScanResults(pMac,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                                  sessionId,
                                                  chanList[0],
                                                  NULL,
                                                  measurementDone,
                                                  0);
-<<<<<<< HEAD
-#else
-        status = sme_RrmSendBeaconReportXmitInd( pMac, NULL, measurementDone, 0 );
-#endif /*FEATURE_WLAN_CCX_UPLOAD*/
-=======
        }
        else
 #endif /*FEATURE_WLAN_ESE_UPLOAD*/
            status = sme_RrmSendBeaconReportXmitInd( pMac, NULL, measurementDone, 0 );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    counter=0;
@@ -721,28 +581,15 @@ static eHalStatus sme_RrmSendScanResult( tpAniSirGlobal pMac,
    if (counter)
    {
           smsLog(pMac, LOG1, " Number of BSS Desc with RRM Scan %d ", counter);
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX_UPLOAD)
-       status = sme_CcxSendBeaconReqScanResults(pMac,
-=======
 #if defined(FEATURE_WLAN_ESE_UPLOAD)
          if (eRRM_MSG_SOURCE_ESE_UPLOAD == pSmeRrmContext->msgSource)
          {
              status = sme_EseSendBeaconReqScanResults(pMac,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                                 sessionId,
                                                 chanList[0],
                                                 pScanResultsArr,
                                                 measurementDone,
                                                 counter);
-<<<<<<< HEAD
-#else
-       status = sme_RrmSendBeaconReportXmitInd( pMac,
-                                                pScanResultsArr,
-                                                measurementDone,
-                                                counter);
-#endif /*FEATURE_WLAN_CCX_UPLOAD*/
-=======
          }
          else
 #endif /*FEATURE_WLAN_ESE_UPLOAD*/
@@ -750,7 +597,6 @@ static eHalStatus sme_RrmSendScanResult( tpAniSirGlobal pMac,
                                                 pScanResultsArr,
                                                 measurementDone,
                                                 counter);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
    sme_ScanResultPurge(pMac, pResult); 
 
@@ -842,16 +688,12 @@ eHalStatus sme_RrmIssueScanReq( tpAniSirGlobal pMac )
    if ((pSmeRrmContext->currentIndex) >= pSmeRrmContext->channelList.numOfChannels)
        return status;
 
-<<<<<<< HEAD
-   scanType = pSmeRrmContext->measMode[pSmeRrmContext->currentIndex];
-=======
    if( eRRM_MSG_SOURCE_ESE_UPLOAD == pSmeRrmContext->msgSource ||
        eRRM_MSG_SOURCE_LEGACY_ESE == pSmeRrmContext->msgSource )
        scanType = pSmeRrmContext->measMode[pSmeRrmContext->currentIndex];
    else
        scanType = pSmeRrmContext->measMode[0];
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if ((eSIR_ACTIVE_SCAN == scanType) || (eSIR_PASSIVE_SCAN == scanType))
    {
 #if defined WLAN_VOWIFI_DEBUG
@@ -861,10 +703,6 @@ eHalStatus sme_RrmIssueScanReq( tpAniSirGlobal pMac )
        vos_mem_zero( &scanRequest, sizeof(scanRequest));
 
        /* set scanType, active or passive */
-<<<<<<< HEAD
-       scanRequest.bcnRptReqScan = TRUE;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        scanRequest.scanType = scanType;
 
        vos_mem_copy(scanRequest.bssid,
@@ -889,11 +727,6 @@ eHalStatus sme_RrmIssueScanReq( tpAniSirGlobal pMac )
 
        /* set min and max channel time */
        scanRequest.minChnTime = 0; //pSmeRrmContext->duration; Dont use min timeout.
-<<<<<<< HEAD
-       scanRequest.maxChnTime = pSmeRrmContext->duration[pSmeRrmContext->currentIndex];
-       smsLog( pMac, LOG1, "Scan Type(%d) Max Dwell Time(%d)", scanRequest.scanType,
-                  scanRequest.maxChnTime );
-=======
        if( eRRM_MSG_SOURCE_ESE_UPLOAD == pSmeRrmContext->msgSource ||
            eRRM_MSG_SOURCE_LEGACY_ESE == pSmeRrmContext->msgSource )
           scanRequest.maxChnTime = pSmeRrmContext->duration[pSmeRrmContext->currentIndex];
@@ -904,7 +737,6 @@ eHalStatus sme_RrmIssueScanReq( tpAniSirGlobal pMac )
                lim_ScanTypetoString(scanRequest.scanType),
                scanRequest.scanType,
                scanRequest.maxChnTime );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #if defined WLAN_VOWIFI_DEBUG
        smsLog( pMac, LOGE, "For Duration %d ", scanRequest.maxChnTime );
@@ -935,11 +767,7 @@ eHalStatus sme_RrmIssueScanReq( tpAniSirGlobal pMac )
 #endif
        }
    }
-<<<<<<< HEAD
-   else if (eSIR_BEACON_TABLE == scanType)  /* beacon table */
-=======
    else if (2 == scanType)  /* beacon table */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    {
        if ((pSmeRrmContext->currentIndex + 1) < pSmeRrmContext->channelList.numOfChannels)
        {
@@ -956,12 +784,8 @@ eHalStatus sme_RrmIssueScanReq( tpAniSirGlobal pMac )
    }
    else
    {
-<<<<<<< HEAD
-       smsLog( pMac, LOGE, "Unknown beacon report request mode(%d)", scanType);
-=======
        smsLog( pMac, LOGE, "Unknown beacon report request mode(%s (%d))",
                lim_ScanTypetoString(scanType), scanType);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 /* Indicate measurement completion to PE */
                 /* If this is not done, pCurrentReq pointer will not be freed and
                    PE will not handle subsequent Beacon requests */
@@ -1075,18 +899,11 @@ void sme_RrmProcessBeaconReportReqInd(tpAniSirGlobal pMac, void *pMsgBuf)
 
    pSmeRrmContext->token = pBeaconReq->uDialogToken;
    pSmeRrmContext->regClass = pBeaconReq->channelInfo.regulatoryClass;
-<<<<<<< HEAD
-         pSmeRrmContext->randnIntvl = VOS_MAX( pBeaconReq->randomizationInterval, pSmeRrmContext->rrmConfig.maxRandnInterval );
-         pSmeRrmContext->currentIndex = 0;
-   vos_mem_copy((tANI_U8*)&pSmeRrmContext->measMode, (tANI_U8*)&pBeaconReq->fMeasurementtype, SIR_CCX_MAX_MEAS_IE_REQS);
-   vos_mem_copy((tANI_U8*)&pSmeRrmContext->duration, (tANI_U8*)&pBeaconReq->measurementDuration, SIR_CCX_MAX_MEAS_IE_REQS);
-=======
    pSmeRrmContext->randnIntvl = VOS_MAX( pBeaconReq->randomizationInterval, pSmeRrmContext->rrmConfig.maxRandnInterval );
    pSmeRrmContext->currentIndex = 0;
    pSmeRrmContext->msgSource = pBeaconReq->msgSource;
    vos_mem_copy((tANI_U8*)&pSmeRrmContext->measMode, (tANI_U8*)&pBeaconReq->fMeasurementtype, SIR_ESE_MAX_MEAS_IE_REQS);
    vos_mem_copy((tANI_U8*)&pSmeRrmContext->duration, (tANI_U8*)&pBeaconReq->measurementDuration, SIR_ESE_MAX_MEAS_IE_REQS);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    sme_RrmIssueScanReq( pMac );
 
@@ -1228,11 +1045,7 @@ static void rrmCalculateNeighborAPRoamScore(tpAniSirGlobal pMac, tpRrmNeighborRe
             }
         }
     }
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-=======
 #ifdef FEATURE_WLAN_ESE
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     // It has come in the report so its the best score
     if (csrNeighborRoamIs11rAssoc(pMac) == FALSE)
     {
@@ -1326,15 +1139,9 @@ eHalStatus sme_RrmProcessNeighborReport(tpAniSirGlobal pMac, void *pMsgBuf)
    tANI_U8 i = 0;
    VOS_STATUS vosStatus = VOS_STATUS_SUCCESS;
 
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-   // Clear the cache for CCX.
-   if (csrNeighborRoamIsCCXAssoc(pMac))
-=======
 #ifdef FEATURE_WLAN_ESE
    // Clear the cache for ESE.
    if (csrNeighborRoamIsESEAssoc(pMac))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    {
        rrmLLPurgeNeighborCache(pMac, 
            &pMac->rrm.rrmSmeContext.neighborReportCache);
@@ -1728,13 +1535,8 @@ tRrmNeighborReportDesc* smeRrmGetNextBssEntryFromNeighborCache( tpAniSirGlobal p
    return pTempBssEntry;
 }
 
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX) && !defined(FEATURE_WLAN_CCX_UPLOAD)
-void csrCcxSendAdjacentApRepMsg(tpAniSirGlobal pMac, tCsrRoamSession *pSession)
-=======
 #if defined(FEATURE_WLAN_ESE) && !defined(FEATURE_WLAN_ESE_UPLOAD)
 void csrEseSendAdjacentApRepMsg(tpAniSirGlobal pMac, tCsrRoamSession *pSession)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
    tpSirAdjacentApRepInd pAdjRep;
    tANI_U16 length;
@@ -1752,11 +1554,7 @@ void csrEseSendAdjacentApRepMsg(tpAniSirGlobal pMac, tCsrRoamSession *pSession)
    }
 
    vos_mem_zero( pAdjRep, length );
-<<<<<<< HEAD
-   pAdjRep->messageType = eWNI_SME_CCX_ADJACENT_AP_REPORT;
-=======
    pAdjRep->messageType = eWNI_SME_ESE_ADJACENT_AP_REPORT;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    pAdjRep->length = length;
    pAdjRep->channelNum = pSession->prevOpChannel;
    vos_mem_copy( pAdjRep->bssid, &pSession->connectedProfile.bssid, sizeof(tSirMacAddr) );
@@ -1764,20 +1562,12 @@ void csrEseSendAdjacentApRepMsg(tpAniSirGlobal pMac, tCsrRoamSession *pSession)
    vos_mem_copy( &pAdjRep->prevApSSID, &pSession->prevApSSID, sizeof(tSirMacSSid) );
    roamTS2 = vos_timer_get_system_time();
    pAdjRep->tsmRoamdelay = roamTS2 - pSession->roamTS1;
-<<<<<<< HEAD
-   pAdjRep->roamReason =SIR_CCX_ASSOC_REASON_UNSPECIFIED;
-=======
    pAdjRep->roamReason =SIR_ESE_ASSOC_REASON_UNSPECIFIED;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    pAdjRep->clientDissSecs =(pAdjRep->tsmRoamdelay/1000);
 
    palSendMBMessage(pMac->hHdd, pAdjRep);
 
    return;
 }
-<<<<<<< HEAD
-#endif   /* FEATURE_WLAN_CCX */
-=======
 #endif   /* FEATURE_WLAN_ESE */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif

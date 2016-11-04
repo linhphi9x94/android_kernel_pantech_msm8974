@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2016 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,30 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-/*
- * Airgo Networks, Inc proprietary. All rights reserved.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -57,7 +29,6 @@
 
 
 /*
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file limProcessActionFrame.cc contains the code
  * for processing Action Frame.
  * Author:      Michael Lui
@@ -71,11 +42,7 @@
 #include "wniApi.h"
 #include "sirApi.h"
 #include "aniGlobal.h"
-<<<<<<< HEAD
-#include "wniCfgSta.h"
-=======
 #include "wniCfg.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include "schApi.h"
 #include "utilsApi.h"
 #include "limTypes.h"
@@ -93,13 +60,8 @@
 #endif
 #include "limSessionUtils.h"
 
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX) && !defined(FEATURE_WLAN_CCX_UPLOAD)
-#include "ccxApi.h"
-=======
 #if defined(FEATURE_WLAN_ESE) && !defined(FEATURE_WLAN_ESE_UPLOAD)
 #include "eseApi.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 #include "wlan_qct_wda.h"
 
@@ -138,13 +100,8 @@ void limStopTxAndSwitchChannel(tpAniSirGlobal pMac, tANI_U8 sessionId)
       return;
     }
 
-<<<<<<< HEAD
-    PELOG1(limLog(pMac, LOG1, FL("Channel switch Mode == %d"),
-                       psessionEntry->gLimChannelSwitch.switchMode);)
-=======
     limLog(pMac, LOG1, FL("Channel switch Mode == %d"),
                        psessionEntry->gLimChannelSwitch.switchMode);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (psessionEntry->gLimChannelSwitch.switchMode == eSIR_CHANSW_MODE_SILENT ||
         psessionEntry->gLimChannelSwitch.switchCount <= SIR_CHANSW_TX_STOP_MAX_COUNT)
@@ -208,11 +165,7 @@ void limStopTxAndSwitchChannel(tpAniSirGlobal pMac, tANI_U8 sessionId)
 ------------------------------------------------------------*/
 tSirRetStatus limStartChannelSwitch(tpAniSirGlobal pMac, tpPESession psessionEntry)
 {
-<<<<<<< HEAD
-    PELOG1(limLog(pMac, LOG1, FL("Starting the channel switch"));)
-=======
     limLog(pMac, LOG1, FL(" ENTER"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     
     /*If channel switch is already running and it is on a different session, just return*/  
     /*This need to be removed for MCC */
@@ -222,11 +175,7 @@ tSirRetStatus limStartChannelSwitch(tpAniSirGlobal pMac, tpPESession psessionEnt
        limLog(pMac, LOGW, FL("Ignoring channel switch on session %d"), psessionEntry->peSessionId);
        return eSIR_SUCCESS;
     }
-<<<<<<< HEAD
-     
-=======
     psessionEntry->channelChangeCSA =  LIM_SWITCH_CHANNEL_CSA;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /* Deactivate and change reconfigure the timeout value */
     //limDeactivateAndChangeTimer(pMac, eLIM_CHANNEL_SWITCH_TIMER);
     MTRACE(macTrace(pMac, TRACE_CODE_TIMER_DEACTIVATE, psessionEntry->peSessionId, eLIM_CHANNEL_SWITCH_TIMER));
@@ -310,11 +259,7 @@ __limProcessChannelSwitchActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo
     pBody = WDA_GET_RX_MPDU_DATA(pRxPacketInfo);
     frameLen = WDA_GET_RX_PAYLOAD_LEN(pRxPacketInfo);
 
-<<<<<<< HEAD
-    PELOG3(limLog(pMac, LOG3, FL("Received Channel switch action frame"));)
-=======
     limLog(pMac, LOG1, FL("Received Channel switch action frame"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (!psessionEntry->lim11hEnable)
         return;
 
@@ -378,13 +323,8 @@ __limProcessChannelSwitchActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo
         }
 #endif
 
-<<<<<<< HEAD
-       PELOG3(limLog(pMac, LOG3, FL("Rcv Chnl Swtch Frame: Timeout in %d ticks"),
-                             psessionEntry->gLimChannelSwitch.switchTimeoutValue);)
-=======
        limLog(pMac, LOG1, FL("Rcv Chnl Swtch Frame: Timeout in %d ticks"),
                              psessionEntry->gLimChannelSwitch.switchTimeoutValue);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         /* Only primary channel switch element is present */
         psessionEntry->gLimChannelSwitch.state = eLIM_CHANNEL_SWITCH_PRIMARY_ONLY;
@@ -422,20 +362,12 @@ __limProcessChannelSwitchActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo
     }
     else
     {
-<<<<<<< HEAD
-        PELOG1(limLog(pMac, LOG1, FL("LIM: Received action frame not from our BSS, dropping..."));)
-=======
         limLog(pMac, LOG1, FL("LIM: Received action frame not from our BSS, dropping..."));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     if (eSIR_SUCCESS != limStartChannelSwitch(pMac, psessionEntry))
     {
-<<<<<<< HEAD
-        PELOG1(limLog(pMac, LOG1, FL("Could not start channel switch"));)
-=======
         limLog(pMac, LOG1, FL("Could not start channel switch"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     vos_mem_free(pChannelSwitchFrame);
@@ -455,20 +387,13 @@ __limProcessOperatingModeActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo
     tANI_U32                nStatus;
     tpDphHashNode           pSta;
     tANI_U16                aid;
-<<<<<<< HEAD
-    tANI_U8  operMode;
-=======
     tANI_U8                 operMode;
     tANI_U32                channelBondingMode;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     pHdr = WDA_GET_RX_MAC_HEADER(pRxPacketInfo);
     pBody = WDA_GET_RX_MPDU_DATA(pRxPacketInfo);
     frameLen = WDA_GET_RX_PAYLOAD_LEN(pRxPacketInfo);
 
-<<<<<<< HEAD
-    PELOG3(limLog(pMac, LOG3, FL("Received Operating Mode action frame"));)
-=======
     limLog(pMac, LOG1, FL("Received Operating Mode action frame"));
 
     if( RF_CHAN_14 >= psessionEntry->currentOperChannel )
@@ -498,7 +423,6 @@ __limProcessOperatingModeActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo
         return;
     }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     pOperatingModeframe = vos_mem_malloc(sizeof(*pOperatingModeframe));
     if (NULL == pOperatingModeframe)
     {
@@ -527,14 +451,11 @@ __limProcessOperatingModeActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo
             frameLen);
     }
     pSta = dphLookupHashEntry(pMac, pHdr->sa, &aid, &psessionEntry->dph.dphHashTable);
-<<<<<<< HEAD
-=======
     if (pSta == NULL)
     {
         PELOGE(limLog(pMac, LOGE, FL("Station context not found"));)
         return;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     
     operMode = pSta->vhtSupportedChannelWidthSet ? eHT_CHANNEL_WIDTH_80MHZ : pSta->htSupportedChannelWidthSet ? eHT_CHANNEL_WIDTH_40MHZ: eHT_CHANNEL_WIDTH_20MHZ;
     if( operMode != pOperatingModeframe->OperatingMode.chanWidth)
@@ -687,16 +608,6 @@ __limProcessAddTsRsp(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession pse
 
         return;
     }
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-    if (addts.tsmPresent)
-    {
-        limLog(pMac, LOGW, "TSM IE Present");
-        psessionEntry->ccxContext.tsm.tid = addts.tspec.tsinfo.traffic.userPrio;
-        vos_mem_copy(&psessionEntry->ccxContext.tsm.tsmInfo,
-                                         &addts.tsmIE,sizeof(tSirMacCCXTSMIE));
-#ifdef FEATURE_WLAN_CCX_UPLOAD
-=======
 #ifdef FEATURE_WLAN_ESE
     if (addts.tsmPresent)
     {
@@ -705,16 +616,11 @@ __limProcessAddTsRsp(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession pse
         vos_mem_copy(&psessionEntry->eseContext.tsm.tsmInfo,
                                          &addts.tsmIE,sizeof(tSirMacESETSMIE));
 #ifdef FEATURE_WLAN_ESE_UPLOAD
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         limSendSmeTsmIEInd(pMac, psessionEntry, addts.tsmIE.tsid,
                            addts.tsmIE.state, addts.tsmIE.msmt_interval);
 #else
         limActivateTSMStatsTimer(pMac, psessionEntry);
-<<<<<<< HEAD
-#endif /* FEATURE_WLAN_CCX_UPLOAD */
-=======
 #endif /* FEATURE_WLAN_ESE_UPLOAD */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 #endif
     /* Since AddTS response was successful, check for the PSB flag
@@ -857,17 +763,6 @@ __limProcessDelTsReq(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession pse
             PELOGW(limLog(pMac, LOGW, FL("Ignoring delts request: wme not enabled/capable"));)
             return;
         }
-<<<<<<< HEAD
-        PELOG2(limLog(pMac, LOG2, FL("WME Delts received"));)
-    }
-    else if ((psessionEntry->limQosEnabled) && pSta->lleEnabled)
-        {
-        PELOG2(limLog(pMac, LOG2, FL("11e QoS Delts received"));)
-        }
-    else if ((psessionEntry->limWsmEnabled) && pSta->wsmEnabled)
-        {
-        PELOG2(limLog(pMac, LOG2, FL("WSM Delts received"));)
-=======
         limLog(pMac, LOG1, FL("WME Delts received"));
     }
     else if ((psessionEntry->limQosEnabled) && pSta->lleEnabled)
@@ -877,7 +772,6 @@ __limProcessDelTsReq(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession pse
     else if ((psessionEntry->limWsmEnabled) && pSta->wsmEnabled)
         {
         limLog(pMac, LOG1, FL("WSM Delts received"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
     else
     {
@@ -982,16 +876,6 @@ __limProcessDelTsReq(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession pse
     else
         limLog(pMac, LOGE, FL("Self entry missing in Hash Table "));
 
-<<<<<<< HEAD
-    PELOG1(limLog(pMac, LOG1, FL("DeleteTS succeeded"));)
-
-#ifdef FEATURE_WLAN_CCX
-#ifdef FEATURE_WLAN_CCX_UPLOAD
-    limSendSmeTsmIEInd(pMac, psessionEntry, 0, 0, 0);
-#else
-    limDeactivateAndChangeTimer(pMac,eLIM_TSM_TIMER);
-#endif /* FEATURE_WLAN_CCX_UPLOAD */
-=======
     limLog(pMac, LOG1, FL("DeleteTS succeeded"));
 
 #ifdef FEATURE_WLAN_ESE
@@ -1000,13 +884,10 @@ __limProcessDelTsReq(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession pse
 #else
     limDeactivateAndChangeTimer(pMac,eLIM_TSM_TIMER);
 #endif /* FEATURE_WLAN_ESE_UPLOAD */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 
 }
 
-<<<<<<< HEAD
-=======
 static void
 __limProcessQosMapConfigureFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
                                                      tpPESession psessionEntry)
@@ -1029,7 +910,6 @@ __limProcessQosMapConfigureFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,
      limSendSmeMgmtFrameInd(pMac, psessionEntry->smeSessionId,
                                         pRxPacketInfo, psessionEntry, 0);
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef ANI_SUPPORT_11H
 /**
@@ -1199,13 +1079,8 @@ __limProcessMeasurementRequestFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo)
             break;
 
         default:
-<<<<<<< HEAD
-            PELOG1(limLog(pMac, LOG1, FL("Unknown Measurement Type %d "),
-                   pMeasReqFrame->measReqIE.measType);)
-=======
             limLog(pMac, LOG1, FL("Unknown Measurement Type %d "),
                    pMeasReqFrame->measReqIE.measType);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
     }
 
@@ -1237,11 +1112,7 @@ __limProcessTpcRequestFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo)
     pBody = WDA_GET_RX_MPDU_DATA(pRxPacketInfo);
     frameLen = WDA_GET_RX_PAYLOAD_LEN(pRxPacketInfo);
 
-<<<<<<< HEAD
-    PELOG1(limLog(pMac, LOG1, FL("****LIM: Processing TPC Request from peer ****"));)
-=======
     limLog(pMac, LOG1, FL("****LIM: Processing TPC Request from peer ****"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     pTpcReqFrame = vos_mem_malloc(sizeof( tSirMacTpcReqActionFrame ));
     if (NULL == pTpcReqFrame)
@@ -1424,12 +1295,6 @@ __limProcessAddBAReq( tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
         status = eSIR_MAC_INABLITY_TO_CONFIRM_ASSOC_STATUS;
         goto returnAfterError;
     }
-<<<<<<< HEAD
-
-    limLog( pMac, LOGW,
-      FL( "ADDBA Req from STA with AID %d, tid = %d" ),
-      aid, frmAddBAReq.AddBAParameterSet.tid);
-=======
     limLog( pMac, LOG1, FL( "ADDBA Req from STA "MAC_ADDRESS_STR " with AID %d"
                             " tid = %d policy = %d buffsize = %d"
                             " amsduSupported = %d"), MAC_ADDR_ARRAY(pHdr->sa),
@@ -1441,35 +1306,23 @@ __limProcessAddBAReq( tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
     limLog( pMac, LOG1, FL( "ssn = %d fragNumber = %d" ),
                             frmAddBAReq.BAStartingSequenceControl.ssn,
                             frmAddBAReq.BAStartingSequenceControl.fragNumber);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef WLAN_SOFTAP_VSTA_FEATURE
     // we can only do BA on "hard" STAs
     if (!(IS_HWSTA_IDX(pSta->staIndex)))
     {
         status = eSIR_MAC_REQ_DECLINED_STATUS;
-<<<<<<< HEAD
-=======
         limLog( pMac, LOGE,
             FL( "Sta Id is not HW Sta Id, Status code is %d " ), status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         goto returnAfterError;
     }
 #endif //WLAN_SOFTAP_VSTA_FEATURE
 
-<<<<<<< HEAD
-    if (wlan_cfgGetInt(pMac, WNI_CFG_DEL_ALL_RX_BA_SESSIONS_2_4_G_BTC, &val) !=
-                    eSIR_SUCCESS)
-    {
-        limLog(pMac, LOGE,
-               FL("Unable to get WNI_CFG_DEL_ALL_RX_BA_SESSIONS_2_4_G_BTC"));
-=======
     if (wlan_cfgGetInt(pMac, WNI_CFG_DEL_ALL_RX_TX_BA_SESSIONS_2_4_G_BTC, &val) !=
                     eSIR_SUCCESS)
     {
         limLog(pMac, LOGE,
                FL("Unable to get WNI_CFG_DEL_ALL_RX_TX_BA_SESSIONS_2_4_G_BTC"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         val = 0;
     }
     if ((SIR_BAND_2_4_GHZ == limGetRFBand(psessionEntry->currentOperChannel)) &&
@@ -1489,15 +1342,11 @@ __limProcessAddBAReq( tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
                                               frmAddBAReq.AddBAParameterSet,
                                               0, //dialogue token is don't care in request validation.
                                               LIM_ADDBA_REQ, &delBAFlag)))
-<<<<<<< HEAD
-        goto returnAfterError;
-=======
     {
         limLog( pMac, LOGE,
             FL( "ADDBA parameters validation failed with status %d" ), status);
         goto returnAfterError;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     //BA already set, so we need to delete it before adding new one.
     if(delBAFlag)
@@ -1508,12 +1357,9 @@ __limProcessAddBAReq( tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
             eBA_RECIPIENT,psessionEntry))
         {
             status = eSIR_MAC_UNSPEC_FAILURE_STATUS;
-<<<<<<< HEAD
-=======
             limLog( pMac, LOGE,
                 FL( "Deletion of Existing BA session failed with status %d" ),
                     status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             goto returnAfterError;
         }
     }
@@ -1564,16 +1410,12 @@ __limProcessAddBAReq( tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
         frmAddBAReq.BATimeout.timeout,
         (tANI_U16) frmAddBAReq.BAStartingSequenceControl.ssn,
         eBA_RECIPIENT,psessionEntry))
-<<<<<<< HEAD
-    status = eSIR_MAC_UNSPEC_FAILURE_STATUS;
-=======
   {
         status = eSIR_MAC_UNSPEC_FAILURE_STATUS;
         limLog( pMac, LOGE,
             FL( "Request to setup new BA session with peer "
                 " "MAC_ADDRESS_STR " failed" ), MAC_ADDR_ARRAY(pSta->staAddr));
   }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   else
     return;
 
@@ -1641,10 +1483,7 @@ tANI_U8 *pBody;
   // Request, so we should never be processing a ADDBA Response
   if (!(IS_HWSTA_IDX(pSta->staIndex)))
   {
-<<<<<<< HEAD
-=======
     limLog( pMac, LOGE, FL( "Sta Id is not HW Sta Id " ));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return;
   }
 #endif //WLAN_SOFTAP_VSTA_FEATURE
@@ -1671,12 +1510,6 @@ tANI_U8 *pBody;
     PELOG2(sirDumpBuf( pMac, SIR_DBG_MODULE_ID, LOG2, pBody, frameLen );)
   }
 
-<<<<<<< HEAD
-  limLog( pMac, LOGE,
-      FL( "ADDBA Rsp from STA with AID %d, tid = %d, status = %d" ),
-      aid, frmAddBARsp.AddBAParameterSet.tid, frmAddBARsp.Status.status);
-
-=======
   limLog( pMac, LOG1, FL( "ADDBA Rsp from STA "MAC_ADDRESS_STR " with AID %d "
                           "tid = %d policy = %d buffsize = %d "
                           "amsduSupported = %d status = %d"),
@@ -1686,7 +1519,6 @@ tANI_U8 *pBody;
                           frmAddBARsp.AddBAParameterSet.bufferSize,
                           frmAddBARsp.AddBAParameterSet.amsduSupported,
                           frmAddBARsp.Status.status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   //if there is no matchin dialougue token then ignore the response.
 
   if(eSIR_SUCCESS != limSearchAndDeleteDialogueToken(pMac, frmAddBARsp.DialogToken.token,
@@ -1699,12 +1531,6 @@ tANI_U8 *pBody;
   // Check first if the peer accepted the ADDBA Req
   if( eSIR_MAC_SUCCESS_STATUS == frmAddBARsp.Status.status )
   {
-<<<<<<< HEAD
-    //if peer responded with buffer size 0 then we should pick the default.
-    if(0 == frmAddBARsp.AddBAParameterSet.bufferSize)
-        frmAddBARsp.AddBAParameterSet.bufferSize = BA_DEFAULT_TX_BUFFER_SIZE;
-
-=======
     tANI_U32 val;
     if (wlan_cfgGetInt(pMac, WNI_CFG_NUM_BUFF_ADVERT , &val) != eSIR_SUCCESS)
     {
@@ -1719,22 +1545,17 @@ tANI_U8 *pBody;
         limLog( pMac, LOG1,
             FL( "ADDBA RSP  Buffsize = %d" ),
             frmAddBARsp.AddBAParameterSet.bufferSize);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     // Now, validate the ADDBA Rsp
     if( eSIR_MAC_SUCCESS_STATUS !=
         __limValidateAddBAParameterSet( pMac, pSta,
                                        frmAddBARsp.AddBAParameterSet,
                                        (tANI_U8)frmAddBARsp.DialogToken.token,
                                        LIM_ADDBA_RSP, NULL))
-<<<<<<< HEAD
-      goto returnAfterError;
-=======
     {
         limLog( pMac, LOGE,
             FL( "ADDBA parameters validation failed" ));
         goto returnAfterError;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   }
   else
     goto returnAfterError;
@@ -1757,16 +1578,12 @@ tANI_U8 *pBody;
         frmAddBARsp.BATimeout.timeout,
         0,
         eBA_INITIATOR,psessionEntry))
-<<<<<<< HEAD
-    reasonCode = eSIR_MAC_UNSPEC_FAILURE_REASON;
-=======
   {
       reasonCode = eSIR_MAC_UNSPEC_FAILURE_REASON;
       limLog( pMac, LOGE,
           FL( "Request to setup new BA session with peer "
               " "MAC_ADDRESS_STR " failed" ), MAC_ADDR_ARRAY(pSta->staAddr));
   }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   else
     return;
 
@@ -1859,14 +1676,9 @@ tANI_U8 *pBody;
     PELOG2(sirDumpBuf( pMac, SIR_DBG_MODULE_ID, LOG2, pBody, frameLen );)
   }
 
-<<<<<<< HEAD
-  limLog( pMac, LOGW,
-      FL( "Received DELBA for TID %d, Reason code %d" ),
-=======
   limLog( pMac, LOG1,
       FL( "Received DELBA from: "MAC_ADDRESS_STR" for TID %d, Reason code %d" ),
       MAC_ADDR_ARRAY(pHdr->sa),
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       frmDelBAInd.DelBAParameterSet.tid,
       frmDelBAInd.Reason.code );
 
@@ -1874,16 +1686,11 @@ tANI_U8 *pBody;
   if( eSIR_MAC_SUCCESS_STATUS != __limValidateDelBAParameterSet( pMac,
                                              frmDelBAInd.DelBAParameterSet,
                                              pSta ))
-<<<<<<< HEAD
-      return;
-
-=======
   {
       limLog( pMac, LOGE,
           FL( "ADDBA parameters validation failed " ));
       return;
   }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   //
   // Post WDA_DELBA_IND to HAL and delete the
   // existing BA session
@@ -2092,8 +1899,6 @@ __limProcessNeighborReport( tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo ,tpPESes
 
 #endif
 
-<<<<<<< HEAD
-=======
 #ifdef WLAN_FEATURE_AP_HT40_24G
 static void
 __limProcess2040bssCoexistenceActionFrame(tpAniSirGlobal pMac,
@@ -2229,7 +2034,6 @@ __limProcess2040bssCoexistenceActionFrame(tpAniSirGlobal pMac,
 }
 #endif
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef WLAN_FEATURE_11W
 /**
  * limProcessSAQueryRequestActionFrame
@@ -2306,21 +2110,6 @@ static void __limProcessSAQueryRequestActionFrame(tpAniSirGlobal pMac, tANI_U8 *
 static void __limProcessSAQueryResponseActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo, tpPESession psessionEntry)
 {
     tpSirMacMgmtHdr     pHdr;
-<<<<<<< HEAD
-    tANI_U32            frameLen;
-
-    pHdr = WDA_GET_RX_MAC_HEADER(pRxPacketInfo);
-    frameLen = WDA_GET_RX_PAYLOAD_LEN(pRxPacketInfo);
-    VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO,
-                         ("SA Query Response received...")) ;
-    /* Forward to the SME to HDD to wpa_supplicant */
-    // type is ACTION
-    limSendSmeMgmtFrameInd(pMac, pHdr->fc.subType,
-       (tANI_U8*)pHdr, frameLen + sizeof(tSirMacMgmtHdr), 0,
-       WDA_GET_RX_CH( pRxPacketInfo ), psessionEntry, 0);
-}
-
-=======
     tANI_U8             *pBody;
     tpDphHashNode       pSta;
     tANI_U16            aid;
@@ -2431,7 +2220,6 @@ limDropUnprotectedActionFrame (tpAniSirGlobal pMac, tpPESession psessionEntry,
     else
         return eANI_BOOLEAN_FALSE;
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 
 /**
@@ -2459,8 +2247,6 @@ limProcessActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
     tpSirMacActionFrameHdr pActionHdr = (tpSirMacActionFrameHdr) pBody;
 #ifdef WLAN_FEATURE_11W
     tpSirMacMgmtHdr pHdr = WDA_GET_RX_MAC_HEADER(pRxPacketInfo);
-<<<<<<< HEAD
-=======
 
     if (lim_is_robust_mgmt_action_frame(pActionHdr->category) &&
         limDropUnprotectedActionFrame(pMac, psessionEntry, pHdr,
@@ -2470,26 +2256,13 @@ limProcessActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
                pActionHdr->category);
         return;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 
     switch (pActionHdr->category)
     {
         case SIR_MAC_ACTION_QOS_MGMT:
-<<<<<<< HEAD
-#ifdef WLAN_FEATURE_11W
-            if ((psessionEntry->limRmfEnabled) && (pHdr->fc.wep == 0))
-            {
-                PELOGE(limLog(pMac, LOGE, FL("Dropping unprotected Action category %d frame "
-                                             "since RMF is enabled."), pActionHdr->category);)
-                break;
-            }
-#endif
-            if (psessionEntry->limQosEnabled)
-=======
             if ( (psessionEntry->limQosEnabled) ||
                   (pActionHdr->actionID == SIR_MAC_QOS_MAP_CONFIGURE) )
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             {
                 switch (pActionHdr->actionID)
                 {
@@ -2505,10 +2278,6 @@ limProcessActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
                         __limProcessDelTsReq(pMac, (tANI_U8 *) pRxPacketInfo,psessionEntry);
                         break;
 
-<<<<<<< HEAD
-                    default:
-                        PELOGE(limLog(pMac, LOGE, FL("Qos action %d not handled"), pActionHdr->actionID);)
-=======
                     case SIR_MAC_QOS_MAP_CONFIGURE:
                         __limProcessQosMapConfigureFrame(pMac, (tANI_U8 *) pRxPacketInfo,psessionEntry);
                     break;
@@ -2516,7 +2285,6 @@ limProcessActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
                         limLog(pMac, LOG1,
                          FL("Qos action %d not handled"),
                          pActionHdr->actionID);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                         break;
                 }
                 break ;
@@ -2525,17 +2293,6 @@ limProcessActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
            break;
 
         case SIR_MAC_ACTION_SPECTRUM_MGMT:
-<<<<<<< HEAD
-#ifdef WLAN_FEATURE_11W
-            if ((psessionEntry->limRmfEnabled) && (pHdr->fc.wep == 0))
-            {
-                PELOGE(limLog(pMac, LOGE, FL("Dropping unprotected Action category %d frame "
-                                             "since RMF is enabled."), pActionHdr->category);)
-                break;
-            }
-#endif
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             switch (pActionHdr->actionID)
             {
 #ifdef ANI_SUPPORT_11H
@@ -2565,13 +2322,9 @@ limProcessActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
                     }
                     break;
                 default:
-<<<<<<< HEAD
-                    PELOGE(limLog(pMac, LOGE, FL("Spectrum mgmt action id %d not handled"), pActionHdr->actionID);)
-=======
                     limLog(pMac, LOG1,
                       FL("Spectrum mgmt action id %d not handled"),
                       pActionHdr->actionID);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     break;
             }
             break;
@@ -2597,10 +2350,6 @@ limProcessActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
                     __limProcessDelTsReq(pMac, (tANI_U8 *) pRxPacketInfo,psessionEntry);
                     break;
 
-<<<<<<< HEAD
-                default:
-                    PELOGE(limLog(pMac, LOGE, FL("WME action %d not handled"), pActionHdr->actionID);)
-=======
                 case SIR_MAC_QOS_MAP_CONFIGURE:
                     __limProcessQosMapConfigureFrame(pMac, (tANI_U8 *) pRxPacketInfo,psessionEntry);
                     break;
@@ -2608,24 +2357,12 @@ limProcessActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
                 default:
                     limLog(pMac, LOG1, FL("WME action %d not handled"),
                                                   pActionHdr->actionID);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     break;
             }
             break;
 
         case SIR_MAC_ACTION_BLKACK:
             // Determine the "type" of BA Action Frame
-<<<<<<< HEAD
-#ifdef WLAN_FEATURE_11W
-            if ((psessionEntry->limRmfEnabled) && (pHdr->fc.wep == 0))
-            {
-                PELOGE(limLog(pMac, LOGE, FL("Dropping unprotected Action category %d frame "
-                                             "since RMF is enabled."), pActionHdr->category);)
-                break;
-            }
-#endif
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             switch(pActionHdr->actionID)
             {
               case SIR_MAC_BLKACK_ADD_REQ:
@@ -2652,29 +2389,13 @@ limProcessActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
             __limProcessSMPowerSaveUpdate(pMac, (tANI_U8 *) pRxPacketInfo,psessionEntry);
             break;
         default:
-<<<<<<< HEAD
-            PELOGE(limLog(pMac, LOGE, FL("Action ID %d not handled in HT Action category"), pActionHdr->actionID);)
-=======
             limLog(pMac, LOG1,
                    FL("Action ID %d not handled in HT Action category"),
                    pActionHdr->actionID);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
         }
         break;
 
-<<<<<<< HEAD
-#if defined WLAN_FEATURE_VOWIFI
-    case SIR_MAC_ACTION_RRM:
-#ifdef WLAN_FEATURE_11W
-            if ((psessionEntry->limRmfEnabled) && (pHdr->fc.wep == 0))
-            {
-                PELOGE(limLog(pMac, LOGE, FL("Dropping unprotected Action category %d frame "
-                                             "since RMF is enabled."), pActionHdr->category);)
-                break;
-            }
-#endif
-=======
     case SIR_MAC_ACTION_WNM:
     {
         PELOGE(limLog(pMac, LOG1, FL("WNM Action category %d action %d."),
@@ -2701,7 +2422,6 @@ limProcessActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
     }
 #if defined WLAN_FEATURE_VOWIFI
     case SIR_MAC_ACTION_RRM:
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         if( pMac->rrm.rrmPEContext.rrmEnable )
         {
             switch(pActionHdr->actionID) {
@@ -2715,12 +2435,8 @@ limProcessActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
                     __limProcessNeighborReport( pMac, (tANI_U8*) pRxPacketInfo, psessionEntry );
                     break;
                 default:
-<<<<<<< HEAD
-                    PELOGE( limLog( pMac, LOGE, FL("Action ID %d not handled in RRM"), pActionHdr->actionID);)
-=======
                     limLog( pMac, LOG1, FL("Action ID %d not handled in RRM"),
                          pActionHdr->actionID);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     break;
 
             }
@@ -2728,35 +2444,19 @@ limProcessActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
         else
         {
             // Else we will just ignore the RRM messages.
-<<<<<<< HEAD
-            PELOGE( limLog( pMac, LOGE, FL("RRM Action frame ignored as RRM is disabled in cfg"));)
-        }
-        break;
-#endif
-#if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR)
-=======
             limLog( pMac, LOG1,
               FL("RRM Action frame ignored as RRM is disabled in cfg"));
         }
         break;
 #endif
 #if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         case SIR_MAC_ACTION_VENDOR_SPECIFIC_CATEGORY:
             {
               tpSirMacVendorSpecificFrameHdr pVendorSpecific = (tpSirMacVendorSpecificFrameHdr) pActionHdr;
               tpSirMacMgmtHdr     pHdr;
-<<<<<<< HEAD
-              tANI_U32            frameLen;
               tANI_U8 Oui[] = { 0x00, 0x00, 0xf0 };
 
               pHdr = WDA_GET_RX_MAC_HEADER(pRxPacketInfo);
-              frameLen = WDA_GET_RX_PAYLOAD_LEN(pRxPacketInfo);
-=======
-              tANI_U8 Oui[] = { 0x00, 0x00, 0xf0 };
-
-              pHdr = WDA_GET_RX_MAC_HEADER(pRxPacketInfo);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
               //Check if it is a vendor specific action frame.
               if ((eLIM_STA_ROLE == psessionEntry->limSystemRole) &&
@@ -2769,21 +2469,6 @@ limProcessActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
                          pVendorSpecific->Oui[0], pVendorSpecific->Oui[1], pVendorSpecific->Oui[2]);)
                  /* Forward to the SME to HDD to wpa_supplicant */
                  // type is ACTION
-<<<<<<< HEAD
-                 limSendSmeMgmtFrameInd(pMac, pHdr->fc.subType,
-                    (tANI_U8*)pHdr, frameLen + sizeof(tSirMacMgmtHdr), 0,
-                    WDA_GET_RX_CH( pRxPacketInfo ), psessionEntry, 0);
-              }
-              else
-              {
-                 limLog( pMac, LOGE, FL("Dropping the vendor specific action frame because of( "
-                                        "WES Mode not enabled (WESMODE = %d) or OUI mismatch (%02x %02x %02x) or "
-                                        "not received with SelfSta Mac address) system role = %d"),
-                                        IS_WES_MODE_ENABLED(pMac),
-                                        pVendorSpecific->Oui[0], pVendorSpecific->Oui[1],
-                                        pVendorSpecific->Oui[2],
-                                        psessionEntry->limSystemRole );
-=======
                   limSendSmeMgmtFrameInd(pMac, psessionEntry->smeSessionId,
                                          pRxPacketInfo,
                                          psessionEntry, 0);
@@ -2798,7 +2483,6 @@ limProcessActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
                       pVendorSpecific->Oui[0], pVendorSpecific->Oui[1],
                       pVendorSpecific->Oui[2],
                       psessionEntry->limSystemRole );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
               }
            }
            break;
@@ -2808,56 +2492,13 @@ limProcessActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
         case SIR_MAC_ACTION_VENDOR_SPECIFIC:
             {
               tpSirMacVendorSpecificPublicActionFrameHdr pPubAction = (tpSirMacVendorSpecificPublicActionFrameHdr) pActionHdr;
-<<<<<<< HEAD
-              tpSirMacMgmtHdr     pHdr;
-              tANI_U32            frameLen;
               tANI_U8 P2POui[] = { 0x50, 0x6F, 0x9A, 0x09 };
 
-              pHdr = WDA_GET_RX_MAC_HEADER(pRxPacketInfo);
-              frameLen = WDA_GET_RX_PAYLOAD_LEN(pRxPacketInfo);
-
-=======
-              tANI_U8 P2POui[] = { 0x50, 0x6F, 0x9A, 0x09 };
-
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
               //Check if it is a P2P public action frame.
               if (vos_mem_compare(pPubAction->Oui, P2POui, 4))
               {
                  /* Forward to the SME to HDD to wpa_supplicant */
                  // type is ACTION
-<<<<<<< HEAD
-                 limSendSmeMgmtFrameInd(pMac, pHdr->fc.subType, 
-                    (tANI_U8*)pHdr, frameLen + sizeof(tSirMacMgmtHdr), 0, 
-                    WDA_GET_RX_CH( pRxPacketInfo ), psessionEntry, 0);
-              }
-              else
-              {
-                 limLog( pMac, LOGE, FL("Unhandled public action frame (Vendor specific). OUI %x %x %x %x"),
-                      pPubAction->Oui[0], pPubAction->Oui[1], pPubAction->Oui[2], pPubAction->Oui[3] );
-              }
-           }
-            break;
-#ifdef FEATURE_WLAN_TDLS
-           case SIR_MAC_TDLS_DIS_RSP:
-           {
-#ifdef FEATURE_WLAN_TDLS_INTERNAL
-               //LIM_LOG_TDLS(printk("Public Action TDLS Discovery RSP ..")) ;
-               limProcessTdlsPublicActionFrame(pMac, (tANI_U32*)pRxPacketInfo, psessionEntry) ;
-#else
-               tpSirMacMgmtHdr     pHdr;
-               tANI_U32            frameLen;
-               tANI_S8             rssi;
-
-               pHdr = WDA_GET_RX_MAC_HEADER(pRxPacketInfo);
-               frameLen = WDA_GET_RX_PAYLOAD_LEN(pRxPacketInfo);
-               rssi = WDA_GET_RX_RSSI_DB(pRxPacketInfo);
-               VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_INFO, 
-                                    ("Public Action TDLS Discovery RSP ..")) ;
-               limSendSmeMgmtFrameInd(pMac, pHdr->fc.subType, 
-                  (tANI_U8*)pHdr, frameLen + sizeof(tSirMacMgmtHdr), 0, 
-                  WDA_GET_RX_CH( pRxPacketInfo ), psessionEntry, rssi);
-#endif
-=======
                  limSendSmeMgmtFrameInd(pMac, psessionEntry->smeSessionId,
                                         pRxPacketInfo,
                                         psessionEntry, 0);
@@ -2897,18 +2538,13 @@ limProcessActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
                limSendSmeMgmtFrameInd(pMac, psessionEntry->smeSessionId,
                                       pRxPacketInfo,
                                       psessionEntry, rssi);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            }
                break;
 #endif
 
         default:
-<<<<<<< HEAD
-            PELOGE(limLog(pMac, LOGE, FL("Unhandled public action frame -- %x "), pActionHdr->actionID);)
-=======
             limLog(pMac, LOG1, FL("Unhandled public action frame -- %x "),
                              pActionHdr->actionID);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
         }
         break;
@@ -2926,11 +2562,7 @@ limProcessActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
                 break;
             case  SIR_MAC_SA_QUERY_RSP:
                 /**11w SA query response action frame received**/
-<<<<<<< HEAD
-                /* Forward to the SME to HDD to wpa_supplicant */
-=======
                 /* Handle based on the current SA Query state */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 __limProcessSAQueryResponseActionFrame(pMac,(tANI_U8*) pRxPacketInfo, psessionEntry );
                 break;
             default:
@@ -2957,12 +2589,8 @@ limProcessActionFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession ps
     }
 #endif
     default:
-<<<<<<< HEAD
-       PELOGE(limLog(pMac, LOGE, FL("Action category %d not handled"), pActionHdr->category);)
-=======
        limLog(pMac, LOG1,
          FL("Action category %d not handled"), pActionHdr->category);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        break;
     }
 }
@@ -3001,33 +2629,13 @@ limProcessActionFrameNoSession(tpAniSirGlobal pMac, tANI_U8 *pBd)
          switch(pActionHdr->actionID) {
             case SIR_MAC_ACTION_VENDOR_SPECIFIC:
               {
-<<<<<<< HEAD
-                tpSirMacMgmtHdr     pHdr;
-                tANI_U32            frameLen;
                 tANI_U8 P2POui[] = { 0x50, 0x6F, 0x9A, 0x09 };
 
-                pHdr = WDA_GET_RX_MAC_HEADER(pBd);
-                frameLen = WDA_GET_RX_PAYLOAD_LEN(pBd);
-
-=======
-                tANI_U8 P2POui[] = { 0x50, 0x6F, 0x9A, 0x09 };
-
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 //Check if it is a P2P public action frame.
                 if (vos_mem_compare(pActionHdr->Oui, P2POui, 4))
                 {
                   /* Forward to the SME to HDD to wpa_supplicant */
                   // type is ACTION
-<<<<<<< HEAD
-                  limSendSmeMgmtFrameInd(pMac, pHdr->fc.subType, 
-                      (tANI_U8*)pHdr, frameLen + sizeof(tSirMacMgmtHdr), 0,
-                      WDA_GET_RX_CH( pBd ), NULL, 0);
-                }
-                else
-                {
-                  limLog( pMac, LOGE, FL("Unhandled public action frame (Vendor specific). OUI %x %x %x %x"),
-                      pActionHdr->Oui[0], pActionHdr->Oui[1], pActionHdr->Oui[2], pActionHdr->Oui[3] );
-=======
                   limSendSmeMgmtFrameInd(pMac, 0, pBd, NULL, 0);
                 }
                 else
@@ -3036,30 +2644,20 @@ limProcessActionFrameNoSession(tpAniSirGlobal pMac, tANI_U8 *pBd)
                      FL("Unhandled public action frame (Vendor specific). OUI %x %x %x %x"),
                       pActionHdr->Oui[0], pActionHdr->Oui[1],
                       pActionHdr->Oui[2], pActionHdr->Oui[3]);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 }
               }
                break;
             default:
-<<<<<<< HEAD
-               PELOGE(limLog(pMac, LOGE, FL("Unhandled public action frame -- %x "), pActionHdr->actionID);)
-=======
                limLog(pMac, LOG1,
                 FL("Unhandled public action frame -- %x "), pActionHdr->actionID);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                   break;
          }
          break;
       default:
-<<<<<<< HEAD
-         PELOGE(limLog(pMac, LOG1, FL("Unhandled action frame without session -- %x "), pActionHdr->category);)
-            break;
-=======
          limLog(pMac, LOG1,
           FL("Unhandled action frame without session -- %x "),
                                     pActionHdr->category);
          break;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    }
 }

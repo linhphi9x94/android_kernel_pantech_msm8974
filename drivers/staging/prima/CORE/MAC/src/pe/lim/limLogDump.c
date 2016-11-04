@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,29 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -55,18 +28,11 @@
 
 
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*============================================================================
 limLogDump.c
 
 Implements the dump commands specific to the lim module. 
 
-<<<<<<< HEAD
-Copyright (c) 2007 QUALCOMM Incorporated.
-All Rights Reserved.
-Qualcomm Confidential and Proprietary
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  ============================================================================*/
 
 #include "vos_types.h"
@@ -1776,22 +1742,6 @@ dump_sch_beacon_trigger( tpAniSirGlobal pMac, tANI_U32 arg1, tANI_U32 arg2, tANI
     return p;
 }
 
-<<<<<<< HEAD
-
-static char* dump_lim_trace_cfg(tpAniSirGlobal pMac, tANI_U32 arg1, tANI_U32 arg2, tANI_U32 arg3, tANI_U32 arg4, char *p)
-{
-    MTRACE(macTraceCfg(pMac, arg1, arg2, arg3, arg4);)
-    return p;
-}
-
-static char* dump_lim_trace_dump(tpAniSirGlobal pMac, tANI_U32 arg1, tANI_U32 arg2, tANI_U32 arg3, tANI_U32 arg4, char *p)
-{
-    MTRACE(macTraceDumpAll(pMac, (tANI_U8)arg1, (tANI_U8)arg2, arg3);)
-    return p;
-}
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 static char* dump_lim_set_scan_in_powersave( tpAniSirGlobal pMac, tANI_U32 arg1, tANI_U32 arg2, tANI_U32 arg3, tANI_U32 arg4, char *p)
 {
     p += log_sprintf( pMac,p, "logDump set scan in powersave to %d \n", arg1);
@@ -2416,8 +2366,6 @@ dump_lim_get_pkts_rcvd_per_rssi_values( tpAniSirGlobal pMac, tANI_U32 arg1, tANI
 }
 #endif
 
-<<<<<<< HEAD
-=======
 
 static char *
 dump_set_max_probe_req(tpAniSirGlobal pMac, tANI_U32 arg1, tANI_U32 arg2,
@@ -2431,7 +2379,6 @@ dump_set_max_probe_req(tpAniSirGlobal pMac, tANI_U32 arg1, tANI_U32 arg2,
     pMac->lim.maxProbe = arg1;
     return p;
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* API to fill Rate Info based on mac efficiency
  * arg 1: mac efficiency to be used to calculate mac thorughput for a given rate index
  * arg 2: starting rateIndex to apply the macEfficiency to
@@ -2467,11 +2414,6 @@ static tDumpFuncEntry limMenuDumpTable[] = {
      * be moved to logDump.c
      */
     {321,   "PE:LIM: Set Log Level <VOS Module> <VOS Log Level>",    dump_lim_update_log_level},
-<<<<<<< HEAD
-    {322,   "PE.LIM: Enable/Disable PE Tracing",                     dump_lim_trace_cfg},
-    {323,   "PE.LIM: Trace Dump if enabled",                           dump_lim_trace_dump},
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {331,   "PE.LIM: Send finish scan to LIM",                       dump_lim_finishscan_send},
     {332,   "PE.LIM: force probe rsp send from LIM",                 dump_lim_prb_rsp_send},
     {333,   "PE.SCH: Trigger to generate a beacon",                  dump_sch_beacon_trigger},
@@ -2523,12 +2465,8 @@ static tDumpFuncEntry limMenuDumpTable[] = {
     {369,   "PE.LIM: pkts/rateIdx: iwpriv wlan0 dump 368 <staId> <boolean to flush counter>",    dump_lim_get_pkts_rcvd_per_rate_idx},
     {370,   "PE.LIM: pkts/rssi: : iwpriv wlan0 dump 369 <staId> <boolean to flush counter>",    dump_lim_get_pkts_rcvd_per_rssi_values},
 #endif
-<<<<<<< HEAD
-    {373,   "PE.LIM: MAS RX stats MAC eff <MAC eff in percentage>",  dump_limRateInfoBasedOnMacEff},
-=======
     {374,   "PE.LIM: MAS RX stats MAC eff <MAC eff in percentage>",  dump_limRateInfoBasedOnMacEff},
     {376,   "PE.LIM: max number of probe per scan", dump_set_max_probe_req },
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 };
 
 

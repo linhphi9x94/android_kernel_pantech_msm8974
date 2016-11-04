@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,30 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -53,7 +25,6 @@
  * to the Linux Foundation.
  */
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**=========================================================================
   
   @file  wlan_qct_dxe.c
@@ -61,11 +32,6 @@
   @brief 
                
    This file contains the external API exposed by the wlan data transfer abstraction layer module.
-<<<<<<< HEAD
-   Copyright (c) 2010-2011 Qualcomm Technologies, Inc.
-   All Rights Reserved.
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ========================================================================*/
 
 /*===========================================================================
@@ -98,12 +64,6 @@ when           who        what, where, why
 #include "wlan_qct_dxe.h"
 #include "wlan_qct_dxe_i.h"
 #include "wlan_qct_pal_device.h"
-<<<<<<< HEAD
-#ifdef FEATURE_R33D
-#include "wlan_qct_pal_bus.h"
-#endif /* FEATURE_R33D */
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*----------------------------------------------------------------------------
  * Local Definitions
@@ -117,10 +77,7 @@ when           who        what, where, why
 #define T_WLANDXE_TX_INT_ENABLE_FCOUNT     1
 #define T_WLANDXE_MEMDUMP_BYTE_PER_LINE    16
 #define T_WLANDXE_MAX_RX_PACKET_WAIT       6000
-<<<<<<< HEAD
-=======
 #define T_WLANDXE_SSR_TIMEOUT              5000
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define T_WLANDXE_PERIODIC_HEALTH_M_TIME   2500
 #define T_WLANDXE_MAX_HW_ACCESS_WAIT       2000
 #define WLANDXE_MAX_REAPED_RX_FRAMES       512
@@ -150,23 +107,12 @@ static char                   *channelType[WDTS_CHANNEL_MAX] =
       "TX_LOW_PRI",
       "TX_HIGH_PRI",
       "RX_LOW_PRI",
-<<<<<<< HEAD
-#ifndef WLANDXE_TEST_CHANNEL_ENABLE
-      "RX_HIGH_PRI",
-#else
-      "H2H_TEST_TX",
-      "H2H_TEST_RX"
-#endif /* WLANDXE_TEST_CHANNEL_ENABLE */
-   };
-static  wpt_packet               *rx_reaped_buf[WLANDXE_MAX_REAPED_RX_FRAMES];
-=======
       "RX_HIGH_PRI",
       "RX_LOGS",
       "RX_FW_LOGS",
    };
 static  wpt_packet               *rx_reaped_buf[WLANDXE_MAX_REAPED_RX_FRAMES];
 static WLANDXE_EnvInformation    dxeEnvBlk;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*-------------------------------------------------------------------------
   *  External Function Proto Type
@@ -188,8 +134,6 @@ static wpt_status dxeNotifySmsm
   wpt_boolean ringEmpty
 );
 
-<<<<<<< HEAD
-=======
 static void dxeStartSSRTimer
 (
   WLANDXE_CtrlBlkType     *dxeCtxt
@@ -200,7 +144,6 @@ static wpt_status dxeTXCleanup
    WLANDXE_CtrlBlkType     *hostCtxt
 );
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*-------------------------------------------------------------------------
   *  Local Function
   *-------------------------------------------------------------------------*/
@@ -234,11 +177,7 @@ static wpt_status dxeChannelMonitor
       return eWLAN_PAL_STATUS_E_INVAL;
    }
 
-<<<<<<< HEAD
-   if(channelEntry->channelType > WDTS_CHANNEL_RX_HIGH_PRI)
-=======
    if(channelEntry->channelType >= WDTS_CHANNEL_MAX)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    {
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_FATAL,
                "INVALID Channel type");
@@ -412,11 +351,7 @@ wpt_status dxeChannelRegisterDump
    dxeNotifySmsm(eWLAN_PAL_TRUE, eWLAN_PAL_FALSE);
    wpalSleep(10);
 
-<<<<<<< HEAD
-   if(channelEntry->channelType > WDTS_CHANNEL_RX_HIGH_PRI)
-=======
    if(channelEntry->channelType >= WDTS_CHANNEL_MAX)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    {
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_FATAL,
                "INVALID Channel type");
@@ -481,12 +416,8 @@ void dxeChannelAllDescDump
    previousCtrlValue = targetCtrlBlk->linkedDesc->descCtrl.ctrl;
 
    if((WDTS_CHANNEL_RX_LOW_PRI == channel) ||
-<<<<<<< HEAD
-      (WDTS_CHANNEL_RX_HIGH_PRI == channel))
-=======
       (WDTS_CHANNEL_RX_HIGH_PRI == channel)||
       (WDTS_CHANNEL_RX_LOG == channel))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    {
       for(channelLoop = 0; channelLoop < channelEntry->numDesc; channelLoop++)
       {
@@ -546,34 +477,16 @@ void dxeChannelAllDescDump
 
 /*==========================================================================
   @  Function Name
-<<<<<<< HEAD
-      dxeErrChannelDebug
-
-  @  Description
-      Dump channel information for which Error interrupt has occured
-=======
       dxeErrHandler
 
   @  Description
       Dump channel information for which Error interrupt has occured and
       try to recover from the Error
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   @  Parameters
       WLANDXE_ChannelCBType  *channelCb
 
   @  Return
-<<<<<<< HEAD
-      NONE
-
-===========================================================================*/
-void dxeErrChannelDebug
-(
-    WLANDXE_ChannelCBType    *channelCb
-)
-{
-   wpt_log_data_stall_channel_type channelLog;
-=======
       wpt_status: eWLAN_PAL_STATUS_SUCCESS if recovery is possible and
                   successful
                   eWLAN_PAL_STATUS_E_FAILURE if recovery is not possible
@@ -588,7 +501,6 @@ wpt_status dxeErrHandler
    wpt_log_data_stall_channel_type channelLog;
    wpt_uint32 chLDescReg, channelLoop;
    WLANDXE_DescCtrlBlkType *targetCtrlBlk;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    dxeChannelMonitor("INT_ERR", channelCb, &channelLog);
    dxeDescriptorDump(channelCb, channelCb->headCtrlBlk->linkedDesc, 0);
@@ -601,10 +513,6 @@ wpt_status dxeErrHandler
 #ifdef FEATURE_WLAN_DIAG_SUPPORT
    wpalPacketStallDumpLog();
 #endif /* FEATURE_WLAN_DIAG_SUPPORT */
-<<<<<<< HEAD
-
-   wpalFwDumpReq(17, 0, 0, 0, 0);
-=======
    switch ((chStatusReg & WLANDXE_CH_STAT_ERR_CODE_MASK) >>
             WLANDXE_CH_STAT_ERR_CODE_OFFSET)
    {
@@ -738,7 +646,6 @@ wpt_status dxeErrHandler
 
    }
    return eWLAN_PAL_STATUS_E_FAILURE;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 /*==========================================================================
   @  Function Name
@@ -787,12 +694,7 @@ void dxeTxThreadChannelDebugHandler
    }
 
    HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_FATAL,
-<<<<<<< HEAD
-            "================== DXE Dump End ======================",
-             tempDxeCtrlBlk->hostPowerState, tempDxeCtrlBlk->rivaPowerState);
-=======
             "================== DXE Dump End ======================");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    wpalMemoryFree(msgPtr);
 
 #ifdef FEATURE_WLAN_DIAG_SUPPORT
@@ -834,12 +736,9 @@ void dxeRxThreadChannelDebugHandler
     * Just incase TX not wanted stuck, Trigger TX again */
    for(channelLoop = WDTS_CHANNEL_RX_LOW_PRI; channelLoop < WDTS_CHANNEL_MAX; channelLoop++)
    {
-<<<<<<< HEAD
-=======
       if (!WLANDXE_IS_VALID_CHANNEL(channelLoop))
          continue;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       dxeChannelMonitor("******** Get Descriptor Snapshot ",
                         &tempDxeCtrlBlk->dxeChannel[channelLoop],
                         &channelLog);
@@ -866,11 +765,7 @@ void dxeRxThreadChannelDebugHandler
    {
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
                "Tx thread state dump req serialize fail status=%d",
-<<<<<<< HEAD
-               status, 0, 0);
-=======
                status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
@@ -880,307 +775,6 @@ void dxeRxThreadChannelDebugHandler
 
 /*==========================================================================
   @  Function Name 
-<<<<<<< HEAD
-      dxeRXHealthMonitor
-
-  @  Description 
-      Monitoring RX channel healthy stataus
-      If detect any problem, try to recover
-
-  @  Parameters
-      healthMonitorMsg    MSG pointer.
-                          will have low resource TX channel context
-
-  @  Return
-      NONE
-
-===========================================================================*/
-void dxeRXHealthMonitor
-(
-   wpt_msg         *healthMonitorMsg
-)
-{
-   WLANDXE_ChannelCBType    *channelCtrlBlk;
-   WLANDXE_ChannelCBType    *testCHCtrlBlk;
-   wpt_uint32                regValue;
-   wpt_uint32                chStatusReg, chControlReg, chDescReg, chLDescReg;
-   wpt_uint32                hwWakeLoop, chLoop;
-
-   if(NULL == healthMonitorMsg)
-   {
-      return;
-   }
-
-   /* Make wake up HW */
-   dxeNotifySmsm(eWLAN_PAL_FALSE, eWLAN_PAL_TRUE);
-   dxeNotifySmsm(eWLAN_PAL_TRUE, eWLAN_PAL_FALSE);
-   dxeNotifySmsm(eWLAN_PAL_FALSE, eWLAN_PAL_TRUE);
-
-   for(hwWakeLoop = 0; hwWakeLoop < T_WLANDXE_MAX_HW_ACCESS_WAIT; hwWakeLoop++)
-   {
-      wpalReadRegister(WLANDXE_BMU_AVAILABLE_BD_PDU, &regValue);
-      if(0 != regValue)
-      {
-         break;
-      }
-   }
-
-   HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-            "Scheduled RX, num free BD/PDU %d, loop Count %d",
-            regValue, hwWakeLoop, 0);
-
-   for(chLoop = WDTS_CHANNEL_RX_LOW_PRI; chLoop < WDTS_CHANNEL_MAX; chLoop++)
-   {
-      testCHCtrlBlk = &tempDxeCtrlBlk->dxeChannel[chLoop];
-      wpalReadRegister(testCHCtrlBlk->channelRegister.chDXECtrlRegAddr, &chControlReg);
-      wpalReadRegister(testCHCtrlBlk->channelRegister.chDXEStatusRegAddr, &chStatusReg);
-      wpalReadRegister(testCHCtrlBlk->channelRegister.chDXEDesclRegAddr, &chDescReg);
-      wpalReadRegister(testCHCtrlBlk->channelRegister.chDXELstDesclRegAddr, &chLDescReg);
-
-      wpalTrace(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO,
-                "%11s : CCR 0x%x, CSR 0x%x, CDR 0x%x, CLDR 0x%x, HCBO %d, HCBDP 0x%x, HCBDC 0x%x, TCBO %d,TCBDP 0x%x, TCBDC 0x%x",
-                channelType[chLoop],
-                chControlReg, chStatusReg, chDescReg, chLDescReg,
-                testCHCtrlBlk->headCtrlBlk->ctrlBlkOrder, testCHCtrlBlk->headCtrlBlk->linkedDescPhyAddr,
-                testCHCtrlBlk->headCtrlBlk->linkedDesc->descCtrl.ctrl,
-                testCHCtrlBlk->tailCtrlBlk->ctrlBlkOrder, testCHCtrlBlk->tailCtrlBlk->linkedDescPhyAddr,
-                testCHCtrlBlk->tailCtrlBlk->linkedDesc->descCtrl.ctrl);
-
-      if((chControlReg & WLANDXE_DESC_CTRL_VALID) && 
-         (chLDescReg != testCHCtrlBlk->headCtrlBlk->linkedDescPhyAddr))
-      {
-         wpalTrace(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-                   "%11s : CCR 0x%x, CSR 0x%x, CDR 0x%x, CLDR 0x%x, "
-                   "HCBO %d, HCBDP 0x%x, HCBDC 0x%x, TCBO %d,TCBDP 0x%x, TCBDC 0x%x",
-                   channelType[chLoop],
-                   chControlReg, chStatusReg, chDescReg, chLDescReg,
-                   testCHCtrlBlk->headCtrlBlk->ctrlBlkOrder, testCHCtrlBlk->headCtrlBlk->linkedDescPhyAddr,
-                   testCHCtrlBlk->headCtrlBlk->linkedDesc->descCtrl.ctrl,
-                   testCHCtrlBlk->tailCtrlBlk->ctrlBlkOrder, testCHCtrlBlk->tailCtrlBlk->linkedDescPhyAddr,
-                   testCHCtrlBlk->tailCtrlBlk->linkedDesc->descCtrl.ctrl);
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-                  "%11s : RX CH EN Descriptor Async, resync it", channelType[chLoop], 0, 0);
-         wpalWriteRegister(testCHCtrlBlk->channelRegister.chDXELstDesclRegAddr,
-                           testCHCtrlBlk->headCtrlBlk->linkedDescPhyAddr);
-      }
-      else if(!(chControlReg & WLANDXE_DESC_CTRL_VALID) && 
-               (chDescReg != testCHCtrlBlk->headCtrlBlk->linkedDescPhyAddr))
-      {
-         wpalTrace(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-                   "%11s : CCR 0x%x, CSR 0x%x, CDR 0x%x, CLDR 0x%x, "
-                   "HCBO %d, HCBDP 0x%x, HCBDC 0x%x, TCBO %d,TCBDP 0x%x, TCBDC 0x%x",
-                   channelType[chLoop],
-                   chControlReg, chStatusReg, chDescReg, chLDescReg,
-                   testCHCtrlBlk->headCtrlBlk->ctrlBlkOrder, testCHCtrlBlk->headCtrlBlk->linkedDescPhyAddr,
-                   testCHCtrlBlk->headCtrlBlk->linkedDesc->descCtrl.ctrl,
-                   testCHCtrlBlk->tailCtrlBlk->ctrlBlkOrder, testCHCtrlBlk->tailCtrlBlk->linkedDescPhyAddr,
-                   testCHCtrlBlk->tailCtrlBlk->linkedDesc->descCtrl.ctrl);
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-                  "%11s : RX CH DIS Descriptor Async, resync it", channelType[chLoop], 0, 0);
-         wpalWriteRegister(testCHCtrlBlk->channelRegister.chDXEDesclRegAddr,
-                           testCHCtrlBlk->headCtrlBlk->linkedDescPhyAddr);
-      }
-   }
-
-   channelCtrlBlk = (WLANDXE_ChannelCBType *)healthMonitorMsg->pContext;
-   if(channelCtrlBlk->hitLowResource)
-   {
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-               "%11s : Still Low Resource, kick DXE TX and restart timer",
-               channelType[channelCtrlBlk->channelType], 0, 0);
-      /* Still Low Resource, Kick DXE again and start timer again */
-      wpalTimerStart(&channelCtrlBlk->healthMonitorTimer,
-                     T_WLANDXE_PERIODIC_HEALTH_M_TIME);
-   }
-   else
-   {
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-               "%11s : Out from Low resource condition, do nothing",
-               channelType[channelCtrlBlk->channelType], 0, 0);
-      /* Recovered from low resource condition
-       * Not need to do anything */
-   }
-
-   return;
-}
-
-/*==========================================================================
-  @  Function Name 
-      dxeTXHealthMonitor
-
-  @  Description 
-      Monitoring TX channel healthy stataus
-      If detect any problem, try to recover
-
-  @  Parameters
-      healthMonitorMsg    MSG pointer.
-                          will have low resource TX channel context
-
-  @  Return
-      NONE
-
-===========================================================================*/
-void dxeTXHealthMonitor
-(
-   wpt_msg         *healthMonitorMsg
-)
-{
-   WLANDXE_ChannelCBType    *channelCtrlBlk;
-   WLANDXE_ChannelCBType    *testCHCtrlBlk;
-   wpt_uint32                regValue;
-   wpt_uint32                chStatusReg, chControlReg, chDescReg, chLDescReg;
-   wpt_uint32                hwWakeLoop, chLoop;
-   wpt_status                status  = eWLAN_PAL_STATUS_SUCCESS;
-
-   if(NULL == healthMonitorMsg)
-   {
-      return;
-   }
-
-   /* First of all kick TX channel
-    * This will fix if there is any problem with SMSM state */
-   dxeNotifySmsm(eWLAN_PAL_FALSE, eWLAN_PAL_TRUE);
-   dxeNotifySmsm(eWLAN_PAL_TRUE, eWLAN_PAL_FALSE);
-   dxeNotifySmsm(eWLAN_PAL_FALSE, eWLAN_PAL_TRUE);
-
-   /* Wait till RIVA up */
-   for(hwWakeLoop = 0; hwWakeLoop < T_WLANDXE_MAX_HW_ACCESS_WAIT; hwWakeLoop++)
-   {
-      wpalReadRegister(WLANDXE_BMU_AVAILABLE_BD_PDU, &regValue);
-      if(0 != regValue)
-      {
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-                  "num free BD/PDU %d, loop Count %d",
-                  regValue, hwWakeLoop, 0);
-         break;
-      }
-   }
-
-   HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-            "Scheduled TX, num free BD/PDU %d, loop Count %d",
-            regValue, hwWakeLoop, 0);
-
-   for(chLoop = 0; chLoop < WDTS_CHANNEL_RX_LOW_PRI; chLoop++)
-   {
-      testCHCtrlBlk = &tempDxeCtrlBlk->dxeChannel[chLoop];
-      wpalReadRegister(testCHCtrlBlk->channelRegister.chDXECtrlRegAddr, &chControlReg);
-      wpalReadRegister(testCHCtrlBlk->channelRegister.chDXEStatusRegAddr, &chStatusReg);
-      wpalReadRegister(testCHCtrlBlk->channelRegister.chDXEDesclRegAddr, &chDescReg);
-      wpalReadRegister(testCHCtrlBlk->channelRegister.chDXELstDesclRegAddr, &chLDescReg);
-
-      wpalTrace(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO,
-                "%11s : CCR 0x%x, CSR 0x%x, CDR 0x%x, CLDR 0x%x, HCBO %d, HCBDP 0x%x, HCBDC 0x%x, TCBO %d,TCBDP 0x%x, TCBDC 0x%x",
-                channelType[chLoop],
-                chControlReg, chStatusReg, chDescReg, chLDescReg,
-                testCHCtrlBlk->headCtrlBlk->ctrlBlkOrder, testCHCtrlBlk->headCtrlBlk->linkedDescPhyAddr,
-                testCHCtrlBlk->headCtrlBlk->linkedDesc->descCtrl.ctrl,
-                testCHCtrlBlk->tailCtrlBlk->ctrlBlkOrder, testCHCtrlBlk->tailCtrlBlk->linkedDescPhyAddr,
-                testCHCtrlBlk->tailCtrlBlk->linkedDesc->descCtrl.ctrl);
-
-      if((chControlReg & WLANDXE_DESC_CTRL_VALID) && 
-         (chLDescReg != testCHCtrlBlk->tailCtrlBlk->linkedDescPhyAddr))
-      {
-         wpalTrace(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-                   "%11s : CCR 0x%x, CSR 0x%x, CDR 0x%x, CLDR 0x%x, "
-                   "HCBO %d, HCBDP 0x%x, HCBDC 0x%x, TCBO %d,TCBDP 0x%x, TCBDC 0x%x",
-                   channelType[chLoop],
-                   chControlReg, chStatusReg, chDescReg, chLDescReg,
-                   testCHCtrlBlk->headCtrlBlk->ctrlBlkOrder, testCHCtrlBlk->headCtrlBlk->linkedDescPhyAddr,
-                   testCHCtrlBlk->headCtrlBlk->linkedDesc->descCtrl.ctrl,
-                   testCHCtrlBlk->tailCtrlBlk->ctrlBlkOrder, testCHCtrlBlk->tailCtrlBlk->linkedDescPhyAddr,
-                   testCHCtrlBlk->tailCtrlBlk->linkedDesc->descCtrl.ctrl);
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-                  "%11s : TX CH EN Descriptor Async, resync it", channelType[chLoop], 0, 0);
-         wpalWriteRegister(testCHCtrlBlk->channelRegister.chDXELstDesclRegAddr,
-                           testCHCtrlBlk->tailCtrlBlk->linkedDescPhyAddr);
-      }
-      else if(!(chControlReg & WLANDXE_DESC_CTRL_VALID) && 
-               (chDescReg != testCHCtrlBlk->tailCtrlBlk->linkedDescPhyAddr))
-      {
-         wpalTrace(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-                   "%11s : CCR 0x%x, CSR 0x%x, CDR 0x%x, CLDR 0x%x, "
-                   "HCBO %d, HCBDP 0x%x, HCBDC 0x%x, TCBO %d,TCBDP 0x%x, TCBDC 0x%x",
-                   channelType[chLoop],
-                   chControlReg, chStatusReg, chDescReg, chLDescReg,
-                   testCHCtrlBlk->headCtrlBlk->ctrlBlkOrder, testCHCtrlBlk->headCtrlBlk->linkedDescPhyAddr,
-                   testCHCtrlBlk->headCtrlBlk->linkedDesc->descCtrl.ctrl,
-                   testCHCtrlBlk->tailCtrlBlk->ctrlBlkOrder, testCHCtrlBlk->tailCtrlBlk->linkedDescPhyAddr,
-                   testCHCtrlBlk->tailCtrlBlk->linkedDesc->descCtrl.ctrl);
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-                  "%11s : TX CH DIS Descriptor Async, resync it", channelType[chLoop], 0, 0);
-         wpalWriteRegister(testCHCtrlBlk->channelRegister.chDXEDesclRegAddr,
-                           testCHCtrlBlk->tailCtrlBlk->linkedDescPhyAddr);
-      }
-   }
-
-   /* TX channel test done, test RX channels */
-   channelCtrlBlk = (WLANDXE_ChannelCBType *)healthMonitorMsg->pContext;
-   channelCtrlBlk->healthMonitorMsg->callback = dxeRXHealthMonitor;
-   status = wpalPostRxMsg(WDI_GET_PAL_CTX(),
-                          channelCtrlBlk->healthMonitorMsg);
-   if (eWLAN_PAL_STATUS_SUCCESS != status)
-   {
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-               "TX Low resource Kick DXE MSG Serialize fail",
-               status, 0, 0);
-   }
-
-   return;
-}
-
-/*==========================================================================
-  @  Function Name 
-      dxeHealthMonitorTimeout
-
-  @  Description 
-      Health Monitor timer started when TX channel low resource condition
-      And if reciovered from low resource condition, timer would not fired
-      Timer fired means during certain time, TX CH could not be recovered
-
-  @  Parameters
-      channelCtxt   Low resource condition happen Channel context
-
-  @  Return
-      NONE
-
-===========================================================================*/
-void dxeHealthMonitorTimeout
-(
-   void         *channelCtxt
-)
-{
-   WLANDXE_ChannelCBType    *channelCtrlBlk;
-   wpt_status                status  = eWLAN_PAL_STATUS_SUCCESS;
-
-   if(NULL == channelCtxt)
-   {
-      return;
-   }
-
-   /* Timeout Fired, DXE TX should kick on TX thread
-    * Serailize to TX Thread */
-   channelCtrlBlk = (WLANDXE_ChannelCBType *)channelCtxt;
-   HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO,
-            "%11s : Health Monitor timer expired",
-            channelType[channelCtrlBlk->channelType], 0, 0);
-
-   channelCtrlBlk->healthMonitorMsg->callback = dxeTXHealthMonitor;
-   status = wpalPostTxMsg(WDI_GET_PAL_CTX(),
-                          channelCtrlBlk->healthMonitorMsg);
-   if (eWLAN_PAL_STATUS_SUCCESS != status)
-   {
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-               "TX Low resource Kick DXE MSG Serialize fail",
-               status, 0, 0);
-   }
-
-   return;
-}
-
-/*==========================================================================
-  @  Function Name 
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       dxeCtrlBlkAlloc
 
   @  Description 
@@ -1323,16 +917,8 @@ static wpt_status dxeDescAllocAndLink
    WLANDXE_DescType         *prevDesc    = NULL;
    WLANDXE_DescCtrlBlkType  *currentCtrlBlk = NULL;
    unsigned int              idx;
-<<<<<<< HEAD
-   void                     *physAddress = NULL;
-#ifdef WLANDXE_TEST_CHANNEL_ENABLE
-   WLANDXE_ChannelCBType    *testTXChannelCB = &dxeCtrlBlk->dxeChannel[WDTS_CHANNEL_H2H_TEST_TX];
-   WLANDXE_DescCtrlBlkType  *currDescCtrlBlk = testTXChannelCB->headCtrlBlk;
-#endif /* WLANDXE_TEST_CHANNEL_ENABLE*/
-=======
    void                     *physAddressAlloc = NULL;
    wpt_uint32                physAddress;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
             "%s Enter", __func__);
@@ -1347,19 +933,11 @@ static wpt_status dxeDescAllocAndLink
 
    currentCtrlBlk = channelEntry->headCtrlBlk;
 
-<<<<<<< HEAD
-#if !(defined(FEATURE_R33D) || defined(WLANDXE_TEST_CHANNEL_ENABLE))
-   /* allocate all DXE descriptors for this channel in one chunk */
-   channelEntry->descriptorAllocation = (WLANDXE_DescType *)
-      wpalDmaMemoryAllocate(sizeof(WLANDXE_DescType)*channelEntry->numDesc,
-                            &physAddress);
-=======
    /* allocate all DXE descriptors for this channel in one chunk */
    channelEntry->descriptorAllocation = (WLANDXE_DescType *)
       wpalDmaMemoryAllocate(sizeof(WLANDXE_DescType)*channelEntry->numDesc,
                             &physAddressAlloc);
    physAddress = (wpt_uint32) (uintptr_t)(physAddressAlloc);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if(NULL == channelEntry->descriptorAllocation)
    {
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
@@ -1367,61 +945,11 @@ static wpt_status dxeDescAllocAndLink
       return eWLAN_PAL_STATUS_E_RESOURCES;
    }
    currentDesc = channelEntry->descriptorAllocation;
-<<<<<<< HEAD
-#endif
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    /* Allocate pre asigned number of descriptor */
    for(idx = 0; idx < channelEntry->numDesc; idx++)
    {
-<<<<<<< HEAD
-#ifndef FEATURE_R33D
-#ifndef WLANDXE_TEST_CHANNEL_ENABLE
       // descriptors were allocated in a chunk -- use the current one
-      memset((wpt_uint8 *)currentDesc, 0, sizeof(WLANDXE_DescType));
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
-               "Allocated Descriptor VA 0x%x, PA 0x%x", currentDesc, physAddress);
-#else
-      if(WDTS_CHANNEL_H2H_TEST_RX != channelEntry->channelType)
-      {
-         // allocate a descriptor
-         currentDesc = (WLANDXE_DescType *)wpalDmaMemoryAllocate(sizeof(WLANDXE_DescType),
-                                                                 &physAddress);
-         memset((wpt_uint8 *)currentDesc, 0, sizeof(WLANDXE_DescType));
-      }
-      else
-      {
-         currentDesc     = currDescCtrlBlk->linkedDesc;
-         physAddress     = (void *)currDescCtrlBlk->linkedDescPhyAddr;
-         currDescCtrlBlk = (WLANDXE_DescCtrlBlkType *)currDescCtrlBlk->nextCtrlBlk;
-      }
-#endif /* WLANDXE_TEST_CHANNEL_ENABLE */
-#else
-#ifndef WLANDXE_TEST_CHANNEL_ENABLE
-      currentDesc = (WLANDXE_DescType *)wpalAcpuDdrDxeDescMemoryAllocate(&physAddress);
-      memset((wpt_uint8 *)currentDesc, 0, sizeof(WLANDXE_DescType));
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
-               "Allocated Descriptor VA 0x%x, PA 0x%x", currentDesc, physAddress);
-#else
-      if(WDTS_CHANNEL_H2H_TEST_RX != channelEntry->channelType)
-      {
-         currentDesc = (WLANDXE_DescType *)wpalAcpuDdrDxeDescMemoryAllocate(&physAddress);
-         memset((wpt_uint8 *)currentDesc, 0, sizeof(WLANDXE_DescType));
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
-                  "Allocated Descriptor VA 0x%x, PA 0x%x", currentDesc, physAddress);
-      }
-      else
-      {
-         currentDesc     = currDescCtrlBlk->linkedDesc;
-         physAddress     = (void *)currDescCtrlBlk->linkedDescPhyAddr;
-         currDescCtrlBlk = (WLANDXE_DescCtrlBlkType *)currDescCtrlBlk->nextCtrlBlk;
-      }
-#endif /* WLANDXE_TEST_CHANNEL_ENABLE */
-#endif /* FEATURE_R33D */
-=======
-      // descriptors were allocated in a chunk -- use the current one
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       if(NULL == currentDesc)
       {
          HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
@@ -1429,29 +957,19 @@ static wpt_status dxeDescAllocAndLink
                   channelEntry->channelType);
          return eWLAN_PAL_STATUS_E_FAULT;
       }
-<<<<<<< HEAD
-
-      currentCtrlBlk->linkedDesc        = currentDesc;
-      currentCtrlBlk->linkedDescPhyAddr = (unsigned int)physAddress;
-=======
       memset((wpt_uint8 *)currentDesc, 0, sizeof(WLANDXE_DescType));
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
                "Allocated Descriptor VA %p, PA %p", currentDesc, physAddressAlloc);
 
       currentCtrlBlk->linkedDesc        = currentDesc;
       currentCtrlBlk->linkedDescPhyAddr = physAddress;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       /* First descriptor, next none
        * descriptor bottom location is first descriptor address */
       if(0 == idx)
       {
          currentDesc->dxedesc.dxe_short_desc.phyNextL = 0;
          channelEntry->DescBottomLoc                  = currentDesc;
-<<<<<<< HEAD
-         channelEntry->descBottomLocPhyAddr           = (unsigned int)physAddress;
-=======
          channelEntry->descBottomLocPhyAddr           = physAddress;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
       /* Not first, not last descriptor
        * may make link for previous descriptor with current descriptor
@@ -1459,11 +977,7 @@ static wpt_status dxeDescAllocAndLink
       else if((0 < idx) && (idx < (channelEntry->numDesc - 1)))
       {
          prevDesc->dxedesc.dxe_short_desc.phyNextL = 
-<<<<<<< HEAD
-                                  WLANDXE_U32_SWAP_ENDIAN((wpt_uint32)physAddress);
-=======
                                 WLANDXE_U32_SWAP_ENDIAN(physAddress);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
       /* Last descriptor
        * make a ring by asign next pointer as first descriptor
@@ -1471,34 +985,17 @@ static wpt_status dxeDescAllocAndLink
       else if((channelEntry->numDesc - 1) == idx)
       {
          prevDesc->dxedesc.dxe_short_desc.phyNextL    = 
-<<<<<<< HEAD
-                                  WLANDXE_U32_SWAP_ENDIAN((wpt_uint32)physAddress);
-         currentDesc->dxedesc.dxe_short_desc.phyNextL =
-                                  WLANDXE_U32_SWAP_ENDIAN((wpt_uint32)channelEntry->headCtrlBlk->linkedDescPhyAddr);
-=======
                                 WLANDXE_U32_SWAP_ENDIAN(physAddress);
          currentDesc->dxedesc.dxe_short_desc.phyNextL =
                                 WLANDXE_U32_SWAP_ENDIAN(channelEntry->headCtrlBlk->linkedDescPhyAddr);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
 
       /* If Current Channel is RX channel PAL Packet and OS packet buffer should be
        * Pre allocated and physical address must be assigned into
        * Corresponding DXE Descriptor */
-<<<<<<< HEAD
-#ifdef WLANDXE_TEST_CHANNEL_ENABLE
-      if((WDTS_CHANNEL_RX_LOW_PRI  == channelEntry->channelType) ||
-         (WDTS_CHANNEL_RX_HIGH_PRI == channelEntry->channelType) ||
-         (WDTS_CHANNEL_H2H_TEST_RX == channelEntry->channelType))
-#else
-      if((WDTS_CHANNEL_RX_LOW_PRI  == channelEntry->channelType) ||
-         (WDTS_CHANNEL_RX_HIGH_PRI == channelEntry->channelType))
-#endif /* WLANDXE_TEST_CHANNEL_ENABLE */
-=======
       if((WDTS_CHANNEL_RX_LOW_PRI  == channelEntry->channelType) ||
          (WDTS_CHANNEL_RX_HIGH_PRI == channelEntry->channelType) ||
          (WDTS_CHANNEL_RX_LOG == channelEntry->channelType))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {
          status = dxeRXFrameSingleBufferAlloc(dxeCtrlBlk,
                                               channelEntry,
@@ -1520,42 +1017,24 @@ static wpt_status dxeDescAllocAndLink
          currentDesc->dxedesc.dxe_short_desc.dstMemAddrL = channelEntry->extraConfig.refWQ_swapped;
       }
       else if((WDTS_CHANNEL_RX_LOW_PRI == channelEntry->channelType) ||
-<<<<<<< HEAD
-              (WDTS_CHANNEL_RX_HIGH_PRI == channelEntry->channelType))
-=======
               (WDTS_CHANNEL_RX_HIGH_PRI == channelEntry->channelType)||
               (WDTS_CHANNEL_RX_LOG == channelEntry->channelType))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {
          currentDesc->descCtrl.ctrl = channelEntry->extraConfig.cw_ctrl_read;
          currentDesc->dxedesc.dxe_short_desc.srcMemAddrL = channelEntry->extraConfig.refWQ_swapped;
       }
       else
       {
-<<<<<<< HEAD
-         /* Just in case. H2H Test RX channel, do nothing
-=======
          /* Just in case. H2H RX channel, do nothing
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
           * By Definition this must not happen */
       }
 
       currentCtrlBlk = currentCtrlBlk->nextCtrlBlk;
       prevDesc       = currentDesc;
 
-<<<<<<< HEAD
-#ifndef FEATURE_R33D
-#ifndef WLANDXE_TEST_CHANNEL_ENABLE
-      // advance to the next pre-allocated descriptor in the chunk
-      currentDesc++;
-      physAddress = ((wpt_int8 *)physAddress) + sizeof(WLANDXE_DescType);
-#endif
-#endif
-=======
       // advance to the next pre-allocated descriptor in the chunk
       currentDesc++;
       physAddress = (physAddress + sizeof(WLANDXE_DescType));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
@@ -1587,36 +1066,18 @@ static wpt_status dxeSetInterruptPath
    HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
             "%s Enter", __func__);
 
-<<<<<<< HEAD
-   for(idx = 0; idx < WDTS_CHANNEL_MAX; idx++)
-   {
-      channelEntry = &dxeCtrlBlk->dxeChannel[idx];
-#ifdef WLANDXE_TEST_CHANNEL_ENABLE
-      if((WDTS_CHANNEL_TX_LOW_PRI == channelEntry->channelType) ||
-         (WDTS_CHANNEL_TX_HIGH_PRI == channelEntry->channelType) ||
-         (WDTS_CHANNEL_H2H_TEST_TX == channelEntry->channelType))
-#else
-      if((WDTS_CHANNEL_TX_LOW_PRI == channelEntry->channelType) ||
-         (WDTS_CHANNEL_TX_HIGH_PRI == channelEntry->channelType))
-#endif /* WLANDXE_TEST_CHANNEL_ENABLE */
-=======
    foreach_valid_channel(idx)
    {
       channelEntry = &dxeCtrlBlk->dxeChannel[idx];
       if((WDTS_CHANNEL_TX_LOW_PRI == channelEntry->channelType) ||
          (WDTS_CHANNEL_TX_HIGH_PRI == channelEntry->channelType))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {
          interruptPath |= (1 << channelEntry->assignedDMAChannel);
       }
       else if((WDTS_CHANNEL_RX_LOW_PRI == channelEntry->channelType) ||
-<<<<<<< HEAD
-              (WDTS_CHANNEL_RX_HIGH_PRI == channelEntry->channelType))
-=======
               (WDTS_CHANNEL_RX_HIGH_PRI == channelEntry->channelType)||
               (WDTS_CHANNEL_RX_FW_LOG == channelEntry->channelType)  ||
               (WDTS_CHANNEL_RX_LOG == channelEntry->channelType))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {
          interruptPath |= (1 << (channelEntry->assignedDMAChannel + 16));
       }
@@ -1648,25 +1109,14 @@ static wpt_status dxeSetInterruptPath
                                DXE host driver main control block
 
   @  Return
-<<<<<<< HEAD
-      wpt_status
-
-===========================================================================*/
-static wpt_status dxeEngineCoreStart
-=======
       void
 
 ===========================================================================*/
 static void dxeEngineCoreStart
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 (
    WLANDXE_CtrlBlkType     *dxeCtrlBlk
 )
 {
-<<<<<<< HEAD
-   wpt_status                 status = eWLAN_PAL_STATUS_SUCCESS;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    wpt_uint32                 registerData = 0;
    wpt_uint8                  readRetry;
 
@@ -1694,11 +1144,7 @@ static void dxeEngineCoreStart
 
    for(readRetry = 0; readRetry < WLANDXE_CSR_MAX_READ_COUNT; readRetry++)
    {
-<<<<<<< HEAD
-   wpalWriteRegister(WALNDEX_DMA_CSR_ADDRESS,
-=======
       wpalWriteRegister(WALNDEX_DMA_CSR_ADDRESS,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                         WLANDXE_CSR_DEFAULT_ENABLE);
       wpalReadRegister(WALNDEX_DMA_CSR_ADDRESS, &registerData);
       if(!(registerData & WLANDXE_DMA_CSR_EN_MASK))
@@ -1728,10 +1174,6 @@ static void dxeEngineCoreStart
    dxeSetInterruptPath(dxeCtrlBlk);
    HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
             "%s Exit", __func__);
-<<<<<<< HEAD
-   return status;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 /*==========================================================================
@@ -1816,12 +1258,8 @@ static wpt_status dxeChannelInitProgram
       }
    }
    else if((WDTS_CHANNEL_RX_LOW_PRI  == channelEntry->channelType) ||
-<<<<<<< HEAD
-           (WDTS_CHANNEL_RX_HIGH_PRI == channelEntry->channelType))
-=======
            (WDTS_CHANNEL_RX_HIGH_PRI == channelEntry->channelType) ||
            (WDTS_CHANNEL_RX_LOG == channelEntry->channelType))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    {
       /* Initialize Descriptor control Word First */
       currentCtrlBlk = channelEntry->headCtrlBlk;
@@ -1852,11 +1290,7 @@ static wpt_status dxeChannelInitProgram
       }
 
       /* RX Channels, default Control registers MUST BE ENABLED */
-<<<<<<< HEAD
-      wpalWriteRegister(channelEntry->channelRegister.chDXECtrlRegAddr,
-=======
       status = wpalWriteRegister(channelEntry->channelRegister.chDXECtrlRegAddr,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                              channelEntry->extraConfig.chan_mask);
       if(eWLAN_PAL_STATUS_SUCCESS != status)
       {
@@ -1868,18 +1302,6 @@ static wpt_status dxeChannelInitProgram
    else
    {
       /* H2H test channel, not use work Q */
-<<<<<<< HEAD
-      /* Program pre allocated destination Address */
-      status = wpalWriteRegister(channelEntry->channelRegister.chDXEDadrlRegAddr,
-                                      WLANDXE_U32_SWAP_ENDIAN(channelEntry->DescBottomLoc->dxedesc.dxe_short_desc.phyNextL));
-      if(eWLAN_PAL_STATUS_SUCCESS != status)
-      {
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-                  "dxeChannelInitProgram Write RX DAddress register fail");
-         return status;
-      }
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
@@ -2088,12 +1510,8 @@ static wpt_status dxeChannelClose
               nextDescriptor = NULL;
           }
           if((WDTS_CHANNEL_RX_LOW_PRI  == channelEntry->channelType) ||
-<<<<<<< HEAD
-             (WDTS_CHANNEL_RX_HIGH_PRI == channelEntry->channelType))
-=======
              (WDTS_CHANNEL_RX_HIGH_PRI == channelEntry->channelType) ||
              (WDTS_CHANNEL_RX_LOG == channelEntry->channelType))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
           {
             if (NULL != currentCtrlBlk->xfrFrame)
             {
@@ -2116,13 +1534,6 @@ static wpt_status dxeChannelClose
                   wpalPacketFree(currentCtrlBlk->xfrFrame);
                }
          }
-<<<<<<< HEAD
-#if (defined(FEATURE_R33D) || defined(WLANDXE_TEST_CHANNEL_ENABLE))
-         // descriptors allocated individually so free them individually
-         wpalDmaMemoryFree(currentDescriptor);
-#endif
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          wpalMemoryFree(currentCtrlBlk);
 
          currentCtrlBlk    = nextCtrlBlk;
@@ -2136,19 +1547,11 @@ static wpt_status dxeChannelClose
       }
    }
 
-<<<<<<< HEAD
-#if !(defined(FEATURE_R33D) || defined(WLANDXE_TEST_CHANNEL_ENABLE))
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    // descriptors were allocated as a single chunk so free the chunk
    if(NULL != channelEntry->descriptorAllocation)
    {
       wpalDmaMemoryFree(channelEntry->descriptorAllocation);
    }
-<<<<<<< HEAD
-#endif
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
             "%s Exit", __func__);
@@ -2252,10 +1655,7 @@ static wpt_status dxeChannelCleanInt
    return status;
 }
 
-<<<<<<< HEAD
-=======
 #ifdef WLAN_DXE_LOW_RESOURCE_TIMER
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*==========================================================================
   @  Function Name
 			      dxeRXResourceAvailableTimerExpHandler
@@ -2277,23 +1677,6 @@ void dxeRXResourceAvailableTimerExpHandler
    void    *usrData
 )
 {
-<<<<<<< HEAD
-   HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_FATAL,
-            "RX Low resource, Durign wait time period %d, RX resource not allocated",
-            T_WLANDXE_MAX_RX_PACKET_WAIT);
-   wpalWlanReload();
-
-   return;
-}
-
-/*==========================================================================
-  @  Function Name 
-      dxeRXPacketAvailableCB
-
-  @  Description 
-      If RX frame handler encounts RX buffer pool empty condition,
-      DXE RX handle loop will be blocked till get available RX buffer pool.
-=======
    WLANDXE_CtrlBlkType      *dxeCtxt    = NULL;
    wpt_uint32               numRxFreePackets;
    wpt_uint32               numAllocFailures;
@@ -2416,7 +1799,6 @@ void dxeSSRTimerExpHandler
   @  Description 
       If RX frame handler encounts RX buffer pool empty condition,
       DXE RX handle loop will be blocked till get available RX buffer pool.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       When new RX buffer pool available, Packet available CB function will
       be called.
 
@@ -2517,21 +1899,9 @@ static wpt_status dxeRXFrameSingleBufferAlloc
    wpt_status                status = eWLAN_PAL_STATUS_SUCCESS;
    wpt_packet               *currentPalPacketBuffer = NULL;
    WLANDXE_DescType         *currentDesc            = NULL;
-<<<<<<< HEAD
-#ifdef FEATURE_R33D
-   wpt_uint32                virtualAddressPCIe;
-   wpt_uint32                physicalAddressPCIe;   
-#else
    wpt_iterator              iterator;
    wpt_uint32                allocatedSize          = 0;
    void                     *physAddress            = NULL;
-#endif /* FEATURE_R33D */
-
-=======
-   wpt_iterator              iterator;
-   wpt_uint32                allocatedSize          = 0;
-   void                     *physAddress            = NULL;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    currentDesc            = currentCtrlBlock->linkedDesc;
 
@@ -2549,8 +1919,6 @@ static wpt_status dxeRXFrameSingleBufferAlloc
       currentPalPacketBuffer = dxeCtxt->freeRXPacket;
       dxeCtxt->rxPalPacketUnavailable = eWLAN_PAL_FALSE;
       dxeCtxt->freeRXPacket = NULL;
-<<<<<<< HEAD
-=======
 
       if (channelEntry->doneIntDisabled)
       {
@@ -2558,7 +1926,6 @@ static wpt_status dxeRXFrameSingleBufferAlloc
                            channelEntry->extraConfig.chan_mask);
          channelEntry->doneIntDisabled = 0;
       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
    else if(!dxeCtxt->rxPalPacketUnavailable)
    {
@@ -2571,10 +1938,7 @@ static wpt_status dxeRXFrameSingleBufferAlloc
       if(NULL == currentPalPacketBuffer)
       {
          dxeCtxt->rxPalPacketUnavailable = eWLAN_PAL_TRUE;
-<<<<<<< HEAD
-=======
 #ifdef WLAN_DXE_LOW_RESOURCE_TIMER
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          /* Out of RX free buffer,
           * Start timer to recover from RX dead end */
          if(VOS_TIMER_STATE_RUNNING !=
@@ -2583,14 +1947,9 @@ static wpt_status dxeRXFrameSingleBufferAlloc
             HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
                      "RX Low resource, wait available resource");
             wpalTimerStart(&dxeCtxt->rxResourceAvailableTimer,
-<<<<<<< HEAD
-                           T_WLANDXE_MAX_RX_PACKET_WAIT);
-         }
-=======
                            wpalGetDxeReplenishRXTimerVal());
          }
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
    }
    
@@ -2604,40 +1963,12 @@ static wpt_status dxeRXFrameSingleBufferAlloc
    currentPalPacketBuffer->pBD      = NULL;
    currentPalPacketBuffer->pBDPhys  = NULL;
    currentPalPacketBuffer->BDLength = 0;
-<<<<<<< HEAD
-#ifdef FEATURE_R33D
-   status = wpalAllocateShadowRxFrame(currentPalPacketBuffer,
-                                           &physicalAddressPCIe,
-                                           &virtualAddressPCIe);
-   if((0 == physicalAddressPCIe) || (0 = virtualAddressPCIe))
-   {
-       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_MED,
-               "RX NULL Shadow Memory");
-       HDXE_ASSERT(0);
-       return eWLAN_PAL_STATUS_E_FAULT;
-   }
-   HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_MED,
-            "RX Shadow Memory Va 0x%x, Pa 0x%x",
-            virtualAddressPCIe, physicalAddressPCIe);
-   if(eWLAN_PAL_STATUS_SUCCESS != status)
-   {
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-               "dxeRXFrameBufferAlloc Shadow Mem Alloc fail");
-      return status;
-   }
-   currentCtrlBlock->shadowBufferVa = virtualAddressPCIe;
-   currentPalPacketBuffer->pBDPhys  = (void *)physicalAddressPCIe;
-   memset((wpt_uint8 *)currentCtrlBlock->shadowBufferVa, 0, WLANDXE_DEFAULT_RX_OS_BUFFER_SIZE);
-#else
-   status = wpalLockPacketForTransfer(currentPalPacketBuffer);
-=======
 
    if (channelEntry->channelType == WDTS_CHANNEL_RX_FW_LOG)
       wpalPacketRawTrimHead(currentCtrlBlock->xfrFrame, WLANDXE_NL_HEADER_SZ);
 
    status = wpalLockPacketForTransfer(currentPalPacketBuffer);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if(eWLAN_PAL_STATUS_SUCCESS != status)
    {
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
@@ -2664,19 +1995,11 @@ static wpt_status dxeRXFrameSingleBufferAlloc
       return status;
    }
    currentPalPacketBuffer->pBDPhys = physAddress;
-<<<<<<< HEAD
-#endif /* FEATURE_R33D */
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    /* DXE descriptor must have SWAPPED addres in it's structure
     * !!! SWAPPED !!! */
    currentDesc->dxedesc.dxe_short_desc.dstMemAddrL =
-<<<<<<< HEAD
-                                       WLANDXE_U32_SWAP_ENDIAN((wpt_uint32)currentPalPacketBuffer->pBDPhys);
-=======
                                        WLANDXE_U32_SWAP_ENDIAN((wpt_uint32)(uintptr_t)currentPalPacketBuffer->pBDPhys);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    return status;
 }
@@ -2739,12 +2062,9 @@ static wpt_status dxeRXFrameRefillRing
          the descriptor. */
       if(channelEntry->extraConfig.cw_ctrl_read != currentDesc->descCtrl.ctrl)
       {
-<<<<<<< HEAD
-=======
          HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
                   "dxeRXFrameRefillRing, Descriptor write failed");
          ++channelEntry->desc_write_fail_count;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          //HDXE_ASSERT(0);
       }
 
@@ -2766,8 +2086,6 @@ static wpt_status dxeRXFrameRefillRing
    return status;
 }
 
-<<<<<<< HEAD
-=======
 static wpt_uint32 dxeRXLogRefillRing
 (
    WLANDXE_CtrlBlkType      *dxeCtxt,
@@ -2836,7 +2154,6 @@ static wpt_uint32 dxeRXLogRefillRing
 
    return allocatedLen;
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*==========================================================================
   @  Function Name
       dxeRXFrameRouteUpperLayer
@@ -2883,45 +2200,15 @@ static wpt_int32 dxeRXFrameRouteUpperLayer
    {
       channelEntry->numTotalFrame++;
       channelEntry->numFreeDesc++;
-<<<<<<< HEAD
-#ifdef FEATURE_R33D
-      /* Transfer Size should be */
-      currentDesc->xfrSize = WLANDXE_U32_SWAP_ENDIAN(WLANDXE_DEFAULT_RX_OS_BUFFER_SIZE);
-      status = wpalPrepareRxFrame(&currentCtrlBlk->xfrFrame,
-                                       (wpt_uint32)currentCtrlBlk->xfrFrame->pBDPhys,
-                                       currentCtrlBlk->shadowBufferVa,
-                                       WLANDXE_DEFAULT_RX_OS_BUFFER_SIZE);
-      if(eWLAN_PAL_STATUS_SUCCESS != status)
-      {
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-                  "dxeRXFrameReady Prepare RX Frame fail");
-         return ret_val;
-      }
-      status = wpalFreeRxFrame(currentCtrlBlk->shadowBufferVa);
-      if(eWLAN_PAL_STATUS_SUCCESS != status)
-      {
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-                  "dxeRXFrameReady Free Shadow RX Frame fail");
-         return ret_val;
-      }
-
-#else /* FEATURE_R33D */
-      status = wpalUnlockPacket(currentCtrlBlk->xfrFrame);
-=======
       status = wpalUnlockPacket(currentCtrlBlk->xfrFrame);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       if (eWLAN_PAL_STATUS_SUCCESS != status)
       {
          HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
                   "dxeRXFrameReady unable to unlock packet");
          return ret_val;
       }
-<<<<<<< HEAD
-#endif /* FEATURE_R33D */
-=======
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       /* This Descriptor is valid, so linked Control block is also valid
        * Linked Control block has pre allocated packet buffer
        * So, just let upper layer knows preallocated frame pointer will be OK */
@@ -2931,12 +2218,8 @@ static wpt_int32 dxeRXFrameRouteUpperLayer
       currentCtrlBlk->xfrFrame = NULL;
 
       /* Now try to refill the ring with empty Rx buffers to keep DXE busy */
-<<<<<<< HEAD
-      dxeRXFrameRefillRing(dxeCtxt, channelEntry);
-=======
       if (WDTS_CHANNEL_RX_FW_LOG != channelEntry->channelType)
           dxeRXFrameRefillRing(dxeCtxt, channelEntry);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
       /* Test next contorl block
        * if valid, this control block also has new RX frame must be handled */
@@ -3026,11 +2309,7 @@ static wpt_status dxeRXFrameReady
        * Do not try reload driver at here*/
       if(!(chStat & WLANDXE_CH_CTRL_EN_MASK))
       {
-<<<<<<< HEAD
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-=======
          HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                   "dxeRXFrameReady %s RING Wrapped, RX Free Low 0x%x",
                   channelType[channelEntry->channelType], chStat);
          /* This is not empty interrupt case
@@ -3117,10 +2396,7 @@ static wpt_status dxeRXFrameReady
                      "RX successive empty interrupt, Could not find invalidated DESC reload driver");
             dxeCtxt->driverReloadInProcessing = eWLAN_PAL_TRUE;
             wpalWlanReload();
-<<<<<<< HEAD
-=======
             dxeStartSSRTimer(dxeCtxt);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          }
       }
    }
@@ -3176,10 +2452,7 @@ static wpt_status dxeNotifySmsm
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_MED, "no need to kick off DXE");
    }
 
-<<<<<<< HEAD
-=======
    tempDxeCtrlBlk->txRingsEmpty = ringEmpty;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if(ringEmpty)
    {
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_MED, "SMSM Tx Ring Empty");
@@ -3193,8 +2466,6 @@ static wpt_status dxeNotifySmsm
 
    HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_HIGH, "C%x S%x", clrSt, setSt);
 
-<<<<<<< HEAD
-=======
    /* Store the smsm notification sent to firmware */
    tempDxeCtrlBlk->smsmDxeHistogram = (tempDxeCtrlBlk->smsmDxeHistogram << 1);
    if(setSt & WPAL_SMSM_WLAN_TX_ENABLE)
@@ -3214,7 +2485,6 @@ static wpt_status dxeNotifySmsm
    {
       tempDxeCtrlBlk->smsmRingsEmptyHistogram &= ~((wpt_uint32)1);
    }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    wpalNotifySmsm(clrSt, setSt);
 
    return eWLAN_PAL_STATUS_SUCCESS;
@@ -3307,13 +2577,9 @@ void dxeRXEventHandler
    WLANDXE_ChannelCBType    *channelCb  = NULL;
    wpt_uint32                chHighStat = 0;
    wpt_uint32                chLowStat  = 0;
-<<<<<<< HEAD
-   wpt_uint32                regValue;
-=======
    wpt_uint32                chLogRxStat  = 0;
    wpt_uint32                chLogRxFwStat = 0;
    wpt_uint32                regValue, chanMask;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    dxeCtxt = (WLANDXE_CtrlBlkType *)(msgContent->pContext);
 
@@ -3327,13 +2593,6 @@ void dxeRXEventHandler
    /* Now try to refill the ring with empty Rx buffers to keep DXE busy */
    dxeRXFrameRefillRing(dxeCtxt, &dxeCtxt->dxeChannel[WDTS_CHANNEL_RX_LOW_PRI]);
    dxeRXFrameRefillRing(dxeCtxt, &dxeCtxt->dxeChannel[WDTS_CHANNEL_RX_HIGH_PRI]);
-<<<<<<< HEAD
-
-   dxeCtxt = (WLANDXE_CtrlBlkType *)(msgContent->pContext);
-      
-   if((!dxeCtxt->dxeChannel[WDTS_CHANNEL_RX_HIGH_PRI].extraConfig.chEnabled) ||
-      (!dxeCtxt->dxeChannel[WDTS_CHANNEL_RX_LOW_PRI].extraConfig.chEnabled))
-=======
    if (WLANDXE_IS_VALID_CHANNEL(WDTS_CHANNEL_RX_LOG))
       dxeRXFrameRefillRing(dxeCtxt, &dxeCtxt->dxeChannel[WDTS_CHANNEL_RX_LOG]);
       
@@ -3341,18 +2600,12 @@ void dxeRXEventHandler
       (!dxeCtxt->dxeChannel[WDTS_CHANNEL_RX_LOW_PRI].extraConfig.chEnabled) ||
       (WLANDXE_IS_VALID_CHANNEL(WDTS_CHANNEL_RX_LOG) &&
        !dxeCtxt->dxeChannel[WDTS_CHANNEL_RX_LOG].extraConfig.chEnabled))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    {
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
          "DXE already stopped in RX event handler. Just return");
       return;
    }
 
-<<<<<<< HEAD
-   if((WLANDXE_POWER_STATE_IMPS == dxeCtxt->hostPowerState) ||
-      (WLANDXE_POWER_STATE_DOWN == dxeCtxt->hostPowerState))
-   {
-=======
    /* Disable device interrupt */
    /* Read whole interrupt mask register and exclusive only this channel int */
    status = wpalReadRegister(WLANDXE_INT_SRC_RAW_ADDRESS,
@@ -3390,7 +2643,6 @@ void dxeRXEventHandler
         }
       }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
          "%s Riva is in %d, Just Pull frames without any register touch ",
            __func__, dxeCtxt->hostPowerState);
@@ -3406,8 +2658,6 @@ void dxeRXEventHandler
          HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
                   "dxeRXEventHandler Pull from RX high channel fail");        
       }
-<<<<<<< HEAD
-=======
       /* In case FW could not power collapse in IMPS mode
        * Next power restore might have empty interrupt
        * If IMPS mode has empty interrupt since RX thread race,
@@ -3415,7 +2665,6 @@ void dxeRXEventHandler
        * To prevent invalid re-load driver,
        * IMPS event handler set dummpy frame count */
       channelCb->numFragmentCurrentChain = 1;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
        /* Second low priority */
       channelCb = &dxeCtxt->dxeChannel[WDTS_CHANNEL_RX_LOW_PRI];
@@ -3425,13 +2674,6 @@ void dxeRXEventHandler
       if(eWLAN_PAL_STATUS_SUCCESS != status)
       {
          HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-                  "dxeRXEventHandler Pull from RX low channel fail");        
-      }
-
-      /* Interrupt will not enabled at here, it will be enabled at PS mode change */
-      tempDxeCtrlBlk->rxIntDisabledByIMPS = eWLAN_PAL_TRUE;
-=======
                   "dxeRXEventHandler Pull from RX low channel fail");
       }
       /* LOW Priority CH same above */
@@ -3453,29 +2695,11 @@ void dxeRXEventHandler
       /* Interrupt will not enabled at here, it will be enabled at PS mode change */
       tempDxeCtrlBlk->rxIntDisabledByIMPS = eWLAN_PAL_TRUE;
       dxeEnvBlk.rxIntDisableReturn = VOS_RETURN_ADDRESS;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
       return;
    }
 
-<<<<<<< HEAD
-   /* Disable device interrupt */
-   /* Read whole interrupt mask register and exclusive only this channel int */
-   status = wpalReadRegister(WLANDXE_INT_SRC_RAW_ADDRESS,
-                             &intSrc);
-   if(eWLAN_PAL_STATUS_SUCCESS != status)
-   {
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-               "dxeRXEventHandler Read INT_SRC register fail");
-      return;         
-   }
-   HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_MED,
-            "RX Event Handler INT Source 0x%x", intSrc);
-
-#ifndef WLANDXE_TEST_CHANNEL_ENABLE
-=======
 pull_frames:
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* Test High Priority Channel interrupt is enabled or not */
    channelCb = &dxeCtxt->dxeChannel[WDTS_CHANNEL_RX_HIGH_PRI];
    if(intSrc & (1 << channelCb->assignedDMAChannel))
@@ -3494,19 +2718,12 @@ pull_frames:
                   "%11s : 0x%x Error Reported, Reload Driver",
                   channelType[channelCb->channelType], chHighStat);
 
-<<<<<<< HEAD
-         dxeErrChannelDebug(channelCb);
-
-         dxeCtxt->driverReloadInProcessing = eWLAN_PAL_TRUE;
-         wpalWlanReload();
-=======
          if (eWLAN_PAL_STATUS_SUCCESS != dxeErrHandler(channelCb, chHighStat))
          {
             dxeCtxt->driverReloadInProcessing = eWLAN_PAL_TRUE;
             wpalWlanReload();
             dxeStartSSRTimer(dxeCtxt);
          }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
       else if((WLANDXE_CH_STAT_INT_DONE_MASK & chHighStat) ||
               (WLANDXE_CH_STAT_INT_ED_MASK & chHighStat))
@@ -3532,62 +2749,9 @@ pull_frames:
       }
       else
       {
-<<<<<<< HEAD
-         channelCb->rxDoneHistogram &= ~1;
-      }
-   }
-#else
-   /* Test H2H Test interrupt is enabled or not */
-   channelCb = &dxeCtxt->dxeChannel[WDTS_CHANNEL_H2H_TEST_RX];
-   if(intSrc & (1 << channelCb->assignedDMAChannel))
-   {
-      status = dxeChannelCleanInt(channelCb, &chStat);
-      if(eWLAN_PAL_STATUS_SUCCESS != status)
-      {
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-                  "dxeRXEventHandler INT Clean up fail");
-         return;         
-      }
-
-      if(WLANDXE_CH_STAT_INT_ERR_MASK & chStat)
-      {
-         /* Error Happen during transaction, Handle it */
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_FATAL,
-                  "%11s : 0x%x Error Reported, Reload Driver",
-                  channelType[channelCb->channelType], chStat);
-
-         dxeErrChannelDebug(channelCb);
-
-         dxeCtxt->driverReloadInProcessing = eWLAN_PAL_TRUE;
-         wpalWlanReload();
-      }
-      else if(WLANDXE_CH_STAT_INT_ED_MASK & chStat)
-      {
-         /* Handle RX Ready for high priority channel */
-         status = dxeRXFrameReady(dxeCtxt,
-                                  channelCb,
-                                  chStat);
-      }
-      /* Update the Rx DONE histogram */
-      channelCb->rxDoneHistogram = (channelCb->rxDoneHistogram << 1);
-      if(WLANDXE_CH_STAT_INT_DONE_MASK & chStat)
-      {
-         channelCb->rxDoneHistogram |= 1;
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-            "DXE Channel Number %d, Rx DONE Histogram 0x%016llx",
-            channelCb->assignedDMAChannel, channelCb->rxDoneHistogram);
-      }
-      else
-      {
-         channelCb->rxDoneHistogram &= ~1;
-      }
-   }
-#endif /* WLANDXE_TEST_CHANNEL_ENABLE */
-=======
          channelCb->rxDoneHistogram &= ~((wpt_uint64)1);
       }
    }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    /* Test Low Priority Channel interrupt is enabled or not */
        channelCb = &dxeCtxt->dxeChannel[WDTS_CHANNEL_RX_LOW_PRI];
@@ -3608,14 +2772,6 @@ pull_frames:
                   "%11s : 0x%x Error Reported, Reload Driver",
                   channelType[channelCb->channelType], chLowStat);
 
-<<<<<<< HEAD
-         dxeErrChannelDebug(channelCb);
-
-         dxeCtxt->driverReloadInProcessing = eWLAN_PAL_TRUE;
-         wpalWlanReload();
-      }
-      else if(WLANDXE_CH_STAT_INT_ED_MASK & chLowStat)
-=======
          if (eWLAN_PAL_STATUS_SUCCESS !=
                          dxeErrHandler(channelCb, chLowStat))
          {
@@ -3626,7 +2782,6 @@ pull_frames:
       }
       else if((WLANDXE_CH_STAT_INT_ED_MASK & chLowStat) ||
                (WLANDXE_CH_STAT_INT_DONE_MASK & chLowStat))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {
          /* Handle RX Ready for low priority channel */
          status = dxeRXFrameReady(dxeCtxt,
@@ -3642,49 +2797,11 @@ pull_frames:
       }
       else
       {
-<<<<<<< HEAD
-         channelCb->rxDoneHistogram &= ~1;
-=======
          channelCb->rxDoneHistogram &= ~((wpt_uint64)1);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO,
                "RX LOW CH EVNT STAT 0x%x, %d frames handled", chLowStat, channelCb->numFragmentCurrentChain);
    }
-<<<<<<< HEAD
-   if(eWLAN_PAL_STATUS_SUCCESS != status)
-   {
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-               "dxeRXEventHandler Handle Frame Ready Fail");
-      return;         
-   }
-
-   /* Prepare Control Register EN Channel */
-   if(!(dxeCtxt->dxeChannel[WDTS_CHANNEL_RX_HIGH_PRI].extraConfig.chan_mask & WLANDXE_CH_CTRL_EN_MASK))
-   {
-      HDXE_ASSERT(0);
-   }
-   wpalWriteRegister(dxeCtxt->dxeChannel[WDTS_CHANNEL_RX_HIGH_PRI].channelRegister.chDXECtrlRegAddr,
-                     dxeCtxt->dxeChannel[WDTS_CHANNEL_RX_HIGH_PRI].extraConfig.chan_mask);
-
-   /* Prepare Control Register EN Channel */
-   if(!(dxeCtxt->dxeChannel[WDTS_CHANNEL_RX_LOW_PRI].extraConfig.chan_mask & WLANDXE_CH_CTRL_EN_MASK))
-   {
-      HDXE_ASSERT(0);
-   }
-
-   wpalWriteRegister(dxeCtxt->dxeChannel[WDTS_CHANNEL_RX_LOW_PRI].channelRegister.chDXECtrlRegAddr,
-                     dxeCtxt->dxeChannel[WDTS_CHANNEL_RX_LOW_PRI].extraConfig.chan_mask);
-
-   /* Clear Interrupt handle processing bit
-    * RIVA may power down */
-   wpalReadRegister(WLANDXE_INT_MASK_REG_ADDRESS, &regValue);
-   regValue &= WLANDXE_RX_INTERRUPT_PRO_UNMASK;
-   wpalWriteRegister(WLANDXE_INT_MASK_REG_ADDRESS, regValue);
-
-   /* Enable system level ISR */
-   /* Enable RX ready Interrupt at here */
-=======
 
    if (WLANDXE_IS_VALID_CHANNEL(WDTS_CHANNEL_RX_LOG))
    {
@@ -3909,7 +3026,6 @@ pull_frames:
 
    /* Enable system level ISR */
    /* Enable RX ready Interrupt at here */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    status = wpalEnableInterrupt(DXE_INTERRUPT_RX_READY);
    if(eWLAN_PAL_STATUS_SUCCESS != status)
    {
@@ -3963,11 +3079,8 @@ void dxeRXPacketAvailableEventHandler
    }
 
    dxeCtxt    = (WLANDXE_CtrlBlkType *)(rxPktAvailMsg->pContext);
-<<<<<<< HEAD
-=======
 
 #ifdef WLAN_DXE_LOW_RESOURCE_TIMER
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* Available resource allocated
     * Stop timer not needed */
    if(VOS_TIMER_STATE_RUNNING ==
@@ -3975,10 +3088,7 @@ void dxeRXPacketAvailableEventHandler
    {
       wpalTimerStop(&dxeCtxt->rxResourceAvailableTimer);
    }
-<<<<<<< HEAD
-=======
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    do
    {
@@ -4001,8 +3111,6 @@ void dxeRXPacketAvailableEventHandler
       {
          break;
       }
-<<<<<<< HEAD
-=======
 
       if (WLANDXE_IS_VALID_CHANNEL(WDTS_CHANNEL_RX_LOG))
       {
@@ -4013,7 +3121,6 @@ void dxeRXPacketAvailableEventHandler
             break;
          }
       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    } while(0);
 
    if((WLANDXE_POWER_STATE_IMPS == dxeCtxt->hostPowerState) ||
@@ -4021,10 +3128,7 @@ void dxeRXPacketAvailableEventHandler
    {
       /* Interrupt will not enabled at here, it will be enabled at PS mode change */
       tempDxeCtrlBlk->rxIntDisabledByIMPS = eWLAN_PAL_TRUE;
-<<<<<<< HEAD
-=======
       dxeEnvBlk.rxIntDisableReturn = VOS_RETURN_ADDRESS;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 }
 
@@ -4055,32 +3159,6 @@ static void dxeRXISR
    wpt_status                status     = eWLAN_PAL_STATUS_SUCCESS;
    wpt_uint32                regValue;
 
-<<<<<<< HEAD
-#ifdef FEATURE_R33D
-   status = wpalReadRegister(WLANDXE_INT_SRC_RAW_ADDRESS,
-                                  &regValue);
-   if(eWLAN_PAL_STATUS_SUCCESS != status)
-   {
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-               "dxeTXCompISR Read INT_SRC_RAW fail");
-      return;
-   }
-   HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-            "INT_SRC_RAW 0x%x", regValue);
-   if(0 == regValue)
-   {
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-               "This is not DXE Interrupt, Reject it 0x%x", regValue);
-      return;
-   }
-#endif /* FEATURE_R33D */
-
-   /* Set Interrupt processing bit
-    * During this bit set, WLAN HW may not power collapse */
-   wpalReadRegister(WLANDXE_INT_MASK_REG_ADDRESS, &regValue);
-   regValue |= WLANPAL_RX_INTERRUPT_PRO_MASK;
-   wpalWriteRegister(WLANDXE_INT_MASK_REG_ADDRESS, regValue);
-=======
    /* Set Interrupt processing bit
     * During this bit set, WLAN HW may not power collapse */
    if (!(wpalIsFwLoggingSupported() && wpalIsFwLoggingEnabled()))
@@ -4095,7 +3173,6 @@ static void dxeRXISR
       regValue |= WLAN_PMU_POWER_DOWN_MASK;
       wpalWriteRegister(WLAN_PMU_SPARE_OUT_ADDRESS, regValue);
    }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    /* Disable interrupt at here
     * Disable RX Ready system level Interrupt at here
@@ -4153,21 +3230,6 @@ static wpt_status dxeTXPushFrame
 {
    wpt_status                  status = eWLAN_PAL_STATUS_SUCCESS;
    WLANDXE_DescCtrlBlkType    *currentCtrlBlk = NULL;
-<<<<<<< HEAD
-   WLANDXE_DescType           *currentDesc    = NULL;
-   WLANDXE_DescType           *firstDesc      = NULL;
-   WLANDXE_DescType           *LastDesc       = NULL;
-   void                       *sourcePhysicalAddress = NULL;
-   wpt_uint32                  xferSize = 0;
-#ifdef FEATURE_R33D
-   tx_frm_pcie_vector_t        frameVector;
-   wpt_uint32                  Va;
-   wpt_uint32                  fragCount = 0;
-#else
-   wpt_iterator                iterator;
-#endif /* FEATURE_R33D */
-   wpt_uint32                  isEmpty = 0;
-=======
    WLANDXE_DescCtrlBlkType    *tailCtrlBlk    = NULL;
    WLANDXE_DescType           *currentDesc    = NULL;
    WLANDXE_DescType           *firstDesc      = NULL;
@@ -4177,7 +3239,6 @@ static wpt_status dxeTXPushFrame
    wpt_uint32                  xferSize = 0;
    wpt_iterator                iterator;
    wpt_uint8                   KickDxe   = 0;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
             "%s Enter", __func__);
@@ -4186,9 +3247,6 @@ static wpt_status dxeTXPushFrame
    if((0 == tempDxeCtrlBlk->dxeChannel[WDTS_CHANNEL_TX_LOW_PRI].numRsvdDesc) &&
       (0 == tempDxeCtrlBlk->dxeChannel[WDTS_CHANNEL_TX_HIGH_PRI].numRsvdDesc))
    {
-<<<<<<< HEAD
-      isEmpty = 1;
-=======
        KickDxe = 1;
    }
 
@@ -4204,22 +3262,12 @@ static wpt_status dxeTXPushFrame
           HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO,
                    "dxeTXPushFrame Descs threshold reached No DMA");
        }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    channelEntry->numFragmentCurrentChain = 0;
    currentCtrlBlk = channelEntry->headCtrlBlk;
 
    /* Initialize interator, TX is fragmented */
-<<<<<<< HEAD
-#ifdef FEATURE_R33D
-   memset(&frameVector, 0, sizeof(tx_frm_pcie_vector_t));
-   status = wpalPrepareTxFrame(palPacket,
-                                    &frameVector,
-                                    &Va);
-#else
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    status = wpalLockPacketForTransfer(palPacket);
    if(eWLAN_PAL_STATUS_SUCCESS != status)
    {
@@ -4229,10 +3277,6 @@ static wpt_status dxeTXPushFrame
    }
 
    status = wpalIteratorInit(&iterator, palPacket);
-<<<<<<< HEAD
-#endif /* FEATURE_R33D */
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if(eWLAN_PAL_STATUS_SUCCESS != status)
    {
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
@@ -4256,47 +3300,16 @@ static wpt_status dxeTXPushFrame
       /* Get next fragment physical address and fragment size
        * if this is the first trial, will get first physical address
        * if no more fragment, Descriptor src address will be set as NULL, OK??? */
-<<<<<<< HEAD
-#ifdef FEATURE_R33D
-      if(fragCount == frameVector.num_frg)
-      {
-         break;
-      }
-      currentCtrlBlk->shadowBufferVa = frameVector.frg[0].va;
-      sourcePhysicalAddress          = (void *)frameVector.frg[fragCount].pa;
-      xferSize                       = frameVector.frg[fragCount].size;
-      fragCount++;
-      if(0 == xferSize)
-      {
-          HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-                  "dxeTXPushFrame invalid transfer size");
-
-          HDXE_ASSERT(0);
-          return eWLAN_PAL_STATUS_E_FAILURE;
-      }
-      if(NULL == sourcePhysicalAddress)
-      {
-          HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-              "dxeTXPushFrame invalid sourcePhysicalAddress");
-          HDXE_ASSERT(0);
-          return eWLAN_PAL_STATUS_E_FAILURE;
-      }
-#else
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       status = wpalIteratorNext(&iterator,
                                 palPacket,
                                 &sourcePhysicalAddress,
                                 &xferSize);
-<<<<<<< HEAD
-=======
       if(eWLAN_PAL_STATUS_SUCCESS != status)
       {
          HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
                   "dxeTXPushFrame Get next frame fail");
          return status;
       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       if((NULL == sourcePhysicalAddress) ||
          (0    == xferSize))
       {
@@ -4304,27 +3317,13 @@ static wpt_status dxeTXPushFrame
                   "dxeTXPushFrame end of current frame");
          break;
       }
-<<<<<<< HEAD
-      if(eWLAN_PAL_STATUS_SUCCESS != status)
-      {
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-                  "dxeTXPushFrame Get next frame fail");
-         return status;
-      }
-#endif /* FEATURE_R33D */
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
       /* This is the LAST descriptor valid for this transaction */
       LastDesc    = currentCtrlBlk->linkedDesc;
 
       /* Program DXE descriptor */
       currentDesc->dxedesc.dxe_short_desc.srcMemAddrL =
-<<<<<<< HEAD
-                               WLANDXE_U32_SWAP_ENDIAN((wpt_uint32)sourcePhysicalAddress);
-=======
                                WLANDXE_U32_SWAP_ENDIAN((wpt_uint32)(uintptr_t)sourcePhysicalAddress);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
       /* Just normal data transfer from aCPU Flat Memory to BMU Q */
       if((WDTS_CHANNEL_TX_LOW_PRI  == channelEntry->channelType) ||
@@ -4385,21 +3384,14 @@ static wpt_status dxeTXPushFrame
    {
       /* Update channel head as next avaliable linked slot */
       channelEntry->headCtrlBlk = currentCtrlBlk;
-<<<<<<< HEAD
-      if(isEmpty)
-=======
       if(KickDxe)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {
          tempDxeCtrlBlk->ringNotEmpty = eWLAN_PAL_TRUE;
          HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
                   "SMSM_ret LO=%d HI=%d",
                   tempDxeCtrlBlk->dxeChannel[WDTS_CHANNEL_TX_LOW_PRI].numRsvdDesc,
                   tempDxeCtrlBlk->dxeChannel[WDTS_CHANNEL_TX_HIGH_PRI].numRsvdDesc );
-<<<<<<< HEAD
-=======
          dxeNotifySmsm(eWLAN_PAL_FALSE, eWLAN_PAL_TRUE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          dxeNotifySmsm(eWLAN_PAL_TRUE, eWLAN_PAL_FALSE);
          tempDxeCtrlBlk->smsmToggled = eWLAN_PAL_TRUE;
       }
@@ -4471,40 +3463,6 @@ static wpt_status dxeTXPushFrame
                   "dxeTXPushFrame LONG Descriptor Format!!!");
       }
    }
-<<<<<<< HEAD
-#ifdef WLANDXE_TEST_CHANNEL_ENABLE
-   else if(WDTS_CHANNEL_H2H_TEST_TX  == channelEntry->channelType)
-   {
-      /* Destination address, Physical memory address */
-      status = wpalWriteRegister(channelEntry->channelRegister.chDXEDadrlRegAddr,
-                                      WLANDXE_U32_SWAP_ENDIAN(firstDesc->dxedesc.dxe_short_desc.dstMemAddrL));
-      if(eWLAN_PAL_STATUS_SUCCESS != status)
-      {
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-                  "dxeTXPushFrame Program dest address register fail");
-         return status;
-      }
-      /* If descriptor format is SHORT */
-      if(channelEntry->channelConfig.useShortDescFmt)
-      {
-         status = wpalWriteRegister(channelEntry->channelRegister.chDXEDadrhRegAddr,
-                                         0);
-         if(eWLAN_PAL_STATUS_SUCCESS != status)
-         {
-            HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-                     "dxeTXPushFrame Program dest address register fail");
-            return status;
-         }
-      }
-      else
-      {
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-                  "dxeTXPushFrame LONG Descriptor Format!!!");
-      }
-   }
-#endif /* WLANDXE_TEST_CHANNEL_ENABLE */
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    /* Program Source address register
     * This address is already programmed into DXE Descriptor
@@ -4661,11 +3619,7 @@ static wpt_status dxeTXCompFrame
       return eWLAN_PAL_STATUS_SUCCESS;
    }
 
-<<<<<<< HEAD
-   /*  */
-=======
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    while(1)
    {
 //      HDXE_ASSERT(WLAN_PAL_IS_STATUS_SUCCESS(WLAN_RivaValidateDesc(currentDesc)));
@@ -4692,12 +3646,6 @@ static wpt_status dxeTXCompFrame
       if(WLANDXE_U32_SWAP_ENDIAN(descCtrlValue) & WLANDXE_DESC_CTRL_EOP)
       {
          hostCtxt->txCompletedFrames--;
-<<<<<<< HEAD
-#ifdef FEATURE_R33D
-         wpalFreeTxFrame(currentCtrlBlk->shadowBufferVa);
-#else
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          status = wpalUnlockPacket(currentCtrlBlk->xfrFrame);
          if (eWLAN_PAL_STATUS_SUCCESS != status)
          {
@@ -4711,10 +3659,6 @@ static wpt_status dxeTXCompFrame
             }
             return status;
          }
-<<<<<<< HEAD
-#endif /* FEATURE_R33D */
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          hostCtxt->txCompCB(hostCtxt->clientCtxt,
                             currentCtrlBlk->xfrFrame,
                             eWLAN_PAL_STATUS_SUCCESS);
@@ -4760,10 +3704,6 @@ static wpt_status dxeTXCompFrame
                               channelEntry->channelType,
                               eWLAN_PAL_TRUE);
       channelEntry->hitLowResource = eWLAN_PAL_FALSE;
-<<<<<<< HEAD
-      wpalTimerStop(&channelEntry->healthMonitorTimer);
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    status = wpalMutexRelease(&channelEntry->dxeChannelLock);
@@ -4779,8 +3719,6 @@ static wpt_status dxeTXCompFrame
 }
 
 /*==========================================================================
-<<<<<<< HEAD
-=======
   @  Function Name
       dxeTXCleanup
 
@@ -4979,7 +3917,6 @@ static wpt_status dxeTXCleanup
    return status;
 }
 /*==========================================================================
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   @  Function Name 
       dxeTXEventHandler
 
@@ -5024,8 +3961,6 @@ void dxeTXEventHandler
       return;
    }
 
-<<<<<<< HEAD
-=======
    /* Read whole interrupt mask register and exclusive only this channel int */
    status = wpalReadRegister(WLANDXE_INT_SRC_RAW_ADDRESS,
                                   &intSrc);
@@ -5040,7 +3975,6 @@ void dxeTXEventHandler
 
    dxeEnvBlk.txCmpIntChanlSrc = intSrc&0xFF;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* Return from here if the RIVA is in IMPS, to avoid register access */
    if(WLANDXE_POWER_STATE_IMPS == dxeCtxt->hostPowerState)
    {
@@ -5070,12 +4004,9 @@ void dxeTXEventHandler
          HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
                      "TX COMP INT Enabled, remain TX frame count on ring %d",
                      dxeCtxt->txCompletedFrames);
-<<<<<<< HEAD
-=======
 
          dxeEnvBlk.txCmpIntChanlSrc = 0;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          /*Kicking the DXE after the TX Complete interrupt was enabled - to avoid 
            the posibility of a race*/
          dxePsComplete(dxeCtxt, eWLAN_PAL_TRUE);
@@ -5091,7 +4022,6 @@ void dxeTXEventHandler
    }
 
    successiveIntWithIMPS = 0;
-<<<<<<< HEAD
    if((!dxeCtxt->dxeChannel[WDTS_CHANNEL_TX_HIGH_PRI].extraConfig.chEnabled) ||
       (!dxeCtxt->dxeChannel[WDTS_CHANNEL_TX_LOW_PRI].extraConfig.chEnabled))
    {
@@ -5099,28 +4029,6 @@ void dxeTXEventHandler
          "DXE already stopped in TX event handler. Just return");
       return;
    }
-
-   /* Disable device interrupt */
-   /* Read whole interrupt mask register and exclusive only this channel int */
-   status = wpalReadRegister(WLANDXE_INT_SRC_RAW_ADDRESS,
-                                  &intSrc);
-   if(eWLAN_PAL_STATUS_SUCCESS != status)
-   {
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-               "dxeTXCompleteEventHandler Read INT_DONE_SRC register fail");
-      return;         
-   }
-   HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_MED,
-            "TX Event Handler INT Source 0x%x", intSrc);
-=======
-   if((!dxeCtxt->dxeChannel[WDTS_CHANNEL_TX_HIGH_PRI].extraConfig.chEnabled) ||
-      (!dxeCtxt->dxeChannel[WDTS_CHANNEL_TX_LOW_PRI].extraConfig.chEnabled))
-   {
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-         "DXE already stopped in TX event handler. Just return");
-      return;
-   }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    /* Test High Priority Channel is the INT source or not */
    channelCb = &dxeCtxt->dxeChannel[WDTS_CHANNEL_TX_HIGH_PRI];
@@ -5140,12 +4048,6 @@ void dxeTXEventHandler
                   "%11s : 0x%x Error Reported, Reload Driver",
                   channelType[channelCb->channelType], chStat);
 
-<<<<<<< HEAD
-         dxeErrChannelDebug(channelCb);
-
-         dxeCtxt->driverReloadInProcessing = eWLAN_PAL_TRUE;
-         wpalWlanReload();
-=======
          if (eWLAN_PAL_STATUS_SUCCESS !=
                          dxeErrHandler(channelCb, chStat))
          {
@@ -5154,7 +4056,6 @@ void dxeTXEventHandler
             dxeStartSSRTimer(dxeCtxt);
          }
          bEnableISR = 1;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
       else if(WLANDXE_CH_STAT_INT_DONE_MASK & chStat)
       {
@@ -5204,12 +4105,6 @@ void dxeTXEventHandler
                   "%11s : 0x%x Error Reported, Reload Driver",
                   channelType[channelCb->channelType], chStat);
 
-<<<<<<< HEAD
-         dxeErrChannelDebug(channelCb);
-
-         dxeCtxt->driverReloadInProcessing = eWLAN_PAL_TRUE;
-         wpalWlanReload();
-=======
          if (eWLAN_PAL_STATUS_SUCCESS !=
                          dxeErrHandler(channelCb, chStat))
          {
@@ -5218,7 +4113,6 @@ void dxeTXEventHandler
              dxeStartSSRTimer(dxeCtxt);
          }
          bEnableISR = 1;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
       else if(WLANDXE_CH_STAT_INT_DONE_MASK & chStat)
       {
@@ -5249,55 +4143,6 @@ void dxeTXEventHandler
                "TX LOW STAT 0x%x RESRVD %d", chStat, channelCb->numRsvdDesc);
    }
 
-<<<<<<< HEAD
-
-#ifdef WLANDXE_TEST_CHANNEL_ENABLE
-   /* Test H2H TX Channel interrupt is enabled or not */
-   channelCb = &dxeCtxt->dxeChannel[WDTS_CHANNEL_H2H_TEST_TX];
-   if(intSrc & (1 << channelCb->assignedDMAChannel))
-   {
-      status = wpalReadRegister(channelCb->channelRegister.chDXEStatusRegAddr,
-                                     &chStat);
-      if(eWLAN_PAL_STATUS_SUCCESS != status)
-      {
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-                  "dxeChannelCleanInt Read CH STAT register fail");
-         return;         
-      }
-
-      if(WLANDXE_CH_STAT_INT_ERR_MASK & chStat)
-      {
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_FATAL,
-                  "%11s : 0x%x Error Reported, Reload Driver",
-                  channelType[channelCb->channelType], chStat);
-
-         dxeErrChannelDebug(channelCb);
-
-         dxeCtxt->driverReloadInProcessing = eWLAN_PAL_TRUE;
-         wpalWlanReload();
-      }
-      else if(WLANDXE_CH_STAT_INT_DONE_MASK & chStat)
-      {
-         /* Handle TX complete for high priority channel */
-         status = dxeTXCompFrame(dxeCtxt,
-                                 channelCb);
-         if(eWLAN_PAL_STATUS_SUCCESS != status)
-         {
-            HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-                     "dxeTXEventHandler INT Clean up fail");
-            return;         
-         }
-      }
-      else
-      {
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-                  "unexpected channel state %d", chStat);
-      }
-   }
-#endif /* WLANDXE_TEST_CHANNEL_ENABLE */
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if((bEnableISR || (dxeCtxt->txCompletedFrames)) &&
       (eWLAN_PAL_FALSE == dxeCtxt->txIntEnable))
    {
@@ -5311,11 +4156,8 @@ void dxeTXEventHandler
       }
    }
 
-<<<<<<< HEAD
-=======
    dxeEnvBlk.txCmpIntChanlSrc = 0;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /*Kicking the DXE after the TX Complete interrupt was enabled - to avoid 
      the posibility of a race*/
    dxePsComplete(dxeCtxt, eWLAN_PAL_TRUE);
@@ -5556,8 +4398,6 @@ void dxeTXReSyncDesc
 }
 
 /*==========================================================================
-<<<<<<< HEAD
-=======
   @  Function Name
       dxeDebugTxDescReSync
 
@@ -5591,7 +4431,6 @@ void dxeDebugTxDescReSync
    dxeTXReSyncDesc(msgPtr);
 }
 /*==========================================================================
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   @  Function Name 
       dxeTXISR
 
@@ -5615,12 +4454,6 @@ static void dxeTXISR
 {
    WLANDXE_CtrlBlkType      *dxeCtxt    = (WLANDXE_CtrlBlkType *)hostCtxt;
    wpt_status                status  = eWLAN_PAL_STATUS_SUCCESS;
-<<<<<<< HEAD
-#ifdef FEATURE_R33D
-   wpt_uint32                regValue;
-#endif /* FEATURE_R33D */
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
             "%s Enter", __func__);
@@ -5644,28 +4477,6 @@ static void dxeTXISR
       return;
    }
 
-<<<<<<< HEAD
-#ifdef FEATURE_R33D
-   status = wpalReadRegister(WLANDXE_INT_SRC_RAW_ADDRESS,
-                                  &regValue);
-   if(eWLAN_PAL_STATUS_SUCCESS != status)
-   {
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-               "dxeTXCompISR Read INT_SRC_RAW fail");
-      return;
-   }
-   HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
-            "INT_SRC_RAW 0x%x", regValue);
-   if(0 == regValue)
-   {
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-               "This is not DXE Interrupt, Reject it");
-      return;
-   }
-#endif /* FEATURE_R33D */
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* Disable TX Complete Interrupt at here */
    status = wpalDisableInterrupt(DXE_INTERRUPT_TX_COMPLE);
    if(eWLAN_PAL_STATUS_SUCCESS != status)
@@ -5733,22 +4544,11 @@ void *WLANDXE_Open
    unsigned int            idx;
    WLANDXE_ChannelCBType  *currentChannel = NULL;
    int                     smsmInitState;
-<<<<<<< HEAD
-#ifdef WLANDXE_TEST_CHANNEL_ENABLE
-   wpt_uint32                 sIdx;
-   WLANDXE_ChannelCBType     *channel = NULL;
-   WLANDXE_DescCtrlBlkType   *crntDescCB = NULL;
-   WLANDXE_DescCtrlBlkType   *nextDescCB = NULL;
-#endif /* WLANDXE_TEST_CHANNEL_ENABLE */
-=======
    wpt_uint8               chanMask = WDTS_TRANSPORT_CHANNELS_MASK;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
             "%s Enter", __func__);
 
-<<<<<<< HEAD
-=======
    if (wpalIsFwLoggingEnabled())
    {
       chanMask |= WDTS_RX_LOG_CHANNEL_MASK;
@@ -5760,7 +4560,6 @@ void *WLANDXE_Open
    }
    dxeSetEnabledChannels(chanMask);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* This is temporary allocation */
    tempDxeCtrlBlk = (WLANDXE_CtrlBlkType *)wpalMemoryAllocate(sizeof(WLANDXE_CtrlBlkType));
    if(NULL == tempDxeCtrlBlk)
@@ -5771,56 +4570,14 @@ void *WLANDXE_Open
    }
    wpalMemoryZero(tempDxeCtrlBlk, sizeof(WLANDXE_CtrlBlkType));
 
-<<<<<<< HEAD
-   status = dxeCommonDefaultConfig(tempDxeCtrlBlk);
-   if(eWLAN_PAL_STATUS_SUCCESS != status)
-   {
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-               "WLANDXE_Open Common Configuration Fail");
-      WLANDXE_Close(tempDxeCtrlBlk);
-      return NULL;         
-   }
-
-   for(idx = 0; idx < WDTS_CHANNEL_MAX; idx++)
-=======
    dxeCommonDefaultConfig(tempDxeCtrlBlk);
 
    foreach_valid_channel(idx)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    {
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
                "WLANDXE_Open Channel %s Open Start", channelType[idx]);
       currentChannel = &tempDxeCtrlBlk->dxeChannel[idx];
-<<<<<<< HEAD
-      if(idx == WDTS_CHANNEL_TX_LOW_PRI)
-      {
-         currentChannel->channelType = WDTS_CHANNEL_TX_LOW_PRI;
-      }
-      else if(idx == WDTS_CHANNEL_TX_HIGH_PRI)
-      {
-         currentChannel->channelType = WDTS_CHANNEL_TX_HIGH_PRI;
-      }
-      else if(idx == WDTS_CHANNEL_RX_LOW_PRI)
-      {
-         currentChannel->channelType = WDTS_CHANNEL_RX_LOW_PRI;
-      }
-      else if(idx == WDTS_CHANNEL_RX_HIGH_PRI)
-      {
-         currentChannel->channelType = WDTS_CHANNEL_RX_HIGH_PRI;
-      }
-#ifdef WLANDXE_TEST_CHANNEL_ENABLE
-      else if(idx == WDTS_CHANNEL_H2H_TEST_TX)
-      {
-         currentChannel->channelType = WDTS_CHANNEL_H2H_TEST_TX;
-      }
-      else if(idx == WDTS_CHANNEL_H2H_TEST_RX)
-      {
-         currentChannel->channelType = WDTS_CHANNEL_H2H_TEST_RX;
-      }
-#endif /* WLANDXE_TEST_CHANNEL_ENABLE */
-=======
       currentChannel->channelType = idx;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
       /* Config individual channels from channel default setup table */
       status = dxeChannelDefaultConfig(tempDxeCtrlBlk,
@@ -5852,32 +4609,6 @@ void *WLANDXE_Open
          return NULL;
       }
 
-<<<<<<< HEAD
-      status = wpalTimerInit(&currentChannel->healthMonitorTimer,
-                    dxeHealthMonitorTimeout,
-                    (void *)currentChannel);
-      if(eWLAN_PAL_STATUS_SUCCESS != status)
-      {
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-                  "WLANDXE_Open Health Monitor timer init fail %d", idx);
-         WLANDXE_Close(tempDxeCtrlBlk);
-         return NULL;
-      }
-
-      currentChannel->healthMonitorMsg = (wpt_msg *)wpalMemoryAllocate(sizeof(wpt_msg));
-      if(NULL == currentChannel->healthMonitorMsg)
-      {
-         HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-                  "WLANDXE_Open Health Monitor MSG Alloc fail %d", idx);
-         WLANDXE_Close(tempDxeCtrlBlk);
-         return NULL;
-      }
-      wpalMemoryZero(currentChannel->healthMonitorMsg, sizeof(wpt_msg));
-      currentChannel->healthMonitorMsg->callback = dxeTXHealthMonitor;
-      currentChannel->healthMonitorMsg->pContext = (void *)currentChannel;
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
                "WLANDXE_Open Channel %s Open Success", channelType[idx]);
    }
@@ -5927,11 +4658,8 @@ void *WLANDXE_Open
    tempDxeCtrlBlk->txIntDisabledByIMPS = eWLAN_PAL_FALSE;
    tempDxeCtrlBlk->driverReloadInProcessing = eWLAN_PAL_FALSE;
    tempDxeCtrlBlk->smsmToggled              = eWLAN_PAL_FALSE;
-<<<<<<< HEAD
-=======
    tempDxeCtrlBlk->smsmRingsEmptyHistogram  = 0;
    tempDxeCtrlBlk->smsmDxeHistogram         = 0;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    /* Initialize SMSM state
     * Init State is
@@ -5943,11 +4671,7 @@ void *WLANDXE_Open
    {
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
                "SMSM Channel init fail %d", smsmInitState);
-<<<<<<< HEAD
-      for(idx = 0; idx < WDTS_CHANNEL_MAX; idx++)
-=======
       foreach_valid_channel(idx)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {
          dxeChannelClose(tempDxeCtrlBlk, &tempDxeCtrlBlk->dxeChannel[idx]);
       }
@@ -5957,15 +4681,6 @@ void *WLANDXE_Open
       return NULL;
    }
 
-<<<<<<< HEAD
-   wpalTimerInit(&tempDxeCtrlBlk->rxResourceAvailableTimer,
-                 dxeRXResourceAvailableTimerExpHandler,
-                 tempDxeCtrlBlk);
-
-   wpalTimerInit(&tempDxeCtrlBlk->rxResourceAvailableTimer,
-                 dxeRXResourceAvailableTimerExpHandler,
-                 tempDxeCtrlBlk);
-=======
 #ifdef WLAN_DXE_LOW_RESOURCE_TIMER
    wpalTimerInit(&tempDxeCtrlBlk->rxResourceAvailableTimer,
                  dxeRXResourceAvailableTimerExpHandler,
@@ -5974,7 +4689,6 @@ void *WLANDXE_Open
 
    wpalTimerInit(&tempDxeCtrlBlk->dxeSSRTimer,
                  dxeSSRTimerExpHandler, tempDxeCtrlBlk);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
             "WLANDXE_Open Success");
@@ -5992,13 +4706,7 @@ void *WLANDXE_Open
 
   @  Parameters
       pVoid                       pDXEContext : DXE module control block
-<<<<<<< HEAD
-      WDTS_RxFrameReadyCbType     rxFrameReadyCB : RX Frame ready CB function pointer
-      WDTS_TxCompleteCbType       txCompleteCB : TX complete CB function pointer
-      WDTS_LowResourceCbType      lowResourceCB : Low DXE resource notification CB function pointer
-=======
       WDTS_ClientCallbacks        WDTSCb : Callbacks to WDTS to indicate various events
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       void                       *userContext : DXE Cliennt control block
 
   @  Return
@@ -6007,13 +4715,7 @@ void *WLANDXE_Open
 wpt_status WLANDXE_ClientRegistration
 (
    void                       *pDXEContext,
-<<<<<<< HEAD
-   WLANDXE_RxFrameReadyCbType  rxFrameReadyCB,
-   WLANDXE_TxCompleteCbType    txCompleteCB,
-   WLANDXE_LowResourceCbType   lowResourceCB,
-=======
    WDTS_ClientCallbacks       WDTSCb,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    void                       *userContext
 )
 {
@@ -6031,30 +4733,6 @@ wpt_status WLANDXE_ClientRegistration
       return eWLAN_PAL_STATUS_E_INVAL;   
    }
 
-<<<<<<< HEAD
-   if(NULL == rxFrameReadyCB)
-   {
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-               "WLANDXE_ClientRegistration Invalid RX READY CB");
-      return eWLAN_PAL_STATUS_E_INVAL;   
-   }
-
-   if(NULL == txCompleteCB)
-   {
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-               "WLANDXE_ClientRegistration Invalid txCompleteCB");
-      return eWLAN_PAL_STATUS_E_INVAL;   
-   }
-
-   if(NULL == lowResourceCB)
-   {
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-               "WLANDXE_ClientRegistration Invalid lowResourceCB");
-      return eWLAN_PAL_STATUS_E_INVAL;   
-   }
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if(NULL == userContext)
    {
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
@@ -6065,17 +4743,11 @@ wpt_status WLANDXE_ClientRegistration
    dxeCtxt = (WLANDXE_CtrlBlkType *)pDXEContext;
 
    /* Assign */
-<<<<<<< HEAD
-   dxeCtxt->rxReadyCB     = rxFrameReadyCB;
-   dxeCtxt->txCompCB      = txCompleteCB;
-   dxeCtxt->lowResourceCB = lowResourceCB;
-=======
    dxeCtxt->rxReadyCB     = WDTSCb.rxFrameReadyCB;
    dxeCtxt->txCompCB      = WDTSCb.txCompleteCB;
    dxeCtxt->lowResourceCB = WDTSCb.lowResourceCB;
    dxeCtxt->receiveMbMsgCB = WDTSCb.receiveMbMsgCB;
    dxeCtxt->receiveLogCompleteCB = WDTSCb.receiveLogCompleteCB;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    dxeCtxt->clientCtxt    = userContext;
 
    HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
@@ -6121,23 +4793,10 @@ wpt_status WLANDXE_Start
    /* WLANDXE_Start called means DXE engine already initiates
     * And DXE HW is reset and init finished
     * But here to make sure HW is initialized, reset again */
-<<<<<<< HEAD
-   status = dxeEngineCoreStart(dxeCtxt);
-   if(eWLAN_PAL_STATUS_SUCCESS != status)
-   {
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-               "WLANDXE_Start DXE HW init Fail");
-      return status;         
-   }
-
-   /* Individual Channel Start */
-   for(idx = 0; idx < WDTS_CHANNEL_MAX; idx++)
-=======
    dxeEngineCoreStart(dxeCtxt);
 
    /* Individual Channel Start */
    foreach_valid_channel(idx)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    {
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
                "WLANDXE_Start Channel %s Start", channelType[idx]);
@@ -6259,11 +4918,7 @@ wpt_status WLANDXE_TxFrame
       return eWLAN_PAL_STATUS_E_INVAL;   
    }
 
-<<<<<<< HEAD
-   if((WDTS_CHANNEL_MAX < channel) || (WDTS_CHANNEL_MAX == channel))
-=======
    if(WDTS_CHANNEL_MAX <= channel)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    {
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
                "WLANDXE_Start Invalid channel");
@@ -6345,18 +5000,11 @@ wpt_status WLANDXE_TxFrame
                "%11s : Low Resource currentChannel->numRsvdDesc %d",
                channelType[currentChannel->channelType],
                currentChannel->numRsvdDesc);
-<<<<<<< HEAD
-      dxeNotifySmsm(eWLAN_PAL_FALSE, eWLAN_PAL_TRUE);
-      dxeNotifySmsm(eWLAN_PAL_TRUE, eWLAN_PAL_FALSE);
-      wpalTimerStart(&currentChannel->healthMonitorTimer,
-                     T_WLANDXE_PERIODIC_HEALTH_M_TIME);
-=======
       if (WLANDXE_RIVA_POWER_STATE_BMPS_UNKNOWN == dxeCtxt->rivaPowerState)
       {
          dxeNotifySmsm(eWLAN_PAL_FALSE, eWLAN_PAL_TRUE);
          dxeNotifySmsm(eWLAN_PAL_TRUE, eWLAN_PAL_FALSE);
       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
    status = wpalMutexRelease(&currentChannel->dxeChannelLock);
    if(eWLAN_PAL_STATUS_SUCCESS != status)
@@ -6419,11 +5067,6 @@ WLANDXE_CompleteTX
                              WDTS_CHANNEL_TX_LOW_PRI,
                              eWLAN_PAL_FALSE);
       inLowRes = channelCb->hitLowResource = eWLAN_PAL_TRUE;
-<<<<<<< HEAD
-      wpalTimerStart(&channelCb->healthMonitorTimer,
-                     T_WLANDXE_PERIODIC_HEALTH_M_TIME);
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
   }
 
@@ -6462,11 +5105,6 @@ WLANDXE_CompleteTX
                              WDTS_CHANNEL_TX_LOW_PRI,
                              eWLAN_PAL_FALSE);
         channelCb->hitLowResource = eWLAN_PAL_TRUE;
-<<<<<<< HEAD
-        wpalTimerStart(&channelCb->healthMonitorTimer,
-                       T_WLANDXE_PERIODIC_HEALTH_M_TIME);
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
     }
   }
@@ -6510,18 +5148,8 @@ wpt_status WLANDXE_Stop
    }
 
    dxeCtxt = (WLANDXE_CtrlBlkType *)pDXEContext;
-<<<<<<< HEAD
-   for(idx = 0; idx < WDTS_CHANNEL_MAX; idx++)
-   {
-      if(VOS_TIMER_STATE_RUNNING == wpalTimerGetCurStatus(&dxeCtxt->dxeChannel[idx].healthMonitorTimer))
-      {
-         wpalTimerStop(&dxeCtxt->dxeChannel[idx].healthMonitorTimer);
-      }
-
-=======
    foreach_valid_channel(idx)
    {
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       status = dxeChannelStop(dxeCtxt, &dxeCtxt->dxeChannel[idx]);
       if(eWLAN_PAL_STATUS_SUCCESS != status)
       {
@@ -6534,25 +5162,13 @@ wpt_status WLANDXE_Stop
    wpalUnRegisterInterrupt(DXE_INTERRUPT_TX_COMPLE);
    wpalUnRegisterInterrupt(DXE_INTERRUPT_RX_READY);
 
-<<<<<<< HEAD
-=======
 #ifdef WLAN_DXE_LOW_RESOURCE_TIMER
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if(VOS_TIMER_STATE_STOPPED !=
       wpalTimerGetCurStatus(&dxeCtxt->rxResourceAvailableTimer))
    {
       wpalTimerStop(&dxeCtxt->rxResourceAvailableTimer);
    }
-<<<<<<< HEAD
-
-   if(VOS_TIMER_STATE_STOPPED !=
-      wpalTimerGetCurStatus(&dxeCtxt->rxResourceAvailableTimer))
-   {
-      wpalTimerStop(&dxeCtxt->rxResourceAvailableTimer);
-   }
-=======
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
             "%s Exit", __func__);
@@ -6584,15 +5200,6 @@ wpt_status WLANDXE_Close
    wpt_status               status = eWLAN_PAL_STATUS_SUCCESS;
    wpt_uint32                 idx;
    WLANDXE_CtrlBlkType       *dxeCtxt = NULL;
-<<<<<<< HEAD
-#ifdef WLANDXE_TEST_CHANNEL_ENABLE
-   wpt_uint32                 sIdx;
-   WLANDXE_ChannelCBType     *channel = NULL;
-   WLANDXE_DescCtrlBlkType   *crntDescCB = NULL;
-   WLANDXE_DescCtrlBlkType   *nextDescCB = NULL;
-#endif /* WLANDXE_TEST_CHANNEL_ENABLE */
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
             "%s Enter", __func__);
@@ -6606,32 +5213,6 @@ wpt_status WLANDXE_Close
    }
 
    dxeCtxt = (WLANDXE_CtrlBlkType *)pDXEContext;
-<<<<<<< HEAD
-   wpalTimerDelete(&dxeCtxt->rxResourceAvailableTimer);
-   for(idx = 0; idx < WDTS_CHANNEL_MAX; idx++)
-   {
-      wpalMutexDelete(&dxeCtxt->dxeChannel[idx].dxeChannelLock);
-      wpalTimerDelete(&dxeCtxt->dxeChannel[idx].healthMonitorTimer);
-      if(NULL != dxeCtxt->dxeChannel[idx].healthMonitorMsg)
-      {
-         wpalMemoryFree(dxeCtxt->dxeChannel[idx].healthMonitorMsg);
-      }
-      dxeChannelClose(dxeCtxt, &dxeCtxt->dxeChannel[idx]);
-#ifdef WLANDXE_TEST_CHANNEL_ENABLE
-      channel    = &dxeCtxt->dxeChannel[idx];
-      crntDescCB = channel->headCtrlBlk;
-      for(sIdx = 0; sIdx < channel->numDesc; sIdx++)
-      {
-         nextDescCB = (WLANDXE_DescCtrlBlkType *)crntDescCB->nextCtrlBlk;
-         wpalMemoryFree((void *)crntDescCB);
-         crntDescCB = nextDescCB;
-         if(NULL == crntDescCB)
-         {
-            break;
-         }
-      }
-#endif /* WLANDXE_TEST_CHANNEL_ENABLE */
-=======
 #ifdef WLAN_DXE_LOW_RESOURCE_TIMER
    wpalTimerDelete(&dxeCtxt->rxResourceAvailableTimer);
 #endif
@@ -6640,7 +5221,6 @@ wpt_status WLANDXE_Close
    {
       wpalMutexDelete(&dxeCtxt->dxeChannel[idx].dxeChannelLock);
       dxeChannelClose(dxeCtxt, &dxeCtxt->dxeChannel[idx]);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    if(NULL != dxeCtxt->rxIsrMsg)
@@ -6715,16 +5295,11 @@ void dxeTxThreadSetPowerStateEventHandler
 {
    wpt_msg                  *msgContent = (wpt_msg *)msgPtr;
    WLANDXE_CtrlBlkType      *dxeCtxt;
-<<<<<<< HEAD
-   wpt_status                status = eWLAN_PAL_STATUS_E_FAILURE;
-   WLANDXE_PowerStateType    reqPowerState;
-=======
    wpt_status                status = eWLAN_PAL_STATUS_SUCCESS;
    WLANDXE_PowerStateType    reqPowerState;
    wpt_int8                  i;
    WLANDXE_ChannelCBType     *channelEntry;
    wpt_log_data_stall_channel_type channelLog;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
             "%s Enter", __func__);
@@ -6752,9 +5327,6 @@ void dxeTxThreadSetPowerStateEventHandler
       case WLANDXE_POWER_STATE_IMPS:
          if(WLANDXE_RIVA_POWER_STATE_ACTIVE == dxeCtxt->rivaPowerState)
          {
-<<<<<<< HEAD
-            dxeCtxt->rivaPowerState = WLANDXE_RIVA_POWER_STATE_IMPS_UNKNOWN;
-=======
 
             for(i = WDTS_CHANNEL_TX_LOW_PRI; i < WDTS_CHANNEL_RX_LOW_PRI; i++)
             {
@@ -6782,7 +5354,6 @@ void dxeTxThreadSetPowerStateEventHandler
                dxeCtxt->rivaPowerState = WLANDXE_RIVA_POWER_STATE_IMPS_UNKNOWN;
                dxeCtxt->hostPowerState = WLANDXE_POWER_STATE_IMPS;
             }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          }
          else
          {
@@ -6858,11 +5429,7 @@ void dxeRxThreadSetPowerStateEventHandler
    {
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
                "Tx thread Set power state req serialize fail status=%d",
-<<<<<<< HEAD
-               status, 0, 0);
-=======
                status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO_LOW,
@@ -6901,11 +5468,7 @@ wpt_status WLANDXE_SetPowerState
    if(NULL == pDXEContext)
    {
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-               "NULL pDXEContext passed by caller", 0, 0, 0);
-=======
                "NULL pDXEContext passed by caller");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return eWLAN_PAL_STATUS_E_FAILURE;
    }
    pDxeCtrlBlk = (WLANDXE_CtrlBlkType *)pDXEContext;
@@ -6941,10 +5504,6 @@ wpt_status WLANDXE_SetPowerState
          hostPowerState = WLANDXE_POWER_STATE_BMPS;
          break;
       case WDTS_POWER_STATE_IMPS:
-<<<<<<< HEAD
-         pDxeCtrlBlk->hostPowerState = WLANDXE_POWER_STATE_IMPS;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          hostPowerState = WLANDXE_POWER_STATE_IMPS;
          break;
       case WDTS_POWER_STATE_DOWN:
@@ -6990,11 +5549,7 @@ wpt_status WLANDXE_SetPowerState
       {
          HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
                   "Rx thread Set power state req serialize fail status=%d",
-<<<<<<< HEAD
-                  status, 0, 0);
-=======
                   status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
    }
    else
@@ -7042,13 +5597,10 @@ wpt_status WLANDXE_SetPowerState
          pDxeCtrlBlk->hostPowerState = hostPowerState;
          pDxeCtrlBlk->rivaPowerState = WLANDXE_RIVA_POWER_STATE_BMPS_UNKNOWN;
       }
-<<<<<<< HEAD
-=======
       else if ( hostPowerState == WLANDXE_POWER_STATE_IMPS )
       {
          pDxeCtrlBlk->hostPowerState = WLANDXE_POWER_STATE_IMPS;
       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       else
       {
          HDXE_ASSERT(0);
@@ -7085,20 +5637,11 @@ wpt_uint32 WLANDXE_GetFreeTxDataResNumber
    if(NULL == pDXEContext)
    {
       HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-               "NULL parameter passed by caller", 0, 0, 0);
-      return (0);
-   }
-
-   return 
-      ((WLANDXE_CtrlBlkType *)pDXEContext)->dxeChannel[WDTS_CHANNEL_TX_LOW_PRI].numFreeDesc;
-=======
                "NULL parameter passed by caller");
       return (0);
    }
 
    return ((WLANDXE_CtrlBlkType *)pDXEContext)->dxeChannel[WDTS_CHANNEL_TX_LOW_PRI].numFreeDesc;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 /*==========================================================================
@@ -7112,16 +5655,10 @@ wpt_uint32 WLANDXE_GetFreeTxDataResNumber
 
   @  Parameters
     displaySnapshot : Display DXE snapshot option
-<<<<<<< HEAD
-    enableStallDetect : Enable stall detect feature
-                        This feature will take effect to data performance
-                        Not integrate till fully verification
-=======
     debugFlags      : Enable stall detect features
                       defined by WPAL_DeviceDebugFlags
                       These features may effect
                       data performance.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   @  Return
     NONE
@@ -7129,14 +5666,6 @@ wpt_uint32 WLANDXE_GetFreeTxDataResNumber
 ===========================================================================*/
 void WLANDXE_ChannelDebug
 (
-<<<<<<< HEAD
-   wpt_boolean    displaySnapshot,
-   wpt_boolean    enableStallDetect   
-)
-{
-   wpt_msg                  *channelDebugMsg;
-   wpt_uint32                regValue;
-=======
    wpt_boolean displaySnapshot,
    wpt_uint8   debugFlags
 )
@@ -7144,7 +5673,6 @@ void WLANDXE_ChannelDebug
    wpt_msg                  *channelDebugMsg;
    wpt_msg                  *txDescReSyncMsg ;
    wpt_uint32                regValue, regValueLocal = 0;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    wpt_status                status = eWLAN_PAL_STATUS_SUCCESS;
 
    /* Debug Type 1, Display current snapshot */
@@ -7158,12 +5686,6 @@ void WLANDXE_ChannelDebug
       /* Get free BD count */
       wpalSleep(10);
       wpalReadRegister(WLANDXE_BMU_AVAILABLE_BD_PDU, &regValue);
-<<<<<<< HEAD
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_FATAL,
-               "===== DXE Dump Start HPS %d, FWS %d, TX PFC %d, ABD %d =====",
-               tempDxeCtrlBlk->hostPowerState, tempDxeCtrlBlk->rivaPowerState,
-               tempDxeCtrlBlk->txCompletedFrames, regValue);
-=======
 #ifdef WCN_PRONTO
       wpalReadRegister(WLANDXE_BMU_AVAILABLE_BD_PDU_LOCAL, &regValueLocal);
 #endif
@@ -7171,7 +5693,6 @@ void WLANDXE_ChannelDebug
                "===== DXE Dump Start HPS %d, FWS %d, TX PFC %d, ABD %d, ABD LOCAL %d =====",
                tempDxeCtrlBlk->hostPowerState, tempDxeCtrlBlk->rivaPowerState,
                tempDxeCtrlBlk->txCompletedFrames, regValue, regValueLocal);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
       wpalPacketStallUpdateInfo((wpt_uint32 *)&tempDxeCtrlBlk->rivaPowerState,
                                 &regValue,
@@ -7192,24 +5713,6 @@ void WLANDXE_ChannelDebug
       {
          HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_ERROR,
                   "Tx thread Set power state req serialize fail status=%d",
-<<<<<<< HEAD
-                  status, 0, 0);
-      }
-   }
-
-   /* Debug Type 2, toggling stall detect enable/disable */
-   if(enableStallDetect)
-   {
-      HDXE_MSG(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_WARN,
-               "DXE TX Stall detect",
-               0, 0, 0);
-      /* Start Stall detect timer and detect stall */
-      wpalTimerStart(&tempDxeCtrlBlk->dxeChannel[WDTS_CHANNEL_TX_LOW_PRI].healthMonitorTimer,
-                     T_WLANDXE_PERIODIC_HEALTH_M_TIME);
-   }
-   return;
-}
-=======
                   status);
       }
    }
@@ -7300,4 +5803,3 @@ wpt_status WLANDXE_StartLogTransfer(void)
    }
    return status;
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver

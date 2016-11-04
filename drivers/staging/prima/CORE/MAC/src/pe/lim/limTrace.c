@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-/**=========================================================================
-* Copyright (c) 2013 Qualcomm Atheros, Inc.
-* All Rights Reserved.
-* Qualcomm Atheros Confidential and Proprietary.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -58,19 +27,12 @@
 
 /*
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   \file  limTrace.c
 
   \brief implementation for trace related APIs
 
   \author Sunit Bhatia
 
-<<<<<<< HEAD
-   Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
-
-   Qualcomm Confidential and Proprietary.
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   ========================================================================*/
 
@@ -83,10 +45,7 @@
 
 #include "limTrace.h"
 #include "limTimerUtils.h"
-<<<<<<< HEAD
-=======
 #include "vos_trace.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 
 #ifdef LIM_TRACE_RECORD
@@ -123,14 +82,8 @@ static tANI_U8* __limTraceGetTimerString( tANI_U16 timerId )
 #ifdef WLAN_FEATURE_VOWIFI_11R
         CASE_RETURN_STRING(eLIM_FT_PREAUTH_RSP_TIMER);
 #endif
-<<<<<<< HEAD
-        CASE_RETURN_STRING(eLIM_REMAIN_CHN_TIMER);
-        CASE_RETURN_STRING(eLIM_PERIODIC_PROBE_REQ_TIMER);
-#ifdef FEATURE_WLAN_CCX
-=======
         CASE_RETURN_STRING(eLIM_PERIODIC_PROBE_REQ_TIMER);
 #ifdef FEATURE_WLAN_ESE
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         CASE_RETURN_STRING(eLIM_TSM_TIMER);
 #endif
         CASE_RETURN_STRING(eLIM_DISASSOC_ACK_TIMER);
@@ -138,10 +91,7 @@ static tANI_U8* __limTraceGetTimerString( tANI_U16 timerId )
         CASE_RETURN_STRING(eLIM_PERIODIC_JOIN_PROBE_REQ_TIMER);
         CASE_RETURN_STRING(eLIM_INSERT_SINGLESHOT_NOA_TIMER);
         CASE_RETURN_STRING(eLIM_CONVERT_ACTIVE_CHANNEL_TO_PASSIVE);
-<<<<<<< HEAD
-=======
         CASE_RETURN_STRING(eLIM_AUTH_RETRY_TIMER);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         default:
             return( "UNKNOWN" );
             break;
@@ -171,21 +121,13 @@ static tANI_U8* __limTraceGetMgmtDropReasonString( tANI_U16 dropReason )
 
 void limTraceInit(tpAniSirGlobal pMac)
 {
-<<<<<<< HEAD
-    macTraceRegister(pMac,  VOS_MODULE_ID_PE, limTraceDump);
-=======
     vosTraceRegister(VOS_MODULE_ID_PE, (tpvosTraceCb)&limTraceDump);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 
 
 
-<<<<<<< HEAD
-void limTraceDump(tpAniSirGlobal pMac, tpTraceRecord pRecord, tANI_U16 recIndex)
-=======
 void limTraceDump(tpAniSirGlobal pMac, tpvosTraceRecord pRecord, tANI_U16 recIndex)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
 
     static char *frameSubtypeStr[LIM_TRACE_MAX_SUBTYPES] =
@@ -209,18 +151,6 @@ void limTraceDump(tpAniSirGlobal pMac, tpvosTraceRecord pRecord, tANI_U16 recInd
 
     switch (pRecord->code) {
         case TRACE_CODE_MLM_STATE:
-<<<<<<< HEAD
-            limLog(pMac, LOGE, "%04d    %012u  S%d    %-14s  %-30s(0x%x) ", recIndex, pRecord->time, pRecord->session,
-                                           "MLM State:", limTraceGetMlmStateString((tANI_U16)pRecord->data), pRecord->data );
-            break;
-        case TRACE_CODE_SME_STATE:
-            limLog(pMac, LOGE, "%04d    %012u  S%d    %-14s  %-30s(0x%x) ", recIndex, pRecord->time, pRecord->session,
-                                            "SME State:", limTraceGetSmeStateString((tANI_U16)pRecord->data), pRecord->data );
-            break;
-        case TRACE_CODE_TX_MGMT:
-            limLog(pMac, LOGE, "%04d    %012u  S%d    %-14s  %-30s(0x%x) ", recIndex, pRecord->time, pRecord->session,
-                                            "TX Mgmt:", frameSubtypeStr[pRecord->data], pRecord->data );
-=======
             limLog(pMac, LOG1, "%04d %012u S%d %-14s  %-30s(0x%x)",
                recIndex, pRecord->time, pRecord->session,
                "MLM State:",
@@ -238,27 +168,11 @@ void limTraceDump(tpAniSirGlobal pMac, tpvosTraceRecord pRecord, tANI_U16 recInd
             limLog(pMac, LOG1, "%04d %012u S%d %-14s %-30s(0x%x)",
                recIndex, pRecord->time, pRecord->session,
                "TX Mgmt:", frameSubtypeStr[pRecord->data], pRecord->data);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
 
         case TRACE_CODE_RX_MGMT:
             if (LIM_TRACE_MAX_SUBTYPES <= LIM_TRACE_GET_SUBTYPE(pRecord->data))
             {
-<<<<<<< HEAD
-                limLog(pMac, LOGE, "Wrong Subtype - %d", LIM_TRACE_GET_SUBTYPE(pRecord->data));
-            }
-            else
-            {
-                limLog(pMac, LOGE, "%04d    %012u  S%d    %-14s  %-30s(%d)    SN: %d ", recIndex, pRecord->time, pRecord->session,
-                                            "RX Mgmt:", frameSubtypeStr[LIM_TRACE_GET_SUBTYPE(pRecord->data)],
-                                            LIM_TRACE_GET_SUBTYPE(pRecord->data),
-                                            LIM_TRACE_GET_SSN(pRecord->data) );
-            }
-            break;
-        case TRACE_CODE_RX_MGMT_DROP:
-            limLog(pMac, LOGE, "%04d    %012u  S%d    %-14s  %-30s(%d)  ", recIndex, pRecord->time, pRecord->session,
-                                            "Drop RX Mgmt:", __limTraceGetMgmtDropReasonString((tANI_U16)pRecord->data), pRecord->data);
-=======
                 limLog(pMac, LOG1, "Wrong Subtype - %d",
                     LIM_TRACE_GET_SUBTYPE(pRecord->data));
             }
@@ -279,79 +193,10 @@ void limTraceDump(tpAniSirGlobal pMac, tpvosTraceRecord pRecord, tANI_U16 recInd
                    "Drop RX Mgmt:",
                    __limTraceGetMgmtDropReasonString((tANI_U16)pRecord->data),
                    pRecord->data);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
 
 
         case TRACE_CODE_RX_MGMT_TSF:
-<<<<<<< HEAD
-            limLog(pMac, LOGE, "%04d    %012u  S%d    %-14s  %-30s0x%x(%d) ", recIndex, pRecord->time, pRecord->session,
-                                            "RX Mgmt TSF:", " ", pRecord->data, pRecord->data );
-            break;
-
-        case TRACE_CODE_TX_COMPLETE:
-            limLog(pMac, LOGE, "%04d    %012u  S%d    %-14s  ", recIndex, pRecord->time, pRecord->session,
-                                            "TX Complete" );
-            break;
-
-        case TRACE_CODE_TX_SME_MSG:
-            limLog(pMac, LOGE, "%04d    %012u  S%d    %-14s  %-30s(0x%x) ", recIndex, pRecord->time, pRecord->session,
-                                            "TX SME Msg:", macTraceGetSmeMsgString((tANI_U16)pRecord->data), pRecord->data );
-            break;
-        case TRACE_CODE_RX_SME_MSG:
-            limLog(pMac, LOGE, "%04d    %012u  S%d    %-14s  %-30s(0x%x) ", recIndex, pRecord->time, pRecord->session,
-                                            LIM_TRACE_GET_DEFRD_OR_DROPPED(pRecord->data) ? "Def/Drp LIM Msg:": "RX Sme Msg:",
-                                            macTraceGetSmeMsgString((tANI_U16)pRecord->data), pRecord->data );
-            break;
-
-        case TRACE_CODE_TX_WDA_MSG:
-            limLog(pMac, LOGE, "%04d    %012u  S%d    %-14s  %-30s(0x%x) ", recIndex, pRecord->time, pRecord->session,
-                                            "TX WDA Msg:", macTraceGetWdaMsgString((tANI_U16)pRecord->data), pRecord->data );
-            break;
-
-        case TRACE_CODE_RX_WDA_MSG:
-            limLog(pMac, LOGE, "%04d    %012u  S%d    %-14s  %-30s(0x%x) ", recIndex, pRecord->time, pRecord->session,
-                                            LIM_TRACE_GET_DEFRD_OR_DROPPED(pRecord->data) ? "Def/Drp LIM Msg:": "RX WDA Msg:",
-                                            macTraceGetWdaMsgString((tANI_U16)pRecord->data), pRecord->data );
-            break;
-
-        case TRACE_CODE_TX_LIM_MSG:
-            limLog(pMac, LOGE, "%04d    %012u  S%d    %-14s  %-30s(0x%x) ", recIndex, pRecord->time, pRecord->session,
-                                            "TX LIM Msg:", macTraceGetLimMsgString((tANI_U16)pRecord->data), pRecord->data );
-            break;
-        case TRACE_CODE_RX_LIM_MSG:
-            limLog(pMac, LOGE, "%04d    %012u  S%d    %-14s  %-30s(0x%x) ", recIndex, pRecord->time, pRecord->session,
-                                            LIM_TRACE_GET_DEFRD_OR_DROPPED(pRecord->data) ? "Def/Drp LIM Msg:": "RX LIM Msg",
-                                            macTraceGetLimMsgString((tANI_U16)pRecord->data), pRecord->data );
-            break;
-        case TRACE_CODE_TX_CFG_MSG:
-            limLog(pMac, LOGE, "%04d    %012u  S%d    %-14s  %-30s(0x%x) ", recIndex, pRecord->time, pRecord->session,
-                                            "TX CFG Msg:", macTraceGetCfgMsgString((tANI_U16)pRecord->data), pRecord->data );
-            break;
-        case TRACE_CODE_RX_CFG_MSG:
-            limLog(pMac, LOGE, "%04d    %012u  S%d    %-14s  %-30s(0x%x) ", recIndex, pRecord->time, pRecord->session,
-                                            LIM_TRACE_GET_DEFRD_OR_DROPPED(pRecord->data) ? "Def/Drp LIM Msg:": "RX CFG Msg:",
-                                            macTraceGetCfgMsgString((tANI_U16)MAC_TRACE_GET_MSG_ID(pRecord->data)),
-                                            pRecord->data );
-            break;
-
-        case TRACE_CODE_TIMER_ACTIVATE:
-            limLog(pMac, LOGE, "%04d    %012u  S%d    %-14s  %-30s(0x%x) ", recIndex, pRecord->time, pRecord->session,
-                                            "Timer Actvtd", __limTraceGetTimerString((tANI_U16)pRecord->data), pRecord->data );
-            break;
-        case TRACE_CODE_TIMER_DEACTIVATE:
-            limLog(pMac, LOGE, "%04d    %012u  S%d    %-14s  %-30s(0x%x) ", recIndex, pRecord->time, pRecord->session,
-                                            "Timer DeActvtd", __limTraceGetTimerString((tANI_U16)pRecord->data), pRecord->data );
-            break;
-
-        case TRACE_CODE_INFO_LOG:
-            limLog(pMac, LOGE, "%04d    %012u  S%d    %-14s  %-30s(0x%x) \n", recIndex, pRecord->time, pRecord->session,
-                                            "INFORMATION_LOG", macTraceGetInfoLogString((tANI_U16)pRecord->data), pRecord->data );
-            break;
-        default :
-            limLog(pMac, LOGE, "%04d    %012u  S%d    %-14s(%d) (0x%x) ", recIndex, pRecord->time, pRecord->session,
-                                             "Unknown Code", pRecord->code, pRecord->data );
-=======
             limLog(pMac, LOG1, "%04d %012u S%d %-14s %-30s0x%x(%d)",
                    recIndex, pRecord->time, pRecord->session,
                    "RX Mgmt TSF:", " ", pRecord->data, pRecord->data);
@@ -454,7 +299,6 @@ void limTraceDump(tpAniSirGlobal pMac, tpvosTraceRecord pRecord, tANI_U16 recInd
             limLog(pMac, LOG1, "%04d %012u S%d %-14s(%d) (0x%x)",
                   recIndex, pRecord->time, pRecord->session,
                   "Unknown Code", pRecord->code, pRecord->data);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
     }
 }
@@ -480,12 +324,9 @@ void macTraceMsgTx(tpAniSirGlobal pMac, tANI_U8 session, tANI_U32 data)
         case SIR_CFG_MODULE_ID:
             macTrace(pMac, TRACE_CODE_TX_CFG_MSG, session, data);
             break;
-<<<<<<< HEAD
-=======
         default:
             macTrace(pMac, moduleId, session, data);
             break;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 }
 
@@ -509,12 +350,9 @@ void macTraceMsgTxNew(tpAniSirGlobal pMac, tANI_U8 module, tANI_U8 session, tANI
         case SIR_CFG_MODULE_ID:
             macTraceNew(pMac, module, TRACE_CODE_TX_CFG_MSG, session, data);
             break;
-<<<<<<< HEAD
-=======
         default:
             macTrace(pMac, moduleId, session, data);
             break;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
 }
 
@@ -542,12 +380,9 @@ void macTraceMsgRx(tpAniSirGlobal pMac, tANI_U8 session, tANI_U32 data)
         case SIR_CFG_MODULE_ID:
             macTrace(pMac, TRACE_CODE_RX_CFG_MSG, session, data);
             break;
-<<<<<<< HEAD
-=======
         default:
             macTrace(pMac, moduleId, session, data);
             break;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
 }
 
@@ -577,12 +412,9 @@ void macTraceMsgRxNew(tpAniSirGlobal pMac, tANI_U8 module, tANI_U8 session, tANI
         case SIR_CFG_MODULE_ID:
             macTraceNew(pMac, module, TRACE_CODE_RX_CFG_MSG, session, data);
             break;
-<<<<<<< HEAD
-=======
         default:
             macTrace(pMac, moduleId, session, data);
             break;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
 }
 
@@ -626,14 +458,11 @@ tANI_U8* limTraceGetMlmStateString( tANI_U32 mlmState )
         CASE_RETURN_STRING( eLIM_MLM_WT_REMOVE_BSS_KEY_STATE);
         CASE_RETURN_STRING( eLIM_MLM_WT_REMOVE_STA_KEY_STATE);
         CASE_RETURN_STRING( eLIM_MLM_WT_SET_MIMOPS_STATE);
-<<<<<<< HEAD
-=======
 #if defined WLAN_FEATURE_VOWIFI_11R
         CASE_RETURN_STRING(eLIM_MLM_WT_ADD_BSS_RSP_FT_REASSOC_STATE);
         CASE_RETURN_STRING(eLIM_MLM_WT_FT_REASSOC_RSP_STATE);
 #endif
         CASE_RETURN_STRING(eLIM_MLM_P2P_LISTEN_STATE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         default:
             return( "UNKNOWN" );
             break;

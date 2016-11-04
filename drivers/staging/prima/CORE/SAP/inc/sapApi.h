@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #ifndef WLAN_QCT_WLANSAP_H
@@ -65,11 +39,6 @@ DESCRIPTION
   module.
   
       
-<<<<<<< HEAD
-  Copyright (c) 2010 QUALCOMM Incorporated. All Rights Reserved.
-  Qualcomm Confidential and Proprietary
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ===========================================================================*/
 
 
@@ -218,10 +187,6 @@ typedef enum {
     eSAP_ASSOC_STA_CALLBACK_EVENT,  /*Event sent when user called WLANSAP_GetAssocStations */
     eSAP_GET_WPSPBC_SESSION_EVENT,  /* Event send when user call  WLANSAP_getWpsSessionOverlap */  
     eSAP_WPS_PBC_PROBE_REQ_EVENT, /* Event send on WPS PBC probe request is received */
-<<<<<<< HEAD
-    eSAP_INDICATE_MGMT_FRAME,
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     eSAP_REMAIN_CHAN_READY,
     eSAP_SEND_ACTION_CNF,
     eSAP_DISCONNECT_ALL_P2P_CLIENT,
@@ -266,8 +231,6 @@ typedef enum  {
     eSAP_WPSPBC_ONE_WPSPBC_PROBE_REQ_IN120S,    /* One WPS probe request in 120 second  */
 }eWPSPBCOverlap;
 
-<<<<<<< HEAD
-=======
 typedef enum {
         eSAP_RF_SUBBAND_2_4_GHZ      = 0,
         eSAP_RF_SUBBAND_5_LOW_GHZ    = 1,    //Low & Mid U-NII
@@ -277,7 +240,6 @@ typedef enum {
         eSAP_RF_SUBBAND_5_ALL_GHZ    = 5,    //All 5 GHZ,
 }eSapOperatingBand;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*----------------------------------------------------------------------------
  *  Typedefs
  * -------------------------------------------------------------------------*/
@@ -431,10 +393,6 @@ typedef struct sap_Event_s {
         tSap_AssocStaListEvent                    sapAssocStaListEvent; /*SAP_ASSOC_STA_CALLBACK_EVENT */
         tSap_GetWPSPBCSessionEvent                sapGetWPSPBCSessionEvent; /*SAP_GET_WPSPBC_SESSION_EVENT */
         tSap_WPSPBCProbeReqEvent                  sapPBCProbeReqEvent; /*eSAP_WPS_PBC_PROBE_REQ_EVENT */
-<<<<<<< HEAD
-        tSap_ManagementFrameInfo                  sapManagementFrameInfo; /*eSAP_INDICATE_MGMT_FRAME*/
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         tSap_SendActionCnf                        sapActionCnf;  /* eSAP_SEND_ACTION_CNF */ 
         tSap_UnknownSTAJoinEvent                  sapUnknownSTAJoin; /* eSAP_UNKNOWN_STA_JOIN */
         tSap_MaxAssocExceededEvent                sapMaxAssocExceeded; /* eSAP_MAX_ASSOC_EXCEEDED */
@@ -489,8 +447,6 @@ typedef struct sap_Config {
     v_U32_t         ht_op_mode_fixed;
     tVOS_CON_MODE   persona; /*Tells us which persona it is GO or AP for now*/
 
-<<<<<<< HEAD
-=======
 #ifdef WLAN_FEATURE_11W
     v_BOOL_t        mfpRequired;
     v_BOOL_t        mfpCapable;
@@ -498,7 +454,6 @@ typedef struct sap_Config {
     eCsrBand        scanBandPreference;
     v_U16_t         acsBandSwitchThreshold;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 } tsap_Config_t;
 
 typedef enum {
@@ -1046,16 +1001,12 @@ WLANSAP_StopBss
 VOS_STATUS 
 WLANSAP_DisassocSta
 (
-<<<<<<< HEAD
-    v_PVOID_t  pvosGCtx, v_U8_t *pPeerStaMac
-=======
     v_PVOID_t  pvosGCtx,
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,18,0))
     const v_U8_t *pPeerStaMac
 #else
     v_U8_t *pPeerStaMac
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 );
 
 /*==========================================================================
@@ -1071,12 +1022,8 @@ WLANSAP_DisassocSta
 
     IN
     pvosGCtx            : Pointer to vos global context structure
-<<<<<<< HEAD
-    pPeerStaMac         : Mac address of the station to deauthenticate
-=======
     pDelStaParams       : Pointer to parameters of the station to
                           deauthenticate
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    
   RETURN VALUE
     The VOS_STATUS code associated with performing the operation  
@@ -1088,12 +1035,8 @@ WLANSAP_DisassocSta
 VOS_STATUS 
 WLANSAP_DeauthSta
 (
-<<<<<<< HEAD
-    v_PVOID_t  pvosGCtx, v_U8_t *pPeerStaMac
-=======
     v_PVOID_t  pvosGCtx,
     struct tagCsrDelStaParams *pDelStaParams
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 );
 
 /*==========================================================================
@@ -1121,11 +1064,7 @@ WLANSAP_DeauthSta
 ============================================================================*/
 VOS_STATUS
 WLANSAP_SetChannelRange(tHalHandle hHal,v_U8_t startChannel, v_U8_t endChannel, 
-<<<<<<< HEAD
-                              v_U8_t operatingBand);
-=======
                               eSapOperatingBand operatingBand);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*==========================================================================
   FUNCTION    WLANSAP_SetKeySta
@@ -1629,8 +1568,6 @@ VOS_STATUS WLANSAP_DeRegisterMgmtFrame( v_PVOID_t pvosGCtx, tANI_U16 frameType,
                                       tANI_U8* matchData, tANI_U16 matchLen );
 
 
-<<<<<<< HEAD
-=======
 /*==========================================================================
   FUNCTION    WLANSAP_PopulateDelStaParams
 
@@ -1656,7 +1593,6 @@ void WLANSAP_PopulateDelStaParams(const v_U8_t *mac,
                                  v_U8_t subtype,
                                  struct tagCsrDelStaParams *pDelStaParams);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef __cplusplus
  }
 #endif 

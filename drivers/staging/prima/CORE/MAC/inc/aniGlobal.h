@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2014 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,30 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-/*
- * Airgo Networks, Inc proprietary. All rights reserved
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -57,7 +29,6 @@
 
 
 /*
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * aniGlobal.h: MAC Modules Adapter Definitions.
  * Author:      V. K. Kandarpa
  * Date:    10/25/2002
@@ -115,15 +86,9 @@ typedef struct sAniSirGlobal *tpAniSirGlobal;
 #include "smeRrmInternal.h"
 #include "rrmGlobal.h"
 #endif
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX) && !defined(FEATURE_WLAN_CCX_UPLOAD)
-#include "ccxApi.h"
-#include "ccxGlobal.h"
-=======
 #if defined(FEATURE_WLAN_ESE) && !defined(FEATURE_WLAN_ESE_UPLOAD)
 #include "eseApi.h"
 #include "eseGlobal.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 #include "p2p_Api.h"
 
@@ -244,12 +209,6 @@ typedef struct sLimTimers
     // CNF_WAIT timer
     TX_TIMER            *gpLimCnfWaitTimer;
 
-<<<<<<< HEAD
-    // Send Disassociate frame threshold parameters
-    TX_TIMER            gLimSendDisassocFrameThresholdTimer;
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     TX_TIMER       gLimAddtsRspTimer;   // max wait for a response
 
     // Update OLBC Cache Timer
@@ -269,21 +228,6 @@ typedef struct sLimTimers
     TX_TIMER           gLimFTPreAuthRspTimer;
 #endif
 
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-    TX_TIMER           gLimCcxTsmTimer;
-#endif
-    TX_TIMER           gLimRemainOnChannelTimer;
-#ifdef FEATURE_WLAN_TDLS_INTERNAL
-    TX_TIMER           gLimTdlsDisRspWaitTimer;
-    TX_TIMER           gLimTdlsLinkSetupRspTimeouTimer;
-    TX_TIMER           gLimTdlsLinkSetupCnfTimeoutTimer;
-#endif
-
-    TX_TIMER           gLimPeriodicJoinProbeReqTimer;
-    TX_TIMER           gLimDisassocAckTimer;
-    TX_TIMER           gLimDeauthAckTimer;
-=======
 #ifdef FEATURE_WLAN_ESE
     TX_TIMER           gLimEseTsmTimer;
 #endif
@@ -291,7 +235,6 @@ typedef struct sLimTimers
     TX_TIMER           gLimDisassocAckTimer;
     TX_TIMER           gLimDeauthAckTimer;
     TX_TIMER           gLimPeriodicAuthRetryTimer;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     // This timer is started when single shot NOA insert msg is sent to FW for scan in P2P GO mode
     TX_TIMER           gLimP2pSingleShotNoaInsertTimer;
     /* This timer is used to convert active channel to
@@ -426,11 +369,8 @@ typedef struct sAniSirLim
 
     //////////////////////////////////////     SCAN/LEARN RELATED START ///////////////////////////////////////////
     tSirMacAddr         gSelfMacAddr;   //added for BT-AMP Support 
-<<<<<<< HEAD
-=======
     tSirMacAddr         spoofMacAddr;   //added for Mac Addr Spoofing support
     tANI_U8             isSpoofingEnabled;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     //////////////////////////////////////////     BSS RELATED END ///////////////////////////////////////////
     // Place holder for StartBssReq message
@@ -480,10 +420,7 @@ typedef struct sAniSirLim
     /// Definition for storing IBSS peers BSS description
     tLimIbssPeerNode      *gLimIbssPeerList;
     tANI_U32               gLimNumIbssPeers;
-<<<<<<< HEAD
-=======
     tANI_U32               gLimIbssRetryCnt;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     // ibss info - params for which ibss to join while coalescing
     tAniSirLimIbss      ibssInfo;
@@ -509,11 +446,8 @@ typedef struct sAniSirLim
 
     // Heart-Beat interval value
     tANI_U32   gLimHeartBeatCount;
-<<<<<<< HEAD
-=======
     tSirMacAddr gLimHeartBeatApMac[2];
     tANI_U8 gLimHeartBeatApMacIndex;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     // Statistics to keep track of no. beacons rcvd in heart beat interval
     tANI_U16            gLimHeartBeatBeaconStats[MAX_NO_BEACONS_PER_HEART_BEAT_INTERVAL];
@@ -722,12 +656,9 @@ typedef struct sAniSirLim
 #ifdef FEATURE_WLAN_TDLS
     tANI_U8 gLimTDLSBufStaEnabled;
     tANI_U8 gLimTDLSUapsdMask;
-<<<<<<< HEAD
-=======
     tANI_U8 gLimTDLSOffChannelEnabled;
     // TDLS WMM Mode
     tANI_U8 gLimTDLSWmmMode;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 
 
@@ -771,13 +702,6 @@ typedef struct sAniSirLim
     // Place holder for Pre-authentication node list
     struct tLimPreAuthNode *  pLimPreAuthList;
 
-<<<<<<< HEAD
-    // Send Disassociate frame threshold parameters
-    tANI_U16            gLimDisassocFrameThreshold;
-    tANI_U16            gLimDisassocFrameCredit;
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     // Assoc or ReAssoc Response Data/Frame
     void                *gLimAssocResponseData;
 
@@ -934,25 +858,6 @@ typedef struct sAniSirLim
 
     ////////////////////////////////  HT RELATED           //////////////////////////////////////////
 
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_TDLS_INTERNAL
-    ////////////////////////////////  TDLS RELATED         //////////////////////////////////////////
-    
-    tSirTdlsDisReq gLimTdlsDisReq ; 
-    //tLimDisResultList *gTdlsDisResultList ;
-    tLimDisResultList *gLimTdlsDisResultList ;
-    tANI_U8 gLimTdlsDisStaCount ;
-    tANI_U8 gAddStaDisRspWait ;
-
-    tLimTdlsLinkSetupInfo  gLimTdlsLinkSetupInfo;
-    
-    /* to track if direct link is b/g/n, this can be independent of AP link */
-#ifdef FEATURE_WLAN_TDLS_NEGATIVE
-    tANI_U32 gLimTdlsNegativeBehavior;  
-#endif
-#endif
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef FEATURE_WLAN_TDLS
     tANI_U8 gLimAddStaTdls ;
     tANI_U8 gLimTdlsLinkMode ;
@@ -979,11 +884,7 @@ tLimMlmOemDataRsp       *gpLimMlmOemDataRsp;
     tANI_U32    mgmtFrameSessionId;
     tSirBackgroundScanMode gLimBackgroundScanMode;
 
-<<<<<<< HEAD
-#if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR)
-=======
 #if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tpPESession  pSessionEntry;
     tANI_U8 reAssocRetryAttempt;
 #endif
@@ -992,8 +893,6 @@ tLimMlmOemDataRsp       *gpLimMlmOemDataRsp;
     tSirDFSChannelList    dfschannelList;
     tANI_U8 deauthMsgCnt;
     tANI_U8 gLimIbssStaLimit;
-<<<<<<< HEAD
-=======
     tANI_U8 probeCounter;
     tANI_U8 maxProbe;
     tANI_U8 retryPacketCnt;
@@ -1007,7 +906,6 @@ tLimMlmOemDataRsp       *gpLimMlmOemDataRsp;
     tANI_U32 remOnChnSeqNum;
     tANI_U32 txBdToken;
     tANI_U32 EnableTdls2040BSSCoexIE;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 } tAniSirLim, *tpAniSirLim;
 
 typedef struct sLimMgmtFrameRegistration
@@ -1078,8 +976,6 @@ typedef struct sHalMacStartParameters
 
 } tHalMacStartParameters;
 
-<<<<<<< HEAD
-=======
 typedef enum
 {
     LIM_AUTH_ACK_NOT_RCD,
@@ -1087,7 +983,6 @@ typedef enum
     LIM_AUTH_ACK_RCD_FAILURE,
 } tAuthAckStatus;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 // -------------------------------------------------------------------
 /// MAC Sirius parameter structure
 typedef struct sAniSirGlobal
@@ -1125,12 +1020,6 @@ typedef struct sAniSirGlobal
 #ifdef FEATURE_OEM_DATA_SUPPORT
     tOemDataStruct oemData;
 #endif
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_TDLS_INTERNAL
-    tCsrTdlsCtxStruct tdlsCtx ;
-#endif
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tPmcInfo     pmc;
     tSmeBtcInfo  btc;
 
@@ -1160,8 +1049,6 @@ typedef struct sAniSirGlobal
     v_BOOL_t isTdlsPowerSaveProhibited;
 #endif
     tANI_U8 fScanOffload;
-<<<<<<< HEAD
-=======
     tANI_U8 isCoalesingInIBSSAllowed;
     tANI_U32 fEnableDebugLog;
     tANI_U32 fDeferIMPSTime;
@@ -1181,7 +1068,6 @@ typedef struct sAniSirGlobal
     v_BOOL_t fActiveScanOnDFSChannels;
     tAuthAckStatus  authAckStatus;
     sir_mgmt_frame_ind_callback mgmt_frame_ind_cb;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 } tAniSirGlobal;
 
 #ifdef FEATURE_WLAN_TDLS

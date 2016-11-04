@@ -1,32 +1,4 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2013, The Linux Foundation. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are
- * met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above
- *       copyright notice, this list of conditions and the following
- *       disclaimer in the documentation and/or other materials provided
- *       with the distribution.
- *     * Neither the name of The Linux Foundation nor the names of its
- *       contributors may be used to endorse or promote products derived
- *       from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
- * ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
- * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
- * BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
- * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
- * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
@@ -51,23 +23,11 @@
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #ifdef WLAN_OPEN_SOURCE
 #include <wlan_hdd_includes.h>
 #include <wlan_hdd_wowl.h>
-<<<<<<< HEAD
-
-#define MAX_USER_COMMAND_SIZE_WOWL_PATTERN 512
-#define MAX_USER_COMMAND_SIZE_FRAME 4096
-
-static ssize_t wcnss_wowpattern_write(struct file *file,
-               const char __user *buf, size_t count, loff_t *ppos)
-{
-    hdd_adapter_t *pAdapter = (hdd_adapter_t *)file->private_data;
-
-=======
 #include <vos_sched.h>
 
 #define MAX_USER_COMMAND_SIZE_WOWL_ENABLE 8
@@ -191,21 +151,16 @@ static ssize_t __wcnss_wowpattern_write(struct file *file,
 {
     hdd_adapter_t *pAdapter;
     hdd_context_t *pHddCtx;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     char cmd[MAX_USER_COMMAND_SIZE_WOWL_PATTERN + 1];
     char *sptr, *token;
     v_U8_t pattern_idx = 0;
     v_U8_t pattern_offset = 0;
     char *pattern_buf;
-<<<<<<< HEAD
-
-=======
     char *pattern_mask;
 
     ENTER();
 
     pAdapter = (hdd_adapter_t *)file->private_data;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if ((NULL == pAdapter) || (WLAN_HDD_ADAPTER_MAGIC != pAdapter->magic))
     {
         VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
@@ -214,15 +169,11 @@ static ssize_t __wcnss_wowpattern_write(struct file *file,
 
         return -EINVAL;
     }
-<<<<<<< HEAD
-
-=======
     pHddCtx = WLAN_HDD_GET_CTX(pAdapter);
     if (0 != wlan_hdd_validate_context(pHddCtx))
     {
         return -EINVAL;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (!sme_IsFeatureSupportedByFW(WOW))
     {
         VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
@@ -274,24 +225,6 @@ static ssize_t __wcnss_wowpattern_write(struct file *file,
         return -EINVAL;
 
     pattern_buf = token;
-<<<<<<< HEAD
-    pattern_buf[strlen(pattern_buf) - 1] = '\0';
-
-    hdd_add_wowl_ptrn_debugfs(pAdapter, pattern_idx, pattern_offset,
-                              pattern_buf);
-
-    return count;
-}
-
-static ssize_t wcnss_patterngen_write(struct file *file,
-               const char __user *buf, size_t count, loff_t *ppos)
-{
-    hdd_adapter_t *pAdapter = (hdd_adapter_t *)file->private_data;
-    hdd_context_t *pHddCtx;
-    tSirAddPeriodicTxPtrn *addPeriodicTxPtrnParams;
-    tSirDelPeriodicTxPtrn *delPeriodicTxPtrnParams;
-
-=======
 
     /* Get pattern mask */
     token = strsep(&sptr, " ");
@@ -326,7 +259,6 @@ static ssize_t __wcnss_patterngen_write(struct file *file,
     hdd_context_t *pHddCtx;
     tSirAddPeriodicTxPtrn *addPeriodicTxPtrnParams;
     tSirDelPeriodicTxPtrn *delPeriodicTxPtrnParams;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     char *cmd, *sptr, *token;
     v_U8_t pattern_idx = 0;
     v_U8_t pattern_duration = 0;
@@ -334,12 +266,9 @@ static ssize_t __wcnss_patterngen_write(struct file *file,
     v_U16_t pattern_len = 0;
     v_U16_t i = 0;
 
-<<<<<<< HEAD
-=======
     ENTER();
 
     pAdapter = (hdd_adapter_t *)file->private_data;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if ((NULL == pAdapter) || (WLAN_HDD_ADAPTER_MAGIC != pAdapter->magic))
     {
         VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
@@ -348,16 +277,11 @@ static ssize_t __wcnss_patterngen_write(struct file *file,
 
         return -EINVAL;
     }
-<<<<<<< HEAD
-
-    pHddCtx = WLAN_HDD_GET_CTX(pAdapter);
-=======
     pHddCtx = WLAN_HDD_GET_CTX(pAdapter);
     if (0 != wlan_hdd_validate_context(pHddCtx))
     {
         return -EINVAL;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (!sme_IsFeatureSupportedByFW(WLAN_PERIODIC_TX_PTRN))
     {
@@ -369,20 +293,12 @@ static ssize_t __wcnss_patterngen_write(struct file *file,
     }
 
     /* Get command from user */
-<<<<<<< HEAD
-    if (count < MAX_USER_COMMAND_SIZE_FRAME)
-=======
     if (count <= MAX_USER_COMMAND_SIZE_FRAME)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         cmd = vos_mem_malloc(count + 1);
     else
     {
         VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-                   "%s: Command length is larger than d% bytes.",
-=======
                    "%s: Command length is larger than %d bytes.",
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                    __func__, MAX_USER_COMMAND_SIZE_FRAME);
 
         return -EINVAL;
@@ -539,10 +455,7 @@ static ssize_t __wcnss_patterngen_write(struct file *file,
 
     vos_mem_free(addPeriodicTxPtrnParams);
     vos_mem_free(cmd);
-<<<<<<< HEAD
-=======
     EXIT();
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return count;
 
 failure:
@@ -550,10 +463,6 @@ failure:
     return -EINVAL;
 }
 
-<<<<<<< HEAD
-static int wcnss_debugfs_open(struct inode *inode, struct file *file)
-{
-=======
 static ssize_t wcnss_patterngen_write(struct file *file,
                const char __user *buf, size_t count, loff_t *ppos)
 {
@@ -588,17 +497,10 @@ static int __wcnss_debugfs_open(struct inode *inode, struct file *file)
         return -EINVAL;
     }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (inode->i_private)
     {
         file->private_data = inode->i_private;
     }
-<<<<<<< HEAD
-
-    return 0;
-}
-
-=======
     EXIT();
     return 0;
 }
@@ -621,7 +523,6 @@ static const struct file_operations fops_wowenable = {
     .llseek = default_llseek,
 };
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 static const struct file_operations fops_wowpattern = {
     .write = wcnss_wowpattern_write,
     .open = wcnss_debugfs_open,
@@ -644,13 +545,10 @@ VOS_STATUS hdd_debugfs_init(hdd_adapter_t *pAdapter)
     if (NULL == pHddCtx->debugfs_phy)
         return VOS_STATUS_E_FAILURE;
 
-<<<<<<< HEAD
-=======
     if (NULL == debugfs_create_file("wow_enable", S_IRUSR | S_IWUSR,
         pHddCtx->debugfs_phy, pAdapter, &fops_wowenable))
         return VOS_STATUS_E_FAILURE;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (NULL == debugfs_create_file("wow_pattern", S_IRUSR | S_IWUSR,
         pHddCtx->debugfs_phy, pAdapter, &fops_wowpattern))
         return VOS_STATUS_E_FAILURE;

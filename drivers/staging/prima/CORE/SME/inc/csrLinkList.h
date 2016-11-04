@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /** ------------------------------------------------------------------------- * 
@@ -56,11 +30,6 @@
     \file csrLinkList.h
   
     Exports and types for the Common link list interfaces.
-<<<<<<< HEAD
-  
-   Copyright (C) 2006 Airgo Networks, Incorporated
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  
    ========================================================================== */
 #ifndef CSR_LINK_LIST_H__
@@ -92,13 +61,10 @@ typedef struct tagDblLinkList
   tANI_U32  Count;
   tHddHandle hHdd;
   tListFlag Flag;
-<<<<<<< HEAD
-=======
 
   /*command debugging */
   tANI_U32  cmdTimeoutDuration;  /* command timeout duration */
   vos_timer_t *cmdTimeoutTimer;  /*command timeout Timer */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }tDblLinkList;
 
 //To get the address of an object of (type) base on the (address) of one of its (field)
@@ -107,11 +73,7 @@ typedef struct tagDblLinkList
                                                   (tANI_U8 *)(&((type *)0)->field)))
                                      
 //To get the offset of (field) inside structure (type)                                                  
-<<<<<<< HEAD
-#define GET_FIELD_OFFSET(type, field)  ((tANI_U32_OR_PTR)(&(((type *)0)->field)))
-=======
 #define GET_FIELD_OFFSET(type, field)  ((uintptr_t)(&(((type *)0)->field)))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #define GET_ROUND_UP( _Field, _Boundary ) (((_Field) + ((_Boundary) - 1))  & ~((_Boundary) - 1))
 #define BITS_ON(  _Field, _Bitmask ) ( (_Field) |=  (_Bitmask) )

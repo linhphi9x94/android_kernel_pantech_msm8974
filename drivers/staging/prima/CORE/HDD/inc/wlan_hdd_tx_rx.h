@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2013-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #if !defined( WLAN_HDD_TX_RX_H )
@@ -78,11 +52,8 @@
 #ifdef FEATURE_WLAN_WAPI
 #define HDD_ETHERTYPE_WAI                  ( 0x88b4 )
 #endif
-<<<<<<< HEAD
-=======
 #define HDD_ETHERTYPE_ARP                  ( 0x0806 )
 #define HDD_ETHERTYPE_ARP_SIZE               42
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #define HDD_80211_HEADER_LEN      24
 #define HDD_80211_HEADER_QOS_CTL  2
@@ -105,8 +76,6 @@
 #define SME_QOS_UAPSD_CFG_VI_CHANGED_MASK     0xF4
 #define SME_QOS_UAPSD_CFG_VO_CHANGED_MASK     0xF8
 
-<<<<<<< HEAD
-=======
 /* WLAN_DHCP_DEBUG */
 #define RX_PATH     ( 0 )
 #define TX_PATH     ( 1 )
@@ -145,19 +114,10 @@
 #define TID3 0x60
 
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*--------------------------------------------------------------------------- 
   Type declarations
   -------------------------------------------------------------------------*/ 
  
-<<<<<<< HEAD
-/*--------------------------------------------------------------------------- 
-  Function declarations and documenation
-  -------------------------------------------------------------------------*/ 
-
-/**============================================================================
-  @brief hdd_hard_start_xmit() - Function registered with the Linux OS for 
-=======
 /*---------------------------------------------------------------------------
   Function declarations and documenation
   -------------------------------------------------------------------------*/
@@ -175,7 +135,6 @@ extern int hdd_ibss_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
 
 /**============================================================================
   @brief hdd_hard_start_xmit() - Function registered with the Linux OS for
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   transmitting packets
 
   @param skb      : [in]  pointer to OS packet (sk_buff)
@@ -208,8 +167,6 @@ extern void hdd_tx_timeout(struct net_device *dev);
 extern struct net_device_stats* hdd_stats(struct net_device *dev);
 
 /**============================================================================
-<<<<<<< HEAD
-=======
   @brief hdd_ibss_init_tx_rx() - Init function to initialize Tx/RX
   modules in HDD
 
@@ -230,7 +187,6 @@ extern void hdd_ibss_init_tx_rx( hdd_adapter_t *pAdapter );
 extern VOS_STATUS hdd_ibss_deinit_tx_rx( hdd_adapter_t *pAdapter );
 
 /**============================================================================
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   @brief hdd_init_tx_rx() - Init function to initialize Tx/RX
   modules in HDD
 
@@ -277,8 +233,6 @@ extern VOS_STATUS hdd_tx_complete_cbk( v_VOID_t *vosContext,
                                        VOS_STATUS vosStatusIn );
 
 /**============================================================================
-<<<<<<< HEAD
-=======
   @brief hdd_ibss_tx_fetch_packet_cbk() - Callback function invoked by TL to
   fetch a packet for transmission.
 
@@ -299,7 +253,6 @@ extern VOS_STATUS hdd_ibss_tx_fetch_packet_cbk( v_VOID_t *vosContext,
                                            WLANTL_MetaInfoType *pPktMetaInfo );
 
 /**============================================================================
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   @brief hdd_tx_fetch_packet_cbk() - Callback function invoked by TL to 
   fetch a packet for transmission.
 
@@ -334,11 +287,8 @@ extern VOS_STATUS hdd_tx_fetch_packet_cbk( v_VOID_t *vosContext,
 extern VOS_STATUS hdd_tx_low_resource_cbk( vos_pkt_t *pVosPacket, 
                                            v_VOID_t *userData );
 
-<<<<<<< HEAD
-=======
 extern VOS_STATUS hdd_rx_packet_monitor_cbk(v_VOID_t *vosContext,vos_pkt_t *pVosPacket, int conversion);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**============================================================================
   @brief hdd_rx_packet_cbk() - Receive callback registered with TL.
   TL will call this to notify the HDD when a packet was received 
@@ -400,8 +350,6 @@ VOS_STATUS hdd_Ibss_GetStaId(hdd_station_ctx_t *pHddStaCtx,
   ===========================================================================*/
 void hdd_tx_rx_pkt_cnt_stat_timer_handler( void *pAdapter);
 
-<<<<<<< HEAD
-=======
 /**============================================================================
   @brief hdd_flush_ibss_tx_queues() -
                     Flush tx queues in IBSS mode
@@ -411,7 +359,6 @@ void hdd_tx_rx_pkt_cnt_stat_timer_handler( void *pAdapter);
   ===========================================================================*/
 void hdd_flush_ibss_tx_queues( hdd_adapter_t *pAdapter, v_U8_t STAId);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**=========================================================================
   @brief hdd_wmm_acquire_access_required()-
                    Determine whether wmm ac acquire access is required
@@ -421,8 +368,6 @@ void hdd_flush_ibss_tx_queues( hdd_adapter_t *pAdapter, v_U8_t STAId);
    ========================================================================*/
 void hdd_wmm_acquire_access_required(hdd_adapter_t *pAdapter,
                                      WLANTL_ACEnumType acType);
-<<<<<<< HEAD
-=======
 
 /**=========================================================================
   @brief hdd_dump_dhcp_pkt()- For printing DHCP logs
@@ -453,5 +398,4 @@ static inline void wlan_hdd_log_eapol(struct sk_buff *skb,
 }
 #endif /* FEATURE_WLAN_DIAG_SUPPORT */
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif    // end #if !defined( WLAN_HDD_TX_RX_H )

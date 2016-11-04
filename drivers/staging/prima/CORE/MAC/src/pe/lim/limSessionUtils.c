@@ -1,25 +1,4 @@
 /*
-<<<<<<< HEAD
-  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-  *
-  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
-  *
-  *
-  * Permission to use, copy, modify, and/or distribute this software for
-  * any purpose with or without fee is hereby granted, provided that the
-  * above copyright notice and this permission notice appear in all
-  * copies.
-  *
-  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
-  * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
-  * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
-  * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
-  * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
-  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-  * PERFORMANCE OF THIS SOFTWARE.
-*/
-=======
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
@@ -46,17 +25,11 @@
  * to the Linux Foundation.
  */
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**=========================================================================
 
   \file  limSessionUtils.c
   \brief implementation for lim Session Utility  APIs
   \author Sunit Bhatia
-<<<<<<< HEAD
-  
-  Copyright 2008 (c) Qualcomm Technologies, Inc.  All Rights Reserved.
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   ========================================================================*/
 
 
@@ -231,8 +204,6 @@ tANI_U8 peIsAnySessionActive(tpAniSirGlobal pMac)
 }
 
 /*--------------------------------------------------------------------------
-<<<<<<< HEAD
-=======
   \brief pePrintActiveSession() - print all the active pesession present .
 
   This function print all the active pesession present
@@ -261,7 +232,6 @@ void pePrintActiveSession(tpAniSirGlobal pMac)
 }
 
 /*--------------------------------------------------------------------------
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   \brief isLimSessionOffChannel() - Determines if the there is any other off channel 
                                     session.
 
@@ -283,11 +253,7 @@ isLimSessionOffChannel(tpAniSirGlobal pMac, tANI_U8 sessionId)
 
     if(sessionId >=  pMac->lim.maxBssId)
     {
-<<<<<<< HEAD
-        limLog(pMac, LOGE, FL("Invalid sessionId: %d \n "), sessionId);
-=======
         limLog(pMac, LOGE, FL("Invalid sessionId: %d "), sessionId);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return FALSE;
     }
 

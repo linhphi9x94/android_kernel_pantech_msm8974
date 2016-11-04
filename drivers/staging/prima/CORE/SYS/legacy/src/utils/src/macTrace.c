@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-/**=========================================================================
-* Copyright (c) 2013 Qualcomm Atheros, Inc.
-* All Rights Reserved.
-* Qualcomm Atheros Confidential and Proprietary.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -58,19 +27,12 @@
 
 /*
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   \file  macTrace.c
 
   \brief implementation for trace related APIs
 
   \author Sunit Bhatia
 
-<<<<<<< HEAD
-   Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
-
-   Qualcomm Confidential and Proprietary.
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   ========================================================================*/
 
@@ -90,21 +52,12 @@
 #include "csrNeighborRoam.h"
 #include "csrInternal.h"
 #include "limGlobal.h"
-<<<<<<< HEAD
-#include "wlan_qct_tl.h"
-
-#ifdef TRACE_RECORD
-static tTraceRecord gTraceTbl[MAX_TRACE_RECORDS];
-static tTraceData gTraceData;
-static tpTraceCb traceCBTable[VOS_MODULE_ID_MAX];
-=======
 #include "limTypes.h"
 #include "wlan_qct_tl.h"
 #include "wlan_qct_wda.h"
 #include "vos_trace.h"
 
 #ifdef TRACE_RECORD
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /* ---------------------------------------------------------------------------
     \fn macTraceGetHDDWlanConnState
@@ -479,17 +432,10 @@ tANI_U8* macTraceGetSmeMsgString( tANI_U16 smeMsg )
         CASE_RETURN_STRING(eWNI_SME_SET_APWPARSNIEs_REQ);
         CASE_RETURN_STRING(eWNI_SME_UPPER_LAYER_ASSOC_CNF);
         CASE_RETURN_STRING(eWNI_SME_HIDE_SSID_REQ);
-<<<<<<< HEAD
-        CASE_RETURN_STRING(eWNI_SME_REMAIN_ON_CHANNEL_REQ);
-        CASE_RETURN_STRING(eWNI_SME_REMAIN_ON_CHN_IND);
-        CASE_RETURN_STRING(eWNI_SME_REMAIN_ON_CHN_RSP);
-        CASE_RETURN_STRING(eWNI_SME_MGMT_FRM_IND);
-=======
         CASE_RETURN_STRING(eWNI_SME_CHNG_MCC_BEACON_INTERVAL);
         CASE_RETURN_STRING(eWNI_SME_REMAIN_ON_CHANNEL_REQ);
         CASE_RETURN_STRING(eWNI_SME_REMAIN_ON_CHN_IND);
         CASE_RETURN_STRING(eWNI_SME_REMAIN_ON_CHN_RSP);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         CASE_RETURN_STRING(eWNI_SME_REMAIN_ON_CHN_RDY_IND);
         CASE_RETURN_STRING(eWNI_SME_SEND_ACTION_FRAME_IND);
         CASE_RETURN_STRING(eWNI_SME_ACTION_FRAME_SEND_CNF);
@@ -498,10 +444,7 @@ tANI_U8* macTraceGetSmeMsgString( tANI_U16 smeMsg )
         CASE_RETURN_STRING(eWNI_SME_CLEAR_DFS_CHANNEL_LIST);
         CASE_RETURN_STRING(eWNI_SME_PRE_CHANNEL_SWITCH_FULL_POWER);
         CASE_RETURN_STRING(eWNI_SME_GET_SNR_REQ);
-<<<<<<< HEAD
-=======
         CASE_RETURN_STRING(eWNI_SME_LOST_LINK_PARAMS_IND);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         CASE_RETURN_STRING(eWNI_PMC_MSG_TYPES_BEGIN);
 
         //General Power Save Messages
@@ -555,13 +498,8 @@ tANI_U8* macTraceGetSmeMsgString( tANI_U16 smeMsg )
         CASE_RETURN_STRING(eWNI_SME_FT_AGGR_QOS_REQ);
         CASE_RETURN_STRING(eWNI_SME_FT_AGGR_QOS_RSP);
 #endif
-<<<<<<< HEAD
-#if defined FEATURE_WLAN_CCX
-        CASE_RETURN_STRING(eWNI_SME_CCX_ADJACENT_AP_REPORT);
-=======
 #if defined FEATURE_WLAN_ESE
         CASE_RETURN_STRING(eWNI_SME_ESE_ADJACENT_AP_REPORT);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
         CASE_RETURN_STRING(eWNI_SME_REGISTER_MGMT_FRAME_REQ);
         CASE_RETURN_STRING(eWNI_SME_COEX_IND);
@@ -578,8 +516,6 @@ tANI_U8* macTraceGetSmeMsgString( tANI_U16 smeMsg )
 #ifdef WLAN_FEATURE_GTK_OFFLOAD
         CASE_RETURN_STRING(eWNI_PMC_GTK_OFFLOAD_GETINFO_RSP);
 #endif // WLAN_FEATURE_GTK_OFFLOAD
-<<<<<<< HEAD
-=======
         CASE_RETURN_STRING(eWNI_SME_ROAM_SCAN_OFFLOAD_RSP);
 #ifdef FEATURE_WLAN_LPHB
         CASE_RETURN_STRING(eWNI_SME_LPHB_IND);
@@ -587,15 +523,11 @@ tANI_U8* macTraceGetSmeMsgString( tANI_U16 smeMsg )
 #ifdef FEATURE_WLAN_CH_AVOID
         CASE_RETURN_STRING(eWNI_SME_CH_AVOID_IND);
 #endif /* FEATURE_WLAN_CH_AVOID */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef WLAN_WAKEUP_EVENTS
         CASE_RETURN_STRING(eWNI_SME_WAKE_REASON_IND);
 #endif // WLAN_WAKEUP_EVENTS
         CASE_RETURN_STRING(eWNI_SME_EXCLUDE_UNENCRYPTED);
         CASE_RETURN_STRING(eWNI_SME_RSSI_IND); //RSSI indication from TL to be serialized on MC thread
-<<<<<<< HEAD
-        CASE_RETURN_STRING(eWNI_SME_MSG_TYPES_END);
-=======
 #ifdef FEATURE_WLAN_TDLS
         CASE_RETURN_STRING(eWNI_SME_TDLS_SEND_MGMT_REQ);
         CASE_RETURN_STRING(eWNI_SME_TDLS_SEND_MGMT_RSP);
@@ -618,14 +550,10 @@ tANI_U8* macTraceGetSmeMsgString( tANI_U16 smeMsg )
 #endif
         CASE_RETURN_STRING(eWNI_SME_CANDIDATE_FOUND_IND);
         CASE_RETURN_STRING(eWNI_SME_HANDOFF_REQ);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         CASE_RETURN_STRING(eWNI_SME_GET_ROAM_RSSI_REQ);
         CASE_RETURN_STRING(eWNI_SME_GET_ROAM_RSSI_RSP);
         CASE_RETURN_STRING(eWNI_SME_GET_TSM_STATS_REQ);
         CASE_RETURN_STRING(eWNI_SME_GET_TSM_STATS_RSP);
-<<<<<<< HEAD
-
-=======
         CASE_RETURN_STRING(eWNI_SME_TSM_IE_IND);
         CASE_RETURN_STRING(eWNI_SME_HT40_OBSS_SCAN_IND);
         CASE_RETURN_STRING(eWNI_SME_HT40_STOP_OBSS_SCAN_IND);
@@ -640,7 +568,6 @@ tANI_U8* macTraceGetSmeMsgString( tANI_U16 smeMsg )
         CASE_RETURN_STRING(eWNI_SME_SET_TDLS_2040_BSSCOEX_REQ);
         CASE_RETURN_STRING(eWNI_SME_REGISTER_MGMT_FRAME_CB);
         CASE_RETURN_STRING(eWNI_SME_MSG_TYPES_END);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         default:
             return( (tANI_U8*)"UNKNOWN" );
             break;
@@ -788,14 +715,10 @@ tANI_U8* macTraceGetWdaMsgString( tANI_U16 wdaMsg )
         CASE_RETURN_STRING(WDA_TIMER_CHIP_MONITOR_TIMEOUT);
         CASE_RETURN_STRING(WDA_TIMER_TRAFFIC_ACTIVITY_REQ);
         CASE_RETURN_STRING(WDA_TIMER_ADC_RSSI_STATS);
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-=======
 #ifdef WLAN_FEATURE_11W
         CASE_RETURN_STRING(WDA_EXCLUDE_UNENCRYPTED_IND);
 #endif
 #ifdef FEATURE_WLAN_ESE
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         CASE_RETURN_STRING(WDA_TSM_STATS_REQ);
         CASE_RETURN_STRING(WDA_TSM_STATS_RSP);
 #endif
@@ -845,11 +768,8 @@ tANI_U8* macTraceGetWdaMsgString( tANI_U16 wdaMsg )
 #endif //SUPPORT_BEACON_FILTER
         CASE_RETURN_STRING(WDA_SET_MAX_TX_POWER_REQ);
         CASE_RETURN_STRING(WDA_SET_MAX_TX_POWER_RSP);
-<<<<<<< HEAD
-=======
         CASE_RETURN_STRING(WDA_SET_MAX_TX_POWER_PER_BAND_RSP);
         CASE_RETURN_STRING(WDA_SET_MAX_TX_POWER_PER_BAND_REQ);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         CASE_RETURN_STRING(WDA_SEND_MSG_COMPLETE);
         CASE_RETURN_STRING(WDA_SET_HOST_OFFLOAD);
         CASE_RETURN_STRING(WDA_SET_KEEP_ALIVE);
@@ -859,14 +779,10 @@ tANI_U8* macTraceGetWdaMsgString( tANI_U16 wdaMsg )
         CASE_RETURN_STRING(WDA_ADD_STA_SELF_REQ);
         CASE_RETURN_STRING(WDA_DEL_STA_SELF_REQ);
         CASE_RETURN_STRING(WDA_SET_P2P_GO_NOA_REQ);
-<<<<<<< HEAD
-        CASE_RETURN_STRING(WDA_TX_COMPLETE_TIMEOUT_IND);
-=======
         CASE_RETURN_STRING(WDA_SET_TDLS_LINK_ESTABLISH_REQ);
         CASE_RETURN_STRING(WDA_SET_TDLS_LINK_ESTABLISH_REQ_RSP);
         CASE_RETURN_STRING(WDA_TX_COMPLETE_TIMEOUT_IND);
         CASE_RETURN_STRING(WDA_TIMER_TRAFFIC_STATS_IND);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         CASE_RETURN_STRING(WDA_WLAN_SUSPEND_IND);
         CASE_RETURN_STRING(WDA_WLAN_RESUME_REQ);
         CASE_RETURN_STRING(WDA_MSG_TYPES_END);
@@ -887,10 +803,7 @@ tANI_U8* macTraceGetWdaMsgString( tANI_U16 wdaMsg )
 #endif // FEATURE_WLAN_SCAN_PNO
 #ifdef WLAN_FEATURE_ROAM_SCAN_OFFLOAD
         CASE_RETURN_STRING(WDA_ROAM_SCAN_OFFLOAD_REQ);
-<<<<<<< HEAD
-=======
         CASE_RETURN_STRING(WDA_ROAM_SCAN_OFFLOAD_RSP);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 #ifdef WLAN_WAKEUP_EVENTS
         CASE_RETURN_STRING(WDA_WAKE_REASON_IND);
@@ -912,12 +825,6 @@ tANI_U8* macTraceGetWdaMsgString( tANI_U16 wdaMsg )
 #ifdef WLAN_FEATURE_11AC
         CASE_RETURN_STRING(WDA_UPDATE_OP_MODE);
 #endif
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_BATCH_SCAN
-        CASE_RETURN_STRING(WDA_SET_BATCH_SCAN_REQ);
-        CASE_RETURN_STRING(WDA_TRIGGER_BATCH_SCAN_RESULT_IND);
-#endif
-=======
         CASE_RETURN_STRING(WDA_GET_ROAM_RSSI_REQ);
         CASE_RETURN_STRING(WDA_GET_ROAM_RSSI_RSP);
         CASE_RETURN_STRING(WDA_NAN_REQUEST);
@@ -980,18 +887,12 @@ tANI_U8* macTraceGetWdaMsgString( tANI_U16 wdaMsg )
         CASE_RETURN_STRING(WDA_MON_STOP_REQ);
         CASE_RETURN_STRING(WDA_SPOOF_MAC_ADDR_REQ);
         CASE_RETURN_STRING(WDA_LOST_LINK_PARAMS_IND);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         default:
             return((tANI_U8*) "UNKNOWN" );
             break;
     }
 }
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 tANI_U8* macTraceGetLimMsgString( tANI_U16 limMsg )
 {
     switch( limMsg )
@@ -1022,10 +923,6 @@ tANI_U8* macTraceGetLimMsgString( tANI_U16 limMsg )
         CASE_RETURN_STRING(SIR_LIM_PROBE_HB_FAILURE_TIMEOUT);
         CASE_RETURN_STRING(SIR_LIM_ADDTS_RSP_TIMEOUT );
         CASE_RETURN_STRING(SIR_LIM_LINK_TEST_DURATION_TIMEOUT );
-<<<<<<< HEAD
-        CASE_RETURN_STRING(SIR_LIM_HASH_MISS_THRES_TIMEOUT  );
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         CASE_RETURN_STRING(SIR_LIM_CNF_WAIT_TIMEOUT         );
         CASE_RETURN_STRING(SIR_LIM_KEEPALIVE_TIMEOUT        );
         CASE_RETURN_STRING(SIR_LIM_UPDATE_OLBC_CACHEL_TIMEOUT );
@@ -1045,21 +942,12 @@ tANI_U8* macTraceGetLimMsgString( tANI_U16 limMsg )
 #endif
         CASE_RETURN_STRING(SIR_LIM_BEACON_GEN_IND );
         CASE_RETURN_STRING(SIR_LIM_PERIODIC_PROBE_REQ_TIMEOUT);
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-        CASE_RETURN_STRING(SIR_LIM_CCX_TSM_TIMEOUT);
-=======
 #ifdef FEATURE_WLAN_ESE
         CASE_RETURN_STRING(SIR_LIM_ESE_TSM_TIMEOUT);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
         CASE_RETURN_STRING(SIR_LIM_DISASSOC_ACK_TIMEOUT);
         CASE_RETURN_STRING(SIR_LIM_DEAUTH_ACK_TIMEOUT);
         CASE_RETURN_STRING(SIR_LIM_PERIODIC_JOIN_PROBE_REQ_TIMEOUT);
-<<<<<<< HEAD
-        CASE_RETURN_STRING(SIR_LIM_MSG_TYPES_END);
-
-=======
         CASE_RETURN_STRING(SIR_LIM_AUTH_RETRY_TIMEOUT);
         CASE_RETURN_STRING(SIR_LIM_MSG_TYPES_END);
         CASE_RETURN_STRING(LIM_MLM_SCAN_REQ);
@@ -1099,19 +987,12 @@ tANI_U8* macTraceGetLimMsgString( tANI_U16 limMsg )
         CASE_RETURN_STRING(LIM_MLM_OEM_DATA_REQ);
         CASE_RETURN_STRING(LIM_MLM_OEM_DATA_CNF);
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         default:
             return( (tANI_U8*)"UNKNOWN" );
             break;
     }
 }
 
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 tANI_U8* macTraceGetCfgMsgString( tANI_U16 cfgMsg )
 {
     switch( cfgMsg )
@@ -1123,13 +1004,9 @@ tANI_U8* macTraceGetCfgMsgString( tANI_U16 cfgMsg )
         CASE_RETURN_STRING(WNI_CFG_SET_CNF);
         CASE_RETURN_STRING(SIR_CFG_PARAM_UPDATE_IND);
         CASE_RETURN_STRING(SIR_CFG_DOWNLOAD_COMPLETE_IND);
-<<<<<<< HEAD
-
-=======
         CASE_RETURN_STRING(WNI_CFG_DNLD_RSP);
         CASE_RETURN_STRING(WNI_CFG_GET_REQ);
         CASE_RETURN_STRING(WNI_CFG_SET_REQ);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         CASE_RETURN_STRING(WNI_CFG_SET_REQ_NO_RSP);
         default:
             return( (tANI_U8*)"UNKNOWN" );
@@ -1155,161 +1032,14 @@ tANI_U8* macTraceGetModuleString( tANI_U8 moduleId  )
     //return gVosTraceInfo[moduleId].moduleNameStr;
 }
 
-<<<<<<< HEAD
-
-
-
-
-
-
-
-
-
-void macTraceInit(tpAniSirGlobal pMac)
-{
-    tANI_U8 i;
-    gTraceData.head = INVALID_TRACE_ADDR;
-    gTraceData.tail = INVALID_TRACE_ADDR;
-    gTraceData.num = 0;
-    gTraceData.enable = TRUE;
-    gTraceData.dumpCount = DEFAULT_TRACE_DUMP_COUNT;
-    gTraceData.numSinceLastDump = 0;
-
-    for(i=0; i<VOS_MODULE_ID_MAX; i++)
-        traceCBTable[i] = NULL;
-
-}
-
-
-
-
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 void macTraceReset(tpAniSirGlobal pMac)
 {
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 void macTrace(tpAniSirGlobal pMac,  tANI_U8 code, tANI_U8 session, tANI_U32 data)
 {
     //Today macTrace is being invoked by PE only, need to remove this function once PE is migrated to using new trace API.
     macTraceNew(pMac, VOS_MODULE_ID_PE, code, session, data);
-<<<<<<< HEAD
-
-#if 0
-    tpTraceRecord rec = NULL;
-
-    //limLog(pMac, LOGE, "mac Trace code: %d, data: %x, head: %d, tail: %d\n",  code, data, gTraceData.head, gTraceData.tail);
-
-    if(!gTraceData.enable)
-        return;
-    gTraceData.num++;
-
-    if (gTraceData.head == INVALID_TRACE_ADDR)
-    {
-        /* first record */
-        gTraceData.head = 0;
-        gTraceData.tail = 0;
-    }
-    else
-    {
-        /* queue is not empty */
-        tANI_U32 tail = gTraceData.tail + 1;
-
-        if (tail == MAX_TRACE_RECORDS)
-            tail = 0;
-
-        if (gTraceData.head == tail)
-        {
-            /* full */
-            if (++gTraceData.head == MAX_TRACE_RECORDS)
-                gTraceData.head = 0;
-        }
-
-        gTraceData.tail = tail;
-    }
-
-    rec = &gTraceTbl[gTraceData.tail];
-    rec->code = code;
-    rec->session = session;
-    rec->data = data;
-    rec->time = vos_timer_get_system_time();
-    rec->module =  VOS_MODULE_ID_PE;
-    gTraceData.numSinceLastDump ++;
-
-    if(gTraceData.numSinceLastDump == gTraceData.dumpCount)
-        {
-            limLog(pMac, LOGE, "Trace Dump last %d traces\n",  gTraceData.dumpCount);
-            macTraceDumpAll(pMac, 0, 0, gTraceData.dumpCount);
-            gTraceData.numSinceLastDump = 0;
-        }
-    #endif
-
-}
-
-
-
-void macTraceNew(tpAniSirGlobal pMac, tANI_U8 module, tANI_U8 code, tANI_U8 session, tANI_U32 data)
-{
-    tpTraceRecord rec = NULL;
-
-    //limLog(pMac, LOGE, "mac Trace code: %d, data: %x, head: %d, tail: %d\n",  code, data, gTraceData.head, gTraceData.tail);
-
-    if(!gTraceData.enable)
-        return;
-    //If module is not registered, don't record for that module.
-    if(traceCBTable[module] == NULL)
-        return;
-    pe_AcquireGlobalLock( &pMac->lim );
-
-    gTraceData.num++;
-
-    if (gTraceData.head == INVALID_TRACE_ADDR)
-    {
-        /* first record */
-        gTraceData.head = 0;
-        gTraceData.tail = 0;
-    }
-    else
-    {
-        /* queue is not empty */
-        tANI_U32 tail = gTraceData.tail + 1;
-
-        if (tail == MAX_TRACE_RECORDS)
-            tail = 0;
-
-        if (gTraceData.head == tail)
-        {
-            /* full */
-            if (++gTraceData.head == MAX_TRACE_RECORDS)
-                gTraceData.head = 0;
-        }
-
-        gTraceData.tail = tail;
-    }
-
-    rec = &gTraceTbl[gTraceData.tail];
-    rec->code = code;
-    rec->session = session;
-    rec->data = data;
-    rec->time = vos_timer_get_system_time();
-    rec->module =  module;
-    gTraceData.numSinceLastDump ++;
-    pe_ReleaseGlobalLock( &pMac->lim );
-
-}
-
-
-
-
-
-
-
-=======
 }
 
 void macTraceNew(tpAniSirGlobal pMac, tANI_U8 module, tANI_U8 code, tANI_U8 session, tANI_U32 data)
@@ -1317,7 +1047,6 @@ void macTraceNew(tpAniSirGlobal pMac, tANI_U8 module, tANI_U8 code, tANI_U8 sess
     vos_trace(module, code, session, data);
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 tANI_U8* macTraceMsgString(tpAniSirGlobal pMac, tANI_U32 msgType)
 {
     tANI_U16 msgId = (tANI_U16)MAC_TRACE_GET_MSG_ID(msgType);
@@ -1340,91 +1069,4 @@ tANI_U8* macTraceMsgString(tpAniSirGlobal pMac, tANI_U32 msgType)
     }
 }
 
-<<<<<<< HEAD
-
-
-
-
-
-void macTraceDumpAll(tpAniSirGlobal pMac, tANI_U8 code, tANI_U8 session, tANI_U32 count)
-{
-    tpTraceRecord pRecord;
-    tANI_S32 i, tail;
-
-
-    if(!gTraceData.enable)
-    {
-        VOS_TRACE( VOS_MODULE_ID_SYS, VOS_TRACE_LEVEL_ERROR, "Tracing Disabled \n");
-        return;
-    }
-
-    VOS_TRACE( VOS_MODULE_ID_SYS, VOS_TRACE_LEVEL_ERROR,
-                            "Total Records: %d, Head: %d, Tail: %d\n", gTraceData.num, gTraceData.head, gTraceData.tail);
-
-    pe_AcquireGlobalLock( &pMac->lim );
-    if (gTraceData.head != INVALID_TRACE_ADDR)
-    {
-
-        i = gTraceData.head;
-        tail = gTraceData.tail;
-
-        if (count)
-        {
-            if (count > gTraceData.num)
-                count = gTraceData.num;
-            if (count > MAX_TRACE_RECORDS)
-                count = MAX_TRACE_RECORDS;
-            if(tail >= (count + 1))
-            {
-                i = tail - count + 1;
-            }
-            else
-            {
-                i = MAX_TRACE_RECORDS - ((count + 1) - tail);
-            }
-        }
-
-        pRecord = &gTraceTbl[i];
-
-        for (;;)
-        {
-            if (   (code == 0 || (code == pRecord->code)) &&
-                    (traceCBTable[pRecord->module] != NULL))
-                traceCBTable[pRecord->module](pMac, pRecord, (tANI_U16)i);
-
-            if (i == tail)
-                break;
-            i += 1;
-
-            if (i == MAX_TRACE_RECORDS)
-            {
-                i = 0;
-                pRecord = &gTraceTbl[0];
-            }
-            else
-                pRecord += 1;
-        }
-        gTraceData.numSinceLastDump = 0;
-
-    }
-    pe_ReleaseGlobalLock( &pMac->lim );
-
-}
-
-
-void macTraceCfg(tpAniSirGlobal pMac, tANI_U32 enable, tANI_U32 dumpCount, tANI_U32 code, tANI_U32 session)
-{
-    gTraceData.enable = (tANI_U8)enable;
-    gTraceData.dumpCount= (tANI_U16)dumpCount;
-    gTraceData.numSinceLastDump = 0;
-}
-
-void macTraceRegister( tpAniSirGlobal pMac, VOS_MODULE_ID moduleId,    tpTraceCb traceCb)
-{
-    traceCBTable[moduleId] = traceCb;
-}
-
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif

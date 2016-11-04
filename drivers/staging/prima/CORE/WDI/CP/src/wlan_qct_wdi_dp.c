@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2014 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,29 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -55,7 +28,6 @@
 
 
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*===========================================================================
 
                        W L A N _ Q C T _ W D I _ D P. C
@@ -76,12 +48,6 @@
   Are listed for each API below.
 
 
-<<<<<<< HEAD
-  Copyright (c) 2010 QUALCOMM Incorporated.
-  All Rights Reserved.
-  Qualcomm Confidential and Proprietary
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ===========================================================================*/
 
 /*===========================================================================
@@ -416,19 +382,12 @@ WDI_FillTxBd
     wpt_uint8*             pTid, 
     wpt_uint8              ucDisableFrmXtl, 
     void*                  pTxBd, 
-<<<<<<< HEAD
-    wpt_uint8              ucTxFlag, 
-    wpt_uint8              ucProtMgmtFrame,
-    wpt_uint32             uTimeStamp,
-    wpt_uint8*             staIndex
-=======
     wpt_uint32             ucTxFlag,
     wpt_uint8              ucProtMgmtFrame,
     wpt_uint32             uTimeStamp,
     wpt_uint8              isEapol,
     wpt_uint8*             staIndex,
     wpt_uint32             txBdToken
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 )
 {
     wpt_uint8              ucTid        = *pTid; 
@@ -449,19 +408,12 @@ WDI_FillTxBd
     /*------------------------------------------------------------------------
        Get type and subtype of the frame first 
     ------------------------------------------------------------------------*/
-<<<<<<< HEAD
-=======
     pBd->txBdToken = txBdToken;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     ucType = (ucTypeSubtype & WDI_FRAME_TYPE_MASK) >> WDI_FRAME_TYPE_OFFSET;
     ucSubType = (ucTypeSubtype & WDI_FRAME_SUBTYPE_MASK);
 
     WPAL_TRACE( eWLAN_MODULE_DAL_CTRL, eWLAN_PAL_TRACE_LEVEL_WARN, 
-<<<<<<< HEAD
-               "Type: %d/%d, MAC S: %08x. MAC D: %08x., Tid=%d, frmXlat=%d, pTxBD=%08x ucTxFlag 0x%X\n", 
-=======
                "Type: %d/%d, MAC S: %08x. MAC D: %08x., Tid=%d, frmXlat=%d, pTxBD=%p ucTxFlag 0x%X",
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 ucType, ucSubType, 
                 *((wpt_uint32 *) pAddr2), 
                *((wpt_uint32 *) pDestMacAddr), 
@@ -506,8 +458,6 @@ WDI_FillTxBd
         pBd->dpuRF = BMUWQ_BTQM_TX_MGMT; 
     }
 
-<<<<<<< HEAD
-=======
     if (ucTxFlag & WDI_USE_FW_IN_TX_PATH)
     {
         WPAL_TRACE( eWLAN_MODULE_DAL_CTRL, eWLAN_PAL_TRACE_LEVEL_INFO,
@@ -519,7 +469,6 @@ WDI_FillTxBd
 
         pBd->dpuRF = BMUWQ_FW_DPU_TX;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     pBd->tid           = ucTid; 
     // Clear the reserved field as this field is used for defining special 
@@ -602,8 +551,6 @@ WDI_FillTxBd
            pBd->bdRate = WDI_BDRATE_CTRL_FRAME;
         }
 #endif
-<<<<<<< HEAD
-=======
 
         if(ucTxFlag & WDI_USE_BD_RATE_1_MASK)
         {
@@ -618,7 +565,6 @@ WDI_FillTxBd
             pBd->bdRate = WDI_BDRATE_CTRL_FRAME;
         }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         pBd->rmf    = WDI_RMF_DISABLED;     
 
         /* sanity: Might already be set by caller, but enforce it here again */
@@ -762,11 +708,7 @@ WDI_FillTxBd
                 return WDI_STATUS_E_NOT_ALLOWED;
            }
 #else
-<<<<<<< HEAD
-            ucStaId = pWDICtx->ucSelfStaId;
-=======
            ucStaId = pWDICtx->ucSelfStaId;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
         }
         else
@@ -893,13 +835,9 @@ WDI_FillTxBd
               }
               ucStaId = pBSSSes->bcastStaIdx;
            }
-<<<<<<< HEAD
-         }    
-=======
          }
 
         WPAL_TRACE(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO,"StaId:%d and ucTxFlag:%02x", ucStaId, ucTxFlag);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
         pBd->staIndex = ucStaId;
         
@@ -1000,17 +938,12 @@ WDI_FillTxBd
 #ifdef FEATURE_WLAN_TDLS
                   (ucSTAType == WDI_STA_ENTRY_TDLS_PEER ) &&
 #endif
-<<<<<<< HEAD
-                  (ucTxFlag & WDI_TRIGGER_ENABLED_AC_MASK)))
-       {
-=======
                   (ucTxFlag & WDI_TRIGGER_ENABLED_AC_MASK)) || isEapol)
        {
           WPAL_TRACE(eWLAN_MODULE_DAL_DATA, eWLAN_PAL_TRACE_LEVEL_INFO,
           "Sending EAPOL pakcet over WQ5 MAC S: %08x. MAC D: %08x.",
                     *((wpt_uint32 *) pAddr2),
                    *((wpt_uint32 *) pDestMacAddr));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            pBd->dpuRF = BMUWQ_FW_DPU_TX;
        }
 #endif

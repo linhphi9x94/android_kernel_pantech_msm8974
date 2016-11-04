@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,41 +18,15 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /*
  *
-<<<<<<< HEAD
- * Airgo Networks, Inc proprietary. All rights reserved.
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file limProcessProbeRspFrame.cc contains the code
  * for processing Probe Response Frame.
  * Author:        Chandra Modumudi
@@ -68,11 +38,7 @@
  */
 
 #include "wniApi.h"
-<<<<<<< HEAD
-#include "wniCfgSta.h"
-=======
 #include "wniCfg.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include "aniGlobal.h"
 #include "schApi.h"
 #include "utilsApi.h"
@@ -87,15 +53,6 @@
 #include "parserApi.h"
 
 tSirRetStatus
-<<<<<<< HEAD
-limValidateIEInformationInProbeRspFrame (tANI_U8 *pRxPacketInfo)
-{
-   tSirRetStatus       status = eSIR_SUCCESS;
-
-   if (WDA_GET_RX_PAYLOAD_LEN(pRxPacketInfo) < (SIR_MAC_B_PR_SSID_OFFSET + SIR_MAC_MIN_IE_LEN))
-   {
-      status = eSIR_FAILURE;
-=======
 limValidateIEInformationInProbeRspFrame (tpAniSirGlobal pMac,
                                          tANI_U8 *pRxPacketInfo)
 {
@@ -121,7 +78,6 @@ limValidateIEInformationInProbeRspFrame (tpAniSirGlobal pMac,
    if ( status == eSIR_SUCCESS )
    {
        WDA_GET_RX_MPDU_LEN(pRxPacketInfo) += nMissingRsnBytes;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    return status;
@@ -162,9 +118,6 @@ limProcessProbeRspFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession 
     tANI_U8 qosEnabled =    false;
     tANI_U8 wmeEnabled =    false;
 
-<<<<<<< HEAD
-    pProbeRsp = vos_mem_malloc(sizeof(tSirProbeRespBeacon));
-=======
     if (!psessionEntry)
     {
         limLog(pMac, LOGE, FL("psessionEntry is NULL") );
@@ -175,7 +128,6 @@ limProcessProbeRspFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession 
 
 
     pProbeRsp = vos_mem_vmalloc(sizeof(tSirProbeRespBeacon));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if ( NULL == pProbeRsp )
     {
         limLog(pMac, LOGE, FL("Unable to allocate memory in limProcessProbeRspFrame") );
@@ -190,46 +142,27 @@ limProcessProbeRspFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession 
     pHdr = WDA_GET_RX_MAC_HEADER(pRxPacketInfo);
 
 
-<<<<<<< HEAD
-   PELOG2(limLog(pMac, LOG2,
-             FL("Received Probe Response frame with length=%d from "),
-             WDA_GET_RX_MPDU_LEN(pRxPacketInfo));
-    limPrintMacAddr(pMac, pHdr->sa, LOG2);)
-=======
    limLog(pMac, LOG2,
              FL("Received Probe Response frame with length=%d from "),
              WDA_GET_RX_MPDU_LEN(pRxPacketInfo));
     limPrintMacAddr(pMac, pHdr->sa, LOG2);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    if (!pMac->fScanOffload)
    {
        if (limDeactivateMinChannelTimerDuringScan(pMac) != eSIR_SUCCESS)
        {
-<<<<<<< HEAD
-           vos_mem_free(pProbeRsp);
-=======
            vos_mem_vfree(pProbeRsp);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            return;
        }
    }
 
    // Validate IE information before processing Probe Response Frame
-<<<<<<< HEAD
-   if (limValidateIEInformationInProbeRspFrame(pRxPacketInfo) != eSIR_SUCCESS)
-   {
-       PELOG1(limLog(pMac, LOG1,
-                 FL("Parse error ProbeResponse, length=%d"), frameLen);)
-       vos_mem_free(pProbeRsp);
-=======
    if (limValidateIEInformationInProbeRspFrame(pMac, pRxPacketInfo)
        != eSIR_SUCCESS)
    {
        PELOG1(limLog(pMac, LOG1,
                  FL("Parse error ProbeResponse, length=%d"), frameLen);)
        vos_mem_vfree(pProbeRsp);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        return;
    }
 
@@ -249,11 +182,7 @@ limProcessProbeRspFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession 
      *
      * Ignore Probe Response frame in all other states
      */
-<<<<<<< HEAD
-        /*  */
-=======
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    // TO SUPPORT BT-AMP
     if (((pMac->lim.gLimMlmState == eLIM_MLM_WT_PROBE_RESP_STATE) ||   //mlm state check should be global - 18th oct
         (pMac->lim.gLimMlmState == eLIM_MLM_PASSIVE_SCAN_STATE) ||     //mlm state check should be global - 18th oct
@@ -283,11 +212,7 @@ limProcessProbeRspFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession 
             PELOG1(limLog(pMac, LOG1,
                FL("Parse error ProbeResponse, length=%d"),
                frameLen);)
-<<<<<<< HEAD
-            vos_mem_free(pProbeRsp);
-=======
             vos_mem_vfree(pProbeRsp);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             return;
         }
 
@@ -354,11 +279,7 @@ limProcessProbeRspFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession 
 
             if ( !vos_mem_compare(currentBssId, pHdr->bssId, sizeof(tSirMacAddr)) )
             {
-<<<<<<< HEAD
-                vos_mem_free(pProbeRsp);
-=======
                 vos_mem_vfree(pProbeRsp);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 return;
             }
 
@@ -436,11 +357,7 @@ limProcessProbeRspFrame(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo,tpPESession 
                 limHandleIBSScoalescing(pMac, pProbeRsp, pRxPacketInfo,psessionEntry);
     } // if ((pMac->lim.gLimMlmState == eLIM_MLM_WT_PROBE_RESP_STATE) || ...
 
-<<<<<<< HEAD
-    vos_mem_free(pProbeRsp);
-=======
     vos_mem_vfree(pProbeRsp);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     // Ignore Probe Response frame in all other states
     return;
 } /*** end limProcessProbeRspFrame() ***/
@@ -454,11 +371,7 @@ limProcessProbeRspFrameNoSession(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo)
     tpSirMacMgmtHdr         pHdr;
     tSirProbeRespBeacon    *pProbeRsp;
 
-<<<<<<< HEAD
-    pProbeRsp = vos_mem_malloc(sizeof(tSirProbeRespBeacon));
-=======
     pProbeRsp = vos_mem_vmalloc(sizeof(tSirProbeRespBeacon));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if ( NULL == pProbeRsp )
     {
         limLog(pMac, LOGE, FL("Unable to allocate memory in limProcessProbeRspFrameNoSession") );
@@ -487,11 +400,7 @@ limProcessProbeRspFrameNoSession(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo)
         {
             if (limDeactivateMinChannelTimerDuringScan(pMac) != eSIR_SUCCESS)
             {
-<<<<<<< HEAD
-                vos_mem_free(pProbeRsp);
-=======
                 vos_mem_vfree(pProbeRsp);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 return;
             }
         }
@@ -499,20 +408,12 @@ limProcessProbeRspFrameNoSession(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo)
     }
 #endif
      // Validate IE information before processing Probe Response Frame
-<<<<<<< HEAD
-    if (limValidateIEInformationInProbeRspFrame(pRxPacketInfo) != eSIR_SUCCESS)
-    {
-       PELOG1(limLog(pMac, LOG1,FL("Parse error ProbeResponse, length=%d"),
-              frameLen);)
-       vos_mem_free(pProbeRsp);
-=======
     if (limValidateIEInformationInProbeRspFrame(pMac, pRxPacketInfo)
         != eSIR_SUCCESS)
     {
        PELOG1(limLog(pMac, LOG1,FL("Parse error ProbeResponse, length=%d"),
               frameLen);)
        vos_mem_vfree(pProbeRsp);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        return;
     }
     /*  Since there is no psessionEntry, PE cannot be in the following states:
@@ -544,11 +445,7 @@ limProcessProbeRspFrameNoSession(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo)
         if (sirConvertProbeFrame2Struct(pMac, pBody, frameLen, pProbeRsp) == eSIR_FAILURE)
         {
             limLog(pMac, LOG1, FL("Parse error ProbeResponse, length=%d\n"), frameLen);
-<<<<<<< HEAD
-            vos_mem_free(pProbeRsp);
-=======
             vos_mem_vfree(pProbeRsp);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             return;
         }
         limLog( pMac, LOG2, FL("Save this probe rsp in LFR cache"));
@@ -569,11 +466,7 @@ limProcessProbeRspFrameNoSession(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo)
         {
             limLog(pMac, LOG1,
                     FL("Parse error ProbeResponse, length=%d\n"), frameLen);
-<<<<<<< HEAD
-            vos_mem_free(pProbeRsp);
-=======
             vos_mem_vfree(pProbeRsp);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             return;
         }
         limCheckAndAddBssDescription(pMac, pProbeRsp, pRxPacketInfo,
@@ -599,11 +492,7 @@ limProcessProbeRspFrameNoSession(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo)
         if (sirConvertProbeFrame2Struct(pMac, pBody, frameLen, pProbeRsp) == eSIR_FAILURE)
         {
             limLog(pMac, LOG1, FL("Parse error ProbeResponse, length=%d"), frameLen);
-<<<<<<< HEAD
-            vos_mem_free(pProbeRsp);
-=======
             vos_mem_vfree(pProbeRsp);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             return;
         }
 
@@ -614,10 +503,6 @@ limProcessProbeRspFrameNoSession(tpAniSirGlobal pMac, tANI_U8 *pRxPacketInfo)
         {
         }
     } 
-<<<<<<< HEAD
-    vos_mem_free(pProbeRsp);
-=======
     vos_mem_vfree(pProbeRsp);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return;
 } /*** end limProcessProbeRspFrameNew() ***/

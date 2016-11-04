@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2013-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -23,15 +19,12 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-<<<<<<< HEAD
-=======
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
  */
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /************************************************************************
    smeTrace.c
 
@@ -39,15 +32,6 @@
 
   \author Kiran Kumar Reddy CH L V
 
-<<<<<<< HEAD
-  Copyright (c) 2013 Qualcomm Atheros, Inc.
-
-  All Rights Reserved.
-
-  Qualcomm Atheros Confidential and Proprietary.
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   ========================================================================*/
 #include "aniGlobal.h" //for tpAniSirGlobal
 #include "smsDebug.h"
@@ -86,10 +70,7 @@ static tANI_U8* smeTraceGetRxMsgString( tANI_U32 code )
         CASE_RETURN_STRING(TRACE_CODE_SME_RX_HDD_ROAM_GET_CONNECTPROFILE);
         CASE_RETURN_STRING(TRACE_CODE_SME_RX_HDD_ROAM_FREE_CONNECTPROFILE);
         CASE_RETURN_STRING(TRACE_CODE_SME_RX_HDD_ROAM_SET_PMKIDCACHE);
-<<<<<<< HEAD
-=======
         CASE_RETURN_STRING(TRACE_CODE_SME_RX_HDD_ROAM_DEL_PMKIDCACHE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         CASE_RETURN_STRING(TRACE_CODE_SME_RX_HDD_GET_CONFIGPARAM);
         CASE_RETURN_STRING(TRACE_CODE_SME_RX_HDD_GET_MODPROFFIELDS);
         CASE_RETURN_STRING(TRACE_CODE_SME_RX_HDD_SET_CONFIG_PWRSAVE);
@@ -153,9 +134,6 @@ static tANI_U8* smeTraceGetRxMsgString( tANI_U32 code )
         CASE_RETURN_STRING(TRACE_CODE_SME_RX_HDD_UPDATE_FTENABLED);
         CASE_RETURN_STRING(TRACE_CODE_SME_RX_HDD_UPDATE_WESMODE);
         CASE_RETURN_STRING(TRACE_CODE_SME_RX_HDD_SET_SCANCTRL);
-<<<<<<< HEAD
-
-=======
         CASE_RETURN_STRING(TRACE_CODE_SME_RX_HDD_MSG_DEAUTH_STA);
 #ifdef FEATURE_WLAN_TDLS
         CASE_RETURN_STRING(TRACE_CODE_SME_RX_HDD_TDLS_LINK_ESTABLISH_PARAM);
@@ -177,7 +155,6 @@ static tANI_U8* smeTraceGetRxMsgString( tANI_U32 code )
         CASE_RETURN_STRING(TRACE_CODE_SME_RX_HDD_EXTSCAN_SET_SIGNF_CHANGE);
         CASE_RETURN_STRING(TRACE_CODE_SME_RX_HDD_EXTSCAN_RESET_SIGNF_CHANGE);
         CASE_RETURN_STRING(TRACE_CODE_SME_RX_HDD_EXTSCAN_GET_CACHED_RESULTS);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         default:
             return( "UNKNOWN" );
             break;
@@ -197,8 +174,6 @@ static tANI_U8* smeTraceGetCommandString( tANI_U32 command )
         CASE_RETURN_STRING(eSmeCommandRemoveKey);
         CASE_RETURN_STRING(eSmeCommandAddStaSession);
         CASE_RETURN_STRING(eSmeCommandDelStaSession);
-<<<<<<< HEAD
-=======
         CASE_RETURN_STRING(eSmeCommandPnoReq);
         CASE_RETURN_STRING(eSmeCommandMacSpoofRequest);
         CASE_RETURN_STRING(eSmeCommandGetFrameLogRequest);
@@ -210,7 +185,6 @@ static tANI_U8* smeTraceGetCommandString( tANI_U32 command )
         CASE_RETURN_STRING(eSmeCommandTdlsChannelSwitch);
 #endif
         CASE_RETURN_STRING(eSmeCommandNanReq);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         CASE_RETURN_STRING(eSmePmcCommandMask);
         CASE_RETURN_STRING(eSmeCommandEnterImps);
         CASE_RETURN_STRING(eSmeCommandExitImps);
@@ -234,22 +208,6 @@ static tANI_U8* smeTraceGetCommandString( tANI_U32 command )
             break;
     }
 }
-<<<<<<< HEAD
-static void smeTraceDump(tpAniSirGlobal pMac, tpTraceRecord pRecord,
-                                                            tANI_U16 recIndex)
-{
-    if (TRACE_CODE_SME_COMMAND == pRecord->code)
-    {
-        smsLog(pMac, LOGE, "%04d %012u S%d %-14s %-30s(0x%x)", recIndex,
-                   pRecord->time, pRecord->session, "SME COMMAND:",
-                   smeTraceGetCommandString(pRecord->data), pRecord->data );
-    }
-    else
-    {
-        smsLog(pMac, LOGE, "%04d %012u S%d %-14s %-30s(0x%x)", recIndex,
-                   pRecord->time, pRecord->session, "RX HDD MSG:",
-                   smeTraceGetRxMsgString(pRecord->code), pRecord->data );
-=======
 static void smeTraceDump(tpAniSirGlobal pMac, tpvosTraceRecord pRecord,
                                                             tANI_U16 recIndex)
 {
@@ -276,16 +234,11 @@ static void smeTraceDump(tpAniSirGlobal pMac, tpvosTraceRecord pRecord,
                 recIndex, pRecord->time, pRecord->session, "RX HDD MSG:",
                 smeTraceGetRxMsgString(pRecord->code), pRecord->data);
         break;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 }
 
 void smeTraceInit(tpAniSirGlobal pMac)
 {
-<<<<<<< HEAD
-    macTraceRegister(pMac,  VOS_MODULE_ID_SME, smeTraceDump);
-=======
     vosTraceRegister(VOS_MODULE_ID_SME, (tpvosTraceCb)&smeTraceDump);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 #endif

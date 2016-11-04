@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2014 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,31 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-/*
- * Airgo Networks, Inc proprietary. All rights reserved.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -55,7 +26,6 @@
  */
 
 /*
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file parserApi.h contains the definitions used
  * for parsing received 802.11 frames
  * Author:        Chandra Modumudi
@@ -81,8 +51,6 @@
 #define IS_24G_CH(__chNum) ((__chNum > 0) && (__chNum < 14))
 #define IS_5G_CH(__chNum) ((__chNum >= 36) && (__chNum <= 165))
 
-<<<<<<< HEAD
-=======
 #define SIZE_OF_FIXED_PARAM 12
 #define SIZE_OF_TAG_PARAM_NUM 1
 #define SIZE_OF_TAG_PARAM_LEN 1
@@ -90,7 +58,6 @@
 #define RSNIE_CAPABILITY_LEN 2
 #define DEFAULT_RSNIE_CAP_VAL 0x00
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 typedef struct sSirCountryInformation
 {
     tANI_U8 countryString[COUNTRY_STRING_LENGTH];
@@ -139,13 +106,8 @@ typedef struct sSirProbeRespBeacon
 #ifdef WLAN_FEATURE_VOWIFI_11R
     tANI_U8                   mdie[SIR_MDIE_SIZE];
 #endif
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-    tDot11fIECCXTxmitPower    ccxTxPwr;
-=======
 #ifdef FEATURE_WLAN_ESE
     tDot11fIEESETxmitPower    eseTxPwr;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tDot11fIEQBSSLoad         QBSSLoad;
 #endif
     tANI_U8                   ssidPresent;
@@ -179,19 +141,12 @@ typedef struct sSirProbeRespBeacon
     tDot11fIEVHTCaps          VHTCaps;
     tDot11fIEVHTOperation     VHTOperation;
     tDot11fIEVHTExtBssLoad    VHTExtBssLoad;
-<<<<<<< HEAD
-=======
     tDot11fIEExtCap           ExtCap;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tDot11fIEOperatingMode    OperatingMode;
     tANI_U8                   WiderBWChanSwitchAnnPresent;
     tDot11fIEWiderBWChanSwitchAnn WiderBWChanSwitchAnn;
 #endif
-<<<<<<< HEAD
-
-=======
     tDot11fIEOBSSScanParameters OBSSScanParameters;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 } tSirProbeRespBeacon, *tpSirProbeRespBeacon;
 
 // probe Request structure
@@ -288,17 +243,10 @@ typedef struct sSirAssocRsp
     tDot11fIERICDataDesc      RICData[2];
 #endif
 
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-    tANI_U8                   num_tspecs;
-    tDot11fIEWMMTSPEC         TSPECInfo[SIR_CCX_MAX_TSPEC_IES];
-    tSirMacCCXTSMIE           tsmIE;
-=======
 #ifdef FEATURE_WLAN_ESE
     tANI_U8                   num_tspecs;
     tDot11fIEWMMTSPEC         TSPECInfo[SIR_ESE_MAX_TSPEC_IES];
     tSirMacESETSMIE           tsmIE;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 
     tANI_U8                   suppRatesPresent;
@@ -313,11 +261,7 @@ typedef struct sSirAssocRsp
     tANI_U8                   mdiePresent;
     tANI_U8                   ricPresent;
 #endif
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-=======
 #ifdef FEATURE_WLAN_ESE
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     tANI_U8                   tspecPresent;
     tANI_U8                   tsmPresent;
 #endif    
@@ -325,13 +269,6 @@ typedef struct sSirAssocRsp
     tDot11fIEVHTCaps          VHTCaps;
     tDot11fIEVHTOperation     VHTOperation;
 #endif
-<<<<<<< HEAD
-} tSirAssocRsp, *tpSirAssocRsp;
-
-#if defined(FEATURE_WLAN_CCX_UPLOAD)
-// Structure to hold CCX Beacon report mandatory IEs
-typedef struct sSirCcxBcnReportMandatoryIe
-=======
     tDot11fIEExtCap           ExtCap;
     tDot11fIEOBSSScanParameters OBSSScanParameters;
     tSirQosMapSet QosMapSet;
@@ -340,7 +277,6 @@ typedef struct sSirCcxBcnReportMandatoryIe
 #if defined(FEATURE_WLAN_ESE_UPLOAD)
 // Structure to hold Ese Beacon report mandatory IEs
 typedef struct sSirEseBcnReportMandatoryIe
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
     tSirMacSSid           ssId;
     tSirMacRateSet        supportedRates;
@@ -359,13 +295,8 @@ typedef struct sSirEseBcnReportMandatoryIe
     tANI_U8               ibssParamPresent;
     tANI_U8               timPresent;
     tANI_U8               rrmPresent;
-<<<<<<< HEAD
-} tSirCcxBcnReportMandatoryIe, *tpSirCcxBcnReportMandatoryIe;
-#endif /* FEATURE_WLAN_CCX_UPLOAD */
-=======
 } tSirEseBcnReportMandatoryIe, *tpSirEseBcnReportMandatoryIe;
 #endif /* FEATURE_WLAN_ESE_UPLOAD */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 tANI_U8
 sirIsPropCapabilityEnabled(struct sAniSirGlobal *pMac, tANI_U32 bitnum);
@@ -462,24 +393,14 @@ sirParseBeaconIE(struct sAniSirGlobal *pMac,
                  tANI_U8                    *pPayload,
                  tANI_U32                    payloadLength);
 
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX_UPLOAD)
-tSirRetStatus
-sirFillBeaconMandatoryIEforCcxBcnReport(tpAniSirGlobal    pMac,
-=======
 #if defined(FEATURE_WLAN_ESE_UPLOAD)
 tSirRetStatus
 sirFillBeaconMandatoryIEforEseBcnReport(tpAniSirGlobal    pMac,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                         tANI_U8          *pPayload,
                                         const tANI_U32    payloadLength,
                                         tANI_U8         **outIeBuf,
                                         tANI_U32         *pOutIeLen);
-<<<<<<< HEAD
-#endif /* FEATURE_WLAN_CCX_UPLOAD */
-=======
 #endif /* FEATURE_WLAN_ESE_UPLOAD */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 tSirRetStatus
 sirConvertBeaconFrame2Struct(struct sAniSirGlobal *pMac,
@@ -509,14 +430,11 @@ sirConvertDeltsReq2Struct(struct sAniSirGlobal *pMac,
                           tANI_U8 *frame,
                           tANI_U32 len,
                           tSirDeltsReqInfo *delTs);
-<<<<<<< HEAD
-=======
 tSirRetStatus
 sirConvertQosMapConfigureFrame2Struct(tpAniSirGlobal    pMac,
                           tANI_U8               *pFrame,
                           tANI_U32               nFrame,
                           tSirQosMapSet      *pQosMapSet);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef ANI_SUPPORT_11H
 tSirRetStatus
@@ -660,8 +578,6 @@ PopulateDot11fHTInfo(tpAniSirGlobal   pMac,
                      tDot11fIEHTInfo *pDot11f,
                      tpPESession      psessionEntry);
 
-<<<<<<< HEAD
-=======
 #ifdef WLAN_FEATURE_AP_HT40_24G
 tSirRetStatus
 PopulateDot11fOBSSScanParameters(tpAniSirGlobal   pMac,
@@ -669,7 +585,6 @@ PopulateDot11fOBSSScanParameters(tpAniSirGlobal   pMac,
                      tpPESession      psessionEntry);
 #endif
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 void PopulateDot11fIBSSParams(tpAniSirGlobal  pMac,
        tDot11fIEIBSSParams *pDot11f, tpPESession psessionEntry);
 
@@ -816,13 +731,10 @@ PopulateDot11fSuppRates(tpAniSirGlobal      pMac,
                         tANI_U8                  nChannelNum,
                         tDot11fIESuppRates *pDot11f,tpPESession);
 
-<<<<<<< HEAD
-=======
 tSirRetStatus
 PopulateDot11fRatesTdls(tpAniSirGlobal p_mac,
                            tDot11fIESuppRates *p_supp_rates,
                            tDot11fIEExtSuppRates *p_ext_supp_rates);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 tSirRetStatus PopulateDot11fTPCReport(tpAniSirGlobal      pMac,
                                       tDot11fIETPCReport *pDot11f,
@@ -841,21 +753,6 @@ void PopulateDot11fWMM(tpAniSirGlobal      pMac,
 
 void PopulateDot11fWMMCaps(tDot11fIEWMMCaps *pCaps);
 
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX)
-// Fill the CCX version IE
-void PopulateDot11fCCXVersion(tDot11fIECCXVersion *pCCXVersion);
-// Fill the Radio Management Capability
-void PopulateDot11fCCXRadMgmtCap(tDot11fIECCXRadMgmtCap *pCCXRadMgmtCap);
-// Fill the CCKM IE
-tSirRetStatus PopulateDot11fCCXCckmOpaque( tpAniSirGlobal pMac,
-                                           tpSirCCKMie    pCCKMie,
-                                           tDot11fIECCXCckmOpaque *pDot11f );
-
-void PopulateDot11TSRSIE(tpAniSirGlobal  pMac,
-                               tSirMacCCXTSRSIE     *pOld,
-                               tDot11fIECCXTrafStrmRateSet  *pDot11f,
-=======
 #if defined(FEATURE_WLAN_ESE)
 // Fill the ESE version IE
 void PopulateDot11fESEVersion(tDot11fIEESEVersion *pESEVersion);
@@ -869,7 +766,6 @@ tSirRetStatus PopulateDot11fESECckmOpaque( tpAniSirGlobal pMac,
 void PopulateDot11TSRSIE(tpAniSirGlobal  pMac,
                                tSirMacESETSRSIE     *pOld,
                                tDot11fIEESETrafStrmRateSet  *pDot11f,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                tANI_U8 rate_length);
 void PopulateDot11fReAssocTspec(tpAniSirGlobal pMac, tDot11fReAssocRequest *pReassoc, tpPESession psessionEntry);
 #endif
@@ -992,30 +888,19 @@ int FindIELocation( tpAniSirGlobal pMac,
 
 #ifdef WLAN_FEATURE_11AC
 tSirRetStatus
-<<<<<<< HEAD
-PopulateDot11fVHTCaps(tpAniSirGlobal  pMac, tDot11fIEVHTCaps *pDot11f);
-
-tSirRetStatus
-PopulateDot11fVHTOperation(tpAniSirGlobal  pMac, tDot11fIEVHTOperation  *pDot11f);
-=======
 PopulateDot11fVHTCaps(tpAniSirGlobal  pMac, tDot11fIEVHTCaps *pDot11f,
           tANI_U8 nChannelNum, tAniBool isProbeRspAssocRspBeacon);
 
 tSirRetStatus
 PopulateDot11fVHTOperation(tpAniSirGlobal  pMac,
                      tDot11fIEVHTOperation  *pDot11f, tANI_U8 nChannelNum);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 tSirRetStatus
 PopulateDot11fVHTExtBssLoad(tpAniSirGlobal  pMac, tDot11fIEVHTExtBssLoad   *pDot11f);
 
 tSirRetStatus
-<<<<<<< HEAD
-PopulateDot11fExtCap(tpAniSirGlobal pMac, tDot11fIEExtCap * pDot11f);
-=======
 PopulateDot11fExtCap(tpAniSirGlobal pMac, tDot11fIEExtCap * pDot11f,
                             tPESession *sessionEntry);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 tSirRetStatus
 PopulateDot11fOperatingMode(tpAniSirGlobal pMac, tDot11fIEOperatingMode *pDot11f, tpPESession psessionEntry );
@@ -1025,8 +910,6 @@ PopulateDot11fWiderBWChanSwitchAnn(tpAniSirGlobal pMac,
                                    tDot11fIEWiderBWChanSwitchAnn *pDot11f,
                                    tpPESession psessionEntry);
 #endif
-<<<<<<< HEAD
-=======
 
 void PopulateDot11fTimeoutInterval( tpAniSirGlobal pMac,
                                     tDot11fIETimeoutInterval *pDot11f,
@@ -1036,4 +919,3 @@ tSirRetStatus ValidateAndRectifyIEs(tpAniSirGlobal pMac,
                                     tANI_U8 *pMgmtFrame,
                                     tANI_U32 nFrameBytes,
                                     tANI_U32 *nMissingRsnBytes);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver

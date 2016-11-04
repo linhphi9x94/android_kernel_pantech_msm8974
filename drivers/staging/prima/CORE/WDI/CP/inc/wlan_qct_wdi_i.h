@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,30 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -56,7 +28,6 @@
 
 
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifndef WLAN_QCT_WDI_I_H
 #define WLAN_QCT_WDI_I_H
 
@@ -69,15 +40,7 @@
                    
 DESCRIPTION
   This file contains the internal API exposed by the DAL Control Path Core 
-<<<<<<< HEAD
-  module to be used by the DAL Data Path Core. 
-  
-      
-  Copyright (c) 2010 Qualcomm Technologies, Inc. All Rights Reserved.
-  Qualcomm Technologies Confidential and Proprietary
-=======
   module to be used by the DAL Data Path Core.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 ===========================================================================*/
 
 
@@ -476,8 +439,6 @@ typedef enum
   /* WLAN FW set batch scan request */
   WDI_SET_BATCH_SCAN_REQ                        = 86,
 
-<<<<<<< HEAD
-=======
   /*WLAN DAL Set Max Tx Power Per band Request*/
   WDI_SET_MAX_TX_POWER_PER_BAND_REQ             = 87,
 
@@ -519,7 +480,6 @@ typedef enum
   WDI_MON_STOP_REQ                               = 108,
   WDI_FATAL_EVENT_LOGGING_REQ                    = 109,
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   WDI_MAX_REQ,
 
   /*Send a suspend Indication down to HAL*/
@@ -549,13 +509,6 @@ typedef enum
   /*Send stop batch scan indication to FW*/
   WDI_TRIGGER_BATCH_SCAN_RESULT_IND,
 
-<<<<<<< HEAD
-  /*Keep adding the indications to the max request
-    such that we keep them sepparate */
-
-  WDI_MAX_UMAC_IND
-}WDI_RequestEnumType; 
-=======
   /* Send Rate Update Indication */
   WDI_RATE_UPDATE_IND,
 
@@ -573,7 +526,6 @@ typedef enum
     such that we keep them separate */
   WDI_MAX_UMAC_IND
 }WDI_RequestEnumType;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*--------------------------------------------------------------------------- 
    WLAN DAL Supported Response Types
@@ -832,8 +784,6 @@ typedef enum
 
   WDI_SET_BATCH_SCAN_RESP                       = 85,
 
-<<<<<<< HEAD
-=======
   WDI_SET_MAX_TX_POWER_PER_BAND_RSP             = 86,
 
   WDI_UPDATE_CHAN_RESP                          = 87,
@@ -872,7 +822,6 @@ typedef enum
   WDI_MON_STOP_RSP                               = 108,
   WDI_FATAL_EVENT_LOGGING_RSP                    = 109,
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   /*-------------------------------------------------------------------------
     Indications
      !! Keep these last in the enum if possible
@@ -924,11 +873,7 @@ typedef enum
   WDI_HAL_TDLS_IND                     = WDI_HAL_IND_MIN + 13,
 
   /* LPHB timeout indication */
-<<<<<<< HEAD
-  WDI_HAL_LPHB_WAIT_TIMEOUT_IND        = WDI_HAL_IND_MIN + 14,
-=======
   WDI_HAL_LPHB_IND                     = WDI_HAL_IND_MIN + 14,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   /* IBSS Peer Inactivity Indication from FW to Host */
   WDI_HAL_IBSS_PEER_INACTIVITY_IND     = WDI_HAL_IND_MIN + 15,
@@ -940,8 +885,6 @@ typedef enum
   WDI_BATCHSCAN_RESULT_IND           =  WDI_HAL_IND_MIN + 17,
 
   WDI_HAL_CH_AVOID_IND                 = WDI_HAL_IND_MIN + 18,
-<<<<<<< HEAD
-=======
 
   /* print register values indication from FW to Host */
   WDI_PRINT_REG_INFO_IND               = WDI_HAL_IND_MIN + 19,
@@ -959,7 +902,6 @@ typedef enum
   WDI_HAL_DEL_BA_IND                 = WDI_HAL_IND_MIN + 27,
   WDI_HAL_NAN_EVENT                  = WDI_HAL_IND_MIN + 28,
   WDI_HAL_LOST_LINK_PARAMS_IND       = WDI_HAL_IND_MIN + 29,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   WDI_MAX_RESP
 }WDI_ResponseEnumType; 
 
@@ -1056,8 +998,6 @@ typedef WPT_PACK_PRE struct
   eHalStatus   halStatus;
 }WPT_PACK_POST WDI_PostAssocRspInfoType;
 
-<<<<<<< HEAD
-=======
 #ifdef WLAN_FEATURE_LINK_LAYER_STATS
 /*---------------------------------------------------------------------------
   WDI_LLStatsResultsType
@@ -1073,7 +1013,6 @@ typedef WPT_PACK_PRE struct
 
 #endif
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*--------------------------------------------------------------------------- 
    WLAN DAL FSM Event Info Type 
  ---------------------------------------------------------------------------*/
@@ -1282,11 +1221,8 @@ typedef struct
   DXE when DXE wakes up from power save*/
   unsigned int                dxePhyAddr;
 
-<<<<<<< HEAD
-=======
   wpt_boolean                 dxeRingsEmpty;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   /*NV download request parameters  */
   WDI_NvDownloadReqParamsType   wdiCachedNvDownloadReq;
 
@@ -1316,8 +1252,6 @@ typedef struct
 
   /* enable/disable SSR on WDI timeout */
   wpt_boolean                 bEnableSSR;
-<<<<<<< HEAD
-=======
 
   /* timestamp derived from msm arch counter. */
   /*timestamp when we start response timer*/
@@ -1331,7 +1265,6 @@ typedef struct
 
    /* Roam delay statistic enabled in ini*/
    wpt_uint8                  roamDelayStatsEnabled;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }WDI_ControlBlockType; 
 
 
@@ -2165,11 +2098,7 @@ WDI_ProcessDelBAReq
   WDI_EventInfoType*     pEventData
 );
 
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-=======
 #ifdef FEATURE_WLAN_ESE
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**
  @brief Process TSM Stats Request function (called when Main FSM
         allows it)
@@ -2206,8 +2135,6 @@ WDI_ProcessChannelSwitchReq
 );
 
 /**
-<<<<<<< HEAD
-=======
  @brief Process Channel Switch Request function (called when
         Main FSM allows it)
 
@@ -2226,7 +2153,6 @@ WDI_Status WDI_ProcessChannelSwitchReq_V1
 
 
 /**
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  @brief Process Config STA Request function (called when Main FSM 
         allows it)
  
@@ -2279,11 +2205,7 @@ WDI_ProcessGetStatsReq
   WDI_EventInfoType*     pEventData
 );
 
-<<<<<<< HEAD
-#if defined WLAN_FEATURE_VOWIFI_11R || defined FEATURE_WLAN_CCX || defined(FEATURE_WLAN_LFR)
-=======
 #if defined WLAN_FEATURE_VOWIFI_11R || defined FEATURE_WLAN_ESE || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**
  @brief Process Get Roam rssi Request function (called when Main FSM
         allows it)
@@ -2457,8 +2379,6 @@ WDI_Status WDI_ProcessSetMaxTxPowerReq
 );
 
 /**
-<<<<<<< HEAD
-=======
  @brief Process Set Max Tx Power Per Band Request function (called when Main
         FSM allows it)
 
@@ -2475,7 +2395,6 @@ WDI_Status WDI_ProcessSetMaxTxPowerPerBandReq
 );
 
 /**
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  @brief Process Set Tx Power Request function (called when Main
         FSM allows it)
 
@@ -2526,8 +2445,6 @@ WDI_ProcessTdlsLinkEstablishReq
 );
 
 /**
-<<<<<<< HEAD
-=======
  @brief Process tdls channel switch request
 
  @param  pWDICtx:         pointer to the WLAN DAL context
@@ -2543,7 +2460,6 @@ WDI_ProcessTdlsChanSwitchReq
   WDI_EventInfoType*     pEventData
 );
 /**
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  @brief Process Enter IMPS Request function (called when 
         Main FSM allows it)
  
@@ -3038,8 +2954,6 @@ WDI_Status WDI_ProcessLPHBConfReq
 );
 #endif /* FEATURE_WLAN_LPHB */
 
-<<<<<<< HEAD
-=======
 /**
  @brief WDI_ProcessUpdateChannelParamsReq -
     Send update channel request to FW
@@ -3056,7 +2970,6 @@ WDI_Status WDI_ProcessUpdateChannelParamsReq
   WDI_EventInfoType*     pEventData
 );
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef FEATURE_WLAN_BATCH_SCAN
 /**
  @brief WDI_ProcessSetBatchScanReq -
@@ -3250,8 +3163,6 @@ WDI_ProcessDelPeriodicTxPtrnInd
  );
 
 #endif
-<<<<<<< HEAD
-=======
 /**
  @brief Process start OBSS scan request from Host
 
@@ -3278,7 +3189,6 @@ WDI_ProcessHT40OBSSScanInd(
 WDI_Status
 WDI_ProcessHT40OBSSStopScanInd(
   WDI_ControlBlockType*  pWDICtx,  WDI_EventInfoType*   pEventData );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*========================================================================
           Main DAL Control Path Response Processing API 
@@ -3707,11 +3617,7 @@ WDI_ProcessDelBARsp
   WDI_EventInfoType*     pEventData
 );
 
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CCX
-=======
 #ifdef FEATURE_WLAN_ESE
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**
  @brief Process TSM stats Rsp function (called when a response
         is being received over the bus from HAL)
@@ -3749,8 +3655,6 @@ WDI_ProcessChannelSwitchRsp
   WDI_EventInfoType*     pEventData
 );
 
-<<<<<<< HEAD
-=======
 /**
  @brief Process Channel Switch Rsp function (called when a response
         is being received over the bus from HAL)
@@ -3767,7 +3671,6 @@ WDI_ProcessChannelSwitchRsp_V1
   WDI_ControlBlockType*  pWDICtx,
   WDI_EventInfoType*     pEventData
 );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /**
  @brief Process Config STA Rsp function (called when a response
@@ -3805,8 +3708,6 @@ WDI_ProcessSetLinkStateRsp
 );
 
 /**
-<<<<<<< HEAD
-=======
  @brief Process Update Channel Rsp function (called when a response is
         being received over the bus from HAL)
 
@@ -3824,7 +3725,6 @@ WDI_ProcessUpdateChanRsp
 );
 
 /**
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  @brief Process Get Stats Rsp function (called when a response is   
         being received over the bus from HAL)
  
@@ -3960,8 +3860,6 @@ WDI_ProcessSetMaxTxPowerRsp
   WDI_EventInfoType*             pEventData
 );
 
-<<<<<<< HEAD
-=======
 /**
  @brief Process Set Max Tx Power Per Band Rsp function (called when a response
         is being received over the bus from HAL)
@@ -3979,7 +3877,6 @@ WDI_ProcessSetMaxTxPowerPerBandRsp
   WDI_EventInfoType*             pEventData
 );
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   /**
  @brief Process Set Tx Power Rsp function (called when a response
         is being received over the bus from HAL)
@@ -4014,8 +3911,6 @@ WDI_ProcessLinkEstablishReqRsp
   WDI_EventInfoType*             pEventData
 );
 
-<<<<<<< HEAD
-=======
 
   /**
  @brief Process TDLS Chan Switch  Req Rsp function (called when a response
@@ -4034,7 +3929,6 @@ WDI_ProcessChanSwitchReqRsp
   WDI_EventInfoType*             pEventData
 );
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**
  @brief Process Nv download(called when a response
         is being received over the bus from HAL)
@@ -4771,11 +4665,7 @@ WDI_ProcessTxPerHitInd
 
 #ifdef FEATURE_WLAN_LPHB
 /**
-<<<<<<< HEAD
- @brief WDI_ProcessLphbWaitTimeoutInd -
-=======
  @brief WDI_ProcessLphbInd -
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     This function will be invoked when FW detects low power
     heart beat failure
 
@@ -4786,11 +4676,7 @@ WDI_ProcessTxPerHitInd
  @return Result of the function call
 */
 WDI_Status
-<<<<<<< HEAD
-WDI_ProcessLphbWaitTimeoutInd
-=======
 WDI_ProcessLphbInd
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 (
   WDI_ControlBlockType*  pWDICtx,
   WDI_EventInfoType*     pEventData
@@ -5911,8 +5797,6 @@ WDI_Status WDI_ProcessLphbCfgRsp
 );
 #endif /* FEATURE_WLAN_LPHB */
 
-<<<<<<< HEAD
-=======
 /**
  @brief Process Rate Update Indication and post it to HAL
 
@@ -5929,7 +5813,6 @@ WDI_ProcessRateUpdateInd
     WDI_EventInfoType*     pEventData
 );
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef FEATURE_WLAN_BATCH_SCAN
 /**
  @brief WDI_ProcessSetBatchScanRsp -
@@ -5947,8 +5830,6 @@ WDI_Status WDI_ProcessSetBatchScanRsp
   WDI_EventInfoType*     pEventData
 );
 
-<<<<<<< HEAD
-=======
 WDI_Status
 WDI_ProcessGetBcnMissRateReq
 (
@@ -5963,7 +5844,6 @@ WDI_ProcessGetBcnMissRateRsp
   WDI_EventInfoType*     pEventData
 );
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**
  @brief Process batch scan response from FW
 
@@ -5982,8 +5862,6 @@ WDI_ProcessBatchScanResultInd
 
 #endif /* FEATURE_WLAN_BATCH_SCAN */
 
-<<<<<<< HEAD
-=======
 WDI_Status
 WDI_ProcessGetFwStatsReq
 (
@@ -5998,7 +5876,6 @@ WDI_ProcessGetFwStatsRsp
   WDI_EventInfoType*     pEventData
 );
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef FEATURE_WLAN_CH_AVOID
 /**
  @brief v -
@@ -6017,8 +5894,6 @@ WDI_ProcessChAvoidInd
 );
 #endif /* FEATURE_WLAN_CH_AVOID */
 
-<<<<<<< HEAD
-=======
 /**
  @brief v -
 
@@ -6440,6 +6315,5 @@ WDI_ProcessEnableDisableCAEventInd
   WDI_EventInfoType*     pEventData
 );
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif /*WLAN_QCT_WDI_I_H*/
 

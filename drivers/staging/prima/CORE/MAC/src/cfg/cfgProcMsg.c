@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2011-2016 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,41 +18,15 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 /*
  *
-<<<<<<< HEAD
- * Airgo Networks, Inc proprietary. All rights reserved.
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * This file contains CFG functions for processing host messages.
  *
  * Author:      Kevin Nguyen
@@ -71,8 +41,6 @@
 #include "cfgDebug.h"
 #include "wlan_qct_wda.h"
 
-<<<<<<< HEAD
-=======
 tAniSirCgStatic cfgStatic[CFG_PARAM_MAX_NUM] =
 {
     {WNI_CFG_STA_ID,
@@ -1984,7 +1952,6 @@ tAniSirCfgStaticString cfgStaticString[CFG_MAX_STATIC_STRING] =
  6,
  {0xa, 0xb, 0xc, 0xd, 0xe, 0xf}}
 };
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /*--------------------------------------------------------------------*/
 /* Static function prototypes                                         */
@@ -2084,10 +2051,7 @@ ProcDnldRsp(tpAniSirGlobal pMac, tANI_U16 length, tANI_U32 *pParam)
     tpCfgBinHdr pHdr;
     tANI_U32    logLevel;
     tSirMsgQ    mmhMsg;
-<<<<<<< HEAD
-=======
     tANI_U32    paramList[WNI_CFG_DNLD_CNF_NUM];
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     // First Dword must contain the AP or STA magic dword
     PELOGW(cfgLog(pMac, LOGW, FL("CFG size %d bytes MAGIC dword is 0x%x"),
@@ -2270,15 +2234,9 @@ ProcDnldRsp(tpAniSirGlobal pMac, tANI_U16 length, tANI_U32 *pParam)
         pMac->cfg.gCfgStatus = CFG_FAILURE;
 
     // Send response message to host
-<<<<<<< HEAD
-    pMac->cfg.gParamList[WNI_CFG_DNLD_CNF_RES] = retVal;
-    cfgSendHostMsg(pMac, WNI_CFG_DNLD_CNF, WNI_CFG_DNLD_CNF_LEN,
-                   WNI_CFG_DNLD_CNF_NUM, pMac->cfg.gParamList, 0, 0);
-=======
     paramList[WNI_CFG_DNLD_CNF_RES] = retVal;
     cfgSendHostMsg(pMac, WNI_CFG_DNLD_CNF, WNI_CFG_DNLD_CNF_LEN,
                    WNI_CFG_DNLD_CNF_NUM, paramList, 0, 0);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     // Notify WDA that the config has downloaded
     mmhMsg.type = SIR_CFG_DOWNLOAD_COMPLETE_IND;
@@ -2320,10 +2278,7 @@ ProcGetReq(tpAniSirGlobal pMac, tANI_U16 length, tANI_U32 *pParam)
     tANI_U16    cfgId, i;
     tANI_U32    value, valueLen, result;
     tANI_U32    *pValue;
-<<<<<<< HEAD
-=======
     tANI_U32    paramList[WNI_CFG_GET_RSP_NUM];
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     PELOG1(cfgLog(pMac, LOG1, FL("Rcvd cfg get request %d bytes"), length);)
     for (i=0; i<length/4; i++)
@@ -2333,19 +2288,11 @@ ProcGetReq(tpAniSirGlobal pMac, tANI_U16 length, tANI_U32 *pParam)
     {
         cfgId = (tANI_U16)sirReadU32N((tANI_U8*)pParam);
         PELOGE(cfgLog(pMac, LOGE, FL("CFG not ready, param %d"), cfgId);)
-<<<<<<< HEAD
-        pMac->cfg.gParamList[WNI_CFG_GET_RSP_RES]  = WNI_CFG_NOT_READY;
-        pMac->cfg.gParamList[WNI_CFG_GET_RSP_PID]  = cfgId;
-        pMac->cfg.gParamList[WNI_CFG_GET_RSP_PLEN] = 0;
-        cfgSendHostMsg(pMac, WNI_CFG_GET_RSP, WNI_CFG_GET_RSP_PARTIAL_LEN,
-                       WNI_CFG_GET_RSP_NUM, pMac->cfg.gParamList, 0, 0);
-=======
         paramList[WNI_CFG_GET_RSP_RES]  = WNI_CFG_NOT_READY;
         paramList[WNI_CFG_GET_RSP_PID]  = cfgId;
         paramList[WNI_CFG_GET_RSP_PLEN] = 0;
         cfgSendHostMsg(pMac, WNI_CFG_GET_RSP, WNI_CFG_GET_RSP_PARTIAL_LEN,
                        WNI_CFG_GET_RSP_NUM, paramList, 0, 0);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
     else
     {
@@ -2386,25 +2333,15 @@ ProcGetReq(tpAniSirGlobal pMac, tANI_U16 length, tANI_U32 *pParam)
             }
 
             // Send response message to host
-<<<<<<< HEAD
-            pMac->cfg.gParamList[WNI_CFG_GET_RSP_RES]  = result;
-            pMac->cfg.gParamList[WNI_CFG_GET_RSP_PID]  = cfgId;
-            pMac->cfg.gParamList[WNI_CFG_GET_RSP_PLEN] = valueLen;
-=======
             paramList[WNI_CFG_GET_RSP_RES]  = result;
             paramList[WNI_CFG_GET_RSP_PID]  = cfgId;
             paramList[WNI_CFG_GET_RSP_PLEN] = valueLen;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
             // We need to round up buffer length to word-increment
             valueLen = (((valueLen + 3) >> 2) << 2);
             cfgSendHostMsg(pMac, WNI_CFG_GET_RSP,
                            WNI_CFG_GET_RSP_PARTIAL_LEN + valueLen,
-<<<<<<< HEAD
-                           WNI_CFG_GET_RSP_NUM, pMac->cfg.gParamList, valueLen, pValue);
-=======
                            WNI_CFG_GET_RSP_NUM, paramList, valueLen, pValue);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
             // Decrement length
             length -= sizeof(tANI_U32);
@@ -2443,29 +2380,15 @@ ProcSetReqInternal(tpAniSirGlobal pMac, tANI_U16 length, tANI_U32 *pParam, tANI_
 {
     tANI_U16    cfgId, valueLen, valueLenRoundedUp4;
     tANI_U32    value, result;
-<<<<<<< HEAD
-
-    PELOG1(cfgLog(pMac, LOGW, FL("Rcvd cfg set request %d bytes"), length);)
-=======
     tANI_U32    paramList[WNI_CFG_SET_CNF_NUM];
 
     PELOG1(cfgLog(pMac, LOG1, FL("Rcvd cfg set request %d bytes"), length);)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     //for (i=0; i<length/4; i++)
       //  PELOG2(cfgLog(pMac, LOG2, FL("[%2d] 0x%08x"), i, pParam[i]);)
 
     if (!pMac->cfg.gCfgStatus)
     {
         cfgId = (tANI_U16)sirReadU32N((tANI_U8*)pParam);
-<<<<<<< HEAD
-        PELOG1(cfgLog(pMac, LOG1, FL("CFG not ready, param %d"), cfgId);)
-        pMac->cfg.gParamList[WNI_CFG_SET_CNF_RES] = WNI_CFG_NOT_READY;
-        pMac->cfg.gParamList[WNI_CFG_SET_CNF_PID] = cfgId;
-        if( fRsp )
-        {
-           cfgSendHostMsg(pMac, WNI_CFG_SET_CNF, WNI_CFG_SET_CNF_LEN,
-                          WNI_CFG_SET_CNF_NUM, pMac->cfg.gParamList, 0, 0);
-=======
         cfgLog(pMac, LOGW, FL("CFG not ready, param %d"), cfgId);
         if (fRsp)
         {
@@ -2473,7 +2396,6 @@ ProcSetReqInternal(tpAniSirGlobal pMac, tANI_U16 length, tANI_U32 *pParam, tANI_
            paramList[WNI_CFG_SET_CNF_PID] = cfgId;
            cfgSendHostMsg(pMac, WNI_CFG_SET_CNF, WNI_CFG_SET_CNF_LEN,
                           WNI_CFG_SET_CNF_NUM, paramList, 0, 0);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
     }
     else
@@ -2527,14 +2449,9 @@ ProcSetReqInternal(tpAniSirGlobal pMac, tANI_U16 length, tANI_U32 *pParam, tANI_
                 {
                     if (valueLenRoundedUp4 > length)
                     {
-<<<<<<< HEAD
-                        PELOGE(cfgLog(pMac, LOGE, FL("Invalid string length %d in set param %d (tot %d)"),
-                               valueLen, cfgId, length);)
-=======
                         PELOGE(cfgLog(pMac, LOGE, FL("Invalid string length %d"
                                "in set param %d (tot %d)"), valueLen,
                                                        cfgId, length);)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                         result = WNI_CFG_INVALID_LEN;
                     }
                     else
@@ -2565,15 +2482,6 @@ ProcSetReqInternal(tpAniSirGlobal pMac, tANI_U16 length, tANI_U32 *pParam, tANI_
                 result = WNI_CFG_INVALID_LEN;
             }
 
-<<<<<<< HEAD
-            // Send confirm message to host
-            pMac->cfg.gParamList[WNI_CFG_SET_CNF_RES] = result;
-            pMac->cfg.gParamList[WNI_CFG_SET_CNF_PID] = cfgId;
-            if( fRsp )
-            {
-                cfgSendHostMsg(pMac, WNI_CFG_SET_CNF, WNI_CFG_SET_CNF_LEN,
-                               WNI_CFG_SET_CNF_NUM, pMac->cfg.gParamList, 0, 0);
-=======
             if (fRsp)
             {
                 /* Send confirm message to host */
@@ -2581,7 +2489,6 @@ ProcSetReqInternal(tpAniSirGlobal pMac, tANI_U16 length, tANI_U32 *pParam, tANI_
                 paramList[WNI_CFG_SET_CNF_PID] = cfgId;
                 cfgSendHostMsg(pMac, WNI_CFG_SET_CNF, WNI_CFG_SET_CNF_LEN,
                                WNI_CFG_SET_CNF_NUM, paramList, 0, 0);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             }
             else
             {
@@ -2708,14 +2615,8 @@ GetStrValue(tANI_U8 *pBuf, tANI_U8 *pValue, tANI_U32 length)
 /**---------------------------------------------------------------------
  * processCfgDownloadReq()
  *
-<<<<<<< HEAD
- * FUNCTION: This function does the Cfg Download and is invoked
- *           only in the case of Prima or the Integrated SOC
- *           solutions. Not applicable to Volans or Libra
-=======
  * FUNCTION: This function reads the cfgStatic array and
  * populates the cfg data structure.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * LOGIC:
  *
@@ -2723,133 +2624,13 @@ GetStrValue(tANI_U8 *pBuf, tANI_U8 *pValue, tANI_U32 length)
  *
  * NOTE:
  *
-<<<<<<< HEAD
- * @param length:  message length
- * @param pConfig:  parameter list pointer
-=======
  * @param pMac: Pointer to Mac Structure
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * @return None
  *
  */
 
 void
-<<<<<<< HEAD
-processCfgDownloadReq(tpAniSirGlobal pMac, tANI_U16 length, 
-                      tANI_U32 *pConfig)
-{
-    tANI_S32    i;
-
-    tANI_U32    expLen, retVal, bufStart, bufEnd;
-    tANI_U32    *pSrc, *pDst, *pDstEnd;
-    tANI_U32    strSize, j;
-    tANI_U8     pStr[CFG_MAX_STR_LEN];
-    tpCfgBinHdr pHdr;
-    tANI_U32    logLevel;
-
-    // First Dword must contain the AP or STA magic dword
-    PELOGW(cfgLog(pMac, LOGW, FL("CFG size %d bytes MAGIC dword is 0x%x"),
-           length, sirReadU32N((tANI_U8*)pConfig) );)
-
-    // if the string is not correct, return failure
-    if (CFG_STA_MAGIC_DWORD != *pConfig)
-    {
-        PELOGE(cfgLog(pMac, LOGE, FL("Invalid magic dword 0x%x"),
-                                             sirReadU32N((tANI_U8*)pConfig) );)
-        retVal = WNI_CFG_INVALID_LEN;
-        goto end;
-    }
-
-    pConfig++;
-    length -= 4;
-
-    // Verify message length
-    pMac->cfg.gCfgMaxIBufSize = CFG_STA_IBUF_MAX_SIZE;
-    pMac->cfg.gCfgMaxSBufSize = CFG_STA_SBUF_MAX_SIZE;
-
-    // Parse the Cfg header
-    pHdr = (tpCfgBinHdr) pConfig;
-    pConfig += (sizeof(tCfgBinHdr) >> 2);
-
-    PELOGW(cfgLog(pMac, LOGW, FL("CFG hdr totParams %d intParams %d strBufSize %d/%d"),
-                           pHdr->controlSize,pHdr->iBufSize,
-                         pHdr->sBufSize, pMac->cfg.gCfgMaxSBufSize);)
-
-    expLen = ((CFG_PARAM_MAX_NUM + 3 * pMac->cfg.gCfgMaxIBufSize) << 2) +
-                                            pHdr->sBufSize + sizeof(tCfgBinHdr);
-
-    if (length != expLen)
-    {
-        PELOGE(cfgLog(pMac, LOGE, FL("<CFG> DNLD_RSP invalid length %d (exp %d)"),
-               length, expLen);)
-        retVal = WNI_CFG_INVALID_LEN;
-        goto end;
-    }
-
-
-    if (CFG_PARAM_MAX_NUM != pHdr->controlSize )
-    {
-        PELOGE(cfgLog(pMac, LOGE, FL("<CFG> Total parameter count mismatch"));)
-        retVal = WNI_CFG_INVALID_LEN;
-        goto end;
-    }
-
-    if (pHdr->iBufSize != pMac->cfg.gCfgMaxIBufSize)
-    {
-        PELOGE(cfgLog(pMac, LOGE, FL("<CFG> Integer parameter count mismatch"));)
-        retVal = WNI_CFG_INVALID_LEN;
-        goto end;
-    }
-
-    // Copy control array
-    pDst = (tANI_U32*)pMac->cfg.gCfgEntry;
-    pDstEnd = pDst + CFG_PARAM_MAX_NUM;
-    pSrc = pConfig;
-    while (pDst < pDstEnd)
-    {
-        *pDst++ = *pSrc++;
-    }
-
-    // Copy default values
-    pDst = pMac->cfg.gCfgIBuf;
-    pDstEnd = pDst + pMac->cfg.gCfgMaxIBufSize;
-    while (pDst < pDstEnd)
-    {
-        *pDst++ = *pSrc++;
-    }
-
-    // Copy min values
-    pDst = pMac->cfg.gCfgIBufMin;
-    pDstEnd = pDst + pMac->cfg.gCfgMaxIBufSize;
-    while (pDst < pDstEnd)
-    {
-        *pDst++ = *pSrc++;
-    }
-
-    // Copy max values
-    pDst = pMac->cfg.gCfgIBufMax;
-    pDstEnd = pDst + pMac->cfg.gCfgMaxIBufSize;
-    while (pDst < pDstEnd)
-    {
-        *pDst++ = *pSrc++;
-    }
-
-    for (i=0; i<pMac->cfg.gCfgMaxIBufSize; i++)
-    {
-        if (pMac->cfg.gCfgIBuf[i] < pMac->cfg.gCfgIBufMin[i] ||
-            pMac->cfg.gCfgIBuf[i] > pMac->cfg.gCfgIBufMax[i])
-        {
-            PELOGE(cfgLog(pMac, LOGE, FL("cfg id %d Invalid def value %d "
-                             "min %d max %d"),
-                             i, pMac->cfg.gCfgIBuf[i], pMac->cfg.gCfgIBufMin[i],
-                             pMac->cfg.gCfgIBufMax[i]);)
-        }
-    }
-
-    // Calculate max string buffer lengths for all string parameters
-    bufEnd = pMac->cfg.gCfgMaxSBufSize;
-=======
 processCfgDownloadReq(tpAniSirGlobal pMac)
 {
     tANI_S32    i;
@@ -2894,7 +2675,6 @@ processCfgDownloadReq(tpAniSirGlobal pMac)
 
     /*Fill the SBUF wih maxLength*/
      bufEnd = pMac->cfg.gCfgMaxSBufSize;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     for (i = CFG_PARAM_MAX_NUM - 1; i >= 0; i--)
     {
         if ((pMac->cfg.gCfgEntry[i].control & CFG_CTL_INT) != 0)
@@ -2908,61 +2688,6 @@ processCfgDownloadReq(tpAniSirGlobal pMac)
 
         PELOG1(cfgLog(pMac, LOG1, FL("id %d max %d bufStart %d bufEnd %d"),
                i, pMac->cfg.gCfgSBuf[bufStart], bufStart, bufEnd);)
-<<<<<<< HEAD
-
-        bufEnd = bufStart;
-    }
-
-    // Initialize string defaults
-    strSize = pHdr->sBufSize;
-    while (strSize)
-    {
-        tANI_U32 paramId, paramLen, paramLenCeil4;
-
-        if (strSize < 4)
-        {
-            PELOGE(cfgLog(pMac, LOGE, FL("Error parsing str defaults, rem %d bytes"),
-                                                                      strSize);)
-            retVal = WNI_CFG_INVALID_LEN;
-            goto end;
-        }
-        paramId = *pSrc >> 16;
-        paramLen = *pSrc & 0xff;
-
-        pSrc++;
-        strSize -= 4;
-
-        paramLenCeil4 = ((paramLen + 3) >> 2);
-        if (strSize < paramLenCeil4 << 2)
-        {
-            PELOGE(cfgLog(pMac, LOGE, FL("Error parsing str defaults, rem %d"
-                                                            "bytes"), strSize);)
-            PELOGE(cfgLog(pMac, LOGE, FL("param id %d len %d bytes"),
-                                                            paramId, paramLen);)
-            retVal = WNI_CFG_INVALID_LEN;
-            goto end;
-        }
-
-        for (j=0; j < paramLenCeil4; j++)
-        {
-            pStr[4*j] = (tANI_U8) (*pSrc >> 24) & 0xff;
-            pStr[4*j+1] = (tANI_U8) (*pSrc >> 16) & 0xff;
-            pStr[4*j+2] = (tANI_U8) (*pSrc >> 8) & 0xff;
-            pStr[4*j+3] = (tANI_U8) (*pSrc) & 0xff;
-
-            pSrc++;
-            strSize -= 4;
-        }
-
-        PELOG1(cfgLog(pMac, LOG1, FL("set str id %d len %d"), paramId, paramLen);)
-
-        if (cfgSetStrNotify(pMac, (tANI_U16)paramId, pStr, paramLen, FALSE) != eSIR_SUCCESS)
-        {
-            PELOGE(cfgLog(pMac, LOGE, FL("Error setting str default param %d "
-                                                "len %d"), paramId, paramLen);)
-            retVal = WNI_CFG_INVALID_LEN;
-            goto end;
-=======
         bufEnd = bufStart;
     }
 
@@ -3000,7 +2725,6 @@ processCfgDownloadReq(tpAniSirGlobal pMac)
                 *pDstTest++ = *pSrcTest++;
                 len--;
             }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
     }
 
@@ -3014,16 +2738,6 @@ processCfgDownloadReq(tpAniSirGlobal pMac)
     retVal = WNI_CFG_SUCCESS;
     PELOG1(cfgLog(pMac, LOG1, "<CFG> Completed successfully");)
 
-<<<<<<< HEAD
-end:
-
-    if ( WNI_CFG_SUCCESS != retVal )
-        pMac->cfg.gCfgStatus = CFG_FAILURE;
-
-    pMac->cfg.gParamList[WNI_CFG_DNLD_CNF_RES] = retVal;
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 } /*** end ProcessDownloadReq() ***/
 
 

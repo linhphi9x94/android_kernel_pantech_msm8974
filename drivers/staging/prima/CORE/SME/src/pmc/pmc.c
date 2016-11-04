@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2014 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,30 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -53,7 +25,6 @@
  * to the Linux Foundation.
  */
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /******************************************************************************
 *
 * Name:  pmc.c
@@ -61,11 +32,6 @@
 * Description:
       Power Management Control (PMC) processing routines.
 *
-<<<<<<< HEAD
-* Copyright 2008 (c) Qualcomm Technologies, Inc. All Rights Reserved.
-*     Qualcomm Technologies Confidential and Proprietary.
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 *
 *
 ******************************************************************************/
@@ -80,10 +46,6 @@
 #include "pmc.h"
 #include "wlan_qct_wda.h"
 #include "wlan_ps_wow_diag.h"
-<<<<<<< HEAD
-#include <vos_power.h>
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include "csrInsideApi.h"
 
 static void pmcProcessDeferredMsg( tpAniSirGlobal pMac );
@@ -201,11 +163,7 @@ eHalStatus pmcEnterFullPowerState (tHalHandle hHal)
 {
     tpAniSirGlobal pMac = PMAC_STRUCT(hHal);
 
-<<<<<<< HEAD
-    pmcLog(pMac, LOG2, FL("Entering pmcEnterFullPowerState"));
-=======
     pmcLog(pMac, LOG1, FL("PMC state is %d"), pMac->pmc.pmcState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     /* Take action based on the current state. */
     switch (pMac->pmc.pmcState)
@@ -246,16 +204,7 @@ eHalStatus pmcEnterFullPowerState (tHalHandle hHal)
         return eHAL_STATUS_FAILURE;
     }
 
-<<<<<<< HEAD
-    pmcLog(pMac, LOG1, "PMC: Enter full power done: Cancel XO Core ON vote");
-    if (vos_chipVoteXOCore(NULL, NULL, NULL, VOS_FALSE) != VOS_STATUS_SUCCESS)
-    {
-        pmcLog(pMac, LOGE, "Could not cancel XO Core ON vote. Not returning failure. "
-                                "Power consumed will be high");
-    }
-=======
     pmcLog(pMac, LOG1, "PMC: Enter full power done");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     return eHAL_STATUS_SUCCESS;
 }
@@ -280,15 +229,8 @@ eHalStatus pmcEnterFullPowerState (tHalHandle hHal)
 eHalStatus pmcEnterRequestFullPowerState (tHalHandle hHal, tRequestFullPowerReason fullPowerReason)
 {
     tpAniSirGlobal pMac = PMAC_STRUCT(hHal);
-<<<<<<< HEAD
-    vos_call_status_type callType;
-    VOS_STATUS status;
-
-    pmcLog(pMac, LOG2, FL("Entering pmcEnterRequestFullPowerState"));
-=======
 
     pmcLog(pMac, LOG1, FL("Enter. PMC state is %d"), pMac->pmc.pmcState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     /* Take action based on the current state of the device. */
     switch (pMac->pmc.pmcState)
@@ -314,13 +256,9 @@ eHalStatus pmcEnterRequestFullPowerState (tHalHandle hHal, tRequestFullPowerReas
     case REQUEST_ENTER_WOWL:
     case REQUEST_EXIT_WOWL:
         pmcLog(pMac, LOGW, FL("Request for full power is being buffered. "
-<<<<<<< HEAD
-            "Current state is %d"), pMac->pmc.pmcState);
-=======
                               "Current state is %s (%d)"),
                               sme_PmcStatetoString(pMac->pmc.pmcState),
                                                    pMac->pmc.pmcState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         //Ignore the new reason if request for full power is already pending
         if( !pMac->pmc.requestFullPowerPending )
         {
@@ -333,25 +271,13 @@ eHalStatus pmcEnterRequestFullPowerState (tHalHandle hHal, tRequestFullPowerReas
     case IMPS:
         if ( pMac->pmc.rfSuppliesVotedOff )
         {
-<<<<<<< HEAD
-            status = vos_chipVoteOnRFSupply(&callType, NULL, NULL);
-            VOS_ASSERT( VOS_IS_STATUS_SUCCESS( status ) );
-
-            status = vos_chipVoteOnXOBuffer(&callType, NULL, NULL);
-            VOS_ASSERT( VOS_IS_STATUS_SUCCESS( status ) );
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pMac->pmc.rfSuppliesVotedOff = FALSE;
         }
 
         if (pmcIssueCommand( pMac, eSmeCommandExitImps, NULL, 0, FALSE ) != eHAL_STATUS_SUCCESS)
         {
-<<<<<<< HEAD
-=======
             pmcLog(pMac, LOGE, FL("PMC: failure to send message "
                                   "eSmeCommandExitImps"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             return eHAL_STATUS_FAILURE;
         }
         return eHAL_STATUS_SUCCESS;
@@ -365,11 +291,8 @@ eHalStatus pmcEnterRequestFullPowerState (tHalHandle hHal, tRequestFullPowerReas
         if (pmcIssueCommand(hHal, eSmeCommandExitBmps, &exitBmpsInfo, sizeof(tExitBmpsInfo), FALSE)
                != eHAL_STATUS_SUCCESS)
         {
-<<<<<<< HEAD
-=======
             pmcLog(pMac, LOGE, FL("PMC: failure to send message "
                                   "eSmeCommandExitBmps"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             return eHAL_STATUS_FAILURE;
         }
         return eHAL_STATUS_SUCCESS;
@@ -382,33 +305,14 @@ eHalStatus pmcEnterRequestFullPowerState (tHalHandle hHal, tRequestFullPowerReas
     case STANDBY:
         if ( pMac->pmc.rfSuppliesVotedOff )
         {
-<<<<<<< HEAD
-            status = vos_chipVoteOnXOBuffer(&callType, NULL, NULL);
-            if(VOS_STATUS_SUCCESS != status)
-            {
-                return eHAL_STATUS_FAILURE;
-            }
-            status = vos_chipVoteOnRFSupply(&callType, NULL, NULL);
-            if(VOS_STATUS_SUCCESS != status)
-            {
-                return eHAL_STATUS_FAILURE;
-            }
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pMac->pmc.rfSuppliesVotedOff = FALSE;
         }
 
         if (pmcIssueCommand(hHal, eSmeCommandExitImps, NULL, 0, FALSE) !=
             eHAL_STATUS_SUCCESS)
         {
-<<<<<<< HEAD
-            pmcLog(pMac, LOGE, "PMC: failure to send message "
-            "eWNI_PMC_EXIT_IMPS_REQ");
-=======
             pmcLog(pMac, LOGE, FL("PMC: failure to send message "
                                   "eWNI_PMC_EXIT_IMPS_REQ"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             return eHAL_STATUS_FAILURE;
         }
 
@@ -420,13 +324,8 @@ eHalStatus pmcEnterRequestFullPowerState (tHalHandle hHal, tRequestFullPowerReas
         if (pmcIssueCommand(hHal, eSmeCommandExitUapsd, &fullPowerReason, sizeof(tRequestFullPowerReason), FALSE) !=
             eHAL_STATUS_SUCCESS)
         {
-<<<<<<< HEAD
-            pmcLog(pMac, LOGE, "PMC: failure to send message "
-            "eWNI_PMC_EXIT_UAPSD_REQ");
-=======
             pmcLog(pMac, LOGE, FL("PMC: failure to send message "
                                   "eWNI_PMC_EXIT_UAPSD_REQ"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             return eHAL_STATUS_FAILURE;
         }
         return eHAL_STATUS_SUCCESS;
@@ -436,13 +335,8 @@ eHalStatus pmcEnterRequestFullPowerState (tHalHandle hHal, tRequestFullPowerReas
         if (pmcIssueCommand(hHal, eSmeCommandExitWowl, &fullPowerReason, sizeof(tRequestFullPowerReason), FALSE) !=
             eHAL_STATUS_SUCCESS)
         {
-<<<<<<< HEAD
-            pmcLog(pMac, LOGP, "PMC: failure to send message "
-            "eWNI_PMC_EXIT_WOWL_REQ");
-=======
             pmcLog(pMac, LOGE, FL("PMC: failure to send message "
                                   "eWNI_PMC_EXIT_WOWL_REQ"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             return eHAL_STATUS_FAILURE;
         }
         return eHAL_STATUS_SUCCESS;
@@ -450,13 +344,9 @@ eHalStatus pmcEnterRequestFullPowerState (tHalHandle hHal, tRequestFullPowerReas
     /* Cannot go directly to Request Full Power State from these states. */
     default:
         pmcLog(pMac, LOGE,
-<<<<<<< HEAD
-               FL("Trying to enter Request Full Power State from state %d"), pMac->pmc.pmcState);
-=======
                FL("Trying to enter Request Full Power State from state %s (%d)"),
                sme_PmcStatetoString(pMac->pmc.pmcState),
                                     pMac->pmc.pmcState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         PMC_ABORT;
         return eHAL_STATUS_FAILURE;
     }
@@ -487,12 +377,8 @@ eHalStatus pmcEnterRequestImpsState (tHalHandle hHal)
     /* Can enter Request IMPS State only from Full Power State. */
     if (pMac->pmc.pmcState != FULL_POWER)
     {
-<<<<<<< HEAD
-        pmcLog(pMac, LOGE, FL("Trying to enter Request IMPS State from state %d"), pMac->pmc.pmcState);
-=======
         pmcLog(pMac, LOGE, FL("Trying to enter Request IMPS State from state %s (%d)"),
                sme_PmcStatetoString(pMac->pmc.pmcState), pMac->pmc.pmcState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eHAL_STATUS_FAILURE;
     }
 
@@ -533,22 +419,13 @@ eHalStatus pmcEnterRequestImpsState (tHalHandle hHal)
 eHalStatus pmcEnterImpsState (tHalHandle hHal)
 {
     tpAniSirGlobal pMac = PMAC_STRUCT(hHal);
-<<<<<<< HEAD
-    vos_call_status_type callType;
-    VOS_STATUS status;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     pmcLog(pMac, LOG2, FL("Entering pmcEnterImpsState"));
 
     /* Can enter IMPS State only from Request IMPS State. */
     if (pMac->pmc.pmcState != REQUEST_IMPS)
     {
-<<<<<<< HEAD
-        pmcLog(pMac, LOGE, FL("Trying to enter IMPS State from state %d"), pMac->pmc.pmcState);
-=======
         pmcLog(pMac, LOGE, FL("Trying to enter IMPS State from state %s (%d)"),
                sme_PmcStatetoString(pMac->pmc.pmcState), pMac->pmc.pmcState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eHAL_STATUS_FAILURE;
     }
 
@@ -588,17 +465,6 @@ eHalStatus pmcEnterImpsState (tHalHandle hHal)
         pMac->pmc.ImpsReqTimerfailCnt = 0;
     }
 
-<<<<<<< HEAD
-    //Vote off RF supplies. Note RF supllies are not voted off if there is a
-    //pending request for full power already
-    status = vos_chipVoteOffRFSupply(&callType, NULL, NULL);
-    VOS_ASSERT( VOS_IS_STATUS_SUCCESS( status ) );
-
-    status = vos_chipVoteOffXOBuffer(&callType, NULL, NULL);
-    VOS_ASSERT( VOS_IS_STATUS_SUCCESS( status ) );
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     pMac->pmc.rfSuppliesVotedOff= TRUE;
 
     return eHAL_STATUS_SUCCESS;
@@ -626,25 +492,18 @@ eHalStatus pmcEnterRequestBmpsState (tHalHandle hHal)
 
     pmcLog(pMac, LOG2, FL("Entering pmcEnterRequestBmpsState"));
 
-<<<<<<< HEAD
-=======
     if (pMac->isCoexScoIndSet)
     {
         pmcLog(pMac, LOGE, FL("block entering into BMPS mode in SCO case %d\n"),
                                pMac->isCoexScoIndSet);
         return eHAL_STATUS_FAILURE;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /* Can enter Request BMPS State only from Full Power State. */
     if (pMac->pmc.pmcState != FULL_POWER)
     {
         pmcLog(pMac, LOGE,
-<<<<<<< HEAD
-               FL("Trying to enter Request BMPS State from state %d"), pMac->pmc.pmcState);
-=======
                FL("Trying to enter Request BMPS State from state %s (%d)"),
                sme_PmcStatetoString(pMac->pmc.pmcState), pMac->pmc.pmcState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eHAL_STATUS_FAILURE;
     }
 
@@ -658,11 +517,7 @@ eHalStatus pmcEnterRequestBmpsState (tHalHandle hHal)
         pMac->pmc.bmpsRequestQueued = eANI_BOOLEAN_TRUE;
         if(pmcIssueCommand(hHal, eSmeCommandEnterBmps, NULL, 0, FALSE) != eHAL_STATUS_SUCCESS)
         {
-<<<<<<< HEAD
-            pmcLog(pMac, LOGE, "PMC: failure to send message eWNI_PMC_ENTER_BMPS_REQ");
-=======
             pmcLog(pMac, LOGE, FL("PMC: failure to send message eWNI_PMC_ENTER_BMPS_REQ"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pMac->pmc.bmpsRequestQueued = eANI_BOOLEAN_FALSE;
             pMac->pmc.pmcState = FULL_POWER;
             if(pmcShouldBmpsTimerRun(pMac))
@@ -674,11 +529,7 @@ eHalStatus pmcEnterRequestBmpsState (tHalHandle hHal)
     }
     else
     {
-<<<<<<< HEAD
-        pmcLog(pMac, LOGE, "PMC: enter BMPS command already queued");
-=======
         pmcLog(pMac, LOG1, FL("PMC: enter BMPS command already queued"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         //restart the timer if needed
         if(pmcShouldBmpsTimerRun(pMac))
         {
@@ -687,11 +538,7 @@ eHalStatus pmcEnterRequestBmpsState (tHalHandle hHal)
         return eHAL_STATUS_SUCCESS;
     }
 
-<<<<<<< HEAD
-    pmcLog(pMac, LOGW, FL("eWNI_PMC_ENTER_BMPS_REQ sent to PE"));
-=======
     pmcLog(pMac, LOG1, FL("eWNI_PMC_ENTER_BMPS_REQ sent to PE"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     return eHAL_STATUS_SUCCESS;
 }
@@ -716,11 +563,7 @@ eHalStatus pmcEnterBmpsState (tHalHandle hHal)
 {
     tpAniSirGlobal pMac = PMAC_STRUCT(hHal);
 
-<<<<<<< HEAD
-    pmcLog(pMac, LOG2, FL("Entering pmcEnterBmpsState"));
-=======
     pmcLog(pMac, LOG1, FL("Enter. PMC state is %d"), pMac->pmc.pmcState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     /* Can enter BMPS State only from 5 states. */
     if (pMac->pmc.pmcState != REQUEST_BMPS &&
@@ -858,11 +701,7 @@ eHalStatus pmcSendPowerSaveConfigMessage (tHalHandle hHal)
 
     pmcLog(pMac, LOG2, FL("Entering pmcSendPowerSaveConfigMessage"));
 
-<<<<<<< HEAD
-    palZeroMemory(pMac->hHdd, &(powerSaveConfig), sizeof(tSirPowerSaveCfg));
-=======
     vos_mem_set(&(powerSaveConfig), sizeof(tSirPowerSaveCfg), 0);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     switch (pMac->pmc.bmpsConfig.forwardBeacons)
     {
@@ -954,12 +793,8 @@ eHalStatus pmcSendMessage (tpAniSirGlobal pMac, tANI_U16 messageType, void *pMes
     pmcLog(pMac, LOG2, FL("Entering pmcSendMessage, message type %d"), messageType);
 
     /* Allocate and fill in message. */
-<<<<<<< HEAD
-    if (palAllocateMemory(pMac->hHdd, (void **)&pMsg, WNI_CFG_MB_HDR_LEN + messageSize) != eHAL_STATUS_SUCCESS)
-=======
     pMsg = vos_mem_malloc(WNI_CFG_MB_HDR_LEN + messageSize);
     if ( NULL == pMsg )
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
         pmcLog(pMac, LOGE, FL("Cannot allocate memory for message"));
         PMC_ABORT;
@@ -969,16 +804,7 @@ eHalStatus pmcSendMessage (tpAniSirGlobal pMac, tANI_U16 messageType, void *pMes
     pMsg->msgLen = (tANI_U16) (WNI_CFG_MB_HDR_LEN + messageSize);
     if (messageSize > 0)
     {
-<<<<<<< HEAD
-        if (palCopyMemory(pMac->hHdd, pMsg->data, pMessageData, messageSize) != eHAL_STATUS_SUCCESS)
-        {
-            pmcLog(pMac, LOGE, FL("Cannot copy message data"));
-            PMC_ABORT;
-            return eHAL_STATUS_FAILURE;
-        }
-=======
         vos_mem_copy(pMsg->data, pMessageData, messageSize);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     /* Send message. */
@@ -1015,11 +841,7 @@ void pmcDoCallbacks (tHalHandle hHal, eHalStatus callbackStatus)
     tListElem *pEntry;
     tpRequestFullPowerEntry pRequestFullPowerEntry;
 
-<<<<<<< HEAD
-    pmcLog(pMac, LOG2, FL("Entering pmcDoCallbacks"));
-=======
     pmcLog(pMac, LOG2, FL("Enter"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     /* Call IMPS callback routine. */
     if (pMac->pmc.impsCallbackRoutine != NULL)
@@ -1034,15 +856,7 @@ void pmcDoCallbacks (tHalHandle hHal, eHalStatus callbackStatus)
         pRequestFullPowerEntry = GET_BASE_ADDR(pEntry, tRequestFullPowerEntry, link);
         if (pRequestFullPowerEntry->callbackRoutine)
            pRequestFullPowerEntry->callbackRoutine(pRequestFullPowerEntry->callbackContext, callbackStatus);
-<<<<<<< HEAD
-        if (palFreeMemory(pMac->hHdd, pRequestFullPowerEntry) != eHAL_STATUS_SUCCESS)
-        {
-            pmcLog(pMac, LOGE, FL("Cannot free request full power routine list entry"));
-            PMC_ABORT;
-        }
-=======
         vos_mem_free(pRequestFullPowerEntry);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
 }
@@ -1069,11 +883,7 @@ eHalStatus pmcStartTrafficTimer (tHalHandle hHal, tANI_U32 expirationTime)
     tpAniSirGlobal pMac = PMAC_STRUCT(hHal);
     VOS_STATUS vosStatus;
 
-<<<<<<< HEAD
-    pmcLog(pMac, LOG2, FL("Entering pmcStartTrafficTimer"));
-=======
     pmcLog(pMac, LOG1, FL("Enter. Timer duration is %d"), expirationTime);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     vosStatus = vos_timer_start(&pMac->pmc.hTrafficTimer, expirationTime);
     if ( !VOS_IS_STATUS_SUCCESS(vosStatus) )
@@ -1138,12 +948,8 @@ void pmcImpsTimerExpired (tHalHandle hHal)
     /* If timer expires and we are in a state other than IMPS State then something is wrong. */
     if (pMac->pmc.pmcState != IMPS)
     {
-<<<<<<< HEAD
-        pmcLog(pMac, LOGE, FL("Got IMPS timer expiration in state %d"), pMac->pmc.pmcState);
-=======
         pmcLog(pMac, LOGE, FL("Got IMPS timer expiration in state %s (%d)"),
                sme_PmcStatetoString(pMac->pmc.pmcState), pMac->pmc.pmcState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         PMC_ABORT;
         return;
     }
@@ -1178,24 +984,16 @@ void pmcTrafficTimerExpired (tHalHandle hHal)
     /* If timer expires and we are in a state other than Full Power State then something is wrong. */
     if (pMac->pmc.pmcState != FULL_POWER)
     {
-<<<<<<< HEAD
-        pmcLog(pMac, LOGE, FL("Got traffic timer expiration in state %d"), pMac->pmc.pmcState);
-=======
         pmcLog(pMac, LOGE, FL("Got traffic timer expiration in state %s (%d)"),
                sme_PmcStatetoString(pMac->pmc.pmcState), pMac->pmc.pmcState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return;
     }
 
     /* Untill DHCP is not completed remain in power active */
     if(pMac->pmc.remainInPowerActiveTillDHCP)
     {
-<<<<<<< HEAD
-        pmcLog(pMac, LOG2, FL("BMPS Traffic Timer expired before DHCP completion ignore enter BMPS"));
-=======
         pmcLog(pMac, LOG1, FL("BMPS Traffic Timer expired before DHCP"
                               " completion ignore enter BMPS"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         pMac->pmc.remainInPowerActiveThreshold++;
         if( pMac->pmc.remainInPowerActiveThreshold >= DHCP_REMAIN_POWER_ACTIVE_THRESHOLD)
         {
@@ -1234,11 +1032,7 @@ void pmcTrafficTimerExpired (tHalHandle hHal)
 
     if (pmcPowerSaveCheck(hHal))
     {
-<<<<<<< HEAD
-        pmcLog(pMac, LOGW, FL("BMPS entry criteria satisfied. Requesting BMPS state"));
-=======
         pmcLog(pMac, LOG1, FL("BMPS entry criteria satisfied. Requesting BMPS state"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         (void)pmcEnterRequestBmpsState(hHal);
     }
     else
@@ -1305,11 +1099,7 @@ void pmcDoBmpsCallbacks (tHalHandle hHal, eHalStatus callbackStatus)
    tListElem *pEntry;
    tpRequestBmpsEntry pRequestBmpsEntry;
 
-<<<<<<< HEAD
-   pmcLog(pMac, LOG2, "PMC: entering pmcDoBmpsCallbacks");
-=======
    pmcLog(pMac, LOG1, FL("Enter"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    /* Call the routines in the request BMPS callback routine list. */
    csrLLLock(&pMac->pmc.requestBmpsList);
@@ -1320,11 +1110,7 @@ void pmcDoBmpsCallbacks (tHalHandle hHal, eHalStatus callbackStatus)
       if (pRequestBmpsEntry->callbackRoutine)
          pRequestBmpsEntry->callbackRoutine(pRequestBmpsEntry->callbackContext,
          callbackStatus);
-<<<<<<< HEAD
-      palFreeMemory(pMac->hHdd, pRequestBmpsEntry);
-=======
       vos_mem_free(pRequestBmpsEntry);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       pEntry = csrLLRemoveHead(&pMac->pmc.requestBmpsList, FALSE);
    }
    csrLLUnlock(&pMac->pmc.requestBmpsList);
@@ -1355,11 +1141,7 @@ void pmcDoStartUapsdCallbacks (tHalHandle hHal, eHalStatus callbackStatus)
    tListElem *pEntry;
    tpStartUapsdEntry pStartUapsdEntry;
 
-<<<<<<< HEAD
-   pmcLog(pMac, LOG2, "PMC: entering pmcDoStartUapsdCallbacks");
-=======
    pmcLog(pMac, LOG1, FL("Enter"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    csrLLLock(&pMac->pmc.requestStartUapsdList);
    /* Call the routines in the request start UAPSD callback routine list. */
    pEntry = csrLLRemoveHead(&pMac->pmc.requestStartUapsdList, FALSE);
@@ -1368,11 +1150,7 @@ void pmcDoStartUapsdCallbacks (tHalHandle hHal, eHalStatus callbackStatus)
       pStartUapsdEntry = GET_BASE_ADDR(pEntry, tStartUapsdEntry, link);
       pStartUapsdEntry->callbackRoutine(pStartUapsdEntry->callbackContext,
          callbackStatus);
-<<<<<<< HEAD
-      palFreeMemory(pMac->hHdd, pStartUapsdEntry);
-=======
       vos_mem_free(pStartUapsdEntry);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       pEntry = csrLLRemoveHead(&pMac->pmc.requestStartUapsdList, FALSE);
    }
    csrLLUnlock(&pMac->pmc.requestStartUapsdList);
@@ -1396,62 +1174,21 @@ void pmcDoStartUapsdCallbacks (tHalHandle hHal, eHalStatus callbackStatus)
 eHalStatus pmcEnterRequestStartUapsdState (tHalHandle hHal)
 {
    tpAniSirGlobal pMac = PMAC_STRUCT(hHal);
-<<<<<<< HEAD
-   v_BOOL_t fFullPower = VOS_FALSE;     //need to get back to full power state
-
-   pmcLog(pMac, LOG2, "PMC: entering pmcEnterRequestStartUapsdState");
-=======
 
    pmcLog(pMac, LOG1, FL("Enter. PMC State is %d"), pMac->pmc.pmcState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    /* Can enter UAPSD State only from FULL_POWER or BMPS State. */
    switch (pMac->pmc.pmcState)
    {
       case FULL_POWER:
-<<<<<<< HEAD
-=======
          /* UAPSD mode will be attempted when we enter BMPS later */
          pMac->pmc.uapsdSessionRequired = TRUE;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          /* Check that entry into a power save mode is allowed at this time. */
          if (!pmcPowerSaveCheck(hHal))
          {
             pmcLog(pMac, LOGW, "PMC: Power save check failed. UAPSD request "
                       "will be accepted and buffered");
-<<<<<<< HEAD
-            /* UAPSD mode will be attempted when we enter BMPS later */
-            pMac->pmc.uapsdSessionRequired = TRUE;
-            /* Make sure the BMPS retry timer is running */
-            if(pmcShouldBmpsTimerRun(pMac))
-               (void)pmcStartTrafficTimer(hHal, pMac->pmc.bmpsConfig.trafficMeasurePeriod);
-            break;
-         }
-         else
-         {
-            pMac->pmc.uapsdSessionRequired = TRUE;
-            //Check BTC state
-#ifndef WLAN_MDM_CODE_REDUCTION_OPT
-            if( btcIsReadyForUapsd( pMac ) )
-#endif /* WLAN_MDM_CODE_REDUCTION_OPT*/
-            {
-               /* Put device in BMPS mode first. This step should NEVER fail.
-                  That is why no need to buffer the UAPSD request*/
-               if(pmcEnterRequestBmpsState(hHal) != eHAL_STATUS_SUCCESS)
-               {
-                   pmcLog(pMac, LOGE, "PMC: Device in Full Power. Enter Request Bmps failed. "
-                            "UAPSD request will be dropped ");
-                  return eHAL_STATUS_FAILURE;
-               }
-            }
-#ifndef WLAN_MDM_CODE_REDUCTION_OPT
-            else
-            {
-               (void)pmcStartTrafficTimer(hHal, pMac->pmc.bmpsConfig.trafficMeasurePeriod);
-            }
-#endif /* WLAN_MDM_CODE_REDUCTION_OPT*/
-=======
             /* Make sure the BMPS retry timer is running */
             if(pmcShouldBmpsTimerRun(pMac))
                (void)pmcStartTrafficTimer(hHal, pMac->pmc.bmpsConfig.trafficMeasurePeriod);
@@ -1465,19 +1202,10 @@ eHalStatus pmcEnterRequestStartUapsdState (tHalHandle hHal)
                         "UAPSD request will be dropped ");
                 return eHAL_STATUS_FAILURE;
             }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          }
          break;
 
       case BMPS:
-<<<<<<< HEAD
-         //It is already in BMPS mode, check BTC state
-#ifndef WLAN_MDM_CODE_REDUCTION_OPT
-         if( btcIsReadyForUapsd(pMac) )
-#endif /* WLAN_MDM_CODE_REDUCTION_OPT*/
-         {
-            /* Tell MAC to have device enter UAPSD mode. */
-=======
       {
          tANI_U8 staticUapsdMask = 0;
          csrGetStaticUapsdMask(pMac, &staticUapsdMask);
@@ -1489,7 +1217,6 @@ eHalStatus pmcEnterRequestStartUapsdState (tHalHandle hHal)
          {
             /* BTC is OK with Uapsd or static Uapsd is configured, then tell
                MAC to have device enter UAPSD mode. */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             if (pmcIssueCommand(hHal, eSmeCommandEnterUapsd, NULL, 0, FALSE) !=
                eHAL_STATUS_SUCCESS)
             {
@@ -1502,38 +1229,6 @@ eHalStatus pmcEnterRequestStartUapsdState (tHalHandle hHal)
          else
          {
             //Not ready for UAPSD at this time, save it first and wake up the chip
-<<<<<<< HEAD
-            pmcLog(pMac, LOGE, " PMC state = %d",pMac->pmc.pmcState);
-            pMac->pmc.uapsdSessionRequired = TRUE;
-            /* While BTC traffic is going on, STA can be in BMPS
-             * and need not go to Full Power */
-            //fFullPower = VOS_TRUE;
-         }
-#endif /* WLAN_MDM_CODE_REDUCTION_OPT*/
-         break;
-
-      case REQUEST_START_UAPSD:
-#ifndef WLAN_MDM_CODE_REDUCTION_OPT
-         if( !btcIsReadyForUapsd(pMac) )
-         {
-            //BTC rejects UAPSD, bring it back to full power
-            fFullPower = VOS_TRUE;
-         }
-#endif
-         break;
-
-      case REQUEST_BMPS:
-        /* Buffer request for UAPSD mode. */
-        pMac->pmc.uapsdSessionRequired = TRUE;
-#ifndef WLAN_MDM_CODE_REDUCTION_OPT
-        if( !btcIsReadyForUapsd(pMac) )
-         {
-            //BTC rejects UAPSD, bring it back to full power
-            fFullPower = VOS_TRUE;
-         }
-#endif /* WLAN_MDM_CODE_REDUCTION_OPT*/
-        break;
-=======
             pmcLog(pMac, LOGE, "Uapsd not needed now, PMC state = %d"
                    "btcIsUapsdOk:%d staticUapsdMask:0x%x",pMac->pmc.pmcState,
                    btcIsReadyForUapsd(pMac), staticUapsdMask);
@@ -1552,7 +1247,6 @@ eHalStatus pmcEnterRequestStartUapsdState (tHalHandle hHal)
          pMac->pmc.uapsdSessionRequired = TRUE;
          pmcLog(pMac, LOGE, "Request BMPS in progress");
          break;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
       default:
          pmcLog(pMac, LOGE, "PMC: trying to enter UAPSD State from state %d",
@@ -1560,18 +1254,6 @@ eHalStatus pmcEnterRequestStartUapsdState (tHalHandle hHal)
          return eHAL_STATUS_FAILURE;
    }
 
-<<<<<<< HEAD
-   if(fFullPower)
-   {
-      if( eHAL_STATUS_PMC_PENDING != pmcRequestFullPower( pMac, NULL, NULL, eSME_REASON_OTHER ) )
-      {
-         //This is an error
-         pmcLog(pMac, LOGE, FL(" fail to request full power because BTC"));
-      }
-   }
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    return eHAL_STATUS_SUCCESS;
 }
 
@@ -1594,20 +1276,12 @@ eHalStatus pmcEnterUapsdState (tHalHandle hHal)
 {
    tpAniSirGlobal pMac = PMAC_STRUCT(hHal);
 
-<<<<<<< HEAD
-   pmcLog(pMac, LOG2, "PMC: entering pmcEnterUapsdState");
-=======
    pmcLog(pMac, LOG2, FL("Enter"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    /* Can enter UAPSD State only from Request UAPSD State. */
    if (pMac->pmc.pmcState != REQUEST_START_UAPSD )
    {
-<<<<<<< HEAD
-      pmcLog(pMac, LOGE, "PMC: trying to enter UAPSD State from state %d",
-=======
       pmcLog(pMac, LOGE, FL("PMC: trying to enter UAPSD State from state %d"),
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       pMac->pmc.pmcState);
       return eHAL_STATUS_FAILURE;
    }
@@ -1625,10 +1299,7 @@ eHalStatus pmcEnterUapsdState (tHalHandle hHal)
    if (pMac->pmc.requestFullPowerPending)
    {
       /* Start exit UAPSD sequence now. */
-<<<<<<< HEAD
-=======
       pmcLog(pMac, LOG1, FL("Full power request pending. Exit UAPSD"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return pmcEnterRequestFullPowerState(hHal, pMac->pmc.requestFullPowerReason);
    }
 
@@ -1707,13 +1378,8 @@ eHalStatus pmcEnterRequestStandbyState (tHalHandle hHal)
    /* Can enter Standby State only from Full Power State. */
    if (pMac->pmc.pmcState != FULL_POWER)
    {
-<<<<<<< HEAD
-      pmcLog(pMac, LOGE, "PMC: trying to enter Standby State from "
-         "state %d", pMac->pmc.pmcState);
-=======
       pmcLog(pMac, LOGE, FL("PMC: trying to enter Standby State from "
          "state %d"), pMac->pmc.pmcState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return eHAL_STATUS_FAILURE;
    }
 
@@ -1725,13 +1391,8 @@ eHalStatus pmcEnterRequestStandbyState (tHalHandle hHal)
    if (pmcIssueCommand(hHal, eSmeCommandEnterStandby, NULL, 0, FALSE) !=
       eHAL_STATUS_SUCCESS)
    {
-<<<<<<< HEAD
-      pmcLog(pMac, LOGE, "PMC: failure to send message "
-         "eWNI_PMC_ENTER_IMPS_REQ");
-=======
       pmcLog(pMac, LOGE, FL("PMC: failure to send message "
                             "eWNI_PMC_ENTER_IMPS_REQ"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       pMac->pmc.pmcState = FULL_POWER;
 
       if(pmcShouldBmpsTimerRun(pMac))
@@ -1760,26 +1421,14 @@ eHalStatus pmcEnterRequestStandbyState (tHalHandle hHal)
 eHalStatus pmcEnterStandbyState (tHalHandle hHal)
 {
    tpAniSirGlobal pMac = PMAC_STRUCT(hHal);
-<<<<<<< HEAD
-   vos_call_status_type callType;
-   VOS_STATUS status;
-
-   pmcLog(pMac, LOG2, "PMC: entering pmcEnterStandbyState");
-=======
 
    pmcLog(pMac, LOG2, FL("Enter"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    /* Can enter STANDBY State only from REQUEST_STANDBY State. */
    if (pMac->pmc.pmcState != REQUEST_STANDBY)
    {
-<<<<<<< HEAD
-      pmcLog(pMac, LOGE, "PMC: trying to enter STANDBY State from state %d",
-         pMac->pmc.pmcState);
-=======
       pmcLog(pMac, LOGE, FL("PMC: trying to enter STANDBY State from state %d"),
              pMac->pmc.pmcState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return eHAL_STATUS_FAILURE;
    }
 
@@ -1791,24 +1440,10 @@ eHalStatus pmcEnterStandbyState (tHalHandle hHal)
    if (pMac->pmc.requestFullPowerPending)
    {
       /* Start exit STANDBY sequence now. */
-<<<<<<< HEAD
-      return pmcEnterRequestFullPowerState(hHal, pMac->pmc.requestFullPowerReason);
-   }
-
-   //Note that RF supplies are not voted off if there is already a pending request
-   //for full power
-   status = vos_chipVoteOffRFSupply(&callType, NULL, NULL);
-   VOS_ASSERT( VOS_IS_STATUS_SUCCESS( status ) );
-
-   status = vos_chipVoteOffXOBuffer(&callType, NULL, NULL);
-   VOS_ASSERT( VOS_IS_STATUS_SUCCESS( status ) );
-
-=======
        pmcLog(pMac, LOG1, FL("Full power req pending. Exit Standby"));
       return pmcEnterRequestFullPowerState(hHal, pMac->pmc.requestFullPowerReason);
    }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    pMac->pmc.rfSuppliesVotedOff= TRUE;
 
    return eHAL_STATUS_SUCCESS;
@@ -1912,11 +1547,7 @@ void pmcDoDeviceStateUpdateCallbacks (tHalHandle hHal, tPmcState state)
     tpDeviceStateUpdateIndEntry pDeviceStateUpdateIndEntry;
     void (*callbackRoutine) (void *callbackContext, tPmcState pmcState);
 
-<<<<<<< HEAD
-    pmcLog(pMac, LOG2, FL("PMC - Update registered modules of new device "
-=======
     pmcLog(pMac, LOG1, FL("PMC - Update registered modules of new device "
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            "state: %s"), pmcGetPmcStateStr(state));
 
     /* Call the routines in the update device state routine list. */
@@ -1948,11 +1579,7 @@ void pmcDoDeviceStateUpdateCallbacks (tHalHandle hHal, tPmcState state)
 eHalStatus pmcRequestEnterWowlState(tHalHandle hHal, tpSirSmeWowlEnterParams wowlEnterParams)
 {
    tpAniSirGlobal pMac = PMAC_STRUCT(hHal);
-<<<<<<< HEAD
-   pmcLog(pMac, LOG2, "PMC: entering pmcRequestEnterWowlState");
-=======
    pmcLog(pMac, LOG1, FL("Enter. PMC State is %d"),pMac->pmc.pmcState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    switch (pMac->pmc.pmcState)
    {
@@ -1960,25 +1587,15 @@ eHalStatus pmcRequestEnterWowlState(tHalHandle hHal, tpSirSmeWowlEnterParams wow
          /* Put device in BMPS mode first. This step should NEVER fail. */
          if(pmcEnterRequestBmpsState(hHal) != eHAL_STATUS_SUCCESS)
          {
-<<<<<<< HEAD
-            pmcLog(pMac, LOGE, "PMC: Device in Full Power. pmcEnterRequestBmpsState failed. "
-                    "Cannot enter WOWL");
-=======
             pmcLog(pMac, LOGE, FL("PMC: Device in Full Power. pmcEnterRequestBmpsState failed. "
                                   "Cannot enter WOWL"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             return eHAL_STATUS_FAILURE;
          }
          break;
 
       case REQUEST_BMPS:
-<<<<<<< HEAD
-         pmcLog(pMac, LOGW, "PMC: BMPS transaction going on. WOWL request "
-                    "will be buffered");
-=======
          pmcLog(pMac, LOGW, FL("PMC: BMPS transaction going on. WOWL request "
                                "will be buffered"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          break;
 
       case BMPS:
@@ -1989,30 +1606,13 @@ eHalStatus pmcRequestEnterWowlState(tHalHandle hHal, tpSirSmeWowlEnterParams wow
          if (pmcIssueCommand(hHal, eSmeCommandEnterWowl, wowlEnterParams, sizeof(tSirSmeWowlEnterParams), FALSE) !=
             eHAL_STATUS_SUCCESS)
          {
-<<<<<<< HEAD
-            pmcLog(pMac, LOGE, "PMC: failure to send message eWNI_PMC_ENTER_WOWL_REQ");
-=======
             pmcLog(pMac, LOGE, FL("PMC: failure to send message eWNI_PMC_ENTER_WOWL_REQ"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             return eHAL_STATUS_FAILURE;
          }
          break;
 
       case REQUEST_ENTER_WOWL:
          //Multiple enter WOWL requests at the same time are not accepted
-<<<<<<< HEAD
-         pmcLog(pMac, LOGE, "PMC: Enter WOWL transaction already going on. New WOWL request "
-                    "will be rejected");
-         return eHAL_STATUS_FAILURE;
-
-      case REQUEST_EXIT_WOWL:
-         pmcLog(pMac, LOGW, "PMC: Exit WOWL transaction going on. New WOWL request "
-                   "will be buffered");
-         break;
-
-      default:
-         pmcLog(pMac, LOGE, "PMC: Trying to enter WOWL State from state %s",
-=======
          pmcLog(pMac, LOGE, FL("PMC: Enter WOWL transaction already going on. New WOWL request "
                                "will be rejected"));
          return eHAL_STATUS_FAILURE;
@@ -2024,7 +1624,6 @@ eHalStatus pmcRequestEnterWowlState(tHalHandle hHal, tpSirSmeWowlEnterParams wow
 
       default:
          pmcLog(pMac, LOGE, FL("PMC: Trying to enter WOWL State from state %s"),
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pmcGetPmcStateStr(pMac->pmc.pmcState));
          return eHAL_STATUS_FAILURE;
    }
@@ -2056,11 +1655,7 @@ eHalStatus pmcEnterWowlState (tHalHandle hHal)
    /* Can enter WOWL State only from Request WOWL State. */
    if (pMac->pmc.pmcState != REQUEST_ENTER_WOWL )
    {
-<<<<<<< HEAD
-      pmcLog(pMac, LOGP, "PMC: trying to enter WOWL State from state %d",
-=======
       pmcLog(pMac, LOGE, FL("PMC: trying to enter WOWL State from state %d"),
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         pMac->pmc.pmcState);
       return eHAL_STATUS_FAILURE;
    }
@@ -2076,10 +1671,7 @@ eHalStatus pmcEnterWowlState (tHalHandle hHal)
    if (pMac->pmc.requestFullPowerPending)
    {
       /* Start exit Wowl sequence now. */
-<<<<<<< HEAD
-=======
        pmcLog(pMac, LOG1, FL("Full power req pending. Exit Wowl"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return pmcEnterRequestFullPowerState(hHal, pMac->pmc.requestFullPowerReason);
    }
 
@@ -2114,31 +1706,18 @@ eHalStatus pmcRequestExitWowlState(tHalHandle hHal)
             if (pmcIssueCommand(hHal, eSmeCommandExitWowl, NULL, 0, FALSE) !=
                 eHAL_STATUS_SUCCESS)
             {
-<<<<<<< HEAD
-                pmcLog(pMac, LOGP, "PMC: failure to send message eWNI_PMC_EXIT_WOWL_REQ");
-=======
                 pmcLog(pMac, LOGP, FL("PMC: failure to send message eWNI_PMC_EXIT_WOWL_REQ"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 return eHAL_STATUS_FAILURE;
             }
             break;
 
         case REQUEST_ENTER_WOWL:
-<<<<<<< HEAD
-            pmcLog(pMac, LOGP, "PMC: Rcvd exit WOWL even before enter WOWL was completed");
-            return eHAL_STATUS_FAILURE;
-
-        default:
-            pmcLog(pMac, LOGW, "PMC: Got exit WOWL in state %s. Nothing to do as already out of WOWL",
-            pmcGetPmcStateStr(pMac->pmc.pmcState));
-=======
             pmcLog(pMac, LOGP, FL("PMC: Rcvd exit WOWL even before enter WOWL was completed"));
             return eHAL_STATUS_FAILURE;
 
         default:
             pmcLog(pMac, LOGW, FL("PMC: Got exit WOWL in state %s(%d). Nothing to do as already out of WOWL"),
             pmcGetPmcStateStr(pMac->pmc.pmcState), pMac->pmc.pmcState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
     }
 
@@ -2167,12 +1746,6 @@ void pmcDoEnterWowlCallbacks (tHalHandle hHal, eHalStatus callbackStatus)
    /* Call Wowl callback routine. */
    if (pMac->pmc.enterWowlCallbackRoutine != NULL)
       pMac->pmc.enterWowlCallbackRoutine(pMac->pmc.enterWowlCallbackContext, callbackStatus);
-<<<<<<< HEAD
-
-   pMac->pmc.enterWowlCallbackRoutine = NULL;
-   pMac->pmc.enterWowlCallbackContext = NULL;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 
@@ -2221,11 +1794,7 @@ static void pmcProcessDeferredMsg( tpAniSirGlobal pMac )
             break;
         }
         //Need to free the memory here
-<<<<<<< HEAD
-        palFreeMemory( pMac->hHdd, pDeferredMsg );
-=======
         vos_mem_free(pDeferredMsg);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     } //while
 }
 
@@ -2235,36 +1804,18 @@ eHalStatus pmcDeferMsg( tpAniSirGlobal pMac, tANI_U16 messageType, void *pData, 
     tPmcDeferredMsg *pDeferredMsg;
     eHalStatus status;
 
-<<<<<<< HEAD
-    if( !HAL_STATUS_SUCCESS( palAllocateMemory( pMac->hHdd, (void **)&pDeferredMsg, sizeof(tPmcDeferredMsg) ) ) )
-=======
     pDeferredMsg = vos_mem_malloc(sizeof(tPmcDeferredMsg));
     if ( NULL == pDeferredMsg )
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
         pmcLog(pMac, LOGE, FL("Cannot allocate memory for callback context"));
         return eHAL_STATUS_RESOURCES;
     }
-<<<<<<< HEAD
-    palZeroMemory( pMac->hHdd, pDeferredMsg, sizeof(tPmcDeferredMsg) );
-=======
     vos_mem_set(pDeferredMsg, sizeof(tPmcDeferredMsg), 0);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     pDeferredMsg->messageType = messageType;
     pDeferredMsg->size = (tANI_U16)size;
     if( pData )
     {
-<<<<<<< HEAD
-        if( !HAL_STATUS_SUCCESS( palCopyMemory( pMac->hHdd, &pDeferredMsg->u.data,
-                                    pData, size ) ) )
-        {
-            pmcLog(pMac, LOGE, FL("Cannot copy pattern for callback context"));
-            palFreeMemory( pMac->hHdd, pDeferredMsg );
-            return eHAL_STATUS_FAILURE;
-        }
-=======
         vos_mem_copy(&pDeferredMsg->u.data, pData, size);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
     csrLLInsertTail( &pMac->pmc.deferredMsgList, &pDeferredMsg->link, eANI_BOOLEAN_TRUE );
     //No callback is needed. The messages are put into deferred queue and be processed first
@@ -2275,11 +1826,7 @@ eHalStatus pmcDeferMsg( tpAniSirGlobal pMac, tANI_U16 messageType, void *pData, 
         //either fail or already in full power
         if( csrLLRemoveEntry( &pMac->pmc.deferredMsgList, &pDeferredMsg->link, eANI_BOOLEAN_TRUE ) )
         {
-<<<<<<< HEAD
-            palFreeMemory( pMac->hHdd, pDeferredMsg );
-=======
             vos_mem_free(pDeferredMsg);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
         if( !HAL_STATUS_SUCCESS( status ) )
         {
@@ -2301,11 +1848,7 @@ void pmcReleaseCommand( tpAniSirGlobal pMac, tSmeCmd *pCommand )
     else
     {
         //this is a specially allocated comamnd due to out of command buffer. free it.
-<<<<<<< HEAD
-        palFreeMemory(pMac->hHdd, pCommand);
-=======
         vos_mem_free(pCommand);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 }
 
@@ -2406,28 +1949,13 @@ eHalStatus pmcPrepareCommand( tpAniSirGlobal pMac, eSmeCommandType cmdType, void
         else
         {
             pmcLog( pMac, LOGE,
-<<<<<<< HEAD
-                    FL(" fail to get command buffer for command 0x%X curState = %d"), cmdType, pMac->pmc.pmcState );
-=======
                     FL(" fail to get command buffer for command 0x%X curState = %d"),
                     cmdType, pMac->pmc.pmcState );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             //For certain PMC command, we cannot fail
             if( PMC_IS_COMMAND_CANNOT_FAIL(cmdType) )
             {
                 pmcLog( pMac, LOGE,
                         FL(" command 0x%X  cannot fail try allocating memory for it"), cmdType );
-<<<<<<< HEAD
-                status = palAllocateMemory(pMac->hHdd, (void **)&pCommand, sizeof(tSmeCmd));
-                if(!HAL_STATUS_SUCCESS(status))
-                {
-                    VOS_TRACE(VOS_MODULE_ID_SME, VOS_TRACE_LEVEL_FATAL, "%s fail to allocate memory for command (0x%X)",
-                        __func__, cmdType);
-                    pCommand = NULL;
-                    break;
-                }
-                palZeroMemory(pMac->hHdd, pCommand, sizeof(tSmeCmd));
-=======
                 pCommand = vos_mem_malloc(sizeof(tSmeCmd));
                 if ( NULL == pCommand )
                 {
@@ -2438,7 +1966,6 @@ eHalStatus pmcPrepareCommand( tpAniSirGlobal pMac, eSmeCommandType cmdType, void
                     return eHAL_STATUS_FAILURE;
                 }
                 vos_mem_set(pCommand, sizeof(tSmeCmd), 0);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 //Make sure it will be free when it is done
                 pCommand->u.pmcCmd.fReleaseWhenDone = TRUE;
             }
@@ -2537,14 +2064,8 @@ eHalStatus pmcIssueCommand( tpAniSirGlobal pMac, eSmeCommandType cmdType, void *
 tANI_BOOLEAN pmcProcessCommand( tpAniSirGlobal pMac, tSmeCmd *pCommand )
 {
     eHalStatus status = eHAL_STATUS_SUCCESS;
-<<<<<<< HEAD
-    VOS_STATUS vstatus;
-    tANI_BOOLEAN fRemoveCmd = eANI_BOOLEAN_TRUE;
-
-=======
     tANI_BOOLEAN fRemoveCmd = eANI_BOOLEAN_TRUE;
     pmcLog(pMac, LOG1, FL("PMC command is 0x%x"), pCommand->command);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     do
     {
         switch ( pCommand->command )
@@ -2580,31 +2101,6 @@ tANI_BOOLEAN pmcProcessCommand( tpAniSirGlobal pMac, tSmeCmd *pCommand )
             break;
 
         case eSmeCommandExitImps:
-<<<<<<< HEAD
-            pMac->pmc.requestFullPowerPending = FALSE;
-            if( ( IMPS == pMac->pmc.pmcState ) || ( STANDBY == pMac->pmc.pmcState ) )
-            {
-                //Check state before sending message. The state may change after that
-                if( STANDBY == pMac->pmc.pmcState )
-                {
-                    //Enable Idle scan in CSR
-                    csrScanResumeIMPS(pMac);
-                }
-
-                status = pmcSendMessage(pMac, eWNI_PMC_EXIT_IMPS_REQ, NULL, 0);
-                if ( HAL_STATUS_SUCCESS( status ) )
-                {
-                    pMac->pmc.pmcState = REQUEST_FULL_POWER;
-                    pmcLog(pMac, LOG2, FL("eWNI_PMC_EXIT_IMPS_REQ sent to PE"));
-                    fRemoveCmd = eANI_BOOLEAN_FALSE;
-                }
-                else
-                {
-                    pmcLog(pMac, LOGE,
-                           FL("eWNI_PMC_EXIT_IMPS_REQ fail to be sent to PE status %d"), status);
-                    //Callbacks are called with success srarus, do we need to pass in real status??
-                    pmcEnterFullPowerState(pMac);
-=======
             {
                 tPmcState origState = pMac->pmc.pmcState;
                 pMac->pmc.requestFullPowerPending = FALSE;
@@ -2632,7 +2128,6 @@ tANI_BOOLEAN pmcProcessCommand( tpAniSirGlobal pMac, tSmeCmd *pCommand )
                         //Callbacks are called with success srarus, do we need to pass in real status??
                         pmcEnterFullPowerState(pMac);
                     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 }
             }
             break;
@@ -2646,19 +2141,8 @@ tANI_BOOLEAN pmcProcessCommand( tpAniSirGlobal pMac, tSmeCmd *pCommand )
                 {
                     /* Change PMC state */
                     pMac->pmc.pmcState = REQUEST_BMPS;
-<<<<<<< HEAD
-                    pmcLog(pMac, LOG2, "PMC: Enter BMPS req done: Force XO Core ON");
-                    vstatus = vos_chipVoteXOCore(NULL, NULL, NULL, VOS_TRUE);
-                    if ( !VOS_IS_STATUS_SUCCESS(vstatus) )
-                    {
-                        pmcLog(pMac, LOGE, "Could not turn XO Core ON. Can't go to BMPS");
-                    }
-                    else /* XO Core turn ON was successful */
-                    {
-=======
                     pmcLog(pMac, LOG1, "PMC: Enter BMPS req done");
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     /* Tell MAC to have device enter BMPS mode. */
                     status = pmcSendMessage(pMac, eWNI_PMC_ENTER_BMPS_REQ, NULL, 0);
                     if ( HAL_STATUS_SUCCESS( status ) )
@@ -2668,20 +2152,6 @@ tANI_BOOLEAN pmcProcessCommand( tpAniSirGlobal pMac, tSmeCmd *pCommand )
                     else
                     {
                         pmcLog(pMac, LOGE, "Fail to send enter BMPS msg to PE");
-<<<<<<< HEAD
-                            /* Cancel the vote for XO Core */
-                            pmcLog(pMac, LOGW, "In module init: Cancel the vote for XO CORE ON "
-                                                             "since send enter bmps failed");
-                            if (vos_chipVoteXOCore(NULL, NULL, NULL, VOS_FALSE) != VOS_STATUS_SUCCESS)
-                            {
-                                pmcLog(pMac, LOGE, "Could not cancel XO Core ON vote."
-                                                   "Not returning failure."
-                                                   "Power consumed will be high");
-                            }
-
-                        }
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     }
                 }
                 if( !HAL_STATUS_SUCCESS( status ) )
@@ -2699,39 +2169,23 @@ tANI_BOOLEAN pmcProcessCommand( tpAniSirGlobal pMac, tSmeCmd *pCommand )
             break;
 
         case eSmeCommandExitBmps:
-<<<<<<< HEAD
-            if( BMPS == pMac->pmc.pmcState )
-            {
-                pMac->pmc.requestFullPowerPending = FALSE;
-
-=======
             if ((BMPS == pMac->pmc.pmcState) || (UAPSD == pMac->pmc.pmcState))
             {
                 tPmcState origState = pMac->pmc.pmcState;
                 pMac->pmc.requestFullPowerPending = FALSE;
                 /* Change PMC state */
                 pMac->pmc.pmcState = REQUEST_FULL_POWER;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 status = pmcSendMessage( pMac, eWNI_PMC_EXIT_BMPS_REQ,
                             &pCommand->u.pmcCmd.u.exitBmpsInfo, sizeof(tExitBmpsInfo) );
                 if ( HAL_STATUS_SUCCESS( status ) )
                 {
-<<<<<<< HEAD
-                    pMac->pmc.pmcState = REQUEST_FULL_POWER;
-                    fRemoveCmd = eANI_BOOLEAN_FALSE;
-                    pmcLog(pMac, LOG2, FL("eWNI_PMC_EXIT_BMPS_REQ sent to PE"));
-=======
                     fRemoveCmd = eANI_BOOLEAN_FALSE;
                     pmcLog(pMac, LOG1, FL("eWNI_PMC_EXIT_BMPS_REQ sent to PE"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
                 }
                 else
                 {
-<<<<<<< HEAD
-=======
                     pMac->pmc.pmcState = origState;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     pmcLog(pMac, LOGE, FL("eWNI_PMC_EXIT_BMPS_REQ fail to be sent to PE status %d"), status);
                     pmcEnterFullPowerState(pMac);
                 }
@@ -2742,26 +2196,16 @@ tANI_BOOLEAN pmcProcessCommand( tpAniSirGlobal pMac, tSmeCmd *pCommand )
             if( BMPS == pMac->pmc.pmcState )
             {
                 pMac->pmc.uapsdSessionRequired = TRUE;
-<<<<<<< HEAD
-                status = pmcSendMessage(pMac, eWNI_PMC_ENTER_UAPSD_REQ, NULL, 0);
-                if ( HAL_STATUS_SUCCESS( status ) )
-                {
-                    pMac->pmc.pmcState = REQUEST_START_UAPSD;
-=======
                 /* Change PMC state */
                 pMac->pmc.pmcState = REQUEST_START_UAPSD;
                 status = pmcSendMessage(pMac, eWNI_PMC_ENTER_UAPSD_REQ, NULL, 0);
                 if ( HAL_STATUS_SUCCESS( status ) )
                 {
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     fRemoveCmd = eANI_BOOLEAN_FALSE;
                 }
                 else
                 {
-<<<<<<< HEAD
-=======
                     pMac->pmc.pmcState = BMPS;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     pmcLog(pMac, LOGE, "PMC: failure to send message "
                        "eWNI_PMC_ENTER_BMPS_REQ");
                     //there is no retry for re-entering UAPSD so tell the requester we are done witgh failure.
@@ -2781,32 +2225,20 @@ tANI_BOOLEAN pmcProcessCommand( tpAniSirGlobal pMac, tSmeCmd *pCommand )
                    break;
                }
 
-<<<<<<< HEAD
-=======
                /* Change state. Note that device will be put in BMPS state at the
                   end of REQUEST_STOP_UAPSD state even if response is a failure*/
                pMac->pmc.pmcState = REQUEST_STOP_UAPSD;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                /* Tell MAC to have device exit UAPSD mode. */
                status = pmcSendMessage(pMac, eWNI_PMC_EXIT_UAPSD_REQ, NULL, 0);
                if ( HAL_STATUS_SUCCESS( status ) )
                {
-<<<<<<< HEAD
-                   /* Change state. Note that device will be put in BMPS state at the
-                      end of REQUEST_STOP_UAPSD state even if response is a failure*/
-                   pMac->pmc.pmcState = REQUEST_STOP_UAPSD;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                    pMac->pmc.requestFullPowerPending = TRUE;
                    pMac->pmc.requestFullPowerReason = pCommand->u.pmcCmd.fullPowerReason;
                    fRemoveCmd = eANI_BOOLEAN_FALSE;
                }
                else
                {
-<<<<<<< HEAD
-=======
                    pMac->pmc.pmcState = UAPSD;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                    pmcLog(pMac, LOGE, "PMC: failure to send message "
                       "eWNI_PMC_EXIT_UAPSD_REQ");
                    pmcEnterBmpsState(pMac);
@@ -2816,29 +2248,6 @@ tANI_BOOLEAN pmcProcessCommand( tpAniSirGlobal pMac, tSmeCmd *pCommand )
            break;
 
         case eSmeCommandEnterWowl:
-<<<<<<< HEAD
-            if( ( BMPS == pMac->pmc.pmcState ) || ( WOWL == pMac->pmc.pmcState ) )
-            {
-                status = pmcSendMessage(pMac, eWNI_PMC_ENTER_WOWL_REQ,
-                        &pCommand->u.pmcCmd.u.enterWowlInfo, sizeof(tSirSmeWowlEnterParams));
-                if ( HAL_STATUS_SUCCESS( status ) )
-                {
-                    pMac->pmc.pmcState = REQUEST_ENTER_WOWL;
-                    fRemoveCmd = eANI_BOOLEAN_FALSE;
-                }
-                else
-                {
-                    pmcLog(pMac, LOGE, "PMC: failure to send message eWNI_PMC_ENTER_WOWL_REQ");
-                    pmcDoEnterWowlCallbacks(pMac, eHAL_STATUS_FAILURE);
-                }
-            }
-            else
-            {
-                fRemoveCmd = eANI_BOOLEAN_TRUE;
-            }
-            break;
-
-=======
            {
                tPmcState origState = pMac->pmc.pmcState;
                if( ( BMPS == pMac->pmc.pmcState ) || ( WOWL == pMac->pmc.pmcState ) )
@@ -2864,7 +2273,6 @@ tANI_BOOLEAN pmcProcessCommand( tpAniSirGlobal pMac, tSmeCmd *pCommand )
                }
                break;
            }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         case eSmeCommandExitWowl:
             if( WOWL == pMac->pmc.pmcState )
             {
@@ -2879,10 +2287,7 @@ tANI_BOOLEAN pmcProcessCommand( tpAniSirGlobal pMac, tSmeCmd *pCommand )
                 }
                 else
                 {
-<<<<<<< HEAD
-=======
                     pMac->pmc.pmcState = WOWL;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     pmcLog(pMac, LOGP, "PMC: failure to send message eWNI_PMC_EXIT_WOWL_REQ");
                     pmcEnterBmpsState(pMac);
                 }
@@ -2928,10 +2333,7 @@ tANI_BOOLEAN pmcProcessCommand( tpAniSirGlobal pMac, tSmeCmd *pCommand )
                 {
                     pmcLog(pMac, LOGE, "PMC: failure to send message "
                         "eWNI_PMC_ENTER_IMPS_REQ");
-<<<<<<< HEAD
-=======
                     pMac->pmc.pmcState = FULL_POWER;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     pmcEnterFullPowerState(pMac);
                     pmcDoStandbyCallbacks(pMac, eHAL_STATUS_FAILURE);
                     /* Start the timer only if Auto BMPS feature is enabled or an UAPSD session is
@@ -2966,33 +2368,21 @@ eHalStatus pmcEnterImpsCheck( tpAniSirGlobal pMac )
     /* Check if IMPS is enabled. */
     if (!pMac->pmc.impsEnabled)
     {
-<<<<<<< HEAD
-        pmcLog(pMac, LOG2, FL("IMPS is disabled"));
-=======
         pmcLog(pMac, LOG1, FL("IMPS is disabled"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eHAL_STATUS_PMC_DISABLED;
     }
 
     /* Check if IMPS enabled for current power source. */
     if ((pMac->pmc.powerSource == AC_POWER) && !pMac->pmc.impsConfig.enterOnAc)
     {
-<<<<<<< HEAD
-        pmcLog(pMac, LOG2, FL("IMPS is disabled when operating on AC power"));
-=======
         pmcLog(pMac, LOG1, FL("IMPS is disabled when operating on AC power"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eHAL_STATUS_PMC_AC_POWER;
     }
 
     /* Check that entry into a power save mode is allowed at this time. */
     if (!pmcPowerSaveCheck(pMac))
     {
-<<<<<<< HEAD
-        pmcLog(pMac, LOG2, FL("IMPS cannot be entered now"));
-=======
         pmcLog(pMac, LOG1, FL("IMPS cannot be entered now"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eHAL_STATUS_PMC_NOT_NOW;
     }
 
@@ -3000,11 +2390,7 @@ eHalStatus pmcEnterImpsCheck( tpAniSirGlobal pMac )
        running sessions agree. */
     if (!pmcAllowImps(pMac))
     {
-<<<<<<< HEAD
-        pmcLog(pMac, LOG2, FL("IMPS cannot be entered now"));
-=======
         pmcLog(pMac, LOG1, FL("IMPS cannot be entered now"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eHAL_STATUS_PMC_NOT_NOW;
     }
 
@@ -3012,11 +2398,7 @@ eHalStatus pmcEnterImpsCheck( tpAniSirGlobal pMac )
     if ((pMac->pmc.pmcState == REQUEST_IMPS) || (pMac->pmc.pmcState == IMPS) ||
         (pMac->pmc.pmcState == REQUEST_FULL_POWER))
     {
-<<<<<<< HEAD
-        pmcLog(pMac, LOG2, FL("Already in IMPS"));
-=======
         pmcLog(pMac, LOG1, FL("Already in IMPS"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eHAL_STATUS_PMC_ALREADY_IN_IMPS;
     }
 
@@ -3039,11 +2421,7 @@ eHalStatus pmcEnterBmpsCheck( tpAniSirGlobal pMac )
    /* Check if BMPS is enabled. */
    if (!pMac->pmc.bmpsEnabled)
    {
-<<<<<<< HEAD
-      pmcLog(pMac, LOGE, "PMC: Cannot initiate BMPS. BMPS is disabled");
-=======
       pmcLog(pMac, LOGE, FL("PMC: Cannot initiate BMPS. BMPS is disabled"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return eHAL_STATUS_PMC_DISABLED;
    }
 
@@ -3058,12 +2436,8 @@ eHalStatus pmcEnterBmpsCheck( tpAniSirGlobal pMac )
    /* Check that we are associated with a single active session. */
    if (!pmcValidateConnectState( pMac ))
    {
-<<<<<<< HEAD
-      pmcLog(pMac, LOGE, "PMC: STA not associated with an AP with single active session. BMPS cannot be entered");
-=======
       pmcLog(pMac, VOS_TRACE_LEVEL_INFO, FL("PMC: STA not associated with an AP with single"
                           " active session. BMPS cannot be entered"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return eHAL_STATUS_FAILURE;
    }
 
@@ -3071,22 +2445,14 @@ eHalStatus pmcEnterBmpsCheck( tpAniSirGlobal pMac )
    if (pMac->pmc.pmcState != FULL_POWER)
    {
       pmcLog(pMac, LOGE,
-<<<<<<< HEAD
-             "PMC: Device not in full power. Cannot request BMPS. pmcState %d", pMac->pmc.pmcState);
-=======
              FL("PMC: Device not in full power. Cannot request BMPS. pmcState %d"),
               pMac->pmc.pmcState);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return eHAL_STATUS_FAILURE;
    }
    /* Check that entry into a power save mode is allowed at this time. */
    if (!pmcPowerSaveCheck(pMac))
    {
-<<<<<<< HEAD
-      pmcLog(pMac, LOGE, "PMC: Power save check failed. BMPS cannot be entered now");
-=======
       pmcLog(pMac, LOGE, FL("PMC: Power save check failed. BMPS cannot be entered now"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return eHAL_STATUS_PMC_NOT_NOW;
    }
 
@@ -3132,11 +2498,7 @@ tANI_BOOLEAN pmcShouldBmpsTimerRun( tpAniSirGlobal pMac )
         return eANI_BOOLEAN_FALSE;
     }
 
-<<<<<<< HEAD
-    if ((vos_concurrent_sessions_running()) &&
-=======
     if ((vos_concurrent_open_sessions_running()) &&
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         ((csrIsConcurrentInfraConnected( pMac ) ||
         (vos_get_concurrency_mode()& VOS_SAP) ||
         (vos_get_concurrency_mode()& VOS_P2P_GO))))
@@ -3148,66 +2510,12 @@ tANI_BOOLEAN pmcShouldBmpsTimerRun( tpAniSirGlobal pMac )
      * an Infra session */
     if (!csrIsInfraConnected(pMac))
     {
-<<<<<<< HEAD
-        pmcLog(pMac, LOG1, FL("No Infra Session or multiple sessions. BMPS should not be started"));
-=======
         pmcLog(pMac, LOG1, FL("No Infra Session. BMPS can't be started"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         return eANI_BOOLEAN_FALSE;
     }
     return eANI_BOOLEAN_TRUE;
 }
 
-<<<<<<< HEAD
-
-#ifdef FEATURE_WLAN_DIAG_SUPPORT
-
-#define PMC_DIAG_EVT_TIMER_INTERVAL ( 5000 )
-
-void pmcDiagEvtTimerExpired (tHalHandle hHal)
-{
-    tpAniSirGlobal pMac = PMAC_STRUCT(hHal);
-    WLAN_VOS_DIAG_EVENT_DEF(psRequest, vos_event_wlan_powersave_payload_type);
-
-    vos_mem_zero(&psRequest, sizeof(vos_event_wlan_powersave_payload_type));
-    psRequest.event_subtype = WLAN_PMC_CURRENT_STATE;
-    psRequest.pmc_current_state = pMac->pmc.pmcState;
-
-    WLAN_VOS_DIAG_EVENT_REPORT(&psRequest, EVENT_WLAN_POWERSAVE_GENERIC);
-
-    pmcLog(pMac, LOGW, FL("DIAG event timer expired"));
-
-    /* re-arm timer */
-    if (pmcStartDiagEvtTimer(hHal) != eHAL_STATUS_SUCCESS)
-    {
-        pmcLog(pMac, LOGP, FL("Cannot re-arm DIAG evt timer"));
-    }
-    vos_timer_start(&pMac->pmc.hDiagEvtTimer, PMC_DIAG_EVT_TIMER_INTERVAL);
-}
-
-eHalStatus pmcStartDiagEvtTimer (tHalHandle hHal)
-{
-    tpAniSirGlobal pMac = PMAC_STRUCT(hHal);
-
-    pmcLog(pMac, LOG2, FL("Entering pmcStartDiagEvtTimer"));
-
-    if ( vos_timer_start(&pMac->pmc.hDiagEvtTimer, PMC_DIAG_EVT_TIMER_INTERVAL) != VOS_STATUS_SUCCESS)
-    {
-       pmcLog(pMac, LOGP, FL("Cannot start DIAG evt timer"));
-       return eHAL_STATUS_FAILURE;
-    }
-
-    return eHAL_STATUS_SUCCESS;
-}
-
-void pmcStopDiagEvtTimer (tHalHandle hHal)
-{
-    tpAniSirGlobal pMac = PMAC_STRUCT(hHal);
-    pmcLog(pMac, LOG2, FL("Entering pmcStopDiagEvtTimer"));
-    (void)vos_timer_stop(&pMac->pmc.hDiagEvtTimer);
-}
-#endif
-=======
 const char * sme_PmcStatetoString(const v_U8_t pmcState)
 {   switch (pmcState)
     {
@@ -3231,4 +2539,3 @@ const char * sme_PmcStatetoString(const v_U8_t pmcState)
             return "Invalid pmcState";
     }
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver

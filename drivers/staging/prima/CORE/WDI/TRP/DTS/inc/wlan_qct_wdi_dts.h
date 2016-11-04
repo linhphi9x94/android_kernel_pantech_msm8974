@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,33 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
  * under proprietary terms before Copyright ownership was assigned
  * to the Linux Foundation.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  */
 
 #ifndef __WLAN_QCT_DTS_H
@@ -67,11 +41,6 @@
  * This file contains the API exposed by the 
  * wlan device abstarction layer module for abstracting DXE/SDIO.
  *
-<<<<<<< HEAD
- * Copyright (c) 2008 QUALCOMM Incorporated. All Rights Reserved.
- * Qualcomm Confidential and Proprietary
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Example usage for DXE.
  * ----------------------
@@ -103,11 +72,6 @@ typedef enum
    WDTS_CHANNEL_TX_HIGH_PRI,
    WDTS_CHANNEL_RX_LOW_PRI,
    WDTS_CHANNEL_RX_HIGH_PRI,
-<<<<<<< HEAD
-   WDTS_CHANNEL_MAX
-}  WDTS_ChannelType;
-
-=======
    WDTS_CHANNEL_RX_LOG,
    WDTS_CHANNEL_RX_FW_LOG,
    WDTS_CHANNEL_MAX
@@ -120,7 +84,6 @@ typedef enum
 #define WDTS_RX_LOG_CHANNEL_MASK (1<<WDTS_CHANNEL_RX_LOG)
 #define WDTS_RX_FW_LOG_CHANNEL_MASK (1<<WDTS_CHANNEL_RX_FW_LOG)
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 typedef enum
 {
    WDTS_POWER_STATE_FULL,
@@ -135,12 +98,9 @@ typedef wpt_status (*WDTS_TxCompleteCbType)(void *pContext, wpt_packet *pFrame, 
 typedef wpt_status (*WDTS_RxFrameReadyCbType) (void *pContext, wpt_packet *pFrame, WDTS_ChannelType channel);
 typedef wpt_status (*WDTS_LowResourceCbType)(void *pContext, WDTS_ChannelType channel, wpt_boolean on);
 typedef void  (*WDTS_SetPSCbType)(wpt_status  status, unsigned int dxePhyAddr);
-<<<<<<< HEAD
-=======
 typedef void (*WDTS_MbReceiveMsgType)(void *pContext);
 typedef void (*WDTS_RxLogDoneType)(void *pContext);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* DTS Set power state ACK callback. 
  * This callback function should be invoked by the DTS to notify WDI that set
  * power state request is complete.
@@ -153,8 +113,6 @@ typedef void (*WDTS_RxLogDoneType)(void *pContext);
 typedef void  (*WDTS_SetPowerStateCbType)(wpt_status   status,
                                           unsigned int dxePhyAddr,
                                           void*        pUserData);
-<<<<<<< HEAD
-=======
 typedef struct
 {
    WDTS_RxFrameReadyCbType  rxFrameReadyCB;
@@ -163,28 +121,16 @@ typedef struct
    WDTS_MbReceiveMsgType    receiveMbMsgCB;
    WDTS_RxLogDoneType       receiveLogCompleteCB;
 }WDTS_ClientCallbacks;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 typedef struct {
   void * (*open)(void);
   wpt_status (*start) (void *pContext);
-<<<<<<< HEAD
-  wpt_status (*register_client)(void *pContext, WDTS_RxFrameReadyCbType, 
-      WDTS_TxCompleteCbType, WDTS_LowResourceCbType, void *clientData);
-=======
   wpt_status (*register_client)(void *pContext, WDTS_ClientCallbacks, void *clientData);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   wpt_status (*xmit) (void *pContext, wpt_packet *packet, WDTS_ChannelType channel);
   wpt_status (*txComplete) (void *pContext, wpt_uint32 ucTxResReq);
   wpt_status (*setPowerState) (void *pContext, WDTS_PowerStateType   powerState, 
                                WDTS_SetPSCbType cBack);
   void (*channelDebug)(wpt_boolean displaySnapshot,
-<<<<<<< HEAD
-                       wpt_boolean enableStallDetect);
-  wpt_status (*stop) (void *pContext);
-  wpt_status (*close) (void *pContext);
-  wpt_uint32 (*getFreeTxDataResNumber) (void *pContext);
-=======
                        wpt_uint8   debugFlags);
   void (*kickDxe) (void);
   wpt_status (*stop) (void *pContext);
@@ -192,7 +138,6 @@ typedef struct {
   wpt_uint32 (*getFreeTxDataResNumber) (void *pContext);
   wpt_uint32 (*setupLogTransfer) (wpt_uint64 bufferAddr, wpt_uint32 bufferSize);
   wpt_status  (*startLogTransfer) (void);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 } WDTS_TransportDriverTrype;
 
 typedef struct {
@@ -300,15 +245,6 @@ wpt_status WDTS_SetPowerState(void *pContext, WDTS_PowerStateType powerState,
  * Or if host driver detects any abnormal stcuk may display
  * Parameters:
  *  displaySnapshot : Display DXE snapshot option
-<<<<<<< HEAD
- *  enableStallDetect : Enable stall detect feature
-                        This feature will take effect to data performance
-                        Not integrate till fully verification
- * Return Value: NONE
- *
- */
-void WDTS_ChannelDebug(wpt_boolean displaySnapshot, wpt_boolean toggleStallDetect);
-=======
  *  debugFlags      : Enable stall detect features
  *                    defined by WPAL_DeviceDebugFlags
  *                    These features may effect
@@ -328,7 +264,6 @@ void WDTS_ChannelDebug(wpt_boolean displaySnapshot, wpt_uint8 debugFlags);
  *
  */
 void WDTS_ChannelKickDxe(void);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /* DTS Stop function. 
  * Stop Transport driver, ie DXE, SDIO

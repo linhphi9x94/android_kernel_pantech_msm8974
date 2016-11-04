@@ -1,9 +1,5 @@
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-=======
  * Copyright (c) 2012-2015 The Linux Foundation. All rights reserved.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -22,29 +18,6 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-<<<<<<< HEAD
-/*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
- */
-
-=======
 
 /*
  * This file was originally distributed by Qualcomm Atheros, Inc.
@@ -55,19 +28,12 @@
 
 
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*========================================================================
 
   \file  wlan_hdd_main.c
 
   \brief WLAN Host Device Driver implementation
 
-<<<<<<< HEAD
-   Copyright 2008 (c) Qualcomm, Incorporated.  All Rights Reserved.
-
-   Qualcomm Confidential and Proprietary.
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   ========================================================================*/
 
@@ -97,10 +63,6 @@
 #include <wlan_hdd_includes.h>
 #include <vos_api.h>
 #include <vos_sched.h>
-<<<<<<< HEAD
-#include <vos_power.h>
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include <linux/etherdevice.h>
 #include <linux/firmware.h>
 #ifdef ANI_BUS_TYPE_PLATFORM
@@ -116,10 +78,7 @@
 #include <wlan_btc_svc.h>
 #include <wlan_hdd_cfg.h>
 #include <wlan_ptt_sock_svc.h>
-<<<<<<< HEAD
-=======
 #include <wlan_logging_sock_svc.h>
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include <wlan_hdd_wowl.h>
 #include <wlan_hdd_misc.h>
 #include <wlan_hdd_wext.h>
@@ -127,11 +86,6 @@
 #include <bap_hdd_main.h>
 #include <bapInternal.h>
 #endif // WLAN_BTAMP_FEATURE
-<<<<<<< HEAD
-
-#include <linux/wireless.h>
-#include <net/cfg80211.h>
-=======
 #include "wlan_hdd_trace.h"
 #include "vos_types.h"
 #include "vos_trace.h"
@@ -139,7 +93,6 @@
 #include <net/cfg80211.h>
 #include <linux/inetdevice.h>
 #include <net/addrconf.h>
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include "wlan_hdd_cfg80211.h"
 #include "wlan_hdd_p2p.h"
 #include <linux/rtnetlink.h>
@@ -147,15 +100,11 @@ int wlan_hdd_ftm_start(hdd_context_t *pAdapter);
 #include "sapApi.h"
 #include <linux/semaphore.h>
 #include <linux/ctype.h>
-<<<<<<< HEAD
-#include <mach/subsystem_restart.h>
-=======
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,10,0))
 #include <soc/qcom/subsystem_restart.h>
 #else
 #include <mach/subsystem_restart.h>
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #include <wlan_hdd_hostapd.h>
 #include <wlan_hdd_softap_tx_rx.h>
 #include "cfgApi.h"
@@ -170,10 +119,7 @@ int wlan_hdd_ftm_start(hdd_context_t *pAdapter);
 #include "wlan_hdd_tdls.h"
 #endif
 #include "wlan_hdd_debugfs.h"
-<<<<<<< HEAD
-=======
 #include "sapInternal.h"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef MODULE
 #define WLAN_MODULE_NAME  module_name(THIS_MODULE)
@@ -192,11 +138,7 @@ int wlan_hdd_ftm_start(hdd_context_t *pAdapter);
 #else
 #define MEMORY_DEBUG_STR ""
 #endif
-<<<<<<< HEAD
-
-=======
 #define MAX_WAIT_FOR_ROC_COMPLETION 3
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* the Android framework expects this param even though we don't use it */
 #define BUF_LEN 20
 static char fwpath_buffer[BUF_LEN];
@@ -204,15 +146,12 @@ static struct kparam_string fwpath = {
    .string = fwpath_buffer,
    .maxlen = BUF_LEN,
 };
-<<<<<<< HEAD
-=======
 
 static char *country_code;
 static int   enable_11d = -1;
 static int   enable_dfs_chan_scan = -1;
 static int   gbcnMissRate = -1;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifndef MODULE
 static int wlan_hdd_inited;
 #endif
@@ -237,31 +176,11 @@ DEFINE_SPINLOCK(hdd_context_lock);
 #define SIZE_OF_SETROAMMODE             11    /* size of SETROAMMODE */
 #define SIZE_OF_GETROAMMODE             11    /* size of GETROAMMODE */
 
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX) && defined(FEATURE_WLAN_CCX_UPLOAD)
-=======
 #if defined(FEATURE_WLAN_ESE) && defined(FEATURE_WLAN_ESE_UPLOAD)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #define TID_MIN_VALUE 0
 #define TID_MAX_VALUE 15
 static VOS_STATUS  hdd_get_tsm_stats(hdd_adapter_t *pAdapter, const tANI_U8 tid,
                                          tAniTrafStrmMetrics* pTsmMetrics);
-<<<<<<< HEAD
-static VOS_STATUS hdd_parse_ccx_beacon_req(tANI_U8 *pValue,
-                                     tCsrCcxBeaconReq *pCcxBcnReq);
-#endif /* FEATURE_WLAN_CCX && FEATURE_WLAN_CCX_UPLOAD */
-
-/*
- * Driver miracast parameters 0-Disabled
- * 1-Source, 2-Sink
- */
-#define WLAN_HDD_DRIVER_MIRACAST_CFG_MIN_VAL 0
-#define WLAN_HDD_DRIVER_MIRACAST_CFG_MAX_VAL 2
-
-#ifdef WLAN_OPEN_SOURCE
-static struct wake_lock wlan_wake_lock;
-#endif
-=======
 static VOS_STATUS hdd_parse_ese_beacon_req(tANI_U8 *pValue,
                                      tCsrEseBeaconReq *pEseBcnReq);
 #endif /* FEATURE_WLAN_ESE && FEATURE_WLAN_ESE_UPLOAD */
@@ -277,7 +196,6 @@ static VOS_STATUS hdd_parse_ese_beacon_req(tANI_U8 *pValue,
 
 static vos_wake_lock_t wlan_wake_lock;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* set when SSR is needed after unload */
 static e_hdd_ssr_required isSsrRequired = HDD_SSR_NOT_REQUIRED;
 
@@ -289,9 +207,6 @@ void wlan_hdd_restart_timer_cb(v_PVOID_t usrDataForCallback);
 void hdd_set_wlan_suspend_mode(bool suspend);
 
 v_U16_t hdd_select_queue(struct net_device *dev,
-<<<<<<< HEAD
-    struct sk_buff *skb);
-=======
     struct sk_buff *skb
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,13,0))
     , void *accel_priv
@@ -300,23 +215,14 @@ v_U16_t hdd_select_queue(struct net_device *dev,
     , select_queue_fallback_t fallback
 #endif
 );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef WLAN_FEATURE_PACKET_FILTERING
 static void hdd_set_multicast_list(struct net_device *dev);
 #endif
 
 void hdd_wlan_initial_scan(hdd_adapter_t *pAdapter);
-<<<<<<< HEAD
-int isWDresetInProgress(void);
-
-extern int hdd_setBand_helper(struct net_device *dev, tANI_U8* ptr);
-
-#if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR)
-=======
 
 #if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 void hdd_getBand_helper(hdd_context_t *pHddCtx, int *pBand);
 static VOS_STATUS hdd_parse_channellist(tANI_U8 *pValue, tANI_U8 *pChannelList, tANI_U8 *pNumChannels);
 static VOS_STATUS hdd_parse_send_action_frame_data(tANI_U8 *pValue, tANI_U8 *pTargetApBssid,
@@ -326,13 +232,6 @@ static VOS_STATUS hdd_parse_reassoc_command_data(tANI_U8 *pValue,
                                                  tANI_U8 *pTargetApBssid,
                                                  tANI_U8 *pChannel);
 #endif
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX) && defined(FEATURE_WLAN_CCX_UPLOAD)
-VOS_STATUS hdd_parse_get_cckm_ie(tANI_U8 *pValue, tANI_U8 **pCckmIe, tANI_U8 *pCckmIeLen);
-#endif /* FEATURE_WLAN_CCX && FEATURE_WLAN_CCX_UPLOAD */
-
-static int hdd_netdev_notifier_call(struct notifier_block * nb,
-=======
 
 /* Store WLAN driver info in a global variable such that crash debugger
    can extract it from driver debug symbol and crashdump for post processing */
@@ -361,7 +260,6 @@ const char * hdd_device_modetoString(v_U8_t device_mode)
 }
 
 static int __hdd_netdev_notifier_call(struct notifier_block * nb,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                          unsigned long state,
                                          void *ndev)
 {
@@ -370,25 +268,14 @@ static int __hdd_netdev_notifier_call(struct notifier_block * nb,
    hdd_context_t *pHddCtx;
 #ifdef WLAN_BTAMP_FEATURE
    VOS_STATUS status;
-<<<<<<< HEAD
-   hdd_context_t *pHddCtx;
-#endif
-=======
 #endif
    long result;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    //Make sure that this callback corresponds to our device.
    if ((strncmp(dev->name, "wlan", 4)) &&
       (strncmp(dev->name, "p2p", 3)))
       return NOTIFY_DONE;
 
-<<<<<<< HEAD
-   if (isWDresetInProgress())
-      return NOTIFY_DONE;
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if (!dev->ieee80211_ptr)
       return NOTIFY_DONE;
 
@@ -406,12 +293,9 @@ static int __hdd_netdev_notifier_call(struct notifier_block * nb,
       VOS_ASSERT(0);
       return NOTIFY_DONE;
    }
-<<<<<<< HEAD
-=======
    if (pHddCtx->isLogpInProgress)
       return NOTIFY_DONE;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    hddLog(VOS_TRACE_LEVEL_INFO, "%s: %s New Net Device State = %lu",
           __func__, dev->name, state);
@@ -435,38 +319,17 @@ static int __hdd_netdev_notifier_call(struct notifier_block * nb,
         break;
 
    case NETDEV_GOING_DOWN:
-<<<<<<< HEAD
-        if( pHddCtx->scan_info.mScanPending != FALSE )
-        { 
-           int result;
-           INIT_COMPLETION(pHddCtx->scan_info.abortscan_event_var);
-           hdd_abort_mac_scan(pAdapter->pHddCtx);
-           result = wait_for_completion_interruptible_timeout(
-                               &pHddCtx->scan_info.abortscan_event_var,
-                               msecs_to_jiffies(WLAN_WAIT_TIME_ABORTSCAN));
-           if(!result)
-           {
-              VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-                         "%s: Timeout occurred while waiting for abortscan" ,
-                          __func__);
-           }
-=======
         result = wlan_hdd_scan_abort(pAdapter);
         if (result < 0)
         {
             VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                        "%s: Timeout occurred while waiting for abortscan %ld",
                         __func__, result);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
         else
         {
            VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-<<<<<<< HEAD
-               "%s: Scan is not Pending from user" , __func__);
-=======
                "%s: Scan Abort Successful" , __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
 #ifdef WLAN_BTAMP_FEATURE
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,"%s: disabling AMP", __func__);
@@ -497,8 +360,6 @@ static int __hdd_netdev_notifier_call(struct notifier_block * nb,
    return NOTIFY_DONE;
 }
 
-<<<<<<< HEAD
-=======
 static int hdd_netdev_notifier_call(struct notifier_block * nb,
                                          unsigned long state,
                                          void *ndev)
@@ -510,7 +371,6 @@ static int hdd_netdev_notifier_call(struct notifier_block * nb,
     return ret;
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 struct notifier_block hdd_netdev_notifier = {
    .notifier_call = hdd_netdev_notifier_call,
 };
@@ -622,34 +482,16 @@ static void hdd_wdi_trace_enable(wpt_moduleid moduleId, v_U32_t bitmask)
  */
 int wlan_hdd_validate_context(hdd_context_t *pHddCtx)
 {
-<<<<<<< HEAD
-    ENTER();
-
-    if (NULL == pHddCtx || NULL == pHddCtx->cfg_ini)
-    {
-        VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-=======
 
     if (NULL == pHddCtx || NULL == pHddCtx->cfg_ini)
     {
         VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 "%s: HDD context is Null", __func__);
         return -ENODEV;
     }
 
     if (pHddCtx->isLogpInProgress)
     {
-<<<<<<< HEAD
-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-                  "%s: LOGP in Progress. Ignore!!!", __func__);
-        return -EAGAIN;
-    }
-
-    if (pHddCtx->isLoadUnloadInProgress)
-    {
-        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-=======
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
                   "%s: LOGP %s. Ignore!!", __func__,
                     vos_is_wlan_in_badState(VOS_MODULE_ID_HDD, NULL)
@@ -660,7 +502,6 @@ int wlan_hdd_validate_context(hdd_context_t *pHddCtx)
     if (WLAN_HDD_IS_LOAD_UNLOAD_IN_PROGRESS(pHddCtx))
     {
         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                   "%s: Unloading/Loading in Progress. Ignore!!!", __func__);
         return -EAGAIN;
     }
@@ -739,10 +580,6 @@ void hdd_checkandupdate_phymode( hdd_context_t *pHddCtx)
                           eCSR_DISCONNECT_REASON_UNSPECIFIED );
 
        if (VOS_STATUS_SUCCESS == vosStatus)
-<<<<<<< HEAD
-           wait_for_completion_interruptible_timeout(&pAdapter->disconnect_comp_var,
-                 msecs_to_jiffies(WLAN_WAIT_TIME_DISCONNECT));
-=======
        {
            long ret;
 
@@ -752,7 +589,6 @@ void hdd_checkandupdate_phymode( hdd_context_t *pHddCtx)
                hddLog(LOGE, FL("failure waiting for disconnect_comp_var %ld"),
                                 ret);
        }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    }
 }
@@ -763,10 +599,7 @@ void hdd_checkandupdate_phymode( hdd_adapter_t *pAdapter, char *country_code)
     hdd_context_t *pHddCtx = WLAN_HDD_GET_CTX(pAdapter);
     hdd_config_t *cfg_param;
     eCsrPhyMode phyMode;
-<<<<<<< HEAD
-=======
     long ret;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (NULL == pHddCtx)
     {
@@ -818,10 +651,6 @@ void hdd_checkandupdate_phymode( hdd_adapter_t *pAdapter, char *country_code)
                            eCSR_DISCONNECT_REASON_UNSPECIFIED );
 
         if (VOS_STATUS_SUCCESS == vosStatus)
-<<<<<<< HEAD
-            wait_for_completion_interruptible_timeout(&pAdapter->disconnect_comp_var,
-                  msecs_to_jiffies(WLAN_WAIT_TIME_DISCONNECT));
-=======
         {
             ret = wait_for_completion_interruptible_timeout(&pAdapter->disconnect_comp_var,
                   msecs_to_jiffies(WLAN_WAIT_TIME_DISCONNECT));
@@ -831,7 +660,6 @@ void hdd_checkandupdate_phymode( hdd_adapter_t *pAdapter, char *country_code)
                     "wait on disconnect_comp_var is failed %ld", ret);
             }
         }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     }
 }
@@ -858,12 +686,8 @@ void hdd_checkandupdate_dfssetting( hdd_adapter_t *pAdapter, char *country_code)
         return ;
     }
 
-<<<<<<< HEAD
-    if (NULL != strstr(cfg_param->listOfNonDfsCountryCode, country_code))
-=======
     if (NULL != strstr(cfg_param->listOfNonDfsCountryCode, country_code) ||
         pHddCtx->disable_dfs_flag == TRUE)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
        /*New country doesn't support DFS */
        sme_UpdateDfsSetting(WLAN_HDD_GET_HAL_CTX(pAdapter), 0);
@@ -876,10 +700,6 @@ void hdd_checkandupdate_dfssetting( hdd_adapter_t *pAdapter, char *country_code)
 
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef FEATURE_WLAN_BATCH_SCAN
 
 /**---------------------------------------------------------------------------
@@ -1044,15 +864,6 @@ hdd_parse_set_batchscan_command
     tANI_U8 *inPtr = pValue;
     tANI_U8 val = 0;
     tANI_U8 lastArg = 0;
-<<<<<<< HEAD
-    tANI_U32 nScanFreq = HDD_SET_BATCH_SCAN_DEFAULT_FREQ;
-    tANI_U32 nMscan;
-    tANI_U32 nBestN = HDD_SET_BATCH_SCAN_BEST_NETWORK;
-    tANI_U8  ucRfBand = HDD_SET_BATCH_SCAN_DEFAULT_BAND;
-    tANI_U32 nRtt = 0;
-    tANI_U32 temp;
-
-=======
     tANI_U32 nScanFreq;
     tANI_U32 nMscan;
     tANI_U32 nBestN;
@@ -1066,7 +877,6 @@ hdd_parse_set_batchscan_command
     nRtt = 0;
     nBestN = HDD_SET_BATCH_SCAN_BEST_NETWORK;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     /*go to space after WLS_BATCHING_SET command*/
     inPtr = strnchr(pValue, strlen(pValue), SPACE_ASCII_VALUE);
     /*no argument after the command*/
@@ -1162,19 +972,11 @@ hdd_parse_set_batchscan_command
 
         if (('A' == val) || ('a' == val))
         {
-<<<<<<< HEAD
-            ucRfBand = HDD_SET_BATCH_SCAN_24GHz_BAND_ONLY;
-        }
-        else if (('B' == val) || ('b' == val))
-        {
-            ucRfBand = HDD_SET_BATCH_SCAN_5GHz_BAND_ONLY;
-=======
             ucRfBand = HDD_SET_BATCH_SCAN_5GHz_BAND_ONLY;
         }
         else if (('B' == val) || ('b' == val))
         {
             ucRfBand = HDD_SET_BATCH_SCAN_24GHz_BAND_ONLY;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         }
         else
         {
@@ -1608,11 +1410,7 @@ hdd_format_batch_scan_rsp
    temp_total_len += temp_len;
 
    /*age*/
-<<<<<<< HEAD
-   temp_len = snprintf(pTemp, (sizeof(temp) - temp_total_len), "age=%ld\n",
-=======
    temp_len = snprintf(pTemp, (sizeof(temp) - temp_total_len), "age=%d\n",
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                   pApMetaInfo->ApInfo.age);
    pTemp += temp_len;
    temp_total_len += temp_len;
@@ -1645,10 +1443,6 @@ hdd_format_batch_scan_rsp
        pTemp += temp_len;
        temp_total_len += temp_len;
 
-<<<<<<< HEAD
-       pAdapter->prev_batch_id = 0;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    if (temp_total_len < rem_len)
@@ -1822,11 +1616,7 @@ int hdd_return_batch_scan_rsp_to_user
             }
 
             len = snprintf(pDest, HDD_BATCH_SCAN_AP_META_INFO_SIZE,
-<<<<<<< HEAD
-                      "scancount=%ld\n", pAdapter->numScanList);
-=======
                       "scancount=%u\n", pAdapter->numScanList);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             pDest += len;
             cur_len += len;
 
@@ -1913,8 +1703,6 @@ int hdd_handle_batch_scan_ioctl
 )
 {
     int ret = 0;
-<<<<<<< HEAD
-=======
     hdd_context_t *pHddCtx;
 
     ENTER();
@@ -1925,7 +1713,6 @@ int hdd_handle_batch_scan_ioctl
     {
         goto exit;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     if (strncmp(command, "WLS_BATCHING VERSION", 20) == 0)
     {
@@ -1975,16 +1762,10 @@ int hdd_handle_batch_scan_ioctl
              (WLAN_HDD_P2P_DEVICE != pAdapter->device_mode))
          {
              VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-                "Received WLS_BATCHING SET command in invalid mode %d "
-                "WLS_BATCHING_SET is only allowed in infra STA/P2P client mode",
-                pAdapter->device_mode);
-=======
                 "Received WLS_BATCHING SET command in invalid mode %s (%d) "
                 "WLS_BATCHING_SET is only allowed in infra STA/P2P client mode",
                  hdd_device_modetoString(pAdapter->device_mode),
                  pAdapter->device_mode);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
              ret = -EINVAL;
              goto exit;
          }
@@ -2006,13 +1787,10 @@ int hdd_handle_batch_scan_ioctl
 
          if ( eHAL_STATUS_SUCCESS == halStatus )
          {
-<<<<<<< HEAD
-=======
              char extra[32];
              tANI_U8 len = 0;
              tANI_U8 mScan = 0;
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
              VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
                 "sme_SetBatchScanReq  returned success halStatus %d",
                 halStatus);
@@ -2041,19 +1819,12 @@ int hdd_handle_batch_scan_ioctl
              }
              /*As per the Batch Scan Framework API we should return the MIN of
                either MSCAN or the max # of scans firmware can cache*/
-<<<<<<< HEAD
-             ret = MIN(pReq->numberOfScansToBatch , pRsp->nScansToBatch);
-=======
              mScan = MIN(pReq->numberOfScansToBatch , pRsp->nScansToBatch);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
              pAdapter->batchScanState = eHDD_BATCH_SCAN_STATE_STARTED;
 
              VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                 "%s: request MSCAN %d response MSCAN %d ret %d",
-<<<<<<< HEAD
-                __func__, pReq->numberOfScansToBatch, pRsp->nScansToBatch, ret);
-=======
                 __func__, pReq->numberOfScansToBatch, pRsp->nScansToBatch, mScan);
              len = scnprintf(extra, sizeof(extra), "%d", mScan);
              if (copy_to_user(pPrivdata->buf, &extra, len + 1))
@@ -2063,7 +1834,6 @@ int hdd_handle_batch_scan_ioctl
                  ret = -EFAULT;
                  goto exit;
              }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          }
          else
          {
@@ -2090,11 +1860,7 @@ int hdd_handle_batch_scan_ioctl
 
          if (eHDD_BATCH_SCAN_STATE_STARTED !=  pAdapter->batchScanState)
          {
-<<<<<<< HEAD
-              VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-=======
               VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 "Batch scan is not yet enabled batch scan state %d",
                 pAdapter->batchScanState);
               ret = -EINVAL;
@@ -2139,11 +1905,7 @@ int hdd_handle_batch_scan_ioctl
 
           if (eHDD_BATCH_SCAN_STATE_STARTED !=  pAdapter->batchScanState)
           {
-<<<<<<< HEAD
-              VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-=======
               VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 "Batch scan is not yet enabled could not return results"
                 "Batch Scan state %d",
                 pAdapter->batchScanState);
@@ -2171,63 +1933,13 @@ int hdd_handle_batch_scan_ioctl
     }
 
 exit:
-<<<<<<< HEAD
-
-=======
     EXIT();
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return ret;
 }
 
 
 #endif/*End of FEATURE_WLAN_BATCH_SCAN*/
 
-<<<<<<< HEAD
-int hdd_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
-{
-   hdd_adapter_t *pAdapter = WLAN_HDD_GET_PRIV_PTR(dev);
-   hdd_priv_data_t priv_data;
-   tANI_U8 *command = NULL;
-   int ret = 0;
-
-   if (NULL == pAdapter)
-   {
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-         "%s: HDD adapter context is Null", __func__);
-      ret = -ENODEV;
-      goto exit; 
-   }
-
-   if ((!ifr) || (!ifr->ifr_data))
-   {
-       ret = -EINVAL;
-       goto exit; 
-   }
-
-   if ((WLAN_HDD_GET_CTX(pAdapter))->isLogpInProgress)
-   {
-       VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-                                  "%s:LOGP in Progress. Ignore!!!", __func__);
-       ret = -EBUSY;
-       goto exit;
-   }
-
-   if (copy_from_user(&priv_data, ifr->ifr_data, sizeof(hdd_priv_data_t)))
-   {
-       ret = -EFAULT;
-       goto exit;
-   }
-
-   if (priv_data.total_len <= 0)
-   {
-       VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,
-                 "%s:invalid priv_data.total_len(%d)!!!", __func__,
-                 priv_data.total_len);
-       ret = -EINVAL;
-       goto exit;
-   }
-
-=======
 static void getBcnMissRateCB(VOS_STATUS status, int bcnMissRate, void *data)
 {
     bcnMissRateContext_t *pCBCtx;
@@ -2599,18 +2311,12 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
        ret = -EINVAL;
        goto exit;
    }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* Allocate +1 for '\0' */
    command = kmalloc(priv_data.total_len + 1, GFP_KERNEL);
    if (!command)
    {
-<<<<<<< HEAD
-       VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-          "%s: failed to allocate memory\n", __func__);
-=======
        hddLog(VOS_TRACE_LEVEL_ERROR,
               "%s: failed to allocate memory", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        ret = -ENOMEM;
        goto exit;
    }
@@ -2621,19 +2327,12 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
        goto exit;
    }
 
-<<<<<<< HEAD
-   /* Making sure the command is NUL-terminated */
-   command[priv_data.total_len] = '\0';
-
-   if ((SIOCDEVPRIVATE + 1) == cmd)
-=======
    /* Make sure the command is NUL-terminated */
    command[priv_data.total_len] = '\0';
 
    /* at one time the following block of code was conditional. braces
     * have been retained to avoid re-indenting the legacy code
     */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    {
        hdd_context_t *pHddCtx = (hdd_context_t*)pAdapter->pHddCtx;
 
@@ -2642,8 +2341,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
 
        if (strncmp(command, "P2P_DEV_ADDR", 12) == 0 )
        {
-<<<<<<< HEAD
-=======
            MTRACE(vos_trace(VOS_MODULE_ID_HDD,
                             TRACE_CODE_HDD_P2P_DEV_ADDR_IOCTL,
                             pAdapter->sessionId, (unsigned)
@@ -2651,26 +2348,17 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
                              *(pHddCtx->p2pDeviceAddress.bytes+3)<<16 |
                              *(pHddCtx->p2pDeviceAddress.bytes+4)<<8  |
                              *(pHddCtx->p2pDeviceAddress.bytes+5))));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            if (copy_to_user(priv_data.buf, pHddCtx->p2pDeviceAddress.bytes,
                                                            sizeof(tSirMacAddr)))
            {
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-<<<<<<< HEAD
-                  "%s: failed to copy data to user buffer\n", __func__);
-=======
                   "%s: failed to copy data to user buffer", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                ret = -EFAULT;
            }
        }
        else if(strncmp(command, "SETBAND", 7) == 0)
        {
            tANI_U8 *ptr = command ;
-<<<<<<< HEAD
-           int ret = 0 ;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
            /* Change band request received */
 
@@ -2678,10 +2366,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
             * 9 byte will have band setting value */
            VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
                     "%s: SetBandCommand Info  comm %s UL %d, TL %d", __func__, command, priv_data.used_len, priv_data.total_len);
-<<<<<<< HEAD
-           /* Change band request received */
-           ret = hdd_setBand_helper(dev, ptr);
-=======
            if(VOS_FTM_MODE != hdd_get_conparam())
            {
                /* Change band request received */
@@ -2690,15 +2374,12 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
                    VOS_TRACE( VOS_MODULE_ID_VOSS, VOS_TRACE_LEVEL_ERROR,
                        "%s: failed to set band ret=%d", __func__, ret);
            }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        }
        else if(strncmp(command, "SETWMMPS", 8) == 0)
        {
            tANI_U8 *ptr = command;
            ret = hdd_wmmps_helper(pAdapter, ptr);
        }
-<<<<<<< HEAD
-=======
 
        else if(strncmp(command, "TDLSSCAN", 8) == 0)
        {
@@ -2706,7 +2387,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            ret = hdd_set_tdls_scan_type(pAdapter, ptr);
        }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        else if ( strncasecmp(command, "COUNTRY", 7) == 0 )
        {
            char *country_code;
@@ -2729,13 +2409,8 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
                             msecs_to_jiffies(WLAN_WAIT_TIME_COUNTRY));
                if (0 >= ret)
                {
-<<<<<<< HEAD
-                   hddLog(VOS_TRACE_LEVEL_ERROR, "%s: SME while setting country code timed out",
-                   __func__);
-=======
                    hddLog(VOS_TRACE_LEVEL_ERROR, "%s: SME while setting country code timed out %d",
                    __func__, ret);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                }
            }
            else
@@ -2765,12 +2440,9 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            tANI_U8 *ptr = (tANI_U8*)command + 15;
 
            suspend = *ptr - '0';
-<<<<<<< HEAD
-=======
             MTRACE(vos_trace(VOS_MODULE_ID_HDD,
                              TRACE_CODE_HDD_SETSUSPENDMODE_IOCTL,
                              pAdapter->sessionId, suspend));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            hdd_set_wlan_suspend_mode(suspend);
        }
 #ifdef WLAN_FEATURE_NEIGHBOR_ROAMING
@@ -2792,10 +2464,7 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
                   kstrtou8 fails */
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                       "%s: kstrtou8 failed Input value may be out of range[%d - %d]",
-<<<<<<< HEAD
-=======
                       __func__,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                       CFG_NEIGHBOR_LOOKUP_RSSI_THRESHOLD_MIN,
                       CFG_NEIGHBOR_LOOKUP_RSSI_THRESHOLD_MAX);
                ret = -EINVAL;
@@ -2816,12 +2485,9 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
                goto exit;
            }
 
-<<<<<<< HEAD
-=======
            MTRACE(vos_trace(VOS_MODULE_ID_HDD,
                             TRACE_CODE_HDD_SETROAMTRIGGER_IOCTL,
                             pAdapter->sessionId, lookUpThreshold));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
                       "%s: Received Command to Set Roam trigger"
                       " (Neighbor lookup threshold) = %d", __func__, lookUpThreshold);
@@ -2837,10 +2503,7 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            }
 
            /* Set Reassoc threshold to (lookup rssi threshold + 5 dBm) */
-<<<<<<< HEAD
-=======
            pHddCtx->cfg_ini->nNeighborReassocRssiThreshold = lookUpThreshold + 5;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            sme_setNeighborReassocRssiThreshold((tHalHandle)(pHddCtx->hHal), lookUpThreshold + 5);
        }
        else if (strncmp(command, "GETROAMTRIGGER", 14) == 0)
@@ -2849,18 +2512,12 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            int rssi = (-1) * lookUpThreshold;
            char extra[32];
            tANI_U8 len = 0;
-<<<<<<< HEAD
-
-           len = scnprintf(extra, sizeof(extra), "%s %d", command, rssi);
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-=======
            MTRACE(vos_trace(VOS_MODULE_ID_HDD,
                             TRACE_CODE_HDD_GETROAMTRIGGER_IOCTL,
                             pAdapter->sessionId, lookUpThreshold));
            len = scnprintf(extra, sizeof(extra), "%s %d", command, rssi);
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (copy_to_user(priv_data.buf, &extra, len))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            {
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
@@ -2902,14 +2559,10 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
                       (CFG_EMPTY_SCAN_REFRESH_PERIOD_MAX/1000));
                ret = -EINVAL;
                goto exit;
-<<<<<<< HEAD
-           }
-=======
               }
            MTRACE(vos_trace(VOS_MODULE_ID_HDD,
                             TRACE_CODE_HDD_SETROAMSCANPERIOD_IOCTL,
                             pAdapter->sessionId, roamScanPeriod));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            neighborEmptyScanRefreshPeriod = roamScanPeriod * 1000;
 
            VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
@@ -2925,13 +2578,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            char extra[32];
            tANI_U8 len = 0;
 
-<<<<<<< HEAD
-           len = scnprintf(extra, sizeof(extra), "%s %d",
-                   "GETROAMSCANPERIOD", (nEmptyScanRefreshPeriod/1000));
-           /* Returned value is in units of seconds */
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-           {
-=======
            MTRACE(vos_trace(VOS_MODULE_ID_HDD,
                             TRACE_CODE_HDD_GETROAMSCANPERIOD_IOCTL,
                             pAdapter->sessionId, nEmptyScanRefreshPeriod));
@@ -2940,7 +2586,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            /* Returned value is in units of seconds */
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (copy_to_user(priv_data.buf, &extra, len)) {
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
                ret = -EFAULT;
@@ -3001,13 +2646,8 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            len = scnprintf(extra, sizeof(extra), "%s %d",
                    "GETROAMSCANREFRESHPERIOD", (value/1000));
            /* Returned value is in units of seconds */
-<<<<<<< HEAD
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-           {
-=======
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (copy_to_user(priv_data.buf, &extra, len)) {
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
                ret = -EFAULT;
@@ -3067,11 +2707,7 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            sme_UpdateIsFastRoamIniFeatureEnabled((tHalHandle)(pHddCtx->hHal), roamMode);
        }
        /* GETROAMMODE */
-<<<<<<< HEAD
-       else if (strncmp(priv_data.buf, "GETROAMMODE", SIZE_OF_GETROAMMODE) == 0)
-=======
        else if (strncmp(command, "GETROAMMODE", SIZE_OF_GETROAMMODE) == 0)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        {
 	   tANI_BOOLEAN roamMode = sme_getIsLfrFeatureEnabled((tHalHandle)(pHddCtx->hHal));
 	   char extra[32];
@@ -3086,13 +2722,8 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
 	       roamMode = CFG_LFR_FEATURE_ENABLED_MIN;
 
 	   len = scnprintf(extra, sizeof(extra), "%s %d", command, roamMode);
-<<<<<<< HEAD
-	   if (copy_to_user(priv_data.buf, &extra, len + 1))
-	   {
-=======
            len = VOS_MIN(priv_data.total_len, len + 1);
 	   if (copy_to_user(priv_data.buf, &extra, len)) {
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
                ret = -EFAULT;
@@ -3101,11 +2732,7 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
        }
 #endif
 #endif
-<<<<<<< HEAD
-#if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR)
-=======
 #if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        else if (strncmp(command, "SETROAMDELTA", 12) == 0)
        {
            tANI_U8 *value = command;
@@ -3145,22 +2772,12 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            pHddCtx->cfg_ini->RoamRssiDiff = roamRssiDiff;
            sme_UpdateRoamRssiDiff((tHalHandle)(pHddCtx->hHal), roamRssiDiff);
        }
-<<<<<<< HEAD
-       else if (strncmp(priv_data.buf, "GETROAMDELTA", 12) == 0)
-=======
        else if (strncmp(command, "GETROAMDELTA", 12) == 0)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        {
            tANI_U8 roamRssiDiff = sme_getRoamRssiDiff((tHalHandle)(pHddCtx->hHal));
            char extra[32];
            tANI_U8 len = 0;
 
-<<<<<<< HEAD
-           len = scnprintf(extra, sizeof(extra), "%s %d",
-                   command, roamRssiDiff);
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-           {
-=======
            MTRACE(vos_trace(VOS_MODULE_ID_HDD,
                             TRACE_CODE_HDD_GETROAMDELTA_IOCTL,
                             pAdapter->sessionId, roamRssiDiff));
@@ -3168,7 +2785,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
                    command, roamRssiDiff);
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (copy_to_user(priv_data.buf, &extra, len)) {
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
                ret = -EFAULT;
@@ -3176,11 +2792,7 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            }
        }
 #endif
-<<<<<<< HEAD
-#if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR)
-=======
 #if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        else if (strncmp(command, "GETBAND", 7) == 0)
        {
            int band = -1;
@@ -3188,18 +2800,12 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            tANI_U8 len = 0;
            hdd_getBand_helper(pHddCtx, &band);
 
-<<<<<<< HEAD
-           len = scnprintf(extra, sizeof(extra), "%s %d", command, band);
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-           {
-=======
            MTRACE(vos_trace(VOS_MODULE_ID_HDD,
                             TRACE_CODE_HDD_GETBAND_IOCTL,
                             pAdapter->sessionId, band));
            len = scnprintf(extra, sizeof(extra), "%s %d", command, band);
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (copy_to_user(priv_data.buf, &extra, len)) {
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
                ret = -EFAULT;
@@ -3222,12 +2828,9 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
                goto exit;
            }
 
-<<<<<<< HEAD
-=======
            MTRACE(vos_trace(VOS_MODULE_ID_HDD,
                             TRACE_CODE_HDD_SETROAMSCANCHANNELS_IOCTL,
                             pAdapter->sessionId, numChannels));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            if (numChannels > WNI_CFG_VALID_CHANNEL_LIST_LEN)
            {
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
@@ -3262,12 +2865,9 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
                ret = -EFAULT;
                goto exit;
            }
-<<<<<<< HEAD
-=======
            MTRACE(vos_trace(VOS_MODULE_ID_HDD,
                             TRACE_CODE_HDD_GETROAMSCANCHANNELS_IOCTL,
                             pAdapter->sessionId, numChannels));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            /* output channel list is of the format
            [Number of roam scan channels][Channel1][Channel2]... */
            /* copy the number of channels in the 0th index */
@@ -3278,12 +2878,8 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
                        ChannelList[j]);
            }
 
-<<<<<<< HEAD
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-=======
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (copy_to_user(priv_data.buf, &extra, len))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            {
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
@@ -3293,15 +2889,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
        }
        else if (strncmp(command, "GETCCXMODE", 10) == 0)
        {
-<<<<<<< HEAD
-           tANI_BOOLEAN ccxMode = sme_getIsCcxFeatureEnabled((tHalHandle)(pHddCtx->hHal));
-           char extra[32];
-           tANI_U8 len = 0;
-
-           /* Check if the features OKC/CCX/11R are supported simultaneously,
-              then this operation is not permitted (return FAILURE) */
-           if (ccxMode &&
-=======
            tANI_BOOLEAN eseMode = sme_getIsEseFeatureEnabled((tHalHandle)(pHddCtx->hHal));
            char extra[32];
            tANI_U8 len = 0;
@@ -3309,30 +2896,20 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            /* Check if the features OKC/ESE/11R are supported simultaneously,
               then this operation is not permitted (return FAILURE) */
            if (eseMode &&
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                hdd_is_okc_mode_enabled(pHddCtx) &&
                sme_getIsFtFeatureEnabled((tHalHandle)(pHddCtx->hHal)))
            {
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,
-<<<<<<< HEAD
-                  "%s: OKC/CCX/11R are supported simultaneously"
-=======
                   "%s: OKC/ESE/11R are supported simultaneously"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                   " hence this operation is not permitted!", __func__);
                ret = -EPERM;
                goto exit;
            }
 
            len = scnprintf(extra, sizeof(extra), "%s %d",
-<<<<<<< HEAD
-                   "GETCCXMODE", ccxMode);
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-=======
                    "GETCCXMODE", eseMode);
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (copy_to_user(priv_data.buf, &extra, len))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            {
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
@@ -3346,16 +2923,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            char extra[32];
            tANI_U8 len = 0;
 
-<<<<<<< HEAD
-           /* Check if the features OKC/CCX/11R are supported simultaneously,
-              then this operation is not permitted (return FAILURE) */
-           if (okcMode &&
-               sme_getIsCcxFeatureEnabled((tHalHandle)(pHddCtx->hHal)) &&
-               sme_getIsFtFeatureEnabled((tHalHandle)(pHddCtx->hHal)))
-           {
-               VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,
-                  "%s: OKC/CCX/11R are supported simultaneously"
-=======
            /* Check if the features OKC/ESE/11R are supported simultaneously,
               then this operation is not permitted (return FAILURE) */
            if (okcMode &&
@@ -3364,7 +2931,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            {
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,
                   "%s: OKC/ESE/11R are supported simultaneously"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                   " hence this operation is not permitted!", __func__);
                ret = -EPERM;
                goto exit;
@@ -3372,12 +2938,8 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
 
            len = scnprintf(extra, sizeof(extra), "%s %d",
                    "GETOKCMODE", okcMode);
-<<<<<<< HEAD
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-=======
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (copy_to_user(priv_data.buf, &extra, len))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            {
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
@@ -3393,12 +2955,8 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
 
            len = scnprintf(extra, sizeof(extra), "%s %d",
                    "GETFASTROAM", lfrMode);
-<<<<<<< HEAD
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-=======
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (copy_to_user(priv_data.buf, &extra, len))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            {
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
@@ -3414,12 +2972,8 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
 
            len = scnprintf(extra, sizeof(extra), "%s %d",
                    "GETFASTTRANSITION", ft);
-<<<<<<< HEAD
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-=======
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (copy_to_user(priv_data.buf, &extra, len))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            {
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
@@ -3459,12 +3013,9 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
                goto exit;
            }
 
-<<<<<<< HEAD
-=======
            MTRACE(vos_trace(VOS_MODULE_ID_HDD,
                             TRACE_CODE_HDD_SETROAMSCANCHANNELMINTIME_IOCTL,
                             pAdapter->sessionId, minTime));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
                       "%s: Received Command to change channel min time = %d", __func__, minTime);
 
@@ -3568,13 +3119,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            vos_mem_free(buf);
            buf = NULL;
 
-<<<<<<< HEAD
-           wlan_hdd_action( NULL,
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0))
-                       &(pAdapter->wdev),
-#else
-                       dev,
-=======
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0))
            params.chan = &chan;
            params.offchan = 0;
@@ -3590,7 +3134,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
                        &(pAdapter->wdev),
 #else
                        pAdapter->dev,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
                        &chan, 0,
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(3,8,0))
@@ -3598,10 +3141,7 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
 #endif
                        dwellTime, finalBuf, finalLen,  1,
                        1, &cookie );
-<<<<<<< HEAD
-=======
 #endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)*/
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            vos_mem_free(finalBuf);
        }
        else if (strncmp(command, "GETROAMSCANCHANNELMINTIME", 25) == 0)
@@ -3613,15 +3153,11 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            /* value is interms of msec */
            len = scnprintf(extra, sizeof(extra), "%s %d",
                    "GETROAMSCANCHANNELMINTIME", val);
-<<<<<<< HEAD
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-=======
            MTRACE(vos_trace(VOS_MODULE_ID_HDD,
                             TRACE_CODE_HDD_GETROAMSCANCHANNELMINTIME_IOCTL,
                             pAdapter->sessionId, val));
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (copy_to_user(priv_data.buf, &extra, len))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            {
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
@@ -3677,12 +3213,8 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            /* value is interms of msec */
            len = scnprintf(extra, sizeof(extra), "%s %d",
                    "GETSCANCHANNELTIME", val);
-<<<<<<< HEAD
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-=======
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (copy_to_user(priv_data.buf, &extra, len))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            {
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
@@ -3738,12 +3270,8 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            /* value is interms of msec */
            len = scnprintf(extra, sizeof(extra), "%s %d",
                    "GETSCANHOMETIME", val);
-<<<<<<< HEAD
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-=======
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (copy_to_user(priv_data.buf, &extra, len))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            {
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
@@ -3798,12 +3326,8 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            /* value is interms of msec */
            len = scnprintf(extra, sizeof(extra), "%s %d",
                    "GETROAMINTRABAND", val);
-<<<<<<< HEAD
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-=======
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (copy_to_user(priv_data.buf, &extra, len))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            {
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
@@ -3850,24 +3374,15 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            pHddCtx->cfg_ini->nProbes = nProbes;
            sme_UpdateRoamScanNProbes((tHalHandle)(pHddCtx->hHal), nProbes);
        }
-<<<<<<< HEAD
-       else if (strncmp(priv_data.buf, "GETSCANNPROBES", 14) == 0)
-=======
        else if (strncmp(command, "GETSCANNPROBES", 14) == 0)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        {
            tANI_U8 val = sme_getRoamScanNProbes((tHalHandle)(pHddCtx->hHal));
            char extra[32];
            tANI_U8 len = 0;
 
            len = scnprintf(extra, sizeof(extra), "%s %d", command, val);
-<<<<<<< HEAD
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-           {
-=======
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (copy_to_user(priv_data.buf, &extra, len)) {
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
                ret = -EFAULT;
@@ -3916,24 +3431,15 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
                sme_UpdateRoamScanHomeAwayTime((tHalHandle)(pHddCtx->hHal), homeAwayTime, eANI_BOOLEAN_TRUE);
            }
        }
-<<<<<<< HEAD
-       else if (strncmp(priv_data.buf, "GETSCANHOMEAWAYTIME", 19) == 0)
-=======
        else if (strncmp(command, "GETSCANHOMEAWAYTIME", 19) == 0)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        {
            tANI_U16 val = sme_getRoamScanHomeAwayTime((tHalHandle)(pHddCtx->hHal));
            char extra[32];
            tANI_U8 len = 0;
 
            len = scnprintf(extra, sizeof(extra), "%s %d", command, val);
-<<<<<<< HEAD
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-           {
-=======
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (copy_to_user(priv_data.buf, &extra, len)) {
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
                ret = -EFAULT;
@@ -3984,11 +3490,7 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
                          wlan_hdd_validate_operation_channel(pAdapter, channel))
            {
                hddLog(VOS_TRACE_LEVEL_ERROR,
-<<<<<<< HEAD
-                      "%s: Invalid Channel [%d] \n", __func__, channel);
-=======
                       "%s: Invalid Channel [%d]", __func__, channel);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                return -EINVAL;
            }
 
@@ -4037,35 +3539,22 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            pHddCtx->cfg_ini->isWESModeEnabled = wesMode;
            sme_UpdateWESMode((tHalHandle)(pHddCtx->hHal), wesMode);
        }
-<<<<<<< HEAD
-       else if (strncmp(priv_data.buf, "GETWESMODE", 10) == 0)
-=======
        else if (strncmp(command, "GETWESMODE", 10) == 0)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        {
            tANI_BOOLEAN wesMode = sme_GetWESMode((tHalHandle)(pHddCtx->hHal));
            char extra[32];
            tANI_U8 len = 0;
 
            len = scnprintf(extra, sizeof(extra), "%s %d", command, wesMode);
-<<<<<<< HEAD
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-           {
-=======
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (copy_to_user(priv_data.buf, &extra, len)) {
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
                ret = -EFAULT;
                goto exit;
            }
        }
-<<<<<<< HEAD
-#endif /* WLAN_FEATURE_VOWIFI_11R || FEATURE_WLAN_CCX || FEATURE_WLAN_LFR */
-=======
 #endif /* WLAN_FEATURE_VOWIFI_11R || FEATURE_WLAN_ESE || FEATURE_WLAN_LFR */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef FEATURE_WLAN_LFR
        else if (strncmp(command, "SETFASTROAM", 11) == 0)
        {
@@ -4147,17 +3636,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            pHddCtx->cfg_ini->isFastTransitionEnabled = ft;
            sme_UpdateFastTransitionEnabled((tHalHandle)(pHddCtx->hHal), ft);
        }
-<<<<<<< HEAD
-
-       else if (strncmp(command, "FASTREASSOC", 11) == 0)
-       {
-           tANI_U8 *value = command;
-           tSirMacAddr targetApBssid;
-           tANI_U8 trigger = 0;
-           eHalStatus status = eHAL_STATUS_SUCCESS;
-           hdd_station_ctx_t *pHddStaCtx = NULL;
-           pHddStaCtx = WLAN_HDD_GET_STATION_CTX_PTR(pAdapter);
-=======
        else if (strncmp(command, "SETDFSSCANMODE", 14) == 0)
        {
            tANI_U8 *value = command;
@@ -4226,7 +3704,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            hdd_station_ctx_t *pHddStaCtx = NULL;
            pHddStaCtx = WLAN_HDD_GET_STATION_CTX_PTR(pAdapter);
            hHal = WLAN_HDD_GET_HAL_CTX(pAdapter);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
            /* if not associated, no need to proceed with reassoc */
            if (eConnectionState_Associated != pHddStaCtx->conn_info.connState)
@@ -4236,11 +3713,7 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
                goto exit;
            }
 
-<<<<<<< HEAD
-           status = hdd_parse_reassoc_command_data(value, targetApBssid, &trigger);
-=======
            status = hdd_parse_reassoc_command_data(value, targetApBssid, &channel);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            if (eHAL_STATUS_SUCCESS != status)
            {
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
@@ -4250,38 +3723,13 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            }
 
            /* if the target bssid is same as currently associated AP,
-<<<<<<< HEAD
-              then no need to proceed with reassoc */
-=======
               issue reassoc to same AP */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            if (VOS_TRUE == vos_mem_compare(targetApBssid,
                                            pHddStaCtx->conn_info.bssId, sizeof(tSirMacAddr)))
            {
                VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
                          "%s:11r Reassoc BSSID is same as currently associated AP bssid",
                          __func__);
-<<<<<<< HEAD
-               ret = -EINVAL;
-               goto exit;
-           }
-
-           /* Proceed with scan/roam */
-           smeIssueFastRoamNeighborAPEvent(WLAN_HDD_GET_HAL_CTX(pAdapter),
-                                           &targetApBssid[0],
-                                           (tSmeFastRoamTrigger)(trigger));
-       }
-#endif
-#ifdef FEATURE_WLAN_CCX
-       else if (strncmp(command, "SETCCXMODE", 10) == 0)
-       {
-           tANI_U8 *value = command;
-           tANI_U8 ccxMode = CFG_CCX_FEATURE_ENABLED_DEFAULT;
-
-           /* Check if the features OKC/CCX/11R are supported simultaneously,
-              then this operation is not permitted (return FAILURE) */
-           if (sme_getIsCcxFeatureEnabled((tHalHandle)(pHddCtx->hHal)) &&
-=======
                sme_GetModifyProfileFields(hHal, pAdapter->sessionId,
                                        &modProfileFields);
                sme_RoamReassoc(hHal, pAdapter->sessionId,
@@ -4316,16 +3764,11 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            /* Check if the features OKC/ESE/11R are supported simultaneously,
               then this operation is not permitted (return FAILURE) */
            if (sme_getIsEseFeatureEnabled((tHalHandle)(pHddCtx->hHal)) &&
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                hdd_is_okc_mode_enabled(pHddCtx) &&
                sme_getIsFtFeatureEnabled((tHalHandle)(pHddCtx->hHal)))
            {
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,
-<<<<<<< HEAD
-                  "%s: OKC/CCX/11R are supported simultaneously"
-=======
                   "%s: OKC/ESE/11R are supported simultaneously"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                   " hence this operation is not permitted!", __func__);
                ret = -EPERM;
                goto exit;
@@ -4334,32 +3777,13 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            /* Move pointer to ahead of SETCCXMODE<delimiter> */
            value = value + 11;
            /* Convert the value from ascii to integer */
-<<<<<<< HEAD
-           ret = kstrtou8(value, 10, &ccxMode);
-=======
            ret = kstrtou8(value, 10, &eseMode);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            if (ret < 0)
            {
                /* If the input value is greater than max value of datatype, then also
                   kstrtou8 fails */
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                       "%s: kstrtou8 failed range [%d - %d]", __func__,
-<<<<<<< HEAD
-                      CFG_CCX_FEATURE_ENABLED_MIN,
-                      CFG_CCX_FEATURE_ENABLED_MAX);
-               ret = -EINVAL;
-               goto exit;
-           }
-           if ((ccxMode < CFG_CCX_FEATURE_ENABLED_MIN) ||
-               (ccxMode > CFG_CCX_FEATURE_ENABLED_MAX))
-           {
-               VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-                      "Ccx mode value %d is out of range"
-                      " (Min: %d Max: %d)", ccxMode,
-                      CFG_CCX_FEATURE_ENABLED_MIN,
-                      CFG_CCX_FEATURE_ENABLED_MAX);
-=======
                       CFG_ESE_FEATURE_ENABLED_MIN,
                       CFG_ESE_FEATURE_ENABLED_MAX);
                ret = -EINVAL;
@@ -4373,22 +3797,14 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
                       " (Min: %d Max: %d)", eseMode,
                       CFG_ESE_FEATURE_ENABLED_MIN,
                       CFG_ESE_FEATURE_ENABLED_MAX);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                ret = -EINVAL;
                goto exit;
            }
            VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-<<<<<<< HEAD
-                      "%s: Received Command to change ccx mode = %d", __func__, ccxMode);
-
-           pHddCtx->cfg_ini->isCcxIniFeatureEnabled = ccxMode;
-           sme_UpdateIsCcxFeatureEnabled((tHalHandle)(pHddCtx->hHal), ccxMode);
-=======
                       "%s: Received Command to change ese mode = %d", __func__, eseMode);
 
            pHddCtx->cfg_ini->isEseIniFeatureEnabled = eseMode;
            sme_UpdateIsEseFeatureEnabled((tHalHandle)(pHddCtx->hHal), eseMode);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        }
 #endif
        else if (strncmp(command, "SETROAMSCANCONTROL", 18) == 0)
@@ -4429,24 +3845,14 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            tANI_U8 *value = command;
            tANI_U8 okcMode = CFG_OKC_FEATURE_ENABLED_DEFAULT;
 
-<<<<<<< HEAD
-           /* Check if the features OKC/CCX/11R are supported simultaneously,
-              then this operation is not permitted (return FAILURE) */
-           if (sme_getIsCcxFeatureEnabled((tHalHandle)(pHddCtx->hHal)) &&
-=======
            /* Check if the features OKC/ESE/11R are supported simultaneously,
               then this operation is not permitted (return FAILURE) */
            if (sme_getIsEseFeatureEnabled((tHalHandle)(pHddCtx->hHal)) &&
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                hdd_is_okc_mode_enabled(pHddCtx) &&
                sme_getIsFtFeatureEnabled((tHalHandle)(pHddCtx->hHal)))
            {
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,
-<<<<<<< HEAD
-                  "%s: OKC/CCX/11R are supported simultaneously"
-=======
                   "%s: OKC/ESE/11R are supported simultaneously"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                   " hence this operation is not permitted!", __func__);
                ret = -EPERM;
                goto exit;
@@ -4486,11 +3892,7 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            pHddCtx->cfg_ini->isOkcIniFeatureEnabled = okcMode;
        }
 #endif  /* FEATURE_WLAN_OKC */
-<<<<<<< HEAD
-       else if (strncmp(priv_data.buf, "GETROAMSCANCONTROL", 18) == 0)
-=======
        else if (strncmp(command, "GETROAMSCANCONTROL", 18) == 0)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        {
            tANI_BOOLEAN roamScanControl = sme_GetRoamScanControl((tHalHandle)(pHddCtx->hHal));
            char extra[32];
@@ -4498,13 +3900,8 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
 
            len = scnprintf(extra, sizeof(extra), "%s %d",
                    command, roamScanControl);
-<<<<<<< HEAD
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-           {
-=======
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (copy_to_user(priv_data.buf, &extra, len)) {
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
                ret = -EFAULT;
@@ -4547,18 +3944,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
        else if (strncmp(command, "BTCOEXMODE", 10) == 0 )
        {
            char *dhcpPhase;
-<<<<<<< HEAD
-           dhcpPhase = command + 12;
-           if ('1' == *dhcpPhase)
-           {
-               sme_DHCPStartInd(pHddCtx->hHal, pAdapter->device_mode,
-                                pAdapter->macAddressCurrent.bytes);
-           }
-           else if ('2' == *dhcpPhase)
-           {
-               sme_DHCPStopInd(pHddCtx->hHal, pAdapter->device_mode,
-                               pAdapter->macAddressCurrent.bytes);
-=======
            int ret;
 
            dhcpPhase = command + 11;
@@ -4588,18 +3973,10 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
 
                sme_DHCPStopInd(pHddCtx->hHal, pAdapter->device_mode,
                                pAdapter->sessionId);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            }
        }
        else if (strncmp(command, "SCAN-ACTIVE", 11) == 0)
        {
-<<<<<<< HEAD
-          pHddCtx->scan_info.scan_mode = eSIR_ACTIVE_SCAN;
-       }
-       else if (strncmp(command, "SCAN-PASSIVE", 12) == 0)
-       {
-          pHddCtx->scan_info.scan_mode = eSIR_PASSIVE_SCAN;
-=======
            VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                               FL("making default scan to ACTIVE"));
            pHddCtx->scan_info.scan_mode = eSIR_ACTIVE_SCAN;
@@ -4609,7 +3986,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                               FL("making default scan to PASSIVE"));
            pHddCtx->scan_info.scan_mode = eSIR_PASSIVE_SCAN;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        }
        else if (strncmp(command, "GETDWELLTIME", 12) == 0)
        {
@@ -4617,16 +3993,10 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            char extra[32];
            tANI_U8 len = 0;
 
-<<<<<<< HEAD
-           len = scnprintf(extra, sizeof(extra), "GETDWELLTIME %u\n",
-                  (int)pCfg->nActiveMaxChnTime);
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-=======
            memset(extra, 0, sizeof(extra));
            ret = hdd_get_dwell_time(pCfg, command, extra, sizeof(extra), &len);
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (ret != 0 || copy_to_user(priv_data.buf, &extra, len + 1))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
            {
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
@@ -4637,25 +4007,7 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
        }
        else if (strncmp(command, "SETDWELLTIME", 12) == 0)
        {
-<<<<<<< HEAD
-           tANI_U8 *value = command;
-           hdd_config_t *pCfg = (WLAN_HDD_GET_CTX(pAdapter))->cfg_ini;
-           int val = 0, temp;
-
-           value = value + 13;
-           temp = kstrtou32(value, 10, &val);
-           if ( temp != 0 || val < CFG_ACTIVE_MAX_CHANNEL_TIME_MIN ||
-                             val > CFG_ACTIVE_MAX_CHANNEL_TIME_MAX )
-           {
-               VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-                "%s: argument passed for SETDWELLTIME is incorrect", __func__);
-               ret = -EFAULT;
-               goto exit;
-           }
-           pCfg->nActiveMaxChnTime = val;
-=======
            ret = hdd_set_dwell_time(pAdapter, command);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        }
        else if ( strncasecmp(command, "MIRACAST", 8) == 0 )
        {
@@ -4686,15 +4038,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            }
            //Filtertype value should be either 0-Disabled, 1-Source, 2-sink
            pHddCtx->drvr_miracast = filterType;
-<<<<<<< HEAD
-           hdd_tx_rx_pkt_cnt_stat_timer_handler(pHddCtx);
-        }
-       else if (strncmp(command, "SETMCRATE", 9) == 0)
-       {
-           int      rc;
-           tANI_U8 *value = command;
-           int      targetRate;
-=======
            pScanInfo =  &pHddCtx->scan_info;
            if (filterType && pScanInfo != NULL &&
                pHddCtx->scan_info.mScanPending)
@@ -4714,7 +4057,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            int      targetRate;
            tSirRateUpdateInd *rateUpdate;
            eHalStatus status;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
            /* Only valid for SAP mode */
            if (WLAN_HDD_SOFTAP != pAdapter->device_mode)
@@ -4731,18 +4073,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            /* Convert the value from ascii to integer, decimal base */
            ret = kstrtouint(value, 10, &targetRate);
 
-<<<<<<< HEAD
-           rc = hdd_hostapd_set_mc_rate(pAdapter, targetRate);
-           if (rc)
-           {
-               VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-                  "%s: Set MC Rate Fail %d", __func__, rc);
-               ret = -EFAULT;
-               goto exit;
-           }
-       }
-#if defined(FEATURE_WLAN_CCX) && defined(FEATURE_WLAN_CCX_UPLOAD)
-=======
            rateUpdate = (tSirRateUpdateInd *)vos_mem_malloc(sizeof(tSirRateUpdateInd));
            if (NULL == rateUpdate)
            {
@@ -4778,7 +4108,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
        }
 #endif
 #if defined(FEATURE_WLAN_ESE) && defined(FEATURE_WLAN_ESE_UPLOAD)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        else if (strncmp(command, "SETCCXROAMSCANCHANNELS", 22) == 0)
        {
            tANI_U8 *value = command;
@@ -4803,11 +4132,7 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
                ret = -EINVAL;
                goto exit;
            }
-<<<<<<< HEAD
-           status = sme_SetCcxRoamScanChannelList((tHalHandle)(pHddCtx->hHal),
-=======
            status = sme_SetEseRoamScanChannelList((tHalHandle)(pHddCtx->hHal),
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                                   ChannelList,
                                                   numChannels);
            if (eHAL_STATUS_SUCCESS != status)
@@ -4880,11 +4205,7 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
                           "UplinkPktQueueDlyHist[1](%d)\n"
                           "UplinkPktQueueDlyHist[2](%d)\n"
                           "UplinkPktQueueDlyHist[3](%d)\n"
-<<<<<<< HEAD
-                          "UplinkPktTxDly(%lu)\n"
-=======
                           "UplinkPktTxDly(%u)\n"
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                           "UplinkPktLoss(%d)\n"
                           "UplinkPktCount(%d)\n"
                           "RoamingCount(%d)\n"
@@ -4899,24 +4220,15 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            /* Output TSM stats is of the format
                    GETTSMSTATS [PktQueueDly] [PktQueueDlyHist[0]]:[PktQueueDlyHist[1]] ...[RoamingDly]
                    eg., GETTSMSTATS 10 1:0:0:161 20 1 17 8 39800 */
-<<<<<<< HEAD
-           len = scnprintf(extra, sizeof(extra), "%s %d %d:%d:%d:%d %lu %d %d %d %d", command,
-=======
            len = scnprintf(extra, sizeof(extra), "%s %d %d:%d:%d:%d %u %d %d %d %d", command,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                   tsmMetrics.UplinkPktQueueDly, tsmMetrics.UplinkPktQueueDlyHist[0],
                   tsmMetrics.UplinkPktQueueDlyHist[1], tsmMetrics.UplinkPktQueueDlyHist[2],
                   tsmMetrics.UplinkPktQueueDlyHist[3], tsmMetrics.UplinkPktTxDly,
                   tsmMetrics.UplinkPktLoss, tsmMetrics.UplinkPktCount, tsmMetrics.RoamingCount,
                   tsmMetrics.RoamingDly);
 
-<<<<<<< HEAD
-           if (copy_to_user(priv_data.buf, &extra, len + 1))
-           {
-=======
            len = VOS_MIN(priv_data.total_len, len + 1);
            if (copy_to_user(priv_data.buf, &extra, len)) {
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: failed to copy data to user buffer", __func__);
                ret = -EFAULT;
@@ -4956,24 +4268,6 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
        else if (strncmp(command, "CCXBEACONREQ", 12) == 0)
        {
            tANI_U8 *value = command;
-<<<<<<< HEAD
-           tCsrCcxBeaconReq ccxBcnReq;
-           eHalStatus status = eHAL_STATUS_SUCCESS;
-           status = hdd_parse_ccx_beacon_req(value, &ccxBcnReq);
-           if (eHAL_STATUS_SUCCESS != status)
-           {
-               VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-                  "%s: Failed to parse ccx beacon req", __func__);
-               ret = -EINVAL;
-               goto exit;
-           }
-
-           status = sme_SetCcxBeaconRequest((tHalHandle)(pHddCtx->hHal), pAdapter->sessionId, &ccxBcnReq);
-           if (eHAL_STATUS_SUCCESS != status)
-           {
-               VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-                  "%s: sme_SetCcxBeaconRequest failed (%d)", __func__, status);
-=======
            tCsrEseBeaconReq eseBcnReq;
            eHalStatus status = eHAL_STATUS_SUCCESS;
 
@@ -4999,28 +4293,10 @@ static int hdd_driver_command(hdd_adapter_t *pAdapter,
            {
                VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                   "%s: sme_SetEseBeaconRequest failed (%d)", __func__, status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                ret = -EINVAL;
                goto exit;
            }
        }
-<<<<<<< HEAD
-#endif /* FEATURE_WLAN_CCX && FEATURE_WLAN_CCX_UPLOAD */
-
-#ifdef FEATURE_WLAN_BATCH_SCAN
-       else if (strncmp(command, "WLS_BATCHING", 12) == 0)
-       {
-           ret = hdd_handle_batch_scan_ioctl(pAdapter, &priv_data, command);
-       }
-#endif
-       else {
-           hddLog( VOS_TRACE_LEVEL_WARN, "%s: Unsupported GUI command %s",
-                   __func__, command);
-       }
-
-   }
-exit:
-=======
 #endif /* FEATURE_WLAN_ESE && FEATURE_WLAN_ESE_UPLOAD */
        else if (strncmp(command, "GETBCNMISSRATE", 14) == 0)
        {
@@ -5279,7 +4555,6 @@ exit:
    }
 exit:
    EXIT();
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if (command)
    {
        kfree(command);
@@ -5287,27 +4562,6 @@ exit:
    return ret;
 }
 
-<<<<<<< HEAD
-
-
-#if defined(FEATURE_WLAN_CCX) && defined(FEATURE_WLAN_CCX_UPLOAD)
-/**---------------------------------------------------------------------------
-
-  \brief hdd_parse_ccx_beacon_req() - Parse ccx beacon request
-
-  This function parses the ccx beacon request passed in the format
-  CCXBEACONREQ<space><Number of fields><space><Measurement token>
-  <space>Channel 1<space>Scan Mode <space>Meas Duration<space>Channel N
-  <space>Scan Mode N<space>Meas Duration N
-  if the Number of bcn req fields (N) does not match with the actual number of fields passed
-  then take N.
-  <Meas Token><Channel><Scan Mode> and <Meas Duration> are treated as one pair
-  For example, CCXBEACONREQ 2 1 1 1 30 2 44 0 40.
-  This function does not take care of removing duplicate channels from the list
-
-  \param  - pValue Pointer to data
-  \param  - pCcxBcnReq output pointer to store parsed ie information
-=======
 #ifdef CONFIG_COMPAT
 static int hdd_driver_compat_ioctl(hdd_adapter_t *pAdapter, struct ifreq *ifr)
 {
@@ -5445,18 +4699,12 @@ int hdd_mon_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
 
   \param  - pValue Pointer to data
   \param  - pEseBcnReq output pointer to store parsed ie information
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   \return - 0 for success non-zero for failure
 
   --------------------------------------------------------------------------*/
-<<<<<<< HEAD
-static VOS_STATUS hdd_parse_ccx_beacon_req(tANI_U8 *pValue,
-                                     tCsrCcxBeaconReq *pCcxBcnReq)
-=======
 static VOS_STATUS hdd_parse_ese_beacon_req(tANI_U8 *pValue,
                                      tCsrEseBeaconReq *pEseBcnReq)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
     tANI_U8 *inPtr = pValue;
     int tempInt = 0;
@@ -5481,26 +4729,13 @@ static VOS_STATUS hdd_parse_ese_beacon_req(tANI_U8 *pValue,
     /*no argument followed by spaces*/
     if ('\0' == *inPtr) return -EINVAL;
 
-<<<<<<< HEAD
-    /*getting the first argument ie number of fields*/
-    v = sscanf(inPtr, "%32s ", buf);
-=======
     /*getting the first argument ie Number of IE fields */
     v = sscanf(inPtr, "%31s ", buf);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (1 != v) return -EINVAL;
 
     v = kstrtos32(buf, 10, &tempInt);
     if ( v < 0) return -EINVAL;
 
-<<<<<<< HEAD
-    pCcxBcnReq->numBcnReqIe = tempInt;
-
-    VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_HIGH,
-               "Number of Bcn Req Ie fields(%d)", pCcxBcnReq->numBcnReqIe);
-
-    for (j = 0; j < (pCcxBcnReq->numBcnReqIe); j++)
-=======
     tempInt = VOS_MIN(tempInt, SIR_ESE_MAX_MEAS_IE_REQS);
     pEseBcnReq->numBcnReqIe = tempInt;
 
@@ -5508,7 +4743,6 @@ static VOS_STATUS hdd_parse_ese_beacon_req(tANI_U8 *pValue,
 
 
     for (j = 0; j < (pEseBcnReq->numBcnReqIe); j++)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     {
         for (i = 0; i < 4; i++)
         {
@@ -5523,11 +4757,7 @@ static VOS_STATUS hdd_parse_ese_beacon_req(tANI_U8 *pValue,
             /*no ie data after the number of ie fields argument and spaces*/
             if ( '\0' == *inPtr ) return -EINVAL;
 
-<<<<<<< HEAD
-            v = sscanf(inPtr, "%32s ", buf);
-=======
             v = sscanf(inPtr, "%31s ", buf);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             if (1 != v) return -EINVAL;
 
             v = kstrtos32(buf, 10, &tempInt);
@@ -5542,11 +4772,7 @@ static VOS_STATUS hdd_parse_ese_beacon_req(tANI_U8 *pValue,
                              "Invalid Measurement Token(%d)", tempInt);
                    return -EINVAL;
                 }
-<<<<<<< HEAD
-                pCcxBcnReq->bcnReq[j].measurementToken = tempInt;
-=======
                 pEseBcnReq->bcnReq[j].measurementToken = tempInt;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 break;
 
                 case 1:  /* Channel number */
@@ -5557,11 +4783,7 @@ static VOS_STATUS hdd_parse_ese_beacon_req(tANI_U8 *pValue,
                              "Invalid Channel Number(%d)", tempInt);
                    return -EINVAL;
                 }
-<<<<<<< HEAD
-                pCcxBcnReq->bcnReq[j].channel = tempInt;
-=======
                 pEseBcnReq->bcnReq[j].channel = tempInt;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 break;
 
                 case 2:  /* Scan mode */
@@ -5571,47 +4793,23 @@ static VOS_STATUS hdd_parse_ese_beacon_req(tANI_U8 *pValue,
                              "Invalid Scan Mode(%d) Expected{0|1|2}", tempInt);
                    return -EINVAL;
                 }
-<<<<<<< HEAD
-                pCcxBcnReq->bcnReq[j].scanMode= tempInt;
-                break;
-
-                case 3:  /* Measurement duration */
-                if (((tempInt <= 0) && (pCcxBcnReq->bcnReq[j].scanMode != eSIR_BEACON_TABLE)) ||
-                    ((tempInt < 0) && (pCcxBcnReq->bcnReq[j].scanMode == eSIR_BEACON_TABLE)))
-=======
                 pEseBcnReq->bcnReq[j].scanMode= tempInt;
                 break;
 
                 case 3:  /* Measurement duration */
                 if (((tempInt <= 0) && (pEseBcnReq->bcnReq[j].scanMode != eSIR_BEACON_TABLE)) ||
                     ((tempInt < 0) && (pEseBcnReq->bcnReq[j].scanMode == eSIR_BEACON_TABLE)))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 {
                    VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
                              "Invalid Measurement Duration(%d)", tempInt);
                    return -EINVAL;
                 }
-<<<<<<< HEAD
-                pCcxBcnReq->bcnReq[j].measurementDuration = tempInt;
-=======
                 pEseBcnReq->bcnReq[j].measurementDuration = tempInt;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 break;
             }
         }
     }
 
-<<<<<<< HEAD
-    for (j = 0; j < pCcxBcnReq->numBcnReqIe; j++)
-    {
-        VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-                   "Index(%d) Measurement Token(%lu)Channel(%lu) Scan Mode(%lu) Measurement Duration(%lu)\n",
-                   j,
-                   pCcxBcnReq->bcnReq[j].measurementToken,
-                   pCcxBcnReq->bcnReq[j].channel,
-                   pCcxBcnReq->bcnReq[j].scanMode,
-                   pCcxBcnReq->bcnReq[j].measurementDuration);
-=======
     for (j = 0; j < pEseBcnReq->numBcnReqIe; j++)
     {
         VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
@@ -5621,7 +4819,6 @@ static VOS_STATUS hdd_parse_ese_beacon_req(tANI_U8 *pValue,
                    pEseBcnReq->bcnReq[j].channel,
                    pEseBcnReq->bcnReq[j].scanMode,
                    pEseBcnReq->bcnReq[j].measurementDuration);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     return VOS_STATUS_SUCCESS;
@@ -5764,15 +4961,9 @@ static VOS_STATUS  hdd_get_tsm_stats(hdd_adapter_t *pAdapter, const tANI_U8 tid,
    }
    return vstatus;
 }
-<<<<<<< HEAD
-#endif /*FEATURE_WLAN_CCX && FEATURE_WLAN_CCX_UPLOAD */
-
-#if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_CCX) || defined(FEATURE_WLAN_LFR)
-=======
 #endif /*FEATURE_WLAN_ESE && FEATURE_WLAN_ESE_UPLOAD */
 
 #if  defined (WLAN_FEATURE_VOWIFI_11R) || defined (FEATURE_WLAN_ESE) || defined(FEATURE_WLAN_LFR)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 void hdd_getBand_helper(hdd_context_t *pHddCtx, int *pBand)
 {
     eCsrBand band = -1;
@@ -5826,13 +5017,8 @@ VOS_STATUS hdd_parse_send_action_frame_data(tANI_U8 *pValue, tANI_U8 *pTargetApB
     int v = 0;
     tANI_U8 tempBuf[32];
     tANI_U8 tempByte = 0;
-<<<<<<< HEAD
-    /* 12 hexa decimal digits and 5 ':' */
-    tANI_U8 macAddress[17];
-=======
     /* 12 hexa decimal digits, 5 ':' and '\0' */
     tANI_U8 macAddress[18];
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     inPtr = strnchr(pValue, strlen(pValue), SPACE_ASCII_VALUE);
     /*no argument after the command*/
@@ -5886,11 +5072,7 @@ VOS_STATUS hdd_parse_send_action_frame_data(tANI_U8 *pValue, tANI_U8 *pTargetApB
     }
 
     /*getting the next argument ie the channel number */
-<<<<<<< HEAD
-    v = sscanf(inPtr, "%32s ", tempBuf);
-=======
     v = sscanf(inPtr, "%31s ", tempBuf);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (1 != v) return -EINVAL;
 
     v = kstrtos32(tempBuf, 10, &tempInt);
@@ -5913,19 +5095,11 @@ VOS_STATUS hdd_parse_send_action_frame_data(tANI_U8 *pValue, tANI_U8 *pTargetApB
     }
 
     /*getting the next argument ie the dwell time */
-<<<<<<< HEAD
-    v = sscanf(inPtr, "%32s ", tempBuf);
-    if (1 != v) return -EINVAL;
-
-    v = kstrtos32(tempBuf, 10, &tempInt);
-    if ( v < 0 || tempInt <= 0) return -EINVAL;
-=======
     v = sscanf(inPtr, "%31s ", tempBuf);
     if (1 != v) return -EINVAL;
 
     v = kstrtos32(tempBuf, 10, &tempInt);
     if ( v < 0 || tempInt < 0) return -EINVAL;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     *pDwellTime = tempInt;
 
@@ -6036,11 +5210,7 @@ VOS_STATUS hdd_parse_channellist(tANI_U8 *pValue, tANI_U8 *pChannelList, tANI_U8
     }
 
     /*getting the first argument ie the number of channels*/
-<<<<<<< HEAD
-    v = sscanf(inPtr, "%32s ", buf);
-=======
     v = sscanf(inPtr, "%31s ", buf);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (1 != v) return -EINVAL;
 
     v = kstrtos32(buf, 10, &tempInt);
@@ -6091,11 +5261,7 @@ VOS_STATUS hdd_parse_channellist(tANI_U8 *pValue, tANI_U8 *pChannelList, tANI_U8
             }
         }
 
-<<<<<<< HEAD
-        v = sscanf(inPtr, "%32s ", buf);
-=======
         v = sscanf(inPtr, "%31s ", buf);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         if (1 != v) return -EINVAL;
 
         v = kstrtos32(buf, 10, &tempInt);
@@ -6130,24 +5296,15 @@ VOS_STATUS hdd_parse_channellist(tANI_U8 *pValue, tANI_U8 *pChannelList, tANI_U8
   \return - 0 for success non-zero for failure
 
   --------------------------------------------------------------------------*/
-<<<<<<< HEAD
-VOS_STATUS hdd_parse_reassoc_command_data(tANI_U8 *pValue, tANI_U8 *pTargetApBssid, tANI_U8 *pChannel)
-=======
 VOS_STATUS hdd_parse_reassoc_command_data(tANI_U8 *pValue,
                             tANI_U8 *pTargetApBssid, tANI_U8 *pChannel)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
     tANI_U8 *inPtr = pValue;
     int tempInt;
     int v = 0;
     tANI_U8 tempBuf[32];
-<<<<<<< HEAD
-    /* 12 hexa decimal digits and 5 ':' */
-    tANI_U8 macAddress[17];
-=======
     /* 12 hexa decimal digits, 5 ':' and '\0' */
     tANI_U8 macAddress[18];
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     inPtr = strnchr(pValue, strlen(pValue), SPACE_ASCII_VALUE);
     /*no argument after the command*/
@@ -6201,20 +5358,12 @@ VOS_STATUS hdd_parse_reassoc_command_data(tANI_U8 *pValue,
     }
 
     /*getting the next argument ie the channel number */
-<<<<<<< HEAD
-    v = sscanf(inPtr, "%32s ", tempBuf);
-=======
     v = sscanf(inPtr, "%31s ", tempBuf);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if (1 != v) return -EINVAL;
 
     v = kstrtos32(tempBuf, 10, &tempInt);
     if ((v < 0) ||
-<<<<<<< HEAD
-        (tempInt <= 0) ||
-=======
         (tempInt < 0) ||
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         (tempInt > WNI_CFG_CURRENT_CHANNEL_STAMAX))
     {
         return -EINVAL;
@@ -6226,11 +5375,7 @@ VOS_STATUS hdd_parse_reassoc_command_data(tANI_U8 *pValue,
 
 #endif
 
-<<<<<<< HEAD
-#if defined(FEATURE_WLAN_CCX) && defined(FEATURE_WLAN_CCX_UPLOAD)
-=======
 #if defined(FEATURE_WLAN_ESE) && defined(FEATURE_WLAN_ESE_UPLOAD)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**---------------------------------------------------------------------------
 
   \brief hdd_parse_get_cckm_ie() - HDD Parse and fetch the CCKM IE
@@ -6313,11 +5458,7 @@ VOS_STATUS hdd_parse_get_cckm_ie(tANI_U8 *pValue, tANI_U8 **pCckmIe,
 
     return VOS_STATUS_SUCCESS;
 }
-<<<<<<< HEAD
-#endif /* FEATURE_WLAN_CCX && FEATURE_WLAN_CCX_UPLOAD */
-=======
 #endif /* FEATURE_WLAN_ESE && FEATURE_WLAN_ESE_UPLOAD */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /**---------------------------------------------------------------------------
 
@@ -6333,11 +5474,7 @@ VOS_STATUS hdd_parse_get_cckm_ie(tANI_U8 *pValue, tANI_U8 **pCckmIe,
   an even number of hex digits.
 
   \param  - pMacAddr pointer to the input MAC address
-<<<<<<< HEAD
-  \return - 1 for valid and 0 for invalid.
-=======
   \return - 1 for valid and 0 for invalid
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   --------------------------------------------------------------------------*/
 
@@ -6371,24 +5508,14 @@ v_BOOL_t hdd_is_valid_mac_address(const tANI_U8 *pMacAddr)
 
 /**---------------------------------------------------------------------------
 
-<<<<<<< HEAD
-  \brief hdd_open() - HDD Open function
-
-  This is called in response to ifconfig up
-=======
   \brief __hdd_open() - HDD Open function
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   \param  - dev Pointer to net_device structure
 
   \return - 0 for success non-zero for failure
 
   --------------------------------------------------------------------------*/
-<<<<<<< HEAD
-int hdd_open (struct net_device *dev)
-=======
 int __hdd_open(struct net_device *dev)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
    hdd_adapter_t *pAdapter = WLAN_HDD_GET_PRIV_PTR(dev);
    hdd_context_t *pHddCtx;
@@ -6399,20 +5526,13 @@ int __hdd_open(struct net_device *dev)
    if (NULL == pAdapter) 
    {
       VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-<<<<<<< HEAD
-         "%s: HDD adapter context is Null", __func__);
-=======
          "%s: pAdapter is Null", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return -ENODEV;
    }
    
    pHddCtx = (hdd_context_t*)pAdapter->pHddCtx;
-<<<<<<< HEAD
-=======
    MTRACE(vos_trace(VOS_MODULE_ID_HDD, TRACE_CODE_HDD_OPEN_REQUEST,
                     pAdapter->sessionId, pAdapter->device_mode));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if (NULL == pHddCtx)
    {
       VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
@@ -6453,19 +5573,13 @@ int __hdd_open(struct net_device *dev)
        VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
                  "%s: Enabling Tx Queues", __func__);
        /* Enable TX queues only when we are connected */
-<<<<<<< HEAD
-=======
        hddLog(VOS_TRACE_LEVEL_INFO, FL("Enabling queues"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        netif_tx_start_all_queues(dev);
    }
 
    return 0;
 }
 
-<<<<<<< HEAD
-int hdd_mon_open (struct net_device *dev)
-=======
 /**---------------------------------------------------------------------------
 
   \brief hdd_open() - Wrapper function for __hdd_open to protect it from SSR
@@ -6489,7 +5603,6 @@ int hdd_open(struct net_device *dev)
 }
 
 int __hdd_mon_open (struct net_device *dev)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
    hdd_adapter_t *pAdapter = WLAN_HDD_GET_PRIV_PTR(dev);
 
@@ -6499,17 +5612,6 @@ int __hdd_mon_open (struct net_device *dev)
       return -EINVAL;
    }
 
-<<<<<<< HEAD
-   netif_start_queue(dev);
-
-   return 0;
-}
-/**---------------------------------------------------------------------------
-
-  \brief hdd_stop() - HDD stop function
-
-  This is called in response to ifconfig down
-=======
    return 0;
 }
 
@@ -6532,7 +5634,6 @@ int hdd_mon_stop(struct net_device *dev)
 /**---------------------------------------------------------------------------
 
   \brief __hdd_stop() - HDD stop function
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   \param  - dev Pointer to net_device structure
 
@@ -6540,14 +5641,9 @@ int hdd_mon_stop(struct net_device *dev)
 
   --------------------------------------------------------------------------*/
 
-<<<<<<< HEAD
-int hdd_stop (struct net_device *dev)
-{
-=======
 int __hdd_stop (struct net_device *dev)
 {
    int ret = 0;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    hdd_adapter_t *pAdapter = WLAN_HDD_GET_PRIV_PTR(dev);
    hdd_context_t *pHddCtx;
    hdd_adapter_list_node_t *pAdapterNode = NULL, *pNext = NULL;
@@ -6555,30 +5651,6 @@ int __hdd_stop (struct net_device *dev)
    v_BOOL_t enter_standby = TRUE;
    
    ENTER();
-<<<<<<< HEAD
-
-   if (NULL == pAdapter)
-   {
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-         "%s: HDD adapter context is Null", __func__);
-      return -ENODEV;
-   }
-
-   pHddCtx = (hdd_context_t*)pAdapter->pHddCtx;
-   if (NULL == pHddCtx)
-   {
-      VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-         "%s: HDD context is Null", __func__);
-      return -ENODEV;
-   }
-
-   clear_bit(DEVICE_IFACE_OPENED, &pAdapter->event_flags);
-   hddLog(VOS_TRACE_LEVEL_INFO, "%s: Disabling OS Tx queues", __func__);
-   netif_tx_disable(pAdapter->dev);
-   netif_carrier_off(pAdapter->dev);
-
-
-=======
    if (NULL == pAdapter)
    {
       VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
@@ -6634,7 +5706,6 @@ int __hdd_stop (struct net_device *dev)
 #ifdef FEATURE_WLAN_TDLS
    mutex_unlock(&pHddCtx->tdls_lock);
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* SoftAP ifaces should never go in power save mode
       making sure same here. */
    if ( (WLAN_HDD_SOFTAP == pAdapter->device_mode )
@@ -6643,14 +5714,6 @@ int __hdd_stop (struct net_device *dev)
       )
    {
       /* SoftAP mode, so return from here */
-<<<<<<< HEAD
-      EXIT();
-      return 0;
-   }
-
-   /* Find if any iface is up then
-      if any iface is up then can't put device to sleep/ power save mode. */
-=======
       VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
          "%s: In SAP MODE", __func__);
       EXIT();
@@ -6659,7 +5722,6 @@ int __hdd_stop (struct net_device *dev)
    /* Find if any iface is up. If any iface is up then can't put device to
     * sleep/power save mode
     */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    status = hdd_get_front_adapter ( pHddCtx, &pAdapterNode );
    while ( (NULL != pAdapterNode) && (VOS_STATUS_SUCCESS == status) )
    {
@@ -6695,12 +5757,6 @@ int __hdd_stop (struct net_device *dev)
 
 /**---------------------------------------------------------------------------
 
-<<<<<<< HEAD
-  \brief hdd_uninit() - HDD uninit function
-
-  This is called during the netdev unregister to uninitialize all data
-associated with the device
-=======
   \brief hdd_stop() - wrapper_function for __hdd_stop to protect it from SSR
 
   This is called in response to ifconfig down
@@ -6723,24 +5779,16 @@ int hdd_stop (struct net_device *dev)
 /**---------------------------------------------------------------------------
 
   \brief __hdd_uninit() - HDD uninit function
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   \param  - dev Pointer to net_device structure
 
   \return - void
 
   --------------------------------------------------------------------------*/
-<<<<<<< HEAD
-static void hdd_uninit (struct net_device *dev)
-{
-   hdd_adapter_t *pAdapter = WLAN_HDD_GET_PRIV_PTR(dev);
-
-=======
 static void __hdd_uninit (struct net_device *dev)
 {
    hdd_adapter_t *pAdapter = WLAN_HDD_GET_PRIV_PTR(dev);
    hdd_context_t *pHddCtx;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    ENTER();
 
    do
@@ -6758,13 +5806,8 @@ static void __hdd_uninit (struct net_device *dev)
                 "%s: Invalid magic", __func__);
          break;
       }
-<<<<<<< HEAD
-
-      if (NULL == pAdapter->pHddCtx)
-=======
       pHddCtx = WLAN_HDD_GET_CTX(pAdapter);
       if (NULL == pHddCtx)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {
          hddLog(VOS_TRACE_LEVEL_FATAL,
                 "%s: NULL pHddCtx", __func__);
@@ -6777,10 +5820,6 @@ static void __hdd_uninit (struct net_device *dev)
                 "%s: Invalid device reference", __func__);
          /* we haven't validated all cases so let this go for now */
       }
-<<<<<<< HEAD
-
-      hdd_deinit_adapter(pAdapter->pHddCtx, pAdapter);
-=======
 #ifdef FEATURE_WLAN_TDLS
       mutex_lock(&pHddCtx->tdls_lock);
 #endif
@@ -6788,7 +5827,6 @@ static void __hdd_uninit (struct net_device *dev)
 #ifdef FEATURE_WLAN_TDLS
       mutex_unlock(&pHddCtx->tdls_lock);
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
       /* after uninit our adapter structure will no longer be valid */
       pAdapter->dev = NULL;
@@ -6800,8 +5838,6 @@ static void __hdd_uninit (struct net_device *dev)
 
 /**---------------------------------------------------------------------------
 
-<<<<<<< HEAD
-=======
   \brief hdd_uninit() - Wrapper function to protect __hdd_uninit from SSR
 
   This is called during the netdev unregister to uninitialize all data
@@ -6821,7 +5857,6 @@ static void hdd_uninit (struct net_device *dev)
 
 /**---------------------------------------------------------------------------
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   \brief hdd_release_firmware() -
 
    This function calls the release firmware API to free the firmware buffer.
@@ -6969,11 +6004,7 @@ void hdd_req_bmps_cbk(void *callbackContext, eHalStatus status)
 
    struct completion *completion_var = (struct completion*) callbackContext;
 
-<<<<<<< HEAD
-   hddLog(VOS_TRACE_LEVEL_ERROR, "HDD BMPS request Callback, status = %d\n", status);
-=======
    hddLog(VOS_TRACE_LEVEL_ERROR, "HDD BMPS request Callback, status = %d", status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if(completion_var != NULL)
    {
       complete(completion_var);
@@ -7073,11 +6104,7 @@ VOS_STATUS hdd_read_cfg_file(v_VOID_t *pCtx, char *pFileName,
 
 /**---------------------------------------------------------------------------
 
-<<<<<<< HEAD
-  \brief hdd_set_mac_address() -
-=======
   \brief __hdd_set_mac_address() -
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    This function sets the user specified mac address using
    the command ifconfig wlanX hw ether <mac adress>.
@@ -7088,26 +6115,6 @@ VOS_STATUS hdd_read_cfg_file(v_VOID_t *pCtx, char *pFileName,
 
   --------------------------------------------------------------------------*/
 
-<<<<<<< HEAD
-static int hdd_set_mac_address(struct net_device *dev, void *addr)
-{
-   hdd_adapter_t *pAdapter = WLAN_HDD_GET_PRIV_PTR(dev);
-   struct sockaddr *psta_mac_addr = addr;
-   eHalStatus halStatus = eHAL_STATUS_SUCCESS;
-
-   ENTER();
-
-   memcpy(&pAdapter->macAddressCurrent, psta_mac_addr->sa_data, ETH_ALEN);
-
-#ifdef HDD_SESSIONIZE 
-   // set the MAC address though the STA ID CFG.
-   halStatus = ccmCfgSetStr( pAdapter->hHal, WNI_CFG_STA_ID,
-                             (v_U8_t *)&pAdapter->macAddressCurrent,
-                             sizeof( pAdapter->macAddressCurrent ),
-                             hdd_set_mac_addr_cb, VOS_FALSE );
-#endif
-
-=======
 static int __hdd_set_mac_address(struct net_device *dev, void *addr)
 {
    hdd_adapter_t *pAdapter;
@@ -7132,15 +6139,12 @@ static int __hdd_set_mac_address(struct net_device *dev, void *addr)
    }
 
    memcpy(&pAdapter->macAddressCurrent, psta_mac_addr->sa_data, ETH_ALEN);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    memcpy(dev->dev_addr, psta_mac_addr->sa_data, ETH_ALEN);
 
    EXIT();
    return halStatus;
 }
 
-<<<<<<< HEAD
-=======
 /**---------------------------------------------------------------------------
 
   \brief hdd_set_mac_address() -
@@ -7163,17 +6167,12 @@ static int hdd_set_mac_address(struct net_device *dev, void *addr)
    return ret;
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 tANI_U8* wlan_hdd_get_intf_addr(hdd_context_t* pHddCtx)
 {
    int i;
    for ( i = 0; i < VOS_MAX_CONCURRENCY_PERSONA; i++)
    {
-<<<<<<< HEAD
-      if( 0 == (pHddCtx->cfg_ini->intfAddrMask >> i))
-=======
       if( 0 == ((pHddCtx->cfg_ini->intfAddrMask) & (1 << i)) )
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          break;
    }
 
@@ -7219,20 +6218,12 @@ void wlan_hdd_release_intf_addr(hdd_context_t* pHddCtx, tANI_U8* releaseAddr)
  };
  static struct net_device_ops wlan_mon_drv_ops = {
       .ndo_open = hdd_mon_open,
-<<<<<<< HEAD
-      .ndo_stop = hdd_stop,
-=======
       .ndo_stop = hdd_mon_stop,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       .ndo_uninit = hdd_uninit,
       .ndo_start_xmit = hdd_mon_hard_start_xmit,  
       .ndo_tx_timeout = hdd_tx_timeout,
       .ndo_get_stats = hdd_stats,
-<<<<<<< HEAD
-      .ndo_do_ioctl = hdd_ioctl,
-=======
       .ndo_do_ioctl = hdd_mon_ioctl,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       .ndo_set_mac_address = hdd_set_mac_address,
  };
 
@@ -7241,10 +6232,6 @@ void wlan_hdd_release_intf_addr(hdd_context_t* pHddCtx, tANI_U8* releaseAddr)
 void hdd_set_station_ops( struct net_device *pWlanDev )
 {
 #if (LINUX_VERSION_CODE > KERNEL_VERSION(2,6,29))
-<<<<<<< HEAD
-      pWlanDev->tx_queue_len = NET_DEV_TX_QUEUE_LEN,
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       pWlanDev->netdev_ops = &wlan_drv_ops;
 #else
       pWlanDev->open = hdd_open;
@@ -7254,16 +6241,10 @@ void hdd_set_station_ops( struct net_device *pWlanDev )
       pWlanDev->tx_timeout = hdd_tx_timeout;
       pWlanDev->get_stats = hdd_stats;
       pWlanDev->do_ioctl = hdd_ioctl;
-<<<<<<< HEAD
-      pWlanDev->tx_queue_len = NET_DEV_TX_QUEUE_LEN;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       pWlanDev->set_mac_address = hdd_set_mac_address;
 #endif
 }
 
-<<<<<<< HEAD
-=======
 void  hdd_set_ibss_ops( hdd_adapter_t *pAdapter )
 {
  #if (LINUX_VERSION_CODE > KERNEL_VERSION(2,6,29))
@@ -7273,7 +6254,6 @@ void  hdd_set_ibss_ops( hdd_adapter_t *pAdapter )
  #endif
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 static hdd_adapter_t* hdd_alloc_station_adapter( hdd_context_t *pHddCtx, tSirMacAddr macAddr, const char* name )
 {
    struct net_device *pWlanDev = NULL;
@@ -7281,16 +6261,11 @@ static hdd_adapter_t* hdd_alloc_station_adapter( hdd_context_t *pHddCtx, tSirMac
    /*
     * cfg80211 initialization and registration....
     */ 
-<<<<<<< HEAD
-   pWlanDev = alloc_netdev_mq(sizeof( hdd_adapter_t ), name, ether_setup, NUM_TX_QUEUES);
-   
-=======
    pWlanDev = alloc_netdev_mq(sizeof( hdd_adapter_t ), name,
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,17,0))
                               NET_NAME_UNKNOWN,
 #endif
                               ether_setup, NUM_TX_QUEUES);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if(pWlanDev != NULL)
    {
 
@@ -7302,38 +6277,9 @@ static hdd_adapter_t* hdd_alloc_station_adapter( hdd_context_t *pHddCtx, tSirMac
       pAdapter->dev = pWlanDev;
       pAdapter->pHddCtx = pHddCtx; 
       pAdapter->magic = WLAN_HDD_ADAPTER_MAGIC;
-<<<<<<< HEAD
-
-      init_completion(&pAdapter->session_open_comp_var);
-      init_completion(&pAdapter->session_close_comp_var);
-      init_completion(&pAdapter->disconnect_comp_var);
-      init_completion(&pAdapter->linkup_event_var);
-      init_completion(&pAdapter->cancel_rem_on_chan_var);
-      init_completion(&pAdapter->rem_on_chan_ready_event);
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,38))
-      init_completion(&pAdapter->offchannel_tx_event);
-#endif
-      init_completion(&pAdapter->tx_action_cnf_event);
-#ifdef FEATURE_WLAN_TDLS
-      init_completion(&pAdapter->tdls_add_station_comp);
-      init_completion(&pAdapter->tdls_del_station_comp);
-      init_completion(&pAdapter->tdls_mgmt_comp);
-      init_completion(&pAdapter->tdls_link_establish_req_comp);
-#endif
-      init_completion(&pHddCtx->mc_sus_event_var);
-      init_completion(&pHddCtx->tx_sus_event_var);
-      init_completion(&pHddCtx->rx_sus_event_var);
-      init_completion(&pAdapter->ula_complete);
-      init_completion(&pAdapter->change_country_code);
-
-#ifdef FEATURE_WLAN_BATCH_SCAN
-      init_completion(&pAdapter->hdd_set_batch_scan_req_var);
-      init_completion(&pAdapter->hdd_get_batch_scan_req_var);
-=======
       spin_lock_init(&pAdapter->lock_for_active_session);
 
 #ifdef FEATURE_WLAN_BATCH_SCAN
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       pAdapter->pBatchScanRsp = NULL;
       pAdapter->numScanList = 0;
       pAdapter->batchScanState = eHDD_BATCH_SCAN_STATE_STOPPED;
@@ -7359,11 +6305,8 @@ static hdd_adapter_t* hdd_alloc_station_adapter( hdd_context_t *pHddCtx, tSirMac
       pAdapter->wdev.netdev =  pWlanDev;
       /* set pWlanDev's parent to underlying device */
       SET_NETDEV_DEV(pWlanDev, pHddCtx->parent_dev);
-<<<<<<< HEAD
-=======
 
       hdd_wmm_init( pAdapter );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    return pAdapter;
@@ -7457,14 +6400,10 @@ VOS_STATUS hdd_init_station_mode( hdd_adapter_t *pAdapter )
    hdd_context_t *pHddCtx = WLAN_HDD_GET_CTX( pAdapter );
    eHalStatus halStatus = eHAL_STATUS_SUCCESS;
    VOS_STATUS status = VOS_STATUS_E_FAILURE;
-<<<<<<< HEAD
-   int rc = 0;
-=======
    long rc = 0;
 
    spin_lock_init( &pAdapter->sta_hash_lock);
    pAdapter->is_sta_id_hash_initialized = VOS_FALSE;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    INIT_COMPLETION(pAdapter->session_open_comp_var);
    sme_SetCurrDeviceMode(pHddCtx->hHal, pAdapter->device_mode);
@@ -7474,26 +6413,13 @@ VOS_STATUS hdd_init_station_mode( hdd_adapter_t *pAdapter )
    if ( !HAL_STATUS_SUCCESS( halStatus ) )
    {
       hddLog(VOS_TRACE_LEVEL_FATAL,
-<<<<<<< HEAD
-             "sme_OpenSession() failed with status code %08d [x%08lx]",
-=======
              "sme_OpenSession() failed with status code %08d [x%08x]",
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                                  halStatus, halStatus );
       status = VOS_STATUS_E_FAILURE;
       goto error_sme_open;
    }
    
    //Block on a completion variable. Can't wait forever though.
-<<<<<<< HEAD
-   rc = wait_for_completion_interruptible_timeout(
-                        &pAdapter->session_open_comp_var,
-                        msecs_to_jiffies(WLAN_WAIT_TIME_SESSIONOPENCLOSE));
-   if (!rc)
-   {
-      hddLog(VOS_TRACE_LEVEL_FATAL,
-             "Session is not opened within timeout period code %08d", rc );
-=======
    rc = wait_for_completion_timeout(
                         &pAdapter->session_open_comp_var,
                         msecs_to_jiffies(WLAN_WAIT_TIME_SESSIONOPENCLOSE));
@@ -7501,7 +6427,6 @@ VOS_STATUS hdd_init_station_mode( hdd_adapter_t *pAdapter )
    {
       hddLog(VOS_TRACE_LEVEL_FATAL,
              "Session is not opened within timeout period code %ld", rc );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       status = VOS_STATUS_E_FAILURE;
       goto error_sme_open;
    }
@@ -7510,25 +6435,11 @@ VOS_STATUS hdd_init_station_mode( hdd_adapter_t *pAdapter )
    if( eHAL_STATUS_SUCCESS !=  (halStatus = hdd_register_wext(pWlanDev)))
    {
       hddLog(VOS_TRACE_LEVEL_FATAL,
-<<<<<<< HEAD
-              "hdd_register_wext() failed with status code %08d [x%08lx]",
-=======
               "hdd_register_wext() failed with status code %08d [x%08x]",
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                                    halStatus, halStatus );
       status = VOS_STATUS_E_FAILURE;
       goto error_register_wext;
    }
-<<<<<<< HEAD
-   //Safe to register the hard_start_xmit function again
-#if (LINUX_VERSION_CODE > KERNEL_VERSION(2,6,29))
-   wlan_drv_ops.ndo_start_xmit = hdd_hard_start_xmit;
-#else
-   pWlanDev->hard_start_xmit = hdd_hard_start_xmit;
-#endif
-
-   //Set the Connection State to Not Connected
-=======
 
    //Safe to register the hard_start_xmit function again
    #if (LINUX_VERSION_CODE > KERNEL_VERSION(2,6,29))
@@ -7541,7 +6452,6 @@ VOS_STATUS hdd_init_station_mode( hdd_adapter_t *pAdapter )
    hddLog(VOS_TRACE_LEVEL_INFO,
             "%s: Set HDD connState to eConnectionState_NotConnected",
                    __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    pHddStaCtx->conn_info.connState = eConnectionState_NotConnected;
 
    //Set the default operation channel
@@ -7553,11 +6463,7 @@ VOS_STATUS hdd_init_station_mode( hdd_adapter_t *pAdapter )
    if( VOS_STATUS_SUCCESS != ( status = hdd_init_tx_rx( pAdapter ) ) )
    {
       hddLog(VOS_TRACE_LEVEL_FATAL,
-<<<<<<< HEAD
-            "hdd_init_tx_rx() failed with status code %08d [x%08lx]",
-=======
             "hdd_init_tx_rx() failed with status code %08d [x%08x]",
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                             status, status );
       goto error_init_txrx;
    }
@@ -7567,39 +6473,15 @@ VOS_STATUS hdd_init_station_mode( hdd_adapter_t *pAdapter )
    if( VOS_STATUS_SUCCESS != ( status = hdd_wmm_adapter_init( pAdapter ) ) )
    {
       hddLog(VOS_TRACE_LEVEL_FATAL,
-<<<<<<< HEAD
-            "hdd_wmm_adapter_init() failed with status code %08d [x%08lx]",
-=======
             "hdd_wmm_adapter_init() failed with status code %08d [x%08x]",
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                             status, status );
       goto error_wmm_init;
    }
 
    set_bit(WMM_INIT_DONE, &pAdapter->event_flags);
 
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_TDLS
-   if(0 != wlan_hdd_tdls_init(pAdapter))
-   {
-       status = VOS_STATUS_E_FAILURE;
-       hddLog(VOS_TRACE_LEVEL_ERROR,"%s: wlan_hdd_tdls_init failed",__func__);
-       goto error_tdls_init;
-   }
-   set_bit(TDLS_INIT_DONE, &pAdapter->event_flags);
-#endif
-
    return VOS_STATUS_SUCCESS;
 
-#ifdef FEATURE_WLAN_TDLS
-error_tdls_init:
-   clear_bit(WMM_INIT_DONE, &pAdapter->event_flags);
-   hdd_wmm_adapter_close(pAdapter);
-#endif
-=======
-   return VOS_STATUS_SUCCESS;
-
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 error_wmm_init:
    clear_bit(INIT_TX_RX_SUCCESS, &pAdapter->event_flags);
    hdd_deinit_tx_rx(pAdapter);
@@ -7610,15 +6492,6 @@ error_register_wext:
    {
       INIT_COMPLETION(pAdapter->session_close_comp_var);
       if (eHAL_STATUS_SUCCESS == sme_CloseSession(pHddCtx->hHal,
-<<<<<<< HEAD
-                                    pAdapter->sessionId,
-                                    hdd_smeCloseSessionCallback, pAdapter))
-      {
-         //Block on a completion variable. Can't wait forever though.
-         wait_for_completion_timeout(
-                          &pAdapter->session_close_comp_var,
-                          msecs_to_jiffies(WLAN_WAIT_TIME_SESSIONOPENCLOSE));
-=======
                                     pAdapter->sessionId, VOS_TRUE,
                                     hdd_smeCloseSessionCallback, pAdapter))
       {
@@ -7631,7 +6504,6 @@ error_register_wext:
          if (rc <= 0)
              hddLog(VOS_TRACE_LEVEL_ERROR,
                FL("Session is not opened within timeout period code %ld"), rc);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
 }
 error_sme_open:
@@ -7646,21 +6518,11 @@ void hdd_cleanup_actionframe( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter )
 
    if( NULL != cfgState->buf )
    {
-<<<<<<< HEAD
-      int rc;
-=======
       long rc;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       INIT_COMPLETION(pAdapter->tx_action_cnf_event);
       rc = wait_for_completion_interruptible_timeout(
                      &pAdapter->tx_action_cnf_event,
                      msecs_to_jiffies(ACTION_FRAME_TX_TIMEOUT));
-<<<<<<< HEAD
-      if(!rc)
-      {
-         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
-              ("ERROR: HDD Wait for Action Confirmation Failed!!\n"));
-=======
       if (rc <= 0)
       {
           VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
@@ -7669,23 +6531,16 @@ void hdd_cleanup_actionframe( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter )
 
           // Inform tx status as FAILURE to upper layer and free cfgState->buf
           hdd_sendActionCnf( pAdapter, FALSE );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
    }
    return;
 }
 
-<<<<<<< HEAD
-void hdd_deinit_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter )
-=======
 void hdd_deinit_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter, tANI_U8 rtnl_held )
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
    ENTER();
    switch ( pAdapter->device_mode )
    {
-<<<<<<< HEAD
-=======
       case WLAN_HDD_IBSS:
       {
          if(test_bit(INIT_TX_RX_SUCCESS, &pAdapter->event_flags))
@@ -7694,7 +6549,6 @@ void hdd_deinit_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter, tANI_U
             clear_bit(INIT_TX_RX_SUCCESS, &pAdapter->event_flags);
          }
       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       case WLAN_HDD_INFRA_STATION:
       case WLAN_HDD_P2P_CLIENT:
       case WLAN_HDD_P2P_DEVICE:
@@ -7712,17 +6566,6 @@ void hdd_deinit_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter, tANI_U
          }
 
          hdd_cleanup_actionframe(pHddCtx, pAdapter);
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_TDLS
-         if(test_bit(TDLS_INIT_DONE, &pAdapter->event_flags))
-         {
-            wlan_hdd_tdls_exit(pAdapter);
-            clear_bit(TDLS_INIT_DONE, &pAdapter->event_flags);
-         }
-#endif
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          break;
       }
 
@@ -7738,35 +6581,18 @@ void hdd_deinit_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter, tANI_U
 
          hdd_cleanup_actionframe(pHddCtx, pAdapter);
 
-<<<<<<< HEAD
-         hdd_unregister_hostapd(pAdapter);
-         hdd_set_conparam( 0 );
-         wlan_hdd_set_monitor_tx_adapter( WLAN_HDD_GET_CTX(pAdapter), NULL );
-=======
          hdd_unregister_hostapd(pAdapter, rtnl_held);
          hdd_set_conparam( 0 );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          break;
       }
 
       case WLAN_HDD_MONITOR:
       {
-<<<<<<< HEAD
-          hdd_adapter_t* pAdapterforTx = pAdapter->sessionCtx.monitor.pAdapterForTx;
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          if(test_bit(INIT_TX_RX_SUCCESS, &pAdapter->event_flags))
          {
             hdd_deinit_tx_rx( pAdapter );
             clear_bit(INIT_TX_RX_SUCCESS, &pAdapter->event_flags);
          }
-<<<<<<< HEAD
-         if(NULL != pAdapterforTx)
-         {
-            hdd_cleanup_actionframe(pHddCtx, pAdapterforTx);
-         }
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          break;
       }
 
@@ -7780,11 +6606,7 @@ void hdd_deinit_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter, tANI_U
 
 void hdd_cleanup_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter, tANI_U8 rtnl_held )
 {
-<<<<<<< HEAD
-   struct net_device *pWlanDev;
-=======
    struct net_device *pWlanDev = NULL;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    ENTER();
    if (NULL == pAdapter)
@@ -7886,13 +6708,9 @@ void hdd_set_pwrparams(hdd_context_t *pHddCtx)
 
            /* switch to the DTIM specified in cfg.ini */
             VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO,
-<<<<<<< HEAD
-                      "Switch to DTIM %d", powerRequest.uListenInterval);
-=======
                 "Switch to DTIM %d Listen interval %d",
                 powerRequest.uDTIMPeriod,
                 powerRequest.uListenInterval);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             sme_SetPowerParams( pHddCtx->hHal, &powerRequest, TRUE);
             break;
 
@@ -7927,15 +6745,11 @@ void hdd_reset_pwrparams(hdd_context_t *pHddCtx)
 VOS_STATUS hdd_enable_bmps_imps(hdd_context_t *pHddCtx)
 {
    VOS_STATUS status = VOS_STATUS_SUCCESS;
-<<<<<<< HEAD
-
-=======
    if (WLAN_HDD_IS_UNLOAD_IN_PROGRESS(pHddCtx))
    {
        hddLog( LOGE, FL("Wlan Unload in progress"));
        return VOS_STATUS_E_PERM;
    }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if(pHddCtx->cfg_ini->fIsBmpsEnabled)
    {
       sme_EnablePowerSave(pHddCtx->hHal, ePMC_BEACON_MODE_POWER_SAVE);
@@ -8008,11 +6822,7 @@ VOS_STATUS hdd_disable_bmps_imps(hdd_context_t *pHddCtx, tANI_U8 session_type)
                  if(eHAL_STATUS_SUCCESS != halStatus)
                  {
                     status = VOS_STATUS_E_FAILURE;
-<<<<<<< HEAD
-                    hddLog(VOS_TRACE_LEVEL_ERROR,"%s: Fail to Disable Power Save\n", __func__);
-=======
                     hddLog(VOS_TRACE_LEVEL_ERROR,"%s: Fail to Disable Power Save", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     VOS_ASSERT(0);
                     return status;
                  }
@@ -8025,11 +6835,7 @@ VOS_STATUS hdd_disable_bmps_imps(hdd_context_t *pHddCtx, tANI_U8 session_type)
                  if(eHAL_STATUS_SUCCESS != halStatus)
                  {
                     status = VOS_STATUS_E_FAILURE;
-<<<<<<< HEAD
-                    hddLog(VOS_TRACE_LEVEL_ERROR,"%s: Fail to Stop Auto Bmps Timer\n", __func__);
-=======
                     hddLog(VOS_TRACE_LEVEL_ERROR,"%s: Fail to Stop Auto Bmps Timer", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     VOS_ASSERT(0);
                     return status;
                  }
@@ -8048,11 +6854,6 @@ VOS_STATUS hdd_disable_bmps_imps(hdd_context_t *pHddCtx, tANI_U8 session_type)
               {
                  if(halStatus == eHAL_STATUS_PMC_PENDING)
                  {
-<<<<<<< HEAD
-                    //Block on a completion variable. Can't wait forever though
-                    wait_for_completion_interruptible_timeout(
-                         &pHddCtx->full_pwr_comp_var, msecs_to_jiffies(1000));
-=======
                     long ret;
                     //Block on a completion variable. Can't wait forever though
                     ret = wait_for_completion_interruptible_timeout(
@@ -8064,16 +6865,11 @@ VOS_STATUS hdd_disable_bmps_imps(hdd_context_t *pHddCtx, tANI_U8 session_type)
                                "%s: wait on full_pwr_comp_var failed %ld",
                                __func__, ret);
                     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                  }
                  else
                  {
                     status = VOS_STATUS_E_FAILURE;
-<<<<<<< HEAD
-                    hddLog(VOS_TRACE_LEVEL_ERROR,"%s: Request for Full Power failed\n", __func__);
-=======
                     hddLog(VOS_TRACE_LEVEL_ERROR,"%s: Request for Full Power failed", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                     VOS_ASSERT(0);
                     return status;
                  }
@@ -8087,8 +6883,6 @@ VOS_STATUS hdd_disable_bmps_imps(hdd_context_t *pHddCtx, tANI_U8 session_type)
    return status;
 }
 
-<<<<<<< HEAD
-=======
 void hdd_monPostMsgCb(tANI_U32 *magic, struct completion *cmpVar)
 {
     if (magic == NULL || cmpVar == NULL) {
@@ -8121,7 +6915,6 @@ void hdd_init_mon_mode (hdd_adapter_t *pAdapter)
  }
 
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 hdd_adapter_t* hdd_open_adapter( hdd_context_t *pHddCtx, tANI_U8 session_type,
                                  const char *iface_name, tSirMacAddr macAddr,
                                  tANI_U8 rtnl_held )
@@ -8131,9 +6924,6 @@ hdd_adapter_t* hdd_open_adapter( hdd_context_t *pHddCtx, tANI_U8 session_type,
    VOS_STATUS status = VOS_STATUS_E_FAILURE;
    VOS_STATUS exitbmpsStatus;
 
-<<<<<<< HEAD
-   hddLog(VOS_TRACE_LEVEL_INFO_HIGH, "%s iface =%s type = %d\n",__func__,iface_name,session_type);
-=======
    hddLog(VOS_TRACE_LEVEL_INFO_HIGH, "%s iface =%s type = %d",__func__,iface_name,session_type);
 
    if(macAddr == NULL)
@@ -8144,7 +6934,6 @@ hdd_adapter_t* hdd_open_adapter( hdd_context_t *pHddCtx, tANI_U8 session_type,
                              "valid mac address",__func__);
          return NULL;
    }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    //Disable BMPS incase of Concurrency
    exitbmpsStatus = hdd_disable_bmps_imps(pHddCtx, session_type);
@@ -8152,10 +6941,7 @@ hdd_adapter_t* hdd_open_adapter( hdd_context_t *pHddCtx, tANI_U8 session_type,
    if(VOS_STATUS_E_FAILURE == exitbmpsStatus)
    {
       //Fail to Exit BMPS
-<<<<<<< HEAD
-=======
       hddLog(VOS_TRACE_LEVEL_ERROR,"%s: Fail to Exit BMPS", __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       VOS_ASSERT(0);
       return NULL;
    }
@@ -8169,11 +6955,6 @@ hdd_adapter_t* hdd_open_adapter( hdd_context_t *pHddCtx, tANI_U8 session_type,
          pAdapter = hdd_alloc_station_adapter( pHddCtx, macAddr, iface_name );
 
          if( NULL == pAdapter )
-<<<<<<< HEAD
-            return NULL;
-
-         pAdapter->wdev.iftype = (session_type == WLAN_HDD_P2P_CLIENT) ?
-=======
          {
             hddLog(VOS_TRACE_LEVEL_FATAL,
               FL("failed to allocate adapter for session %d"), session_type);
@@ -8188,20 +6969,15 @@ hdd_adapter_t* hdd_open_adapter( hdd_context_t *pHddCtx, tANI_U8 session_type,
 #endif
 
          pAdapter->wdev.iftype = (session_type == WLAN_HDD_P2P_CLIENT) ?
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                                   NL80211_IFTYPE_P2P_CLIENT:
                                   NL80211_IFTYPE_STATION;
 
          pAdapter->device_mode = session_type;
-<<<<<<< HEAD
-
-=======
 #ifdef FEATURE_WLAN_TDLS
          mutex_unlock(&pHddCtx->tdls_lock);
 #endif
 
          hdd_initialize_adapter_common(pAdapter);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          status = hdd_init_station_mode( pAdapter );
          if( VOS_STATUS_SUCCESS != status )
             goto err_free_netdev;
@@ -8209,12 +6985,6 @@ hdd_adapter_t* hdd_open_adapter( hdd_context_t *pHddCtx, tANI_U8 session_type,
          status = hdd_register_interface( pAdapter, rtnl_held );
          if( VOS_STATUS_SUCCESS != status )
          {
-<<<<<<< HEAD
-            hdd_deinit_adapter(pHddCtx, pAdapter);
-            goto err_free_netdev;
-         }
-         //Stop the Interface TX queue.
-=======
 #ifdef FEATURE_WLAN_TDLS
             mutex_lock(&pHddCtx->tdls_lock);
 #endif
@@ -8234,13 +7004,10 @@ hdd_adapter_t* hdd_open_adapter( hdd_context_t *pHddCtx, tANI_U8 session_type,
 #endif
          //Stop the Interface TX queue.
          hddLog(VOS_TRACE_LEVEL_INFO, FL("Disabling queues"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          netif_tx_disable(pAdapter->dev);
          //netif_tx_disable(pWlanDev);
          netif_carrier_off(pAdapter->dev);
 
-<<<<<<< HEAD
-=======
          if (WLAN_HDD_P2P_CLIENT == session_type ||
                  WLAN_HDD_P2P_DEVICE == session_type)
          {
@@ -8250,7 +7017,6 @@ hdd_adapter_t* hdd_open_adapter( hdd_context_t *pHddCtx, tANI_U8 session_type,
                      hdd_p2p_roc_work_queue);
          }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          break;
       }
 
@@ -8259,38 +7025,22 @@ hdd_adapter_t* hdd_open_adapter( hdd_context_t *pHddCtx, tANI_U8 session_type,
       {
          pAdapter = hdd_wlan_create_ap_dev( pHddCtx, macAddr, (tANI_U8 *)iface_name );
          if( NULL == pAdapter )
-<<<<<<< HEAD
-            return NULL;
-=======
          {
             hddLog(VOS_TRACE_LEVEL_FATAL,
               FL("failed to allocate adapter for session %d"), session_type);
             return NULL;
          }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
          pAdapter->wdev.iftype = (session_type == WLAN_HDD_SOFTAP) ?
                                   NL80211_IFTYPE_AP:
                                   NL80211_IFTYPE_P2P_GO;
          pAdapter->device_mode = session_type;
 
-<<<<<<< HEAD
-=======
          hdd_initialize_adapter_common(pAdapter);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          status = hdd_init_ap_mode(pAdapter);
          if( VOS_STATUS_SUCCESS != status )
             goto err_free_netdev;
 
-<<<<<<< HEAD
-         status = hdd_register_hostapd( pAdapter, rtnl_held );
-         if( VOS_STATUS_SUCCESS != status )
-         {
-            hdd_deinit_adapter(pHddCtx, pAdapter);
-            goto err_free_netdev;
-         }
-
-=======
          status = hdd_sta_id_hash_attach(pAdapter);
          if (VOS_STATUS_SUCCESS != status)
          {
@@ -8307,13 +7057,10 @@ hdd_adapter_t* hdd_open_adapter( hdd_context_t *pHddCtx, tANI_U8 session_type,
             goto err_free_netdev;
          }
          hddLog(VOS_TRACE_LEVEL_INFO, FL("Disabling queues"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          netif_tx_disable(pAdapter->dev);
          netif_carrier_off(pAdapter->dev);
 
          hdd_set_conparam( 1 );
-<<<<<<< HEAD
-=======
 
          if (WLAN_HDD_P2P_GO == session_type)
          {
@@ -8322,20 +7069,12 @@ hdd_adapter_t* hdd_open_adapter( hdd_context_t *pHddCtx, tANI_U8 session_type,
              INIT_DELAYED_WORK(&pAdapter->roc_work,
                      hdd_p2p_roc_work_queue);
          }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          break;
       }
       case WLAN_HDD_MONITOR:
       {
          pAdapter = hdd_alloc_station_adapter( pHddCtx, macAddr, iface_name );
          if( NULL == pAdapter )
-<<<<<<< HEAD
-            return NULL;
-
-         pAdapter->wdev.iftype = NL80211_IFTYPE_MONITOR; 
-         pAdapter->device_mode = session_type;
-         status = hdd_register_interface( pAdapter, rtnl_held );
-=======
          {
             hddLog(VOS_TRACE_LEVEL_FATAL,
               FL("failed to allocate adapter for session %d"), session_type);
@@ -8353,34 +7092,11 @@ hdd_adapter_t* hdd_open_adapter( hdd_context_t *pHddCtx, tANI_U8 session_type,
 
          pAdapter->wdev.iftype = NL80211_IFTYPE_MONITOR; 
          pAdapter->device_mode = session_type;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #if LINUX_VERSION_CODE > KERNEL_VERSION(2,6,29)
          pAdapter->dev->netdev_ops = &wlan_mon_drv_ops;
 #else
          pAdapter->dev->open = hdd_mon_open;
          pAdapter->dev->hard_start_xmit = hdd_mon_hard_start_xmit;
-<<<<<<< HEAD
-#endif
-         hdd_init_tx_rx( pAdapter );
-         set_bit(INIT_TX_RX_SUCCESS, &pAdapter->event_flags);
-         //Set adapter to be used for data tx. It will use either GO or softap.
-         pAdapter->sessionCtx.monitor.pAdapterForTx = 
-                           hdd_get_adapter(pAdapter->pHddCtx, WLAN_HDD_SOFTAP);
-         if (NULL == pAdapter->sessionCtx.monitor.pAdapterForTx)
-         {
-            pAdapter->sessionCtx.monitor.pAdapterForTx = 
-                           hdd_get_adapter(pAdapter->pHddCtx, WLAN_HDD_P2P_GO);
-         }
-         /* This workqueue will be used to transmit management packet over
-          * monitor interface. */
-         if (NULL == pAdapter->sessionCtx.monitor.pAdapterForTx) {
-             hddLog(VOS_TRACE_LEVEL_ERROR,"%s:Failed:hdd_get_adapter",__func__);
-             return NULL;
-         }
-
-         INIT_WORK(&pAdapter->sessionCtx.monitor.pAdapterForTx->monTxWorkQueue,
-                   hdd_mon_tx_work_queue);
-=======
          pAdapter->dev->stop = hdd_mon_stop;
          pAdapter->dev->do_ioctl = hdd_mon_ioctl;
 #endif
@@ -8392,7 +7108,6 @@ hdd_adapter_t* hdd_open_adapter( hdd_context_t *pHddCtx, tANI_U8 session_type,
          //Stop the Interface TX queue.
          netif_tx_disable(pAdapter->dev);
          netif_carrier_off(pAdapter->dev);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
          break;
       case WLAN_HDD_FTM:
@@ -8400,59 +7115,39 @@ hdd_adapter_t* hdd_open_adapter( hdd_context_t *pHddCtx, tANI_U8 session_type,
          pAdapter = hdd_alloc_station_adapter( pHddCtx, macAddr, iface_name );
 
          if( NULL == pAdapter )
-<<<<<<< HEAD
-            return NULL;
-=======
          {
             hddLog(VOS_TRACE_LEVEL_FATAL,
               FL("failed to allocate adapter for session %d"), session_type);
              return NULL;
          }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          /* Assign NL80211_IFTYPE_STATION as interface type to resolve Kernel Warning
           * message while loading driver in FTM mode. */
          pAdapter->wdev.iftype = NL80211_IFTYPE_STATION;
          pAdapter->device_mode = session_type;
          status = hdd_register_interface( pAdapter, rtnl_held );
 
-<<<<<<< HEAD
-         hdd_init_tx_rx( pAdapter );
-
-         //Stop the Interface TX queue.
-=======
          hdd_initialize_adapter_common(pAdapter);
          hdd_init_tx_rx( pAdapter );
 
          //Stop the Interface TX queue.
          hddLog(VOS_TRACE_LEVEL_INFO, FL("Disabling queues"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          netif_tx_disable(pAdapter->dev);
          netif_carrier_off(pAdapter->dev);
       }
          break;
       default:
       {
-<<<<<<< HEAD
-=======
          hddLog(VOS_TRACE_LEVEL_FATAL,"%s Invalid session type %d",
            __func__, session_type);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          VOS_ASSERT(0);
          return NULL;
       }
    }
 
-<<<<<<< HEAD
-
-   if( VOS_STATUS_SUCCESS == status )
-   {
-      //Add it to the hdd's session list. 
-=======
    if( VOS_STATUS_SUCCESS == status )
    {
       //Add it to the hdd's session list.
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       pHddAdapterNode = vos_mem_malloc( sizeof( hdd_adapter_list_node_t ) );
       if( NULL == pHddAdapterNode )
       {
@@ -8520,15 +7215,11 @@ VOS_STATUS hdd_close_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter,
 
    status = hdd_get_front_adapter ( pHddCtx, &pCurrent );
    if( VOS_STATUS_SUCCESS != status )
-<<<<<<< HEAD
-      return status;
-=======
    {
       hddLog(VOS_TRACE_LEVEL_WARN,"%s: adapter list empty %d",
           __func__, status);
       return status;
    }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    while ( pCurrent->pAdapter != pAdapter )
    {
@@ -8543,8 +7234,6 @@ VOS_STATUS hdd_close_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter,
    {
       wlan_hdd_clear_concurrency_mode(pHddCtx, pAdapter->device_mode);
       hdd_cleanup_adapter( pHddCtx, pAdapterNode->pAdapter, rtnl_held );
-<<<<<<< HEAD
-=======
 
 #ifdef FEATURE_WLAN_TDLS
 
@@ -8554,18 +7243,10 @@ VOS_STATUS hdd_close_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter,
        mutex_lock(&pHddCtx->tdls_lock);
 #endif
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       hdd_remove_adapter( pHddCtx, pAdapterNode );
       vos_mem_free( pAdapterNode );
       pAdapterNode = NULL;
 
-<<<<<<< HEAD
-
-      /* If there is a single session of STA/P2P client, re-enable BMPS */
-      if ((!vos_concurrent_sessions_running()) && 
-           ((pHddCtx->no_of_sessions[VOS_STA_MODE] >= 1) || 
-           (pHddCtx->no_of_sessions[VOS_P2P_CLIENT_MODE] >= 1)))
-=======
 #ifdef FEATURE_WLAN_TDLS
        mutex_unlock(&pHddCtx->tdls_lock);
 #endif
@@ -8575,7 +7256,6 @@ VOS_STATUS hdd_close_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter,
       if ((!vos_concurrent_open_sessions_running()) &&
            ((pHddCtx->no_of_open_sessions[VOS_STA_MODE] >= 1) ||
            (pHddCtx->no_of_open_sessions[VOS_P2P_CLIENT_MODE] >= 1)))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {
           if (pHddCtx->hdd_wlan_suspended)
           {
@@ -8621,11 +7301,7 @@ void wlan_hdd_reset_prob_rspies(hdd_adapter_t* pHostapdAdapter)
                             eANI_BOOLEAN_FALSE) )
     {
         hddLog(LOGE,
-<<<<<<< HEAD
-           "Could not pass on WNI_CFG_PROBE_RSP_ADDNIE_DATA1 to CCM\n");
-=======
            "Could not pass on WNI_CFG_PROBE_RSP_ADDNIE_DATA1 to CCM");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     if ( eHAL_STATUS_FAILURE == ccmCfgSetStr((WLAN_HDD_GET_CTX(pHostapdAdapter))->hHal,
@@ -8633,11 +7309,7 @@ void wlan_hdd_reset_prob_rspies(hdd_adapter_t* pHostapdAdapter)
                             eANI_BOOLEAN_FALSE) )
     {
         hddLog(LOGE,
-<<<<<<< HEAD
-           "Could not pass on WNI_CFG_PROBE_RSP_ADDNIE_DATA2 to CCM\n");
-=======
            "Could not pass on WNI_CFG_PROBE_RSP_ADDNIE_DATA2 to CCM");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     if ( eHAL_STATUS_FAILURE == ccmCfgSetStr((WLAN_HDD_GET_CTX(pHostapdAdapter))->hHal,
@@ -8645,26 +7317,6 @@ void wlan_hdd_reset_prob_rspies(hdd_adapter_t* pHostapdAdapter)
                             eANI_BOOLEAN_FALSE) )
     {
         hddLog(LOGE,
-<<<<<<< HEAD
-           "Could not pass on WNI_CFG_PROBE_RSP_ADDNIE_DATA3 to CCM\n");
-    }
-}
-
-VOS_STATUS hdd_stop_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter )
-{
-   eHalStatus halStatus = eHAL_STATUS_SUCCESS;
-   hdd_wext_state_t *pWextState = WLAN_HDD_GET_WEXT_STATE_PTR(pAdapter);
-   union iwreq_data wrqu;
-
-   ENTER();
-
-   switch(pAdapter->device_mode)
-   {
-      case WLAN_HDD_INFRA_STATION:
-      case WLAN_HDD_P2P_CLIENT:
-      case WLAN_HDD_P2P_DEVICE:
-         if( hdd_connIsConnected( WLAN_HDD_GET_STATION_CTX_PTR( pAdapter )) )
-=======
            "Could not pass on WNI_CFG_PROBE_RSP_ADDNIE_DATA3 to CCM");
     }
 }
@@ -8712,7 +7364,6 @@ VOS_STATUS hdd_stop_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter,
 #endif
          if( hdd_connIsConnected(pstation) ||
              (pstation->conn_info.connState == eConnectionState_Connecting) )
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          {
             if (pWextState->roamProfile.BSSType == eCSR_BSS_TYPE_START_IBSS)
                 halStatus = sme_RoamDisconnect(pHddCtx->hHal,
@@ -8725,10 +7376,6 @@ VOS_STATUS hdd_stop_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter,
             //success implies disconnect command got queued up successfully
             if(halStatus == eHAL_STATUS_SUCCESS)
             {
-<<<<<<< HEAD
-               wait_for_completion_interruptible_timeout(&pAdapter->disconnect_comp_var,
-               msecs_to_jiffies(WLAN_WAIT_TIME_DISCONNECT));
-=======
                ret = wait_for_completion_interruptible_timeout(
                           &pAdapter->disconnect_comp_var,
                            msecs_to_jiffies(WLAN_WAIT_TIME_DISCONNECT));
@@ -8743,34 +7390,12 @@ VOS_STATUS hdd_stop_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter,
             {
                 hddLog(LOGE, "%s: failed to post disconnect event to SME",
                          __func__);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             }
             memset(&wrqu, '\0', sizeof(wrqu));
             wrqu.ap_addr.sa_family = ARPHRD_ETHER;
             memset(wrqu.ap_addr.sa_data,'\0',ETH_ALEN);
             wireless_send_event(pAdapter->dev, SIOCGIWAP, &wrqu, NULL);
          }
-<<<<<<< HEAD
-         else
-         {
-            hdd_abort_mac_scan(pHddCtx);
-         }
-
-         if (test_bit(SME_SESSION_OPENED, &pAdapter->event_flags)) 
-         {
-            INIT_COMPLETION(pAdapter->session_close_comp_var);
-            if (eHAL_STATUS_SUCCESS ==
-                sme_CloseSession(pHddCtx->hHal, pAdapter->sessionId, 
-                                 hdd_smeCloseSessionCallback, pAdapter))
-            {
-               //Block on a completion variable. Can't wait forever though.
-               wait_for_completion_timeout(
-                          &pAdapter->session_close_comp_var, 
-                          msecs_to_jiffies(WLAN_WAIT_TIME_SESSIONOPENCLOSE));
-            }
-         }
-
-=======
          else if(pstation->conn_info.connState ==
                     eConnectionState_Disconnecting)
          {
@@ -8850,14 +7475,10 @@ VOS_STATUS hdd_stop_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter,
             }
          }
       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          break;
 
       case WLAN_HDD_SOFTAP:
       case WLAN_HDD_P2P_GO:
-<<<<<<< HEAD
-         //Any softap specific cleanup here...
-=======
           if ( VOS_TRUE == bCloseSession )
           {
               status = hdd_sta_id_hash_detach(pAdapter);
@@ -8887,7 +7508,6 @@ VOS_STATUS hdd_stop_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter,
 
             vos_flush_delayed_work(&pAdapter->roc_work);
          }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          mutex_lock(&pHddCtx->sap_lock);
          if (test_bit(SOFTAP_BSS_STARTED, &pAdapter->event_flags)) 
          {
@@ -8905,13 +7525,8 @@ VOS_STATUS hdd_stop_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter,
    
                if (!VOS_IS_STATUS_SUCCESS(status))
                {
-<<<<<<< HEAD
-                  hddLog(LOGE, "%s: failure waiting for WLANSAP_StopBss",
-                         __func__);
-=======
                   hddLog(LOGE, "%s: failure waiting for WLANSAP_StopBss %d",
                          __func__, status);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                }
             }
             else
@@ -8919,10 +7534,7 @@ VOS_STATUS hdd_stop_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter,
                hddLog(LOGE, "%s: failure in WLANSAP_StopBss", __func__);
             }
             clear_bit(SOFTAP_BSS_STARTED, &pAdapter->event_flags);
-<<<<<<< HEAD
-=======
             wlan_hdd_decr_active_session(pHddCtx, pAdapter->device_mode);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
             if (eHAL_STATUS_FAILURE ==
                 ccmCfgSetInt(pHddCtx->hHal, WNI_CFG_PROBE_RSP_BCN_ADDNIE_FLAG,
@@ -8950,12 +7562,6 @@ VOS_STATUS hdd_stop_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter,
          break;
 
       case WLAN_HDD_MONITOR:
-<<<<<<< HEAD
-#ifdef WLAN_OPEN_SOURCE
-         cancel_work_sync(&pAdapter->sessionCtx.monitor.pAdapterForTx->monTxWorkQueue);
-#endif
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          break;
 
       default:
@@ -8979,15 +7585,8 @@ VOS_STATUS hdd_stop_all_adapters( hdd_context_t *pHddCtx )
    while ( NULL != pAdapterNode && VOS_STATUS_SUCCESS == status )
    {
       pAdapter = pAdapterNode->pAdapter;
-<<<<<<< HEAD
-      netif_tx_disable(pAdapter->dev);
-      netif_carrier_off(pAdapter->dev);
-
-      hdd_stop_adapter( pHddCtx, pAdapter );
-=======
 
       hdd_stop_adapter( pHddCtx, pAdapter, VOS_TRUE );
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
       status = hdd_get_next_adapter ( pHddCtx, pAdapterNode, &pNext );
       pAdapterNode = pNext;
@@ -9015,18 +7614,6 @@ void hdd_deinit_batch_scan(hdd_adapter_t *pAdapter)
     tHddBatchScanRsp *pNode;
     tHddBatchScanRsp *pPrev;
 
-<<<<<<< HEAD
-    if (pAdapter)
-    {
-        pNode = pAdapter->pBatchScanRsp;
-        while (pNode)
-        {
-            pPrev = pNode;
-            pNode = pNode->pNext;
-            vos_mem_free((v_VOID_t * )pPrev);
-        }
-        pAdapter->pBatchScanRsp = NULL;
-=======
     if (NULL == pAdapter)
     {
         hddLog(VOS_TRACE_LEVEL_ERROR,
@@ -9040,7 +7627,6 @@ void hdd_deinit_batch_scan(hdd_adapter_t *pAdapter)
         pPrev = pNode;
         pNode = pNode->pNext;
         vos_mem_free((v_VOID_t * )pPrev);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
 
     pAdapter->pBatchScanRsp = NULL;
@@ -9066,18 +7652,13 @@ VOS_STATUS hdd_reset_all_adapters( hdd_context_t *pHddCtx )
    while ( NULL != pAdapterNode && VOS_STATUS_SUCCESS == status )
    {
       pAdapter = pAdapterNode->pAdapter;
-<<<<<<< HEAD
-=======
       hddLog(VOS_TRACE_LEVEL_INFO, FL("Disabling queues"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       netif_tx_disable(pAdapter->dev);
       netif_carrier_off(pAdapter->dev);
 
       pAdapter->sessionCtx.station.hdd_ReassocScenario = VOS_FALSE;
 
       hdd_deinit_tx_rx(pAdapter);
-<<<<<<< HEAD
-=======
 
       if(pAdapter->device_mode == WLAN_HDD_IBSS )
          hdd_ibss_deinit_tx_rx(pAdapter);
@@ -9090,21 +7671,17 @@ VOS_STATUS hdd_reset_all_adapters( hdd_context_t *pHddCtx )
 
       wlan_hdd_decr_active_session(pHddCtx, pAdapter->device_mode);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       if (test_bit(WMM_INIT_DONE, &pAdapter->event_flags))
       {
           hdd_wmm_adapter_close( pAdapter );
           clear_bit(WMM_INIT_DONE, &pAdapter->event_flags);
       }
 
-<<<<<<< HEAD
-=======
       if (test_bit(SOFTAP_BSS_STARTED, &pAdapter->event_flags))
       {
           clear_bit(SOFTAP_BSS_STARTED, &pAdapter->event_flags);
       }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef FEATURE_WLAN_BATCH_SCAN
       if (eHDD_BATCH_SCAN_STATE_STARTED == pAdapter->batchScanState)
       {
@@ -9112,14 +7689,11 @@ VOS_STATUS hdd_reset_all_adapters( hdd_context_t *pHddCtx )
       }
 #endif
 
-<<<<<<< HEAD
-=======
 #ifdef FEATURE_WLAN_TDLS
       mutex_lock(&pHddCtx->tdls_lock);
       wlan_hdd_tdls_exit(pAdapter, TRUE);
       mutex_unlock(&pHddCtx->tdls_lock);
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       status = hdd_get_next_adapter ( pHddCtx, pAdapterNode, &pNext );
       pAdapterNode = pNext;
    }
@@ -9144,11 +7718,8 @@ VOS_STATUS hdd_start_all_adapters( hdd_context_t *pHddCtx )
    {
       pAdapter = pAdapterNode->pAdapter;
 
-<<<<<<< HEAD
-=======
       hdd_wmm_init( pAdapter );
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       switch(pAdapter->device_mode)
       {
          case WLAN_HDD_INFRA_STATION:
@@ -9158,22 +7729,15 @@ VOS_STATUS hdd_start_all_adapters( hdd_context_t *pHddCtx )
             connState = (WLAN_HDD_GET_STATION_CTX_PTR(pAdapter))->conn_info.connState;
 
             hdd_init_station_mode(pAdapter);
-<<<<<<< HEAD
-=======
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             /* Open the gates for HDD to receive Wext commands */
             pAdapter->isLinkUpSvcNeeded = FALSE; 
             pHddCtx->scan_info.mScanPending = FALSE;
             pHddCtx->scan_info.waitScanResult = FALSE;
 
             //Trigger the initial scan
-<<<<<<< HEAD
-            hdd_wlan_initial_scan(pAdapter);
-=======
             if (!pHddCtx->isLogpInProgress)
                 hdd_wlan_initial_scan(pAdapter);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
             //Indicate disconnect event to supplicant if associated previously
             if (eConnectionState_Associated == connState ||
@@ -9235,10 +7799,7 @@ VOS_STATUS hdd_reconnect_all_adapters( hdd_context_t *pHddCtx )
    hdd_adapter_t *pAdapter;
    VOS_STATUS status;
    v_U32_t roamId;
-<<<<<<< HEAD
-=======
    long ret;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    ENTER();
 
@@ -9254,9 +7815,6 @@ VOS_STATUS hdd_reconnect_all_adapters( hdd_context_t *pHddCtx )
          hdd_station_ctx_t *pHddStaCtx = WLAN_HDD_GET_STATION_CTX_PTR(pAdapter);
          hdd_wext_state_t *pWextState = WLAN_HDD_GET_WEXT_STATE_PTR(pAdapter);
 
-<<<<<<< HEAD
-         pHddStaCtx->conn_info.connState = eConnectionState_NotConnected;
-=======
          hddLog(VOS_TRACE_LEVEL_INFO,
             "%s: Set HDD connState to eConnectionState_NotConnected",
                    __func__);
@@ -9267,23 +7825,16 @@ VOS_STATUS hdd_reconnect_all_adapters( hdd_context_t *pHddCtx )
          }
          pHddStaCtx->conn_info.connState = eConnectionState_NotConnected;
          spin_unlock_bh(&pAdapter->lock_for_active_session);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          init_completion(&pAdapter->disconnect_comp_var);
          sme_RoamDisconnect(pHddCtx->hHal, pAdapter->sessionId,
                              eCSR_DISCONNECT_REASON_UNSPECIFIED);
 
-<<<<<<< HEAD
-         wait_for_completion_interruptible_timeout(
-                                &pAdapter->disconnect_comp_var,
-                                msecs_to_jiffies(WLAN_WAIT_TIME_DISCONNECT));
-=======
          ret = wait_for_completion_interruptible_timeout(
                                 &pAdapter->disconnect_comp_var,
                                 msecs_to_jiffies(WLAN_WAIT_TIME_DISCONNECT));
          if (0 >= ret)
              hddLog(LOGE, "%s: failure waiting for disconnect_comp_var %ld",
                      __func__, ret);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
          pWextState->roamProfile.csrPersona = pAdapter->device_mode; 
          pHddCtx->isAmpAllowed = VOS_FALSE;
@@ -9391,29 +7942,19 @@ void hdd_set_ssr_required( e_hdd_ssr_required value)
     isSsrRequired = value;
 }
 
-<<<<<<< HEAD
-=======
 void hdd_set_pre_close( hdd_context_t *pHddCtx)
 {
    sme_PreClose(pHddCtx->hHal);
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 VOS_STATUS hdd_get_front_adapter( hdd_context_t *pHddCtx,
                                   hdd_adapter_list_node_t** ppAdapterNode)
 {
     VOS_STATUS status;
-<<<<<<< HEAD
-    spin_lock(&pHddCtx->hddAdapters.lock);
-    status =  hdd_list_peek_front ( &pHddCtx->hddAdapters,
-                   (hdd_list_node_t**) ppAdapterNode );
-    spin_unlock(&pHddCtx->hddAdapters.lock);
-=======
     spin_lock_bh(&pHddCtx->hddAdapters.lock);
     status =  hdd_list_peek_front ( &pHddCtx->hddAdapters,
                    (hdd_list_node_t**) ppAdapterNode );
     spin_unlock_bh(&pHddCtx->hddAdapters.lock);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return status;
 }
 
@@ -9422,20 +7963,12 @@ VOS_STATUS hdd_get_next_adapter( hdd_context_t *pHddCtx,
                                  hdd_adapter_list_node_t** pNextAdapterNode)
 {
     VOS_STATUS status;
-<<<<<<< HEAD
-    spin_lock(&pHddCtx->hddAdapters.lock);
-=======
     spin_lock_bh(&pHddCtx->hddAdapters.lock);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     status = hdd_list_peek_next ( &pHddCtx->hddAdapters,
                                   (hdd_list_node_t*) pAdapterNode,
                                   (hdd_list_node_t**)pNextAdapterNode );
 
-<<<<<<< HEAD
-    spin_unlock(&pHddCtx->hddAdapters.lock);
-=======
     spin_unlock_bh(&pHddCtx->hddAdapters.lock);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return status;
 }
 
@@ -9443,17 +7976,10 @@ VOS_STATUS hdd_remove_adapter( hdd_context_t *pHddCtx,
                                hdd_adapter_list_node_t* pAdapterNode)
 {
     VOS_STATUS status;
-<<<<<<< HEAD
-    spin_lock(&pHddCtx->hddAdapters.lock);
-    status =  hdd_list_remove_node ( &pHddCtx->hddAdapters,
-                                     &pAdapterNode->node );
-    spin_unlock(&pHddCtx->hddAdapters.lock);
-=======
     spin_lock_bh(&pHddCtx->hddAdapters.lock);
     status =  hdd_list_remove_node ( &pHddCtx->hddAdapters,
                                      &pAdapterNode->node );
     spin_unlock_bh(&pHddCtx->hddAdapters.lock);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return status;
 }
 
@@ -9461,17 +7987,10 @@ VOS_STATUS hdd_remove_front_adapter( hdd_context_t *pHddCtx,
                                      hdd_adapter_list_node_t** ppAdapterNode)
 {
     VOS_STATUS status;
-<<<<<<< HEAD
-    spin_lock(&pHddCtx->hddAdapters.lock);
-    status =  hdd_list_remove_front( &pHddCtx->hddAdapters,
-                   (hdd_list_node_t**) ppAdapterNode );
-    spin_unlock(&pHddCtx->hddAdapters.lock);
-=======
     spin_lock_bh(&pHddCtx->hddAdapters.lock);
     status =  hdd_list_remove_front( &pHddCtx->hddAdapters,
                    (hdd_list_node_t**) ppAdapterNode );
     spin_unlock_bh(&pHddCtx->hddAdapters.lock);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return status;
 }
 
@@ -9479,17 +7998,10 @@ VOS_STATUS hdd_add_adapter_back( hdd_context_t *pHddCtx,
                                  hdd_adapter_list_node_t* pAdapterNode)
 {
     VOS_STATUS status;
-<<<<<<< HEAD
-    spin_lock(&pHddCtx->hddAdapters.lock);
-    status =  hdd_list_insert_back ( &pHddCtx->hddAdapters,
-                   (hdd_list_node_t*) pAdapterNode );
-    spin_unlock(&pHddCtx->hddAdapters.lock);
-=======
     spin_lock_bh(&pHddCtx->hddAdapters.lock);
     status =  hdd_list_insert_back ( &pHddCtx->hddAdapters,
                    (hdd_list_node_t*) pAdapterNode );
     spin_unlock_bh(&pHddCtx->hddAdapters.lock);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return status;
 }
 
@@ -9497,17 +8009,10 @@ VOS_STATUS hdd_add_adapter_front( hdd_context_t *pHddCtx,
                                   hdd_adapter_list_node_t* pAdapterNode)
 {
     VOS_STATUS status;
-<<<<<<< HEAD
-    spin_lock(&pHddCtx->hddAdapters.lock);
-    status =  hdd_list_insert_front ( &pHddCtx->hddAdapters,
-                   (hdd_list_node_t*) pAdapterNode );
-    spin_unlock(&pHddCtx->hddAdapters.lock);
-=======
     spin_lock_bh(&pHddCtx->hddAdapters.lock);
     status =  hdd_list_insert_front ( &pHddCtx->hddAdapters,
                    (hdd_list_node_t*) pAdapterNode );
     spin_unlock_bh(&pHddCtx->hddAdapters.lock);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     return status;
 }
 
@@ -9562,8 +8067,6 @@ hdd_adapter_t * hdd_get_adapter_by_name( hdd_context_t *pHddCtx, tANI_U8 *name )
 
 } 
 
-<<<<<<< HEAD
-=======
 hdd_adapter_t *hdd_get_adapter_by_sme_session_id( hdd_context_t *pHddCtx,
                                         tANI_U32 sme_session_id )
 {
@@ -9592,7 +8095,6 @@ hdd_adapter_t *hdd_get_adapter_by_sme_session_id( hdd_context_t *pHddCtx,
     return NULL;
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 hdd_adapter_t * hdd_get_adapter( hdd_context_t *pHddCtx, device_mode_t mode )
 {
    hdd_adapter_list_node_t *pAdapterNode = NULL, *pNext = NULL;
@@ -9645,33 +8147,7 @@ hdd_adapter_t * hdd_get_mon_adapter( hdd_context_t *pHddCtx )
 
 /**---------------------------------------------------------------------------
   
-<<<<<<< HEAD
-  \brief hdd_set_monitor_tx_adapter() - 
-
-   This API initializes the adapter to be used while transmitting on monitor
-   adapter. 
-   
-  \param  - pHddCtx - Pointer to the HDD context.
-            pAdapter - Adapter that will used for TX. This can be NULL.
-  \return - None. 
-  --------------------------------------------------------------------------*/
-void wlan_hdd_set_monitor_tx_adapter( hdd_context_t *pHddCtx, hdd_adapter_t *pAdapter )
-{
-   hdd_adapter_t *pMonAdapter;
-
-   pMonAdapter = hdd_get_adapter( pHddCtx, WLAN_HDD_MONITOR );
-
-   if( NULL != pMonAdapter )
-   {
-      pMonAdapter->sessionCtx.monitor.pAdapterForTx = pAdapter;
-   }
-}
-/**---------------------------------------------------------------------------
-  
-  \brief hdd_select_queue() - 
-=======
   \brief hdd_get_operating_channel() -
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    This API returns the operating channel of the requested device mode 
    
@@ -9725,28 +8201,12 @@ v_U8_t hdd_get_operating_channel( hdd_context_t *pHddCtx, device_mode_t mode )
 #ifdef WLAN_FEATURE_PACKET_FILTERING
 /**---------------------------------------------------------------------------
 
-<<<<<<< HEAD
-  \brief hdd_set_multicast_list() - 
-=======
   \brief __hdd_set_multicast_list() -
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
   This used to set the multicast address list.
 
   \param  - dev - Pointer to the WLAN device.
   - skb - Pointer to OS packet (sk_buff).
-<<<<<<< HEAD
-  \return - success/fail 
-
-  --------------------------------------------------------------------------*/
-static void hdd_set_multicast_list(struct net_device *dev)
-{
-   hdd_adapter_t *pAdapter = WLAN_HDD_GET_PRIV_PTR(dev);
-   int mc_count;
-   int i = 0;
-   struct netdev_hw_addr *ha;
-
-=======
   \return - success/fail
 
   --------------------------------------------------------------------------*/
@@ -9761,34 +8221,25 @@ static void __hdd_set_multicast_list(struct net_device *dev)
    ENTER();
 
    pAdapter = WLAN_HDD_GET_PRIV_PTR(dev);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if (NULL == pAdapter)
    {
       hddLog(VOS_TRACE_LEVEL_ERROR,
             "%s: Adapter context is Null", __func__);
       return;
    }
-<<<<<<< HEAD
-
-=======
    pHddCtx = WLAN_HDD_GET_CTX(pAdapter);
    ret = wlan_hdd_validate_context(pHddCtx);
    if (0 != ret)
    {
        return;
    }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if (dev->flags & IFF_ALLMULTI)
    {
       hddLog(VOS_TRACE_LEVEL_INFO,
             "%s: allow all multicast frames", __func__);
       pAdapter->mc_addr_list.mc_cnt = 0;
    }
-<<<<<<< HEAD
-   else 
-=======
    else
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    {
       mc_count = netdev_mc_count(dev);
       hddLog(VOS_TRACE_LEVEL_INFO,
@@ -9808,21 +8259,12 @@ static void __hdd_set_multicast_list(struct net_device *dev)
             break;
          memset(&(pAdapter->mc_addr_list.addr[i][0]), 0, ETH_ALEN);
          memcpy(&(pAdapter->mc_addr_list.addr[i][0]), ha->addr, ETH_ALEN);
-<<<<<<< HEAD
-         hddLog(VOS_TRACE_LEVEL_INFO, "\n%s: mlist[%d] = "MAC_ADDRESS_STR,
-               __func__, i, 
-=======
          hddLog(VOS_TRACE_LEVEL_INFO, "%s: mlist[%d] = "MAC_ADDRESS_STR,
                __func__, i,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                MAC_ADDR_ARRAY(pAdapter->mc_addr_list.addr[i]));
          i++;
       }
    }
-<<<<<<< HEAD
-   return;
-}
-=======
 
    EXIT();
    return;
@@ -9834,7 +8276,6 @@ static void hdd_set_multicast_list(struct net_device *dev)
    __hdd_set_multicast_list(dev);
    vos_ssr_unprotect(__func__);
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 
 /**---------------------------------------------------------------------------
@@ -9850,9 +8291,6 @@ static void hdd_set_multicast_list(struct net_device *dev)
   
   --------------------------------------------------------------------------*/
 v_U16_t hdd_select_queue(struct net_device *dev,
-<<<<<<< HEAD
-    struct sk_buff *skb)
-=======
     struct sk_buff *skb
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,13,0))
     , void *accel_priv
@@ -9861,7 +8299,6 @@ v_U16_t hdd_select_queue(struct net_device *dev,
     , select_queue_fallback_t fallback
 #endif
 )
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
    return hdd_wmm_select_queue(dev, skb);
 }
@@ -9881,11 +8318,7 @@ void hdd_wlan_initial_scan(hdd_adapter_t *pAdapter)
    tCsrScanRequest scanReq;
    tCsrChannelInfo channelInfo;
    eHalStatus halStatus;
-<<<<<<< HEAD
-   unsigned long scanId;
-=======
    tANI_U32 scanId;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    hdd_context_t *pHddCtx = WLAN_HDD_GET_CTX(pAdapter);
 
    vos_mem_zero(&scanReq, sizeof(tCsrScanRequest));
@@ -9936,8 +8369,6 @@ void hdd_wlan_initial_scan(hdd_adapter_t *pAdapter)
         vos_mem_free(scanReq.ChannelInfo.ChannelList);
 }
 
-<<<<<<< HEAD
-=======
 void hdd_purge_cmd_list_all_adapters( hdd_context_t *pHddCtx )
 {
    hdd_adapter_list_node_t *pAdapterNode = NULL, *pNext = NULL;
@@ -9959,7 +8390,6 @@ void hdd_purge_cmd_list_all_adapters( hdd_context_t *pHddCtx )
 
    EXIT();
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**---------------------------------------------------------------------------
 
   \brief hdd_full_power_callback() - HDD full power callback function
@@ -10016,8 +8446,6 @@ static void hdd_full_power_callback(void *callbackContext, eHalStatus status)
    spin_unlock(&hdd_context_lock);
 }
 
-<<<<<<< HEAD
-=======
 void wlan_hdd_mon_set_typesubtype( hdd_mon_ctx_t *pMonCtx,int type)
 {
    pMonCtx->typeSubtypeBitmap = 0;
@@ -10157,7 +8585,6 @@ void hdd_wlan_free_wiphy_channels(struct wiphy *wiphy)
         }
     }
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /**---------------------------------------------------------------------------
 
   \brief hdd_wlan_exit() - HDD WLAN exit function
@@ -10175,61 +8602,6 @@ void hdd_wlan_exit(hdd_context_t *pHddCtx)
    v_CONTEXT_t pVosContext = pHddCtx->pvosContext;
    VOS_STATUS vosStatus;
    struct wiphy *wiphy = pHddCtx->wiphy;
-<<<<<<< HEAD
-   hdd_adapter_t* pAdapter;
-   struct statsContext powerContext;
-   long lrc;
-
-   ENTER();
-
-   if (VOS_FTM_MODE != hdd_get_conparam())
-   {
-      // Unloading, restart logic is no more required.
-      wlan_hdd_restart_deinit(pHddCtx);
-   }
-
-   if (VOS_STA_SAP_MODE != hdd_get_conparam())
-   {
-      if (VOS_FTM_MODE != hdd_get_conparam())
-      {
-         hdd_adapter_t* pAdapter = hdd_get_adapter(pHddCtx,
-                                      WLAN_HDD_INFRA_STATION);
-         if (pAdapter == NULL)
-            pAdapter = hdd_get_adapter(pHddCtx, WLAN_HDD_P2P_CLIENT);
-
-         if (pAdapter != NULL)
-         {
-            wlan_hdd_cfg80211_pre_voss_stop(pAdapter);
-            hdd_UnregisterWext(pAdapter->dev);
-         }
-      }
-   }
-
-   if (VOS_FTM_MODE == hdd_get_conparam())
-   {
-      wlan_hdd_ftm_close(pHddCtx);
-      goto free_hdd_ctx;
-   }
-   //Stop the Interface TX queue.
-   //netif_tx_disable(pWlanDev);
-   //netif_carrier_off(pWlanDev);
-
-   if (VOS_STA_SAP_MODE == hdd_get_conparam())
-   {
-      pAdapter = hdd_get_adapter(pHddCtx,
-                                   WLAN_HDD_SOFTAP);
-   }
-   else
-   {
-      if (VOS_FTM_MODE != hdd_get_conparam())
-      {
-         pAdapter = hdd_get_adapter(pHddCtx,
-                                    WLAN_HDD_INFRA_STATION);
-         if (pAdapter == NULL)
-            pAdapter = hdd_get_adapter(pHddCtx, WLAN_HDD_IBSS);
-      }
-   }
-=======
    hdd_adapter_t* pAdapter = NULL;
    struct statsContext powerContext;
    long lrc;
@@ -10351,7 +8723,6 @@ void hdd_wlan_exit(hdd_context_t *pHddCtx)
       goto free_hdd_ctx;
    }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* DeRegister with platform driver as client for Suspend/Resume */
    vosStatus = hddDeregisterPmOps(pHddCtx);
    if ( !VOS_IS_STATUS_SUCCESS( vosStatus ) )
@@ -10366,31 +8737,6 @@ void hdd_wlan_exit(hdd_context_t *pHddCtx)
       hddLog(VOS_TRACE_LEVEL_FATAL,"%s: hddDevTmUnregisterNotifyCallback failed",__func__);
    }
 
-<<<<<<< HEAD
-   // Cancel any outstanding scan requests.  We are about to close all
-   // of our adapters, but an adapter structure is what SME passes back
-   // to our callback function.  Hence if there are any outstanding scan
-   // requests then there is a race condition between when the adapter
-   // is closed and when the callback is invoked.  We try to resolve that
-   // race condition here by canceling any outstanding scans before we
-   // close the adapters.
-   // Note that the scans may be cancelled in an asynchronous manner, so
-   // ideally there needs to be some kind of synchronization.  Rather than
-   // introduce a new synchronization here, we will utilize the fact that
-   // we are about to Request Full Power, and since that is synchronized,
-   // the expectation is that by the time Request Full Power has completed,
-   // all scans will be cancelled.
-   if (NULL != pAdapter)
-   {
-      hdd_abort_mac_scan( pHddCtx);
-   }
-   else
-   {
-       hddLog(VOS_TRACE_LEVEL_ERROR,
-           "%s: pAdapter is NULL, cannot Abort scan", __func__);
-   }
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    //Stop the traffic monitor timer
    if ( VOS_TIMER_STATE_RUNNING ==
                         vos_timer_getCurrentState(&pHddCtx->tx_rx_trafficTmr))
@@ -10441,8 +8787,6 @@ void hdd_wlan_exit(hdd_context_t *pHddCtx)
          /* continue -- need to clean up as much as possible */
       }
    }
-<<<<<<< HEAD
-=======
    if ((eHAL_STATUS_SUCCESS == halStatus) ||
        (eHAL_STATUS_PMC_PENDING == halStatus && lrc > 0))
    {
@@ -10450,7 +8794,6 @@ void hdd_wlan_exit(hdd_context_t *pHddCtx)
           BTQM queues and unblock MC thread */
        vos_fwDumpReq(274, 0, 0, 0, 0, 1);
    }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    /* either we never sent a request, we sent a request and received a
       response or we sent a request and timed out.  if we never sent a
@@ -10467,10 +8810,6 @@ void hdd_wlan_exit(hdd_context_t *pHddCtx)
    powerContext.magic = 0;
    spin_unlock(&hdd_context_lock);
 
-<<<<<<< HEAD
-   hdd_debugfs_exit(pHddCtx);
-
-=======
    /* If Device is shutdown, no point for SME to wait for responses
       from device. Pre Close SME */
    if(wcnss_device_is_shutdown())
@@ -10486,7 +8825,6 @@ void hdd_wlan_exit(hdd_context_t *pHddCtx)
    hddLog(LOG1, FL("Unregister IPv4 notifier"));
    unregister_inetaddr_notifier(&pHddCtx->ipv4_notifier);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    // Unregister the Net Device Notifier
    unregister_netdevice_notifier(&hdd_netdev_notifier);
    
@@ -10508,24 +8846,9 @@ void hdd_wlan_exit(hdd_context_t *pHddCtx)
       VOS_TRACE( VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
          "%s: Failed to stop VOSS",__func__);
       VOS_ASSERT( VOS_IS_STATUS_SUCCESS( vosStatus ) );
-<<<<<<< HEAD
-   }
-
-   //Assert Deep sleep signal now to put Libra HW in lowest power state
-   vosStatus = vos_chipAssertDeepSleep( NULL, NULL, NULL );
-   VOS_ASSERT( VOS_IS_STATUS_SUCCESS( vosStatus ) );
-
-   //Vote off any PMIC voltage supplies
-   vos_chipPowerDown(NULL, NULL, NULL);
-
-   vos_chipVoteOffXOBuffer(NULL, NULL, NULL);
-
-
-=======
       VOS_BUG(0);
    }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    //This requires pMac access, Call this before vos_close().
    hdd_unregister_mcast_bcast_filter(pHddCtx);
 
@@ -10538,23 +8861,12 @@ void hdd_wlan_exit(hdd_context_t *pHddCtx)
          "%s: Failed to close VOSS Scheduler",__func__);
       VOS_ASSERT( VOS_IS_STATUS_SUCCESS( vosStatus ) );
    }
-<<<<<<< HEAD
-#ifdef WLAN_OPEN_SOURCE
-#ifdef WLAN_FEATURE_HOLD_RX_WAKELOCK
-   /* Destroy the wake lock */
-   wake_lock_destroy(&pHddCtx->rx_wake_lock);
-#endif
-   /* Destroy the wake lock */
-   wake_lock_destroy(&pHddCtx->sap_wake_lock);
-#endif
-=======
 #ifdef WLAN_FEATURE_HOLD_RX_WAKELOCK
    /* Destroy the wake lock */
    vos_wake_lock_destroy(&pHddCtx->rx_wake_lock);
 #endif
    /* Destroy the wake lock */
    vos_wake_lock_destroy(&pHddCtx->sap_wake_lock);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef CONFIG_ENABLE_LINUX_REG
    vosStatus = vos_nv_close();
@@ -10576,8 +8888,6 @@ void hdd_wlan_exit(hdd_context_t *pHddCtx)
 
    //Clean up HDD Nlink Service
    send_btc_nlink_msg(WLAN_MODULE_DOWN_IND, 0);
-<<<<<<< HEAD
-=======
 
 #ifdef WLAN_LOGGING_SOCK_SVC_ENABLE
    if (pHddCtx->cfg_ini->wlanLoggingEnable)
@@ -10586,40 +8896,16 @@ void hdd_wlan_exit(hdd_context_t *pHddCtx)
    }
 #endif
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef WLAN_KD_READY_NOTIFIER
    nl_srv_exit(pHddCtx->ptt_pid);
 #else
    nl_srv_exit();
 #endif /* WLAN_KD_READY_NOTIFIER */
 
-<<<<<<< HEAD
-   /* Cancel the vote for XO Core ON. 
-    * This is done here to ensure there is no race condition since MC, TX and WD threads have
-    * exited at this point
-    */
-   hddLog(VOS_TRACE_LEVEL_WARN, "In module exit: Cancel the vote for XO Core ON"
-                                    " when WLAN is turned OFF\n");
-   if (vos_chipVoteXOCore(NULL, NULL, NULL, VOS_FALSE) != VOS_STATUS_SUCCESS)
-   {
-       hddLog(VOS_TRACE_LEVEL_ERROR, "Could not cancel the vote for XO Core ON." 
-                                        " Not returning failure."
-                                        " Power consumed will be high\n");
-   }  
-
-   hdd_close_all_adapters( pHddCtx );
-
-
-   //Free up dynamically allocated members inside HDD Adapter
-   kfree(pHddCtx->cfg_ini);
-   pHddCtx->cfg_ini= NULL;
-
-=======
 
    hdd_close_all_adapters( pHddCtx );
 
 free_hdd_ctx:
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* free the power on lock from platform driver */
    if (free_riva_power_on_lock("wlan"))
    {
@@ -10627,9 +8913,6 @@ free_hdd_ctx:
                                            __func__);
    }
 
-<<<<<<< HEAD
-free_hdd_ctx:
-=======
    //Free up dynamically allocated members inside HDD Adapter
    if (pHddCtx->cfg_ini)
    {
@@ -10637,16 +8920,12 @@ free_hdd_ctx:
        pHddCtx->cfg_ini= NULL;
    }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* FTM mode, WIPHY did not registered
       If un-register here, system crash will happen */
    if (VOS_FTM_MODE != hdd_get_conparam())
    {
       wiphy_unregister(wiphy) ;
-<<<<<<< HEAD
-=======
       hdd_wlan_free_wiphy_channels(wiphy);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
    wiphy_free(wiphy) ;
    if (hdd_is_ssr_required())
@@ -10680,32 +8959,20 @@ static VOS_STATUS hdd_update_config_from_nv(hdd_context_t* pHddCtx)
    status = vos_nv_getValidity(VNV_FIELD_IMAGE, &itemIsValid);
    if(status != VOS_STATUS_SUCCESS)
    {
-<<<<<<< HEAD
-      hddLog(VOS_TRACE_LEVEL_ERROR," vos_nv_getValidity() failed\n ");
-=======
       hddLog(VOS_TRACE_LEVEL_ERROR," vos_nv_getValidity() failed");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
        return VOS_STATUS_E_FAILURE;
    }
 
    if (itemIsValid == VOS_TRUE) 
    {
-<<<<<<< HEAD
-        hddLog(VOS_TRACE_LEVEL_INFO_HIGH," Reading the Macaddress from NV\n ");
-=======
         hddLog(VOS_TRACE_LEVEL_INFO_HIGH," Reading the Macaddress from NV");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       status = vos_nv_readMultiMacAddress((v_U8_t *)&macFromNV[0].bytes[0],
                                           VOS_MAX_CONCURRENCY_PERSONA);
         if(status != VOS_STATUS_SUCCESS)
         {
          /* Get MAC from NV fail, not update CFG info
           * INI MAC value will be used for MAC setting */
-<<<<<<< HEAD
-         hddLog(VOS_TRACE_LEVEL_ERROR," vos_nv_readMacAddress() failed\n ");
-=======
          hddLog(VOS_TRACE_LEVEL_ERROR," vos_nv_readMacAddress() failed");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             return VOS_STATUS_E_FAILURE;
         }
 
@@ -10723,11 +8990,7 @@ static VOS_STATUS hdd_update_config_from_nv(hdd_context_t* pHddCtx)
       {
          if(vos_is_macaddr_zero(&macFromNV[macLoop]))
          {
-<<<<<<< HEAD
-            printk(KERN_ERR "not valid MAC from NV for %d", macLoop);
-=======
             hddLog(VOS_TRACE_LEVEL_ERROR,"not valid MAC from NV for %d", macLoop);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             /* This MAC is not valid, skip it
              * This MAC will be got from ini file */
          }
@@ -10788,33 +9051,6 @@ VOS_STATUS hdd_post_voss_start_config(hdd_context_t* pHddCtx)
 }
 
 /* wake lock APIs for HDD */
-<<<<<<< HEAD
-void hdd_prevent_suspend(void)
-{
-#ifdef WLAN_OPEN_SOURCE
-    wake_lock(&wlan_wake_lock);
-#else
-    wcnss_prevent_suspend();
-#endif
-}
-
-void hdd_allow_suspend(void)
-{
-#ifdef WLAN_OPEN_SOURCE
-    wake_unlock(&wlan_wake_lock);
-#else
-    wcnss_allow_suspend();
-#endif
-}
-
-void hdd_allow_suspend_timeout(v_U32_t timeout)
-{
-#ifdef WLAN_OPEN_SOURCE
-    wake_lock_timeout(&wlan_wake_lock, msecs_to_jiffies(timeout));
-#else
-    /* Do nothing as there is no API in wcnss for timeout*/
-#endif
-=======
 void hdd_prevent_suspend(uint32_t reason)
 {
 
@@ -10835,7 +9071,6 @@ void hdd_prevent_suspend_timeout(v_U32_t timeout, uint32_t reason)
     vos_wake_lock_timeout_release(&wlan_wake_lock, timeout,
                                       reason);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 /**---------------------------------------------------------------------------
@@ -10865,12 +9100,9 @@ void hdd_exchange_version_and_caps(hdd_context_t *pHddCtx)
    tANI_U8 fwFeatCapsMsgSupported = 0;
    VOS_STATUS vstatus;
 
-<<<<<<< HEAD
-=======
    memset(&versionCompiled, 0, sizeof(versionCompiled));
    memset(&versionReported, 0, sizeof(versionReported));
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* retrieve and display WCNSS version information */
    do {
 
@@ -10980,8 +9212,6 @@ void hdd_exchange_version_and_caps(hdd_context_t *pHddCtx)
    } while (0);
 
 }
-<<<<<<< HEAD
-=======
 void wlan_hdd_send_svc_nlink_msg(int type, void *data, int len)
 {
        struct sk_buff *skb;
@@ -11036,7 +9266,6 @@ void wlan_hdd_send_svc_nlink_msg(int type, void *data, int len)
 }
 
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 /**---------------------------------------------------------------------------
 
@@ -11047,11 +9276,7 @@ void wlan_hdd_send_svc_nlink_msg(int type, void *data, int len)
   \return -  true if hardware supports 5GHz
 
   --------------------------------------------------------------------------*/
-<<<<<<< HEAD
-static boolean hdd_is_5g_supported(hdd_context_t * pHddCtx)
-=======
 boolean hdd_is_5g_supported(hdd_context_t * pHddCtx)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
    /* If wcnss_wlan_iris_xo_mode() returns WCNSS_XO_48MHZ(1);
     * then hardware support 5Ghz.
@@ -11130,121 +9355,6 @@ static int hdd_generate_iface_mac_addr_auto(hdd_context_t *pHddCtx,
    return 0;
 }
 
-<<<<<<< HEAD
-/**---------------------------------------------------------------------------
-
-  \brief hdd_wlan_startup() - HDD init function
-
-  This is the driver startup code executed once a WLAN device has been detected
-
-  \param  - dev - Pointer to the underlying device
-
-  \return -  0 for success, < 0 for failure
-
-  --------------------------------------------------------------------------*/
-
-int hdd_wlan_startup(struct device *dev )
-{
-   VOS_STATUS status;
-   hdd_adapter_t *pAdapter = NULL;
-   hdd_adapter_t *pP2pAdapter = NULL;
-   hdd_context_t *pHddCtx = NULL;
-   v_CONTEXT_t pVosContext= NULL;
-#ifdef WLAN_BTAMP_FEATURE
-   VOS_STATUS vStatus = VOS_STATUS_SUCCESS;
-   WLANBAP_ConfigType btAmpConfig;
-   hdd_config_t *pConfig;
-#endif
-   int ret;
-   struct wiphy *wiphy;
-   v_MACADDR_t mac_addr;
-
-   ENTER();
-   /*
-    * cfg80211: wiphy allocation
-    */
-   wiphy = wlan_hdd_cfg80211_wiphy_alloc(sizeof(hdd_context_t)) ;
-
-   if(wiphy == NULL)
-   {
-      hddLog(VOS_TRACE_LEVEL_ERROR,"%s: cfg80211 init failed", __func__);
-      return -EIO;
-   }
-
-   pHddCtx = wiphy_priv(wiphy);
-
-   //Initialize the adapter context to zeros.
-   vos_mem_zero(pHddCtx, sizeof( hdd_context_t ));
-
-   pHddCtx->wiphy = wiphy;
-   hdd_prevent_suspend();
-   pHddCtx->isLoadUnloadInProgress = TRUE;
-
-   vos_set_load_unload_in_progress(VOS_MODULE_ID_VOSS, TRUE);
-
-   /*Get vos context here bcoz vos_open requires it*/
-   pVosContext = vos_get_global_context(VOS_MODULE_ID_SYS, NULL);
-
-   if(pVosContext == NULL)
-   {
-      hddLog(VOS_TRACE_LEVEL_FATAL,"%s: Failed vos_get_global_context",__func__);
-      goto err_free_hdd_context;
-   }
-
-   //Save the Global VOSS context in adapter context for future.
-   pHddCtx->pvosContext = pVosContext;
-
-   //Save the adapter context in global context for future.
-   ((VosContextType*)(pVosContext))->pHDDContext = (v_VOID_t*)pHddCtx;
-
-   pHddCtx->parent_dev = dev;
-
-   init_completion(&pHddCtx->full_pwr_comp_var);
-   init_completion(&pHddCtx->standby_comp_var);
-   init_completion(&pHddCtx->req_bmps_comp_var);
-   init_completion(&pHddCtx->scan_info.scan_req_completion_event);
-   init_completion(&pHddCtx->scan_info.abortscan_event_var);
-   init_completion(&pHddCtx->wiphy_channel_update_event);
-
-#ifdef CONFIG_ENABLE_LINUX_REG
-   init_completion(&pHddCtx->linux_reg_req);
-#else
-   init_completion(&pHddCtx->driver_crda_req);
-#endif
-
-   spin_lock_init(&pHddCtx->schedScan_lock);
-
-   hdd_list_init( &pHddCtx->hddAdapters, MAX_NUMBER_OF_ADAPTERS );
-
-   pHddCtx->nEnableStrictRegulatoryForFCC = TRUE;
-   // Load all config first as TL config is needed during vos_open
-   pHddCtx->cfg_ini = (hdd_config_t*) kmalloc(sizeof(hdd_config_t), GFP_KERNEL);
-   if(pHddCtx->cfg_ini == NULL)
-   {
-      hddLog(VOS_TRACE_LEVEL_FATAL,"%s: Failed kmalloc hdd_config_t",__func__);
-      goto err_free_hdd_context;
-   }
-
-   vos_mem_zero(pHddCtx->cfg_ini, sizeof( hdd_config_t ));
-
-   // Read and parse the qcom_cfg.ini file
-   status = hdd_parse_config_ini( pHddCtx );
-   if ( VOS_STATUS_SUCCESS != status )
-   {
-      hddLog(VOS_TRACE_LEVEL_FATAL, "%s: error parsing %s",
-             __func__, WLAN_INI_FILE);
-      goto err_config;
-   }
-
-   /* INI has been read, initialise the configuredMcastBcastFilter with
-    * INI value as this will serve as the default value
-    */
-   pHddCtx->configuredMcastBcastFilter = pHddCtx->cfg_ini->mcastBcastFilterSetting;
-   hddLog(VOS_TRACE_LEVEL_INFO, "Setting configuredMcastBcastFilter: %d",
-                   pHddCtx->cfg_ini->mcastBcastFilterSetting);
-
-   if (false == hdd_is_5g_supported(pHddCtx))
-=======
 int wlan_hdd_mon_open(hdd_context_t *pHddCtx)
 {
     VOS_STATUS status;
@@ -11653,7 +9763,6 @@ int hdd_wlan_startup(struct device *dev )
                    pHddCtx->cfg_ini->mcastBcastFilterSetting);
 
    if (false == hdd_is_5g_supported(pHddCtx))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    {
       //5Ghz is not supported.
       if (1 != pHddCtx->cfg_ini->nBandCapability)
@@ -11681,13 +9790,6 @@ int hdd_wlan_startup(struct device *dev )
    /*
     * cfg80211: Initialization  ...
     */
-<<<<<<< HEAD
-   if (0 < wlan_hdd_cfg80211_init(dev, wiphy, pHddCtx->cfg_ini))
-   {
-      hddLog(VOS_TRACE_LEVEL_FATAL, 
-              "%s: wlan_hdd_cfg80211_init return failure", __func__);
-      goto err_config;
-=======
    if (VOS_FTM_MODE != hdd_get_conparam())
    {
       if (0 < wlan_hdd_cfg80211_init(dev, wiphy, pHddCtx->cfg_ini))
@@ -11696,7 +9798,6 @@ int hdd_wlan_startup(struct device *dev )
                  "%s: wlan_hdd_cfg80211_init return failure", __func__);
          goto err_config;
       }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    // Update VOS trace levels based upon the cfg.ini
@@ -11743,11 +9844,6 @@ int hdd_wlan_startup(struct device *dev )
           goto err_free_hdd_context;
       }
       hddLog(VOS_TRACE_LEVEL_FATAL,"%s: FTM driver loaded success fully",__func__);
-<<<<<<< HEAD
-      return VOS_STATUS_SUCCESS;
-   }
-
-=======
       pHddCtx->isLoadUnloadInProgress = WLAN_HDD_NO_LOAD_UNLOAD_IN_PROGRESS;
       vos_set_load_unload_in_progress(VOS_MODULE_ID_VOSS, FALSE);
       return VOS_STATUS_SUCCESS;
@@ -11766,7 +9862,6 @@ int hdd_wlan_startup(struct device *dev )
        return VOS_STATUS_SUCCESS;
    }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    //Open watchdog module
    if(pHddCtx->cfg_ini->fIsLogpEnabled)
    {
@@ -11783,16 +9878,6 @@ int hdd_wlan_startup(struct device *dev )
    pHddCtx->isLogpInProgress = FALSE;
    vos_set_logp_in_progress(VOS_MODULE_ID_VOSS, FALSE);
 
-<<<<<<< HEAD
-   status = vos_chipVoteOnXOBuffer(NULL, NULL, NULL);
-   if(!VOS_IS_STATUS_SUCCESS(status))
-   {
-      hddLog(VOS_TRACE_LEVEL_FATAL, "%s: Failed to configure 19.2 MHz Clock", __func__);
-      goto err_wdclose;
-   }
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef CONFIG_ENABLE_LINUX_REG
    /* initialize the NV module. This is required so that
       we can initialize the channel information in wiphy
@@ -11805,11 +9890,7 @@ int hdd_wlan_startup(struct device *dev )
        /* NV module cannot be initialized */
        hddLog( VOS_TRACE_LEVEL_FATAL,
                 "%s: vos_nv_open failed", __func__);
-<<<<<<< HEAD
-       goto err_clkvote;
-=======
        goto err_wdclose;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    status = vos_init_wiphy_from_nv_bin();
@@ -11821,21 +9902,6 @@ int hdd_wlan_startup(struct device *dev )
        goto err_vos_nv_close;
    }
 
-<<<<<<< HEAD
-   /* registration of wiphy dev with cfg80211 */
-   if (0 > wlan_hdd_cfg80211_register(wiphy))
-   {
-       hddLog(VOS_TRACE_LEVEL_ERROR,"%s: wiphy register failed", __func__);
-       goto err_vos_nv_close;
-   }
-#endif
-
-   status = vos_open( &pVosContext, 0);
-   if ( !VOS_IS_STATUS_SUCCESS( status ))
-   {
-      hddLog(VOS_TRACE_LEVEL_FATAL, "%s: vos_open failed", __func__);
-      goto err_wiphy_unregister;
-=======
 #endif
    vos_set_roam_delay_stats_enabled(pHddCtx->cfg_ini->gEnableRoamDelayStats);
    status = vos_open( &pVosContext, pHddCtx->parent_dev);
@@ -11843,7 +9909,6 @@ int hdd_wlan_startup(struct device *dev )
    {
       hddLog(VOS_TRACE_LEVEL_FATAL, "%s: vos_open failed", __func__);
       goto err_vos_nv_close;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    pHddCtx->hHal = (tHalHandle)vos_get_context( VOS_MODULE_ID_SME, pVosContext );
@@ -11861,8 +9926,6 @@ int hdd_wlan_startup(struct device *dev )
       goto err_vosclose;
    }
 
-<<<<<<< HEAD
-=======
    if (0 == enable_dfs_chan_scan || 1 == enable_dfs_chan_scan)
    {
       pHddCtx->cfg_ini->enableDFSChnlScan = enable_dfs_chan_scan;
@@ -11876,7 +9939,6 @@ int hdd_wlan_startup(struct device *dev )
              __func__, enable_11d);
    }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* Note that the vos_preStart() sequence triggers the cfg download.
       The cfg download must occur before we update the SME config
       since the SME config operation must access the cfg database */
@@ -11888,17 +9950,6 @@ int hdd_wlan_startup(struct device *dev )
       goto err_vosclose;
    }
 
-<<<<<<< HEAD
-   //Initialize the WMM module
-   status = hdd_wmm_init(pHddCtx);
-   if (!VOS_IS_STATUS_SUCCESS(status))
-   {
-      hddLog(VOS_TRACE_LEVEL_FATAL, "%s: hdd_wmm_init failed", __func__);
-      goto err_vosclose;
-   }
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* In the integrated architecture we update the configuration from
       the INI file and from NV before vOSS has been started so that
       the final contents are available to send down to the cCPU   */
@@ -11999,14 +10050,6 @@ int hdd_wlan_startup(struct device *dev )
    if ( !VOS_IS_STATUS_SUCCESS( status ) )
    {
       hddLog(VOS_TRACE_LEVEL_FATAL,"%s: vos_start failed",__func__);
-<<<<<<< HEAD
-      goto err_vosclose;
-   }
-
-   /* Exchange capability info between Host and FW and also get versioning info from FW */
-   hdd_exchange_version_and_caps(pHddCtx);
-
-=======
       VOS_BUG(0);
       goto err_vosclose;
    }
@@ -12037,7 +10080,6 @@ int hdd_wlan_startup(struct device *dev )
    }
 #endif
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    status = hdd_post_voss_start_config( pHddCtx );
    if ( !VOS_IS_STATUS_SUCCESS( status ) )
    {
@@ -12057,8 +10099,6 @@ int hdd_wlan_startup(struct device *dev )
    }
 #endif
 
-<<<<<<< HEAD
-=======
 #ifdef CONFIG_ENABLE_LINUX_REG
    /* registration of wiphy dev with cfg80211 */
    if (0 > wlan_hdd_cfg80211_register(wiphy))
@@ -12078,7 +10118,6 @@ int hdd_wlan_startup(struct device *dev )
 
    wcnss_wlan_set_drvdata(pHddCtx->parent_dev, pHddCtx);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    if (VOS_STA_SAP_MODE == hdd_get_conparam())
    {
      pAdapter = hdd_open_adapter( pHddCtx, WLAN_HDD_SOFTAP, "softap.%d", 
@@ -12090,11 +10129,7 @@ int hdd_wlan_startup(struct device *dev )
          wlan_hdd_get_intf_addr(pHddCtx), FALSE );
      if (pAdapter != NULL)
      {
-<<<<<<< HEAD
-         if ( pHddCtx->cfg_ini->isP2pDeviceAddrAdministrated )
-=======
          if (pHddCtx->cfg_ini->isP2pDeviceAddrAdministrated && !(pHddCtx->cfg_ini->intfMacAddr[0].bytes[0] & 0x02))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
          {
                vos_mem_copy( pHddCtx->p2pDeviceAddress.bytes,
                        pHddCtx->cfg_ini->intfMacAddr[0].bytes,
@@ -12140,8 +10175,6 @@ int hdd_wlan_startup(struct device *dev )
       goto err_close_adapter;
    }
 
-<<<<<<< HEAD
-=======
    if (country_code)
    {
       eHalStatus ret;
@@ -12176,7 +10209,6 @@ int hdd_wlan_startup(struct device *dev )
       }
    }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef WLAN_BTAMP_FEATURE
    vStatus = WLANBAP_Open(pVosContext);
    if(!VOS_IS_STATUS_SUCCESS(vStatus))
@@ -12207,10 +10239,6 @@ int hdd_wlan_startup(struct device *dev )
 
 #endif //WLAN_BTAMP_FEATURE
 
-<<<<<<< HEAD
-#ifdef WLAN_FEATURE_ROAM_SCAN_OFFLOAD
-   if(!(IS_ROAM_SCAN_OFFLOAD_FEATURE_ENABLE))
-=======
    /*
     * UapsdMask is 0xf if U-APSD is enbaled for all AC's...
     * The value of CFG_QOS_WMM_UAPSD_MASK_DEFAULT is 0xaa(Magic Value)
@@ -12237,7 +10265,6 @@ int hdd_wlan_startup(struct device *dev )
 
 #ifdef WLAN_FEATURE_ROAM_SCAN_OFFLOAD
    if(!(IS_ROAM_SCAN_OFFLOAD_FEATURE_ENABLE))
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    {
       hddLog(VOS_TRACE_LEVEL_DEBUG,"%s: ROAM_SCAN_OFFLOAD Feature not supported",__func__);
       pHddCtx->cfg_ini->isRoamOffloadScanEnabled = 0;
@@ -12245,17 +10272,10 @@ int hdd_wlan_startup(struct device *dev )
                        pHddCtx->cfg_ini->isRoamOffloadScanEnabled);
    }
 #endif
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_SCAN_PNO
-   /*SME must send channel update configuration to RIVA*/
-   sme_UpdateChannelConfig(pHddCtx->hHal); 
-#endif
-=======
 
    wlan_hdd_tdls_init(pHddCtx);
 
    sme_Register11dScanDoneCallback(pHddCtx->hHal, hdd_11d_scan_done);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    /* Register with platform driver as client for Suspend/Resume */
    status = hddRegisterPmOps(pHddCtx);
@@ -12284,28 +10304,13 @@ int hdd_wlan_startup(struct device *dev )
       goto err_unregister_pmops;
    }
 
-<<<<<<< HEAD
-   /* register for riva power on lock to platform driver */
-   if (req_riva_power_on_lock("wlan"))
-   {
-      hddLog(VOS_TRACE_LEVEL_FATAL,"%s: req riva power on lock failed",
-                                     __func__);
-      goto err_unregister_pmops;
-   }
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    // register net device notifier for device change notification
    ret = register_netdevice_notifier(&hdd_netdev_notifier);
 
    if(ret < 0)
    {
       hddLog(VOS_TRACE_LEVEL_ERROR,"%s: register_netdevice_notifier failed",__func__);
-<<<<<<< HEAD
-      goto err_free_power_on_lock;
-=======
       goto err_unregister_pmops;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    //Initialize the nlink service
@@ -12315,13 +10320,10 @@ int hdd_wlan_startup(struct device *dev )
       goto err_reg_netdev;
    }
 
-<<<<<<< HEAD
-=======
 #ifdef WLAN_KD_READY_NOTIFIER
    pHddCtx->kd_nl_init = 1;
 #endif /* WLAN_KD_READY_NOTIFIER */
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    //Initialize the BTC service
    if(btc_activate_service(pHddCtx) != 0)
    {
@@ -12338,8 +10340,6 @@ int hdd_wlan_startup(struct device *dev )
    }
 #endif
 
-<<<<<<< HEAD
-=======
 #ifdef WLAN_LOGGING_SOCK_SVC_ENABLE
    if(pHddCtx->cfg_ini && pHddCtx->cfg_ini->wlanLoggingEnable)
    {
@@ -12377,34 +10377,12 @@ int hdd_wlan_startup(struct device *dev )
    if (vos_is_multicast_logging())
        wlan_logging_set_log_level();
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    hdd_register_mcast_bcast_filter(pHddCtx);
    if (VOS_STA_SAP_MODE != hdd_get_conparam())
    {
       /* Action frame registered in one adapter which will
        * applicable to all interfaces 
        */
-<<<<<<< HEAD
-      wlan_hdd_cfg80211_post_voss_start(pAdapter);
-   }
-
-   mutex_init(&pHddCtx->sap_lock);
-
-   pHddCtx->isLoadUnloadInProgress = FALSE;
-
-#ifdef WLAN_OPEN_SOURCE
-#ifdef WLAN_FEATURE_HOLD_RX_WAKELOCK
-   /* Initialize the wake lcok */
-   wake_lock_init(&pHddCtx->rx_wake_lock,
-           WAKE_LOCK_SUSPEND,
-           "qcom_rx_wakelock");
-#endif
-   /* Initialize the wake lcok */
-   wake_lock_init(&pHddCtx->sap_wake_lock,
-           WAKE_LOCK_SUSPEND,
-           "qcom_sap_wakelock");
-#endif
-=======
       wlan_hdd_cfg80211_register_frames(pAdapter);
    }
 
@@ -12421,15 +10399,10 @@ int hdd_wlan_startup(struct device *dev )
    vos_wake_lock_init(&pHddCtx->sap_wake_lock,
            "qcom_sap_wakelock");
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    vos_event_init(&pHddCtx->scan_info.scan_finished_event);
    pHddCtx->scan_info.scan_pending_option = WEXT_SCAN_PENDING_GIVEUP;
 
-<<<<<<< HEAD
-   vos_set_load_unload_in_progress(VOS_MODULE_ID_VOSS, FALSE);
-   hdd_allow_suspend();
-=======
    pHddCtx->isLoadUnloadInProgress = WLAN_HDD_NO_LOAD_UNLOAD_IN_PROGRESS;
    vos_set_load_unload_in_progress(VOS_MODULE_ID_VOSS, FALSE);
    hdd_allow_suspend(WIFI_POWER_EVENT_WAKELOCK_DRIVER_INIT);
@@ -12444,7 +10417,6 @@ int hdd_wlan_startup(struct device *dev )
    /* Fwr capabilities received, Set the Dot11 mode */
    sme_SetDefDot11Mode(pHddCtx->hHal);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifndef CONFIG_ENABLE_LINUX_REG
    /*updating wiphy so that regulatory user hints can be processed*/
    if (wiphy)
@@ -12455,15 +10427,6 @@ int hdd_wlan_startup(struct device *dev )
    // Initialize the restart logic
    wlan_hdd_restart_init(pHddCtx);
 
-<<<<<<< HEAD
-#ifdef FEATURE_WLAN_CH_AVOID
-    /* Plug in avoid channel notification callback */
-    sme_AddChAvoidCallback(pHddCtx->hHal,
-                           hdd_hostapd_ch_avoid_cb);
-#endif /* FEATURE_WLAN_CH_AVOID */
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    //Register the traffic monitor timer now
    if ( pHddCtx->cfg_ini->dynSplitscan)
    {
@@ -12472,8 +10435,6 @@ int hdd_wlan_startup(struct device *dev )
                      hdd_tx_rx_pkt_cnt_stat_timer_handler,
                      (void *)pHddCtx);
    }
-<<<<<<< HEAD
-=======
    wlan_hdd_cfg80211_nan_init(pHddCtx);
 
 #ifdef WLAN_FEATURE_EXTSCAN
@@ -12511,7 +10472,6 @@ int hdd_wlan_startup(struct device *dev )
    }
    hdd_dp_util_send_rps_ind(pHddCtx);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    goto success;
 
 err_nl_srv:
@@ -12523,12 +10483,6 @@ err_nl_srv:
 err_reg_netdev:
    unregister_netdevice_notifier(&hdd_netdev_notifier);
 
-<<<<<<< HEAD
-err_free_power_on_lock:
-   free_riva_power_on_lock("wlan");
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 err_unregister_pmops:
    hddDevTmUnregisterNotifyCallback(pHddCtx);
    hddDeregisterPmOps(pHddCtx);
@@ -12547,18 +10501,11 @@ err_bap_close:
 
 err_close_adapter:
    hdd_close_all_adapters( pHddCtx );
-<<<<<<< HEAD
-
-#ifndef CONFIG_ENABLE_LINUX_REG
-   wiphy_unregister(wiphy) ;
-#endif
-=======
 #ifdef CONFIG_ENABLE_LINUX_REG
 err_unregister_wiphy:
 #endif
    wiphy_unregister(wiphy) ;
    hdd_wlan_free_wiphy_channels(wiphy);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 err_vosstop:
    vos_stop(pVosContext);
@@ -12572,22 +10519,6 @@ err_vosclose:
    }
    vos_close(pVosContext );
 
-<<<<<<< HEAD
-err_wiphy_unregister:
-
-#ifdef CONFIG_ENABLE_LINUX_REG
-   wiphy_unregister(wiphy);
-
-err_vos_nv_close:
-
-   vos_nv_close();
-
-err_clkvote:
-#endif
-
-   vos_chipVoteOffXOBuffer(NULL, NULL, NULL);
-
-=======
 err_vos_nv_close:
 
 #ifdef CONFIG_ENABLE_LINUX_REG
@@ -12595,7 +10526,6 @@ err_vos_nv_close:
 
 #endif
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 err_wdclose:
    if(pHddCtx->cfg_ini->fIsLogpEnabled)
       vos_watchdog_close(pVosContext);
@@ -12605,12 +10535,8 @@ err_config:
    pHddCtx->cfg_ini= NULL;
 
 err_free_hdd_context:
-<<<<<<< HEAD
-   hdd_allow_suspend();
-=======
    hdd_allow_suspend(WIFI_POWER_EVENT_WAKELOCK_DRIVER_INIT);
    free_riva_power_on_lock("wlan");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    wiphy_free(wiphy) ;
    //kfree(wdev) ;
    VOS_BUG(1);
@@ -12651,48 +10577,21 @@ static int hdd_driver_init( void)
 #ifdef HAVE_WCNSS_CAL_DOWNLOAD
    int max_retries = 0;
 #endif
-<<<<<<< HEAD
-
-#ifdef WCONN_TRACE_KMSG_LOG_BUFF
-   vos_wconn_trace_init();
-=======
 #ifdef HAVE_CBC_DONE
    int max_cbc_retries = 0;
 #endif
 
 #ifdef WLAN_LOGGING_SOCK_SVC_ENABLE
    wlan_logging_sock_init_svc();
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
 
    ENTER();
 
-<<<<<<< HEAD
-#ifdef WLAN_OPEN_SOURCE
-   wake_lock_init(&wlan_wake_lock, WAKE_LOCK_SUSPEND, "wlan");
-#endif
-=======
    vos_wake_lock_init(&wlan_wake_lock, "wlan");
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    pr_info("%s: loading driver v%s\n", WLAN_MODULE_NAME,
            QWLAN_VERSIONSTR TIMER_MANAGER_STR MEMORY_DEBUG_STR);
 
-<<<<<<< HEAD
-   //Power Up Libra WLAN card first if not already powered up
-   status = vos_chipPowerUp(NULL,NULL,NULL);
-   if (!VOS_IS_STATUS_SUCCESS(status))
-   {
-      hddLog(VOS_TRACE_LEVEL_FATAL, "%s: Libra WLAN not Powered Up. "
-          "exiting", __func__);
-#ifdef WLAN_OPEN_SOURCE
-      wake_lock_destroy(&wlan_wake_lock);
-#endif
-      return -EIO;
-   }
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef ANI_BUS_TYPE_PCI
 
    dev = wcnss_wlan_get_device();
@@ -12706,13 +10605,6 @@ static int hdd_driver_init( void)
    while (!wcnss_device_ready() && 5 >= ++max_retries) {
        msleep(1000);
    }
-<<<<<<< HEAD
-   if (max_retries >= 5) {
-      hddLog(VOS_TRACE_LEVEL_FATAL,"%s: WCNSS driver not ready", __func__);
-#ifdef WLAN_OPEN_SOURCE
-      wake_lock_destroy(&wlan_wake_lock);
-#endif
-=======
 
    if (max_retries >= 5) {
       hddLog(VOS_TRACE_LEVEL_FATAL,"%s: WCNSS driver not ready", __func__);
@@ -12721,13 +10613,10 @@ static int hdd_driver_init( void)
       wlan_logging_sock_deinit_svc();
 #endif
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       return -ENODEV;
    }
 #endif
 
-<<<<<<< HEAD
-=======
 #ifdef HAVE_CBC_DONE
    while (!wcnss_cbc_complete() && 10 >= ++max_cbc_retries) {
        msleep(1000);
@@ -12737,7 +10626,6 @@ static int hdd_driver_init( void)
    }
 #endif
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    dev = wcnss_wlan_get_device();
 #endif // ANI_BUS_TYPE_PLATFORM
 
@@ -12749,13 +10637,6 @@ static int hdd_driver_init( void)
          break;
    }
 
-<<<<<<< HEAD
-#ifdef MEMORY_DEBUG
-      vos_mem_init();
-#endif
-
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef TIMER_MANAGER
       vos_timer_manager_init();
 #endif
@@ -12770,10 +10651,7 @@ static int hdd_driver_init( void)
          break;
    }
 
-<<<<<<< HEAD
-=======
    hddTraceInit();
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifndef MODULE
       /* For statically linked driver, call hdd_set_conparam to update curr_con_mode
        */
@@ -12790,52 +10668,21 @@ static int hdd_driver_init( void)
          break;
       }
 
-<<<<<<< HEAD
-      /* Cancel the vote for XO Core ON
-       * This is done here for safety purposes in case we re-initialize without turning
-       * it OFF in any error scenario.
-       */
-      hddLog(VOS_TRACE_LEVEL_INFO, "In module init: Ensure Force XO Core is OFF"
-                                       " when  WLAN is turned ON so Core toggles"
-                                       " unless we enter PSD");
-      if (vos_chipVoteXOCore(NULL, NULL, NULL, VOS_FALSE) != VOS_STATUS_SUCCESS)
-      {
-          hddLog(VOS_TRACE_LEVEL_ERROR, "Could not cancel XO Core ON vote. Not returning failure."
-                                            " Power consumed will be high\n");
-      }
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    } while (0);
 
    if (0 != ret_status)
    {
-<<<<<<< HEAD
-      //Assert Deep sleep signal now to put Libra HW in lowest power state
-      status = vos_chipAssertDeepSleep( NULL, NULL, NULL );
-      VOS_ASSERT( VOS_IS_STATUS_SUCCESS( status) );
-
-      //Vote off any PMIC voltage supplies
-      vos_chipPowerDown(NULL, NULL, NULL);
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #ifdef TIMER_MANAGER
       vos_timer_exit();
 #endif
 #ifdef MEMORY_DEBUG
       vos_mem_exit();
 #endif
-<<<<<<< HEAD
-
-#ifdef WLAN_OPEN_SOURCE
-      wake_lock_destroy(&wlan_wake_lock);
-#endif
-=======
       vos_wake_lock_destroy(&wlan_wake_lock);
 #ifdef WLAN_LOGGING_SOCK_SVC_ENABLE
       wlan_logging_sock_deinit_svc();
 #endif
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       pr_err("%s: driver load failure\n", WLAN_MODULE_NAME);
    }
    else
@@ -12892,12 +10739,8 @@ static void hdd_driver_exit(void)
 {
    hdd_context_t *pHddCtx = NULL;
    v_CONTEXT_t pVosContext = NULL;
-<<<<<<< HEAD
-   int retry = 0;
-=======
    v_REGDOMAIN_t regId;
    unsigned long rc = 0;
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
    pr_info("%s: unloading driver v%s\n", WLAN_MODULE_NAME, QWLAN_VERSIONSTR);
 
@@ -12917,28 +10760,6 @@ static void hdd_driver_exit(void)
    {
       hddLog(VOS_TRACE_LEVEL_FATAL,"%s: module exit called before probe",__func__);
    }
-<<<<<<< HEAD
-   else
-   {
-      while(isWDresetInProgress()) {
-         VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-              "%s:SSR in Progress; block rmmod for 1 second!!!", __func__);
-         msleep(1000);
-
-         if (retry++ == HDD_MOD_EXIT_SSR_MAX_RETRIES) {
-            VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL,
-              "%s:SSR never completed, fatal error", __func__);
-            VOS_BUG(0);
-         }
-      }
-
-
-      pHddCtx->isLoadUnloadInProgress = TRUE;
-      vos_set_load_unload_in_progress(VOS_MODULE_ID_VOSS, TRUE);
-
-      //Do all the cleanup before deregistering the driver
-      hdd_wlan_exit(pHddCtx);
-=======
    else if (VOS_MONITOR_MODE == hdd_get_conparam())
    {
        hddLog(VOS_TRACE_LEVEL_INFO,"%s: MONITOR MODE",__func__);
@@ -13001,7 +10822,6 @@ static void hdd_driver_exit(void)
 
         //Do all the cleanup before deregistering the driver
         hdd_wlan_exit(pHddCtx);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    }
 
    vos_preClose( &pVosContext );
@@ -13013,16 +10833,6 @@ static void hdd_driver_exit(void)
    vos_mem_exit();
 #endif
 
-<<<<<<< HEAD
-#ifdef WCONN_TRACE_KMSG_LOG_BUFF
-   vos_wconn_trace_exit();
-#endif
-
-done:
-#ifdef WLAN_OPEN_SOURCE
-   wake_lock_destroy(&wlan_wake_lock);
-#endif
-=======
 #ifdef WLAN_LOGGING_SOCK_SVC_ENABLE
    wlan_logging_sock_deinit_svc();
 #endif
@@ -13030,7 +10840,6 @@ done:
 done:
    vos_wake_lock_destroy(&wlan_wake_lock);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    pr_info("%s: driver unloaded\n", WLAN_MODULE_NAME);
 }
 
@@ -13179,12 +10988,8 @@ void hdd_set_conparam ( v_UINT_t newParam )
 
   --------------------------------------------------------------------------*/
 
-<<<<<<< HEAD
-VOS_STATUS hdd_softap_sta_deauth(hdd_adapter_t *pAdapter, v_U8_t *pDestMacAddress)
-=======
 VOS_STATUS hdd_softap_sta_deauth(hdd_adapter_t *pAdapter,
                                  struct tagCsrDelStaParams *pDelStaParams)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 {
     v_CONTEXT_t pVosContext = (WLAN_HDD_GET_CTX(pAdapter))->pvosContext;
     VOS_STATUS vosStatus = VOS_STATUS_E_FAULT;
@@ -13195,17 +11000,10 @@ VOS_STATUS hdd_softap_sta_deauth(hdd_adapter_t *pAdapter,
            (WLAN_HDD_GET_CTX(pAdapter))->pvosContext);
 
     //Ignore request to deauth bcmc station
-<<<<<<< HEAD
-    if( pDestMacAddress[0] & 0x1 )
-       return vosStatus;
-
-    vosStatus = WLANSAP_DeauthSta(pVosContext,pDestMacAddress);
-=======
     if (pDelStaParams->peerMacAddr[0] & 0x1)
        return vosStatus;
 
     vosStatus = WLANSAP_DeauthSta(pVosContext, pDelStaParams);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     EXIT();
     return vosStatus;
@@ -13213,8 +11011,6 @@ VOS_STATUS hdd_softap_sta_deauth(hdd_adapter_t *pAdapter,
 
 /**---------------------------------------------------------------------------
 
-<<<<<<< HEAD
-=======
   \brief hdd_del_all_sta() - function
 
   This function removes all the stations associated on stopping AP/P2P GO.
@@ -13270,7 +11066,6 @@ int hdd_del_all_sta(hdd_adapter_t *pAdapter)
 
 /**---------------------------------------------------------------------------
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
   \brief hdd_softap_sta_disassoc() - function
 
   This to take counter measure to handle deauth req from HDD
@@ -13337,9 +11132,6 @@ tVOS_CONCURRENCY_MODE hdd_get_concurrency_mode ( void )
     hddLog(LOGE, "%s: Invalid context", __func__);
     return VOS_STA;
 }
-<<<<<<< HEAD
-
-=======
 v_BOOL_t
 wlan_hdd_is_GO_power_collapse_allowed (hdd_context_t* pHddCtx)
 {
@@ -13365,7 +11157,6 @@ wlan_hdd_is_GO_power_collapse_allowed (hdd_context_t* pHddCtx)
           return FALSE;
 
 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /* Decide whether to allow/not the apps power collapse. 
  * Allow apps power collapse if we are in connected state.
  * if not, allow only if we are in IMPS  */
@@ -13385,11 +11176,6 @@ v_BOOL_t hdd_is_apps_power_collapse_allowed(hdd_context_t* pHddCtx)
 
     concurrent_state = hdd_get_concurrency_mode();
 
-<<<<<<< HEAD
-#ifdef WLAN_ACTIVEMODE_OFFLOAD_FEATURE
-    if(((concurrent_state == (VOS_STA | VOS_P2P_CLIENT)) || 
-        (concurrent_state == (VOS_STA | VOS_P2P_GO))) && 
-=======
     if ((concurrent_state == (VOS_STA | VOS_P2P_GO)) &&
           !(wlan_hdd_is_GO_power_collapse_allowed(pHddCtx)))
         return FALSE;
@@ -13397,7 +11183,6 @@ v_BOOL_t hdd_is_apps_power_collapse_allowed(hdd_context_t* pHddCtx)
 
     if(((concurrent_state == (VOS_STA | VOS_P2P_CLIENT)) || 
         (concurrent_state == (VOS_STA | VOS_P2P_GO)))&&
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
         (IS_ACTIVEMODE_OFFLOAD_FEATURE_ENABLE))
         return TRUE;
 #endif
@@ -13411,13 +11196,6 @@ v_BOOL_t hdd_is_apps_power_collapse_allowed(hdd_context_t* pHddCtx)
           || (WLAN_HDD_P2P_CLIENT == pAdapter->device_mode) )
         {
             if (((pConfig->fIsImpsEnabled || pConfig->fIsBmpsEnabled)
-<<<<<<< HEAD
-                 && (pmcState != IMPS && pmcState != BMPS
-                  &&  pmcState != STOPPED && pmcState != STANDBY)) ||
-                 (eANI_BOOLEAN_TRUE == scanRspPending) ||
-                 (eANI_BOOLEAN_TRUE == inMiddleOfRoaming))
-            {
-=======
                  && (pmcState != IMPS && pmcState != BMPS && pmcState != UAPSD
                   &&  pmcState != STOPPED && pmcState != STANDBY &&
                       pmcState != WOWL)) ||
@@ -13437,7 +11215,6 @@ v_BOOL_t hdd_is_apps_power_collapse_allowed(hdd_context_t* pHddCtx)
                           "even when sco indication is set"));
                     return TRUE;
                 }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
                 hddLog( LOGE, "%s: do not allow APPS power collapse-"
                     "pmcState = %d scanRspPending = %d inMiddleOfRoaming = %d",
                     __func__, pmcState, scanRspPending, inMiddleOfRoaming );
@@ -13473,16 +11250,6 @@ void wlan_hdd_set_concurrency_mode(hdd_context_t *pHddCtx, tVOS_CON_MODE mode)
        case VOS_P2P_GO_MODE:
        case VOS_STA_SAP_MODE:
             pHddCtx->concurrency_mode |= (1 << mode);
-<<<<<<< HEAD
-            pHddCtx->no_of_sessions[mode]++;
-            break;
-       default:
-            break;
-
-   }
-   VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO, "%s: concurrency_mode = 0x%x NumberofSessions for mode %d = %d",
-    __func__,pHddCtx->concurrency_mode,mode,pHddCtx->no_of_sessions[mode]);
-=======
             pHddCtx->no_of_open_sessions[mode]++;
             break;
        default:
@@ -13492,7 +11259,6 @@ void wlan_hdd_set_concurrency_mode(hdd_context_t *pHddCtx, tVOS_CON_MODE mode)
           "Number of open sessions for mode %d = %d"),
            pHddCtx->concurrency_mode, mode,
            pHddCtx->no_of_open_sessions[mode]);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 
@@ -13504,23 +11270,13 @@ void wlan_hdd_clear_concurrency_mode(hdd_context_t *pHddCtx, tVOS_CON_MODE mode)
        case VOS_P2P_CLIENT_MODE:
        case VOS_P2P_GO_MODE:
        case VOS_STA_SAP_MODE:
-<<<<<<< HEAD
-    pHddCtx->no_of_sessions[mode]--;
-    if (!(pHddCtx->no_of_sessions[mode]))
-            pHddCtx->concurrency_mode &= (~(1 << mode));
-=======
             pHddCtx->no_of_open_sessions[mode]--;
             if (!(pHddCtx->no_of_open_sessions[mode]))
                 pHddCtx->concurrency_mode &= (~(1 << mode));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             break;
        default:
             break;
    }
-<<<<<<< HEAD
-   VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO, "%s: concurrency_mode = 0x%x NumberofSessions for mode %d = %d",
-    __func__,pHddCtx->concurrency_mode,mode,pHddCtx->no_of_sessions[mode]);
-=======
    hddLog(VOS_TRACE_LEVEL_INFO, FL("concurrency_mode = 0x%x "
           "Number of open sessions for mode %d = %d"),
           pHddCtx->concurrency_mode, mode, pHddCtx->no_of_open_sessions[mode]);
@@ -13594,7 +11350,6 @@ void wlan_hdd_decr_active_session(hdd_context_t *pHddCtx, tVOS_CON_MODE mode)
    hddLog(VOS_TRACE_LEVEL_INFO, FL("No.# of active sessions for mode %d = %d"),
                                 mode,
                                 pHddCtx->no_of_active_sessions[mode]);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 }
 
 /**---------------------------------------------------------------------------
@@ -13640,17 +11395,10 @@ static void wlan_hdd_restart_deinit(hdd_context_t* pHddCtx)
    /* Cleanup */
    vos_status = vos_timer_stop( &pHddCtx->hdd_restart_timer );
    if (!VOS_IS_STATUS_SUCCESS(vos_status))
-<<<<<<< HEAD
-          hddLog(LOGW, FL("Failed to stop HDD restart timer"));
-   vos_status = vos_timer_destroy(&pHddCtx->hdd_restart_timer);
-   if (!VOS_IS_STATUS_SUCCESS(vos_status))
-          hddLog(LOGW, FL("Failed to destroy HDD restart timer"));
-=======
           hddLog(LOGE, FL("Failed to stop HDD restart timer"));
    vos_status = vos_timer_destroy(&pHddCtx->hdd_restart_timer);
    if (!VOS_IS_STATUS_SUCCESS(vos_status))
           hddLog(LOGE, FL("Failed to destroy HDD restart timer"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 }
 
@@ -13691,13 +11439,6 @@ static VOS_STATUS wlan_hdd_framework_restart(hdd_context_t *pHddCtx)
 
    /* Iterate over all adapters/devices */
    status =  hdd_get_front_adapter ( pHddCtx, &pAdapterNode );
-<<<<<<< HEAD
-   do 
-   {
-      if( (status == VOS_STATUS_SUCCESS) && 
-                           pAdapterNode  && 
-                           pAdapterNode->pAdapter)
-=======
    if ((NULL == pAdapterNode) || (VOS_STATUS_SUCCESS != status))
    {
        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
@@ -13709,7 +11450,6 @@ static VOS_STATUS wlan_hdd_framework_restart(hdd_context_t *pHddCtx)
    {
       if(pAdapterNode->pAdapter &&
            WLAN_HDD_ADAPTER_MAGIC == pAdapterNode->pAdapter->magic)
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       {
          VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_FATAL, 
                "restarting the driver(intf:\'%s\' mode:%d :try %d)",
@@ -13727,26 +11467,17 @@ static VOS_STATUS wlan_hdd_framework_restart(hdd_context_t *pHddCtx)
           * the driver.
           *
           */
-<<<<<<< HEAD
-         
-         cfg80211_send_unprot_deauth(pAdapterNode->pAdapter->dev, (u_int8_t*)mgmt, len );  
-=======
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 11, 0))
          cfg80211_rx_unprot_mlme_mgmt(pAdapterNode->pAdapter->dev, (u_int8_t*)mgmt, len);
 #else
          cfg80211_send_unprot_deauth(pAdapterNode->pAdapter->dev, (u_int8_t*)mgmt, len );  
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
       }
       status = hdd_get_next_adapter ( pHddCtx, pAdapterNode, &pNext );
       pAdapterNode = pNext;
    } while((NULL != pAdapterNode) && (VOS_STATUS_SUCCESS == status));
 
-<<<<<<< HEAD
-
-=======
    end:
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    /* Free the allocated management frame */
    kfree(mgmt);
 
@@ -13800,29 +11531,19 @@ VOS_STATUS wlan_hdd_restart_driver(hdd_context_t *pHddCtx)
    /* A tight check to make sure reentrancy */
    if(atomic_xchg(&pHddCtx->isRestartInProgress, 1))
    {
-<<<<<<< HEAD
-      VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN, 
-=======
       VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_ERROR,
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
             "%s: WLAN restart is already in progress", __func__);
 
       return VOS_STATUS_E_ALREADY;
    }
    /* Send reset FIQ to WCNSS to invoke SSR. */
 #ifdef HAVE_WCNSS_RESET_INTR
-<<<<<<< HEAD
-   wcnss_reset_intr();
-=======
    wcnss_reset_fiq(TRUE);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 #endif
  
    return status;
 }
 
-<<<<<<< HEAD
-=======
 /**---------------------------------------------------------------------------
  *
  *   \brief wlan_hdd_init_channels
@@ -13872,7 +11593,6 @@ VOS_STATUS wlan_hdd_init_channels_for_cc(hdd_context_t *pHddCtx, driver_load_typ
    }
 }
 #endif
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 /*
  * API to find if there is any STA or P2P-Client is connected
  */
@@ -13881,8 +11601,6 @@ VOS_STATUS hdd_issta_p2p_clientconnected(hdd_context_t *pHddCtx)
     return sme_isSta_p2p_clientConnected(pHddCtx->hHal);
 }
 
-<<<<<<< HEAD
-=======
 
 /*
  * API to find if the firmware will send logs using DXE channel
@@ -14471,7 +12189,6 @@ void hdd_initialize_adapter_common(hdd_adapter_t *pAdapter)
         return;
 }
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 //Register the module init/exit functions
 module_init(hdd_module_init);
 module_exit(hdd_module_exit);
@@ -14485,8 +12202,6 @@ module_param_call(con_mode, con_mode_handler, param_get_int, &con_mode,
 
 module_param_call(fwpath, fwpath_changed_handler, param_get_string, &fwpath,
                     S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-<<<<<<< HEAD
-=======
 
 module_param(enable_dfs_chan_scan, int,
              S_IRUSR | S_IRGRP | S_IROTH);
@@ -14496,4 +12211,3 @@ module_param(enable_11d, int,
 
 module_param(country_code, charp,
              S_IRUSR | S_IRGRP | S_IROTH);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver

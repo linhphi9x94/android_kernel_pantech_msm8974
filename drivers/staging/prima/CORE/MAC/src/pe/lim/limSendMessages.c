@@ -1,31 +1,4 @@
 /*
-<<<<<<< HEAD
-  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-  *
-  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
-  *
-  *
-  * Permission to use, copy, modify, and/or distribute this software for
-  * any purpose with or without fee is hereby granted, provided that the
-  * above copyright notice and this permission notice appear in all
-  * copies.
-  *
-  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
-  * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
-  * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
-  * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
-  * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
-  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-  * PERFORMANCE OF THIS SOFTWARE.
-*/
-/*
- * Copyright (c) 2011-2013 Qualcomm Atheros, Inc.
- * All Rights Reserved.
- * Qualcomm Atheros Confidential and Proprietary.
- *
- * Airgo Networks, Inc proprietary. All rights reserved.
-=======
  * Copyright (c) 2011-2015 The Linux Foundation. All rights reserved.
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
@@ -55,7 +28,6 @@
 /*
 
  *
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
  * limSendMessages.c: Provides functions to send messages or Indications to HAL.
  * Author:    Sunit Bhatia
  * Date:       09/21/2006
@@ -88,14 +60,9 @@ static tBeaconFilterIe beaconFilterTable[] = {
    {SIR_MAC_EDCA_PARAM_SET_EID,  0, {0, 0, EDCA_FILTER_MASK,      0}},
    {SIR_MAC_QOS_CAPABILITY_EID,  0, {0, 0, QOS_FILTER_MASK,       0}},
    {SIR_MAC_CHNL_SWITCH_ANN_EID, 1, {0, 0, 0,                     0}},
-<<<<<<< HEAD
-   {SIR_MAC_HT_INFO_EID,         0, {0, 0, HT_BYTE0_FILTER_MASK,  0}},  
-   {SIR_MAC_HT_INFO_EID,         0, {2, 0, HT_BYTE2_FILTER_MASK,  0}}, 
-=======
    {SIR_MAC_HT_INFO_EID,         0, {0, 0, HT_BYTE0_FILTER_MASK,  0}}, //primary channel
    {SIR_MAC_HT_INFO_EID,         0, {1, 0, HT_BYTE1_FILTER_MASK,  0}}, //Secondary Channel
    {SIR_MAC_HT_INFO_EID,         0, {2, 0, HT_BYTE2_FILTER_MASK,  0}}, //HT  protection
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
    {SIR_MAC_HT_INFO_EID,         0, {5, 0, HT_BYTE5_FILTER_MASK,  0}}
 #if defined WLAN_FEATURE_VOWIFI
    ,{SIR_MAC_PWR_CONSTRAINT_EID,  0, {0, 0, 0, 0}}
@@ -104,11 +71,8 @@ static tBeaconFilterIe beaconFilterTable[] = {
    ,{SIR_MAC_VHT_OPMODE_EID,     0,  {0, 0, 0, 0}}
    ,{SIR_MAC_VHT_OPERATION_EID,  0,  {0, 0, VHTOP_CHWIDTH_MASK, 0}}
 #endif
-<<<<<<< HEAD
-=======
    ,{SIR_MAC_RSN_EID,             1, {0, 0, 0,                    0}}
    ,{SIR_MAC_WPA_EID,             1, {0, 0, 0,                    0}}
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 };
 
 /**
@@ -294,16 +258,12 @@ tSirRetStatus limSendSwitchChnlParams(tpAniSirGlobal pMac,
 #endif
     vos_mem_copy(  pChnlParams->bssId, pSessionEntry->bssId, sizeof(tSirMacAddr) );
     pChnlParams->peSessionId = peSessionId;
-<<<<<<< HEAD
-    
-=======
 
     if (LIM_SWITCH_CHANNEL_CSA == pSessionEntry->channelChangeCSA )
     {
         pChnlParams->channelSwitchSrc =  eHAL_CHANNEL_SWITCH_SOURCE_CSA;
         pSessionEntry->channelChangeCSA = 0;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     //we need to defer the message until we get the response back from WDA.
     SET_LIM_PROCESS_DEFD_MESGS(pMac, false);
     msgQ.type = WDA_CHNL_SWITCH_REQ;
@@ -311,17 +271,6 @@ tSirRetStatus limSendSwitchChnlParams(tpAniSirGlobal pMac,
     msgQ.bodyptr = pChnlParams;
     msgQ.bodyval = 0;
 #if defined WLAN_FEATURE_VOWIFI  
-<<<<<<< HEAD
-    PELOG3(limLog( pMac, LOG3,
-        FL( "Sending WDA_CHNL_SWITCH_REQ with SecondaryChnOffset - %d, ChannelNumber - %d, maxTxPower - %d"),
-        pChnlParams->secondaryChannelOffset, pChnlParams->channelNumber, pChnlParams->maxTxPower);)
-#else
-    PELOG3(limLog( pMac, LOG3,
-        FL( "Sending WDA_CHNL_SWITCH_REQ with SecondaryChnOffset - %d, ChannelNumber - %d, LocalPowerConstraint - %d"),
-        pChnlParams->secondaryChannelOffset, pChnlParams->channelNumber, pChnlParams->localPowerConstraint);)
-#endif
-    MTRACE(macTraceMsgTx(pMac, peSessionId, msgQ.type));
-=======
     limLog( pMac, LOG1,
         FL( "Sending WDA_CHNL_SWITCH_REQ with SecondaryChnOffset - %d,"
         " ChannelNumber - %d, maxTxPower - %d"),
@@ -337,7 +286,6 @@ tSirRetStatus limSendSwitchChnlParams(tpAniSirGlobal pMac,
     MTRACE(macTraceMsgTx(pMac, peSessionId, msgQ.type));
     limLog(pMac,LOG1,"SessionId:%d WDA_CHNL_SWITCH_REQ for SSID:%s",peSessionId,
             pSessionEntry->ssId.ssId);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if( eSIR_SUCCESS != (retCode = wdaPostCtrlMsg( pMac, &msgQ )))
     {
         vos_mem_free(pChnlParams);
@@ -566,12 +514,8 @@ tSirRetStatus limSetLinkState(tpAniSirGlobal pMac, tSirLinkState state,tSirMacAd
     if (retCode != eSIR_SUCCESS)
     {
         vos_mem_free(pLinkStateParams);
-<<<<<<< HEAD
-        limLog(pMac, LOGP, FL("Posting link state %d failed, reason = %x "), retCode);
-=======
         limLog(pMac, LOGP, FL("Posting link state %d failed, reason = %x "),
                state, retCode);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
     return retCode;
 }
@@ -616,12 +560,8 @@ state,tSirMacAddr bssId, tSirMacAddr selfMacAddr, int ft, tpPESession psessionEn
     if (retCode != eSIR_SUCCESS)
     {
         vos_mem_free(pLinkStateParams);
-<<<<<<< HEAD
-        limLog(pMac, LOGP, FL("Posting link state %d failed, reason = %x "), retCode);
-=======
         limLog(pMac, LOGP, FL("Posting link state %d failed, reason = %x "),
                state, retCode);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     }
     return retCode;
 }
@@ -677,8 +617,6 @@ tSirRetStatus limSendSetTxPowerReq(tpAniSirGlobal pMac,  tANI_U32 *pMsgBuf)
         vos_mem_free(txPowerReq);
         return retCode;
     }
-<<<<<<< HEAD
-=======
     return retCode;
 }
 
@@ -813,7 +751,6 @@ tSirRetStatus limSendHT40OBSSStopScanInd(tpAniSirGlobal pMac,
                               "to WDA failed, reason=%X"), retCode);
         return retCode;
     }
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
     return retCode;
 }
@@ -869,9 +806,6 @@ tSirRetStatus limSendBeaconFilterInfo(tpAniSirGlobal pMac,tpPESession psessionEn
         retCode = eSIR_FAILURE;
         return retCode;
     }
-<<<<<<< HEAD
-    msgSize = sizeof(tBeaconFilterMsg) + sizeof(beaconFilterTable);
-=======
     /*
      * Dont send the WPA and RSN iE in filter if FW doesnt support
      * IS_FEATURE_BCN_FLT_DELTA_ENABLE,
@@ -882,7 +816,6 @@ tSirRetStatus limSendBeaconFilterInfo(tpAniSirGlobal pMac,tpPESession psessionEn
     else
         msgSize = sizeof(tBeaconFilterMsg) + sizeof(beaconFilterTable) - (2 * sizeof(tBeaconFilterIe));
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     pBeaconFilterMsg = vos_mem_malloc(msgSize);
     if ( NULL == pBeaconFilterMsg )
     {
@@ -898,9 +831,6 @@ tSirRetStatus limSendBeaconFilterInfo(tpAniSirGlobal pMac,tpPESession psessionEn
     pBeaconFilterMsg->capabilityMask = CAPABILITY_FILTER_MASK;
     pBeaconFilterMsg->beaconInterval = (tANI_U16) psessionEntry->beaconParams.beaconInterval;
     // Fill in number of IEs in beaconFilterTable
-<<<<<<< HEAD
-    pBeaconFilterMsg->ieNum = (tANI_U16) (sizeof(beaconFilterTable) / sizeof(tBeaconFilterIe));
-=======
     /*
      * Dont send the WPA and RSN iE in filter if FW doesnt support
      * IS_FEATURE_BCN_FLT_DELTA_ENABLE,
@@ -911,7 +841,6 @@ tSirRetStatus limSendBeaconFilterInfo(tpAniSirGlobal pMac,tpPESession psessionEn
     else
         pBeaconFilterMsg->ieNum = (tANI_U16) ((sizeof(beaconFilterTable) / sizeof(tBeaconFilterIe)) - 2);
 
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     //Fill the BSSIDX
     pBeaconFilterMsg->bssIdx = psessionEntry->bssIdx;
 
@@ -945,9 +874,6 @@ tSirRetStatus limSendBeaconFilterInfo(tpAniSirGlobal pMac,tpPESession psessionEn
     return retCode;
 }
 
-<<<<<<< HEAD
-#ifdef WLAN_FEATURE_11AC
-=======
 /**
  * \brief Send CB mode update to WDA
  *
@@ -957,7 +883,6 @@ tSirRetStatus limSendBeaconFilterInfo(tpAniSirGlobal pMac,tpPESession psessionEn
  *          pTempParam            CB mode
  * \return eSIR_SUCCESS on success, eSIR_FAILURE else
  */
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 tSirRetStatus limSendModeUpdate(tpAniSirGlobal pMac, 
                                 tUpdateVHTOpMode *pTempParam,
                                 tpPESession  psessionEntry )
@@ -978,14 +903,9 @@ tSirRetStatus limSendModeUpdate(tpAniSirGlobal pMac,
     msgQ.reserved = 0;
     msgQ.bodyptr = pVhtOpMode;
     msgQ.bodyval = 0;
-<<<<<<< HEAD
-    PELOG3(limLog( pMac, LOG3,
-                FL( "Sending WDA_UPDATE_OP_MODE" ));)
-=======
     limLog( pMac, LOG1,
                 FL( "Sending WDA_UPDATE_OP_MODE, opMode = %d staid = %d" ),
                                     pVhtOpMode->opMode,pVhtOpMode->staId);
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     if(NULL == psessionEntry)
     {
         MTRACE(macTraceMsgTx(pMac, NO_SESSION, msgQ.type));
@@ -1004,111 +924,6 @@ tSirRetStatus limSendModeUpdate(tpAniSirGlobal pMac,
 
     return retCode;
 }
-<<<<<<< HEAD
-#endif 
-
-#ifdef FEATURE_WLAN_TDLS_INTERNAL
-/** ---------------------------------------------------------
-\fn      limSendTdlsLinkEstablish
-\brief   LIM sends a message to HAL to set tdls direct link
-\param   tpAniSirGlobal  pMac
-\param   
-\return  None
-  -----------------------------------------------------------*/
-tSirRetStatus limSendTdlsLinkEstablish(tpAniSirGlobal pMac, tANI_U8 bIsPeerResponder, tANI_U8 linkIdenOffset, 
-                tANI_U8 ptiBufStatusOffset, tANI_U8 ptiFrameLen, tANI_U8 *ptiFrame, tANI_U8 *extCapability)
-{
-    tSirMsgQ msgQ;
-    tSirRetStatus retCode;
-    tpSirTdlsLinkEstablishInd pTdlsLinkEstablish = NULL;
-
-    // Allocate memory.
-    pTdlsLinkEstablish = vos_mem_malloc(sizeof(tSirTdlsLinkEstablishInd));
-    if ( NULL == pTdlsLinkEstablish )
-    {
-        limLog( pMac, LOGP,
-        FL( "Unable to allocate memory while sending Tdls Link Establish " ));
-
-        retCode = eSIR_SME_RESOURCES_UNAVAILABLE;
-        return retCode;
-    }
-
-    vos_mem_set((tANI_U8 *) pTdlsLinkEstablish, sizeof(tSirTdlsLinkEstablishInd), 0);
-
-    pTdlsLinkEstablish->bIsResponder = !!bIsPeerResponder; 
-    pTdlsLinkEstablish->linkIdenOffset = linkIdenOffset;
-    pTdlsLinkEstablish->ptiBufStatusOffset = ptiBufStatusOffset;
-    pTdlsLinkEstablish->ptiTemplateLen = ptiFrameLen;
-    /* Copy ptiFrame template */
-    vos_mem_copy(pTdlsLinkEstablish->ptiTemplateBuf, ptiFrame, ptiFrameLen);
-    /* Copy extended capabilities */
-    vos_mem_copy((tANI_U8 *) pTdlsLinkEstablish->extCapability,  extCapability, sizeof(pTdlsLinkEstablish->extCapability));
-
-    msgQ.type = SIR_HAL_TDLS_LINK_ESTABLISH;
-    msgQ.reserved = 0;
-    msgQ.bodyptr = pTdlsLinkEstablish;
-    msgQ.bodyval = 0;
-    
-    MTRACE(macTraceMsgTx(pMac, 0, msgQ.type));
-
-    retCode = (tANI_U32)wdaPostCtrlMsg(pMac, &msgQ);
-    if (retCode != eSIR_SUCCESS)
-    {
-        vos_mem_free(pTdlsLinkEstablish);
-        limLog(pMac, LOGP, FL("Posting tdls link establish %d failed, reason = %x "), retCode);
-    }
-
-    return retCode;
-}
-
-/** ---------------------------------------------------------
-\fn      limSendTdlsLinkTeardown
-\brief   LIM sends a message to HAL to indicate tdls direct link is teardowned
-\param   tpAniSirGlobal  pMac
-\param   
-\return  None
-  -----------------------------------------------------------*/
-tSirRetStatus limSendTdlsLinkTeardown(tpAniSirGlobal pMac, tANI_U16 staId)
-{
-    tSirMsgQ msgQ;
-    tSirRetStatus retCode;
-    tpSirTdlsLinkTeardownInd pTdlsLinkTeardown = NULL;
-
-    // Allocate memory.
-    pTdlsLinkTeardown = vos_mem_malloc(sizeof(tSirTdlsLinkTeardownInd));
-    if ( NULL == pTdlsLinkTeardown )
-    {
-        limLog( pMac, LOGP,
-        FL( "Unable to allocate memory while sending Tdls Link Teardown " ));
-
-        retCode = eSIR_SME_RESOURCES_UNAVAILABLE;
-        return retCode;
-    }
-
-    vos_mem_set((tANI_U8 *) pTdlsLinkTeardown, sizeof(tSirTdlsLinkTeardownInd), 0);
-
-    pTdlsLinkTeardown->staId = staId;
-
-    msgQ.type = SIR_HAL_TDLS_LINK_TEARDOWN;
-    msgQ.reserved = 0;
-    msgQ.bodyptr = pTdlsLinkTeardown;
-    msgQ.bodyval = 0;
-    
-    MTRACE(macTraceMsgTx(pMac, 0, msgQ.type));
-
-    retCode = (tANI_U32)wdaPostCtrlMsg(pMac, &msgQ);
-    if (retCode != eSIR_SUCCESS)
-    {
-        vos_mem_free(pTdlsLinkTeardown);
-        limLog(pMac, LOGP, FL("Posting tdls link teardown %d failed, reason = %x "), retCode);
-    }
-
-    return retCode;
-}
-
-#endif
-=======
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
 
 #ifdef WLAN_FEATURE_11W
 /** ---------------------------------------------------------
@@ -1144,13 +959,8 @@ tSirRetStatus limSendExcludeUnencryptInd(tpAniSirGlobal pMac,
     msgQ.reserved = 0;
     msgQ.bodyptr = pExcludeUnencryptParam;
     msgQ.bodyval = 0;
-<<<<<<< HEAD
-    PELOG3(limLog(pMac, LOG3,
-                FL("Sending WDA_EXCLUDE_UNENCRYPTED_IND"));)
-=======
     limLog(pMac, LOG1,
                 FL("Sending WDA_EXCLUDE_UNENCRYPTED_IND"));
->>>>>>> 3bbd1bf... staging: add prima WLAN driver
     MTRACE(macTraceMsgTx(pMac, psessionEntry->peSessionId, msgQ.type));
     retCode = wdaPostCtrlMsg(pMac, &msgQ);
     if (eSIR_SUCCESS != retCode)
